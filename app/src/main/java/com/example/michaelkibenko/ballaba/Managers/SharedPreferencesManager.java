@@ -3,6 +3,9 @@ package com.example.michaelkibenko.ballaba.Managers;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.michaelkibenko.ballaba.BallabaApplication;
+import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
+
 /**
  * Created by michaelkibenko on 18/02/2018.
  */
@@ -13,9 +16,9 @@ public class SharedPreferencesManager {
     private Context context;
     private SharedPreferences preferences;
 
-    public SharedPreferencesManager getInstance(Context context) {
+    public SharedPreferencesManager getInstance() {
         if (instance == null) {
-            instance = new SharedPreferencesManager(context);
+            instance = new SharedPreferencesManager(BallabaApplication.getAppContext());
         }
         return instance;
     }
@@ -29,47 +32,47 @@ public class SharedPreferencesManager {
         return preferences.edit();
     }
 
-    private boolean putString(@SharedPreferencesKeys String key, String value) {
+    private boolean putString(@SharedPreferencesKeysHolder String key, String value) {
         return getEditor().putString(key, value).commit();
     }
 
-    private boolean putInt(@SharedPreferencesKeys String key, int value) {
+    private boolean putInt(@SharedPreferencesKeysHolder String key, int value) {
         return getEditor().putInt(key, value).commit();
     }
 
-    private boolean putLong(@SharedPreferencesKeys String key, long value) {
+    private boolean putLong(@SharedPreferencesKeysHolder String key, long value) {
         return getEditor().putLong(key, value).commit();
     }
 
-    private boolean putBoolean(@SharedPreferencesKeys String key, boolean value) {
+    private boolean putBoolean(@SharedPreferencesKeysHolder String key, boolean value) {
         return getEditor().putBoolean(key, value).commit();
     }
 
-    private boolean putFloat(@SharedPreferencesKeys String key, float value) {
+    private boolean putFloat(@SharedPreferencesKeysHolder String key, float value) {
         return getEditor().putFloat(key, value).commit();
     }
 
-    private String getString(@SharedPreferencesKeys String key, String defValue) {
+    private String getString(@SharedPreferencesKeysHolder String key, String defValue) {
         return preferences.getString(key, defValue);
     }
 
-    private int getInt(@SharedPreferencesKeys String key, int defValue) {
+    private int getInt(@SharedPreferencesKeysHolder String key, int defValue) {
         return preferences.getInt(key, defValue);
     }
 
-    private long getLong(@SharedPreferencesKeys String key, long defValue) {
+    private long getLong(@SharedPreferencesKeysHolder String key, long defValue) {
         return preferences.getLong(key, defValue);
     }
 
-    private boolean getBoolean(@SharedPreferencesKeys String key, boolean defValue) {
+    private boolean getBoolean(@SharedPreferencesKeysHolder String key, boolean defValue) {
         return preferences.getBoolean(key, defValue);
     }
 
-    private float getFloat(@SharedPreferencesKeys String key, float defValue) {
+    private float getFloat(@SharedPreferencesKeysHolder String key, float defValue) {
         return preferences.getFloat(key, defValue);
     }
 
-    private boolean remove(@SharedPreferencesKeys String key) {
+    private boolean remove(@SharedPreferencesKeysHolder String key) {
         return getEditor().remove(key).commit();
     }
 }
