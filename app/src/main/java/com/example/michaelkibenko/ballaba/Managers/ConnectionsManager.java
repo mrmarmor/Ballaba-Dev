@@ -29,4 +29,8 @@ public class ConnectionsManager {
         this.context = context;
         queue = Volley.newRequestQueue(this.context);
     }
+
+    public RequestQueue getQueue() {
+        return queue;
+    }
 }
