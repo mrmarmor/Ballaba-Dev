@@ -14,7 +14,7 @@
     <dimen name="splash_middle_text_height">38dp</dimen>
     <dimen name="splash_middle_text_textSize">28sp</dimen>
     <dimen name="splash_middle_text_bottom_offset">122dp</dimen>
-    <dimen name="pre_auth_logo_top_offset">40dp</dimen>
+    <dimen name="pre_auth_logo_top_offset">95dp</dimen>
     <dimen name="pre_auth_text_width">243dp</dimen>
     <dimen name="pre_auth_text_height">38dp</dimen>
     <dimen name="pre_auth_text_size">28sp</dimen>

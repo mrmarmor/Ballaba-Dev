@@ -20,7 +20,6 @@ public class SplashActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binder = DataBindingUtil.setContentView(this, R.layout.splash_layout);
-        getSupportActionBar().hide();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
