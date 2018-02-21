@@ -25,5 +25,15 @@
     <dimen name="pre_auth_has_account_button_height">38dp</dimen>
     <dimen name="pre_auth_has_account_bottom_offset">43dp</dimen>
     <dimen name="pre_auth_first_time_bottom_offset">35dp</dimen>
+    <dimen name="enter_phone_number_top_text_width">94dp</dimen>
+    <dimen name="enter_phone_number_top_text_height">22dp</dimen>
+    <dimen name="enter_phone_number_top_text_top_offset">94dp</dimen>
+    <dimen name="enter_phone_number_top_text_start_offset">16dp</dimen>
+    <dimen name="enter_phone_number_top_text_size">16sp</dimen>
+    <dimen name="enter_phone_number_top_text_answer_text_size">14sp</dimen>
+    <dimen name="enter_phone_number_top_text_answer_top_offset">2dp</dimen>
+
+
+
 
 </resources>

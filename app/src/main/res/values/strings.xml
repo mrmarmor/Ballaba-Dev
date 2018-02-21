@@ -9,4 +9,9 @@
     <string name="pre_auth_screen_middle_text">רגע, בוא נכיר קודם.</string>
     <string name="pre_auth_first_time_btn_text">פעם ראשונה שלי פה</string>
     <string name="pre_auth_has_account_btn_text">יש לי כבר חשבון</string>
+    <string name="enter_phone_number_top_question_text">מספר טלפון?</string>
+    <string name="enter_phone_number_top_question_answer_text">"מספר הטלפון נועד על מנת לבצע הרשמה
+ראשונית ולהנות משלל האפשרויות וההטבות
+שיש לנו להציע "</string>
+
 </resources>
