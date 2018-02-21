@@ -1,8 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.constraint.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</android.support.constraint.ConstraintLayout>
+        <ImageView
+            android:id="@+id/splash_logo"
+            android:layout_width="@dimen/splash_logo_layout_width"
+            android:layout_height="@dimen/splash_logo_layout_height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/splash_logo_layout_top_offset"
+            android:background="@drawable/png_logo_placeholder"
+            />
+
+        <TextView
+            android:layout_width="@dimen/splash_middle_text_width"
+            android:layout_height="@dimen/splash_middle_text_height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/splash_logo"
+            android:text="@string/splash_middle_text"
+            android:textAlignment="center"
+            android:textSize="@dimen/splash_middle_text_textSize"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/splash_logo_layout_top_offset"
+            />
+
+        <ImageView
+            android:id="@+id/splash_bottom_box_IV"
+            android:layout_width="@dimen/splash_bottom_image_width"
+            android:layout_height="@dimen/splash_bottom_image_height"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/box"
+            />
+
+    </android.support.constraint.ConstraintLayout>
 </layout>
