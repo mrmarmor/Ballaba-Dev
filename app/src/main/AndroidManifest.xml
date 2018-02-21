@@ -26,6 +26,11 @@
             android:label="Main activity"
             android:theme="@style/AppTheme"
             />
+
+        <activity android:name=".Activities.PreAuthActivity"
+            android:label="Pre auth"
+            android:theme="@style/AppTheme"
+            />
     </application>
 
 </manifest>

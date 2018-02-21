@@ -6,4 +6,7 @@
 
     <string name="action_settings">Settings</string>
     <string name="splash_middle_text">תתחילו לארוז ...</string>
+    <string name="pre_auth_screen_middle_text">רגע, בוא נכיר קודם.</string>
+    <string name="pre_auth_first_time_btn_text">פעם ראשונה שלי פה</string>
+    <string name="pre_auth_has_account_btn_text">יש לי כבר חשבון</string>
 </resources>

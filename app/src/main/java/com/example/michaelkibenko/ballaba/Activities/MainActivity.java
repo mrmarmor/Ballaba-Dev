@@ -10,7 +10,7 @@ import android.view.MenuItem;
 
 import com.example.michaelkibenko.ballaba.R;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
