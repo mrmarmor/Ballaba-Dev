@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
     <android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layoutDirection="rtl">
 
         <ImageView
             android:id="@+id/splash_logo"
@@ -26,6 +28,8 @@
             android:textSize="@dimen/splash_middle_text_textSize"
             android:textStyle="bold"
             android:layout_marginTop="@dimen/splash_logo_layout_top_offset"
+            android:textColor="@android:color/black"
+            android:typeface="sans"
             />
 
         <ImageView
