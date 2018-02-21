@@ -3,7 +3,6 @@ package com.example.michaelkibenko.ballaba.Activities;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 
 import com.example.michaelkibenko.ballaba.Presenters.PreAuthPresenter;
 import com.example.michaelkibenko.ballaba.R;

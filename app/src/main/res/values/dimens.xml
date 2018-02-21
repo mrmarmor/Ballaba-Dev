@@ -32,6 +32,29 @@
     <dimen name="enter_phone_number_top_text_size">16sp</dimen>
     <dimen name="enter_phone_number_top_text_answer_text_size">14sp</dimen>
     <dimen name="enter_phone_number_top_text_answer_top_offset">2dp</dimen>
+    <dimen name="enter_phone_number_country_codes_spinner_width">57dp</dimen>
+    <dimen name="enter_phone_number_country_codes_spinner_height">23dp</dimen>
+    <dimen name="enter_phone_number_country_codes_spinner_top_offset">45dp</dimen>
+    <dimen name="enter_phone_number_country_codes_spinner_end_offset">16dp</dimen>
+    <dimen name="enter_phone_number_country_codes_bottom_divider_width">328dp</dimen>
+    <dimen name="enter_phone_number_country_codes_bottom_divider_height">2dp</dimen>
+    <dimen name="enter_phone_number_country_codes_side_divider_height">20dp</dimen>
+    <dimen name="enter_phone_number_country_codes_side_divider_width">1dp</dimen>
+    <dimen name="enter_phone_number_country_codes_side_divider_offset">21dp</dimen>
+    <dimen name="enter_phone_number_country_codes_next_button_width">84dp</dimen>
+    <dimen name="enter_phone_number_country_codes_next_button_height">38dp</dimen>
+    <dimen name="enter_phone_number_country_codes_next_button_top_offset">50dp</dimen>
+    <dimen name="enter_phone_number_checkbox_size">25dp</dimen>
+    <dimen name="enter_phone_number_checkbox_top_offset">24dp</dimen>
+
+
+
+
+
+
+
+
+
 
 
 

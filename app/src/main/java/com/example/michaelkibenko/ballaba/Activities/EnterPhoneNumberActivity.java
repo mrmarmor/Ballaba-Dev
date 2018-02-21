@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.EnterPhoneNumberLayoutBinding;
 
@@ -14,9 +15,11 @@ import com.example.michaelkibenko.ballaba.databinding.EnterPhoneNumberLayoutBind
 public class EnterPhoneNumberActivity extends BaseActivity {
 
     private EnterPhoneNumberLayoutBinding binder;
+    private EnterPhoneNumberPresenter presenter;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binder = DataBindingUtil.setContentView(this, R.layout.enter_phone_number_layout);
+        presenter = new EnterPhoneNumberPresenter(this,binder);
     }
 }

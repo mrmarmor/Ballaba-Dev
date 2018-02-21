@@ -1,7 +1,9 @@
 package com.example.michaelkibenko.ballaba.Presenters;
 
 import android.content.Context;
-import android.widget.Toast;
+import android.content.Intent;
+
+import com.example.michaelkibenko.ballaba.Activities.EnterPhoneNumberActivity;
 
 /**
  * Created by michaelkibenko on 21/02/2018.
@@ -10,16 +12,19 @@ import android.widget.Toast;
 public class PreAuthPresenter extends BasePresenter {
 
     private Context context;
+    private Intent enterPhoneNumberIntent;
+
 
     public PreAuthPresenter(Context context){
         this.context = context;
+        enterPhoneNumberIntent = new Intent(this.context, EnterPhoneNumberActivity.class);
     }
 
     public void hasAccountPressed(){
-        Toast.makeText(this.context, "hasAccountPressed", Toast.LENGTH_LONG).show();
+        context.startActivity(enterPhoneNumberIntent);
     }
 
     public void firstTimePressed(){
-        Toast.makeText(this.context, "firstTimePressed", Toast.LENGTH_LONG).show();
+        context.startActivity(enterPhoneNumberIntent);
     }
 }

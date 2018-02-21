@@ -23,9 +23,15 @@ public class SplashActivity extends BaseActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this, PreAuthActivity.class));
+                continueFlow();
             }
         }, 4000);
     }
 
+    private void continueFlow(){
+        Intent start = new Intent(SplashActivity.this, PreAuthActivity.class);
+        start.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(start);
+        finish();
+    }
 }

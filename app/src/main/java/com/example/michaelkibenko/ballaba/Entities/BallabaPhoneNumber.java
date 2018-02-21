@@ -4,13 +4,12 @@ package com.example.michaelkibenko.ballaba.Entities;
  * Created by michaelkibenko on 21/02/2018.
  */
 
-public class PhoneNumber {
+public class BallabaPhoneNumber {
     private String phoneNumber;
     private String countryCode;
 
-    public PhoneNumber(String phoneNumber, String countryCode) {
-        this.phoneNumber = phoneNumber;
-        this.countryCode = countryCode;
+    public BallabaPhoneNumber() {
+        phoneNumber = "";
     }
 
     public String getPhoneNumber() {
@@ -28,4 +27,9 @@ public class PhoneNumber {
     public void setCountryCode(String countryCode) {
         this.countryCode = countryCode;
     }
+
+    public String getFullPhoneNumber(){
+        return getCountryCode()+getPhoneNumber();
+    }
+
 }
