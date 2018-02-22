@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="presenter"
+            type="com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter"/>
+    </data>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl">
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enter_code_cancel_button_text"
+        android:textSize="@dimen/enter_code_cancel_button_text_size"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="@dimen/enter_code_cancel_button_text_start_offset"
+        android:layout_marginTop="@dimen/enter_code_cancel_button_text_top_offset"
+        android:textColor="@android:color/black"
+        android:onClick="@{() -> presenter.cancelButtonClicked()}"
+        />
+    
+    <TextView
+        android:id="@+id/enter_code_top_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:text="@string/enter_code_top_text"
+        android:textStyle="bold"
+        android:textSize="@dimen/enter_code_top_text_size"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/enter_code_top_text_top_offset"
+        />
+    
+    <TextView
+        android:id="@+id/enter_code_secondary_top_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enter_code_secondary_top_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enter_code_top_text"
+        android:layout_marginTop="@dimen/enter_code_secondary_top_text_top_offset"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:id="@+id/enter_code_secondary_second_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enter_code_third_top_text"
+        app:layout_constraintStart_toStartOf="@+id/enter_code_secondary_top_text"
+        app:layout_constraintTop_toBottomOf="@+id/enter_code_secondary_top_text"
+        android:layout_marginTop="@dimen/enter_code_secondary_top_text_top_offset"
+        android:layout_marginStart="10dp"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@{presenter.phoneNumber}"
+        app:layout_constraintStart_toEndOf="@+id/enter_code_secondary_second_text"
+        app:layout_constraintTop_toTopOf="@+id/enter_code_secondary_second_text"
+        android:layout_marginStart="6dp"
+        android:textSize="14sp"
+        />
+
+    <!--<EditText-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--/>-->
+
+
+</android.support.constraint.ConstraintLayout>
+</layout>

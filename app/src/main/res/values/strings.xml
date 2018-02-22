@@ -16,6 +16,12 @@
 
     <string name="enter_phone_number_next_button_text">המשך</string>
 
+    <string name="enter_code_cancel_button_text">ביטול</string>
+
+    <string name="enter_code_top_text">אישור קוד</string>
+    <string name="enter_code_secondary_top_text">אנא רשמו את הקוד אשר נשלח</string>
+    <string name="enter_code_third_top_text">למספר </string>
+
     <string-array name="country_codes">
         <item>
             <code>+972</code>

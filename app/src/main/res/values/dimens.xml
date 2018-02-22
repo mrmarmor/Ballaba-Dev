@@ -46,6 +46,22 @@
     <dimen name="enter_phone_number_country_codes_next_button_top_offset">50dp</dimen>
     <dimen name="enter_phone_number_checkbox_size">25dp</dimen>
     <dimen name="enter_phone_number_checkbox_top_offset">24dp</dimen>
+    <dimen name="enter_code_cancel_button_width">35dp</dimen>
+    <dimen name="enter_code_cancel_button_height">22dp</dimen>
+    <dimen name="enter_code_cancel_button_text_size">16sp</dimen>
+    <dimen name="enter_code_cancel_button_text_top_offset">16dp</dimen>
+    <dimen name="enter_code_cancel_button_text_start_offset">19dp</dimen>
+    <dimen name="enter_code_top_text_size">20sp</dimen>
+    <dimen name="enter_code_top_text_top_offset">92dp</dimen>
+    <dimen name="enter_code_top_text_start_offset">135dp</dimen>
+    <dimen name="enter_code_secondary_top_text_size">14sp</dimen>
+    <dimen name="enter_code_secondary_top_text_top_offset">6dp</dimen>
+    <dimen name="enter_code_code_edit_text_width"></dimen>
+    <dimen name="enter_code_code_edit_text_height"></dimen>
+
+
+
+
 
 
 

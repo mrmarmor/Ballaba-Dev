@@ -23,6 +23,8 @@ import com.google.i18n.phonenumbers.Phonenumber;
  */
 
 public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterView.OnItemSelectedListener, TextWatcher, CompoundButton.OnCheckedChangeListener{
+    public static final String PHONE_NUMBER_EXTRA_KEY = "phone_number_for_enter_code_screen";
+
     private BallabaPhoneNumber phoneNumber;
     private EnterPhoneNumberLayoutBinding binder;
     private Context context;
@@ -126,6 +128,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
 
     public void onNextButtonClick(){
         Intent enterCode = new Intent(this.context, EnterCodeActivity.class);
+        enterCode.putExtra(PHONE_NUMBER_EXTRA_KEY, phoneNumber.getFullPhoneNumber());
         context.startActivity(enterCode);
     }
 }
