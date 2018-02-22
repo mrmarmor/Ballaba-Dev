@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 
 import com.example.michaelkibenko.ballaba.Entities.BallabaPhoneNumber;
 import com.example.michaelkibenko.ballaba.R;
@@ -19,7 +20,7 @@ import com.google.i18n.phonenumbers.Phonenumber;
  * Created by michaelkibenko on 21/02/2018.
  */
 
-public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterView.OnItemSelectedListener, TextWatcher{
+public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterView.OnItemSelectedListener, TextWatcher, CompoundButton.OnCheckedChangeListener{
     private BallabaPhoneNumber phoneNumber;
     private EnterPhoneNumberLayoutBinding binder;
     private Context context;
@@ -44,6 +45,8 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
 
         binder.countryCodesSpinner.setSelection(0);
         binder.enterPhoneNumberET.addTextChangedListener(this);
+
+        binder.enterPhoneNumberCheckbox.setOnCheckedChangeListener(this);
     }
 
     public BallabaPhoneNumber getPhoneNumber() {
@@ -63,6 +66,16 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         }
     }
 
+    private void nextButtonChanger(boolean is){
+        if(is){
+            binder.enterPhoneNumberNextButton.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary, context.getTheme()));
+            binder.enterPhoneNumberNextButton.setAlpha(1f);
+        }else {
+            binder.enterPhoneNumberNextButton.setBackgroundColor(context.getResources().getColor(R.color.gray_button_color, context.getTheme()));
+            binder.enterPhoneNumberNextButton.setAlpha(0.50f);
+        }
+    }
+
     //spinner item listener
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -79,12 +92,10 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         getPhoneNumber().setPhoneNumber(charSequence.toString());
-        if(validatePhoneNumber(phoneNumber)){
-            binder.enterPhoneNumberNextButton.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary, context.getTheme()));
-            binder.enterPhoneNumberNextButton.setAlpha(1f);
+        if(validatePhoneNumber(phoneNumber) && binder.enterPhoneNumberCheckbox.isChecked()){
+            nextButtonChanger(true);
         }else {
-            binder.enterPhoneNumberNextButton.setBackgroundColor(context.getResources().getColor(R.color.gray_button_color, context.getTheme()));
-            binder.enterPhoneNumberNextButton.setAlpha(0.50f);
+            nextButtonChanger(false);
         }
     }
 
@@ -96,5 +107,16 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
     @Override
     public void afterTextChanged(Editable editable) {
 
+    }
+
+    //Terms of using checked change listener
+
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+        if(validatePhoneNumber(phoneNumber) && b){
+            nextButtonChanger(true);
+        }else{
+            nextButtonChanger(false);
+        }
     }
 }
