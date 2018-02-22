@@ -1,13 +1,16 @@
 package com.example.michaelkibenko.ballaba.Presenters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPhoneNumber;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.EnterPhoneNumberLayoutBinding;
@@ -69,9 +72,11 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         if(is){
             binder.enterPhoneNumberNextButton.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary, context.getTheme()));
             binder.enterPhoneNumberNextButton.setAlpha(1f);
+            binder.enterPhoneNumberNextButton.setClickable(true);
         }else {
             binder.enterPhoneNumberNextButton.setBackgroundColor(context.getResources().getColor(R.color.gray_button_color, context.getTheme()));
             binder.enterPhoneNumberNextButton.setAlpha(0.50f);
+            binder.enterPhoneNumberNextButton.setClickable(false);
         }
     }
 
@@ -117,5 +122,10 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         }else{
             nextButtonChanger(false);
         }
+    }
+
+    public void onNextButtonClick(){
+        Intent enterCode = new Intent(this.context, EnterCodeActivity.class);
+        context.startActivity(enterCode);
     }
 }

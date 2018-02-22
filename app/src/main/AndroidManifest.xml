@@ -36,6 +36,11 @@
             android:label="Pre auth"
             android:theme="@style/AppTheme"
             />
+
+        <activity android:name=".Activities.EnterCodeActivity"
+            android:label="Enter code"
+            android:theme="@style/AppTheme"
+            />
     </application>
 
 </manifest>
