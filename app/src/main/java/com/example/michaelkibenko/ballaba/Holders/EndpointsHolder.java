@@ -6,5 +6,5 @@ package com.example.michaelkibenko.ballaba.Holders;
 
 
 public @interface EndpointsHolder {
-
+    String LOGIN = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/login";
 }

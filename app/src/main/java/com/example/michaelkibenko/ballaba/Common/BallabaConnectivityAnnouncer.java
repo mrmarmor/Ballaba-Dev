@@ -7,6 +7,8 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.util.Log;
 
+import com.example.michaelkibenko.ballaba.BallabaApplication;
+
 import java.io.Console;
 import java.util.ArrayList;
 
@@ -23,9 +25,9 @@ public class BallabaConnectivityAnnouncer {
 
     private ArrayList<BallabaConnectivityListener> clients;
 
-    public static BallabaConnectivityAnnouncer getInstance(Context context) {
+    public static BallabaConnectivityAnnouncer getInstance() {
         if(instance == null){
-            instance = new BallabaConnectivityAnnouncer(context);
+            instance = new BallabaConnectivityAnnouncer(BallabaApplication.getAppContext());
         }
         return instance;
     }

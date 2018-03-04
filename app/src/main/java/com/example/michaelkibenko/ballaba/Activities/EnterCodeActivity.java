@@ -3,7 +3,6 @@ package com.example.michaelkibenko.ballaba.Activities;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-
 import com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter;
 import com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPresenter;
 import com.example.michaelkibenko.ballaba.R;
@@ -22,5 +21,6 @@ public class EnterCodeActivity extends BaseActivity {
         binder = DataBindingUtil.setContentView(this, R.layout.enter_code_layout);
         String phoneNumber = getIntent().getStringExtra(EnterPhoneNumberPresenter.PHONE_NUMBER_EXTRA_KEY);
         binder.setPresenter(new EnterCodePresenter(this, binder, phoneNumber));
+
     }
 }

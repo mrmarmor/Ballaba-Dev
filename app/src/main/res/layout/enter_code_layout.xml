@@ -82,38 +82,19 @@
 
         <EditText
             android:id="@+id/enter_code_fourth_left_edit_text"
-            android:layout_width="@dimen/enter_code_code_edit_text_width"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/enter_code_code_edit_text_size"
-            android:backgroundTint="@color/colorPrimary"
-            android:gravity="center"
-            android:layout_marginEnd="@dimen/enter_code_code_edit_text_side_offset"
+            style="@style/Base.V7.Widget.AppCompat.EditText.code"
             />
         <EditText
             android:id="@+id/enter_code_third_left_edit_text"
-            android:layout_width="@dimen/enter_code_code_edit_text_width"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/enter_code_code_edit_text_size"
-            android:backgroundTint="@color/colorPrimary"
-            android:gravity="center"
-            android:layout_marginEnd="@dimen/enter_code_code_edit_text_side_offset"
+            style="@style/Base.V7.Widget.AppCompat.EditText.code"
             />
         <EditText
             android:id="@+id/enter_code_second_left_edit_text"
-            android:layout_width="@dimen/enter_code_code_edit_text_width"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/enter_code_code_edit_text_size"
-            android:backgroundTint="@color/colorPrimary"
-            android:gravity="center"
-            android:layout_marginEnd="@dimen/enter_code_code_edit_text_side_offset"
+            style="@style/Base.V7.Widget.AppCompat.EditText.code"
             />
         <EditText
             android:id="@+id/enter_code_first_left_edit_text"
-            android:layout_width="@dimen/enter_code_code_edit_text_width"
-            android:layout_height="wrap_content"
-            android:textSize="@dimen/enter_code_code_edit_text_size"
-            android:backgroundTint="@color/colorPrimary"
-            android:gravity="center"
+            style="@style/Base.V7.Widget.AppCompat.EditText.code"
             />
     </LinearLayout>
 
