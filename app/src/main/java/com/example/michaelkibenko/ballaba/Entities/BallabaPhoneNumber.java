@@ -4,7 +4,7 @@ package com.example.michaelkibenko.ballaba.Entities;
  * Created by michaelkibenko on 21/02/2018.
  */
 
-public class BallabaPhoneNumber {
+public class BallabaPhoneNumber extends BallabaBaseEntity{
     private String phoneNumber;
     private String countryCode;
 
