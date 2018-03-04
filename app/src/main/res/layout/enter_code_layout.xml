@@ -82,19 +82,19 @@
 
         <EditText
             android:id="@+id/enter_code_fourth_left_edit_text"
-            style="@style/Base.V7.Widget.AppCompat.EditText.code"
+            style="@style/EditText_enter_code"
             />
         <EditText
             android:id="@+id/enter_code_third_left_edit_text"
-            style="@style/Base.V7.Widget.AppCompat.EditText.code"
+            style="@style/EditText_enter_code"
             />
         <EditText
             android:id="@+id/enter_code_second_left_edit_text"
-            style="@style/Base.V7.Widget.AppCompat.EditText.code"
+            style="@style/EditText_enter_code"
             />
         <EditText
             android:id="@+id/enter_code_first_left_edit_text"
-            style="@style/Base.V7.Widget.AppCompat.EditText.code"
+            style="@style/EditText_enter_code"
             />
     </LinearLayout>
 

@@ -37,4 +37,12 @@
         </item>
     </string-array>
 
+    <!-- ERROR SECTION -->
+    <string name="error_network_internal">An internal error</string>
+    <string name="error_network_not_valid_phone_number">Not a valid phone number</string>
+    <string name="error_network_user_blocked">user is blocked</string>
+    <string name="error_network_default">Some another internal error</string>
+    <!-- END ERROR SECTION -->
+
+
 </resources>

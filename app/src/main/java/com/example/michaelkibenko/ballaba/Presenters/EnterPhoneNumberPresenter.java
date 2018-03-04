@@ -175,22 +175,19 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
                 break;
 
             case Flows.INTERNAL_ERROR:
-                Toast.makeText(context, "Some internal error", Toast.LENGTH_LONG).show();
-
+                Toast.makeText(context, context.getString(R.string.error_network_internal), Toast.LENGTH_LONG).show();
                 break;
 
             case Flows.NOT_A_VALID_PHONE_NUMBER:
-                Toast.makeText(context, "Not a valid phone number", Toast.LENGTH_LONG).show();
-
+                Toast.makeText(context, context.getString(R.string.error_network_not_valid_phone_number), Toast.LENGTH_LONG).show();
                 break;
 
             case Flows.USER_IS_BLOCKED:
-                Toast.makeText(context, "user is blocked", Toast.LENGTH_LONG).show();
-
+                Toast.makeText(context, context.getString(R.string.error_network_user_blocked), Toast.LENGTH_LONG).show();
                 break;
 
-                default:
-                    Toast.makeText(context, "Some internal error default", Toast.LENGTH_LONG).show();
+            default:
+                Toast.makeText(context, context.getString(R.string.error_network_default), Toast.LENGTH_LONG).show();
         }
     }
 }

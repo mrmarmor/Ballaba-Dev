@@ -17,7 +17,7 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="Base.V7.Widget.AppCompat.EditText.code">
+    <style name="EditText_enter_code" parent="Base.V7.Widget.AppCompat.EditText">
         <item name="android:layout_width">@dimen/enter_code_code_edit_text_width</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/enter_code_code_edit_text_size</item>
