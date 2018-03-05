@@ -1,6 +1,7 @@
 package com.example.michaelkibenko.ballaba.Managers;
 
 import android.content.Context;
+import android.text.LoginFilter;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -10,9 +11,11 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.michaelkibenko.ballaba.BallabaApplication;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
+import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -69,8 +72,11 @@ public class ConnectionsManager{
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
+                String deviceId = DeviceUtils.getInstance(true, context).getDeviceId();
+                Log.e("Device id", deviceId);
                 Log.e("tag", phoneNumber);
                 params.put("phone", phoneNumber);
+                params.put("device_id", deviceId);
                 return params;
             }
         };
