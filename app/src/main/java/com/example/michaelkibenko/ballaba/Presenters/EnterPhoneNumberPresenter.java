@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.IntDef;
+import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -149,6 +151,8 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
     }
 
     public void onNextButtonClick(){
+
+
         ConnectionsManager.getInstance(context).logInWithPhoneNumber(new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
@@ -160,6 +164,8 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
             @Override
             public void reject(BallabaBaseEntity entity) {
                 if(entity instanceof BallabaErrorResponse){
+                    binder.enterPhoneNumberTextErrorAnswer.setVisibility(View.VISIBLE);
+                    /*TESTING*///onFlowChanged(Flows.OK);
                     onFlowChanged(((BallabaErrorResponse)entity).statusCode);
                 }
             }
@@ -175,19 +181,19 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
                 break;
 
             case Flows.INTERNAL_ERROR:
-                Toast.makeText(context, context.getString(R.string.error_network_internal), Toast.LENGTH_LONG).show();
+                binder.enterPhoneNumberTextErrorAnswer.setText(R.string.error_network_internal);
                 break;
 
             case Flows.NOT_A_VALID_PHONE_NUMBER:
-                Toast.makeText(context, context.getString(R.string.error_network_not_valid_phone_number), Toast.LENGTH_LONG).show();
+                binder.enterPhoneNumberTextErrorAnswer.setText(R.string.error_network_not_valid_phone_number);
                 break;
 
             case Flows.USER_IS_BLOCKED:
-                Toast.makeText(context, context.getString(R.string.error_network_user_blocked), Toast.LENGTH_LONG).show();
+                binder.enterPhoneNumberTextErrorAnswer.setText(R.string.error_network_user_blocked);
                 break;
 
             default:
-                Toast.makeText(context, context.getString(R.string.error_network_default), Toast.LENGTH_LONG).show();
+                binder.enterPhoneNumberTextErrorAnswer.setText(R.string.error_network_default);
         }
     }
 }

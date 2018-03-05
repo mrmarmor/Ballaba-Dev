@@ -1,5 +1,7 @@
 package com.example.michaelkibenko.ballaba.Holders;
 
+import com.android.volley.toolbox.StringRequest;
+
 /**
  * Created by michaelkibenko on 19/02/2018.
  */
@@ -7,4 +9,5 @@ package com.example.michaelkibenko.ballaba.Holders;
 
 public @interface EndpointsHolder {
     String LOGIN = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/login";
+    String AUTHENTICATE = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/authenticate";
 }

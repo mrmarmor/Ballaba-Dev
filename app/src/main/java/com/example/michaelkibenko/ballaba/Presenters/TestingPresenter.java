@@ -3,28 +3,30 @@ package com.example.michaelkibenko.ballaba.Presenters;
 import android.content.Context;
 import android.content.Intent;
 
+import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterPhoneNumberActivity;
 
 /**
  * Created by michaelkibenko on 21/02/2018.
  */
 
-public class PreAuthPresenter extends BasePresenter {
+public class TestingPresenter extends BasePresenter {
 
     private Context context;
-    private Intent enterPhoneNumberIntent;
+    private Intent enterPhoneNumberIntent, enterCodeIntent;
 
 
-    public PreAuthPresenter(Context context){
+    public TestingPresenter(Context context){
         this.context = context;
         enterPhoneNumberIntent = new Intent(this.context, EnterPhoneNumberActivity.class);
+        enterCodeIntent = new Intent(this.context, EnterCodeActivity.class);
     }
 
-    public void hasAccountPressed(){
-        context.startActivity(enterPhoneNumberIntent);
+    public void gotoEnterCodeIntent(){
+        context.startActivity(enterCodeIntent);
     }
 
-    public void firstTimePressed(){
+    public void gotoEnterPhoneNumberIntent(){
         context.startActivity(enterPhoneNumberIntent);
     }
 }

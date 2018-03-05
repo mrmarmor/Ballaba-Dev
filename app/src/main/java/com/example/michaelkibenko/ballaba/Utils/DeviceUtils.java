@@ -1,7 +1,11 @@
 package com.example.michaelkibenko.ballaba.Utils;
 
 import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 import android.provider.Settings;
+
+import com.android.volley.toolbox.StringRequest;
 
 /**
  * Created by User on 05/03/2018.
@@ -26,9 +30,27 @@ public class DeviceUtils {
     }
 
     public String getDeviceId(){
-        return Settings.Secure.getString(context.getContentResolver(),
-                Settings.Secure.ANDROID_ID);
+        return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
+
+    /*public String readSms() {
+        Cursor cursor = context.getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
+        String message = "";
+
+        if (cursor.moveToFirst()) { // must check the result to prevent exception
+            do {
+                for(int index=0; index < cursor.getColumnCount(); index++)
+                {
+                    message += " " + cursor.getColumnName(index) + ":" + cursor.getString(index);
+                }
+                // use msgData
+            } while (cursor.moveToNext());
+     *//*   } else {
+            // empty box, no SMS
+        }*//*
+
+        return message;
+    }*/
 
 
 }
