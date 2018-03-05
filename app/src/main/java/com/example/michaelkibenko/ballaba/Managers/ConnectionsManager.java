@@ -73,8 +73,6 @@ public class ConnectionsManager{
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new HashMap<>();
                 String deviceId = DeviceUtils.getInstance(true, context).getDeviceId();
-                Log.e("Device id", deviceId);
-                Log.e("tag", phoneNumber);
                 params.put("phone", phoneNumber);
                 params.put("device_id", deviceId);
                 return params;

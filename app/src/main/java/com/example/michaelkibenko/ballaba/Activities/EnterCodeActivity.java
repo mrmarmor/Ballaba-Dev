@@ -1,16 +1,12 @@
 package com.example.michaelkibenko.ballaba.Activities;
 
 import android.Manifest;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Telephony;
 import android.support.annotation.Nullable;
@@ -19,16 +15,12 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
-import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
-import com.example.michaelkibenko.ballaba.Common.BallabaSmsListener;
 import com.example.michaelkibenko.ballaba.Holders.GlobalValues;
 import com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter;
 import com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.EnterCodeLayoutBinding;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -71,21 +63,12 @@ public class EnterCodeActivity extends BaseActivity {
             ActivityCompat.requestPermissions(EnterCodeActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS, Manifest.permission.BROADCAST_SMS}, SMS_PERMISSION_REQ_CODE);
         }else{
             Log.e(TAG, "else called");
-            runReceiver();
+            runSMSReader();
         }
     }
 
 
-    public void runReceiver(){
-        //TODO delete 2 lines below
-        /*BallabaConnectivityAnnouncer announcer = BallabaConnectivityAnnouncer.getInstance();
-        announcer.register(new BallabaConnectivityListener() {
-            @Override
-            public void onConnectivityChanged(boolean is) {
-                Log.e("tag", "connected?"+is);
-            }
-        });
-*/
+    public void runSMSReader(){
         Log.e(TAG, "Before Receiver registration");
         if(!isReceiverRunning) {
             smsReceiver = new BallabaSMSReceiver();
@@ -105,22 +88,19 @@ public class EnterCodeActivity extends BaseActivity {
         switch (requestCode) {
             case SMS_PERMISSION_REQ_CODE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show();
                     registerReadSmsReceiver();
-                } else {
-                    Toast.makeText(this, "Permission denied to read your External storage", Toast.LENGTH_SHORT).show();
                 }
             }
         }
     }
 
-//    public class SmsReceiver extends BroadcastReceiver {
-//        //private BallabaSmsListener mListener;
-//        public Pattern p = Pattern.compile("(|^)\\d{6}");
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            Log.e(TAG, "onReceive");
+    public class BallabaSMSReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.e(TAG, "onReceive");
+
+            //this code is error
 //            Toast.makeText(EnterCodeActivity.this, "Received", Toast.LENGTH_LONG).show();
 //
 //            if (intent.getAction().equals(Telephony.Sms.Intents.SMS_RECEIVED_ACTION)) {
@@ -137,16 +117,6 @@ public class EnterCodeActivity extends BaseActivity {
 //                    }
 //                }
 //            }
-//        }
-//    }
-
-    public class BallabaSMSReceiver extends BroadcastReceiver{
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Toast.makeText(EnterCodeActivity.this, "", Toast.LENGTH_LONG).show();
         }
     }
-
-
-
 }

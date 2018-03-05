@@ -20,6 +20,7 @@ public class EnterPhoneNumberActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binder = DataBindingUtil.setContentView(this, R.layout.enter_phone_number_layout);
-        binder.setPresenter(new EnterPhoneNumberPresenter(this,binder));
+        presenter = new EnterPhoneNumberPresenter(this,binder);
+        binder.setPresenter(presenter);
     }
 }
