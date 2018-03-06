@@ -14,18 +14,25 @@ import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPhoneNumber;
+import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
+import com.example.michaelkibenko.ballaba.Utils.GeneralUtils;
 import com.example.michaelkibenko.ballaba.databinding.EnterPhoneNumberLayoutBinding;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.google.i18n.phonenumbers.Phonenumber;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPresenter.Flows.INTERNAL_ERROR;
 import static com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPresenter.Flows.NOT_A_VALID_PHONE_NUMBER;
@@ -47,6 +54,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
     }
 
     public static final String PHONE_NUMBER_EXTRA_KEY = "phone_number_for_enter_code_screen";
+    public static final String COUNTRY_CODE_EXTRA_KEY = "country_code_for_enter_code_screen";
 
     private BallabaPhoneNumber phoneNumber;
     private EnterPhoneNumberLayoutBinding binder;
@@ -55,7 +63,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
     private PhoneNumberUtil phoneUtil;
 
     public EnterPhoneNumberPresenter(Context context, EnterPhoneNumberLayoutBinding binder) {
-        this.phoneNumber = new BallabaPhoneNumber();
+        this.phoneNumber = new BallabaPhoneNumber(/*spinnerArrayAdapter.getItem(0).toString(), binder.enterPhoneNumberET.getText().toString()*/);
         this.context = context;
         this.binder = binder;
         phoneUtil = PhoneNumberUtil.getInstance();
@@ -151,9 +159,10 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
     }
 
     public void onNextButtonClick(){
+        String deviceId = DeviceUtils.getInstance(true, context).getDeviceId();
+        Map<String, String> params = GeneralUtils.getParams(new String[]{"phone", "device_id"}, new String[]{phoneNumber.getFullPhoneNumber(), deviceId});
 
-
-        ConnectionsManager.getInstance(context).logInWithPhoneNumber(new BallabaResponseListener() {
+        ConnectionsManager.getInstance(context).loginWithPhoneNumber(params, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 if(entity instanceof BallabaOkResponse){
@@ -165,18 +174,18 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
             public void reject(BallabaBaseEntity entity) {
                 if(entity instanceof BallabaErrorResponse){
                     binder.enterPhoneNumberTextErrorAnswer.setVisibility(View.VISIBLE);
-                    /*TESTING*///onFlowChanged(Flows.OK);
                     onFlowChanged(((BallabaErrorResponse)entity).statusCode);
                 }
             }
-        }, phoneNumber.getFullPhoneNumber());
+        });
     }
 
     private void onFlowChanged(int statusCode){
         switch (statusCode){
             case Flows.OK :
                 Intent enterCode = new Intent(context, EnterCodeActivity.class);
-                enterCode.putExtra(PHONE_NUMBER_EXTRA_KEY, phoneNumber.getFullPhoneNumber());
+                enterCode.putExtra(COUNTRY_CODE_EXTRA_KEY, phoneNumber.getCountryCode());
+                enterCode.putExtra(PHONE_NUMBER_EXTRA_KEY, phoneNumber.getPhoneNumber());
                 context.startActivity(enterCode);
                 break;
 

@@ -62,7 +62,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@{presenter.phoneNumber}"
+        android:text="@{presenter.phoneNumber.fullPhoneNumber}"
         app:layout_constraintStart_toEndOf="@+id/enter_code_secondary_second_text"
         app:layout_constraintTop_toTopOf="@+id/enter_code_secondary_second_text"
         android:layout_marginStart="6dp"
@@ -80,10 +80,10 @@
         android:layout_marginTop="@dimen/enter_code_code_edit_text_top_offset"
         >
 
-        <EditText android:id="@+id/enter_code_fourth_left_edit_text" style="@style/EditText_enter_code" />
-        <EditText android:id="@+id/enter_code_third_left_edit_text" style="@style/EditText_enter_code" />
-        <EditText android:id="@+id/enter_code_second_left_edit_text" style="@style/EditText_enter_code" />
         <EditText android:id="@+id/enter_code_first_left_edit_text" style="@style/EditText_enter_code" />
+        <EditText android:id="@+id/enter_code_second_left_edit_text" style="@style/EditText_enter_code" />
+        <EditText android:id="@+id/enter_code_third_left_edit_text" style="@style/EditText_enter_code" />
+        <EditText android:id="@+id/enter_code_fourth_left_edit_text" style="@style/EditText_enter_code" />
     </LinearLayout>
 
 

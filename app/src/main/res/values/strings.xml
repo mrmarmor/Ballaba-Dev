@@ -46,6 +46,10 @@
     <string name="error_network_user_blocked">המשתמש חסום</string>
     <!--<string name="error_network_default">Some another internal error</string>-->
     <string name="error_network_default">שגיאת רשת שאינה ידועה</string>
+    <string name="error_network_invalid_code">קוד או מספר טלפון שגוי</string>
+    <string name="error_network_code_has_expired">הקוד פג תוקף או אינו מתאים</string>
+
+    invalid code or phone number
     <!-- END ERROR SECTION -->
 
 

@@ -42,7 +42,8 @@ public class EnterCodeActivity extends BaseActivity {
         binder = DataBindingUtil.setContentView(this, R.layout.enter_code_layout);
 
         String phoneNumber = getIntent().getStringExtra(EnterPhoneNumberPresenter.PHONE_NUMBER_EXTRA_KEY);
-        presenter = new EnterCodePresenter(this, binder, phoneNumber);
+        String countryCode = getIntent().getStringExtra(EnterPhoneNumberPresenter.COUNTRY_CODE_EXTRA_KEY);
+        presenter = new EnterCodePresenter(this, binder, countryCode, phoneNumber);
         binder.setPresenter(presenter);
 
         registerReadSmsReceiver();
@@ -79,8 +80,12 @@ public class EnterCodeActivity extends BaseActivity {
         }
     }
     public void stopReceiver(){
-        if(isReceiverRunning)
-            unregisterReceiver(smsReceiver);
+        try {
+            if (isReceiverRunning)//this condition prevents duplicated processes of receivers
+                unregisterReceiver(smsReceiver);
+        } catch (IllegalArgumentException e){//this catch prevents "Receiver not registered" exception error
+            Log.e(TAG, e.getMessage());
+        }
     }
 
     @Override

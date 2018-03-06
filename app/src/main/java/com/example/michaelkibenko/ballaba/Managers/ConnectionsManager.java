@@ -50,7 +50,7 @@ public class ConnectionsManager{
         getQueue().add(request);
     }
 
-    public void logInWithPhoneNumber(final BallabaResponseListener callback, final String phoneNumber){
+    public void loginWithPhoneNumber(final Map<String, String> params, final BallabaResponseListener callback){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, EndpointsHolder.LOGIN,
                 new Response.Listener<String>() {
                     @Override
@@ -71,10 +71,33 @@ public class ConnectionsManager{
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                String deviceId = DeviceUtils.getInstance(true, context).getDeviceId();
-                params.put("phone", phoneNumber);
-                params.put("device_id", deviceId);
+                return params;
+            }
+        };
+        queue.add(stringRequest);
+    }
+
+    public void enterCode(final Map<String, String> params, final BallabaResponseListener callback){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, EndpointsHolder.AUTHENTICATE,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        callback.resolve(new BallabaOkResponse());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
                 return params;
             }
         };
