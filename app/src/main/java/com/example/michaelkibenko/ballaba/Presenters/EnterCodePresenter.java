@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
@@ -23,14 +24,27 @@ import com.example.michaelkibenko.ballaba.Common.BallabaSmsListener;
 import com.example.michaelkibenko.ballaba.Holders.GlobalValues;
 import com.example.michaelkibenko.ballaba.databinding.EnterCodeLayoutBinding;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import static com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter.Flows.CODE_EXPIRED;
+import static com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter.Flows.INTERNAL_ERROR;
+import static com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter.Flows.NOT_A_VALID_PHONE_NUMBER;
+import static com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter.Flows.OK;
+import static com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter.Flows.USER_IS_BLOCKED;
 
 /**
  * Created by michaelkibenko on 22/02/2018.
  */
 
 public class EnterCodePresenter extends BasePresenter implements TextWatcher {
+
+    @IntDef({OK, NOT_A_VALID_PHONE_NUMBER, CODE_EXPIRED, INTERNAL_ERROR, USER_IS_BLOCKED})
+    public @interface Flows {
+        int OK = 200;
+        int NOT_A_VALID_PHONE_NUMBER = 400;
+        int CODE_EXPIRED = 401;
+        int USER_IS_BLOCKED = 403;
+        int INTERNAL_ERROR = 500;
+    }
+
     private Context context;
     private EnterCodeLayoutBinding binder;
     public String phoneNumber;
@@ -44,7 +58,6 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher {
         editTexts = new EditText[]{binder.enterCodeFirstLeftEditText, binder.enterCodeSecondLeftEditText, binder.enterCodeThirdLeftEditText, binder.enterCodeFourthLeftEditText};
 
         initEditTexts(editTexts);
-        //initReceiver();
     }
 
     public EnterCodePresenter getInstance(){ return new EnterCodePresenter(context, binder, phoneNumber); }
