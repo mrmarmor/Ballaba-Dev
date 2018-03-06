@@ -64,7 +64,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher {
 
     private Context context;
     private EnterCodeLayoutBinding binder;
-    private BallabaPhoneNumber phoneNumber;
+    public BallabaPhoneNumber phoneNumber;
     private StringBuilder sbCode = new StringBuilder(4);
     private EditText[] editTexts;
 
@@ -94,7 +94,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher {
             editTexts[codeLength].requestFocus();
             editTexts[codeLength].setCursorVisible(true);
         } else {
-            onNextButtonClick();
+            onCodeCompleted();
         }
     }
 
@@ -108,7 +108,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher {
             et.addTextChangedListener(this);
     }
 
-    private void onNextButtonClick() {
+    private void onCodeCompleted() {
         Map<String, String> params = GeneralUtils.getParams(new String[]{"phone", "code"}, new String[]{phoneNumber.getFullPhoneNumber(), sbCode.toString()});
         Log.e(TAG, params.toString());
 

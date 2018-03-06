@@ -11,17 +11,12 @@ import android.os.Bundle;
 import android.provider.Telephony;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.telephony.SmsMessage;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.example.michaelkibenko.ballaba.Holders.GlobalValues;
 import com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter;
 import com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.EnterCodeLayoutBinding;
-
-import java.util.regex.Pattern;
 
 /**
  * Created by michaelkibenko on 22/02/2018.
@@ -34,8 +29,8 @@ public class EnterCodeActivity extends BaseActivity {
     private EnterCodePresenter presenter;
     private BallabaSMSReceiver smsReceiver;
     private boolean isReceiverRunning;
-
     private EnterCodeLayoutBinding binder;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

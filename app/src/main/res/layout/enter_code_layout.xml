@@ -22,11 +22,11 @@
         android:textColor="@android:color/black"
         android:onClick="@{() -> presenter.cancelButtonClicked()}"
         />
-    
+
     <TextView
         android:id="@+id/enter_code_top_text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" 
+        android:layout_height="wrap_content"
         android:text="@string/enter_code_top_text"
         android:textStyle="bold"
         android:textSize="@dimen/enter_code_top_text_size"
@@ -36,7 +36,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="@dimen/enter_code_top_text_top_offset"
         />
-    
+
     <TextView
         android:id="@+id/enter_code_secondary_top_text"
         android:layout_width="wrap_content"

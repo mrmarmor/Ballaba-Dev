@@ -14,8 +14,11 @@ import com.android.volley.toolbox.Volley;
 import com.example.michaelkibenko.ballaba.BallabaApplication;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
+import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
+import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,6 +28,7 @@ import java.util.Map;
  */
 
 public class ConnectionsManager{
+    private static final String TAG = ConnectionsManager.class.getSimpleName();
 
     private static ConnectionsManager instance;
     private Context context;
@@ -60,7 +64,8 @@ public class ConnectionsManager{
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                if (error.networkResponse != null)
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
             }
         }){
             @Override
@@ -82,6 +87,10 @@ public class ConnectionsManager{
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Log.e(TAG, response);//TODO arrange this 3 lines below
+                        SharedPreferencesManager.getInstance(context).putUser(SharedPreferencesKeysHolder.USER, new BallabaUser().fromStringToBallabaUser(response));
+                        BallabaUser user = SharedPreferencesManager.getInstance(context).getUser(SharedPreferencesKeysHolder.USER, new BallabaUser()/*empty user*/);
+                        Log.e(TAG, user.getGlobal_token());
                         callback.resolve(new BallabaOkResponse());
                     }
                 }, new Response.ErrorListener() {

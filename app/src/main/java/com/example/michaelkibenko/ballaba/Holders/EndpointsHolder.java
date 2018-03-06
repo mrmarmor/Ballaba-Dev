@@ -1,7 +1,5 @@
 package com.example.michaelkibenko.ballaba.Holders;
 
-import com.android.volley.toolbox.StringRequest;
-
 /**
  * Created by michaelkibenko on 19/02/2018.
  */
