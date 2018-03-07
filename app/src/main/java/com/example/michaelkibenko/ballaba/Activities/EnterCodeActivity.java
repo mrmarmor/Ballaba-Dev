@@ -47,7 +47,6 @@ public class EnterCodeActivity extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
-
         stopReceiver();
     }
 
@@ -63,14 +62,13 @@ public class EnterCodeActivity extends BaseActivity {
         }
     }
 
-
     public void runSMSReader(){
         Log.e(TAG, "Before Receiver registration");
         if(!isReceiverRunning) {
             smsReceiver = new BallabaSMSReceiver();
             Log.e(TAG, "Receiver registration");
             IntentFilter intentFilter = new IntentFilter(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
-            registerReceiver(new BallabaSMSReceiver(), intentFilter);
+            registerReceiver(smsReceiver, intentFilter);
             isReceiverRunning = true;
         }
     }
@@ -94,7 +92,7 @@ public class EnterCodeActivity extends BaseActivity {
         }
     }
 
-    public class BallabaSMSReceiver extends BroadcastReceiver {
+    public static class BallabaSMSReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {

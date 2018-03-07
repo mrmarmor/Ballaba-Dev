@@ -75,7 +75,7 @@ public class BallabaConnectivityAnnouncer {
             final android.net.NetworkInfo mobile = connMgr
                     .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 
-            if (wifi.isAvailable() || mobile.isAvailable()) {
+            if (wifi.isConnected() || mobile.isConnected()) {
                 status = true;
             }else{
                 status = false;
