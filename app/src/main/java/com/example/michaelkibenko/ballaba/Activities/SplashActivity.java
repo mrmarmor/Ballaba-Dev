@@ -49,7 +49,7 @@ public class SplashActivity extends BaseActivity {
         BallabaConnectivityAnnouncer.getInstance(this).register(connectivityListener);
 
         startTime = System.currentTimeMillis();
-        if(BallabaConnectivityAnnouncer.getInstance(this).getStatus()){
+        if(ConnectionsManager.getInstance(this).isConnected()){
             getConfigRequest();
         }
         else {

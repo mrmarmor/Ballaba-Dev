@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class BallabaConnectivityAnnouncer {
     public static BallabaConnectivityAnnouncer instance;
 
-    private boolean status;
+    //private boolean status;
 
     private Context context;
 
@@ -40,7 +40,7 @@ public class BallabaConnectivityAnnouncer {
     }
 
     public boolean getStatus(){
-        return this.status;
+        return ConnectionsManager.getInstance(context).isConnected();
     }
 
     public void register(BallabaConnectivityListener client){

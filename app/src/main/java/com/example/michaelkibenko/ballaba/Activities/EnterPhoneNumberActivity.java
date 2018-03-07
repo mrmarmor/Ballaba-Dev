@@ -26,23 +26,26 @@ public class EnterPhoneNumberActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binder = DataBindingUtil.setContentView(this, R.layout.enter_phone_number_layout);
         presenter = new EnterPhoneNumberPresenter(this, binder);
-        binder.setPresenter(presenter);
 
-        //At this point, i need to detect network. Listener like BallabaConnectivityListener doesn't help when network is already down.
-        if (!ConnectionsManager.getInstance(this).isConnected())
-            //TODO replace next line with a dialog
-            Toast.makeText(EnterPhoneNumberActivity.this, "no network", Toast.LENGTH_LONG).show();
-        else
-            listenToNetworkChanges();
+        if(!ConnectionsManager.getInstance(this).isConnected())
+            Toast.makeText(EnterPhoneNumberActivity.this, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
+
+        listenToNetworkChanges();
     }
 
     private void listenToNetworkChanges(){
         client = new BallabaConnectivityListener() {
             @Override
             public void onConnectivityChanged(boolean is) {
-                if (!is)
+                if (!is){
                     //TODO replace next line with a dialog
-                    Toast.makeText(EnterPhoneNumberActivity.this, "no network", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EnterPhoneNumberActivity.this, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
+                }else{
+                    //TODO here we prevent user from sending phone when there is no network. However, if we don't prevent him, he got an error message
+                    //TODO in "enter_phone_number_text_error_answer" textView anyway. Decide what is better.
+                    binder.setPresenter(presenter);
+                }
+
             }
         };
         BallabaConnectivityAnnouncer.getInstance(this).register(client);
