@@ -5,6 +5,5 @@ package com.example.michaelkibenko.ballaba.Holders;
  */
 
 public @interface SharedPreferencesKeysHolder {
-    String USER = "user",
-           GLOBAL_TOKEN = "global token";
+    String USER = "user";
 }

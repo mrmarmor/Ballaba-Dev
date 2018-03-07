@@ -5,11 +5,14 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
+import android.widget.Toast;
 
-import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
-import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
-import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
-import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
+import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
+import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
+import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
+import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.SplashLayoutBinding;
 
@@ -18,34 +21,73 @@ import com.example.michaelkibenko.ballaba.databinding.SplashLayoutBinding;
  */
 
 public class SplashActivity extends BaseActivity {
-    private final String TOKEN_NOT_EXISTS = "token not exists";
 
+    private static final String TAG = SplashActivity.class.getSimpleName();
+    private BallabaConnectivityListener connectivityListener;
+    private long MIN_SPLASH_DELAY = 3000;
     private SplashLayoutBinding binder;
-
+    private long startTime;
+    boolean isGetConfig, isLoggedIn;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binder = DataBindingUtil.setContentView(this, R.layout.splash_layout);
-        new Handler().postDelayed(new Runnable() {
+        connectivityListener = new BallabaConnectivityListener() {
             @Override
-            public void run() {
-                continueFlow();
+            public void onConnectivityChanged(boolean is) {
+                if(!is){
+                    Toast.makeText(SplashActivity.this, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
+                }else{
+                    if(!isGetConfig){
+                        getConfigRequest();
+                    }else if(!isLoggedIn){
+
+                    }
+                }
             }
-        }, 4000);
+        };
+        BallabaConnectivityAnnouncer.getInstance(this).register(connectivityListener);
+
+        startTime = System.currentTimeMillis();
+        if(BallabaConnectivityAnnouncer.getInstance(this).getStatus()){
+            getConfigRequest();
+        }
+        else {
+            Toast.makeText(SplashActivity.this, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void getConfigRequest(){
+        ConnectionsManager.getInstance(this).getConfigRequest(new BallabaResponseListener() {
+            @Override
+            public void resolve(BallabaBaseEntity entity) {
+                isGetConfig = true;
+                long endTime = System.currentTimeMillis();
+                if(endTime - startTime > MIN_SPLASH_DELAY){
+                    continueFlow();
+                }else {
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            continueFlow();
+                        }
+                    }, endTime - startTime - MIN_SPLASH_DELAY);
+                }
+            }
+
+            @Override
+            public void reject(BallabaBaseEntity entity) {
+                Toast.makeText(SplashActivity.this, "Here will be error dialog", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void continueFlow(){
-        Intent start;
-        String token = SharedPreferencesManager.getInstance(this).getString(SharedPreferencesKeysHolder.GLOBAL_TOKEN, TOKEN_NOT_EXISTS);
-        /*ONLY TESTING*/if (!token.equals(TOKEN_NOT_EXISTS)) {
-        /*THE REAL THING*///if (token.equals(TOKEN_NOT_EXISTS)) {
-            start = new Intent(SplashActivity.this, TestingActivity.class);
-        } else {
-            start = new Intent(SplashActivity.this, MainActivity.class);
-        }
-
+        Intent start = new Intent(SplashActivity.this, TestingActivity.class);
         start.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(start);
         finish();
     }
+
+
 }
