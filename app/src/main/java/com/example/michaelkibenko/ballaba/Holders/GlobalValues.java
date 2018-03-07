@@ -7,5 +7,5 @@ import com.example.michaelkibenko.ballaba.BallabaApplication;
  */
 
 public @interface GlobalValues {
-    String appName = BallabaApplication.getAppContext().getApplicationInfo().name;
+
 }

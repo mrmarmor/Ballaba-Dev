@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.michaelkibenko.ballaba.BallabaApplication;
+import com.example.michaelkibenko.ballaba.Config;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
@@ -66,8 +67,11 @@ import java.util.Map;
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (error.networkResponse != null)
+                if(error.networkResponse != null){
                     callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                }else{
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }
             }
         }){
             @Override
@@ -98,7 +102,12 @@ import java.util.Map;
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+
+                if(error.networkResponse != null){
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                }else{
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }
             }
         }){
             @Override
@@ -109,6 +118,35 @@ import java.util.Map;
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
+                return params;
+            }
+        };
+        queue.add(stringRequest);
+    }
+
+    public void getConfigRequest(final BallabaResponseListener callback){
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, EndpointsHolder.CONFIG,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.e(TAG, response);
+                        callback.resolve(new BallabaOkResponse());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, error.toString());
+                if(error.networkResponse != null){
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                }else{
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("platform", Config.PLATFORM_NAME);
                 return params;
             }
         };

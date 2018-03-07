@@ -4,20 +4,17 @@ import android.app.Application;
 import android.content.Context;
 import android.provider.Settings;
 
+import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
+
 /**
  * Created by michaelkibenko on 19/02/2018.
  */
 
 public class BallabaApplication extends Application {
 
-    private static Context appContext;
     @Override
     public void onCreate() {
         super.onCreate();
-        appContext = getApplicationContext();
-    }
-
-    public static Context getAppContext() {
-        return appContext;
+        BallabaConnectivityAnnouncer.getInstance(getApplicationContext());
     }
 }

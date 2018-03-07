@@ -17,6 +17,7 @@ import java.util.ArrayList;
  */
 
 public class BallabaConnectivityAnnouncer {
+    private static final String TAG = BallabaConnectivityAnnouncer.class.getSimpleName();
     public static BallabaConnectivityAnnouncer instance;
 
     private boolean status;
@@ -35,6 +36,7 @@ public class BallabaConnectivityAnnouncer {
     private BallabaConnectivityAnnouncer(Context context){
         clients = new ArrayList<>();
         this.context = context;
+        getConnectivity();
         context.registerReceiver(new NetworkChangeReceiver(), new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
     }
 
@@ -62,26 +64,30 @@ public class BallabaConnectivityAnnouncer {
         }
     }
 
+    private void getConnectivity(){
+        final ConnectivityManager connMgr = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        final android.net.NetworkInfo wifi = connMgr
+                .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        final android.net.NetworkInfo mobile = connMgr
+                .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+        if (wifi.isAvailable() || mobile.isAvailable()) {
+            status = true;
+        }else{
+            status = false;
+        }
+
+        onConnectivityChange(status);
+    }
+
     class NetworkChangeReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(final Context context, final Intent intent) {
-            final ConnectivityManager connMgr = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-
-            final android.net.NetworkInfo wifi = connMgr
-                    .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-            final android.net.NetworkInfo mobile = connMgr
-                    .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-
-            if (wifi.isAvailable() || mobile.isAvailable()) {
-                status = true;
-            }else{
-                status = false;
-            }
-
-            onConnectivityChange(status);
+            getConnectivity();
         }
     }
 
