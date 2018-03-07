@@ -113,7 +113,7 @@ import java.util.Map;
                     public void onResponse(String response) {
                         BallabaUser user = SharedPreferencesManager.getInstance(context).getUser(SharedPreferencesKeysHolder.USER, new BallabaUser()/*empty user*/);
                         SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.GLOBAL_TOKEN, user.getGlobal_token());
-                        Log.e(TAG, response+"\n"+user.getGlobal_token());
+                        Log.d(TAG, response+"\n"+user.getGlobal_token());
                         callback.resolve(new BallabaOkResponse());
                     }
                 }, new Response.ErrorListener() {
@@ -146,13 +146,13 @@ import java.util.Map;
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e(TAG, response);
+                        Log.d(TAG, response);
                         callback.resolve(new BallabaOkResponse());
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, error.toString());
+                Log.d(TAG, error.toString());
                 if(error.networkResponse != null){
                     callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
                 }else{

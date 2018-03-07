@@ -44,7 +44,6 @@ public class EnterPhoneNumberActivity extends BaseActivity {
                 }else{
                     //TODO here we prevent user from sending phone when there is no network. However, if we don't prevent him, he got an error message
                     //TODO in "enter_phone_number_text_error_answer" textView anyway. Decide what is better.
-                    binder.setPresenter(presenter);
                 }
 
             }

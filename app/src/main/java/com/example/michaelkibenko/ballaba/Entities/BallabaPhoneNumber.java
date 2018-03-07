@@ -1,5 +1,7 @@
 package com.example.michaelkibenko.ballaba.Entities;
 
+import android.support.annotation.NonNull;
+
 /**
  * Created by michaelkibenko on 21/02/2018.
  */
@@ -37,7 +39,10 @@ public class BallabaPhoneNumber extends BallabaBaseEntity{
     }
 
     public String concatPhoneNumber(String phone) {
-        return phone.startsWith("0")? phone.substring(1).trim() : phone.trim();
+        if (phone != null && phone.length() > 0)
+            return phone.startsWith("0")? phone.substring(1).trim() : phone.trim();
+        else
+            return "";
     }
 
 }

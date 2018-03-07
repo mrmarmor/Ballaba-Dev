@@ -48,12 +48,10 @@ public class EnterCodeActivity extends BaseActivity {
 
         registerReadSmsReceiver();
 
-        //At this point, i need to detect network. Listener like BallabaConnectivityListener doesn't help when network is already down.
-        if (!ConnectionsManager.getInstance(this).isConnected())
-            //TODO replace next line with a dialog
-            Toast.makeText(EnterCodeActivity.this, "no network", Toast.LENGTH_LONG).show();
-        else
-            listenToNetworkChanges();
+        if(!ConnectionsManager.getInstance(this).isConnected())
+            Toast.makeText(EnterCodeActivity.this, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
+
+        listenToNetworkChanges();
     }
 
     private void listenToNetworkChanges(){
@@ -62,7 +60,7 @@ public class EnterCodeActivity extends BaseActivity {
             public void onConnectivityChanged(boolean is) {
                 if (!is)
                     //TODO replace next line with a dialog
-                    Toast.makeText(EnterCodeActivity.this, "no network", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EnterCodeActivity.this, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
             }
         };
         BallabaConnectivityAnnouncer.getInstance(this).register(client);
@@ -77,19 +75,19 @@ public class EnterCodeActivity extends BaseActivity {
     }
 
     private void registerReadSmsReceiver(){
-        Log.e(TAG, "registerReadSmsReceiver");
+        Log.d(TAG, "registerReadSmsReceiver");
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.BROADCAST_SMS) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(EnterCodeActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS, Manifest.permission.BROADCAST_SMS}, SMS_PERMISSION_REQ_CODE);
         }else{
-            Log.e(TAG, "else called");
+            Log.d(TAG, "else called");
             runSMSReader();
         }
     }
 
     public void runSMSReader(){
-        Log.e(TAG, "Before Receiver registration");
+        Log.d(TAG, "Before Receiver registration");
         if(!isReceiverRunning) {
             smsReceiver = new BallabaSMSReceiver();
             Log.e(TAG, "Receiver registration");
@@ -103,7 +101,7 @@ public class EnterCodeActivity extends BaseActivity {
             if (isReceiverRunning)//this condition prevents duplicated processes of receivers
                 unregisterReceiver(smsReceiver);
         } catch (IllegalArgumentException e){//this catch prevents "Receiver not registered" exception error
-            Log.e(TAG, e.getMessage());
+            Log.d(TAG, e.getMessage());
         }
     }
 
@@ -122,7 +120,7 @@ public class EnterCodeActivity extends BaseActivity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.e(TAG, "onReceive");
+            Log.d(TAG, "onReceive");
 
             //this code is error
 //            Toast.makeText(EnterCodeActivity.this, "Received", Toast.LENGTH_LONG).show();
