@@ -8,6 +8,7 @@ import android.net.ConnectivityManager;
 import android.util.Log;
 
 import com.example.michaelkibenko.ballaba.BallabaApplication;
+import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 
 import java.io.Console;
 import java.util.ArrayList;
@@ -66,7 +67,8 @@ public class BallabaConnectivityAnnouncer {
 
         @Override
         public void onReceive(final Context context, final Intent intent) {
-            final ConnectivityManager connMgr = (ConnectivityManager) context
+            //TODO THESE MARKED LINES HAVE MOVED INTO CONNECTION_MANAGER CLASS IN ORDER TO BECOME GENERIC AND REUSABLE
+            /*final ConnectivityManager connMgr = (ConnectivityManager) context
                     .getSystemService(Context.CONNECTIVITY_SERVICE);
 
             final android.net.NetworkInfo wifi = connMgr
@@ -79,9 +81,9 @@ public class BallabaConnectivityAnnouncer {
                 status = true;
             }else{
                 status = false;
-            }
+            }*/
 
-            onConnectivityChange(status);
+            onConnectivityChange(ConnectionsManager.getInstance(context).isConnected());
         }
     }
 

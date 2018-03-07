@@ -1,6 +1,7 @@
 package com.example.michaelkibenko.ballaba.Managers;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
 import android.text.LoginFilter;
 import android.util.Log;
 
@@ -54,6 +55,23 @@ import java.util.Map;
 
     public <T> void addRequestToQueue(Request<T> request) {
         getQueue().add(request);
+    }
+
+    public boolean isConnected(){
+        final ConnectivityManager connMgr = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+            final android.net.NetworkInfo wifi = connMgr
+                    .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+            final android.net.NetworkInfo mobile = connMgr
+                    .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+            if (wifi.isConnected() || mobile.isConnected()) {
+                return true;
+            }else{
+                return false;
+            }
     }
 
     public void loginWithPhoneNumber(final Map<String, String> params, final BallabaResponseListener callback){

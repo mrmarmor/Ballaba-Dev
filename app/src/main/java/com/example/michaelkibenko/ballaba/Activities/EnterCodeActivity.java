@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
+import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter;
 import com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPresenter;
 import com.example.michaelkibenko.ballaba.R;
@@ -44,6 +45,8 @@ public class EnterCodeActivity extends BaseActivity {
         String countryCode = getIntent().getStringExtra(EnterPhoneNumberPresenter.COUNTRY_CODE_EXTRA_KEY);
         presenter = new EnterCodePresenter(this, binder, countryCode, phoneNumber);
         binder.setPresenter(presenter);
+
+        registerReadSmsReceiver();
 
         client = new BallabaConnectivityListener() {
             @Override
