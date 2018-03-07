@@ -164,6 +164,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         String deviceId = DeviceUtils.getInstance(true, context).getDeviceId();
         Map<String, String> params = GeneralUtils.getParams(new String[]{"phone", "device_id"}, new String[]{phoneNumber.getFullPhoneNumber(), deviceId});
         Log.d(TAG, "onNextButtonClick");
+        Log.d(TAG, "params: "+params);
         ConnectionsManager.getInstance(context).loginWithPhoneNumber(params, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {

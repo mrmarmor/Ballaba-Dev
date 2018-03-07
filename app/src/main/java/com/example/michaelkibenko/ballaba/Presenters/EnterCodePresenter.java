@@ -106,6 +106,8 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher {
     private void initEditTexts(EditText[] editTexts) {
         for (EditText et : editTexts)
             et.addTextChangedListener(this);
+
+        editTexts[0].requestFocus();
     }
 
     private void onCodeCompleted() {

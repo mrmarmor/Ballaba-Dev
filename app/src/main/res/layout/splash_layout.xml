@@ -18,7 +18,7 @@
             />
 
         <TextView
-            android:layout_width="@dimen/splash_middle_text_width"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/splash_middle_text_height"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
