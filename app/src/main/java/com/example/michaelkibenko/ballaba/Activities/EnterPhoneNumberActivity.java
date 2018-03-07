@@ -26,6 +26,7 @@ public class EnterPhoneNumberActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binder = DataBindingUtil.setContentView(this, R.layout.enter_phone_number_layout);
         presenter = new EnterPhoneNumberPresenter(this, binder);
+        binder.setPresenter(presenter);
 
         if(!ConnectionsManager.getInstance(this).isConnected())
             Toast.makeText(EnterPhoneNumberActivity.this, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();

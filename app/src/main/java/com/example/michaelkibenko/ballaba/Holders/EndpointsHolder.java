@@ -7,6 +7,7 @@ package com.example.michaelkibenko.ballaba.Holders;
 
 public @interface EndpointsHolder {
     String LOGIN = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/login";
+    String LOGIN_BY_TOKEN ="https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/loginbytoken";
     String AUTHENTICATE = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/authenticate";
     String CONFIG = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/config";
 }

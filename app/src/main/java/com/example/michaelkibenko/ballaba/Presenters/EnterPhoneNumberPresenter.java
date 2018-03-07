@@ -45,6 +45,8 @@ import static com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPres
 
 public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterView.OnItemSelectedListener, TextWatcher, CompoundButton.OnCheckedChangeListener{
 
+    private static final String TAG = EnterPhoneNumberPresenter.class.getSimpleName();
+
     @IntDef({OK, NOT_A_VALID_PHONE_NUMBER, INTERNAL_ERROR, USER_IS_BLOCKED})
     public @interface Flows {
         int OK = 200;
@@ -161,10 +163,11 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
     public void onNextButtonClick(){
         String deviceId = DeviceUtils.getInstance(true, context).getDeviceId();
         Map<String, String> params = GeneralUtils.getParams(new String[]{"phone", "device_id"}, new String[]{phoneNumber.getFullPhoneNumber(), deviceId});
-
+        Log.d(TAG, "onNextButtonClick");
         ConnectionsManager.getInstance(context).loginWithPhoneNumber(params, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
+                Log.d(TAG, "loginWithPhoneNumber");
                 if(entity instanceof BallabaOkResponse){
                     onFlowChanged(Flows.OK);
                 }
@@ -174,6 +177,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
             public void reject(BallabaBaseEntity entity) {
                 if(entity instanceof BallabaErrorResponse){
                     binder.enterPhoneNumberTextErrorAnswer.setVisibility(View.VISIBLE);
+                    Log.d(TAG, "loginWithPhoneNumber rejected "+((BallabaErrorResponse)entity).statusCode);
                     onFlowChanged(((BallabaErrorResponse)entity).statusCode);
                 }
             }

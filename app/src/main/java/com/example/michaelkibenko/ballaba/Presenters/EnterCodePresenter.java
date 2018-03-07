@@ -115,6 +115,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher {
         ConnectionsManager.getInstance(context).enterCode(params, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
+                Log.d(TAG, "enterCode");
                 if (entity instanceof BallabaOkResponse) {
                     onFlowChanged(EnterPhoneNumberPresenter.Flows.OK);
                 }
@@ -123,6 +124,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher {
             @Override
             public void reject(BallabaBaseEntity entity) {
                 if (entity instanceof BallabaErrorResponse) {
+                    Log.d(TAG, "enterCode rejected "+((BallabaErrorResponse) entity).statusCode);
                     onFlowChanged(((BallabaErrorResponse) entity).statusCode);
                 }
             }
