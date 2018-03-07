@@ -34,7 +34,7 @@ public class SharedPreferencesManager {
         return preferences.edit();
     }
 
-    private boolean putString(@SharedPreferencesKeysHolder String key, String value) {
+    protected boolean putString(@SharedPreferencesKeysHolder String key, String value) {
         return getEditor().putString(key, value).commit();
     }
 

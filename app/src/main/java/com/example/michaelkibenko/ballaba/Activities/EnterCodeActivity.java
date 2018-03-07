@@ -12,7 +12,10 @@ import android.provider.Telephony;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
+import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
 import com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter;
 import com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPresenter;
 import com.example.michaelkibenko.ballaba.R;
@@ -30,6 +33,7 @@ public class EnterCodeActivity extends BaseActivity {
     private BallabaSMSReceiver smsReceiver;
     private boolean isReceiverRunning;
     private EnterCodeLayoutBinding binder;
+    private BallabaConnectivityListener client;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,13 +45,25 @@ public class EnterCodeActivity extends BaseActivity {
         presenter = new EnterCodePresenter(this, binder, countryCode, phoneNumber);
         binder.setPresenter(presenter);
 
+        client = new BallabaConnectivityListener() {
+            @Override
+            public void onConnectivityChanged(boolean is) {
+                if (!is)
+                    //TODO replace next line with a dialog
+                    Toast.makeText(EnterCodeActivity.this, "no network", Toast.LENGTH_LONG).show();
+            }
+        };
+        BallabaConnectivityAnnouncer.getInstance(this).register(client);
+
         registerReadSmsReceiver();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        stopReceiver();
+
+        BallabaConnectivityAnnouncer.getInstance(this).unRegister(client);// network receiver
+        stopSmsReceiver();
     }
 
     private void registerReadSmsReceiver(){
@@ -72,7 +88,7 @@ public class EnterCodeActivity extends BaseActivity {
             isReceiverRunning = true;
         }
     }
-    public void stopReceiver(){
+    public void stopSmsReceiver(){
         try {
             if (isReceiverRunning)//this condition prevents duplicated processes of receivers
                 unregisterReceiver(smsReceiver);

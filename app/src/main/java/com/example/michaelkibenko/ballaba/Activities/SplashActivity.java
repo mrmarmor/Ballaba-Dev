@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 
+import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
+import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
+import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.SplashLayoutBinding;
 
@@ -14,8 +18,10 @@ import com.example.michaelkibenko.ballaba.databinding.SplashLayoutBinding;
  */
 
 public class SplashActivity extends BaseActivity {
+    private final String TOKEN_NOT_EXISTS = "token not exists";
 
     private SplashLayoutBinding binder;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,7 +35,14 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void continueFlow(){
-        Intent start = new Intent(SplashActivity.this, TestingActivity.class);
+        Intent start;
+        String token = SharedPreferencesManager.getInstance(this).getString(SharedPreferencesKeysHolder.GLOBAL_TOKEN, TOKEN_NOT_EXISTS);
+        if (token.equals(TOKEN_NOT_EXISTS)) {
+            start = new Intent(SplashActivity.this, TestingActivity.class);
+        } else {
+            start = new Intent(SplashActivity.this, MainActivity.class);
+        }
+
         start.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(start);
         finish();
