@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
+import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter;
 import com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPresenter;
 import com.example.michaelkibenko.ballaba.R;
@@ -45,17 +46,26 @@ public class EnterCodeActivity extends BaseActivity {
         presenter = new EnterCodePresenter(this, binder, countryCode, phoneNumber);
         binder.setPresenter(presenter);
 
+        registerReadSmsReceiver();
+
+        //At this point, i need to detect network. Listener like BallabaConnectivityListener doesn't help when network is already down.
+        if (!ConnectionsManager.getInstance(this).isConnected())
+            //TODO replace next line with a dialog
+            Toast.makeText(EnterCodeActivity.this, "no network", Toast.LENGTH_LONG).show();
+        else
+            listenToNetworkChanges();
+    }
+
+    private void listenToNetworkChanges(){
         client = new BallabaConnectivityListener() {
             @Override
             public void onConnectivityChanged(boolean is) {
                 if (!is)
                     //TODO replace next line with a dialog
-                    Toast.makeText(EnterCodeActivity.this, "no network", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EnterPhoneNumberActivity.this, "no network", Toast.LENGTH_LONG).show();
             }
         };
         BallabaConnectivityAnnouncer.getInstance(this).register(client);
-
-        registerReadSmsReceiver();
     }
 
     @Override

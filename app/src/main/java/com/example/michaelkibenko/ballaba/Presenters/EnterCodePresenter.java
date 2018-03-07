@@ -92,7 +92,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher {
         if (codeLength < 4) {
             editTexts[codeLength - 1].clearFocus();
             editTexts[codeLength].requestFocus();
-            editTexts[codeLength].setCursorVisible(true);
+            //editTexts[codeLength].setCursorVisible(true);
         } else {
             onCodeCompleted();
         }

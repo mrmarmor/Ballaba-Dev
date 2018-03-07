@@ -37,7 +37,8 @@ public class SplashActivity extends BaseActivity {
     private void continueFlow(){
         Intent start;
         String token = SharedPreferencesManager.getInstance(this).getString(SharedPreferencesKeysHolder.GLOBAL_TOKEN, TOKEN_NOT_EXISTS);
-        if (token.equals(TOKEN_NOT_EXISTS)) {
+        /*ONLY TESTING*/if (!token.equals(TOKEN_NOT_EXISTS)) {
+        /*THE REAL THING*///if (token.equals(TOKEN_NOT_EXISTS)) {
             start = new Intent(SplashActivity.this, TestingActivity.class);
         } else {
             start = new Intent(SplashActivity.this, MainActivity.class);

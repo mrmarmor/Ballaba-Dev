@@ -28,6 +28,15 @@ public class EnterPhoneNumberActivity extends BaseActivity {
         presenter = new EnterPhoneNumberPresenter(this, binder);
         binder.setPresenter(presenter);
 
+        //At this point, i need to detect network. Listener like BallabaConnectivityListener doesn't help when network is already down.
+        if (!ConnectionsManager.getInstance(this).isConnected())
+            //TODO replace next line with a dialog
+            Toast.makeText(EnterPhoneNumberActivity.this, "no network", Toast.LENGTH_LONG).show();
+        else
+            listenToNetworkChanges();
+    }
+
+    private void listenToNetworkChanges(){
         client = new BallabaConnectivityListener() {
             @Override
             public void onConnectivityChanged(boolean is) {
