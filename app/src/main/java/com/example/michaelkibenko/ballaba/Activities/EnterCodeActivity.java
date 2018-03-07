@@ -62,7 +62,7 @@ public class EnterCodeActivity extends BaseActivity {
             public void onConnectivityChanged(boolean is) {
                 if (!is)
                     //TODO replace next line with a dialog
-                    Toast.makeText(EnterPhoneNumberActivity.this, "no network", Toast.LENGTH_LONG).show();
+                    Toast.makeText(EnterCodeActivity.this, "no network", Toast.LENGTH_LONG).show();
             }
         };
         BallabaConnectivityAnnouncer.getInstance(this).register(client);
