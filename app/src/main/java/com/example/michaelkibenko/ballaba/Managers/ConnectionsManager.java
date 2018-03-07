@@ -111,10 +111,9 @@ import java.util.Map;
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e(TAG, response);//TODO arrange this 3 lines below
-                        SharedPreferencesManager.getInstance(context).putUser(SharedPreferencesKeysHolder.USER, new BallabaUser().fromStringToBallabaUser(response));
                         BallabaUser user = SharedPreferencesManager.getInstance(context).getUser(SharedPreferencesKeysHolder.USER, new BallabaUser()/*empty user*/);
-                        Log.e(TAG, user.getGlobal_token());
+                        SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.GLOBAL_TOKEN, user.getGlobal_token());
+                        Log.e(TAG, response+"\n"+user.getGlobal_token());
                         callback.resolve(new BallabaOkResponse());
                     }
                 }, new Response.ErrorListener() {
