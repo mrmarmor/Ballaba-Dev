@@ -29,7 +29,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void continueFlow(){
-        Intent start = new Intent(SplashActivity.this, PreAuthActivity.class);
+        Intent start = new Intent(SplashActivity.this, TestingActivity.class);
         start.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(start);
         finish();

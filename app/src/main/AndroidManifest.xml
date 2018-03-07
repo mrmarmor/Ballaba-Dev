@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.michaelkibenko.ballaba">
 
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_SMS"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:allowBackup="true"
@@ -22,12 +26,16 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name=".Activities.EnterCodeActivity$BallabaSMSReceiver" android:exported="true">
+
+        </receiver>
+
         <activity android:name=".Activities.MainActivity"
             android:label="Main activity"
             android:theme="@style/AppTheme"
             />
 
-        <activity android:name=".Activities.PreAuthActivity"
+        <activity android:name=".Activities.TestingActivity"
             android:label="Pre auth"
             android:theme="@style/AppTheme"
             />

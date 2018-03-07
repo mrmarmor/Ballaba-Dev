@@ -25,9 +25,9 @@ public class BallabaConnectivityAnnouncer {
 
     private ArrayList<BallabaConnectivityListener> clients;
 
-    public static BallabaConnectivityAnnouncer getInstance() {
+    public static BallabaConnectivityAnnouncer getInstance(Context context) {
         if(instance == null){
-            instance = new BallabaConnectivityAnnouncer(BallabaApplication.getAppContext());
+            instance = new BallabaConnectivityAnnouncer(context);//TODO this context is null
         }
         return instance;
     }

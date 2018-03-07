@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.example.michaelkibenko.ballaba.BallabaApplication;
+import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
+import com.google.gson.Gson;
 
 /**
  * Created by michaelkibenko on 18/02/2018.
@@ -12,13 +14,13 @@ import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 
 public class SharedPreferencesManager {
     private static String SharedPreferencesKey = "Ballaba";
-    public SharedPreferencesManager instance;
+    public static SharedPreferencesManager instance;
     private Context context;
     private SharedPreferences preferences;
 
-    public SharedPreferencesManager getInstance() {
+    public static SharedPreferencesManager getInstance(Context context) {
         if (instance == null) {
-            instance = new SharedPreferencesManager(BallabaApplication.getAppContext());
+            instance = new SharedPreferencesManager(context    /*BallabaApplication.getAppContext()/*this returns null!!!*/);
         }
         return instance;
     }
@@ -52,7 +54,7 @@ public class SharedPreferencesManager {
         return getEditor().putFloat(key, value).commit();
     }
 
-    private String getString(@SharedPreferencesKeysHolder String key, String defValue) {
+    public String getString(@SharedPreferencesKeysHolder String key, String defValue) {
         return preferences.getString(key, defValue);
     }
 
@@ -74,5 +76,16 @@ public class SharedPreferencesManager {
 
     private boolean remove(@SharedPreferencesKeysHolder String key) {
         return getEditor().remove(key).commit();
+    }
+
+    public boolean putUser(@SharedPreferencesKeysHolder String key, BallabaUser user) {
+        String json = new Gson().toJson(user);
+        return getEditor().putString(key, json).commit();
+    }
+
+    public BallabaUser getUser(@SharedPreferencesKeysHolder String key, BallabaUser userDef){
+        String json = getString(SharedPreferencesKeysHolder.USER, "");
+        BallabaUser user = new Gson().fromJson(json, BallabaUser.class);
+        return user == null? userDef : user;
     }
 }

@@ -8,5 +8,6 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 
 public interface BallabaResponseListener {
     void resolve(BallabaBaseEntity entity);
+
     void reject(BallabaBaseEntity entity);
 }

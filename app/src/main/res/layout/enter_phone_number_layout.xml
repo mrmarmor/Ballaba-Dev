@@ -31,10 +31,11 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/enter_phone_number_top_text_answer_text_size"
         android:textColor="@color/gray_text_color"
-        android:letterSpacing="0.04"
+        android:letterSpacing="@dimen/enter_phone_number_letter_spacing_small"
         android:gravity="start"
         android:text="@string/enter_phone_number_top_question_answer_text"
-        app:layout_constraintStart_toStartOf="@+id/enter_phone_number_top_question"
+        android:layout_marginStart="@dimen/enter_phone_number_top_text_answer_start_margin"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/enter_phone_number_top_question"
         android:layout_marginTop="@dimen/enter_phone_number_top_text_answer_top_offset"
         />
@@ -43,6 +44,8 @@
         android:id="@+id/countryCodesSpinner"
         android:layout_width="@dimen/enter_phone_number_country_codes_spinner_width"
         android:layout_height="@dimen/enter_phone_number_country_codes_spinner_height"
+        android:textSize="@dimen/enter_phone_number_country_codes_spinner_text_size"
+        android:letterSpacing="@dimen/enter_phone_number_letter_spacing_large"
         app:layout_constraintTop_toBottomOf="@id/enter_phone_number_top_text_answer"
         app:layout_constraintEnd_toEndOf="@+id/enter_phone_number_country_codes_bottom_divider"
         android:layout_marginTop="@dimen/enter_phone_number_country_codes_spinner_top_offset"
@@ -85,13 +88,28 @@
         android:textCursorDrawable="@color/colorPrimary"
         />
 
+    <TextView
+        android:id="@+id/enter_phone_number_text_error_answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/enter_phone_number_top_text_answer_text_size"
+        android:textColor="@color/red_error_phone"
+        android:gravity="start"
+        android:visibility="invisible"
+        android:text="@string/splash_middle_text"
+        android:layout_marginStart="@dimen/enter_phone_number_text_error_offset"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/enter_phone_number_ET"
+        android:layout_marginTop="@dimen/enter_phone_number_top_text_answer_top_offset"
+        />
+
     <Button
         android:id="@+id/enter_phone_number_next_button"
         android:layout_width="@dimen/enter_phone_number_country_codes_next_button_width"
         android:layout_height="@dimen/enter_phone_number_country_codes_next_button_height"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/enter_phone_number_country_codes_bottom_divider"
+        app:layout_constraintTop_toBottomOf="@+id/enter_phone_number_text_error_answer"
         android:text="@string/enter_phone_number_next_button_text"
         android:layout_marginTop="@dimen/enter_phone_number_country_codes_next_button_top_offset"
         android:background="@color/gray_button_color"
@@ -100,7 +118,7 @@
         android:clickable="false"
         />
     
-    <CheckBox
+    <android.support.v7.widget.AppCompatCheckBox
         android:id="@+id/enter_phone_number_checkbox"
         android:layout_width="@dimen/enter_phone_number_checkbox_size"
         android:layout_height="@dimen/enter_phone_number_checkbox_size"
@@ -108,6 +126,7 @@
         android:layout_marginTop="@dimen/enter_phone_number_checkbox_top_offset"
         app:layout_constraintEnd_toStartOf="@+id/enter_phone_number_next_button"
         android:layout_marginEnd="15dp"
+        android:buttonTint="@color/colorPrimary"
         />
 
     <TextView
@@ -116,8 +135,8 @@
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:textColor="#282828"
-        android:letterSpacing="0.04"
-        android:text="מאשר/ת את "
+        android:letterSpacing="@dimen/enter_phone_number_letter_spacing_small"
+        android:text=""
         app:layout_constraintStart_toEndOf="@+id/enter_phone_number_checkbox"
         app:layout_constraintTop_toTopOf="@+id/enter_phone_number_checkbox"
         app:layout_constraintBottom_toBottomOf="@+id/enter_phone_number_checkbox"
@@ -129,7 +148,7 @@
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:textColor="@android:color/holo_orange_light"
-        android:letterSpacing="0.04"
+        android:letterSpacing="@dimen/enter_phone_number_letter_spacing_small"
         android:gravity="center_horizontal"
         android:text="התקנון"
         app:layout_constraintStart_toEndOf="@+id/enter_phone_number_bottom_TV"

@@ -11,13 +11,17 @@ public class BallabaPhoneNumber extends BallabaBaseEntity{
     public BallabaPhoneNumber() {
         phoneNumber = "";
     }
+    public BallabaPhoneNumber(String phoneNumber, String countryCode) {
+        this.phoneNumber = concatPhoneNumber(phoneNumber);
+        this.countryCode = countryCode;
+    }
 
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+        this.phoneNumber = concatPhoneNumber(phoneNumber);
     }
 
     public String getCountryCode() {
@@ -30,6 +34,10 @@ public class BallabaPhoneNumber extends BallabaBaseEntity{
 
     public String getFullPhoneNumber(){
         return getCountryCode()+getPhoneNumber();
+    }
+
+    public String concatPhoneNumber(String phone) {
+        return phone.startsWith("0")? phone.substring(1).trim() : phone.trim();
     }
 
 }

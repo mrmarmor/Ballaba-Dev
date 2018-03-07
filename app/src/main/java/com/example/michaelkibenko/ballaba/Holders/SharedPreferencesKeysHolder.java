@@ -5,5 +5,5 @@ package com.example.michaelkibenko.ballaba.Holders;
  */
 
 public @interface SharedPreferencesKeysHolder {
-
+    String USER = "user";
 }

@@ -2,6 +2,7 @@ package com.example.michaelkibenko.ballaba;
 
 import android.app.Application;
 import android.content.Context;
+import android.provider.Settings;
 
 /**
  * Created by michaelkibenko on 19/02/2018.
