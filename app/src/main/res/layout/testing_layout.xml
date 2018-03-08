@@ -1,41 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
         <variable
             name="presenter"
             type="com.example.michaelkibenko.ballaba.Presenters.TestingPresenter"></variable>
     </data>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layoutDirection="rtl">
-    
-    <ImageView
-        android:id="@+id/preAuthScreen_logo_IV"
-        android:layout_width="@dimen/splash_logo_layout_width"
-        android:layout_height="@dimen/splash_logo_layout_height"
-        android:background="@drawable/png_logo_placeholder"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="@dimen/pre_auth_logo_top_offset" />
+
 
     <TextView
         android:layout_width="@dimen/pre_auth_text_width"
         android:layout_height="@dimen/pre_auth_text_height"
-        android:text="@string/pre_auth_screen_middle_text"
-        android:textSize="@dimen/pre_auth_text_size"
-        android:typeface="sans"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/preAuthScreen_logo_IV"
-        android:layout_marginTop="@dimen/pre_auth_logo_top_offset"
+        android:text="Testing"
         android:textAlignment="center"
         android:textColor="@android:color/black"
-        />
+        android:textSize="@dimen/pre_auth_text_size"
+        android:textStyle="bold"
+        android:typeface="sans"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
     
     <Button
         android:layout_width="@dimen/pre_auth_first_time_button_width"
@@ -67,6 +56,26 @@
         android:layout_marginBottom="@dimen/pre_auth_has_account_bottom_offset"
         android:textAlignment="center"
         android:onClick="@{() -> presenter.gotoEnterCodeIntent()}"/>
+
+    <Button
+        android:id="@+id/startflowBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start Flow"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="50dp"
+        android:onClick="@{() -> presenter.onFlowStartedClicked()}"
+        />
+
+    <Button
+        android:id="@+id/MapBTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Map"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="100dp"
+        android:onClick="@{() -> presenter.onMapClicked()}"
+        />
 
 
 </android.support.constraint.ConstraintLayout>

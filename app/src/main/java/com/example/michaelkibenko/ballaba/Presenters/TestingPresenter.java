@@ -5,6 +5,8 @@ import android.content.Intent;
 
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterPhoneNumberActivity;
+import com.example.michaelkibenko.ballaba.Activities.MapActivity;
+import com.example.michaelkibenko.ballaba.Activities.SplashActivity;
 
 /**
  * Created by michaelkibenko on 21/02/2018.
@@ -28,5 +30,13 @@ public class TestingPresenter extends BasePresenter {
 
     public void gotoEnterPhoneNumberIntent(){
         context.startActivity(enterPhoneNumberIntent);
+    }
+
+    public void onMapClicked(){
+        context.startActivity(new Intent(context, MapActivity.class));
+    }
+
+    public void onFlowStartedClicked(){
+        context.startActivity(new Intent(context, SplashActivity.class));
     }
 }
