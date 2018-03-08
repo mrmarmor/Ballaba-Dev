@@ -14,6 +14,8 @@ import android.telephony.SmsMessage;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -50,7 +52,7 @@ import static com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter.F
  * Created by michaelkibenko on 22/02/2018.
  */
 
-public class EnterCodePresenter extends BasePresenter implements TextWatcher {
+public class EnterCodePresenter extends BasePresenter implements TextWatcher, EditText.OnKeyListener, EditText.OnTouchListener {
     private static String TAG = EnterCodePresenter.class.getSimpleName();
 
     @IntDef({OK, NOT_A_VALID_PHONE_NUMBER, CODE_EXPIRED, INTERNAL_ERROR, USER_IS_BLOCKED})
@@ -81,6 +83,18 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher {
         return new EnterCodePresenter(context, binder, phoneNumber.getCountryCode(), phoneNumber.getPhoneNumber());
     }
 
+    private void initEditTexts(EditText[] editTexts) {
+        for (EditText et : editTexts) {
+            et.addTextChangedListener(this);//for numeric key press
+            et.setOnKeyListener(this);//for backspace
+            et.setOnTouchListener(this);//to prevent touchable mode
+        }
+
+        editTexts[0].requestFocus();
+
+        DeviceUtils.getInstance(true, context).showSoftKeyboard();
+    }
+
     public void cancelButtonClicked() {
         ((EnterCodeActivity) context).onBackPressed();
     }
@@ -89,11 +103,11 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher {
     public void onTextChanged(CharSequence c, int i, int i1, int i2) {
         sbCode.append(c);
         int codeLength = sbCode.length();
-        if (codeLength < 4) {
+        if (codeLength < 4 && codeLength > 0) {
             editTexts[codeLength - 1].clearFocus();
             editTexts[codeLength].requestFocus();
-            //editTexts[codeLength].setCursorVisible(true);
-        } else {
+            editTexts[codeLength].setCursorVisible(true);
+        } else if (codeLength >= 4){
             onCodeCompleted();
         }
     }
@@ -103,11 +117,26 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher {
     @Override
     public void afterTextChanged(Editable editable) {}
 
-    private void initEditTexts(EditText[] editTexts) {
-        for (EditText et : editTexts)
-            et.addTextChangedListener(this);
+    @Override
+    public boolean onKey(View view, int i, KeyEvent keyEvent) {
+        if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_DEL && keyEvent.getAction() == KeyEvent.ACTION_DOWN){
+            int codeLength = sbCode.length() - 1;
+            if (codeLength >= 0 && codeLength < 3) {
+                sbCode.setLength(codeLength);//delete last char
+                editTexts[codeLength + 1].clearFocus();
+                editTexts[codeLength].requestFocus();
+                editTexts[codeLength].setCursorVisible(true);
+            }
+        }
 
-        editTexts[0].requestFocus();
+        return false;
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        DeviceUtils.getInstance(true, context).showSoftKeyboard();
+
+        return true;
     }
 
     private void onCodeCompleted() {
@@ -127,6 +156,8 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher {
             public void reject(BallabaBaseEntity entity) {
                 if (entity instanceof BallabaErrorResponse) {
                     Log.d(TAG, "enterCode rejected "+((BallabaErrorResponse) entity).statusCode);
+                    clearCode();
+
                     onFlowChanged(((BallabaErrorResponse) entity).statusCode);
                 }
             }
@@ -160,5 +191,13 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher {
             default:
                 Toast.makeText(context, context.getString(R.string.error_network_default), Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void clearCode(){
+        for (EditText et : editTexts){
+            et.setText("");
+        }
+        sbCode.setLength(0);
+        editTexts[0].requestFocus();
     }
 }

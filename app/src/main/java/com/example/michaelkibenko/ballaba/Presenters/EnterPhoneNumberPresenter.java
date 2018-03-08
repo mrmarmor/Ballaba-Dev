@@ -1,16 +1,25 @@
 package com.example.michaelkibenko.ballaba.Presenters;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.AnimatorRes;
 import android.support.annotation.IntDef;
 import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
@@ -83,6 +92,17 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         binder.enterPhoneNumberET.addTextChangedListener(this);
 
         binder.enterPhoneNumberCheckbox.setOnCheckedChangeListener(this);
+
+        binder.enterPhoneNumberET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    DeviceUtils.getInstance(true, context).hideSoftKeyboard(v);
+                }
+            }
+        });
+
+        DeviceUtils.getInstance(true, context).showSoftKeyboard();
     }
 
     public BallabaPhoneNumber getPhoneNumber() {
@@ -165,6 +185,10 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         Map<String, String> params = GeneralUtils.getParams(new String[]{"phone", "device_id"}, new String[]{phoneNumber.getFullPhoneNumber(), deviceId});
         Log.d(TAG, "onNextButtonClick");
         Log.d(TAG, "params: "+params);
+        nextButtonChanger(false);
+        //showCircleProgreesBar();
+        DeviceUtils.getInstance(true, context).hideSoftKeyboard(((Activity)context).getWindow().getDecorView());
+
         ConnectionsManager.getInstance(context).loginWithPhoneNumber(params, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
@@ -209,5 +233,18 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
             default:
                 binder.enterPhoneNumberTextErrorAnswer.setText(R.string.error_network_default);
         }
+    }
+
+    private void showCircleProgreesBar(){
+        binder.enterPhoneNumberNextButton.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+        binder.enterPhoneNumberNextButton.setPaddingRelative((int)context.getResources().getDimension(R.dimen.small_margin), 0, 0, 0);
+
+        binder.enterPhoneNumberNextButton.setCompoundDrawablesRelative(null, null, context.getResources().getDrawable(R.drawable.circle_progress_bar), null);
+        Drawable d = binder.enterPhoneNumberNextButton.getCompoundDrawables()[0];
+        AnimationDrawable animation = (AnimationDrawable)d;
+        //Animator animation = new Animator.ofInt (binder.enterPhoneNumberNextButton, "enterPhoneNumberNextButton", 0, 500); // see this max value coming back here, we animate towards that value
+        //animation.setDuration (5000); //in milliseconds
+        //animation.setInterpolator (new DecelerateInterpolator());
+        animation.start ();
     }
 }

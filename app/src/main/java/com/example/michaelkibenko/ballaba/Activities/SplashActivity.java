@@ -145,4 +145,10 @@ public class SplashActivity extends BaseActivity {
         finish();
 
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        BallabaConnectivityAnnouncer.getInstance(this).unRegister(connectivityListener);
+    }
 }

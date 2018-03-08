@@ -17,7 +17,7 @@
     <string name="enter_phone_number_checkbox_text">מאשר/ת את </string>
     <string name="enter_phone_number_checkbox_text_link">התקנון</string>
 
-    <string name="enter_code_cancel_button_text">ביטול</string>
+    <string name="enter_code_back_button_text">חזרה</string>
 
     <string name="enter_code_top_text">אישור קוד</string>
     <string name="enter_code_secondary_top_text">אנא רשמו את הקוד אשר נשלח</string>

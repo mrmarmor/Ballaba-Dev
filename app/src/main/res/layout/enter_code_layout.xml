@@ -5,15 +5,16 @@
             name="presenter"
             type="com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter"/>
     </data>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="rtl">
     
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/enter_code_cancel_button_text"
+        android:text="@string/enter_code_back_button_text"
         android:textSize="@dimen/enter_code_cancel_button_text_size"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -78,6 +79,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="@dimen/enter_code_code_edit_text_top_offset"
+        android:layout_marginStart="@dimen/enter_code_code_linear_layout_side_offset"
+        android:layout_marginEnd="@dimen/enter_code_code_linear_layout_side_offset"
         >
 
         <EditText android:id="@+id/enter_code_fourth_left_edit_text" style="@style/EditText_enter_code" />
