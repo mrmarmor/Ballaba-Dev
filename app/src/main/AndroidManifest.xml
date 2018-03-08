@@ -10,6 +10,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.location" android:required="true" />
+    <uses-feature android:name="android.hardware.location.gps" android:required="false" />
+
 
     <application
         android:allowBackup="true"
@@ -51,6 +55,10 @@
         <activity android:name=".Activities.MapActivity"
             android:label="Map"
             android:theme="@style/AppTheme"/>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBJ-y7b2ymSPDjM9vTKwHI8hFq072eehPk"/>
     </application>
 
 </manifest>
