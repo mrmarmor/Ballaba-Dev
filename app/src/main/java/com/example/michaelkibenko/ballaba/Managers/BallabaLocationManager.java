@@ -12,12 +12,11 @@ import static android.content.Context.LOCATION_SERVICE;
  * Created by michaelkibenko on 08/03/2018.
  */
 
-public class BallabaLocationManager implements LocationListener{
+public class BallabaLocationManager {
 
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; //10 meters
     private static final long MIN_TIME_BW_UPDATES = 1; //one minute
     private static BallabaLocationManager instance;
-    private Location location;
     private LocationManager locationManager;
     private Context context;
 
@@ -30,40 +29,19 @@ public class BallabaLocationManager implements LocationListener{
 
     private BallabaLocationManager(Context context){
         this.context = context;
-        locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+        locationManager = (LocationManager) this.context.getSystemService(LOCATION_SERVICE);
+    }
 
+    public void getLocation(LocationListener locationListener) {
         try {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES,
-                    MIN_DISTANCE_CHANGE_FOR_UPDATES, this);
+//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES,
+//                    MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
+            locationListener.onLocationChanged(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
         }catch (NullPointerException ex){
             ex.printStackTrace();
         }catch (SecurityException ex){
             ex.printStackTrace();
             //TODO set error flow
         }
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        this.location = location;
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
     }
 }
