@@ -12,8 +12,9 @@
         android:layout_height="match_parent">
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/enter_phone_number_root_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layoutDirection="rtl"
             android:clickable="true"
             android:focusable="true"

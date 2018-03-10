@@ -10,6 +10,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.AnimatorRes;
 import android.support.annotation.IntDef;
+import android.support.design.widget.Snackbar;
 import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -52,7 +54,8 @@ import static com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPres
  * Created by michaelkibenko on 21/02/2018.
  */
 
-public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterView.OnItemSelectedListener, TextWatcher, CompoundButton.OnCheckedChangeListener{
+public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterView.OnItemSelectedListener, TextWatcher
+        , CompoundButton.OnCheckedChangeListener, EditText.OnFocusChangeListener{
 
     private static final String TAG = EnterPhoneNumberPresenter.class.getSimpleName();
 
@@ -87,22 +90,15 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binder.countryCodesSpinner.setAdapter(spinnerArrayAdapter);
         binder.countryCodesSpinner.setOnItemSelectedListener(this);
-
         binder.countryCodesSpinner.setSelection(0);
+
         binder.enterPhoneNumberET.addTextChangedListener(this);
+        binder.enterPhoneNumberET.setOnFocusChangeListener(this);
+        binder.enterPhoneNumberET.requestFocus();
 
         binder.enterPhoneNumberCheckbox.setOnCheckedChangeListener(this);
 
-        binder.enterPhoneNumberET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    DeviceUtils.getInstance(true, context).hideSoftKeyboard(v);
-                }
-            }
-        });
-
-        DeviceUtils.getInstance(true, context).showSoftKeyboard();
+        //DeviceUtils.getInstance(true, context).showSoftKeyboard();
     }
 
     public BallabaPhoneNumber getPhoneNumber() {
@@ -141,43 +137,32 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         getPhoneNumber().setCountryCode(spinnerArrayAdapter.getItem(i).toString());
     }
-
     @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
+    public void onNothingSelected(AdapterView<?> adapterView) {}
 
+    //hiding softKeyboard when user taps out of edit text
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (!hasFocus) {
+            DeviceUtils.getInstance(true, context).hideSoftKeyboard(v);
+        }
     }
-
 
     //Enter phone number edit text listeners
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         getPhoneNumber().setPhoneNumber(charSequence.toString());
-        if(validatePhoneNumber(phoneNumber) && binder.enterPhoneNumberCheckbox.isChecked()){
-            nextButtonChanger(true);
-        }else {
-            nextButtonChanger(false);
-        }
+        nextButtonChanger(validatePhoneNumber(phoneNumber) && binder.enterPhoneNumberCheckbox.isChecked());
     }
-
     @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-    }
-
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
     @Override
-    public void afterTextChanged(Editable editable) {
-
-    }
+    public void afterTextChanged(Editable editable) {}
 
     //Terms of using checked change listener
-
     @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        if(validatePhoneNumber(phoneNumber) && b){
-            nextButtonChanger(true);
-        }else{
-            nextButtonChanger(false);
-        }
+    public void onCheckedChanged(CompoundButton compoundButton, boolean isButtonChecked) {
+        nextButtonChanger(validatePhoneNumber(phoneNumber) && isButtonChecked);
     }
 
     public void onNextButtonClick(){
@@ -185,7 +170,10 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         Map<String, String> params = GeneralUtils.getParams(new String[]{"phone", "device_id"}, new String[]{phoneNumber.getFullPhoneNumber(), deviceId});
         Log.d(TAG, "onNextButtonClick");
         Log.d(TAG, "params: "+params);
-        nextButtonChanger(false);
+        //nextButtonChanger(false);
+
+        Snackbar.make(binder.enterPhoneNumberRootLayout, context.getString(R.string.enter_phone_number_snackBar_text), Snackbar.LENGTH_LONG).show();
+
         //showCircleProgreesBar();
         DeviceUtils.getInstance(true, context).hideSoftKeyboard(((Activity)context).getWindow().getDecorView());
 
@@ -201,6 +189,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
             @Override
             public void reject(BallabaBaseEntity entity) {
                 if(entity instanceof BallabaErrorResponse){
+                    //TODO replace next line with snackbar
                     binder.enterPhoneNumberTextErrorAnswer.setVisibility(View.VISIBLE);
                     Log.d(TAG, "loginWithPhoneNumber rejected "+((BallabaErrorResponse)entity).statusCode);
                     onFlowChanged(((BallabaErrorResponse)entity).statusCode);
@@ -247,4 +236,5 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         //animation.setInterpolator (new DecelerateInterpolator());
         animation.start ();
     }
+
 }
