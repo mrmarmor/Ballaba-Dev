@@ -33,6 +33,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".Activities.SplashActivity"
+            android:label="Pre auth"
+            android:theme="@style/AppTheme" />
+
         <receiver android:name=".Activities.EnterCodeActivity$BallabaSMSReceiver" android:exported="true">
 
         </receiver>

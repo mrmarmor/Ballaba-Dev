@@ -67,6 +67,10 @@
     <dimen name="enter_code_code_edit_text_top_offset">10dp</dimen>
     <dimen name="enter_code_code_edit_text_side_offset">10dp</dimen>
     <dimen name="enter_code_code_linear_layout_side_offset">18dp</dimen>
-
+    <dimen name="enter_code_code_send_again_text_view_top_offset">30dp</dimen>
+    <dimen name="enter_code_send_again_button_width">75dp</dimen>
+    <dimen name="enter_code_send_again_button_height">39dp</dimen>
+    <dimen name="enter_code_send_again_button_top_offset">20dp</dimen>
+    <dimen name="enter_code_send_again_text_size">16sp</dimen>
 
 </resources>

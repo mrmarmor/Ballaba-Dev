@@ -23,6 +23,10 @@
     <string name="enter_code_top_text">אישור קוד</string>
     <string name="enter_code_secondary_top_text">אנא רשמו את הקוד אשר נשלח</string>
     <string name="enter_code_third_top_text">למספר </string>
+    <string name="enter_code_send_again_text_view_text">לא הגיע? ניתן לשלוח שוב בסיום הדקה</string>
+    <string name="enter_code_send_again_button_text">שלח שוב</string>
+    <string name="enter_code_send_again_snack_bar_text">שולח קוד</string>
+
 
     <string-array name="country_codes">
         <item>

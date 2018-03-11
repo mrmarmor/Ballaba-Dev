@@ -35,19 +35,6 @@ public class DeviceUtils {
         return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 
-    public void showSoftKeyboard(){
-        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-    }
-
-    //to get view from context as needed in the function below use: ((Activity)context).getWindow().getDecorView()
-    public void hideSoftKeyboard(View view){
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        }
-    }
-
     /*public String readSms() {
         Cursor cursor = context.getContentResolver().query(Uri.parse("content://sms/inbox"), null, null, null, null);
         String message = "";

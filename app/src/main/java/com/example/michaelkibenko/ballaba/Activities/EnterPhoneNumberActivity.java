@@ -3,6 +3,7 @@ package com.example.michaelkibenko.ballaba.Activities;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
@@ -41,8 +42,10 @@ public class EnterPhoneNumberActivity extends BaseActivity {
                 if (!is){
                     //TODO replace next line with a dialog
                     Toast.makeText(EnterPhoneNumberActivity.this, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
+                    Snackbar.make(binder.enterPhoneNumberRootLayout, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
                 }else{
                     Toast.makeText(EnterPhoneNumberActivity.this, "TESTING: network is on!", Toast.LENGTH_LONG).show();
+                    Snackbar.make(binder.enterPhoneNumberRootLayout, "TESTING: network is on!", Toast.LENGTH_LONG).show();
 
                     //TODO here we prevent user from sending phone when there is no network. However, if we don't prevent him, he got an error message
                     //TODO in "enter_phone_number_text_error_answer" textView anyway. Decide what is better.

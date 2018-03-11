@@ -10,12 +10,15 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.provider.Telephony;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
+import com.example.michaelkibenko.ballaba.Holders.GlobalValues;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter;
 import com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPresenter;
@@ -49,7 +52,7 @@ public class EnterCodeActivity extends BaseActivity {
         registerReadSmsReceiver();
 
         if(!ConnectionsManager.getInstance(this).isConnected())
-            Toast.makeText(EnterCodeActivity.this, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
+            Snackbar.make(binder.enterCodeRootLayout, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
 
         listenToNetworkChanges();
     }
@@ -58,9 +61,18 @@ public class EnterCodeActivity extends BaseActivity {
         client = new BallabaConnectivityListener() {
             @Override
             public void onConnectivityChanged(boolean is) {
-                if (!is)
+                if (!is){
                     //TODO replace next line with a dialog
                     Toast.makeText(EnterCodeActivity.this, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
+                    Snackbar.make(binder.enterCodeRootLayout, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(EnterCodeActivity.this, "TESTING: network is on!", Toast.LENGTH_LONG).show();
+                    Snackbar.make(binder.enterCodeRootLayout, "TESTING: network is on!", Toast.LENGTH_LONG).show();
+
+                    //TODO here we prevent user from sending phone when there is no network. However, if we don't prevent him, he got an error message
+                    //TODO in "enter_phone_number_text_error_answer" textView anyway. Decide what is better.
+                }
+
             }
         };
         BallabaConnectivityAnnouncer.getInstance(this).register(client);
@@ -116,29 +128,25 @@ public class EnterCodeActivity extends BaseActivity {
         }
     }
 
-    public static class BallabaSMSReceiver extends BroadcastReceiver {
+    public class BallabaSMSReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d(TAG, "onReceive");
 
-            //this code is error
-//            Toast.makeText(EnterCodeActivity.this, "Received", Toast.LENGTH_LONG).show();
-//
-//            if (intent.getAction().equals(Telephony.Sms.Intents.SMS_RECEIVED_ACTION)) {
-//                Log.e("tag", "1");
-//                Bundle data = intent.getExtras();
-//                Object[] pdus = (Object[]) data.get("pdus");
-//                for (int i = 0; i < pdus.length; i++) {
-//                    SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) pdus[i]);
-//                    Log.e("tag", "2"+":"+ GlobalValues.appName+":"+smsMessage.getDisplayOriginatingAddress());
-//
-//                    if (smsMessage.getDisplayOriginatingAddress().equals(GlobalValues.appName)) {//read only sms from Ballaba
-//
-//                        String messageBody = smsMessage.getMessageBody();
-//                    }
-//                }
-//            }
+            if (intent.getAction().equals(Telephony.Sms.Intents.SMS_RECEIVED_ACTION)) {
+                Bundle data = intent.getExtras();
+                Object[] pdus = (Object[]) data.get("pdus");
+                for (Object mPdus : pdus) {
+                    SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) mPdus);
+
+                    if (smsMessage.getDisplayOriginatingAddress().equals(GlobalValues.appName)) {//read only sms from Ballaba
+                        String messageBody = smsMessage.getMessageBody();
+                        Log.d(TAG, messageBody.substring(0, 4));
+                        presenter.fillCodeEditTextsFromSms(messageBody.substring(0, 4));
+                    }
+                }
+            }
         }
     }
 }

@@ -6,8 +6,13 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.databinding.DataBindingUtil;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 import android.support.annotation.IntDef;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
@@ -22,6 +27,7 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
+import com.example.michaelkibenko.ballaba.Activities.EnterPhoneNumberActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
@@ -37,8 +43,12 @@ import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
 import com.example.michaelkibenko.ballaba.Utils.GeneralUtils;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
+import com.example.michaelkibenko.ballaba.databinding.EnterPhoneNumberLayoutBinding;
 import com.example.michaelkibenko.ballaba.databinding.EnterCodeLayoutBinding;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,6 +64,7 @@ import static com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter.F
 
 public class EnterCodePresenter extends BasePresenter implements TextWatcher, EditText.OnKeyListener, EditText.OnTouchListener {
     private static String TAG = EnterCodePresenter.class.getSimpleName();
+    private int sendAgainDelay = 6;//TODO change to 60 seconds
 
     @IntDef({OK, NOT_A_VALID_PHONE_NUMBER, CODE_EXPIRED, INTERNAL_ERROR, USER_IS_BLOCKED})
     public @interface Flows {
@@ -77,6 +88,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
         editTexts = new EditText[]{binder.enterCodeFirstLeftEditText, binder.enterCodeSecondLeftEditText, binder.enterCodeThirdLeftEditText, binder.enterCodeFourthLeftEditText};
 
         initEditTexts(editTexts);
+        show1MinuteClock();
     }
 
     public EnterCodePresenter getInstance() {
@@ -92,7 +104,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
 
         editTexts[0].requestFocus();
 
-        DeviceUtils.getInstance(true, context).showSoftKeyboard();
+        UiUtils.instance(true, context).showSoftKeyboard();
     }
 
     public void cancelButtonClicked() {
@@ -134,8 +146,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        DeviceUtils.getInstance(true, context).showSoftKeyboard();
-
+        UiUtils.instance(true, context).showSoftKeyboard();
         return true;
     }
 
@@ -193,11 +204,74 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
         }
     }
 
+    public void fillCodeEditTextsFromSms(String code){
+        Log.d(TAG, code);
+        binder.enterCodeFirstLeftEditText.setText(code.charAt(0)+"");
+        binder.enterCodeSecondLeftEditText.setText(code.charAt(1)+"");
+        binder.enterCodeThirdLeftEditText.setText(code.charAt(2)+"");
+        binder.enterCodeFourthLeftEditText.setText(code.charAt(3)+"");
+    }
+
     private void clearCode(){
         for (EditText et : editTexts){
             et.setText("");
         }
         sbCode.setLength(0);
         editTexts[0].requestFocus();
+    }
+
+    public void onSendAgainButtonClick(){
+        UiUtils.instance(true, context).buttonChanger(binder.enterCodeSendAgainButton, false);
+        show1MinuteClock();
+
+        String deviceId = DeviceUtils.getInstance(true, context).getDeviceId();
+        Map<String, String> params = GeneralUtils.getParams(new String[]{"phone", "device_id"}, new String[]{phoneNumber.getFullPhoneNumber(), deviceId});
+        Log.d(TAG, "onNextButtonClick");
+        Log.d(TAG, "params: "+params);
+
+        UiUtils.instance(true, context).hideSoftKeyboard(((Activity)context).getWindow().getDecorView());
+        Snackbar.make(binder.enterCodeRootLayout, context.getString(R.string.enter_code_send_again_snack_bar_text), Snackbar.LENGTH_LONG).show();
+
+        ConnectionsManager.getInstance(context).loginWithPhoneNumber(params, new BallabaResponseListener() {
+            @Override
+            public void resolve(BallabaBaseEntity entity) {
+                if(entity instanceof BallabaOkResponse){
+                    Log.d(TAG, "loginWithPhoneNumber");
+                }
+            }
+
+            @Override
+            public void reject(BallabaBaseEntity entity) {
+                if(entity instanceof BallabaErrorResponse){
+                    //TODO replace next line with snackbar
+                    //binder.enterPhoneNumberTextErrorAnswer.setVisibility(View.VISIBLE);
+                    Log.d(TAG, "loginWithPhoneNumber rejected "+((BallabaErrorResponse)entity).statusCode);
+                }
+            }
+        });
+    }
+
+    private void show1MinuteClock(){
+        new CountDownTimer(sendAgainDelay * 1000, 1000) { //60000 milli seconds is total time, 1000 milli seconds is time interval
+            public void onTick(long millisUntilFinished) {
+                binder.enterCodeSendAgainButton.setText("0"+millisUntilFinished/1000+":00");
+            }
+            public void onFinish() {
+                UiUtils.instance(true, context).buttonChanger(binder.enterCodeSendAgainButton, true);
+                binder.enterCodeSendAgainButton.setText(context.getString(R.string.enter_code_send_again_button_text));
+            }
+        }.start();
+
+       /* Handler handler = new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (sendAgainDelay <= 0){
+
+                } else {
+                    binder.enterCodeSendAgainButton.setText("0"+sendAgainDelay+":00");
+                    sendAgainDelay--;
+                }
+            }
+        }, 1000);*/
     }
 }
