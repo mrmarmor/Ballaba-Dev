@@ -205,7 +205,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
     }
 
     public void autoFillCode(String code){
-        Log.d(TAG, code);
+        Log.d(TAG, "code: "+code);
         binder.enterCodeFirstLeftEditText.setText(code.charAt(0)+"");
         binder.enterCodeSecondLeftEditText.setText(code.charAt(1)+"");
         binder.enterCodeThirdLeftEditText.setText(code.charAt(2)+"");
@@ -220,6 +220,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
         editTexts[0].requestFocus();
     }
 
+    //TODO this method exists in EnterPhoneNumberPresenter exactly(exclude onFlowChanged()). So, consider make it generic once
     public void onSendAgainButtonClick(){
         UiUtils.instance(true, context).buttonChanger(binder.enterCodeSendAgainButton, false);
         show1MinuteClock();
@@ -254,24 +255,13 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
     private void show1MinuteClock(){
         new CountDownTimer(sendAgainDelay * 1000, 1000) { //60000 milli seconds is total time, 1000 milli seconds is time interval
             public void onTick(long millisUntilFinished) {
-                binder.enterCodeSendAgainButton.setText("0"+millisUntilFinished/1000+":00");
+                binder.enterCodeSendAgainButton.setText(String.format("0%d:00", millisUntilFinished/1000));
             }
             public void onFinish() {
                 UiUtils.instance(true, context).buttonChanger(binder.enterCodeSendAgainButton, true);
                 binder.enterCodeSendAgainButton.setText(context.getString(R.string.enter_code_send_again_button_text));
             }
         }.start();
-
-       /* Handler handler = new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (sendAgainDelay <= 0){
-
-                } else {
-                    binder.enterCodeSendAgainButton.setText("0"+sendAgainDelay+":00");
-                    sendAgainDelay--;
-                }
-            }
-        }, 1000);*/
     }
+
 }

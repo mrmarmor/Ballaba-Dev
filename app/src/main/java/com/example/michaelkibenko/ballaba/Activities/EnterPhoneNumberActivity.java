@@ -1,5 +1,6 @@
 package com.example.michaelkibenko.ballaba.Activities;
 
+import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -11,6 +12,7 @@ import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPresenter;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.EnterPhoneNumberLayoutBinding;
 
 /**
@@ -60,5 +62,6 @@ public class EnterPhoneNumberActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
         BallabaConnectivityAnnouncer.getInstance(this).unRegister(client);
+        UiUtils.instance(true, this).hideSoftKeyboard(getWindow().getDecorView());
     }
 }

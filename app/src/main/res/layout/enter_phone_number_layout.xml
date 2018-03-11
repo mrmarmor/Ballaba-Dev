@@ -114,8 +114,8 @@
 
             <Button
                 android:id="@+id/enter_phone_number_next_button"
-                android:layout_width="@dimen/enter_phone_number_country_codes_next_button_width"
-                android:layout_height="@dimen/enter_phone_number_country_codes_next_button_height"
+                android:layout_width="@dimen/enter_phone_number_next_button_width"
+                android:layout_height="@dimen/enter_phone_number_next_button_height"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/enter_phone_number_text_error_answer"
@@ -125,7 +125,28 @@
                 android:alpha="0.50"
                 android:onClick="@{() -> presenter.onNextButtonClick()}"
                 android:clickable="false"
-                android:drawableEnd="@drawable/circle_progress_bar"
+                />
+            <!--<ImageButton
+                android:id="@+id/enter_phone_number_next_button_animation"
+                android:layout_width="@dimen/enter_phone_number_next_button_animation_dimen"
+                android:layout_height="@dimen/enter_phone_number_next_button_animation_dimen"
+                app:layout_constraintEnd_toEndOf="@+id/enter_phone_number_next_button"
+                app:layout_constraintTop_toTopOf="@+id/enter_phone_number_next_button"
+                android:layout_marginTop="@dimen/enter_phone_number_next_button_animation_offset"
+                android:layout_marginEnd="@dimen/enter_phone_number_next_button_animation_offset"
+                android:src="@drawable/box"
+                android:clickable="false"
+                />-->
+            <ProgressBar
+                android:id="@+id/enter_phone_number_next_button_progress"
+                android:layout_width="@dimen/enter_phone_number_next_button_animation_dimen"
+                android:layout_height="@dimen/enter_phone_number_next_button_animation_dimen"
+                app:layout_constraintEnd_toEndOf="@+id/enter_phone_number_next_button"
+                app:layout_constraintTop_toTopOf="@+id/enter_phone_number_next_button"
+                android:layout_marginTop="@dimen/enter_phone_number_next_button_animation_offset"
+                android:layout_marginEnd="@dimen/enter_phone_number_next_button_animation_offset"
+                android:clickable="false"
+                android:indeterminate="true"
                 />
 
             <android.support.v7.widget.AppCompatCheckBox

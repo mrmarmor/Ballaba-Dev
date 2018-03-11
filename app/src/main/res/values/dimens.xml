@@ -45,8 +45,11 @@
     <dimen name="enter_phone_number_country_codes_side_divider_height">20dp</dimen>
     <dimen name="enter_phone_number_country_codes_side_divider_width">1dp</dimen>
     <dimen name="enter_phone_number_country_codes_side_divider_offset">21dp</dimen>
-    <dimen name="enter_phone_number_country_codes_next_button_width">84dp</dimen>
-    <dimen name="enter_phone_number_country_codes_next_button_height">38dp</dimen>
+    <dimen name="enter_phone_number_next_button_width">84dp</dimen>
+    <dimen name="enter_phone_number_next_button_height">38dp</dimen>
+    <dimen name="enter_phone_number_next_button_animation_dimen">24dp</dimen>
+    <dimen name="enter_phone_number_next_button_animation_offset">8dp</dimen>
+
     <dimen name="enter_phone_number_country_codes_next_button_top_offset">33dp</dimen>
     <dimen name="enter_phone_number_checkbox_size">25dp</dimen>
     <dimen name="enter_phone_number_checkbox_top_offset">24dp</dimen>

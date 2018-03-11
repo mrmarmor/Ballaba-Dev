@@ -3,6 +3,7 @@ package com.example.michaelkibenko.ballaba.Presenters;
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -10,6 +11,7 @@ import android.databinding.ViewDataBinding;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.support.annotation.AnimatorRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.LayoutRes;
@@ -80,6 +82,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
     private Context context;
     private ArrayAdapter<CharSequence> spinnerArrayAdapter;
     private PhoneNumberUtil phoneUtil;
+    private int progressBarStatus = 0;
 
     public EnterPhoneNumberPresenter(Context context, EnterPhoneNumberLayoutBinding binder) {
         this.phoneNumber = new BallabaPhoneNumber(/*spinnerArrayAdapter.getItem(0).toString(), binder.enterPhoneNumberET.getText().toString()*/);
@@ -168,7 +171,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
 
         Snackbar.make(binder.enterPhoneNumberRootLayout, context.getString(R.string.enter_phone_number_snackBar_text), Snackbar.LENGTH_LONG).show();
 
-        //showCircleProgreesBar();
+        showCircleProgressBar();
         UiUtils.instance(true, context).hideSoftKeyboard(((Activity)context).getWindow().getDecorView());
 
         ConnectionsManager.getInstance(context).loginWithPhoneNumber(params, new BallabaResponseListener() {
@@ -218,17 +221,45 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         }
     }
 
-    private void showCircleProgreesBar(){
+    private void showCircleProgressBar(){
+        binder.enterPhoneNumberNextButtonProgress.setVisibility(View.VISIBLE);
         binder.enterPhoneNumberNextButton.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
         binder.enterPhoneNumberNextButton.setPaddingRelative((int)context.getResources().getDimension(R.dimen.small_margin), 0, 0, 0);
 
-        //binder.enterPhoneNumberNextButton.setCompoundDrawablesRelative(null, null, context.getResources().getDrawable(R.drawable.circle_progress_bar), null);
-        Drawable d = binder.enterPhoneNumberNextButton.getCompoundDrawables()[0];
-        AnimationDrawable animation = (AnimationDrawable)d;
+        binder.enterPhoneNumberNextButtonProgress.getIndeterminateDrawable().setColorFilter(
+                context.getResources().getColor(R.color.colorPrimary, context.getTheme()), android.graphics.PorterDuff.Mode.SRC_IN);
+
+        /*ObjectAnimator animation = ObjectAnimator.ofInt(binder.enterPhoneNumberNextButtonProgress, "progress", 0, 500); // see this max value coming back here, we animate towards that value
+        animation.setDuration(5000); //in milliseconds
+        animation.setInterpolator(new DecelerateInterpolator());
+        animation.start();*/
+
+        /*binder.enterPhoneNumberNextButtonProgress.setProgress(0);
+        binder.enterPhoneNumberNextButtonProgress.setMax(100);
+        binder.enterPhoneNumberNextButtonProgress.animate();
+        binder.enterPhoneNumberNextButtonProgress.getProgressDrawable().setColorFilter(
+                context.getResources().getColor(R.color.colorPrimary, context.getTheme()), android.graphics.PorterDuff.Mode.SRC_IN);
+        //Handler progressBarbHandler = new Handler();
+
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                progressBarStatus += 10;
+                binder.enterPhoneNumberNextButtonProgress.setProgress(progressBarStatus);
+            }
+        }, 100);*/
+    }
+    private void showCircleProgreesBar1(){
+        binder.enterPhoneNumberNextButton.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+        binder.enterPhoneNumberNextButton.setPaddingRelative((int)context.getResources().getDimension(R.dimen.small_margin), 0, 0, 0);
+
+
+        //binder.enterPhoneNumberNextButtonAnimation.setImageDrawable(context.getResources().getDrawable(R.drawable.circle_progress_bar));//setCompoundDrawablesRelative(null, null, context.getResources().getDrawable(R.drawable.circle_progress_bar), null);
+        //Drawable d = binder.enterPhoneNumberNextButtonAnimation.getDrawable().mutate();//binder.enterPhoneNumberNextButtonAnimation.getBackground();
+        //AnimationDrawable animation = (AnimationDrawable)d;
         //Animator animation = new Animator.ofInt (binder.enterPhoneNumberNextButton, "enterPhoneNumberNextButton", 0, 500); // see this max value coming back here, we animate towards that value
         //animation.setDuration (5000); //in milliseconds
         //animation.setInterpolator (new DecelerateInterpolator());
-        animation.start ();
+        //animation.start ();
     }
 
 }
