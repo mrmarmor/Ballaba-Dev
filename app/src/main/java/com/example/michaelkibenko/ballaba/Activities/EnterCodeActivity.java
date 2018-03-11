@@ -143,7 +143,7 @@ public class EnterCodeActivity extends BaseActivity {
                     if (smsMessage.getDisplayOriginatingAddress().equals(GlobalValues.appName)) {//read only sms from Ballaba
                         String messageBody = smsMessage.getMessageBody();
                         Log.d(TAG, messageBody.substring(0, 4));
-                        presenter.fillCodeEditTextsFromSms(messageBody.substring(0, 4));
+                        presenter.autoFillCode(messageBody.substring(0, 4));
                     }
                 }
             }

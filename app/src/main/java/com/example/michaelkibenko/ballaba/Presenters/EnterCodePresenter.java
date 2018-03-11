@@ -204,7 +204,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
         }
     }
 
-    public void fillCodeEditTextsFromSms(String code){
+    public void autoFillCode(String code){
         Log.d(TAG, code);
         binder.enterCodeFirstLeftEditText.setText(code.charAt(0)+"");
         binder.enterCodeSecondLeftEditText.setText(code.charAt(1)+"");
