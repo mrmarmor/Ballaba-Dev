@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
@@ -42,7 +43,6 @@ public class EnterPhoneNumberActivity extends BaseActivity {
             Toast.makeText(EnterPhoneNumberActivity.this, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
 
         listenToNetworkChanges();
-        getPermissionsToReadSms();
     }
 
     private void listenToNetworkChanges(){
@@ -73,7 +73,7 @@ public class EnterPhoneNumberActivity extends BaseActivity {
         UiUtils.instance(true, this).hideSoftKeyboard(getWindow().getDecorView());
     }
 
-    private void getPermissionsToReadSms(){
+    public void getPermissionsToReadSms(View v){
         Log.d(TAG, "registerReadSmsReceiver");
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED &&
@@ -81,6 +81,7 @@ public class EnterPhoneNumberActivity extends BaseActivity {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS, Manifest.permission.BROADCAST_SMS}, SMS_PERMISSION_REQ_CODE);
         }else{
             Log.d(TAG, "sms receiver permission had already been given");
+            presenter.sendPhoneNumber();
         }
     }
 
@@ -89,7 +90,7 @@ public class EnterPhoneNumberActivity extends BaseActivity {
         switch (requestCode) {
             case SMS_PERMISSION_REQ_CODE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    getPermissionsToReadSms();
+                    getPermissionsToReadSms(null);
                 }
             }
         }

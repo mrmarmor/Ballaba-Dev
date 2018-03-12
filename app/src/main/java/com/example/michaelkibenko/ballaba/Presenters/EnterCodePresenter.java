@@ -44,7 +44,6 @@ import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
 import com.example.michaelkibenko.ballaba.Utils.GeneralUtils;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
-import com.example.michaelkibenko.ballaba.databinding.EnterPhoneNumberLayoutBinding;
 import com.example.michaelkibenko.ballaba.databinding.EnterCodeLayoutBinding;
 
 import java.util.Calendar;

@@ -156,7 +156,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         context.startActivity(new Intent(context, TermsOfUseActivity.class));
     }
 
-    public void onNextButtonClick(){
+    public void sendPhoneNumber(){
         String deviceId = DeviceUtils.getInstance(true, context).getDeviceId();
         Map<String, String> params = GeneralUtils.getParams(new String[]{"phone", "device_id"}, new String[]{phoneNumber.getFullPhoneNumber(), deviceId});
         Log.d(TAG, "onNextButtonClick");
