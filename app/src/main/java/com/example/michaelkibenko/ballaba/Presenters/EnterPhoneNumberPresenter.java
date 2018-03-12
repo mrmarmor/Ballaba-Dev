@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
+import com.example.michaelkibenko.ballaba.Activities.TermsOfUseActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
@@ -151,6 +152,9 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         boolean canGoOn = validatePhoneNumber(phoneNumber) && isButtonChecked;
         UiUtils.instance(true, context).buttonChanger(binder.enterPhoneNumberNextButton, canGoOn);
     }
+    public void onTermsOfUseClick(){
+        context.startActivity(new Intent(context, TermsOfUseActivity.class));
+    }
 
     public void onNextButtonClick(){
         String deviceId = DeviceUtils.getInstance(true, context).getDeviceId();
@@ -214,6 +218,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         UiUtils.instance(true, context).buttonChanger(binder.enterPhoneNumberNextButton, false);
         binder.enterPhoneNumberNextButton.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
         binder.enterPhoneNumberNextButton.setPaddingRelative((int)context.getResources().getDimension(R.dimen.small_margin), 0, 0, 0);
+        binder.enterPhoneNumberNextButton.setWidth(90);//TODO
 
         binder.enterPhoneNumberNextButtonProgress.setVisibility(View.VISIBLE);
         binder.enterPhoneNumberNextButtonProgress.bringToFront();

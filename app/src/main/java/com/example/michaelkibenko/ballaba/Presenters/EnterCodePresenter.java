@@ -64,7 +64,7 @@ import static com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter.F
 
 public class EnterCodePresenter extends BasePresenter implements TextWatcher, EditText.OnKeyListener, EditText.OnTouchListener {
     private static String TAG = EnterCodePresenter.class.getSimpleName();
-    private int sendAgainDelay = 6;//TODO change to 60 seconds
+    private int sendAgainDelay = 6;//TODO change from 6 seconds to 60 seconds
 
     @IntDef({OK, NOT_A_VALID_PHONE_NUMBER, CODE_EXPIRED, INTERNAL_ERROR, USER_IS_BLOCKED})
     public @interface Flows {
@@ -77,7 +77,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
 
     private Context context;
     private EnterCodeLayoutBinding binder;
-    public BallabaPhoneNumber phoneNumber;
+    public BallabaPhoneNumber phoneNumber;//must be public so layout binding can see it
     private StringBuilder sbCode = new StringBuilder(4);
     private EditText[] editTexts;
 
@@ -204,12 +204,19 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
         }
     }
 
-    public void autoFillCode(String code){
+    //This method fill in code editTexts automatically by reading code from received sms.
+    //We need to delay fill in by 3 seconds, to let our app get code from server, so it could be compared to each other.
+    public void autoFillCode(final String code){
         Log.d(TAG, "code: "+code);
-        binder.enterCodeFirstLeftEditText.setText(code.charAt(0)+"");
-        binder.enterCodeSecondLeftEditText.setText(code.charAt(1)+"");
-        binder.enterCodeThirdLeftEditText.setText(code.charAt(2)+"");
-        binder.enterCodeFourthLeftEditText.setText(code.charAt(3)+"");
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                binder.enterCodeFirstLeftEditText.setText(code.charAt(0)+"");
+                binder.enterCodeSecondLeftEditText.setText(code.charAt(1)+"");
+                binder.enterCodeThirdLeftEditText.setText(code.charAt(2)+"");
+                binder.enterCodeFourthLeftEditText.setText(code.charAt(3)+"");
+            }
+        }, 3000);
     }
 
     private void clearCode(){

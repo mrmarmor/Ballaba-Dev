@@ -126,17 +126,7 @@
                 android:onClick="@{() -> presenter.onNextButtonClick()}"
                 android:clickable="false"
                 />
-            <!--<ImageButton
-                android:id="@+id/enter_phone_number_next_button_animation"
-                android:layout_width="@dimen/enter_phone_number_next_button_animation_dimen"
-                android:layout_height="@dimen/enter_phone_number_next_button_animation_dimen"
-                app:layout_constraintEnd_toEndOf="@+id/enter_phone_number_next_button"
-                app:layout_constraintTop_toTopOf="@+id/enter_phone_number_next_button"
-                android:layout_marginTop="@dimen/enter_phone_number_next_button_animation_offset"
-                android:layout_marginEnd="@dimen/enter_phone_number_next_button_animation_offset"
-                android:src="@drawable/box"
-                android:clickable="false"
-                />-->
+
             <ProgressBar
                 android:id="@+id/enter_phone_number_next_button_progress"
                 android:layout_width="@dimen/enter_phone_number_next_button_animation_dimen"
@@ -186,6 +176,7 @@
                 app:layout_constraintTop_toTopOf="@+id/enter_phone_number_bottom_TV"
                 app:layout_constraintBottom_toBottomOf="@+id/enter_phone_number_bottom_TV"
                 android:layout_marginStart="5dp"
+                android:onClick="@{() -> presenter.onTermsOfUseClick()}"
                 />
 
         </android.support.constraint.ConstraintLayout>
