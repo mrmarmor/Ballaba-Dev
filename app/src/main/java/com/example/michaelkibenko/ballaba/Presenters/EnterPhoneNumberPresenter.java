@@ -164,7 +164,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
 
         Snackbar.make(binder.enterPhoneNumberRootLayout, context.getString(R.string.enter_phone_number_snackBar_text), Snackbar.LENGTH_LONG).show();
 
-        showCircleProgressBar();
+        circleProgressBarChanger(true);
         UiUtils.instance(true, context).hideSoftKeyboard(((Activity)context).getWindow().getDecorView());
 
         ConnectionsManager.getInstance(context).loginWithPhoneNumber(params, new BallabaResponseListener() {
@@ -191,6 +191,8 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
     private void onFlowChanged(int statusCode){
         switch (statusCode){
             case Flows.OK :
+                circleProgressBarChanger(false);
+
                 Intent enterCode = new Intent(context, EnterCodeActivity.class);
                 enterCode.putExtra(COUNTRY_CODE_EXTRA_KEY, phoneNumber.getCountryCode());
                 enterCode.putExtra(PHONE_NUMBER_EXTRA_KEY, phoneNumber.getPhoneNumber());
@@ -214,16 +216,23 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         }
     }
 
-    private void showCircleProgressBar(){
-        UiUtils.instance(true, context).buttonChanger(binder.enterPhoneNumberNextButton, false);
-        binder.enterPhoneNumberNextButton.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
-        binder.enterPhoneNumberNextButton.setPaddingRelative((int)context.getResources().getDimension(R.dimen.small_margin), 0, 0, 0);
-        binder.enterPhoneNumberNextButton.setMinimumWidth(90);//TODO
+    private void circleProgressBarChanger(boolean isShow){
+        if (isShow) {
+            UiUtils.instance(true, context).buttonChanger(binder.enterPhoneNumberNextButton, false);
+            binder.enterPhoneNumberNextButton.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+            binder.enterPhoneNumberNextButton.setPaddingRelative((int) context.getResources().getDimension(R.dimen.small_margin), 0, 0, 0);
+            binder.enterPhoneNumberNextButton.setMinimumWidth(90);//TODO
 
-        binder.enterPhoneNumberNextButtonProgress.setVisibility(View.VISIBLE);
-        //binder.enterPhoneNumberNextButtonProgress.bringToFront();
-        binder.enterPhoneNumberNextButtonProgress.getIndeterminateDrawable().setColorFilter(
-                context.getResources().getColor(R.color.colorPrimary, context.getTheme()), android.graphics.PorterDuff.Mode.SRC_IN);
+            binder.enterPhoneNumberNextButtonProgress.setVisibility(View.VISIBLE);
+            binder.enterPhoneNumberNextButtonProgress.getIndeterminateDrawable().setColorFilter(
+                    context.getResources().getColor(R.color.colorPrimary, context.getTheme()), android.graphics.PorterDuff.Mode.SRC_IN);
+        } else {
+            UiUtils.instance(true, context).buttonChanger(binder.enterPhoneNumberNextButton, true);
+            binder.enterPhoneNumberNextButton.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            binder.enterPhoneNumberNextButton.setMinimumWidth(70);//TODO
+
+            binder.enterPhoneNumberNextButtonProgress.setVisibility(View.GONE);
+        }
     }
 
 }
