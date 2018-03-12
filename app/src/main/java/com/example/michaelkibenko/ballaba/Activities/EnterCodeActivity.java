@@ -23,6 +23,7 @@ import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter;
 import com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPresenter;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.EnterCodeLayoutBinding;
 
 /**
@@ -31,7 +32,6 @@ import com.example.michaelkibenko.ballaba.databinding.EnterCodeLayoutBinding;
 
 public class EnterCodeActivity extends BaseActivity {
     private static String TAG = EnterCodeActivity.class.getSimpleName();
-    private final int SMS_PERMISSION_REQ_CODE = 1;
 
     private EnterCodePresenter presenter;
     private BallabaSMSReceiver smsReceiver;
@@ -49,12 +49,13 @@ public class EnterCodeActivity extends BaseActivity {
         presenter = new EnterCodePresenter(this, binder, countryCode, phoneNumber);
         binder.setPresenter(presenter);
 
-        registerReadSmsReceiver();
-
-        if(!ConnectionsManager.getInstance(this).isConnected())
-            Snackbar.make(binder.enterCodeRootLayout, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED)
+            runSMSReader();
 
         listenToNetworkChanges();
+        if(!ConnectionsManager.getInstance(this).isConnected())
+            Snackbar.make(binder.enterCodeRootLayout, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
     }
 
     private void listenToNetworkChanges(){
@@ -82,27 +83,16 @@ public class EnterCodeActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
 
+        UiUtils.instance(true, this).hideSoftKeyboard(getWindow().getDecorView());
         BallabaConnectivityAnnouncer.getInstance(this).unRegister(client);// network receiver
         stopSmsReceiver();
-    }
-
-    private void registerReadSmsReceiver(){
-        Log.d(TAG, "registerReadSmsReceiver");
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.BROADCAST_SMS) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(EnterCodeActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS, Manifest.permission.BROADCAST_SMS}, SMS_PERMISSION_REQ_CODE);
-        }else{
-            Log.d(TAG, "else called");
-            runSMSReader();
-        }
     }
 
     public void runSMSReader(){
         Log.d(TAG, "Before Receiver registration");
         if(!isReceiverRunning) {
             smsReceiver = new BallabaSMSReceiver();
-            Log.e(TAG, "Receiver registration");
+            Log.d(TAG, "Receiver registration");
             IntentFilter intentFilter = new IntentFilter(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
             registerReceiver(smsReceiver, intentFilter);
             isReceiverRunning = true;
@@ -114,17 +104,6 @@ public class EnterCodeActivity extends BaseActivity {
                 unregisterReceiver(smsReceiver);
         } catch (IllegalArgumentException e){//this catch prevents "Receiver not registered" exception error
             Log.d(TAG, e.getMessage());
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case SMS_PERMISSION_REQ_CODE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    registerReadSmsReceiver();
-                }
-            }
         }
     }
 

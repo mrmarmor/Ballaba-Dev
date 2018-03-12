@@ -192,6 +192,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
                 break;
 
             case Flows.CODE_EXPIRED:
+                binder.enterCodeErrorTextView.setVisibility(View.VISIBLE);
                 Toast.makeText(context, context.getString(R.string.error_network_code_has_expired), Toast.LENGTH_LONG).show();
                 break;
 

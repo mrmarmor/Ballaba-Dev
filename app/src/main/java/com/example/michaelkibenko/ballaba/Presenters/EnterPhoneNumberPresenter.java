@@ -218,10 +218,10 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         UiUtils.instance(true, context).buttonChanger(binder.enterPhoneNumberNextButton, false);
         binder.enterPhoneNumberNextButton.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
         binder.enterPhoneNumberNextButton.setPaddingRelative((int)context.getResources().getDimension(R.dimen.small_margin), 0, 0, 0);
-        binder.enterPhoneNumberNextButton.setWidth(90);//TODO
+        binder.enterPhoneNumberNextButton.setMinimumWidth(90);//TODO
 
         binder.enterPhoneNumberNextButtonProgress.setVisibility(View.VISIBLE);
-        binder.enterPhoneNumberNextButtonProgress.bringToFront();
+        //binder.enterPhoneNumberNextButtonProgress.bringToFront();
         binder.enterPhoneNumberNextButtonProgress.getIndeterminateDrawable().setColorFilter(
                 context.getResources().getColor(R.color.colorPrimary, context.getTheme()), android.graphics.PorterDuff.Mode.SRC_IN);
     }
