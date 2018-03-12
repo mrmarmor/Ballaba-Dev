@@ -1,21 +1,31 @@
 package com.example.michaelkibenko.ballaba.Presenters;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.annotation.IntDef;
+import android.support.annotation.LayoutRes;
+import android.support.design.widget.Snackbar;
 import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
+import com.example.michaelkibenko.ballaba.Activities.TermsOfUseActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
@@ -26,6 +36,7 @@ import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
 import com.example.michaelkibenko.ballaba.Utils.GeneralUtils;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.EnterPhoneNumberLayoutBinding;
 import com.google.i18n.phonenumbers.NumberParseException;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
@@ -33,6 +44,7 @@ import com.google.i18n.phonenumbers.Phonenumber;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.Inflater;
 
 import static com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPresenter.Flows.INTERNAL_ERROR;
 import static com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPresenter.Flows.NOT_A_VALID_PHONE_NUMBER;
@@ -43,7 +55,8 @@ import static com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPres
  * Created by michaelkibenko on 21/02/2018.
  */
 
-public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterView.OnItemSelectedListener, TextWatcher, CompoundButton.OnCheckedChangeListener{
+public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterView.OnItemSelectedListener, TextWatcher
+        , CompoundButton.OnCheckedChangeListener, EditText.OnFocusChangeListener{
 
     private static final String TAG = EnterPhoneNumberPresenter.class.getSimpleName();
 
@@ -78,9 +91,11 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         binder.countryCodesSpinner.setAdapter(spinnerArrayAdapter);
         binder.countryCodesSpinner.setOnItemSelectedListener(this);
-
         binder.countryCodesSpinner.setSelection(0);
+
         binder.enterPhoneNumberET.addTextChangedListener(this);
+        binder.enterPhoneNumberET.setOnFocusChangeListener(this);
+        binder.enterPhoneNumberET.requestFocus();
 
         binder.enterPhoneNumberCheckbox.setOnCheckedChangeListener(this);
     }
@@ -102,69 +117,56 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         }
     }
 
-    private void nextButtonChanger(boolean is){
-        if(is){
-            binder.enterPhoneNumberNextButton.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary, context.getTheme()));
-            binder.enterPhoneNumberNextButton.setAlpha(1f);
-            binder.enterPhoneNumberNextButton.setClickable(true);
-            binder.enterPhoneNumberNextButton.setTextColor(Color.WHITE);
-        }else {
-            binder.enterPhoneNumberNextButton.setBackgroundColor(context.getResources().getColor(R.color.gray_button_color, context.getTheme()));
-            binder.enterPhoneNumberNextButton.setAlpha(0.50f);
-            binder.enterPhoneNumberNextButton.setClickable(false);
-            binder.enterPhoneNumberNextButton.setTextColor(Color.BLACK);
-        }
-    }
-
     //spinner item listener
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         getPhoneNumber().setCountryCode(spinnerArrayAdapter.getItem(i).toString());
     }
-
     @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
+    public void onNothingSelected(AdapterView<?> adapterView) {}
 
+    //hiding softKeyboard when user taps out of edit text
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (!hasFocus) {
+            UiUtils.instance(true, context).hideSoftKeyboard(v);
+        }
     }
-
 
     //Enter phone number edit text listeners
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         getPhoneNumber().setPhoneNumber(charSequence.toString());
-        if(validatePhoneNumber(phoneNumber) && binder.enterPhoneNumberCheckbox.isChecked()){
-            nextButtonChanger(true);
-        }else {
-            nextButtonChanger(false);
-        }
-    }
+        boolean canGoOn = validatePhoneNumber(phoneNumber) && binder.enterPhoneNumberCheckbox.isChecked();
+        UiUtils.instance(true, context).buttonChanger(binder.enterPhoneNumberNextButton, canGoOn);
 
+    }
     @Override
-    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-    }
-
+    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
     @Override
-    public void afterTextChanged(Editable editable) {
-
-    }
+    public void afterTextChanged(Editable editable) {}
 
     //Terms of using checked change listener
-
     @Override
-    public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-        if(validatePhoneNumber(phoneNumber) && b){
-            nextButtonChanger(true);
-        }else{
-            nextButtonChanger(false);
-        }
+    public void onCheckedChanged(CompoundButton compoundButton, boolean isButtonChecked) {
+        boolean canGoOn = validatePhoneNumber(phoneNumber) && isButtonChecked;
+        UiUtils.instance(true, context).buttonChanger(binder.enterPhoneNumberNextButton, canGoOn);
+    }
+    public void onTermsOfUseClick(){
+        context.startActivity(new Intent(context, TermsOfUseActivity.class));
     }
 
-    public void onNextButtonClick(){
+    public void sendPhoneNumber(){
         String deviceId = DeviceUtils.getInstance(true, context).getDeviceId();
         Map<String, String> params = GeneralUtils.getParams(new String[]{"phone", "device_id"}, new String[]{phoneNumber.getFullPhoneNumber(), deviceId});
         Log.d(TAG, "onNextButtonClick");
         Log.d(TAG, "params: "+params);
+
+        Snackbar.make(binder.enterPhoneNumberRootLayout, context.getString(R.string.enter_phone_number_snackBar_text), Snackbar.LENGTH_LONG).show();
+
+        circleProgressBarChanger(true);
+        UiUtils.instance(true, context).hideSoftKeyboard(((Activity)context).getWindow().getDecorView());
+
         ConnectionsManager.getInstance(context).loginWithPhoneNumber(params, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
@@ -177,6 +179,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
             @Override
             public void reject(BallabaBaseEntity entity) {
                 if(entity instanceof BallabaErrorResponse){
+                    //TODO replace next line with snackbar
                     binder.enterPhoneNumberTextErrorAnswer.setVisibility(View.VISIBLE);
                     Log.d(TAG, "loginWithPhoneNumber rejected "+((BallabaErrorResponse)entity).statusCode);
                     onFlowChanged(((BallabaErrorResponse)entity).statusCode);
@@ -188,6 +191,8 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
     private void onFlowChanged(int statusCode){
         switch (statusCode){
             case Flows.OK :
+                circleProgressBarChanger(false);
+
                 Intent enterCode = new Intent(context, EnterCodeActivity.class);
                 enterCode.putExtra(COUNTRY_CODE_EXTRA_KEY, phoneNumber.getCountryCode());
                 enterCode.putExtra(PHONE_NUMBER_EXTRA_KEY, phoneNumber.getPhoneNumber());
@@ -210,4 +215,24 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
                 binder.enterPhoneNumberTextErrorAnswer.setText(R.string.error_network_default);
         }
     }
+
+    private void circleProgressBarChanger(boolean isShow){
+        if (isShow) {
+            UiUtils.instance(true, context).buttonChanger(binder.enterPhoneNumberNextButton, false);
+            binder.enterPhoneNumberNextButton.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+            binder.enterPhoneNumberNextButton.setPaddingRelative((int) context.getResources().getDimension(R.dimen.small_margin), 0, 0, 0);
+            binder.enterPhoneNumberNextButton.setMinimumWidth(90);//TODO
+
+            binder.enterPhoneNumberNextButtonProgress.setVisibility(View.VISIBLE);
+            binder.enterPhoneNumberNextButtonProgress.getIndeterminateDrawable().setColorFilter(
+                    context.getResources().getColor(R.color.colorPrimary, context.getTheme()), android.graphics.PorterDuff.Mode.SRC_IN);
+        } else {
+            UiUtils.instance(true, context).buttonChanger(binder.enterPhoneNumberNextButton, true);
+            binder.enterPhoneNumberNextButton.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+            binder.enterPhoneNumberNextButton.setMinimumWidth(70);//TODO
+
+            binder.enterPhoneNumberNextButtonProgress.setVisibility(View.GONE);
+        }
+    }
+
 }

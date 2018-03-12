@@ -2,6 +2,7 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="small_margin">8dp</dimen>
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
@@ -27,7 +28,7 @@
     <dimen name="pre_auth_first_time_bottom_offset">35dp</dimen>
     <dimen name="enter_phone_number_top_text_width">87dp</dimen>
     <dimen name="enter_phone_number_top_text_height">22dp</dimen>
-    <dimen name="enter_phone_number_top_text_top_offset">88dp</dimen>
+    <dimen name="enter_phone_number_top_text_top_offset">40dp</dimen>
     <dimen name="enter_phone_number_top_text_start_offset">19.5dp</dimen>
     <dimen name="enter_phone_number_top_text_size">16sp</dimen>
     <dimen name="enter_phone_number_top_text_answer_text_size">14sp</dimen>
@@ -44,8 +45,11 @@
     <dimen name="enter_phone_number_country_codes_side_divider_height">20dp</dimen>
     <dimen name="enter_phone_number_country_codes_side_divider_width">1dp</dimen>
     <dimen name="enter_phone_number_country_codes_side_divider_offset">21dp</dimen>
-    <dimen name="enter_phone_number_country_codes_next_button_width">84dp</dimen>
-    <dimen name="enter_phone_number_country_codes_next_button_height">38dp</dimen>
+    <dimen name="enter_phone_number_next_button_width">70dp</dimen>
+    <dimen name="enter_phone_number_next_button_height">39dp</dimen>
+    <dimen name="enter_phone_number_next_button_animation_dimen">24dp</dimen>
+    <dimen name="enter_phone_number_next_button_animation_offset">8dp</dimen>
+
     <dimen name="enter_phone_number_country_codes_next_button_top_offset">33dp</dimen>
     <dimen name="enter_phone_number_checkbox_size">25dp</dimen>
     <dimen name="enter_phone_number_checkbox_top_offset">24dp</dimen>
@@ -64,7 +68,19 @@
     <dimen name="enter_code_code_edit_text_width">60dp</dimen>
     <dimen name="enter_code_code_edit_text_size">20sp</dimen>
     <dimen name="enter_code_code_edit_text_top_offset">10dp</dimen>
-    <dimen name="enter_code_code_edit_text_side_offset">29dp</dimen>
+    <dimen name="enter_code_code_edit_text_side_offset">10dp</dimen>
+    <dimen name="enter_code_code_linear_layout_side_offset">18dp</dimen>
+    <dimen name="enter_code_error_text_view_top_offset">10dp</dimen>
+    <dimen name="enter_code_error_text_size">14sp</dimen>
+    <dimen name="enter_code_code_send_again_text_view_top_offset">9dp</dimen>
+    <dimen name="enter_code_send_again_button_width">75dp</dimen>
+    <dimen name="enter_code_send_again_button_height">39dp</dimen>
+    <dimen name="enter_code_send_again_button_top_offset">20dp</dimen>
+    <dimen name="enter_code_send_again_text_size">16sp</dimen>
 
+    <dimen name="terms_of_use_top_offset">10dp</dimen>
+    <dimen name="terms_of_use_bottom_offset">26dp</dimen>
+    <dimen name="terms_of_use_start_offset">16dp</dimen>
+    <dimen name="terms_of_use_end_offset">4dp</dimen>
 
 </resources>

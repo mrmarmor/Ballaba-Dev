@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="24px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: sketchtool 49 (51002) - http://www.bohemiancoding.com/sketch -->
+    <title>E978F6F4-A36C-452D-8C19-BCF93F2EEC60</title>
+    <desc>Created with sketchtool.</desc>
+    <defs></defs>
+    <g id="Symbols" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Icons-/-AndroidSpinner" fill="#00BCD4">
+            <path d="M23.0780598,17.2659341 C21.0787026,21.2587517 16.9495469,24 12.1802716,24 C5.4534121,24 0,18.5465879 0,11.8197284 C0,6.11137397 3.92704126,1.32003816 9.22684477,1.48955848e-12 L9.67702661,1.77114915 C5.16845631,2.89058276 1.82704074,6.96486279 1.82704074,11.8197284 C1.82704074,17.5377569 6.4622431,22.1729593 12.1802716,22.1729593 C16.2355364,22.1729593 19.7461675,19.8415715 21.4449867,16.4459742 L23.0780598,17.2659341 Z" id="Spinner"></path>
+        </g>
+    </g>
+</svg>

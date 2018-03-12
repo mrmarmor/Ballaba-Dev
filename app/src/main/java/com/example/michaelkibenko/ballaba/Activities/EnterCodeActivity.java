@@ -10,16 +10,20 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.provider.Telephony;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
+import com.example.michaelkibenko.ballaba.Holders.GlobalValues;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter;
 import com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPresenter;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.EnterCodeLayoutBinding;
 
 /**
@@ -28,7 +32,6 @@ import com.example.michaelkibenko.ballaba.databinding.EnterCodeLayoutBinding;
 
 public class EnterCodeActivity extends BaseActivity {
     private static String TAG = EnterCodeActivity.class.getSimpleName();
-    private final int SMS_PERMISSION_REQ_CODE = 1;
 
     private EnterCodePresenter presenter;
     private BallabaSMSReceiver smsReceiver;
@@ -46,21 +49,31 @@ public class EnterCodeActivity extends BaseActivity {
         presenter = new EnterCodePresenter(this, binder, countryCode, phoneNumber);
         binder.setPresenter(presenter);
 
-        registerReadSmsReceiver();
-
-        if(!ConnectionsManager.getInstance(this).isConnected())
-            Toast.makeText(EnterCodeActivity.this, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED)
+            runSMSReader();
 
         listenToNetworkChanges();
+        if(!ConnectionsManager.getInstance(this).isConnected())
+            Snackbar.make(binder.enterCodeRootLayout, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
     }
 
     private void listenToNetworkChanges(){
         client = new BallabaConnectivityListener() {
             @Override
             public void onConnectivityChanged(boolean is) {
-                if (!is)
+                if (!is){
                     //TODO replace next line with a dialog
                     Toast.makeText(EnterCodeActivity.this, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
+                    Snackbar.make(binder.enterCodeRootLayout, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(EnterCodeActivity.this, "TESTING: network is on!", Toast.LENGTH_LONG).show();
+                    Snackbar.make(binder.enterCodeRootLayout, "TESTING: network is on!", Toast.LENGTH_LONG).show();
+
+                    //TODO here we prevent user from sending phone when there is no network. However, if we don't prevent him, he got an error message
+                    //TODO in "enter_phone_number_text_error_answer" textView anyway. Decide what is better.
+                }
+
             }
         };
         BallabaConnectivityAnnouncer.getInstance(this).register(client);
@@ -70,27 +83,16 @@ public class EnterCodeActivity extends BaseActivity {
     protected void onStop() {
         super.onStop();
 
+        UiUtils.instance(true, this).hideSoftKeyboard(getWindow().getDecorView());
         BallabaConnectivityAnnouncer.getInstance(this).unRegister(client);// network receiver
         stopSmsReceiver();
-    }
-
-    private void registerReadSmsReceiver(){
-        Log.d(TAG, "registerReadSmsReceiver");
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.BROADCAST_SMS) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(EnterCodeActivity.this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS, Manifest.permission.BROADCAST_SMS}, SMS_PERMISSION_REQ_CODE);
-        }else{
-            Log.d(TAG, "else called");
-            runSMSReader();
-        }
     }
 
     public void runSMSReader(){
         Log.d(TAG, "Before Receiver registration");
         if(!isReceiverRunning) {
             smsReceiver = new BallabaSMSReceiver();
-            Log.e(TAG, "Receiver registration");
+            Log.d(TAG, "Receiver registration");
             IntentFilter intentFilter = new IntentFilter(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
             registerReceiver(smsReceiver, intentFilter);
             isReceiverRunning = true;
@@ -105,40 +107,25 @@ public class EnterCodeActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case SMS_PERMISSION_REQ_CODE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    registerReadSmsReceiver();
-                }
-            }
-        }
-    }
-
-    public static class BallabaSMSReceiver extends BroadcastReceiver {
+    public class BallabaSMSReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.d(TAG, "onReceive");
 
-            //this code is error
-//            Toast.makeText(EnterCodeActivity.this, "Received", Toast.LENGTH_LONG).show();
-//
-//            if (intent.getAction().equals(Telephony.Sms.Intents.SMS_RECEIVED_ACTION)) {
-//                Log.e("tag", "1");
-//                Bundle data = intent.getExtras();
-//                Object[] pdus = (Object[]) data.get("pdus");
-//                for (int i = 0; i < pdus.length; i++) {
-//                    SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) pdus[i]);
-//                    Log.e("tag", "2"+":"+ GlobalValues.appName+":"+smsMessage.getDisplayOriginatingAddress());
-//
-//                    if (smsMessage.getDisplayOriginatingAddress().equals(GlobalValues.appName)) {//read only sms from Ballaba
-//
-//                        String messageBody = smsMessage.getMessageBody();
-//                    }
-//                }
-//            }
+            if (intent.getAction().equals(Telephony.Sms.Intents.SMS_RECEIVED_ACTION)) {
+                Bundle data = intent.getExtras();
+                Object[] pdus = (Object[]) data.get("pdus");
+                for (Object mPdus : pdus) {
+                    SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) mPdus);
+
+                    if (smsMessage.getDisplayOriginatingAddress().equals(GlobalValues.appName)) {//read only sms from Ballaba
+                        String messageBody = smsMessage.getMessageBody();
+                        Log.d(TAG, messageBody.substring(0, 4));
+                        presenter.autoFillCode(messageBody.substring(0, 4));
+                    }
+                }
+            }
         }
     }
 }

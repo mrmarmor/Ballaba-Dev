@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layoutDirection="rtl"
+    tools:context="com.example.michaelkibenko.ballaba.Activities.TermsOfUseActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/terms_of_use_text"
+        android:layout_marginTop="@dimen/terms_of_use_top_offset"
+        android:layout_marginBottom="@dimen/terms_of_use_bottom_offset"
+        android:layout_marginStart="@dimen/terms_of_use_start_offset"
+        android:layout_marginEnd="@dimen/terms_of_use_end_offset"/>
+</android.support.constraint.ConstraintLayout>
