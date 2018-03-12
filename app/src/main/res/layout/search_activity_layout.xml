@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-
     <data>
         <variable
             name="presenter"
-            type="com.example.michaelkibenko.ballaba.Presenters.MapPresenter"/>
+            type="com.example.michaelkibenko.ballaba.Presenters.SearchPresenter"/>
     </data>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <FrameLayout
-        android:id="@+id/MapFragmentContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:id="@+id/mapFragmentContainer"/>
 
 </android.support.constraint.ConstraintLayout>
 </layout>
