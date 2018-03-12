@@ -25,7 +25,7 @@ public class MapPresenter {
     openMapFragment();
 }
 
-    private void openMapFragment(){
+    public void openMapFragment(){
         FragmentManager fragmentManager = ((SearchActivity)context).getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(binding.mapFragmentContainer.getId(), mapFragment);

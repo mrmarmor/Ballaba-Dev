@@ -11,11 +11,12 @@ import com.example.michaelkibenko.ballaba.databinding.SearchActivityLayoutBindin
 public class SearchPresenter extends BasePresenter {
 
     private final SearchActivityLayoutBinding binder;
-    private MapPresenter presenter;
+    private MapPresenter mapPresenter;
     private Context context;
     public SearchPresenter(Context context, SearchActivityLayoutBinding binder){
         this.binder = binder;
         this.context = context;
-        presenter = new MapPresenter(this.context, this.binder);
+        mapPresenter = new MapPresenter(this.context, this.binder);
+        mapPresenter.openMapFragment();
     }
 }
