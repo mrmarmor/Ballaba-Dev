@@ -11,4 +11,5 @@ public @interface EndpointsHolder {
     String AUTHENTICATE = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/authenticate";
     String CONFIG = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/config";
     String TESTING = "https://z1qybfaf36.execute-api.eu-west-1.amazonaws.com/DEV/";
+    String GOOGLE_PLACES_API = "https://maps.googleapis.com/maps/api/place";
 }

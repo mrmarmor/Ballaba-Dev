@@ -4,10 +4,9 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 
-import com.example.michaelkibenko.ballaba.Activities.MapActivity;
+import com.example.michaelkibenko.ballaba.Activities.SearchActivity;
 import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
-import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.databinding.MapLayoutBinding;
+import com.example.michaelkibenko.ballaba.databinding.SearchActivityLayoutBinding;
 
 /**
  * Created by michaelkibenko on 08/03/2018.
@@ -15,21 +14,21 @@ import com.example.michaelkibenko.ballaba.databinding.MapLayoutBinding;
 
 public class MapPresenter {
 
-    private MapLayoutBinding binding;
     private Context context;
     private BallabaMapFragment mapFragment;
+    private SearchActivityLayoutBinding binding;
 
-    public MapPresenter(Context context, MapLayoutBinding binding) {
-        this.binding = binding;
+    public MapPresenter(Context context, SearchActivityLayoutBinding binder) {
         this.context = context;
         mapFragment = BallabaMapFragment.newInstance();
+        this.binding = binder;
         openMapFragment();
     }
 
-    private void openMapFragment(){
-        FragmentManager fragmentManager = ((MapActivity)context).getFragmentManager();
+    public void openMapFragment(){
+        /*FragmentManager fragmentManager = ((SearchActivity)context).getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(binding.MapFragmentContainer.getId(), mapFragment);
-        fragmentTransaction.commit();
+        fragmentTransaction.replace(binding.googleMap.getId(), mapFragment);
+        fragmentTransaction.commit();*/
     }
 }

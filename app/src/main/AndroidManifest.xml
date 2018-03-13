@@ -35,14 +35,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".Activities.SplashActivity"
-            android:label="Pre auth"
-            android:theme="@style/AppTheme" />
 
         <receiver
             android:name=".Activities.EnterCodeActivity$BallabaSMSReceiver"
-            android:exported="true" />
+            android:exported="true"></receiver>
 
         <activity
             android:name=".Activities.MainActivity"
@@ -53,22 +49,17 @@
             android:label="Pre auth"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Activities.TermsOfUseActivity"
-            android:label="@string/terms_of_use_label"
-            android:theme="@style/AppTheme" />
-        <activity
             android:name=".Activities.EnterCodeActivity"
             android:label="Enter code"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Activities.MapActivity"
-            android:label="Map"
+            android:name=".Activities.SearchActivity"
+            android:label="Search"
             android:theme="@style/AppTheme" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBJ-y7b2ymSPDjM9vTKwHI8hFq072eehPk" />
-
     </application>
 
 </manifest>
