@@ -3,9 +3,8 @@ package com.example.michaelkibenko.ballaba.Presenters;
 import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 
-import com.example.michaelkibenko.ballaba.Managers.SearchViewPagerManager;
+import com.example.michaelkibenko.ballaba.Adapters.SearchViewPagerAdapter;
 import com.example.michaelkibenko.ballaba.databinding.SearchActivityLayoutBinding;
 
 /**
@@ -33,7 +32,7 @@ public class SearchPresenter extends BasePresenter {
     }
 
     private void initViewPager(){
-        pagerAdapter = new SearchViewPagerManager(context, binder, fm);
+        pagerAdapter = new SearchViewPagerAdapter(context, binder, fm);
         binder.searchViewPager.setAdapter(pagerAdapter);
     }
 

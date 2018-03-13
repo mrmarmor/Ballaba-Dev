@@ -1,4 +1,4 @@
-package com.example.michaelkibenko.ballaba.Managers;
+package com.example.michaelkibenko.ballaba.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,12 +19,12 @@ import com.example.michaelkibenko.ballaba.databinding.SearchActivityLayoutBindin
  * Created by User on 13/03/2018.
  */
 
-public class SearchViewPagerManager extends FragmentPagerAdapter {
-    //public SearchViewPagerManager(){}
+public class SearchViewPagerAdapter extends FragmentPagerAdapter {
+    //public SearchViewPagerAdapter(){}
     private Context context;
     private SearchActivityLayoutBinding binder;
 
-    public SearchViewPagerManager(Context context, SearchActivityLayoutBinding binder, FragmentManager fm) {
+    public SearchViewPagerAdapter(Context context, SearchActivityLayoutBinding binder, FragmentManager fm) {
         super(fm);
 
         this.context = context;
