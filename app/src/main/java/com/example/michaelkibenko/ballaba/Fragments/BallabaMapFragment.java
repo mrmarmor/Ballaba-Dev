@@ -4,13 +4,22 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
+import com.example.michaelkibenko.ballaba.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
@@ -18,16 +27,20 @@ import com.google.android.gms.maps.model.LatLngBounds;
  * Created by michaelkibenko on 08/03/2018.
  */
 
-public class BallabaMapFragment extends MapFragment implements OnMapReadyCallback, LocationListener , GoogleMap.OnCameraMoveStartedListener,
+public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, LocationListener , GoogleMap.OnCameraMoveStartedListener,
         GoogleMap.OnCameraMoveListener,
         GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraIdleListener{
 
     private static final String TAG = BallabaMapFragment.class.getSimpleName();
+
     private GoogleMap googleMap;
+    private MapView mMapView;
     private BallabaLocationManager locationManager;
     private Context context;
     private boolean changed;
     private LatLngBounds bounds;
+
+    public BallabaMapFragment(){}
 
     public static BallabaMapFragment newInstance() {
         Bundle args = new Bundle();
@@ -38,16 +51,52 @@ public class BallabaMapFragment extends MapFragment implements OnMapReadyCallbac
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.fragment_map, container, false);
+
+        mMapView = (MapView)v.findViewById(R.id.mapView);
+        mMapView.onCreate(savedInstanceState);
+        mMapView.onResume();
+
+        try {
+            MapsInitializer.initialize(getActivity().getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mMapView.getMapAsync(this);
+
+        //TODO optional in the future
+        //googleMap = mMapView.getMap();
+        /*double latitude = 17.385044;
+        double longitude = 78.486671;
+
+        MarkerOptions marker = new MarkerOptions().position(
+                new LatLng(latitude, longitude)).title("title");
+
+        marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+
+        googleMap.addMarker(marker);
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(new LatLng(17.385044, 78.486671)).zoom(12).build();
+        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));*/
+
+        return v;
+    }
+
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
         locationManager = BallabaLocationManager.getInstance(this.context);
-        getMapAsync(this);
     }
 
-    public BallabaMapFragment(){
-
-    }
+  /*  @Override
+    public void onResume() {
+        super.onResume();
+        mMapView.onResume();
+    }*/
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -58,7 +107,6 @@ public class BallabaMapFragment extends MapFragment implements OnMapReadyCallbac
         this.googleMap.setOnCameraMoveCanceledListener(this);
         this.googleMap.setOnCameraIdleListener(this);
     }
-
 
     //location
     @Override

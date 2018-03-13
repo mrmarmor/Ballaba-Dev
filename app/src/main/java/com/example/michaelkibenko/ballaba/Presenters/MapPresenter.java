@@ -22,13 +22,13 @@ public class MapPresenter {
         this.context = context;
         mapFragment = BallabaMapFragment.newInstance();
         this.binding = binder;
-    openMapFragment();
-}
+        openMapFragment();
+    }
 
     public void openMapFragment(){
-        FragmentManager fragmentManager = ((SearchActivity)context).getFragmentManager();
+        /*FragmentManager fragmentManager = ((SearchActivity)context).getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(binding.mapFragmentContainer.getId(), mapFragment);
-        fragmentTransaction.commit();
+        fragmentTransaction.replace(binding.googleMap.getId(), mapFragment);
+        fragmentTransaction.commit();*/
     }
 }
