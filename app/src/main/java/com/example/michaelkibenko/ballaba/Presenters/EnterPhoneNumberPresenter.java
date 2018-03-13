@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.IntDef;
 import android.support.annotation.LayoutRes;
+import android.support.constraint.ConstraintLayout;
 import android.support.design.widget.Snackbar;
 import android.telephony.SmsManager;
 import android.text.Editable;
@@ -21,6 +22,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -165,6 +167,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         Snackbar.make(binder.enterPhoneNumberRootLayout, context.getString(R.string.enter_phone_number_snackBar_text), Snackbar.LENGTH_LONG).show();
 
         circleProgressBarChanger(true);
+        UiUtils.instance(true, context).buttonChanger(binder.enterPhoneNumberNextButton, false);
         UiUtils.instance(true, context).hideSoftKeyboard(((Activity)context).getWindow().getDecorView());
 
         ConnectionsManager.getInstance(context).loginWithPhoneNumber(params, new BallabaResponseListener() {
@@ -192,6 +195,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         switch (statusCode){
             case Flows.OK :
                 circleProgressBarChanger(false);
+                UiUtils.instance(true, context).buttonChanger(binder.enterPhoneNumberNextButton, true);
 
                 Intent enterCode = new Intent(context, EnterCodeActivity.class);
                 enterCode.putExtra(COUNTRY_CODE_EXTRA_KEY, phoneNumber.getCountryCode());
@@ -217,19 +221,21 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
     }
 
     private void circleProgressBarChanger(boolean isShow){
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)binder.enterPhoneNumberNextButton.getLayoutParams();
+
         if (isShow) {
-            UiUtils.instance(true, context).buttonChanger(binder.enterPhoneNumberNextButton, false);
+            params.width = 120;
+            binder.enterPhoneNumberNextButton.setLayoutParams(params);
             binder.enterPhoneNumberNextButton.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
-            binder.enterPhoneNumberNextButton.setPaddingRelative((int) context.getResources().getDimension(R.dimen.small_margin), 0, 0, 0);
-            binder.enterPhoneNumberNextButton.setMinimumWidth(90);//TODO
+            binder.enterPhoneNumberNextButton.setPaddingRelative((int)context.getResources().getDimension(R.dimen.small_margin), 0, 0, 0);
 
             binder.enterPhoneNumberNextButtonProgress.setVisibility(View.VISIBLE);
             binder.enterPhoneNumberNextButtonProgress.getIndeterminateDrawable().setColorFilter(
                     context.getResources().getColor(R.color.colorPrimary, context.getTheme()), android.graphics.PorterDuff.Mode.SRC_IN);
         } else {
-            UiUtils.instance(true, context).buttonChanger(binder.enterPhoneNumberNextButton, true);
+            params.width = 105;
+            binder.enterPhoneNumberNextButton.setLayoutParams(params);
             binder.enterPhoneNumberNextButton.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-            binder.enterPhoneNumberNextButton.setMinimumWidth(70);//TODO
 
             binder.enterPhoneNumberNextButtonProgress.setVisibility(View.GONE);
         }
