@@ -4,11 +4,21 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.michaelkibenko.ballaba.Adapters.PropertiesRecyclerAdapter;
+import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
+import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
+import com.example.michaelkibenko.ballaba.Presenters.SearchPropertiesPresenter;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.databinding.SearchActivityLayoutBinding;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,34 +30,28 @@ import com.example.michaelkibenko.ballaba.R;
  */
 public class PropertiesRecyclerFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String PROPERTIES_KEY = "properties key";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    //private List<BallabaProperty> mParam;
+    private PropertiesRecyclerAdapter rvAdapter;
+    private RecyclerView rvProperties;
+    private List<BallabaProperty> properties;
+
+    private SearchPropertiesPresenter presenter;
+    private static SearchActivityLayoutBinding binder;
+    private LayoutInflater inflater;
 
     private OnFragmentInteractionListener mListener;
 
-    public PropertiesRecyclerFragment() {
-        // Required empty public constructor
-    }
+    public PropertiesRecyclerFragment() {}
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment PropertiesRecyclerFragment.
-     */
     // TODO: Rename and change types and number of parameters
-    public static PropertiesRecyclerFragment newInstance(String param1, String param2) {
+    public static PropertiesRecyclerFragment newInstance(SearchActivityLayoutBinding mBinder, String param) {
+        binder = mBinder;
         PropertiesRecyclerFragment fragment = new PropertiesRecyclerFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putSerializable(PROPERTIES_KEY, param);
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,17 +59,40 @@ public class PropertiesRecyclerFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //binder = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_properties_recycler);
+
+        //binder.setPresenter(presenter);
+
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            //get arguments here
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_properties_recycler, container, false);
+        View v = inflater.inflate(R.layout.fragment_properties_recycler, container, false);
+        this.inflater = inflater;
+        //DataBindingUtil.inflate(
+        //        inflater, R.layout.fragment_properties_recycler, null, false);
+        //presenter = new SearchPropertiesPresenter(getActivity(), binder, mParam);
+
+        initRecycler(v);
+
+        return v;//binder.getRoot();
+    }
+
+    private void initRecycler(View view) {
+        properties = PropertiesManager.getInstance(getContext()).getProperties();//new ArrayList<BallabaProperty>();
+        //TODO moving binder across fragments when a specific widget is in the child fragment and
+        //TODO not in the parent activity cause binder not be able to see the specific widget.
+        //TODO that is why binder.getRoot() returns null. use findViewById instead!!!
+        //rvProperties = (RecyclerView)binder.getRoot().findViewById(R.id.properties_recycler_RV);
+
+        rvProperties = (RecyclerView)view.findViewById(R.id.properties_recycler_RV);
+        rvAdapter = new PropertiesRecyclerAdapter(getContext(), rvProperties, properties, new BallabaUser());
+        rvProperties.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvProperties.setAdapter(rvAdapter);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -84,6 +111,11 @@ public class PropertiesRecyclerFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
+        /*DataBindingUtil.inflate(
+                inflater, R.layout.fragment_properties_recycler, null, false);
+        presenter = new SearchPropertiesPresenter(getActivity(), binder, mParam);
+*/
     }
 
     @Override

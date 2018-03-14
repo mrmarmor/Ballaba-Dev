@@ -37,6 +37,6 @@ public class SearchPresenter extends BasePresenter {
     }
 
     public void onClickToGoogleMap(){
-        binder.searchViewPager.setCurrentItem(binder.searchViewPager.getCurrentItem() - 1);
+        binder.searchViewPager.setCurrentItem(binder.searchViewPager.getCurrentItem() + 1);
     }
 }

@@ -20,7 +20,6 @@ import com.example.michaelkibenko.ballaba.databinding.SearchActivityLayoutBindin
  */
 
 public class SearchViewPagerAdapter extends FragmentPagerAdapter {
-    //public SearchViewPagerAdapter(){}
     private Context context;
     private SearchActivityLayoutBinding binder;
 
@@ -36,7 +35,7 @@ public class SearchViewPagerAdapter extends FragmentPagerAdapter {
         if (position == 1) {
             return BallabaMapFragment.newInstance();
         } else {
-            return PropertiesRecyclerFragment.newInstance("a", "b");
+            return PropertiesRecyclerFragment.newInstance(binder, "a");
         }
     }
 
