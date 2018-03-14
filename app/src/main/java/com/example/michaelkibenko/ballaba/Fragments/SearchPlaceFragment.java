@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.databinding.DataBindingUtil;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -30,14 +31,23 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.michaelkibenko.ballaba.Activities.SearchActivity;
+import com.example.michaelkibenko.ballaba.Adapters.GooglePlacesAdapter;
+import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
+import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
+import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
+import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
+import com.example.michaelkibenko.ballaba.Presenters.SearchPresenter;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.GeneralUtils;
 import com.example.michaelkibenko.ballaba.databinding.SearchActivityLayoutBinding;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.Status;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 import org.json.JSONArray;
@@ -46,6 +56,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -55,7 +66,12 @@ import java.util.List;
 import java.util.Locale;
 
 public class SearchPlaceFragment extends Fragment {
+    private final String PLACES_API_BASE = EndpointsHolder.GOOGLE_PLACES_API
+            , TYPE_TEXT_SEARCH = "/textsearch", OUT_JSON = "/json?query=";
+
     private AutoCompleteTextView actvSearchPlace;
+    SearchPresenter presenter;
+    private SearchActivityLayoutBinding binder;
 
     public SearchPlaceFragment() {}
     public static SearchPlaceFragment newInstance() {
@@ -70,12 +86,13 @@ public class SearchPlaceFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_search_place, container, false);
 
+        //DataBindingUtil.setContentView(getActivity(), R.layout.fragment_search_place);
         actvSearchPlace = v.findViewById(R.id.searchPlaceFragment_autoCompleteTextView);
 
         //TODO if you want actvSearchPlace display device current address:
         //setListAdapterToDeviceAddress(listView);
 
-        final GooglePlacesAcAdapter dataAdapter = new GooglePlacesAcAdapter(
+        final GooglePlacesAdapter dataAdapter = new GooglePlacesAdapter(
                 getActivity(), android.R.layout.simple_list_item_1);
         actvSearchPlace.setAdapter(dataAdapter);
 
@@ -91,10 +108,49 @@ public class SearchPlaceFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 actvSearchPlace.setText(((TextView)view).getText());
+                LatLng selectedPlace = BallabaLocationManager.getInstance(getContext())
+                        .locationGeoCoder(((TextView)view).getText().toString());
+                //setViewportByName(((TextView)view).getText().toString());
             }
         });
 
         return v;
+    }
+
+    private void setViewportByName(String name){
+        LatLngBounds bounds;
+        String apiKey = GeneralUtils.getMatadataFromManifest(getActivity(), "com.google.android.geo.API_KEY");
+
+        StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_TEXT_SEARCH + OUT_JSON);
+        try {
+            sb.append(URLEncoder.encode(name, "utf8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        sb.append("&key=" + apiKey);
+        sb.append("&components=country:IL");//TODO set locale for another countries
+
+       /* ConnectionsManager.getInstance(getActivity()).apiRequest(sb, new BallabaResponseListener() {
+            @Override
+            public void resolve(BallabaBaseEntity entity) {
+                Log.d(TAG, "request result: " + ((BallabaOkResponse)entity).body);
+
+            }
+
+            @Override
+            public void reject(BallabaBaseEntity entity) {
+                Log.e(TAG, "request result: " + entity);
+
+            }
+        });*/
+        /*ConnectionsManager.UrlTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                StringBuilder result = ConnectionsManager.getInstance(getActivity()).apiRequest(sb);
+                Log.d(TAG, "request result: " + result);
+            }
+        });*/
+
     }
 
     public void setListAdapterToDeviceAddress(ListView listView){
@@ -145,126 +201,6 @@ public class SearchPlaceFragment extends Fragment {
         }
     }
 
-}
-
-class GooglePlacesAcAdapter extends ArrayAdapter<String> implements Filterable {
-    private final String PLACES_API_BASE = EndpointsHolder.GOOGLE_PLACES_API
-            , TYPE_AUTOCOMPLETE = "/autocomplete", OUT_JSON = "/json"
-            , API_KEY = getMatadataFromManifest("com.google.android.geo.API_KEY");
-    private final String TAG = GooglePlacesAcAdapter.class.getSimpleName();
-
-    private ArrayList<String> resultList;
-    private Context context = null;
-    public GooglePlacesAcAdapter(Context context, int textViewResourceId) {
-        super(context, textViewResourceId);
-        this.context = context;
-    }
-
-    @Override
-    public int getCount() {
-        if(resultList != null)
-            return resultList.size();
-        else
-            return 0;
-    }
-
-    @Override
-    public String getItem(int index) {
-        if (resultList.size() > 0)
-            return resultList.get(index);
-        else
-            return null;
-    }
-
-    public ArrayList<String> autoComplete(String input) {
-        ArrayList<String> resultList = null;
-        ArrayList<String> descriptionList = null;
-        HttpURLConnection conn = null;
-        StringBuilder jsonResults = new StringBuilder();
-        try {
-            StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
-            sb.append("?key=" + API_KEY);
-            sb.append("&components=country:IL");//TODO set locale for another countries
-            sb.append("&input=" + URLEncoder.encode(input, "utf8"));
-
-            URL url = new URL(sb.toString());
-            conn = (HttpURLConnection)url.openConnection();
-            InputStreamReader in = new InputStreamReader(conn.getInputStream());
-
-            int read;
-            char[] buff = new char[1024];
-            while ((read = in.read(buff)) != -1) {
-                jsonResults.append(buff, 0, read);
-            }
-        } catch (MalformedURLException e) {
-            Log.e("tag google places", "Error processing Places API URL", e);
-            return resultList;
-        } catch (IOException e) {
-            Log.e("tag google places", "Error connecting to Places API", e);
-            return resultList;
-        } finally {
-            if (conn != null) {
-                conn.disconnect();
-            }
-        }
-
-        try {
-            JSONObject jsonObj = new JSONObject(jsonResults.toString());
-            JSONArray jsonArray = jsonObj.getJSONArray("predictions");
-
-            resultList = new ArrayList(jsonArray.length());
-            descriptionList = new ArrayList(jsonArray.length());
-            for (int i = 0; i < jsonArray.length(); i++) {
-                resultList.add(jsonArray.getJSONObject(i).toString());
-                descriptionList.add(jsonArray.getJSONObject(i).getString("description"));
-            }
-        } catch (JSONException e) {
-            Log.e("tag google places", "Cannot process JSON results", e);
-        }
-
-        return descriptionList;
-    }
-
-    @Override
-    public Filter getFilter() {
-        Filter filter = new Filter() {
-            @Override
-            protected FilterResults performFiltering(CharSequence constraint) {
-                FilterResults filterResults = new FilterResults();
-                if (constraint != null) {
-                    resultList = autoComplete(constraint.toString());
-                    filterResults.values = resultList;
-                    filterResults.count = resultList.size();
-                }
-                return filterResults;
-            }
-
-            @Override
-            protected void publishResults(CharSequence constraint, FilterResults results) {
-                if (results != null && results.count > 0) {
-                    notifyDataSetChanged();
-                } else {
-                    notifyDataSetInvalidated();
-                }
-            }
-        };
-        return filter;
-    }
-
-    private String getMatadataFromManifest(String key){
-        String mApiKey = "";
-        try {
-            ApplicationInfo ai = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-            Bundle bundle = ai.metaData;
-            mApiKey = bundle.getString(key);
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.e(TAG, "Failed to load meta-data, NameNotFound: " + e.getMessage());
-        } catch (NullPointerException e) {
-            Log.e(TAG, "Failed to load meta-data, NullPointer: " + e.getMessage());
-        }
-
-        return mApiKey;
-    }
 }
 
 

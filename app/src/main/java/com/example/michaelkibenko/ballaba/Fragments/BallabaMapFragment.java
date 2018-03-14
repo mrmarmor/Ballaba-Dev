@@ -116,7 +116,6 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
             this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-
             this.googleMap.animateCamera(CameraUpdateFactory.zoomTo(14));
         }
     }

@@ -2,6 +2,7 @@ package com.example.michaelkibenko.ballaba.Managers;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.text.LoginFilter;
 import android.util.Log;
 
@@ -14,6 +15,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.michaelkibenko.ballaba.BallabaApplication;
 import com.example.michaelkibenko.ballaba.Config;
+import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
@@ -22,6 +24,11 @@ import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
 import com.google.gson.Gson;
 
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -199,4 +206,107 @@ import java.util.Map;
         };
         queue.add(stringRequest);
     }
+
+    /*public void apiRequest( final StringBuilder sb, final BallabaResponseListener callback){
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, sb.toString(),
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, response);
+                        new Gson().toJson()
+                        BallabaOkResponse a = new BallabaOkResponse();
+
+                        callback.resolve(new BallabaOkResponse());
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, error.toString());
+                if(error.networkResponse != null){
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                }else{
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }
+            }
+        });
+
+        queue.add(stringRequest);
+    }*/
+
+    public StringBuilder apiRequest(StringBuilder sb) {
+        HttpURLConnection conn = null;
+        StringBuilder jsonResults = new StringBuilder();
+
+        try {
+            URL url = new URL(sb.toString());
+            conn = (HttpURLConnection) url.openConnection();
+            InputStreamReader in = new InputStreamReader(conn.getInputStream());
+
+            int read;
+            char[] buff = new char[1024];
+            while ((read = in.read(buff)) != -1) {
+                jsonResults.append(buff, 0, read);
+            }
+            Log.d(TAG, "request result: " + jsonResults);
+        } catch(
+                IOException e)
+
+        {
+            Log.e(TAG, "Error connecting to Places API", e);
+            return null;
+        } finally
+
+        {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+        return jsonResults;
+    }
+
+
+
+    /*public class UrlTask extends AsyncTask<StringBuilder, String, StringBuilder> {
+            HttpURLConnection conn = null;
+            StringBuilder jsonResults = new StringBuilder();
+            //Log.d(TAG, apiKey);//AIzaSyBJ-y7b2ymSPDjM9vTKwHI8hFq072eehPk
+
+
+
+            @Override
+            protected StringBuilder doInBackground(StringBuilder... sb) {
+                try {
+                    URL url = new URL(sb[0].toString());
+                    conn = (HttpURLConnection) url.openConnection();
+                    InputStreamReader in = new InputStreamReader(conn.getInputStream());
+
+                    int read;
+                    char[] buff = new char[1024];
+                    while ((read = in.read(buff)) != -1) {
+                        jsonResults.append(buff, 0, read);
+                    }
+                    Log.d(TAG, "request result: " + jsonResults);
+                } catch(
+                        IOException e)
+
+                {
+                    Log.e(TAG, "Error connecting to Places API", e);
+                    return null;
+                } finally
+
+                {
+                    if (conn != null) {
+                        conn.disconnect();
+                    }
+                }
+                return jsonResults;
+            }
+
+            @Override
+            protected void onPostExecute(StringBuilder stringBuilder) {
+                super.onPostExecute(stringBuilder);
+            }
+        }
+*/
+    //}
 }

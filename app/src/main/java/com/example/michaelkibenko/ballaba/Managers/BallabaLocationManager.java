@@ -1,10 +1,19 @@
 package com.example.michaelkibenko.ballaba.Managers;
 
 import android.content.Context;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
+
+import com.google.android.gms.maps.model.LatLng;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import static android.content.Context.LOCATION_SERVICE;
 
@@ -16,6 +25,7 @@ public class BallabaLocationManager {
 
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; //10 meters
     private static final long MIN_TIME_BW_UPDATES = 1; //one minute
+    private static final String TAG = BallabaLocationManager.class.getSimpleName();
     private static BallabaLocationManager instance;
     private LocationManager locationManager;
     private Context context;
@@ -43,5 +53,45 @@ public class BallabaLocationManager {
             ex.printStackTrace();
             //TODO set error flow
         }
+    }
+
+    public LatLng locationGeoCoder(String strAddress){
+        Geocoder coder = new Geocoder(context);
+        List<Address> address;
+
+        try {
+            address = coder.getFromLocationName(strAddress,5);
+            if (address != null && address.size() > 0) {
+                Address location = address.get(0);
+                return new LatLng(location.getLatitude(), location.getLongitude());
+
+            } else {
+                return null;
+            }
+
+        } catch (IOException e){
+            Log.e(TAG, e.getMessage());
+            return null;
+        }
+    }
+    public String locationGeoCoder(LatLng latLng){
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(context, Locale.getDefault());
+        try {
+            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+            String address = addresses.get(0).getAddressLine(0);
+            //TODO optional values:
+            //String city = addresses.get(0).getAddressLine(1);
+            //String country = addresses.get(0).getAddressLine(2);
+
+            return address;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+
     }
 }

@@ -11,6 +11,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.Fragments.SearchPlaceFragment;
 import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
+import com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter;
 import com.example.michaelkibenko.ballaba.Presenters.SearchPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.SearchActivityLayoutBinding;
@@ -50,18 +51,15 @@ public class SearchActivity extends FragmentActivity implements PropertiesRecycl
 
         properties = PropertiesManager.getInstance(this).getProperties();
         presenter = new SearchPresenter(this, binder, getSupportFragmentManager());
-
+        binder.setPresenter(presenter);
         //initSearchFragment();
     }
 
     @Override
     public void onBackPressed() {
         if (binder.searchViewPager.getCurrentItem() == 0) {
-            // If the user is currently looking at the first step, allow the system to handle the
-            // Back button. This calls finish() on this activity and pops the back stack.
             super.onBackPressed();
         } else {
-            // Otherwise, select the previous step.
             binder.searchViewPager.setCurrentItem(binder.searchViewPager.getCurrentItem() - 1);
         }
     }

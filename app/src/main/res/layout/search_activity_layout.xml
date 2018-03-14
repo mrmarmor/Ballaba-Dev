@@ -15,11 +15,12 @@
         android:name="com.example.michaelkibenko.ballaba.Fragments.SearchPlaceFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <ImageButton
         android:id="@+id/search_toGoogleMap_imageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toEndOf="@id/search_autoCompleteTV_fragment"
+        app:layout_constraintStart_toStartOf="@id/search_autoCompleteTV_fragment"
         android:onClick="@{() -> presenter.onClickToGoogleMap()}"
         android:src="@drawable/ic_menu_share"/>
 
