@@ -62,7 +62,7 @@ public class GooglePlacesAdapter extends ArrayAdapter<String> implements Filtera
 
         @Override
         public String getItem(int index) {
-            if (resultList.size() > 0)
+            if (resultList.size() > index)
                 return resultList.get(index);
             else
                 return null;

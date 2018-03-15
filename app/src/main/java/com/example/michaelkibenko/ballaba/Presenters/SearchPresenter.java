@@ -50,7 +50,8 @@ import java.util.Locale;
  * Created by michaelkibenko on 12/03/2018.
  */
 
-public class SearchPresenter extends BasePresenter implements ClassesCommunicationListener{
+public class SearchPresenter extends BasePresenter implements ClassesCommunicationListener
+        , BallabaLocationManager.OnGoogleMapListener{
 
     private final String TAG = SearchPresenter.class.getSimpleName();
     private final String PLACES_API_BASE = EndpointsHolder.GOOGLE_PLACES_API
@@ -63,6 +64,7 @@ public class SearchPresenter extends BasePresenter implements ClassesCommunicati
     private AutoCompleteTextView actvSearchPlace;
     private SearchActivityLayoutBinding binder;
     private ClassesCommunicationListener listener;
+    private GoogleMap googleMap;
 
     public SearchPresenter(Context context, SearchActivityLayoutBinding binder, FragmentManager fm){
         this.binder = binder;
@@ -102,8 +104,8 @@ public class SearchPresenter extends BasePresenter implements ClassesCommunicati
                 LatLng selectedPlace = BallabaLocationManager.getInstance(context)
                         .locationGeoCoder(((TextView)view).getText().toString());
 
-                GoogleMap googleMap = BallabaMapFragment.newInstance().getGoogleMapObject();
-                BallabaMapFragment.newInstance().onItemSelected(selectedPlace);
+                //GoogleMap googleMap = BallabaMapFragment.newInstance().getGoogleMapObject();
+                BallabaMapFragment.newInstance().onItemSelected(googleMap, selectedPlace);
                 ////listener.onItemSelected(selectedPlace);
                 //setViewportByName(((TextView)view).getText().toString());
             }
@@ -119,8 +121,17 @@ public class SearchPresenter extends BasePresenter implements ClassesCommunicati
         binder.searchViewPager.setCurrentItem(binder.searchViewPager.getCurrentItem()==0? 1:0, false);
     }
 
+    @Override
+    public void OnGoogleMap(GoogleMap googleMap) {
+        Log.d(TAG, googleMap.getMaxZoomLevel()+"");
+        this.googleMap = googleMap;
 
+    }
 
+    @Override
+    public void onItemSelected(GoogleMap googleMap, LatLng location) {
+        Log.d(TAG, "here");
+    }
 
 
     public SearchPresenter() {}
@@ -200,10 +211,6 @@ public class SearchPresenter extends BasePresenter implements ClassesCommunicati
         }
     }
 
-    @Override
-    public void onItemSelected(LatLng location) {
-        Log.d(TAG, "here");
-    }
     //TODO add onRequestPermissionsResult:
     /*@Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {

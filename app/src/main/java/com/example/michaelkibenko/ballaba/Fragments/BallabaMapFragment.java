@@ -3,8 +3,10 @@ package com.example.michaelkibenko.ballaba.Fragments;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +30,8 @@ import com.google.android.gms.maps.model.LatLngBounds;
 public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, LocationListener , GoogleMap.OnCameraMoveStartedListener,
         GoogleMap.OnCameraMoveListener,
         GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraIdleListener,
-        ClassesCommunicationListener {
+        ClassesCommunicationListener,
+        BallabaLocationManager.OnGoogleMapListener {
 
     private static final String TAG = BallabaMapFragment.class.getSimpleName();
 
@@ -38,6 +41,7 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     private Context context;
     private boolean changed;
     private LatLngBounds bounds;
+    private BallabaLocationManager.OnGoogleMapListener mListener;
 
     public BallabaMapFragment(){}
 
@@ -88,9 +92,22 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         super.onAttach(context);
         this.context = context;
         locationManager = BallabaLocationManager.getInstance(this.context);
+
+        if (context instanceof BallabaLocationManager.OnGoogleMapListener) {
+            mListener = (BallabaLocationManager.OnGoogleMapListener)context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnGoogleMapListener");
+        }
+
+        /*DataBindingUtil.inflate(
+                inflater, R.layout.fragment_properties_recycler, null, false);
+        presenter = new SearchPropertiesPresenter(getActivity(), binder, mParam);
+*/
+
     }
 
-  /*  @Override
+    /*  @Override
     public void onResume() {
         super.onResume();
         mMapView.onResume();
@@ -104,6 +121,10 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         this.googleMap.setOnCameraMoveListener(this);
         this.googleMap.setOnCameraMoveCanceledListener(this);
         this.googleMap.setOnCameraIdleListener(this);
+
+        if (mListener != null) {
+            mListener.OnGoogleMap(googleMap);
+        }
     }
 
     public GoogleMap getGoogleMapObject(){
@@ -160,8 +181,13 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     }
 
     @Override
-    public void onItemSelected(LatLng location) {
+    public void onItemSelected(GoogleMap googleMap, LatLng location) {
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+    }
+
+    @Override
+    public void OnGoogleMap(GoogleMap googleMap) {
+        Log.d(TAG, TAG);
     }
     //map camera end
 

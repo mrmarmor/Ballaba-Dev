@@ -9,6 +9,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
@@ -93,5 +94,9 @@ public class BallabaLocationManager {
         }
 
 
+    }
+
+    public interface OnGoogleMapListener {
+        void OnGoogleMap(GoogleMap googleMap);
     }
 }

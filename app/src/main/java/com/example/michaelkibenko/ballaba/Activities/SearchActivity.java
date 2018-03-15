@@ -10,7 +10,9 @@ import android.util.Log;
 
 import com.example.michaelkibenko.ballaba.Adapters.SearchViewPagerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
+import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
+import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
 import com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter;
 import com.example.michaelkibenko.ballaba.Presenters.SearchPresenter;
@@ -33,7 +35,10 @@ import java.util.Properties;
  * Created by michaelkibenko on 12/03/2018.
  */
 
-public class SearchActivity extends FragmentActivity implements PropertiesRecyclerFragment.OnFragmentInteractionListener{
+public class SearchActivity extends FragmentActivity implements
+        PropertiesRecyclerFragment.OnFragmentInteractionListener,
+        BallabaLocationManager.OnGoogleMapListener{
+
     private final String TAG = SearchActivity.class.getSimpleName();
 
     private SearchActivityLayoutBinding binder;
@@ -78,5 +83,11 @@ public class SearchActivity extends FragmentActivity implements PropertiesRecycl
     @Override
     public void onFragmentInteraction(Uri uri) {
         Log.d(TAG, "data from fragment: "+uri.getEncodedUserInfo());
+    }
+
+    @Override
+    public void OnGoogleMap(GoogleMap googleMap) {
+        Log.d(TAG, "data from fragment: "+googleMap);
+        presenter.OnGoogleMap(googleMap);
     }
 }
