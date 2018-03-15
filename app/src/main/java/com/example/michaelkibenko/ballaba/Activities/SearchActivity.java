@@ -5,11 +5,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 
+import com.example.michaelkibenko.ballaba.Adapters.SearchViewPagerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
-import com.example.michaelkibenko.ballaba.Fragments.SearchPlaceFragment;
 import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
 import com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter;
 import com.example.michaelkibenko.ballaba.Presenters.SearchPresenter;
@@ -52,7 +53,7 @@ public class SearchActivity extends FragmentActivity implements PropertiesRecycl
         properties = PropertiesManager.getInstance(this).getProperties();
         presenter = new SearchPresenter(this, binder, getSupportFragmentManager());
         binder.setPresenter(presenter);
-        //initSearchFragment();
+        //initPropertiesRecyclerFragment();
     }
 
     @Override
@@ -64,37 +65,14 @@ public class SearchActivity extends FragmentActivity implements PropertiesRecycl
         }
     }
 
-    private void initSearchFragment(){
-        // Retrieve the PlaceAutocompleteFragment.
-        SearchPlaceFragment autocompleteFragment = (SearchPlaceFragment)
+    private void initPropertiesRecyclerFragment(){
+        /*PropertiesRecyclerFragment autocompleteFragment = (PropertiesRecyclerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.search_autoCompleteTV_fragment);
 
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.search_autoCompleteTV_fragment, autocompleteFragment)
-                .commit();
-// Register a listener to receive callbacks when a place has been selected or an error has
-// occurred.
-        /*autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
-            @Override
-            public void onPlaceSelected(Place place) {
-                // TODO: Get info about the selected place.
-                Log.d(TAG, "Place: " + place.getName());
-                Log.d(TAG, "Place Selected: " + place.getName() + "  " + place.getLatLng());
-
-                double workLatitude = place.getLatLng().latitude;
-                double workLongitude = place.getLatLng().longitude;
-
-                //Over we can get the address, rating, price level,etc.
-
-            }
-
-            @Override
-            public void onError(Status status) {
-                // TODO: Handle the error.
-                Log.e(TAG, "An error occurred: " + status);
-            }
-        });*/
+                .commit();*/
     }
 
     @Override

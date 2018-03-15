@@ -10,7 +10,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
-import com.example.michaelkibenko.ballaba.Fragments.SearchPlaceFragment;
+//import com.example.michaelkibenko.ballaba.Fragments.SearchPlaceFragment;
 import com.example.michaelkibenko.ballaba.Presenters.MapPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.SearchActivityLayoutBinding;
@@ -19,7 +19,7 @@ import com.example.michaelkibenko.ballaba.databinding.SearchActivityLayoutBindin
  * Created by User on 13/03/2018.
  */
 
-public class SearchViewPagerAdapter extends FragmentPagerAdapter {
+public class SearchViewPagerAdapter extends FragmentStatePagerAdapter {
     private Context context;
     private SearchActivityLayoutBinding binder;
 
