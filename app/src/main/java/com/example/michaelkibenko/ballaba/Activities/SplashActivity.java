@@ -37,7 +37,7 @@ public class SplashActivity extends BaseActivity {
 
     private static final String TAG = SplashActivity.class.getSimpleName();
     private BallabaConnectivityListener connectivityListener;
-    private long MIN_SPLASH_DELAY = 3000;
+    private static final long MIN_SPLASH_DELAY = 3000;
     private SplashLayoutBinding binder;
     private long startTime,endTime;
     boolean isGetConfig, isLoggedIn;
@@ -49,8 +49,9 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onConnectivityChanged(boolean is) {
                 if(!is){
-                    Toast.makeText(SplashActivity.this, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
+                    showNetworkError(binder.getRoot());
                 }else{
+                    hideNetworkError();
                     if(!isGetConfig){
                         getConfigRequestAndAuthenticate();
                     }else if(!isLoggedIn){
@@ -68,7 +69,7 @@ public class SplashActivity extends BaseActivity {
             getConfigRequestAndAuthenticate();
         }
         else {
-            Toast.makeText(SplashActivity.this, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
+            showNetworkError(binder.getRoot());
         }
     }
 

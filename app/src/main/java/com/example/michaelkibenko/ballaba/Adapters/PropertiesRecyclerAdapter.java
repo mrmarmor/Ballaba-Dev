@@ -48,7 +48,6 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         //shareCardMessage = mContext.getResources().getString(R.string.share_card_message);
 
         View view = mInflater.inflate(R.layout.property_item, parent, false);
-        textView = (TextView)view.findViewById(R.id.tempTV);
         //parent_layout = (LinearLayout)view.findViewById(R.id.single_message_parent);
 
         return new ViewHolder(view);

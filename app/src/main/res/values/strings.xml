@@ -102,5 +102,7 @@
     invalid code or phone number
     <!-- END ERROR SECTION -->
 
+    <string name="no_network_err_msg">"אין רשת"</string>
+
 
 </resources>
