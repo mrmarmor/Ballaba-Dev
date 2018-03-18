@@ -79,24 +79,17 @@ public class EnterPhoneNumberActivity extends BaseActivity {
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.BROADCAST_SMS) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS, Manifest.permission.BROADCAST_SMS}, SMS_PERMISSION_REQ_CODE);
-            presenter.sendPhoneNumber();
-
         }else{
-            Log.d(TAG, "sms receiver permission had already been given");
+            presenter.sendPhoneNumber();
         }
     }
 
-    /*@Override
+    @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case SMS_PERMISSION_REQ_CODE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    presenter.sendPhoneNumber(true);
-                } else {
-                    presenter.sendPhoneNumber(false);
-
-                }
+                    presenter.sendPhoneNumber();
             }
         }
-    }*/
+    }
 }

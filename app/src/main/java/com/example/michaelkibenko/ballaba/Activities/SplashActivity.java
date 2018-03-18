@@ -40,7 +40,7 @@ public class SplashActivity extends BaseActivity {
     private static final long MIN_SPLASH_DELAY = 3000;
     private SplashLayoutBinding binder;
     private long startTime,endTime;
-    boolean isGetConfig, isLoggedIn;
+    boolean isGetConfig, isLoggedIn, wasConnectivityProblem;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,15 +49,14 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onConnectivityChanged(boolean is) {
                 if(!is){
+                    wasConnectivityProblem = true;
                     showNetworkError(binder.getRoot());
-                }else{
+                }else if(wasConnectivityProblem){
                     hideNetworkError();
                     if(!isGetConfig){
                         getConfigRequestAndAuthenticate();
                     }else if(!isLoggedIn){
                         logInWithToken();
-                    }else{
-                        getConfigRequestAndAuthenticate();
                     }
                 }
             }
@@ -111,6 +110,7 @@ public class SplashActivity extends BaseActivity {
             }, token);
         }else{
             checkSplashDelay(FLOW_TYPES.NEED_AUTHENTICATION);
+            //first from here
         }
     }
 
@@ -119,7 +119,7 @@ public class SplashActivity extends BaseActivity {
         endTime = System.currentTimeMillis();
         if(endTime - startTime > MIN_SPLASH_DELAY){
             continueFlow(what);
-        }else {
+        }else if(isGetConfig){
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

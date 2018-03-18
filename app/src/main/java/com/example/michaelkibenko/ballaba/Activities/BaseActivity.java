@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
@@ -30,6 +31,9 @@ public class BaseActivity extends AppCompatActivity{
     protected void showNetworkError(View parentView){
         if(networkErrorSB == null){
             networkErrorSB = Snackbar.make(parentView, getResources().getString(R.string.no_network_err_msg), Snackbar.LENGTH_INDEFINITE);
+            View snackBarView = networkErrorSB.getView();
+            snackBarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary, this.getTheme()));
+            ((TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text)).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
         }
         networkErrorSB.show();
     }
@@ -45,5 +49,4 @@ public class BaseActivity extends AppCompatActivity{
             Log.e(TAG, "The network error SnackBar is null and you want to dismiss it");
         }
     }
-
 }
