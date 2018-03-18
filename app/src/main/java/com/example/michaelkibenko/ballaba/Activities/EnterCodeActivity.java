@@ -54,7 +54,7 @@ public class EnterCodeActivity extends BaseActivity {
             runSMSReader();
 
         listenToNetworkChanges();
-        if(!ConnectionsManager.getInstance(this).isConnected())
+        if(!BallabaConnectivityAnnouncer.getInstance(this).isConnected())
             Snackbar.make(binder.enterCodeRootLayout, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
     }
 

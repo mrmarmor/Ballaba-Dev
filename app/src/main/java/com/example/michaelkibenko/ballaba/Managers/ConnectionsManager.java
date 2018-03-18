@@ -65,23 +65,6 @@ import java.util.Map;
         getQueue().add(request);
     }
 
-    public boolean isConnected(){
-        final ConnectivityManager connMgr = (ConnectivityManager) context
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        final android.net.NetworkInfo wifi = connMgr
-                .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-        final android.net.NetworkInfo mobile = connMgr
-                .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-
-        if (wifi.isConnected() || mobile.isConnected()) {
-            return true;
-        }else{
-            return false;
-        }
-    }
-
     public void loginWithPhoneNumber(final Map<String, String> params, final BallabaResponseListener callback){
         StringRequest stringRequest = new StringRequest(Request.Method.POST, EndpointsHolder.LOGIN,
                 new Response.Listener<String>() {

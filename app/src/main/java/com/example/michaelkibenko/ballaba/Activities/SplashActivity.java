@@ -65,7 +65,7 @@ public class SplashActivity extends BaseActivity {
         BallabaConnectivityAnnouncer.getInstance(this).register(connectivityListener);
 
         startTime = System.currentTimeMillis();
-        if(ConnectionsManager.getInstance(this).isConnected()){
+        if(BallabaConnectivityAnnouncer.getInstance(this).isConnected()){
             getConfigRequestAndAuthenticate();
         }
         else {

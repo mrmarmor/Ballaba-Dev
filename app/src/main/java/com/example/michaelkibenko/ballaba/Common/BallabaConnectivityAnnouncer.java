@@ -36,11 +36,11 @@ public class BallabaConnectivityAnnouncer {
     private BallabaConnectivityAnnouncer(Context context){
         clients = new ArrayList<>();
         this.context = context;
-        context.registerReceiver(new NetworkChangeReceiver(), new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+        context.getApplicationContext().registerReceiver(new NetworkChangeReceiver(), new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
     }
 
     public boolean getStatus(){
-        return ConnectionsManager.getInstance(context).isConnected();
+        return isConnected();
     }
 
     public void register(BallabaConnectivityListener client){
@@ -63,27 +63,28 @@ public class BallabaConnectivityAnnouncer {
         }
     }
 
+    public boolean isConnected(){
+        final ConnectivityManager connMgr = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        final android.net.NetworkInfo wifi = connMgr
+                .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        final android.net.NetworkInfo mobile = connMgr
+                .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+        if (wifi.isConnected() || mobile.isConnected()) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     class NetworkChangeReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(final Context context, final Intent intent) {
-            //TODO THESE MARKED LINES HAVE MOVED INTO CONNECTION_MANAGER CLASS IN ORDER TO BECOME GENERIC AND REUSABLE
-            /*final ConnectivityManager connMgr = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-
-            final android.net.NetworkInfo wifi = connMgr
-                    .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-            final android.net.NetworkInfo mobile = connMgr
-                    .getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-
-            if (wifi.isConnected() || mobile.isConnected()) {
-                status = true;
-            }else{
-                status = false;
-            }*/
-
-            onConnectivityChange(ConnectionsManager.getInstance(context).isConnected());
+            onConnectivityChange(isConnected());
         }
     }
 

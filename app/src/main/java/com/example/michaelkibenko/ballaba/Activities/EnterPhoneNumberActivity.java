@@ -39,7 +39,7 @@ public class EnterPhoneNumberActivity extends BaseActivity {
         presenter = new EnterPhoneNumberPresenter(this, binder);
         binder.setPresenter(presenter);
 
-        if(!ConnectionsManager.getInstance(this).isConnected())
+        if(!BallabaConnectivityAnnouncer.getInstance(this).isConnected())
             Toast.makeText(EnterPhoneNumberActivity.this, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
 
         listenToNetworkChanges();
