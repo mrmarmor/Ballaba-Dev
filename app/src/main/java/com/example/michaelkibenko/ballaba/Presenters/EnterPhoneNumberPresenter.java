@@ -169,7 +169,6 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
             @Override
             public void onConnectivityChanged(boolean is) {
                 if (!is){
-                    //TODO replace next line with a dialog
                     wasConnectivityProblemm = true;
                     ((BaseActivity)context).showNetworkError(binder.getRoot());
                 }else if(wasConnectivityProblemm){
@@ -189,7 +188,8 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
             Log.d(TAG, "onNextButtonClick");
             Log.d(TAG, "params: " + params);
 
-            Snackbar.make(binder.enterPhoneNumberRootLayout, context.getString(R.string.enter_phone_number_snackBar_text), Snackbar.LENGTH_LONG).show();
+            ((BaseActivity)context).getDefaultSnackBar(binder.getRoot(), context.getString(R.string.enter_phone_number_snackBar_text), true);
+//            Snackbar.make(binder.enterPhoneNumberRootLayout, context.getString(R.string.enter_phone_number_snackBar_text), Snackbar.LENGTH_LONG).show();
 
             circleProgressBarChanger(true);
             UiUtils.instance(true, context).buttonChanger(binder.enterPhoneNumberNextButton, false);

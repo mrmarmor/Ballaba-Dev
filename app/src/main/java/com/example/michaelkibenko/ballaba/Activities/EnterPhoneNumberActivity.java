@@ -26,7 +26,7 @@ import com.example.michaelkibenko.ballaba.databinding.EnterPhoneNumberLayoutBind
 
 public class EnterPhoneNumberActivity extends BaseActivity {
     private final String TAG = EnterPhoneNumberActivity.class.getSimpleName();
-    private final int SMS_PERMISSION_REQ_CODE = 1;
+    private final int SMS_PERMISSION_REQ_CODE = 100;
 
     private EnterPhoneNumberLayoutBinding binder;
     private EnterPhoneNumberPresenter presenter;
@@ -47,8 +47,7 @@ public class EnterPhoneNumberActivity extends BaseActivity {
         UiUtils.instance(true, this).hideSoftKeyboard(getWindow().getDecorView());
     }
 
-    public void getPermissionsToReadSms(View v){
-        Log.d(TAG, "registerReadSmsReceiver");
+    public void getPermissionsToReadSms(){
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.BROADCAST_SMS) != PackageManager.PERMISSION_GRANTED){
@@ -62,6 +61,7 @@ public class EnterPhoneNumberActivity extends BaseActivity {
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case SMS_PERMISSION_REQ_CODE: {
+                //here we do not check the permission request result because of needless
                     presenter.sendPhoneNumber();
             }
         }

@@ -19,6 +19,8 @@ import android.widget.Toast;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
 import com.example.michaelkibenko.ballaba.Activities.SearchActivity;
+import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
+import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
@@ -64,6 +66,8 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
     public BallabaPhoneNumber phoneNumber;//must be public so layout binding can see it
     private StringBuilder sbCode = new StringBuilder(4);
     private EditText[] editTexts;
+    public BallabaConnectivityListener connectivityListener;
+    private boolean wasConnectivityProblem;
 
     public EnterCodePresenter(Context context, EnterCodeLayoutBinding binding, String countryCode, String phoneNumber) {
         this.context = context;
@@ -73,6 +77,23 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
 
         initEditTexts(editTexts);
         show1MinuteClock();
+    }
+
+    private void listenToNetworkChanges(){
+        connectivityListener = new BallabaConnectivityListener() {
+            @Override
+            public void onConnectivityChanged(boolean is) {
+                if (!is){
+                    ((BaseActivity)context).showNetworkError(binder.getRoot());
+                    wasConnectivityProblem = true;
+                }else if(wasConnectivityProblem){
+                    ((BaseActivity)context).hideNetworkError();
+                    onCodeCompleted();
+                }
+
+            }
+        };
+        BallabaConnectivityAnnouncer.getInstance(context).register(connectivityListener);
     }
 
     public EnterCodePresenter getInstance() {
@@ -135,28 +156,34 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
     }
 
     private void onCodeCompleted() {
-        Map<String, String> params = GeneralUtils.getParams(new String[]{"phone", "code"}, new String[]{phoneNumber.getFullPhoneNumber(), sbCode.toString()});
-        Log.e(TAG, params.toString());
+        if(BallabaConnectivityAnnouncer.getInstance(context).isConnected()) {
+            Map<String, String> params = GeneralUtils.getParams(new String[]{"phone", "code"}, new String[]{phoneNumber.getFullPhoneNumber(), sbCode.toString()});
+            Log.e(TAG, params.toString());
 
-        ConnectionsManager.getInstance(context).enterCode(params, new BallabaResponseListener() {
-            @Override
-            public void resolve(BallabaBaseEntity entity) {
-                Log.d(TAG, "enterCode");
-                if (entity instanceof BallabaOkResponse) {
-                    onFlowChanged(EnterPhoneNumberPresenter.Flows.OK);
+            ConnectionsManager.getInstance(context).enterCode(params, new BallabaResponseListener() {
+                @Override
+                public void resolve(BallabaBaseEntity entity) {
+                    Log.d(TAG, "enterCode");
+                    if (entity instanceof BallabaOkResponse) {
+                        wasConnectivityProblem = false;
+                        onFlowChanged(EnterPhoneNumberPresenter.Flows.OK);
+                    }
                 }
-            }
 
-            @Override
-            public void reject(BallabaBaseEntity entity) {
-                if (entity instanceof BallabaErrorResponse) {
-                    Log.d(TAG, "enterCode rejected "+((BallabaErrorResponse) entity).statusCode);
-                    clearCode();
+                @Override
+                public void reject(BallabaBaseEntity entity) {
+                    if (entity instanceof BallabaErrorResponse) {
+                        Log.d(TAG, "enterCode rejected " + ((BallabaErrorResponse) entity).statusCode);
+                        clearCode();
 
-                    onFlowChanged(((BallabaErrorResponse) entity).statusCode);
+                        onFlowChanged(((BallabaErrorResponse) entity).statusCode);
+                    }
                 }
-            }
-        });
+            });
+        }else {
+            ((BaseActivity)context).showNetworkError(binder.getRoot());
+            listenToNetworkChanges();
+        }
     }
 
     private void onFlowChanged(int statusCode) {
