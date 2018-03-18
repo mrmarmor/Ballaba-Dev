@@ -30,8 +30,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, LocationListener , GoogleMap.OnCameraMoveStartedListener,
         GoogleMap.OnCameraMoveListener,
         GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraIdleListener,
-        ClassesCommunicationListener,
-        BallabaLocationManager.OnGoogleMapListener {
+        ClassesCommunicationListener{
 
     private static final String TAG = BallabaMapFragment.class.getSimpleName();
 
@@ -183,11 +182,6 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     @Override
     public void onItemSelected(GoogleMap googleMap, LatLng location) {
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
-    }
-
-    @Override
-    public void OnGoogleMap(GoogleMap googleMap) {
-        Log.d(TAG, TAG);
     }
     //map camera end
 

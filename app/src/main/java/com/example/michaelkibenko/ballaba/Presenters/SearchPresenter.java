@@ -50,8 +50,7 @@ import java.util.Locale;
  * Created by michaelkibenko on 12/03/2018.
  */
 
-public class SearchPresenter extends BasePresenter implements ClassesCommunicationListener
-        , BallabaLocationManager.OnGoogleMapListener{
+public class SearchPresenter extends BasePresenter implements BallabaLocationManager.OnGoogleMapListener{
 
     private final String TAG = SearchPresenter.class.getSimpleName();
     private final String PLACES_API_BASE = EndpointsHolder.GOOGLE_PLACES_API
@@ -127,12 +126,6 @@ public class SearchPresenter extends BasePresenter implements ClassesCommunicati
         this.googleMap = googleMap;
 
     }
-
-    @Override
-    public void onItemSelected(GoogleMap googleMap, LatLng location) {
-        Log.d(TAG, "here");
-    }
-
 
     public SearchPresenter() {}
 
