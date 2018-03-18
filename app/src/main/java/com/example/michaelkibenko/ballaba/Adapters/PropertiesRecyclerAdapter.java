@@ -2,6 +2,7 @@ package com.example.michaelkibenko.ballaba.Adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,9 +12,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
-import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.R;
 
 import java.util.Collections;
@@ -29,6 +30,9 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     private BallabaUser user;
     private List<BallabaProperty> properties = Collections.emptyList();
     private Context mContext;
+    private View firstRootView, anotherRootViews;
+    private LayoutInflater mInflater;
+    private ViewGroup parent;
     private RecyclerView mRecyclerView;
     private LinearLayout parent_layout;
     //private String phoneNumber, shareCardMessage;
@@ -42,12 +46,12 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater mInflater = LayoutInflater.from(mContext);
-        View view = mInflater.inflate(R.layout.property_item, parent, false);
-
+        this.parent = parent;
+        mInflater = LayoutInflater.from(mContext);
+        firstRootView = mInflater.inflate(R.layout.property_item_single_in_a_row, parent, false);
         //parent_layout = (LinearLayout)view.findViewById(R.id.single_Property_parent);
 
-        return new ViewHolder(view);
+        return new ViewHolder(firstRootView);
     }
 
     @Override
@@ -55,9 +59,13 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         if (user != null && properties.size() > 0) {
             //holder.tvMessage.setText(chatMessages.get(position).getText());
             Log.d(TAG, properties.size()+":"+position);
+            if (position > 1)
+                anotherRootViews = mInflater.inflate(R.layout.property_item_duplicated, parent, false);
+
             BallabaProperty property = properties.get(position);
 
-            holder.propertyImageView.setImageBitmap(property.bitmap());
+            Glide.with(mContext).load(property.bitmap()).into(holder.propertyImageView);
+            //holder.propertyImageView.setImageBitmap(property.bitmap());
             holder.textViewAddress.setText(property.address());
             holder.textViewPrice.setText(property.price());
             //parent_layout = (LinearLayout) findViewById(R.id.single_message_parent);
