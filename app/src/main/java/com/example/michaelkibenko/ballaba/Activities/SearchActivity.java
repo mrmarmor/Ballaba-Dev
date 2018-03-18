@@ -53,6 +53,7 @@ public class SearchActivity extends FragmentActivity implements
         /////TESTING
         //properties.add(new BallabaProperty("0001", "רחוב סומסום", "100000000000$"));
         PropertiesManager.getInstance(this).addProperty(new BallabaProperty("0001", "רחוב סומסום", "100000000000$"));
+        PropertiesManager.getInstance(this).addProperty(new BallabaProperty("0002", "אבן גבירול 17", "2000000$"));
         /////END OF TESTING
 
         properties = PropertiesManager.getInstance(this).getProperties();

@@ -1,8 +1,13 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
+    <!-- Default app dimensions. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="small_margin">8dp</dimen>
+    <dimen name="tiny_margin">4dp</dimen>
+    <dimen name="textSize_small">14sp</dimen>
+    <dimen name="textSize_regular">16sp</dimen>
+    <!-- End of Default app dimensions. -->
+
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
@@ -89,6 +94,9 @@
     <dimen name="propertyItem_topStrip_imageView_verticalOffset">10dp</dimen>
     <dimen name="propertyItem_topStrip_height">44dp</dimen>
     <dimen name="propertyItem_bottomStrip_height">66dp</dimen>
+    <dimen name="propertyItem_bottomStrip_price_top_offset">12dp</dimen>
+    <dimen name="propertyItem_bottomStrip_price_monthly_textView_startOffset">5dp</dimen>
+    <dimen name="propertyItem_bottomStrip_address_and_rooms_textView_textSize">13sp</dimen>
 
 
 
