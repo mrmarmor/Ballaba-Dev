@@ -30,7 +30,7 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     private Context mContext;
     private RecyclerView mRecyclerView;
     private LinearLayout parent_layout;
-    private TextView textView;
+    private TextView textViewPrice, textViewAddress;
     private LayoutInflater mInflater;
     private View holder;
     //private String phoneNumber, shareCardMessage;
@@ -48,6 +48,9 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         //shareCardMessage = mContext.getResources().getString(R.string.share_card_message);
 
         View view = mInflater.inflate(R.layout.property_item, parent, false);
+
+        textViewAddress = (TextView)view.findViewById(R.id.propertyItem_address_textView);
+        textViewPrice = (TextView)view.findViewById(R.id.propertyItem_price_textView);
         //parent_layout = (LinearLayout)view.findViewById(R.id.single_message_parent);
 
         return new ViewHolder(view);
@@ -57,10 +60,11 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     public void onBindViewHolder(final PropertiesRecyclerAdapter.ViewHolder holder, final int position) {
         if (user != null && properties.size() > 0) {
             //holder.tvMessage.setText(chatMessages.get(position).getText());
-            Log.e(TAG, properties.size()+":"+position);
+            Log.d(TAG, properties.size()+":"+position);
             BallabaProperty property = properties.get(position);
 
-            textView.setText(property.address()+ " costs " + property.price());
+            textViewAddress.setText(property.address());
+            textViewPrice.setText(property.price());
             //parent_layout = (LinearLayout) findViewById(R.id.single_message_parent);
 
         }
