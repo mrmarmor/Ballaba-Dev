@@ -26,8 +26,11 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
+import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
 import com.example.michaelkibenko.ballaba.Activities.TermsOfUseActivity;
+import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
+import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
@@ -61,6 +64,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         , CompoundButton.OnCheckedChangeListener, EditText.OnFocusChangeListener{
 
     private static final String TAG = EnterPhoneNumberPresenter.class.getSimpleName();
+    private boolean wasConnectivityProblemm;
 
     @IntDef({OK, NOT_A_VALID_PHONE_NUMBER, INTERNAL_ERROR, USER_IS_BLOCKED})
     public @interface Flows {
@@ -78,6 +82,8 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
     private Context context;
     private ArrayAdapter<CharSequence> spinnerArrayAdapter;
     private PhoneNumberUtil phoneUtil;
+    public BallabaConnectivityListener connectivityListener;
+
 
     public EnterPhoneNumberPresenter(Context context, EnterPhoneNumberLayoutBinding binder) {
         this.phoneNumber = new BallabaPhoneNumber(/*spinnerArrayAdapter.getItem(0).toString(), binder.enterPhoneNumberET.getText().toString()*/);
@@ -158,37 +164,62 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         context.startActivity(new Intent(context, TermsOfUseActivity.class));
     }
 
+    private void listenToNetworkChanges(){
+        connectivityListener = new BallabaConnectivityListener() {
+            @Override
+            public void onConnectivityChanged(boolean is) {
+                if (!is){
+                    //TODO replace next line with a dialog
+                    wasConnectivityProblemm = true;
+                    ((BaseActivity)context).showNetworkError(binder.getRoot());
+                }else if(wasConnectivityProblemm){
+                    ((BaseActivity)context).hideNetworkError();
+                    sendPhoneNumber();
+                }
+
+            }
+        };
+        BallabaConnectivityAnnouncer.getInstance(context).register(connectivityListener);
+    }
+
     public void sendPhoneNumber(){
-        String deviceId = DeviceUtils.getInstance(true, context).getDeviceId();
-        Map<String, String> params = GeneralUtils.getParams(new String[]{"phone", "device_id"}, new String[]{phoneNumber.getFullPhoneNumber(), deviceId});
-        Log.d(TAG, "onNextButtonClick");
-        Log.d(TAG, "params: "+params);
+        if(BallabaConnectivityAnnouncer.getInstance(context).isConnected()) {
+            String deviceId = DeviceUtils.getInstance(true, context).getDeviceId();
+            Map<String, String> params = GeneralUtils.getParams(new String[]{"phone", "device_id"}, new String[]{phoneNumber.getFullPhoneNumber(), deviceId});
+            Log.d(TAG, "onNextButtonClick");
+            Log.d(TAG, "params: " + params);
 
-        Snackbar.make(binder.enterPhoneNumberRootLayout, context.getString(R.string.enter_phone_number_snackBar_text), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(binder.enterPhoneNumberRootLayout, context.getString(R.string.enter_phone_number_snackBar_text), Snackbar.LENGTH_LONG).show();
 
-        circleProgressBarChanger(true);
-        UiUtils.instance(true, context).buttonChanger(binder.enterPhoneNumberNextButton, false);
-        UiUtils.instance(true, context).hideSoftKeyboard(((Activity)context).getWindow().getDecorView());
+            circleProgressBarChanger(true);
+            UiUtils.instance(true, context).buttonChanger(binder.enterPhoneNumberNextButton, false);
+            UiUtils.instance(true, context).hideSoftKeyboard(((Activity) context).getWindow().getDecorView());
 
-        ConnectionsManager.getInstance(context).loginWithPhoneNumber(params, new BallabaResponseListener() {
-            @Override
-            public void resolve(BallabaBaseEntity entity) {
-                Log.d(TAG, "loginWithPhoneNumber");
-                if(entity instanceof BallabaOkResponse){
-                    onFlowChanged(Flows.OK);
+            ConnectionsManager.getInstance(context).loginWithPhoneNumber(params, new BallabaResponseListener() {
+                @Override
+                public void resolve(BallabaBaseEntity entity) {
+                    Log.d(TAG, "loginWithPhoneNumber");
+                    if (entity instanceof BallabaOkResponse) {
+                        //if the request completed some milliseconds before the connection time out
+                        wasConnectivityProblemm = false;
+                        onFlowChanged(Flows.OK);
+                    }
                 }
-            }
 
-            @Override
-            public void reject(BallabaBaseEntity entity) {
-                if(entity instanceof BallabaErrorResponse){
-                    //TODO replace next line with snackbar
-                    binder.enterPhoneNumberTextErrorAnswer.setVisibility(View.VISIBLE);
-                    Log.d(TAG, "loginWithPhoneNumber rejected "+((BallabaErrorResponse)entity).statusCode);
-                    onFlowChanged(((BallabaErrorResponse)entity).statusCode);
+                @Override
+                public void reject(BallabaBaseEntity entity) {
+                    if (entity instanceof BallabaErrorResponse) {
+                        //TODO replace next line with snackbar
+                        binder.enterPhoneNumberTextErrorAnswer.setVisibility(View.VISIBLE);
+                        Log.d(TAG, "loginWithPhoneNumber rejected " + ((BallabaErrorResponse) entity).statusCode);
+                        onFlowChanged(((BallabaErrorResponse) entity).statusCode);
+                    }
                 }
-            }
-        });
+            });
+        }else {
+            ((BaseActivity)context).showNetworkError(binder.getRoot());
+            listenToNetworkChanges();
+        }
     }
 
     private void onFlowChanged(int statusCode){

@@ -1,21 +1,12 @@
 package com.example.michaelkibenko.ballaba.Presenters;
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.databinding.DataBindingUtil;
-import android.graphics.Color;
-import android.os.Bundle;
+
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.IntDef;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.telephony.SmsManager;
-import android.telephony.SmsMessage;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -25,16 +16,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.Request;
+import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
-import com.example.michaelkibenko.ballaba.Activities.EnterPhoneNumberActivity;
 import com.example.michaelkibenko.ballaba.Activities.SearchActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPhoneNumber;
-import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
-import com.example.michaelkibenko.ballaba.Holders.GlobalValues;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
@@ -235,7 +223,8 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
         Log.d(TAG, "params: "+params);
 
         UiUtils.instance(true, context).hideSoftKeyboard(((Activity)context).getWindow().getDecorView());
-        Snackbar.make(binder.enterCodeRootLayout, context.getString(R.string.enter_code_send_again_snack_bar_text), Snackbar.LENGTH_LONG).show();
+        //Snackbar.make(binder.enterCodeRootLayout, context.getString(R.string.enter_code_send_again_snack_bar_text), Snackbar.LENGTH_LONG).show();
+        ((BaseActivity)context).getDefaultSnackBar(binder.getRoot(), context.getString(R.string.enter_code_send_again_snack_bar_text), true).show();
 
         ConnectionsManager.getInstance(context).loginWithPhoneNumber(params, new BallabaResponseListener() {
             @Override

@@ -28,11 +28,11 @@ public class BaseActivity extends AppCompatActivity{
     }
 
 
-    protected void showNetworkError(View parentView){
+    public void showNetworkError(View parentView){
         getDefaultSnackBar(parentView, getResources().getString(R.string.no_network_err_msg), true).show();
     }
 
-    protected void hideNetworkError(){
+    public void hideNetworkError(){
         if(defaultSnackBar != null) {
             if (defaultSnackBar.isShown()) {
                 defaultSnackBar.dismiss();
@@ -44,7 +44,7 @@ public class BaseActivity extends AppCompatActivity{
         }
     }
 
-    protected Snackbar getDefaultSnackBar(View parentView, String text, boolean isShowAlways){
+    public Snackbar getDefaultSnackBar(View parentView, String text, boolean isShowAlways){
         if(defaultSnackBar == null){
             defaultSnackBar = Snackbar.make(parentView, text, isShowAlways?Snackbar.LENGTH_INDEFINITE:Snackbar.LENGTH_LONG);
             View snackBarView = defaultSnackBar.getView();
