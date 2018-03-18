@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,9 +31,6 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     private Context mContext;
     private RecyclerView mRecyclerView;
     private LinearLayout parent_layout;
-    private TextView textViewPrice, textViewAddress;
-    private LayoutInflater mInflater;
-    private View holder;
     //private String phoneNumber, shareCardMessage;
 
     public PropertiesRecyclerAdapter(Context mContext, RecyclerView mRecyclerView, List<BallabaProperty> properties, BallabaUser user) {
@@ -40,18 +38,14 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         this.mRecyclerView = mRecyclerView;
         this.properties = properties;
         this.user = user;
-        this.mInflater = LayoutInflater.from(mContext);
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        //shareCardMessage = mContext.getResources().getString(R.string.share_card_message);
-
+        LayoutInflater mInflater = LayoutInflater.from(mContext);
         View view = mInflater.inflate(R.layout.property_item, parent, false);
 
-        textViewAddress = (TextView)view.findViewById(R.id.propertyItem_address_textView);
-        textViewPrice = (TextView)view.findViewById(R.id.propertyItem_price_textView);
-        //parent_layout = (LinearLayout)view.findViewById(R.id.single_message_parent);
+        //parent_layout = (LinearLayout)view.findViewById(R.id.single_Property_parent);
 
         return new ViewHolder(view);
     }
@@ -63,8 +57,9 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
             Log.d(TAG, properties.size()+":"+position);
             BallabaProperty property = properties.get(position);
 
-            textViewAddress.setText(property.address());
-            textViewPrice.setText(property.price());
+            holder.propertyImageView.setImageBitmap(property.bitmap());
+            holder.textViewAddress.setText(property.address());
+            holder.textViewPrice.setText(property.price());
             //parent_layout = (LinearLayout) findViewById(R.id.single_message_parent);
 
         }
@@ -83,11 +78,15 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
+        private TextView textViewPrice, textViewAddress;
+        private ImageView propertyImageView;
 
         ViewHolder(View itemView) {
             super(itemView);
 
-            holder = itemView;
+            propertyImageView = itemView.findViewById(R.id.propertyItem_imageView);
+            textViewAddress = itemView.findViewById(R.id.propertyItem_address_textView);
+            textViewPrice = itemView.findViewById(R.id.propertyItem_price_textView);
         }
     }
 

@@ -4,22 +4,24 @@
     style="@style/allWrapContent"
     android:layoutDirection="rtl"
     android:layout_margin="@dimen/small_margin"
-    android:layout_marginBottom="@dimen/activity_vertical_margin">
+    android:layout_marginBottom="@dimen/activity_vertical_margin"
+    android:background="@color/propertyRecyclerView_background_white">
 
     <ImageView
         android:id="@+id/propertyItem_imageView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/propertyItem_imageView_height"
         app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/box"
+        android:scaleType="fitXY"
+        android:src="@drawable/dummy_property"
+        android:contentDescription="property image"
         />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/propertyItem_topStrip_height"
-        android:background="@android:color/transparent"
+        android:background="@color/black_strip_with_alpha"
         app:layout_constraintTop_toTopOf="parent"
-        android:alpha="@color/black_strip_with_alpha"
         />
 
     <ImageView
@@ -46,89 +48,89 @@
         android:src="@drawable/heart_white_24"
         />
 
-    <TextView
-        android:id="@+id/propertyItem_price_textView"
-        style="@style/allWrapContent"
-        app:layout_constraintStart_toStartOf="parent"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/propertyItem_details_constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/propertyItem_bottomStrip_height"
         app:layout_constraintTop_toBottomOf="@+id/propertyItem_imageView"
-        android:layout_marginTop="@dimen/propertyItem_bottomStrip_price_top_offset"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:textSize="@dimen/textSize_regular"
-        android:textColor="@color/colorAccent"
-        android:gravity="center_horizontal"
-        android:text="4800"
-        />
-    <TextView
-        android:id="@+id/propertyItem_price_currency_textView"
-        style="@style/allWrapContent"
-        app:layout_constraintStart_toEndOf="@+id/propertyItem_price_textView"
-        app:layout_constraintTop_toTopOf="@+id/propertyItem_price_textView"
-        android:layout_marginTop="@dimen/propertyItem_bottomStrip_price_top_offset"
-        android:textSize="@dimen/textSize_regular"
-        android:textColor="@color/colorAccent"
-        android:gravity="center_horizontal"
-        android:text="₪"
-        />
-    <TextView
-        android:id="@+id/propertyItem_price_monthly_textView"
-        style="@style/allWrapContent"
-        app:layout_constraintStart_toEndOf="@+id/propertyItem_price_currency_textView"
-        app:layout_constraintTop_toTopOf="@+id/propertyItem_price_textView"
-        android:layout_marginTop="@dimen/propertyItem_bottomStrip_price_top_offset"
-        android:textSize="@dimen/textSize_small"
-        android:textColor="@color/gray_text_color"
-        android:gravity="center_horizontal"
-        android:layout_marginStart="@dimen/propertyItem_bottomStrip_price_monthly_textView_startOffset"
-        android:text="לחודש"
-        />
+        android:background="@android:color/white"
+        >
 
-    <TextView
-        android:id="@+id/propertyItem_address_textView"
-        style="@style/allWrapContent"
-        app:layout_constraintStart_toStartOf="@+id/propertyItem_price_textView"
-        app:layout_constraintTop_toBottomOf="@+id/propertyItem_price_textView"
-        android:layout_marginTop="@dimen/tiny_margin"
-        android:textSize="@dimen/propertyItem_bottomStrip_address_and_rooms_textView_textSize"
-        android:gravity="end"
-        android:text="לוי אשכול 37, ראשון לציון"
-        />
-    <TextView
-        android:id="@+id/propertyItem_address_dot"
-        style="@style/allWrapContent"
-        android:text="•"
-        app:layout_constraintStart_toEndOf="@+id/propertyItem_address_textView"
-        app:layout_constraintTop_toTopOf="@+id/propertyItem_address_textView"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        />
+        <TextView
+            android:id="@+id/propertyItem_price_textView"
+            style="@style/allWrapContent"
+            app:layout_constraintStart_toStartOf="@+id/propertyItem_details_constraintLayout"
+            app:layout_constraintTop_toTopOf="@+id/propertyItem_details_constraintLayout"
+            android:layout_marginTop="@dimen/propertyItem_bottomStrip_price_top_offset"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:textSize="@dimen/textSize_regular"
+            android:textColor="@color/colorAccent"
+            />
+        <TextView
+            android:id="@+id/propertyItem_price_currency_textView"
+            style="@style/allWrapContent"
+            app:layout_constraintStart_toEndOf="@+id/propertyItem_price_textView"
+            app:layout_constraintTop_toTopOf="@+id/propertyItem_price_textView"
+            android:textSize="@dimen/textSize_regular"
+            android:textColor="@color/colorAccent"
+            android:text="₪"
+            />
+        <TextView
+            android:id="@+id/propertyItem_price_monthly_textView"
+            style="@style/allWrapContent"
+            app:layout_constraintStart_toEndOf="@+id/propertyItem_price_currency_textView"
+            app:layout_constraintTop_toTopOf="@+id/propertyItem_price_textView"
+            android:layout_marginStart="@dimen/propertyItem_bottomStrip_price_monthly_textView_startOffset"
+            android:textSize="@dimen/textSize_small"
+            android:textColor="@color/gray_text_color"
+            android:text="לחודש"
+            />
 
-    <TextView
-        android:id="@+id/propertyItem_rooms_textView"
-        style="@style/allWrapContent"
-        app:layout_constraintStart_toEndOf="@+id/propertyItem_address_dot"
-        app:layout_constraintTop_toTopOf="@+id/propertyItem_address_dot"
-        android:layout_marginTop="@dimen/tiny_margin"
-        android:textSize="@dimen/propertyItem_bottomStrip_address_and_rooms_textView_textSize"
-        android:gravity="end"
-        android:text="2 חדרים"
-        />
-    <TextView
-        android:id="@+id/propertyItem_rooms_dot"
-        style="@style/allWrapContent"
-        android:text="•"
-        app:layout_constraintStart_toEndOf="@+id/propertyItem_rooms_textView"
-        app:layout_constraintTop_toTopOf="@+id/propertyItem_address_textView"
-        />
+        <TextView
+            android:id="@+id/propertyItem_address_textView"
+            style="@style/allWrapContent"
+            app:layout_constraintStart_toStartOf="@+id/propertyItem_price_textView"
+            app:layout_constraintTop_toBottomOf="@+id/propertyItem_price_textView"
+            android:layout_marginTop="@dimen/tiny_margin"
+            android:textSize="@dimen/propertyItem_bottomStrip_address_and_rooms_textView_textSize"
+            />
+        <TextView
+            android:id="@+id/propertyItem_address_dot"
+            style="@style/allWrapContent"
+            android:text="•"
+            app:layout_constraintStart_toEndOf="@+id/propertyItem_address_textView"
+            app:layout_constraintTop_toTopOf="@+id/propertyItem_address_textView"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            />
 
-    <TextView
-        android:id="@+id/propertyItem_propertySize_textView"
-        style="@style/allWrapContent"
-        app:layout_constraintStart_toEndOf="@+id/propertyItem_rooms_dot"
-        app:layout_constraintTop_toTopOf="@+id/propertyItem_rooms_dot"
-        android:layout_marginTop="@dimen/tiny_margin"
-        android:textSize="@dimen/propertyItem_bottomStrip_address_and_rooms_textView_textSize"
-        android:gravity="end"
-        android:text="63 מ'\'\ר"
-        />
+        <TextView
+            android:id="@+id/propertyItem_rooms_textView"
+            style="@style/allWrapContent"
+            app:layout_constraintStart_toEndOf="@+id/propertyItem_address_dot"
+            app:layout_constraintTop_toTopOf="@+id/propertyItem_address_dot"
+            android:textSize="@dimen/propertyItem_bottomStrip_address_and_rooms_textView_textSize"
+            android:text="2 חדרים"
+            />
+        <TextView
+            android:id="@+id/propertyItem_rooms_dot"
+            style="@style/allWrapContent"
+            android:text="•"
+            app:layout_constraintStart_toEndOf="@+id/propertyItem_rooms_textView"
+            app:layout_constraintTop_toTopOf="@+id/propertyItem_address_textView"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            />
+
+        <TextView
+            android:id="@+id/propertyItem_propertySize_textView"
+            style="@style/allWrapContent"
+            app:layout_constraintStart_toEndOf="@+id/propertyItem_rooms_dot"
+            app:layout_constraintTop_toTopOf="@+id/propertyItem_rooms_dot"
+            android:textSize="@dimen/propertyItem_bottomStrip_address_and_rooms_textView_textSize"
+            android:text="63 מ'\'\ר"
+            />
+
+    </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>

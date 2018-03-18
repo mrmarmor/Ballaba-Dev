@@ -1,6 +1,9 @@
 package com.example.michaelkibenko.ballaba.Activities;
 
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -52,8 +55,9 @@ public class SearchActivity extends FragmentActivity implements
 
         /////TESTING
         //properties.add(new BallabaProperty("0001", "רחוב סומסום", "100000000000$"));
-        PropertiesManager.getInstance(this).addProperty(new BallabaProperty("0001", "רחוב סומסום", "100000000000$"));
-        PropertiesManager.getInstance(this).addProperty(new BallabaProperty("0002", "אבן גבירול 17", "2000000$"));
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.dummy_property);
+        PropertiesManager.getInstance(this).addProperty(new BallabaProperty("0001", "רחוב סומסום", "100000000000", bitmap));
+        PropertiesManager.getInstance(this).addProperty(new BallabaProperty("0002", "אבן גבירול 17", "2000000", bitmap));
         /////END OF TESTING
 
         properties = PropertiesManager.getInstance(this).getProperties();
