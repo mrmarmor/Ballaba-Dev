@@ -69,6 +69,20 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
 
         this.parent = parent;
 
+        recyclerViewLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                Log.d(TAG, "span: "+position+":"+recyclerViewLayoutManager.getSpanCount());
+                if (position > 0) {
+                    Log.d(TAG, "position is "+position + " returning 1");
+                    //if ()
+                    return 1;
+                }
+
+                Log.d(TAG, "position is "+position + " returning 0");
+                return 2;//TODO it should be 2. however it gets an "array out of bounds" exception.
+            }
+        });
 
         ////mInflater = LayoutInflater.from(mContext);
         ////firstRootView = mInflater.inflate(R.layout.property_item_single_in_a_row, parent, false);

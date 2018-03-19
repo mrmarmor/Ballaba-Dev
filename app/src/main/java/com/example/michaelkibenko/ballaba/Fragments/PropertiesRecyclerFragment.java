@@ -83,7 +83,7 @@ public class PropertiesRecyclerFragment extends Fragment {
         //rvProperties = (RecyclerView)binder.getRoot().findViewById(R.id.properties_recycler_RV);
 
         rvProperties = (RecyclerView)view.findViewById(R.id.properties_recycler_RV);
-        GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
+        GridLayoutManager manager = new GridLayoutManager(getContext(), 2, LinearLayoutManager.VERTICAL, false);
         rvAdapter = new PropertiesRecyclerAdapter(getContext(), rvProperties, manager, properties, new BallabaUser());
         rvProperties.setLayoutManager(manager);
         rvProperties.setAdapter(rvAdapter);
