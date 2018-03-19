@@ -1,8 +1,10 @@
 package com.example.michaelkibenko.ballaba.Presenters;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -35,7 +37,8 @@ public class SearchPropertiesPresenter {
         this.fragment = PropertiesRecyclerFragment.newInstance(binder, a);
         this.binder = binder;
 
-        initRecycler();
+        //initRecycler is done in PropertiesRecyclerFragment
+        //initRecycler();
     }
 
     private void initRecycler() {
@@ -48,8 +51,9 @@ public class SearchPropertiesPresenter {
         View rootView = (FrameLayout)fragment.getLayoutInflater().inflate(
                 R.layout.fragment_properties_recycler, null, false);
         rvProperties = (RecyclerView)rootView.findViewById(R.id.properties_recycler_RV);
-        rvAdapter = new PropertiesRecyclerAdapter(context, rvProperties, properties, new BallabaUser());
-        rvProperties.setLayoutManager(new LinearLayoutManager(context));
-        rvProperties.setAdapter(rvAdapter);
+        /*StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        rvAdapter = new PropertiesRecyclerAdapter(context, rvProperties, manager, properties, new BallabaUser());
+        rvProperties.setLayoutManager(manager);
+        rvProperties.setAdapter(rvAdapter);*/
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -82,8 +83,9 @@ public class PropertiesRecyclerFragment extends Fragment {
         //rvProperties = (RecyclerView)binder.getRoot().findViewById(R.id.properties_recycler_RV);
 
         rvProperties = (RecyclerView)view.findViewById(R.id.properties_recycler_RV);
-        rvAdapter = new PropertiesRecyclerAdapter(getContext(), rvProperties, properties, new BallabaUser());
-        rvProperties.setLayoutManager(new LinearLayoutManager(getContext()));
+        GridLayoutManager manager = new GridLayoutManager(getContext(), 2);
+        rvAdapter = new PropertiesRecyclerAdapter(getContext(), rvProperties, manager, properties, new BallabaUser());
+        rvProperties.setLayoutManager(manager);
         rvProperties.setAdapter(rvAdapter);
     }
 

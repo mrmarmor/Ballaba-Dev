@@ -58,6 +58,7 @@ public class SearchActivity extends FragmentActivity implements
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.dummy_property);
         PropertiesManager.getInstance(this).addProperty(new BallabaProperty("0001", "רחוב סומסום", "100000000000", bitmap));
         PropertiesManager.getInstance(this).addProperty(new BallabaProperty("0002", "אבן גבירול 17", "2000000", bitmap));
+        PropertiesManager.getInstance(this).addProperty(new BallabaProperty("0003", "הזית 42", "1300000", bitmap));
         /////END OF TESTING
 
         properties = PropertiesManager.getInstance(this).getProperties();

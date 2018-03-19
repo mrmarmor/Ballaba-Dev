@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable name="presenter"
+            type="com.example.michaelkibenko.ballaba.Presenters.PropertyItemPresenter" />
+    </data>
+
+<android.support.constraint.ConstraintLayout
     style="@style/allWrapContent"
     android:layoutDirection="rtl"
     android:layout_margin="@dimen/small_margin"
@@ -53,7 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/propertyItem_bottomStrip_height"
         app:layout_constraintTop_toBottomOf="@+id/propertyItem_imageView"
-        android:background="@android:color/white"
+        android:background="@android:color/holo_blue_light"
         >
 
         <TextView
@@ -134,3 +141,4 @@
     </android.support.constraint.ConstraintLayout>
 
 </android.support.constraint.ConstraintLayout>
+</layout>

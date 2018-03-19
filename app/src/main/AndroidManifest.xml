@@ -38,7 +38,7 @@
 
         <receiver
             android:name=".Activities.EnterCodeActivity$BallabaSMSReceiver"
-            android:exported="true"></receiver>
+            android:exported="true" />
 
         <activity
             android:name=".Activities.MainActivity"
@@ -56,10 +56,13 @@
             android:name=".Activities.SearchActivity"
             android:label="Search"
             android:theme="@style/AppTheme" />
-
         <activity android:name=".Activities.SplashActivity"
             android:label="Splash"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activities.TermsOfUseActivity"
+            android:label="Terms of use"
+            android:theme="@style/AppTheme" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
