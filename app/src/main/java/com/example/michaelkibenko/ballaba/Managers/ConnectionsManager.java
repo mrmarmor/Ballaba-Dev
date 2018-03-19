@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
+import android.os.UserManager;
 import android.text.LoginFilter;
 import android.util.Log;
 
@@ -109,14 +110,13 @@ import java.util.Map;
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, EndpointsHolder.AUTHENTICATE, jsonObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    try {
-                        JSONObject auth = response.getJSONObject("auth");
-                        SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.GLOBAL_TOKEN, auth.getString("global_token"));
-                        callback.resolve(new BallabaOkResponse());
-                    }catch (JSONException ex){
-                        ex.printStackTrace();
-                        callback.reject(new BallabaErrorResponse(500, null));
-                    }
+                        BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
+
+                        if(user == null){
+                            callback.reject(new BallabaErrorResponse(500, null));
+                        }else {
+                            callback.resolve(user);
+                        }
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -181,13 +181,17 @@ import java.util.Map;
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e(TAG, response);
-                        callback.resolve(new BallabaOkResponse());
+                        BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
+                        if(user == null){
+                            callback.reject(new BallabaErrorResponse(500, null));
+                        }else {
+                            callback.resolve(user);
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, error.toString());
+                Log.e(TAG, error.getMessage());
                 if(error.networkResponse != null){
                     callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
                 }else{
@@ -198,8 +202,8 @@ import java.util.Map;
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put("token", token);
-                params.put("device", DeviceUtils.getInstance(true, context).getDeviceId());
+                params.put("global_token", token);
+                params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
                 return params;
             }
         };

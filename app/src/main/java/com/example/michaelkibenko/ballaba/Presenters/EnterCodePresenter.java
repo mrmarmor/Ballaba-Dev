@@ -25,8 +25,12 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPhoneNumber;
+import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
+import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
+import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
 import com.example.michaelkibenko.ballaba.Utils.GeneralUtils;
@@ -161,8 +165,12 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
                     Log.d(TAG, "enterCode");
-                    if (entity instanceof BallabaOkResponse) {
+                    if (entity instanceof BallabaUser) {
                         wasConnectivityProblem = false;
+
+                        BallabaUser user = (BallabaUser)entity;
+                        BallabaUserManager.getInstance().setUser(user);
+                        SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.GLOBAL_TOKEN, user.getGlobal_token());
                         onFlowChanged(EnterPhoneNumberPresenter.Flows.OK);
                     }
                 }

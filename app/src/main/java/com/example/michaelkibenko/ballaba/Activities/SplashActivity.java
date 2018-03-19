@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.UserManager;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -13,8 +14,10 @@ import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
+import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
+import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
@@ -94,8 +97,10 @@ public class SplashActivity extends BaseActivity {
             ConnectionsManager.getInstance(SplashActivity.this).logInByToken(new BallabaResponseListener() {
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
-                    Log.d(TAG, "logInWithToken");
-                    checkSplashDelay(FLOW_TYPES.AUTHENTICATED);
+                    if(entity instanceof BallabaUser){
+                        BallabaUserManager.getInstance().setUser((BallabaUser) entity);
+                        checkSplashDelay(FLOW_TYPES.AUTHENTICATED);
+                    }
                 }
 
                 @Override
