@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Presenters.PropertyItemPresenter;
@@ -29,7 +30,9 @@ import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.PropertyItemSingleInARowBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyItemDuplicatedBinding;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -69,20 +72,6 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
 
         this.parent = parent;
 
-        recyclerViewLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                Log.d(TAG, "span: "+position+":"+recyclerViewLayoutManager.getSpanCount());
-                if (position > 0) {
-                    Log.d(TAG, "position is "+position + " returning 1");
-                    //if ()
-                    return 1;
-                }
-
-                Log.d(TAG, "position is "+position + " returning 0");
-                return 2;//TODO it should be 2. however it gets an "array out of bounds" exception.
-            }
-        });
 
         ////mInflater = LayoutInflater.from(mContext);
         ////firstRootView = mInflater.inflate(R.layout.property_item_single_in_a_row, parent, false);
@@ -97,17 +86,12 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
             Log.d(TAG, properties.size()+":"+position);
             BallabaProperty property = properties.get(position);
 
-            //arrangeLayoutManagerToDisplaySingleAndDuplicateItems(recyclerViewLayoutManager);
-
-            //TODO another way to set items count in a row. not working - displays 1 item.
-            /*if (position == 0) {
-                recyclerViewLayoutManager.setSpanCount(1);
-                //recyclerViewLayoutManager = new StaggeredGridLayoutManager(1 ,StaggeredGridLayoutManager.VERTICAL);
-            } else {
-                recyclerViewLayoutManager.setSpanCount(2);
-            }*/
-
-            Glide.with(mContext).load(property.bitmap()).into(bindSingle.propertyItemImageView);//holder.propertyImageView);
+            RequestOptions options = new RequestOptions();
+            options.centerCrop();
+            Glide.with(mContext)
+                    .load(property.bitmap())
+                    .apply(options)
+                    .into(bindSingle.propertyItemImageView);//holder.propertyImageView);
             bindSingle.propertyItemAddressTextView.setText(property.address());
             bindSingle.propertyItemPriceTextView.setText(property.price());
 
@@ -150,22 +134,6 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
             //textViewAddress = itemView.findViewById(R.id.propertyItem_address_textView);
             //textViewPrice = itemView.findViewById(R.id.propertyItem_price_textView);
         }
-    }
-
-    private void arrangeLayoutManagerToDisplaySingleAndDuplicateItems(final GridLayoutManager layoutManager){
-        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
-            @Override
-            public int getSpanSize(int position) {
-                Log.d(TAG, "span: "+position+":"+layoutManager.getSpanCount());
-                if (position > 0) {
-                    Log.d(TAG, "position is "+position + " returning 1");
-                    return 1;
-                }
-
-                Log.d(TAG, "position is "+position + " returning 0");
-                return 0;//TODO it should be 2. however it gets an "array out of bounds" exception.
-            }
-        });
     }
 
     private void setFontForDevicesUnderApi26(){
