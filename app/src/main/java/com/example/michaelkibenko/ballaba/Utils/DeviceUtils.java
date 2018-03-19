@@ -28,7 +28,7 @@ public class DeviceUtils {
     }
 
     private DeviceUtils(Context context){
-        this.context = context;
+        this.context = context.getApplicationContext();
     }
 
     public String getDeviceId(){

@@ -47,7 +47,7 @@ public class EnterPhoneNumberActivity extends BaseActivity {
         UiUtils.instance(true, this).hideSoftKeyboard(getWindow().getDecorView());
     }
 
-    public void getPermissionsToReadSms(){
+    public void getPermissionsToReadSms(View v){
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(this, Manifest.permission.BROADCAST_SMS) != PackageManager.PERMISSION_GRANTED){

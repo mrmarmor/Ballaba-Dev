@@ -27,14 +27,14 @@ public class SharedPreferencesManager {
 
     private SharedPreferencesManager(Context context) {
         this.context = context;
-        this.preferences = context.getSharedPreferences(SharedPreferencesKey, Context.MODE_PRIVATE);
+        this.preferences = context.getApplicationContext().getSharedPreferences(SharedPreferencesKey, Context.MODE_PRIVATE);
     }
 
     private SharedPreferences.Editor getEditor() {
         return preferences.edit();
     }
 
-    protected boolean putString(@SharedPreferencesKeysHolder String key, String value) {
+    public boolean putString(@SharedPreferencesKeysHolder String key, String value) {
         return getEditor().putString(key, value).commit();
     }
 

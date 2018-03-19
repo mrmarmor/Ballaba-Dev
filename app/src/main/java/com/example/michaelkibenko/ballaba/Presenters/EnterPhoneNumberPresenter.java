@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.android.volley.Request;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
+import com.example.michaelkibenko.ballaba.Activities.EnterPhoneNumberActivity;
 import com.example.michaelkibenko.ballaba.Activities.TermsOfUseActivity;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
@@ -183,19 +184,14 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
 
     public void sendPhoneNumber(){
         if(BallabaConnectivityAnnouncer.getInstance(context).isConnected()) {
-            String deviceId = DeviceUtils.getInstance(true, context).getDeviceId();
-            Map<String, String> params = GeneralUtils.getParams(new String[]{"phone", "device_id"}, new String[]{phoneNumber.getFullPhoneNumber(), deviceId});
-            Log.d(TAG, "onNextButtonClick");
-            Log.d(TAG, "params: " + params);
 
             ((BaseActivity)context).getDefaultSnackBar(binder.getRoot(), context.getString(R.string.enter_phone_number_snackBar_text), true);
-//            Snackbar.make(binder.enterPhoneNumberRootLayout, context.getString(R.string.enter_phone_number_snackBar_text), Snackbar.LENGTH_LONG).show();
 
             circleProgressBarChanger(true);
             UiUtils.instance(true, context).buttonChanger(binder.enterPhoneNumberNextButton, false);
             UiUtils.instance(true, context).hideSoftKeyboard(((Activity) context).getWindow().getDecorView());
 
-            ConnectionsManager.getInstance(context).loginWithPhoneNumber(params, new BallabaResponseListener() {
+            ConnectionsManager.getInstance(context).loginWithPhoneNumber(phoneNumber.getFullPhoneNumber(), new BallabaResponseListener() {
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
                     Log.d(TAG, "loginWithPhoneNumber");

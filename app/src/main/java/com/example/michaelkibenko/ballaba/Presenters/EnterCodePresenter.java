@@ -157,10 +157,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
 
     private void onCodeCompleted() {
         if(BallabaConnectivityAnnouncer.getInstance(context).isConnected()) {
-            Map<String, String> params = GeneralUtils.getParams(new String[]{"phone", "code"}, new String[]{phoneNumber.getFullPhoneNumber(), sbCode.toString()});
-            Log.e(TAG, params.toString());
-
-            ConnectionsManager.getInstance(context).enterCode(params, new BallabaResponseListener() {
+            ConnectionsManager.getInstance(context).enterCode(phoneNumber.getFullPhoneNumber(),sbCode.toString() , new BallabaResponseListener() {
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
                     Log.d(TAG, "enterCode");
@@ -191,6 +188,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
             case Flows.OK:
                 Intent intentToMainActivity = new Intent(context, SearchActivity.class);
                 //intentToMainActivity.putExtra(SOMETHING TO MOVE);
+                intentToMainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intentToMainActivity);
                 break;
 
@@ -244,16 +242,10 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
         UiUtils.instance(true, context).buttonChanger(binder.enterCodeSendAgainButton, false);
         show1MinuteClock();
 
-        String deviceId = DeviceUtils.getInstance(true, context).getDeviceId();
-        Map<String, String> params = GeneralUtils.getParams(new String[]{"phone", "device_id"}, new String[]{phoneNumber.getFullPhoneNumber(), deviceId});
-        Log.d(TAG, "onNextButtonClick");
-        Log.d(TAG, "params: "+params);
-
         UiUtils.instance(true, context).hideSoftKeyboard(((Activity)context).getWindow().getDecorView());
-        //Snackbar.make(binder.enterCodeRootLayout, context.getString(R.string.enter_code_send_again_snack_bar_text), Snackbar.LENGTH_LONG).show();
         ((BaseActivity)context).getDefaultSnackBar(binder.getRoot(), context.getString(R.string.enter_code_send_again_snack_bar_text), true).show();
 
-        ConnectionsManager.getInstance(context).loginWithPhoneNumber(params, new BallabaResponseListener() {
+        ConnectionsManager.getInstance(context).loginWithPhoneNumber(phoneNumber.getFullPhoneNumber(), new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 if(entity instanceof BallabaOkResponse){
