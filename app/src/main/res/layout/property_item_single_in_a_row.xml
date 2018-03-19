@@ -72,6 +72,7 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:textSize="@dimen/textSize_regular"
             android:textColor="@color/colorAccent"
+            android:fontFamily="@font/rubik_bold"
             />
         <TextView
             android:id="@+id/propertyItem_price_currency_textView"
@@ -81,6 +82,7 @@
             android:textSize="@dimen/textSize_regular"
             android:textColor="@color/colorAccent"
             android:text="₪"
+            android:fontFamily="@font/rubik_bold"
             />
         <TextView
             android:id="@+id/propertyItem_price_monthly_textView"
@@ -91,6 +93,7 @@
             android:textSize="@dimen/textSize_small"
             android:textColor="@color/gray_text_color"
             android:text="לחודש"
+            android:fontFamily="@font/rubik_regular"
             />
 
         <TextView
@@ -100,6 +103,7 @@
             app:layout_constraintTop_toBottomOf="@+id/propertyItem_price_textView"
             android:layout_marginTop="@dimen/tiny_margin"
             android:textSize="@dimen/propertyItem_bottomStrip_address_and_rooms_textView_textSize"
+            android:fontFamily="@font/rubik_regular"
             />
         <TextView
             android:id="@+id/propertyItem_address_dot"
@@ -118,6 +122,7 @@
             android:textSize="@dimen/propertyItem_bottomStrip_address_and_rooms_textView_textSize"
             android:layout_marginStart="@dimen/small_margin"
             android:text="2 חדרים"
+            android:fontFamily="@font/rubik_regular"
             />
         <TextView
             android:id="@+id/propertyItem_rooms_dot"
@@ -136,6 +141,7 @@
             android:layout_marginStart="@dimen/small_margin"
             android:textSize="@dimen/propertyItem_bottomStrip_address_and_rooms_textView_textSize"
             android:text="63 מ'\'\ר"
+            android:fontFamily="@font/rubik_regular"
             />
 
     </android.support.constraint.ConstraintLayout>

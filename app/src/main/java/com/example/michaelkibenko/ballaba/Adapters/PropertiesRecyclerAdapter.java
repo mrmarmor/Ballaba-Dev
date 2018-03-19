@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
+import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -47,7 +50,6 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     private LinearLayout parent_layout;
     private PropertyItemSingleInARowBinding bindSingle;
     private PropertyItemDuplicatedBinding bindDuplicate;
-    //private String phoneNumber, shareCardMessage;
 
     public PropertiesRecyclerAdapter(Context mContext, RecyclerView mRecyclerView
             , GridLayoutManager manager, List<BallabaProperty> properties, BallabaUser user) {
@@ -94,6 +96,8 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
             Glide.with(mContext).load(property.bitmap()).into(bindSingle.propertyItemImageView);//holder.propertyImageView);
             bindSingle.propertyItemAddressTextView.setText(property.address());
             bindSingle.propertyItemPriceTextView.setText(property.price());
+
+            setFontForDevicesUnderApi26();
 
             //anotherRootViews = mInflater.inflate(R.layout.property_item_duplicated, parent, false);
 
@@ -148,6 +152,20 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
                 return 0;//TODO it should be 2. however it gets an "array out of bounds" exception.
             }
         });
+    }
+
+    private void setFontForDevicesUnderApi26(){
+        Typeface typefaceRegular = ResourcesCompat.getFont(mContext, R.font.rubik_regular);
+        Typeface typefaceBold = ResourcesCompat.getFont(mContext, R.font.rubik_bold);
+
+        ViewGroup textViewsParent = ((ViewGroup)bindSingle.propertyItemAddressTextView.getParent());
+        for (int i = 0; i < textViewsParent.getChildCount(); i++)
+            if (textViewsParent.getChildAt(i) instanceof TextView)
+                ((TextView)textViewsParent.getChildAt(i)).setTypeface(typefaceRegular);
+
+        bindSingle.propertyItemPriceTextView.setTypeface(typefaceBold);
+        bindSingle.propertyItemPriceCurrencyTextView.setTypeface(typefaceBold);
+
     }
 
 }
