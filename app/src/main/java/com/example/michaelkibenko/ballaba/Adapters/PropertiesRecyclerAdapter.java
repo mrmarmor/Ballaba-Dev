@@ -44,7 +44,7 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
 
     private BallabaUser user;
     private List<BallabaProperty> properties = Collections.emptyList();
-    private Context mContext;
+    final private Context mContext;
     private View firstRootView, anotherRootViews;
     private LayoutInflater mInflater;
     private ViewGroup parent;
@@ -72,7 +72,6 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
 
         this.parent = parent;
 
-
         ////mInflater = LayoutInflater.from(mContext);
         ////firstRootView = mInflater.inflate(R.layout.property_item_single_in_a_row, parent, false);
         //parent_layout = (LinearLayout)view.findViewById(R.id.single_Property_parent);
@@ -99,8 +98,6 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
 
             //anotherRootViews = mInflater.inflate(R.layout.property_item_duplicated, parent, false);
 
-
-
             //TODO without binder and glide:
             //holder.propertyImageView.setImageBitmap(property.bitmap());
             ////holder.textViewAddress.setText(property.address());
@@ -118,10 +115,6 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         notifyDataSetChanged();
     }
 
-    public void setImageView(Bitmap bitmap){
-        //holder.propertyImageView.setImageBitmap(bitmap);
-    }
-
     class ViewHolder extends RecyclerView.ViewHolder {
         //private TextView textViewPrice, textViewAddress;
         //private ImageView propertyImageView;
@@ -137,17 +130,15 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     }
 
     private void setFontForDevicesUnderApi26(){
-        Typeface typefaceRegular = ResourcesCompat.getFont(mContext, R.font.rubik_regular);
-        Typeface typefaceBold = ResourcesCompat.getFont(mContext, R.font.rubik_bold);
+        final Typeface typefaceRegular = ResourcesCompat.getFont(mContext, R.font.rubik_regular);
+        final Typeface typefaceBold = ResourcesCompat.getFont(mContext, R.font.rubik_bold);
 
-        ViewGroup textViewsParent = ((ViewGroup)bindSingle.propertyItemAddressTextView.getParent());
-        for (int i = 0; i < textViewsParent.getChildCount(); i++)
-            if (textViewsParent.getChildAt(i) instanceof TextView)
-                ((TextView)textViewsParent.getChildAt(i)).setTypeface(typefaceRegular);
-
+        bindSingle.propertyItemRoomsTextView.setTypeface(typefaceRegular);
+        bindSingle.propertyItemPropertySizeTextView.setTypeface(typefaceRegular);
+        bindSingle.propertyItemAddressTextView.setTypeface(typefaceRegular);
+        bindSingle.propertyItemPriceMonthlyTextView.setTypeface(typefaceRegular);
         bindSingle.propertyItemPriceTextView.setTypeface(typefaceBold);
         bindSingle.propertyItemPriceCurrencyTextView.setTypeface(typefaceBold);
-
     }
 
 }

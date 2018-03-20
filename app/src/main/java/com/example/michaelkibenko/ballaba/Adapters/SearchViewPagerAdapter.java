@@ -7,13 +7,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 //import com.example.michaelkibenko.ballaba.Fragments.SearchPlaceFragment;
 import com.example.michaelkibenko.ballaba.Presenters.MapPresenter;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.databinding.SearchActivityLayoutBinding;
+import com.example.michaelkibenko.ballaba.databinding.MainScreenLayoutBinding;
 
 /**
  * Created by User on 13/03/2018.
@@ -21,9 +20,9 @@ import com.example.michaelkibenko.ballaba.databinding.SearchActivityLayoutBindin
 
 public class SearchViewPagerAdapter extends FragmentStatePagerAdapter {
     private Context context;
-    private SearchActivityLayoutBinding binder;
+    private MainScreenLayoutBinding binder;
 
-    public SearchViewPagerAdapter(Context context, SearchActivityLayoutBinding binder, FragmentManager fm) {
+    public SearchViewPagerAdapter(Context context, MainScreenLayoutBinding binder, FragmentManager fm) {
         super(fm);
 
         this.context = context;

@@ -28,6 +28,8 @@
     <string name="enter_code_send_again_button_text">שלח שוב</string>
     <string name="enter_code_send_again_snack_bar_text">שולח קוד</string>
 
+    <string name="mainScreen_searchButton_text">חיפוש</string>
+
     <string name="terms_of_use_label">תקנון</string>
     <string name="terms_of_use_text">לורם איפסום דולור סיט אמט, קונסקטורר אדיפיסינג
 אלית נולום ארווס סאפיאן - פוסיליס קוויס, אקווזמן קוואזי
@@ -83,6 +85,18 @@
             <code>+213</code>
         </item>
     </string-array>
+
+    <!-- MENU SECTION -->
+    <string name="menuItem_landlord">אני משכיר\/ה</string>
+    <string name="menuItem_payments">מוצרים ותשלומים</string>
+    <string name="menuItem_favorites">מועדפים</string>
+    <string name="menuItem_savedAreas">אזורים שמורים</string>
+    <string name="menuItem_meetings">פגישות</string>
+    <string name="menuItem_chat">צ\'אט</string>
+    <string name="menuItem_conflicts">מחלוקות</string>
+    <string name="menuItem_editProfile">עריכת פרופיל</string>
+    <string name="menuItem_settimgs">הגדרות</string>
+    <!-- END OF MENU SECTION -->
 
     <!-- ERROR SECTION -->
     <!--<string name="error_network_internal">An internal error</string>-->

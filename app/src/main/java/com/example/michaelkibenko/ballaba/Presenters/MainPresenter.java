@@ -2,47 +2,29 @@ package com.example.michaelkibenko.ballaba.Presenters;
 
 import android.Manifest;
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.databinding.DataBindingUtil;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.example.michaelkibenko.ballaba.Activities.SearchActivity;
-import com.example.michaelkibenko.ballaba.Adapters.GooglePlacesAdapter;
+import com.example.michaelkibenko.ballaba.Activities.MainScreenActivity;
+import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
 import com.example.michaelkibenko.ballaba.Adapters.SearchViewPagerAdapter;
 import com.example.michaelkibenko.ballaba.Common.ClassesCommunicationListener;
-import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
-import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
-import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
-import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.Utils.GeneralUtils;
-import com.example.michaelkibenko.ballaba.databinding.SearchActivityLayoutBinding;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.LatLngBounds;
+import com.example.michaelkibenko.ballaba.databinding.MainScreenLayoutBinding;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.List;
 import java.util.Locale;
 
@@ -50,27 +32,27 @@ import java.util.Locale;
  * Created by michaelkibenko on 12/03/2018.
  */
 
-public class SearchPresenter extends BasePresenter implements BallabaLocationManager.OnGoogleMapListener{
-
-    private final String TAG = SearchPresenter.class.getSimpleName();
-    private final String PLACES_API_BASE = EndpointsHolder.GOOGLE_PLACES_API
-            , TYPE_TEXT_SEARCH = "/textsearch", OUT_JSON = "/json?query=";
-    private final int GPS_PERMISSION_REQ_CODE = 1;
+public class MainPresenter extends BasePresenter {
+    private final String TAG = MainPresenter.class.getSimpleName();
+    //private final String PLACES_API_BASE = EndpointsHolder.GOOGLE_PLACES_API
+    //        , TYPE_TEXT_SEARCH = "/textsearch", OUT_JSON = "/json?query=";
+    public static final int REQ_CODE_GPS_PERMISSION = 1, REQ_CODE_SELECT_CITY = 2;
 
     private Context context;
     private FragmentManager fm;
     private PagerAdapter pagerAdapter;
-    private AutoCompleteTextView actvSearchPlace;
-    private SearchActivityLayoutBinding binder;
+    private MainScreenLayoutBinding binder;
     private ClassesCommunicationListener listener;
-    private GoogleMap googleMap;
+    //private GoogleMap googleMap;
 
-    public SearchPresenter(Context context, SearchActivityLayoutBinding binder, FragmentManager fm){
+    public MainPresenter() {}
+    public MainPresenter(Context context, MainScreenLayoutBinding binder, FragmentManager fm){
         this.binder = binder;
         this.context = context;
         this.fm = fm;
 
-        initAutoCompleteTextView();
+        //initAutoCompleteTextView();
+        initDrawer();
         initViewPager();
 
         //TODO as default the recyclerView will be shown. for now, map will be
@@ -78,58 +60,48 @@ public class SearchPresenter extends BasePresenter implements BallabaLocationMan
         //mapPresenter.openMapFragment();
     }
 
-    private void initAutoCompleteTextView(){
+    private void initDrawer(){
+        binder.mainScreenNavigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        // set item as selected to persist highlight
+                        menuItem.setChecked(true);
+                        // close drawer when item is tapped
+                        binder.mainScreenDrawerLayout.closeDrawers();
 
-        //TODO if you want actvSearchPlace display device current address:
-        //setListAdapterToDeviceAddress(listView);
-        actvSearchPlace = binder.getRoot().findViewById(R.id.searchActivity_autoCompleteTextView);
+                        // Add code here to update the UI based on the item selected
+                        // For example, swap UI fragments here
 
-        final GooglePlacesAdapter dataAdapter = new GooglePlacesAdapter(
-                context, android.R.layout.simple_list_item_1);
-        actvSearchPlace.setAdapter(dataAdapter);
+                        return true;
+                    }
+                });
 
-        actvSearchPlace.addTextChangedListener(new TextWatcher() {
-            public void afterTextChanged(Editable s) {actvSearchPlace.setAdapter(dataAdapter); }
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                dataAdapter.getFilter().filter(s.toString());
-            }
-        });
-
-        actvSearchPlace.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                actvSearchPlace.setText(((TextView)view).getText());
-                LatLng selectedPlace = BallabaLocationManager.getInstance(context)
-                        .locationGeoCoder(((TextView)view).getText().toString());
-
-                //GoogleMap googleMap = BallabaMapFragment.newInstance().getGoogleMapObject();
-                BallabaMapFragment.newInstance().onItemSelected(googleMap, selectedPlace);
-                ////listener.onItemSelected(selectedPlace);
-                //setViewportByName(((TextView)view).getText().toString());
-            }
-        });
     }
 
     private void initViewPager(){
         pagerAdapter = new SearchViewPagerAdapter(context, binder, fm);
-        binder.searchViewPager.setAdapter(pagerAdapter);
+        binder.mainScreenViewPager.setAdapter(pagerAdapter);
+    }
+
+    public void onClickToSelectCity(){
+        Intent intentSelectCity = new Intent(context, SelectCitySubActivity.class);
+        ((Activity)context).startActivityForResult(intentSelectCity, REQ_CODE_SELECT_CITY);
     }
 
     public void onClickToGoogleMap(){
-        binder.searchViewPager.setCurrentItem(binder.searchViewPager.getCurrentItem()==0? 1:0, false);
+        binder.mainScreenViewPager.setCurrentItem(
+                binder.mainScreenViewPager.getCurrentItem()==0? 1:0, false);
     }
 
-    @Override
+    /*@Override
     public void OnGoogleMap(GoogleMap googleMap) {
         Log.d(TAG, googleMap.getMaxZoomLevel()+"");
         this.googleMap = googleMap;
 
-    }
+    }*/
 
-    public SearchPresenter() {}
-
-    private void setViewportByName(String name){
+    /*private void setViewportByName(String name){
         LatLngBounds bounds;
         String apiKey = GeneralUtils.getMatadataFromManifest(context, "com.google.android.geo.API_KEY");
 
@@ -142,7 +114,7 @@ public class SearchPresenter extends BasePresenter implements BallabaLocationMan
         sb.append("&key=" + apiKey);
         sb.append("&components=country:IL");//TODO set locale for another countries
 
-       /* ConnectionsManager.getInstance(getActivity()).apiRequest(sb, new BallabaResponseListener() {
+       *//* ConnectionsManager.getInstance(getActivity()).apiRequest(sb, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 Log.d(TAG, "request result: " + ((BallabaOkResponse)entity).body);
@@ -154,16 +126,16 @@ public class SearchPresenter extends BasePresenter implements BallabaLocationMan
                 Log.e(TAG, "request result: " + entity);
 
             }
-        });*/
-        /*ConnectionsManager.UrlTask.execute(new Runnable() {
+        });*//*
+        *//*ConnectionsManager.UrlTask.execute(new Runnable() {
             @Override
             public void run() {
                 StringBuilder result = ConnectionsManager.getInstance(getActivity()).apiRequest(sb);
                 Log.d(TAG, "request result: " + result);
             }
-        });*/
+        });*//*
 
-    }
+    }*/
 
     public void setListAdapterToDeviceAddress(ListView listView){
         ArrayAdapter myAddressAdapter = new ArrayAdapter(context, android.R.layout.simple_list_item_single_choice/*R.layout.one_item*//*R.layout.fragment_publish_job_location*/);
@@ -198,7 +170,7 @@ public class SearchPresenter extends BasePresenter implements BallabaLocationMan
         Log.d(TAG, "registerReadSmsReceiver");
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions((SearchActivity)context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, GPS_PERMISSION_REQ_CODE);
+            ActivityCompat.requestPermissions((MainScreenActivity)context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQ_CODE_GPS_PERMISSION);
         }else{
             Log.d(TAG, "gps permission had already been given");
         }
