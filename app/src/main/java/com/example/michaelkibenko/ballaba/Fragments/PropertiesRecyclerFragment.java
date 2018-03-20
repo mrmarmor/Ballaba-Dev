@@ -18,7 +18,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
 import com.example.michaelkibenko.ballaba.Presenters.SearchPropertiesPresenter;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.databinding.MainScreenLayoutBinding;
+import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
 import java.util.List;
 
@@ -33,7 +33,7 @@ public class PropertiesRecyclerFragment extends Fragment {
     private List<BallabaProperty> properties;
 
     private SearchPropertiesPresenter presenter;
-    private static MainScreenLayoutBinding binder;
+    private static ActivityMainLayoutBinding binder;
     private LayoutInflater inflater;
 
     private OnFragmentInteractionListener mListener;
@@ -41,7 +41,7 @@ public class PropertiesRecyclerFragment extends Fragment {
     public PropertiesRecyclerFragment() {}
 
     // TODO: Rename and change types and number of parameters
-    public static PropertiesRecyclerFragment newInstance(MainScreenLayoutBinding mBinder, String param) {
+    public static PropertiesRecyclerFragment newInstance(ActivityMainLayoutBinding mBinder, String param) {
         binder = mBinder;
         PropertiesRecyclerFragment fragment = new PropertiesRecyclerFragment();
         Bundle args = new Bundle();
@@ -84,14 +84,15 @@ public class PropertiesRecyclerFragment extends Fragment {
         //rvProperties = (RecyclerView)binder.getRoot().findViewById(R.id.properties_recycler_RV);
 
         rvProperties = (RecyclerView)view.findViewById(R.id.properties_recycler_RV);
-        GridLayoutManager manager = new GridLayoutManager(getContext(), 2, LinearLayoutManager.VERTICAL, false);
-        arrangeLayoutManagerToDisplaySingleAndDuplicateItems(manager);
+        //GridLayoutManager manager = new GridLayoutManager(getContext(), 2);//TODO to display 2 properties in a row
+        LinearLayoutManager manager = new LinearLayoutManager(getContext());
         rvAdapter = new PropertiesRecyclerAdapter(getContext(), rvProperties, manager, properties, new BallabaUser());
         rvProperties.setLayoutManager(manager);
         rvProperties.setAdapter(rvAdapter);
     }
 
-    private void arrangeLayoutManagerToDisplaySingleAndDuplicateItems(final GridLayoutManager layoutManager){
+    //TODO to display 1 or 2 properties in a row
+    /*private void arrangeLayoutManagerToDisplaySingleAndDuplicateItems(final GridLayoutManager layoutManager){
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -102,7 +103,7 @@ public class PropertiesRecyclerFragment extends Fragment {
                 return 2;
             }
         });
-    }
+    }*/
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

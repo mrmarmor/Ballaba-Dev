@@ -14,7 +14,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.databinding.MainScreenLayoutBinding;
+import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +27,14 @@ import java.util.zip.Inflater;
 public class SearchPropertiesPresenter {
     private Context context;
     private PropertiesRecyclerFragment fragment;
-    private MainScreenLayoutBinding binder;
+    private ActivityMainLayoutBinding binder;
     private PropertiesRecyclerAdapter rvAdapter;
     private RecyclerView rvProperties;
     private List<BallabaProperty> properties;
 
-    public SearchPropertiesPresenter(Context context, MainScreenLayoutBinding binder, String a) {
+    public SearchPropertiesPresenter(Context context, ActivityMainLayoutBinding binder, String params) {
         this.context = context;
-        this.fragment = PropertiesRecyclerFragment.newInstance(binder, a);
+        this.fragment = PropertiesRecyclerFragment.newInstance(binder, params);
         this.binder = binder;
 
         //initRecycler is done in PropertiesRecyclerFragment

@@ -59,7 +59,7 @@
             android:label="Enter code"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Activities.MainScreenActivity"
+            android:name=".Activities.MainActivity"
             android:label="Search"
             android:theme="@style/AppTheme" />
         <activity android:name=".Activities.SelectCitySubActivity" />

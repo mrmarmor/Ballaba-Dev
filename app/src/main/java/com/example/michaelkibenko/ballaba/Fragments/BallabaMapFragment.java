@@ -3,16 +3,14 @@ package com.example.michaelkibenko.ballaba.Fragments;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.michaelkibenko.ballaba.Common.ClassesCommunicationListener;
+import com.example.michaelkibenko.ballaba.Common.BallabaSelectedCityListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -30,7 +28,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, LocationListener , GoogleMap.OnCameraMoveStartedListener,
         GoogleMap.OnCameraMoveListener,
         GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraIdleListener,
-        ClassesCommunicationListener{
+        BallabaSelectedCityListener {
 
     private static final String TAG = BallabaMapFragment.class.getSimpleName();
 
@@ -92,14 +90,14 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         this.context = context;
         locationManager = BallabaLocationManager.getInstance(this.context);
 
-        //TODO context == MainScreenActivity. next 6 lines throws exception because it is not instance of
+        //TODO context == MainActivity. next 6 lines throws exception because it is not instance of
         //TODO BallabaLocationManager.OnGoogleMapListener. needed to be fixed.
-        /*if (context instanceof BallabaLocationManager.OnGoogleMapListener) {
+        if (context instanceof BallabaLocationManager.OnGoogleMapListener) {
             mListener = (BallabaLocationManager.OnGoogleMapListener)context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnGoogleMapListener");
-        }*/
+        }
         //TODO end of TODO
 
         /*DataBindingUtil.inflate(

@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
-import com.example.michaelkibenko.ballaba.Activities.MainScreenActivity;
+import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
@@ -158,7 +158,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
     private void onFlowChanged(int statusCode) {
         switch (statusCode) {
             case Flows.OK:
-                Intent intentToMainActivity = new Intent(context, MainScreenActivity.class);
+                Intent intentToMainActivity = new Intent(context, MainActivity.class);
                 //intentToMainActivity.putExtra(SOMETHING TO MOVE);
                 context.startActivity(intentToMainActivity);
                 break;

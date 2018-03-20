@@ -5,7 +5,7 @@ import android.content.Intent;
 
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterPhoneNumberActivity;
-import com.example.michaelkibenko.ballaba.Activities.MainScreenActivity;
+import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.SplashActivity;
 
 /**
@@ -33,7 +33,7 @@ public class TestingPresenter extends BasePresenter {
     }
 
     public void onSearchClicked(){
-        context.startActivity(new Intent(context, MainScreenActivity.class));
+        context.startActivity(new Intent(context, MainActivity.class));
     }
 
     public void onFlowStartedClicked(){

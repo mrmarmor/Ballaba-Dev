@@ -6,6 +6,7 @@
     <dimen name="tiny_margin">4dp</dimen>
     <dimen name="textSize_small">14sp</dimen>
     <dimen name="textSize_regular">16sp</dimen>
+    <dimen name="icon_regular">24dp</dimen>
     <!-- End of Default app dimensions. -->
 
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
@@ -97,7 +98,14 @@
     <dimen name="propertyItem_bottomStrip_price_top_offset">12dp</dimen>
     <dimen name="propertyItem_bottomStrip_price_monthly_textView_startOffset">5dp</dimen>
     <dimen name="propertyItem_bottomStrip_address_and_rooms_textView_textSize">13sp</dimen>
+    <dimen name="propertyItem_propertyElevation">2dp</dimen>
 
-
+    <dimen name="mainActivity_RecyclerView_margin_top">56dp</dimen>
+    <dimen name="mainActivity_toMapIcon_margin_end">9dp</dimen>
+    <dimen name="mainActivity_toMapIcon_margin_top_bottom">12dp</dimen>
+    <dimen name="mainActivity_searchIcon_dimens">17.5dp</dimen>
+    <dimen name="mainActivity_searchIcon_margin_top_bottom">15.5dp</dimen>
+    <dimen name="mainActivity_searchIcon_margin_start">19.5dp</dimen>
+    <dimen name="mainActivity_searchButton_text_padding_start">94dp</dimen>
 
 </resources>

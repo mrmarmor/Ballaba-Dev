@@ -12,7 +12,7 @@ import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 //import com.example.michaelkibenko.ballaba.Fragments.SearchPlaceFragment;
 import com.example.michaelkibenko.ballaba.Presenters.MapPresenter;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.databinding.MainScreenLayoutBinding;
+import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
 /**
  * Created by User on 13/03/2018.
@@ -20,9 +20,9 @@ import com.example.michaelkibenko.ballaba.databinding.MainScreenLayoutBinding;
 
 public class SearchViewPagerAdapter extends FragmentStatePagerAdapter {
     private Context context;
-    private MainScreenLayoutBinding binder;
+    private ActivityMainLayoutBinding binder;
 
-    public SearchViewPagerAdapter(Context context, MainScreenLayoutBinding binder, FragmentManager fm) {
+    public SearchViewPagerAdapter(Context context, ActivityMainLayoutBinding binder, FragmentManager fm) {
         super(fm);
 
         this.context = context;
@@ -34,7 +34,7 @@ public class SearchViewPagerAdapter extends FragmentStatePagerAdapter {
         if (position == 1) {
             return BallabaMapFragment.newInstance();
         } else {
-            return PropertiesRecyclerFragment.newInstance(binder, "a");
+            return PropertiesRecyclerFragment.newInstance(binder, null);
         }
     }
 

@@ -24,7 +24,7 @@ import com.google.android.gms.maps.model.LatLng;
  * Created by User on 20/03/2018.
  */
 
-public class SelectCityPresenter extends BasePresenter implements BallabaLocationManager.OnGoogleMapListener{
+public class SelectCityPresenter extends BasePresenter implements BallabaLocationManager.OnGoogleMapListener {
     private final String TAG = SelectCityPresenter.class.getSimpleName(),
             PLACES_API_BASE = EndpointsHolder.GOOGLE_PLACES_API,
             TYPE_TEXT_SEARCH = "/textsearch", OUT_JSON = "/json?query=";
@@ -82,6 +82,5 @@ public class SelectCityPresenter extends BasePresenter implements BallabaLocatio
     public void OnGoogleMap(GoogleMap googleMap) {
         Log.d(TAG, googleMap.getMaxZoomLevel()+"");
         this.googleMap = googleMap;
-
     }
 }

@@ -27,8 +27,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Presenters.PropertyItemPresenter;
 import com.example.michaelkibenko.ballaba.Presenters.TestingPresenter;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.databinding.PropertyItemSingleInARowBinding;
-import com.example.michaelkibenko.ballaba.databinding.PropertyItemDuplicatedBinding;
+import com.example.michaelkibenko.ballaba.databinding.PropertyItemBinding;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,13 +48,12 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     private LayoutInflater mInflater;
     private ViewGroup parent;
     private RecyclerView mRecyclerView;
-    private GridLayoutManager recyclerViewLayoutManager;
+    private LinearLayoutManager recyclerViewLayoutManager;
     private LinearLayout parent_layout;
-    private PropertyItemSingleInARowBinding bindSingle;
-    private PropertyItemDuplicatedBinding bindDuplicate;
+    private PropertyItemBinding bind;
 
     public PropertiesRecyclerAdapter(Context mContext, RecyclerView mRecyclerView
-            , GridLayoutManager manager, List<BallabaProperty> properties, BallabaUser user) {
+            , LinearLayoutManager manager, List<BallabaProperty> properties, BallabaUser user) {
         this.mContext = mContext;
         this.mRecyclerView = mRecyclerView;
         this.recyclerViewLayoutManager = manager;
@@ -66,9 +64,9 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mInflater = LayoutInflater.from(mContext);
-        bindSingle = DataBindingUtil.inflate(mInflater, R.layout.property_item_single_in_a_row
+        bind = DataBindingUtil.inflate(mInflater, R.layout.property_item
                 , parent, false);
-        bindSingle.setPresenter(new PropertyItemPresenter(mContext));
+        bind.setPresenter(new PropertyItemPresenter(mContext));
 
         this.parent = parent;
 
@@ -76,7 +74,7 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         ////firstRootView = mInflater.inflate(R.layout.property_item_single_in_a_row, parent, false);
         //parent_layout = (LinearLayout)view.findViewById(R.id.single_Property_parent);
 
-        return new ViewHolder(bindSingle.getRoot());//firstRootView);
+        return new ViewHolder(bind.getRoot());//firstRootView);
     }
 
     @Override
@@ -90,9 +88,9 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
             Glide.with(mContext)
                     .load(property.bitmap())
                     .apply(options)
-                    .into(bindSingle.propertyItemImageView);//holder.propertyImageView);
-            bindSingle.propertyItemAddressTextView.setText(property.address());
-            bindSingle.propertyItemPriceTextView.setText(property.price());
+                    .into(bind.propertyItemImageView);//holder.propertyImageView);
+            bind.propertyItemAddressTextView.setText(property.address());
+            bind.propertyItemPriceTextView.setText(property.price());
 
             setFontForDevicesUnderApi26();
 
@@ -133,12 +131,12 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         final Typeface typefaceRegular = ResourcesCompat.getFont(mContext, R.font.rubik_regular);
         final Typeface typefaceBold = ResourcesCompat.getFont(mContext, R.font.rubik_bold);
 
-        bindSingle.propertyItemRoomsTextView.setTypeface(typefaceRegular);
-        bindSingle.propertyItemPropertySizeTextView.setTypeface(typefaceRegular);
-        bindSingle.propertyItemAddressTextView.setTypeface(typefaceRegular);
-        bindSingle.propertyItemPriceMonthlyTextView.setTypeface(typefaceRegular);
-        bindSingle.propertyItemPriceTextView.setTypeface(typefaceBold);
-        bindSingle.propertyItemPriceCurrencyTextView.setTypeface(typefaceBold);
+        bind.propertyItemRoomsTextView.setTypeface(typefaceRegular);
+        bind.propertyItemPropertySizeTextView.setTypeface(typefaceRegular);
+        bind.propertyItemAddressTextView.setTypeface(typefaceRegular);
+        bind.propertyItemPriceMonthlyTextView.setTypeface(typefaceRegular);
+        bind.propertyItemPriceTextView.setTypeface(typefaceBold);
+        bind.propertyItemPriceCurrencyTextView.setTypeface(typefaceBold);
     }
 
 }

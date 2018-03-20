@@ -13,10 +13,12 @@ import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
+import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.databinding.MainScreenLayoutBinding;
+import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
+import com.google.android.gms.maps.GoogleMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,19 +27,19 @@ import java.util.List;
  * Created by michaelkibenko on 12/03/2018.
  */
 
-public class MainScreenActivity extends FragmentActivity implements
-        PropertiesRecyclerFragment.OnFragmentInteractionListener{
+public class MainActivity extends FragmentActivity implements
+        PropertiesRecyclerFragment.OnFragmentInteractionListener, BallabaLocationManager.OnGoogleMapListener{
 
-    private final String TAG = MainScreenActivity.class.getSimpleName();
+    private final String TAG = MainActivity.class.getSimpleName();
 
-    private MainScreenLayoutBinding binder;
+    private ActivityMainLayoutBinding binder;
     private MainPresenter presenter;
     private List<BallabaProperty> properties = new ArrayList<>();//Collections.emptyList();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binder = DataBindingUtil.setContentView(this, R.layout.main_screen_layout);
+        binder = DataBindingUtil.setContentView(this, R.layout.activity_main_layout);
 
         /////TESTING
         //properties.add(new BallabaProperty("0001", "רחוב סומסום", "100000000000$"));
@@ -58,10 +60,10 @@ public class MainScreenActivity extends FragmentActivity implements
 
     @Override
     public void onBackPressed() {
-        if (binder.mainScreenViewPager.getCurrentItem() == 0) {
+        if (binder.mainActivityViewPager.getCurrentItem() == 0) {
             super.onBackPressed();
         } else {
-            binder.mainScreenViewPager.setCurrentItem(binder.mainScreenViewPager.getCurrentItem() - 1);
+            binder.mainActivityViewPager.setCurrentItem(binder.mainActivityViewPager.getCurrentItem() - 1);
         }
     }
 
@@ -84,14 +86,15 @@ public class MainScreenActivity extends FragmentActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == MainPresenter.REQ_CODE_SELECT_CITY) {
             if (resultCode == RESULT_OK && data != null) {
+                presenter.activityStateChanger(MainPresenter.ActivityStates.FILTERED);
                 Toast.makeText(this, data.getStringExtra("DUMMY!!!"), Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    /*@Override
+    @Override
     public void OnGoogleMap(GoogleMap googleMap) {
         Log.d(TAG, "data from fragment: "+googleMap);
-        presenter.OnGoogleMap(googleMap);
-    }*/
+        //presenter.OnGoogleMap(googleMap);
+    }
 }

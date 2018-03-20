@@ -21,5 +21,11 @@
             android:layout_margin="@dimen/small_margin"
             />
 
+        <Button
+            android:id="@+id/selectCity_OK_button"
+            android:layout_width="@dimen/icon_regular"
+            android:layout_height="@dimen/icon_regular"
+            />
+
     </android.support.constraint.ConstraintLayout>
 </layout>

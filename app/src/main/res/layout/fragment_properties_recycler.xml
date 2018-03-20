@@ -21,14 +21,16 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/properties_recycler_RV"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/mainActivity_RecyclerView_margin_top"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/properties_recycler_floatingButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_menu_send"
-        android:layout_gravity="bottom|end"/>
+        android:layout_gravity="bottom|end"
+        android:visibility="gone" />
 
 </FrameLayout>
 <!--
