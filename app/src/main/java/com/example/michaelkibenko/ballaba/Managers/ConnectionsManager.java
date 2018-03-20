@@ -190,6 +190,34 @@ import java.util.Map;
         queue.add(stringRequest);
     }
 
+    public void getProperty(final String deviceId, final BallabaResponseListener callback){
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, EndpointsHolder.PROPERTY,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d(TAG, error.toString());
+                if(error.networkResponse != null){
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                }else{
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("deviceId", deviceId);
+                return params;
+            }
+        };
+
+    }
+
     /*public void apiRequest( final StringBuilder sb, final BallabaResponseListener callback){
         StringRequest stringRequest = new StringRequest(Request.Method.GET, sb.toString(),
                 new Response.Listener<String>() {
