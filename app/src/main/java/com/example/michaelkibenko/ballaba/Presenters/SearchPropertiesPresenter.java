@@ -1,30 +1,24 @@
 package com.example.michaelkibenko.ballaba.Presenters;
 
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.example.michaelkibenko.ballaba.Adapters.PropertiesRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
-import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
-import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.MainScreenLayoutBinding;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * Created by User on 14/03/2018.
  */
 
-public class SearchPropertiesPresenter {
+public class SearchPropertiesPresenter extends BasePresenter{
     private Context context;
     private PropertiesRecyclerFragment fragment;
     private MainScreenLayoutBinding binder;

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.UserManager;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -17,6 +16,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
+import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
@@ -43,7 +43,8 @@ public class SplashActivity extends BaseActivity {
     private static final long MIN_SPLASH_DELAY = 3000;
     private SplashLayoutBinding binder;
     private long startTime,endTime;
-    boolean isGetConfig, isLoggedIn, wasConnectivityProblem;
+    boolean isGetConfig, isLoggedIn,isGetProperty, wasConnectivityProblem;
+    @FLOW_TYPES private int logInStatus = NEED_AUTHENTICATION;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +61,8 @@ public class SplashActivity extends BaseActivity {
                         getConfigRequestAndAuthenticate();
                     }else if(!isLoggedIn){
                         logInWithToken();
+                    }else if(!isGetProperty){
+                        getProperties(logInStatus);
                     }
                 }
             }
@@ -99,7 +102,8 @@ public class SplashActivity extends BaseActivity {
                 public void resolve(BallabaBaseEntity entity) {
                     if(entity instanceof BallabaUser){
                         BallabaUserManager.getInstance().setUser((BallabaUser) entity);
-                        checkSplashDelay(FLOW_TYPES.AUTHENTICATED);
+                        logInStatus = FLOW_TYPES.AUTHENTICATED;
+                        getProperties(logInStatus);
                     }
                 }
 
@@ -108,15 +112,31 @@ public class SplashActivity extends BaseActivity {
                     Log.d(TAG, "logInWithToken rejected");
                     if(entity instanceof BallabaErrorResponse){
                         if(((BallabaErrorResponse)entity).statusCode != 500){
-                            checkSplashDelay(FLOW_TYPES.NEED_AUTHENTICATION);
+                            logInStatus = FLOW_TYPES.NEED_AUTHENTICATION;
+                            getProperties(logInStatus);
                         }
                     }
                 }
             }, token);
         }else{
-            checkSplashDelay(FLOW_TYPES.NEED_AUTHENTICATION);
+            logInStatus = FLOW_TYPES.NEED_AUTHENTICATION;
+            checkSplashDelay(logInStatus);
             //first from here
         }
+    }
+
+    private void getProperties(@FLOW_TYPES final int whatNext){
+        BallabaSearchPropertiesManager.getInstance(this).getRandomProperties(new BallabaResponseListener() {
+            @Override
+            public void resolve(BallabaBaseEntity entity) {
+                checkSplashDelay(whatNext);
+            }
+
+            @Override
+            public void reject(BallabaBaseEntity entity) {
+                getDefaultSnackBar(binder.getRoot(), getResources().getString(R.string.error_network_internal), true);
+            }
+        }, true);
     }
 
     private void checkSplashDelay(final @FLOW_TYPES int what){

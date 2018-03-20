@@ -210,12 +210,14 @@ import java.util.Map;
         queue.add(stringRequest);
     }
 
-    public void getProperty(final String deviceId, final BallabaResponseListener callback){
+    public void getRandomProperties(final BallabaResponseListener callback){
         StringRequest stringRequest = new StringRequest(Request.Method.GET, EndpointsHolder.PROPERTY,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        BallabaOkResponse okResponse = new BallabaOkResponse();
+                        okResponse.setBody(response);
+                        callback.resolve(okResponse);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -231,10 +233,12 @@ import java.util.Map;
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("deviceId", deviceId);
+                params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
                 return params;
             }
         };
+
+        queue.add(stringRequest);
 
     }
 

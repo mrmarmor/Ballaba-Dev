@@ -18,7 +18,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.example.michaelkibenko.ballaba.Activities.MainScreenActivity;
+import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
 import com.example.michaelkibenko.ballaba.Adapters.SearchViewPagerAdapter;
 import com.example.michaelkibenko.ballaba.Common.ClassesCommunicationListener;
@@ -45,7 +45,6 @@ public class MainPresenter extends BasePresenter {
     private ClassesCommunicationListener listener;
     //private GoogleMap googleMap;
 
-    public MainPresenter() {}
     public MainPresenter(Context context, MainScreenLayoutBinding binder, FragmentManager fm){
         this.binder = binder;
         this.context = context;
@@ -155,7 +154,7 @@ public class MainPresenter extends BasePresenter {
         Log.d(TAG, "registerReadSmsReceiver");
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions((MainScreenActivity)context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQ_CODE_GPS_PERMISSION);
+            ActivityCompat.requestPermissions((MainActivity)context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQ_CODE_GPS_PERMISSION);
         }else{
             Log.d(TAG, "gps permission had already been given");
         }

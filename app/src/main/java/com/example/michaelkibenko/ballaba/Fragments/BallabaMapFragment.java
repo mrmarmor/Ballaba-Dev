@@ -92,7 +92,7 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         this.context = context;
         locationManager = BallabaLocationManager.getInstance(this.context);
 
-        //TODO context == MainScreenActivity. next 6 lines throws exception because it is not instance of
+        //TODO context == MainActivity. next 6 lines throws exception because it is not instance of
         //TODO BallabaLocationManager.OnGoogleMapListener. needed to be fixed.
         /*if (context instanceof BallabaLocationManager.OnGoogleMapListener) {
             mListener = (BallabaLocationManager.OnGoogleMapListener)context;

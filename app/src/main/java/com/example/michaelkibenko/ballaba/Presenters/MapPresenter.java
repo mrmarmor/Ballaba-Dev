@@ -23,7 +23,7 @@ public class MapPresenter {
     }
 
     public void openMapFragment(){
-        /*FragmentManager fragmentManager = ((MainScreenActivity)context).getFragmentManager();
+        /*FragmentManager fragmentManager = ((MainActivity)context).getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(binding.googleMap.getId(), mapFragment);
         fragmentTransaction.commit();*/

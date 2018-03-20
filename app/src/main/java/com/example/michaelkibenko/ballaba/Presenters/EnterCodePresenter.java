@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
-import com.example.michaelkibenko.ballaba.Activities.SearchActivity;
+import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
@@ -32,15 +32,9 @@ import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
-import com.example.michaelkibenko.ballaba.Utils.GeneralUtils;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.EnterCodeLayoutBinding;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter.Flows.CODE_EXPIRED;
 import static com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter.Flows.INTERNAL_ERROR;
@@ -194,7 +188,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
     private void onFlowChanged(int statusCode) {
         switch (statusCode) {
             case Flows.OK:
-                Intent intentToMainActivity = new Intent(context, SearchActivity.class);
+                Intent intentToMainActivity = new Intent(context, MainActivity.class);
                 //intentToMainActivity.putExtra(SOMETHING TO MOVE);
                 intentToMainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intentToMainActivity);

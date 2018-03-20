@@ -25,10 +25,10 @@ import java.util.List;
  * Created by michaelkibenko on 12/03/2018.
  */
 
-public class MainScreenActivity extends FragmentActivity implements
+public class MainActivity extends FragmentActivity implements
         PropertiesRecyclerFragment.OnFragmentInteractionListener{
 
-    private final String TAG = MainScreenActivity.class.getSimpleName();
+    private final String TAG = MainActivity.class.getSimpleName();
 
     private MainScreenLayoutBinding binder;
     private MainPresenter presenter;
