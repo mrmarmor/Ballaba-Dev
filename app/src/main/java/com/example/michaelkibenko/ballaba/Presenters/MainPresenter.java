@@ -51,13 +51,8 @@ public class MainPresenter extends BasePresenter {
         this.context = context;
         this.fm = fm;
 
-        //initAutoCompleteTextView();
         initDrawer();
         initViewPager();
-
-        //TODO as default the recyclerView will be shown. for now, map will be
-        //mapPresenter = new MapPresenter(this.context, this.binder);
-        //mapPresenter.openMapFragment();
     }
 
     private void initDrawer(){
@@ -65,13 +60,10 @@ public class MainPresenter extends BasePresenter {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        // set item as selected to persist highlight
                         menuItem.setChecked(true);
-                        // close drawer when item is tapped
                         binder.mainScreenDrawerLayout.closeDrawers();
 
-                        // Add code here to update the UI based on the item selected
-                        // For example, swap UI fragments here
+                        //TODO here i need to add switch between menu items
 
                         return true;
                     }
@@ -93,13 +85,6 @@ public class MainPresenter extends BasePresenter {
         binder.mainScreenViewPager.setCurrentItem(
                 binder.mainScreenViewPager.getCurrentItem()==0? 1:0, false);
     }
-
-    /*@Override
-    public void OnGoogleMap(GoogleMap googleMap) {
-        Log.d(TAG, googleMap.getMaxZoomLevel()+"");
-        this.googleMap = googleMap;
-
-    }*/
 
     /*private void setViewportByName(String name){
         LatLngBounds bounds;
@@ -191,174 +176,4 @@ public class MainPresenter extends BasePresenter {
     }*/
 
 }
-
-
-
-/*public class SearchPlaceFragment extends PlaceAutocompleteFragment {
-
-    private EditText editSearch;
-
-    private View zzaRh;
-    private View zzaRi;
-    private EditText zzaRj;
-    private LatLngBounds zzaRk;
-    private AutocompleteFilter zzaRl;
-    private PlaceSelectionListener zzaRm;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View var4 = inflater.inflate(R.layout.fragment_search_place, container, false);
-
-        editSearch = (EditText) var4.findViewById(R.id.searchPlaceFragment_editText);
-        editSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                zzzG();
-            }
-        });
-
-        return var4;
-    }
-
-
-    public void onDestroyView() {
-        this.zzaRh = null;
-        this.zzaRi = null;
-        this.editSearch = null;
-        super.onDestroyView();
-    }
-
-    public void setBoundsBias(@Nullable LatLngBounds bounds) {
-        this.zzaRk = bounds;
-    }
-
-    public void setFilter(@Nullable AutocompleteFilter filter) {
-        this.zzaRl = filter;
-    }
-
-    public void setText(CharSequence text) {
-        this.editSearch.setText(text);
-        //this.zzzF();
-    }
-
-    public void setHint(CharSequence hint) {
-        this.editSearch.setHint(hint);
-        this.zzaRh.setContentDescription(hint);
-    }
-
-    public void setOnPlaceSelectedListener(PlaceSelectionListener listener) {
-        this.zzaRm = listener;
-    }
-
-    private void zzzF() {
-        boolean var1 = !this.editSearch.getText().toString().isEmpty();
-        //this.zzaRi.setVisibility(var1?0:8);
-    }
-
-    private void zzzG() {
-        int var1 = -1;
-
-        try {
-            Intent var2 = (new PlaceAutocomplete.IntentBuilder(2)).setBoundsBias(this.zzaRk).setFilter(this.zzaRl).zzeq(this.editSearch.getText().toString()).zzig(1).build(this.getActivity());
-            this.startActivityForResult(var2, 1);
-        } catch (GooglePlayServicesRepairableException var3) {
-            var1 = var3.getConnectionStatusCode();
-            Log.e("Places", "Could not open autocomplete activity", var3);
-        } catch (GooglePlayServicesNotAvailableException var4) {
-            var1 = var4.errorCode;
-            Log.e("Places", "Could not open autocomplete activity", var4);
-        }
-
-        if (var1 != -1) {
-            GoogleApiAvailability var5 = GoogleApiAvailability.getInstance();
-            var5.showErrorDialogFragment(this.getActivity(), var1, 2);
-        }
-
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            if (resultCode == -1) {
-                Place var4 = PlaceAutocomplete.getPlace(this.getActivity(), data);
-                if (this.zzaRm != null) {
-                    this.zzaRm.onPlaceSelected(var4);
-                }
-
-                this.setText(var4.getName().toString());
-            } else if (resultCode == 2) {
-                Status var5 = PlaceAutocomplete.getStatus(this.getActivity(), data);
-                if (this.zzaRm != null) {
-                    this.zzaRm.onError(var5);
-                }
-            }
-        }
-
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-
-
-
-
-
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    public SearchPlaceFragment() {
-        // Required empty public constructor
-    }
-
-    // TODO: Rename and change types and number of parameters
-    public static SearchPlaceFragment newInstance(String param1, String param2) {
-        SearchPlaceFragment fragment = new SearchPlaceFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-}*/
 

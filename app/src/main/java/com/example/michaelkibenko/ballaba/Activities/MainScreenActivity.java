@@ -13,18 +13,13 @@ import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
-import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.MainScreenLayoutBinding;
-import com.google.android.gms.maps.GoogleMap;
 
 import java.util.ArrayList;
 import java.util.List;
-//import com.google.android.gms.location.places.Place;
-//import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
-//import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 
 /**
  * Created by michaelkibenko on 12/03/2018.

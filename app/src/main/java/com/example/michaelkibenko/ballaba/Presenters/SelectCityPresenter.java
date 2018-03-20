@@ -45,9 +45,9 @@ public class SelectCityPresenter extends BasePresenter implements BallabaLocatio
 
 
     private void initAutoCompleteTextView(){
-
         //TODO if you want actvSearchPlace display device current address:
         //setListAdapterToDeviceAddress(listView);
+
         actvSelectCity = binder.selectCityAutoCompleteTextView;
 
         final GooglePlacesAdapter dataAdapter = new GooglePlacesAdapter(
@@ -69,10 +69,7 @@ public class SelectCityPresenter extends BasePresenter implements BallabaLocatio
                 LatLng selectedPlace = BallabaLocationManager.getInstance(context)
                         .locationGeoCoder(((TextView)view).getText().toString());
 
-                //GoogleMap googleMap = BallabaMapFragment.newInstance().getGoogleMapObject();
                 BallabaMapFragment.newInstance().onItemSelected(googleMap, selectedPlace);
-                ////listener.onItemSelected(selectedPlace);
-                //setViewportByName(((TextView)view).getText().toString());
 
                 ////TODO TESTING! These line should appear in Done button to close this activity/presenter and return back to MainActivity
                 ((Activity)context).getIntent().putExtra("DUMMY!!!", selectedPlace);
