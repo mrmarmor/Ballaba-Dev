@@ -16,8 +16,10 @@ import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
+import com.example.michaelkibenko.ballaba.Presenters.SelectCityPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
+import com.example.michaelkibenko.ballaba.databinding.ActivitySelectCityBinding;
 import com.google.android.gms.maps.GoogleMap;
 
 import java.util.ArrayList;
@@ -28,7 +30,7 @@ import java.util.List;
  */
 
 public class MainActivity extends FragmentActivity implements
-        PropertiesRecyclerFragment.OnFragmentInteractionListener, BallabaLocationManager.OnGoogleMapListener{
+        PropertiesRecyclerFragment.OnFragmentInteractionListener{
 
     private final String TAG = MainActivity.class.getSimpleName();
 
@@ -63,7 +65,7 @@ public class MainActivity extends FragmentActivity implements
         if (binder.mainActivityViewPager.getCurrentItem() == 0) {
             super.onBackPressed();
         } else {
-            binder.mainActivityViewPager.setCurrentItem(binder.mainActivityViewPager.getCurrentItem() - 1);
+            binder.mainActivityViewPager.setCurrentItem(binder.mainActivityViewPager.getCurrentItem() - 1, false);
         }
     }
 
@@ -92,9 +94,4 @@ public class MainActivity extends FragmentActivity implements
         }
     }
 
-    @Override
-    public void OnGoogleMap(GoogleMap googleMap) {
-        Log.d(TAG, "data from fragment: "+googleMap);
-        //presenter.OnGoogleMap(googleMap);
-    }
 }

@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
@@ -88,9 +89,9 @@ public class MainPresenter extends BasePresenter {
 
     private void setMainActivityUi(@ActivityStates int state){
         if (state == ActivityStates.NOT_FILTERED){
-
+            Toast.makeText(context, "not filtered", Toast.LENGTH_LONG).show();
         } else if (state == ActivityStates.FILTERED){
-
+            Toast.makeText(context, "filtered", Toast.LENGTH_LONG).show();
         }
     }
 

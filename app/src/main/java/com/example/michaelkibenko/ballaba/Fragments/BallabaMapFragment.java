@@ -27,8 +27,8 @@ import com.google.android.gms.maps.model.LatLngBounds;
 
 public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, LocationListener , GoogleMap.OnCameraMoveStartedListener,
         GoogleMap.OnCameraMoveListener,
-        GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraIdleListener,
-        BallabaSelectedCityListener {
+        GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraIdleListener/*,
+        BallabaSelectedCityListener*/ {
 
     private static final String TAG = BallabaMapFragment.class.getSimpleName();
 
@@ -92,12 +92,12 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
 
         //TODO context == MainActivity. next 6 lines throws exception because it is not instance of
         //TODO BallabaLocationManager.OnGoogleMapListener. needed to be fixed.
-        if (context instanceof BallabaLocationManager.OnGoogleMapListener) {
+        /*if (context instanceof BallabaLocationManager.OnGoogleMapListener) {
             mListener = (BallabaLocationManager.OnGoogleMapListener)context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnGoogleMapListener");
-        }
+        }*/
         //TODO end of TODO
 
         /*DataBindingUtil.inflate(
@@ -180,10 +180,11 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         //TODO here will be the get properties request
     }
 
-    @Override
+    //TODO if you want map to focus on autocompletetextview input place do next method
+    /*@Override
     public void onItemSelected(GoogleMap googleMap, LatLng location) {
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
-    }
+    }*/
     //map camera end
 
 }
