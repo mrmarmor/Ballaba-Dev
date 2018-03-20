@@ -4,8 +4,10 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +18,12 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
 import com.example.michaelkibenko.ballaba.Presenters.SearchPropertiesPresenter;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.databinding.SearchActivityLayoutBinding;
+import com.example.michaelkibenko.ballaba.databinding.MainScreenLayoutBinding;
 
 import java.util.List;
 
 public class PropertiesRecyclerFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
+    private final String TAG = PropertiesRecyclerFragment.class.getSimpleName();
     private static final String PROPERTIES_KEY = "properties key";
 
     // TODO: Rename and change types of parameters
@@ -31,7 +33,7 @@ public class PropertiesRecyclerFragment extends Fragment {
     private List<BallabaProperty> properties;
 
     private SearchPropertiesPresenter presenter;
-    private static SearchActivityLayoutBinding binder;
+    private static MainScreenLayoutBinding binder;
     private LayoutInflater inflater;
 
     private OnFragmentInteractionListener mListener;
@@ -39,7 +41,7 @@ public class PropertiesRecyclerFragment extends Fragment {
     public PropertiesRecyclerFragment() {}
 
     // TODO: Rename and change types and number of parameters
-    public static PropertiesRecyclerFragment newInstance(SearchActivityLayoutBinding mBinder, String param) {
+    public static PropertiesRecyclerFragment newInstance(MainScreenLayoutBinding mBinder, String param) {
         binder = mBinder;
         PropertiesRecyclerFragment fragment = new PropertiesRecyclerFragment();
         Bundle args = new Bundle();
@@ -82,9 +84,24 @@ public class PropertiesRecyclerFragment extends Fragment {
         //rvProperties = (RecyclerView)binder.getRoot().findViewById(R.id.properties_recycler_RV);
 
         rvProperties = (RecyclerView)view.findViewById(R.id.properties_recycler_RV);
-        rvAdapter = new PropertiesRecyclerAdapter(getContext(), rvProperties, properties, new BallabaUser());
-        rvProperties.setLayoutManager(new LinearLayoutManager(getContext()));
+        GridLayoutManager manager = new GridLayoutManager(getContext(), 2, LinearLayoutManager.VERTICAL, false);
+        arrangeLayoutManagerToDisplaySingleAndDuplicateItems(manager);
+        rvAdapter = new PropertiesRecyclerAdapter(getContext(), rvProperties, manager, properties, new BallabaUser());
+        rvProperties.setLayoutManager(manager);
         rvProperties.setAdapter(rvAdapter);
+    }
+
+    private void arrangeLayoutManagerToDisplaySingleAndDuplicateItems(final GridLayoutManager layoutManager){
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                if (position > 0) {
+                    return 1;
+                }
+
+                return 2;
+            }
+        });
     }
 
     // TODO: Rename method, update argument and hook method into UI event

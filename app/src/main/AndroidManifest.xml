@@ -25,6 +25,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBF0dZnsnmBZ0Yuvyns6CX0bZwIK3jSGYA" />
+
         <activity
             android:name=".Activities.TestingActivity"
             android:label="@string/app_name"
@@ -36,13 +42,13 @@
             </intent-filter>
         </activity>
 
-        <receiver
-            android:name=".Activities.EnterCodeActivity$BallabaSMSReceiver"
-            android:exported="true"></receiver>
-
         <activity
-            android:name=".Activities.MainActivity"
-            android:label="Main activity"
+            android:name=".Activities.SplashActivity"
+            android:label="Splash"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Activities.TermsOfUseActivity"
+            android:label="Terms of use"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Activities.EnterPhoneNumberActivity"
@@ -53,17 +59,16 @@
             android:label="Enter code"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Activities.SearchActivity"
+            android:name=".Activities.MainScreenActivity"
             android:label="Search"
             android:theme="@style/AppTheme" />
+        <activity android:name=".Activities.SelectCitySubActivity" />
 
-        <activity android:name=".Activities.SplashActivity"
-            android:label="Splash"
-            android:theme="@style/AppTheme"></activity>
+        <!-- RECEIVERS -->
+        <receiver
+            android:name=".Activities.EnterCodeActivity$BallabaSMSReceiver"
+            android:exported="true" />
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAbemH_cmc7JhZYrWTid_oad-CJqz1za3I" />
     </application>
 
 </manifest>

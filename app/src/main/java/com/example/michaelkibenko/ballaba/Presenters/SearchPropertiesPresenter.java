@@ -1,8 +1,10 @@
 package com.example.michaelkibenko.ballaba.Presenters;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -12,7 +14,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.databinding.SearchActivityLayoutBinding;
+import com.example.michaelkibenko.ballaba.databinding.MainScreenLayoutBinding;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,17 +27,18 @@ import java.util.zip.Inflater;
 public class SearchPropertiesPresenter {
     private Context context;
     private PropertiesRecyclerFragment fragment;
-    private SearchActivityLayoutBinding binder;
+    private MainScreenLayoutBinding binder;
     private PropertiesRecyclerAdapter rvAdapter;
     private RecyclerView rvProperties;
     private List<BallabaProperty> properties;
 
-    public SearchPropertiesPresenter(Context context, SearchActivityLayoutBinding binder, String a) {
+    public SearchPropertiesPresenter(Context context, MainScreenLayoutBinding binder, String a) {
         this.context = context;
         this.fragment = PropertiesRecyclerFragment.newInstance(binder, a);
         this.binder = binder;
 
-        initRecycler();
+        //initRecycler is done in PropertiesRecyclerFragment
+        //initRecycler();
     }
 
     private void initRecycler() {
@@ -48,8 +51,9 @@ public class SearchPropertiesPresenter {
         View rootView = (FrameLayout)fragment.getLayoutInflater().inflate(
                 R.layout.fragment_properties_recycler, null, false);
         rvProperties = (RecyclerView)rootView.findViewById(R.id.properties_recycler_RV);
-        rvAdapter = new PropertiesRecyclerAdapter(context, rvProperties, properties, new BallabaUser());
-        rvProperties.setLayoutManager(new LinearLayoutManager(context));
-        rvProperties.setAdapter(rvAdapter);
+        /*StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        rvAdapter = new PropertiesRecyclerAdapter(context, rvProperties, manager, properties, new BallabaUser());
+        rvProperties.setLayoutManager(manager);
+        rvProperties.setAdapter(rvAdapter);*/
     }
 }

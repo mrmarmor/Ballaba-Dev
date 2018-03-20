@@ -1,0 +1,170 @@
+[33meb99075[m[33m ([m[1;36mHEAD -> [m[1;32mDev-261-singlePropertyItem[m[33m, [m[1;31morigin/Dev-261-singlePropertyItem[m[33m)[m HEAD@{0}: checkout: moving from Dev-266-addRubikFont to Dev-261-singlePropertyItem
+[33m5dbc597[m[33m ([m[1;31morigin/Dev-266-addRubikFont[m[33m, [m[1;32mDev-266-addRubikFont[m[33m)[m HEAD@{1}: commit: Rubik font added to textviews in property item
+[33meb99075[m[33m ([m[1;36mHEAD -> [m[1;32mDev-261-singlePropertyItem[m[33m, [m[1;31morigin/Dev-261-singlePropertyItem[m[33m)[m HEAD@{2}: checkout: moving from Dev-261-singlePropertyItem to Dev-266-addRubikFont
+[33meb99075[m[33m ([m[1;36mHEAD -> [m[1;32mDev-261-singlePropertyItem[m[33m, [m[1;31morigin/Dev-261-singlePropertyItem[m[33m)[m HEAD@{3}: commit: single/duplicate items logic added. switching between 1 and 2 items is problematic
+[33md07ae5c[m HEAD@{4}: reset: moving to HEAD@{4}
+[33mf335bd3[m HEAD@{5}: rebase: updating HEAD
+[33mf335bd3[m HEAD@{6}: rebase: aborting
+[33mf335bd3[m HEAD@{7}: reset: moving to HEAD
+[33mf335bd3[m HEAD@{8}: checkout: moving from d07ae5c601506151fcf00aa1fb8c17b783429680 to Dev-261-singlePropertyItem
+[33md07ae5c[m HEAD@{9}: commit: single/duplicate items logic added. switching between 1 and 2 items is problematic
+[33m104853b[m HEAD@{10}: commit: after pulling from DEV"
+[33m34eb1dc[m HEAD@{11}: commit: property item looks better
+[33m98ec918[m HEAD@{12}: commit: merge conflicts configured on PropertiesRecyclerAdapter
+[33mc1040c1[m HEAD@{13}: commit: connectivityAnnouncer bugs seems to be fixed. to be continued..
+[33md468e90[m HEAD@{14}: pull -r origin DEV: checkout d468e905ccd7f465057b037f05b6c0fd635781ab
+[33mf335bd3[m HEAD@{15}: commit: single property item layout completed. still need finishes
+[33mfe978aa[m HEAD@{16}: commit: before switching to branch Dev-261
+[33m65656bd[m[33m ([m[1;32mDev-264-mainScreen[m[33m)[m HEAD@{17}: checkout: moving from Dev-264-mainScreen to Dev-261-singlePropertyItem
+[33m65656bd[m[33m ([m[1;32mDev-264-mainScreen[m[33m)[m HEAD@{18}: pull -r origin DEV: Fast-forward
+[33mee0504e[m[33m ([m[1;32mDEV[m[33m)[m HEAD@{19}: checkout: moving from DEV to Dev-264-mainScreen
+[33mee0504e[m[33m ([m[1;32mDEV[m[33m)[m HEAD@{20}: checkout: moving from Dev-261-singlePropertyItem to DEV
+[33m65656bd[m[33m ([m[1;32mDev-264-mainScreen[m[33m)[m HEAD@{21}: checkout: moving from DEV to Dev-261-singlePropertyItem
+[33mee0504e[m[33m ([m[1;32mDEV[m[33m)[m HEAD@{22}: checkout: moving from Dev-261-singlePropertyItem to DEV
+[33m65656bd[m[33m ([m[1;32mDev-264-mainScreen[m[33m)[m HEAD@{23}: commit: property item layout added. under construction
+[33m30fe2d3[m[33m ([m[1;31morigin/Dev-254-moveMapCameraToAddress[m[33m, [m[1;32mDev-254-moveMapCameraToAddress[m[33m)[m HEAD@{24}: checkout: moving from Dev-254-moveMapCameraToAddress to Dev-261-singlePropertyItem
+[33m30fe2d3[m[33m ([m[1;31morigin/Dev-254-moveMapCameraToAddress[m[33m, [m[1;32mDev-254-moveMapCameraToAddress[m[33m)[m HEAD@{25}: commit: mess cleared
+[33m522dd3a[m HEAD@{26}: commit: camera now moves to autocompletetextview selected address. there is still mess in code to clear
+[33mecfd339[m[33m ([m[1;31morigin/Dev-260-moveAutoCompleteToPresenter[m[33m, [m[1;32mDev-260-moveAutoCompleteToPresenter[m[33m)[m HEAD@{27}: checkout: moving from Dev-260-moveAutoCompleteToPresenter to Dev-254-moveMapCameraToAddress
+[33mecfd339[m[33m ([m[1;31morigin/Dev-260-moveAutoCompleteToPresenter[m[33m, [m[1;32mDev-260-moveAutoCompleteToPresenter[m[33m)[m HEAD@{28}: commit: moving autoCompleteTextView from fragment to presenter
+[33m87b5e39[m[33m ([m[1;31morigin/Dev-255-propertiesRecyclerView[m[33m, [m[1;32mDev-255-propertiesRecyclerView[m[33m)[m HEAD@{29}: checkout: moving from Dev-255-propertiesRecyclerView to Dev-260-moveAutoCompleteToPresenter
+[33m87b5e39[m[33m ([m[1;31morigin/Dev-255-propertiesRecyclerView[m[33m, [m[1;32mDev-255-propertiesRecyclerView[m[33m)[m HEAD@{30}: commit: viewport got from google api
+[33m10ed5ff[m HEAD@{31}: commit: reccyclerView displays now property details without design
+[33mee0504e[m[33m ([m[1;32mDEV[m[33m)[m HEAD@{32}: checkout: moving from DEV to Dev-255-propertiesRecyclerView
+[33mee0504e[m[33m ([m[1;32mDEV[m[33m)[m HEAD@{33}: merge Dev-246-searchActivityInfrastructure: Merge made by the 'recursive' strategy.
+[33mc521aa2[m HEAD@{34}: checkout: moving from Dev-246-searchActivityInfrastructure to DEV
+[33mf8e921c[m[33m ([m[1;31morigin/Dev-246-searchActivityInfrastructure[m[33m, [m[1;32mDev-246-searchActivityInfrastructure[m[33m)[m HEAD@{35}: commit: properties recyclerviewadapter added. to be continued tomorrow
+[33mffffd31[m HEAD@{36}: commit: search activity has now viewpager with dummy fragment and another google map + google places autoCompleteTextView
+[33m5c89aa8[m HEAD@{37}: rebase finished: returning to refs/heads/Dev-246-searchActivityInfrastructure
+[33m5c89aa8[m HEAD@{38}: pull -r origin DEV: enterPhoneNumberNextButton width fixed to design
+[33m26efd36[m HEAD@{39}: pull -r origin DEV: checkout 26efd368150c09e130026a4db8f7ef8f09849a5a
+[33mc521aa2[m HEAD@{40}: checkout: moving from DEV to Dev-246-searchActivityInfrastructure
+[33mc521aa2[m HEAD@{41}: commit: enterPhoneNumberNextButton width fixed to design
+[33md13ca70[m[33m ([m[1;31morigin/Dev-termsOfUse[m[33m, [m[1;32mDev-termsOfUse[m[33m)[m HEAD@{42}: merge Dev-termsOfUse: Fast-forward
+[33m1db0a7f[m HEAD@{43}: checkout: moving from Dev-termsOfUse to DEV
+[33md13ca70[m[33m ([m[1;31morigin/Dev-termsOfUse[m[33m, [m[1;32mDev-termsOfUse[m[33m)[m HEAD@{44}: commit: permission dialog bug fixed + send phone number button UI improved
+[33mc880e01[m HEAD@{45}: commit: sms receiver permission request call was onCreate. Now it is onClick.
+[33mf422b65[m HEAD@{46}: checkout: moving from Dev-enterCodeEdittext to Dev-termsOfUse
+[33mcbc4dd1[m[33m ([m[1;31morigin/Dev-enterCodeEdittext[m[33m, [m[1;32mDev-enterCodeEdittext[m[33m)[m HEAD@{47}: checkout: moving from Dev-termsOfUse to Dev-enterCodeEdittext
+[33mf422b65[m HEAD@{48}: commit: sms receiver permission request moved from EnterCodeActivity to EnterPhoneNumberActivity
+[33m257ac73[m HEAD@{49}: commit: terms of use activity added
+[33m8fa7a89[m[33m ([m[1;31morigin/Dev-connectivityAnnouncer[m[33m, [m[1;32mDev-connectivityAnnouncer[m[33m)[m HEAD@{50}: checkout: moving from Dev-connectivityAnnouncer to Dev-termsOfUse
+[33m8fa7a89[m[33m ([m[1;31morigin/Dev-connectivityAnnouncer[m[33m, [m[1;32mDev-connectivityAnnouncer[m[33m)[m HEAD@{51}: commit: circle progress bar is working properly
+[33m25b9e6c[m HEAD@{52}: commit: working on circle progress on enterPhoneNumberPresenter. still working...
+[33m714c4e0[m HEAD@{53}: commit: ADDED: 1. connectivity receiver is working on all activities 2. code auto-feed from sms 3. send again code button with 6 seconds delay
+[33m5b1f402[m HEAD@{54}: commit: ADDED: 1. connectivity receiver is working on all activities 2. code auto-feed from sms 3. send again code button with 6 seconds delay
+[33m5f13744[m HEAD@{55}: rebase finished: returning to refs/heads/Dev-connectivityAnnouncer
+[33m5f13744[m HEAD@{56}: pull -r origin DEV: little UX bugs fixed according to Adam's comments
+[33m84c7b70[m HEAD@{57}: pull -r origin DEV: bugs in connectivity + softKeyboard + code typing -> fixed
+[33ma9b2c3f[m HEAD@{58}: pull -r origin DEV: checkout a9b2c3f3cbe3f0e9a4788e1e284e0a73c748e343
+[33mf70f47c[m HEAD@{59}: commit: little UX bugs fixed according to Adam's comments
+[33mb3224c1[m HEAD@{60}: commit: bugs in connectivity + softKeyboard + code typing -> fixed
+[33m1db0a7f[m HEAD@{61}: checkout: moving from Dev-enterCodeEdittext to Dev-connectivityAnnouncer
+[33mcbc4dd1[m[33m ([m[1;31morigin/Dev-enterCodeEdittext[m[33m, [m[1;32mDev-enterCodeEdittext[m[33m)[m HEAD@{62}: checkout: moving from Dev-connectivityAnnouncer to Dev-enterCodeEdittext
+[33m1db0a7f[m HEAD@{63}: checkout: moving from Dev-enterCodeEdittext to Dev-connectivityAnnouncer
+[33mcbc4dd1[m[33m ([m[1;31morigin/Dev-enterCodeEdittext[m[33m, [m[1;32mDev-enterCodeEdittext[m[33m)[m HEAD@{64}: checkout: moving from Dev-enterCodeEdittext to Dev-enterCodeEdittext
+[33mcbc4dd1[m[33m ([m[1;31morigin/Dev-enterCodeEdittext[m[33m, [m[1;32mDev-enterCodeEdittext[m[33m)[m HEAD@{65}: checkout: moving from ea5f93d13813310220253d59105e6b25b25dcbd1 to Dev-enterCodeEdittext
+[33mea5f93d[m HEAD@{66}: checkout: moving from Dev-connectivityAnnouncer to ea5f93d13813310220253d59105e6b25b25dcbd1
+[33m1db0a7f[m HEAD@{67}: checkout: moving from Dev-enterCodeEdittext to Dev-connectivityAnnouncer
+[33mcbc4dd1[m[33m ([m[1;31morigin/Dev-enterCodeEdittext[m[33m, [m[1;32mDev-enterCodeEdittext[m[33m)[m HEAD@{68}: checkout: moving from Dev-connectivityAnnouncer to Dev-enterCodeEdittext
+[33m1db0a7f[m HEAD@{69}: checkout: moving from Dev-connectivityAnnouncer to Dev-connectivityAnnouncer
+[33m1db0a7f[m HEAD@{70}: checkout: moving from Dev-connectivityAnnouncer to Dev-connectivityAnnouncer
+[33m1db0a7f[m HEAD@{71}: reset: moving to HEAD
+[33m1db0a7f[m HEAD@{72}: checkout: moving from Dev-enterCodeEdittext to Dev-connectivityAnnouncer
+[33mcbc4dd1[m[33m ([m[1;31morigin/Dev-enterCodeEdittext[m[33m, [m[1;32mDev-enterCodeEdittext[m[33m)[m HEAD@{73}: commit: connectivityAnnouncer bugs seems to be fixed. to be continued...
+[33m3c9d542[m HEAD@{74}: commit: mess cleanded
+[33mea5f93d[m HEAD@{75}: commit: bug in enter code edittexts fixed: 1. array out of bounds 2. backspace 3. disabling touchable\
+[33m1db0a7f[m HEAD@{76}: checkout: moving from DEV to Dev-enterCodeEdittext
+[33m1db0a7f[m HEAD@{77}: merge Dev-connectivityAnnouncer: Fast-forward
+[33m5d06dc1[m HEAD@{78}: checkout: moving from Dev-connectivityAnnouncer to DEV
+[33m1db0a7f[m HEAD@{79}: commit: 1. missing texts added. 2. code edittexts moving fixed. network still make problems
+[33mf7a934d[m HEAD@{80}: rebase finished: returning to refs/heads/Dev-connectivityAnnouncer
+[33mf7a934d[m HEAD@{81}: pull -r origin DEV: fixing bugs of network
+[33md3a617f[m HEAD@{82}: pull -r origin DEV: checkout d3a617fa35c07302e32e5830f51ead71bf555def
+[33m99d59ac[m HEAD@{83}: checkout: moving from Dev-connectivityAnnouncer to Dev-connectivityAnnouncer
+[33m99d59ac[m HEAD@{84}: commit: fixing bugs of network
+[33m5d06dc1[m HEAD@{85}: checkout: moving from Dev-connectivityAnnouncer to Dev-connectivityAnnouncer
+[33m5d06dc1[m HEAD@{86}: checkout: moving from DEV to Dev-connectivityAnnouncer
+[33m5d06dc1[m HEAD@{87}: commit: got global token
+[33mee511a3[m HEAD@{88}: checkout: moving from log_in_with_global_token to DEV
+[33mee511a3[m HEAD@{89}: checkout: moving from 0cb4638cd6840588caf0dbdd09b14d8453a2e850 to log_in_with_global_token
+[33m0cb4638[m HEAD@{90}: checkout: moving from Dev-243-codeValidationRequest to 0cb4638cd6840588caf0dbdd09b14d8453a2e850
+[33m82edab0[m[33m ([m[1;31morigin/Dev-243-codeValidationRequest[m[33m, [m[1;32mDev-243-codeValidationRequest[m[33m)[m HEAD@{91}: checkout: moving from Dev-getConfig to Dev-243-codeValidationRequest
+[33med41d52[m[33m ([m[1;31morigin/Dev-getConfig[m[33m, [m[1;32mDev-getConfig[m[33m)[m HEAD@{92}: checkout: moving from log_in_with_global_token to Dev-getConfig
+[33mee511a3[m HEAD@{93}: checkout: moving from DEV to log_in_with_global_token
+[33mee511a3[m HEAD@{94}: pull origin DEV: Merge made by the 'recursive' strategy.
+[33m1faa699[m HEAD@{95}: checkout: moving from Dev-getConfig to DEV
+[33med41d52[m[33m ([m[1;31morigin/Dev-getConfig[m[33m, [m[1;32mDev-getConfig[m[33m)[m HEAD@{96}: checkout: moving from DEV to Dev-getConfig
+[33m1faa699[m HEAD@{97}: checkout: moving from Dev-getConfig to DEV
+[33med41d52[m[33m ([m[1;31morigin/Dev-getConfig[m[33m, [m[1;32mDev-getConfig[m[33m)[m HEAD@{98}: checkout: moving from DEV to Dev-getConfig
+[33m1faa699[m HEAD@{99}: checkout: moving from Dev-getConfig to DEV
+[33med41d52[m[33m ([m[1;31morigin/Dev-getConfig[m[33m, [m[1;32mDev-getConfig[m[33m)[m HEAD@{100}: checkout: moving from DEV to Dev-getConfig
+[33m1faa699[m HEAD@{101}: checkout: moving from Dev-getConfig to DEV
+[33med41d52[m[33m ([m[1;31morigin/Dev-getConfig[m[33m, [m[1;32mDev-getConfig[m[33m)[m HEAD@{102}: checkout: moving from DEV to Dev-getConfig
+[33m1faa699[m HEAD@{103}: commit: connectivity manager
+[33m5082a5b[m HEAD@{104}: commit (merge): Merge branch 'Dev-getConfig' into DEV
+[33m4f65402[m HEAD@{105}: checkout: moving from Dev-getConfig to DEV
+[33med41d52[m[33m ([m[1;31morigin/Dev-getConfig[m[33m, [m[1;32mDev-getConfig[m[33m)[m HEAD@{106}: pull origin Dev-getConfig: Merge made by the 'recursive' strategy.
+[33m940239f[m HEAD@{107}: checkout: moving from DEV to Dev-getConfig
+[33m4f65402[m HEAD@{108}: commit: After merge maybe will be problematic
+[33m6e0ba36[m HEAD@{109}: commit (merge): Merge branch 'DEV' of https://bitbucket.org/ballabaitdev/android_dev into DEV
+[33m1848fe8[m HEAD@{110}: checkout: moving from Dev-getConfig to DEV
+[33m940239f[m HEAD@{111}: commit: get config and check network process
+[33mb1e93e6[m HEAD@{112}: rebase finished: returning to refs/heads/Dev-getConfig
+[33mb1e93e6[m HEAD@{113}: pull -r origin DEV: network receiver now detects network also onCreate (in addition to when network states changes
+[33m0cb4638[m HEAD@{114}: pull -r origin DEV: checkout 0cb4638cd6840588caf0dbdd09b14d8453a2e850
+[33md30aecf[m HEAD@{115}: reset: moving to HEAD
+[33md30aecf[m HEAD@{116}: checkout: moving from Dev-getConfig to Dev-getConfig
+[33md30aecf[m HEAD@{117}: checkout: moving from Dev-getConfig to Dev-getConfig
+[33md30aecf[m HEAD@{118}: checkout: moving from Dev-getConfig to Dev-getConfig
+[33md30aecf[m HEAD@{119}: checkout: moving from Dev-getConfig to Dev-getConfig
+[33md30aecf[m HEAD@{120}: reset: moving to HEAD
+[33md30aecf[m HEAD@{121}: commit: network receiver now detects network also onCreate (in addition to when network states changes
+[33mcc5e24a[m HEAD@{122}: reset: moving to HEAD
+[33mcc5e24a[m HEAD@{123}: commit: network receiver now detects network also onCreate (in addition to when network states changes
+[33me476c75[m HEAD@{124}: reset: moving to HEAD~3
+[33m0cb4638[m HEAD@{125}: checkout: moving from DEV to Dev-getConfig
+[33m1848fe8[m HEAD@{126}: reset: moving to HEAD
+[33m1848fe8[m HEAD@{127}: checkout: moving from Dev-getConfig to DEV
+[33m0cb4638[m HEAD@{128}: reset: moving to HEAD
+[33m0cb4638[m HEAD@{129}: checkout: moving from DEV to Dev-getConfig
+[33m1848fe8[m HEAD@{130}: reset: moving to HEAD
+[33m1848fe8[m HEAD@{131}: checkout: moving from Dev-getConfig to DEV
+[33m0cb4638[m HEAD@{132}: reset: moving to HEAD
+[33m0cb4638[m HEAD@{133}: checkout: moving from DEV to Dev-getConfig
+[33m1848fe8[m HEAD@{134}: commit: network receiver now detects network also onCreate (in addition to when network states changes
+[33m0cb4638[m HEAD@{135}: merge Dev-getConfig: Fast-forward
+[33mb41c5a8[m HEAD@{136}: checkout: moving from Dev-getConfig to DEV
+[33m0cb4638[m HEAD@{137}: checkout: moving from Dev-getConfig to Dev-getConfig
+[33m0cb4638[m HEAD@{138}: commit: added: 1. network receiver to EnterCodeActivity. 2. detects token in splash screen and directing user to proper screen
+[33mb41c5a8[m HEAD@{139}: checkout: moving from DEV to Dev-getConfig
+[33mb41c5a8[m HEAD@{140}: merge Dev-getConfig: Fast-forward
+[33m82edab0[m[33m ([m[1;31morigin/Dev-243-codeValidationRequest[m[33m, [m[1;32mDev-243-codeValidationRequest[m[33m)[m HEAD@{141}: checkout: moving from Dev-getConfig to DEV
+[33mb41c5a8[m HEAD@{142}: commit: network receiver added to EnterPhoneNumberActivity
+[33m38ac707[m HEAD@{143}: checkout: moving from Dev-getConfig to Dev-getConfig
+[33m38ac707[m HEAD@{144}: pull -r origin DEV: Fast-forward
+[33m82edab0[m[33m ([m[1;31morigin/Dev-243-codeValidationRequest[m[33m, [m[1;32mDev-243-codeValidationRequest[m[33m)[m HEAD@{145}: checkout: moving from Dev-getConfig to Dev-getConfig
+[33m82edab0[m[33m ([m[1;31morigin/Dev-243-codeValidationRequest[m[33m, [m[1;32mDev-243-codeValidationRequest[m[33m)[m HEAD@{146}: checkout: moving from DEV to Dev-getConfig
+[33m82edab0[m[33m ([m[1;31morigin/Dev-243-codeValidationRequest[m[33m, [m[1;32mDev-243-codeValidationRequest[m[33m)[m HEAD@{147}: checkout: moving from Dev-getConfig to DEV
+[33m82edab0[m[33m ([m[1;31morigin/Dev-243-codeValidationRequest[m[33m, [m[1;32mDev-243-codeValidationRequest[m[33m)[m HEAD@{148}: checkout: moving from DEV to Dev-getConfig
+[33m82edab0[m[33m ([m[1;31morigin/Dev-243-codeValidationRequest[m[33m, [m[1;32mDev-243-codeValidationRequest[m[33m)[m HEAD@{149}: merge Dev-243-codeValidationRequest: Fast-forward
+[33m859ee93[m HEAD@{150}: checkout: moving from Dev to DEV
+[33m859ee93[m HEAD@{151}: checkout: moving from Dev-243-codeValidationRequest to Dev
+[33m82edab0[m[33m ([m[1;31morigin/Dev-243-codeValidationRequest[m[33m, [m[1;32mDev-243-codeValidationRequest[m[33m)[m HEAD@{152}: checkout: moving from Dev-243-codeValidationRequest to Dev-243-codeValidationRequest
+[33m82edab0[m[33m ([m[1;31morigin/Dev-243-codeValidationRequest[m[33m, [m[1;32mDev-243-codeValidationRequest[m[33m)[m HEAD@{153}: commit: values that responded from server has added to a new BallabaUser object
+[33mad122b0[m HEAD@{154}: commit: code validation added. sends code to server, validate, and go to mainActivity
+[33mb63e6e0[m[33m ([m[1;31morigin/Dev-240-codeStatesHolder[m[33m, [m[1;32mDev-242-codeErrorFlows[m[33m, [m[1;32mDev-240-codeStatesHolder[m[33m)[m HEAD@{155}: checkout: moving from Dev-242-codeErrorFlows to Dev-243-codeValidationRequest
+[33mb63e6e0[m[33m ([m[1;31morigin/Dev-240-codeStatesHolder[m[33m, [m[1;32mDev-242-codeErrorFlows[m[33m, [m[1;32mDev-240-codeStatesHolder[m[33m)[m HEAD@{156}: checkout: moving from Dev-240-codeStatesHolder to Dev-242-codeErrorFlows
+[33mb63e6e0[m[33m ([m[1;31morigin/Dev-240-codeStatesHolder[m[33m, [m[1;32mDev-242-codeErrorFlows[m[33m, [m[1;32mDev-240-codeStatesHolder[m[33m)[m HEAD@{157}: commit: enter code states added
+[33md2024f5[m[33m ([m[1;31morigin/Dev-233-phoneNumberRequest[m[33m, [m[1;32mDev-233-phoneNumberRequest[m[33m)[m HEAD@{158}: checkout: moving from Dev-233-phoneNumberRequest to Dev-240-codeStatesHolder
+[33md2024f5[m[33m ([m[1;31morigin/Dev-233-phoneNumberRequest[m[33m, [m[1;32mDev-233-phoneNumberRequest[m[33m)[m HEAD@{159}: pull: Fast-forward
+[33me53ba1f[m HEAD@{160}: commit: recevier to catch sms from ballaba added. onReceive is not getting called
+[33m295b158[m[33m ([m[1;31morigin/Dev-239-enterPhoneNumber[m[33m, [m[1;32mDev-239-enterPhoneNumber[m[33m)[m HEAD@{161}: checkout: moving from Dev-239-enterPhoneNumber to Dev-233-phoneNumberRequest
+[33m295b158[m[33m ([m[1;31morigin/Dev-239-enterPhoneNumber[m[33m, [m[1;32mDev-239-enterPhoneNumber[m[33m)[m HEAD@{162}: checkout: moving from Dev-239-enterPhoneNumber to Dev-239-enterPhoneNumber
+[33m295b158[m[33m ([m[1;31morigin/Dev-239-enterPhoneNumber[m[33m, [m[1;32mDev-239-enterPhoneNumber[m[33m)[m HEAD@{163}: commit: device id added to sms that sent phone number
+[33m7d95dc5[m HEAD@{164}: reset: moving to HEAD
+[33m7d95dc5[m HEAD@{165}: commit: rearranging last commit
+[33m8e74059[m HEAD@{166}: commit: enter phone number added. sending back sms code
+[33m859ee93[m HEAD@{167}: checkout: moving from DEV to Dev-239-enterPhoneNumber
+[33m859ee93[m HEAD@{168}: checkout: moving from DEV to DEV
+[33m859ee93[m HEAD@{169}: clone: from https://marmormoshe@bitbucket.org/ballabaitdev/android_dev.git
