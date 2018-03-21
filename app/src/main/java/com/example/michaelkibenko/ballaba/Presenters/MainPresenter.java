@@ -9,11 +9,13 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.support.annotation.IntDef;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -23,6 +25,7 @@ import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
 import com.example.michaelkibenko.ballaba.Adapters.SearchViewPagerAdapter;
 import com.example.michaelkibenko.ballaba.Common.BallabaSelectedCityListener;
+import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
 import java.io.IOException;
@@ -38,6 +41,8 @@ public class MainPresenter extends BasePresenter {
     //private final String PLACES_API_BASE = EndpointsHolder.GOOGLE_PLACES_API
     //        , TYPE_TEXT_SEARCH = "/textsearch", OUT_JSON = "/json?query=";
     public static final int REQ_CODE_GPS_PERMISSION = 1, REQ_CODE_SELECT_CITY = 2;
+
+    public @interface SearchState { int FILTERED = 1; int NOT_FILTERED = 2; }
 
     private Context context;
     private FragmentManager fm;
@@ -83,11 +88,27 @@ public class MainPresenter extends BasePresenter {
 
     public void onClickToGoogleMap(){
         binder.mainActivityViewPager.setCurrentItem(
-                binder.mainActivityViewPager.getCurrentItem()==0? 1:0, false);
+                binder.mainActivityViewPager.getCurrentItem() == 0? 1:0, false);
     }
 
     public void onClickDrawer(){
+        binder.mainActivityDrawerLayout.openDrawer(Gravity.START);
+    }
 
+    //TODO it could be united with next method
+    //TODO also, i can delete SearchState because there is only 1 state change - from not filtered to filtered
+    public void SearchBarStateChanger(@SearchState int state){
+        onSearchBarChanged(state);
+    }
+
+    private void onSearchBarChanged(int state){
+        if (state == SearchState.FILTERED){
+            binder.mainActivitySearchBar.setBackgroundColor(context.getResources()
+                .getColor(R.color.colorPrimary, context.getTheme()));
+            binder.mainActivitySortButtonsLinearLayout.setVisibility(View.VISIBLE);
+        } else {
+
+        }
     }
 
     /*private void setViewportByName(String name){

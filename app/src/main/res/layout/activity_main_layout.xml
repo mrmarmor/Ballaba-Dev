@@ -17,7 +17,13 @@
             style="@style/allMatchParent"
             android:layoutDirection="rtl">
 
-            <Button
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/mainActivity_searchBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="@dimen/propertyItem_propertyElevation">
+
+                <Button
                 android:id="@+id/mainActivity_search_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -73,11 +79,32 @@
                 android:background="@android:color/transparent"
                 android:src="@android:drawable/ic_search_category_default" />
 
+            </android.support.constraint.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/mainActivity_sortButtons_linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/mainActivity_searchBar"
+                android:background="@color/colorPrimary"
+                android:visibility="gone"
+                android:orientation="horizontal"
+                android:elevation="@dimen/propertyItem_propertyElevation"
+                android:weightSum="1">
+
+                <Button style="@style/mainActivity_sort_button" android:text="a"/>
+                <Button style="@style/mainActivity_sort_button" android:text="b"/>
+                <Button style="@style/mainActivity_sort_button" android:text="c"/>
+                <Button style="@style/mainActivity_sort_button" android:text="d"/>
+
+            </LinearLayout>
+
             <android.support.v4.view.ViewPager
                 android:id="@+id/mainActivity_viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@id/mainActivity_search_button" />
+                app:layout_constraintTop_toBottomOf="@id/mainActivity_sortButtons_linearLayout"
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
 

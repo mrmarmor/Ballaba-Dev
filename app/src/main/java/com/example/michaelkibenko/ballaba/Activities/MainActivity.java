@@ -33,7 +33,7 @@ public class MainActivity extends FragmentActivity implements
 
     private ActivityMainLayoutBinding binder;
     private MainPresenter presenter;
-    private List<BallabaProperty> properties = new ArrayList<>();//Collections.emptyList();
+    //private List<BallabaProperty> properties = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,7 +53,7 @@ public class MainActivity extends FragmentActivity implements
         PropertiesManager.getInstance(this).addProperty(new BallabaProperty("0006", "הזית 4", "4300", bitmap));
      */   /////END OF TESTING
 
-        properties = PropertiesManager.getInstance(this).getProperties();
+        //properties = PropertiesManager.getInstance(this).getProperties();
         presenter = new MainPresenter(this, binder, getSupportFragmentManager());
         binder.setPresenter(presenter);
         //initPropertiesRecyclerFragment();
@@ -87,7 +87,7 @@ public class MainActivity extends FragmentActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == MainPresenter.REQ_CODE_SELECT_CITY) {
             if (resultCode == RESULT_OK && data != null) {
-                //presenter.activityStateChanger(MainPresenter.ActivityStates.FILTERED);
+                presenter.SearchBarStateChanger(MainPresenter.SearchState.FILTERED);
                 Toast.makeText(this, data.getStringExtra("DUMMY!!!"), Toast.LENGTH_LONG).show();
             }
         }

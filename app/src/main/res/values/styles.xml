@@ -40,4 +40,13 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
+    <style name="mainActivity_sort_button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">0.25</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@color/colorPrimary</item>
+    </style>
+
 </resources>
