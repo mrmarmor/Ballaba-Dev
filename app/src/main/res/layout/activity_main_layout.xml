@@ -21,7 +21,10 @@
                 android:id="@+id/mainActivity_searchBar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:translationZ="3dp">
+<!--
                 android:elevation="@dimen/propertyItem_propertyElevation">
+-->
 
                 <Button
                 android:id="@+id/mainActivity_search_button"
@@ -89,7 +92,7 @@
                 android:background="@color/colorPrimary"
                 android:visibility="gone"
                 android:orientation="horizontal"
-                android:elevation="@dimen/propertyItem_propertyElevation"
+                android:translationZ="3dp"
                 android:weightSum="1">
 
                 <Button style="@style/mainActivity_sort_button" android:text="a"/>
