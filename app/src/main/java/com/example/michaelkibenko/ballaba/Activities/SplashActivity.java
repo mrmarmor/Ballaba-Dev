@@ -2,6 +2,8 @@ package com.example.michaelkibenko.ballaba.Activities;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.IntDef;
@@ -13,6 +15,9 @@ import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
+import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
+import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
@@ -22,6 +27,8 @@ import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.SplashLayoutBinding;
+
+import java.util.ArrayList;
 
 import static com.example.michaelkibenko.ballaba.Activities.SplashActivity.FLOW_TYPES.AUTHENTICATED;
 import static com.example.michaelkibenko.ballaba.Activities.SplashActivity.FLOW_TYPES.NEED_AUTHENTICATION;
@@ -129,6 +136,14 @@ public class SplashActivity extends BaseActivity {
         BallabaSearchPropertiesManager.getInstance(this).getRandomProperties(new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
+                ArrayList<BallabaPropertyResult> properties = BallabaSearchPropertiesManager
+                        .getInstance(SplashActivity.this).parsePropertyResults(
+                                ((BallabaOkResponse)entity).body);
+
+                Log.d(TAG, "properties: " + properties+"");
+                BallabaSearchPropertiesManager.getInstance(SplashActivity.this).appendProperties(
+                        properties, false);
+
                 checkSplashDelay(whatNext);
             }
 
@@ -161,7 +176,7 @@ public class SplashActivity extends BaseActivity {
         if(what == FLOW_TYPES.NEED_AUTHENTICATION) {
             start = new Intent(SplashActivity.this, EnterPhoneNumberActivity.class);
         }else if(what == FLOW_TYPES.AUTHENTICATED){
-            start = new Intent(SplashActivity.this, TestingActivity.class);
+            start = new Intent(SplashActivity.this, MainActivity.class);
         }else{
             start = new Intent(SplashActivity.this, EnterPhoneNumberActivity.class);
         }

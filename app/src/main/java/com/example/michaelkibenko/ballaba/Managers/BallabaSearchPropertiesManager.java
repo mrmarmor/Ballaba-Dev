@@ -110,6 +110,7 @@ public class BallabaSearchPropertiesManager {
                 returned.add(propertyResult);
             }
 
+            Log.d(TAG, returned.get(0).id);
             return returned;
 
         }catch (JSONException ex){

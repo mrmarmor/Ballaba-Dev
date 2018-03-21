@@ -13,14 +13,11 @@ import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
-import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
+import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
-import com.example.michaelkibenko.ballaba.Presenters.SelectCityPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
-import com.example.michaelkibenko.ballaba.databinding.ActivitySelectCityBinding;
-import com.google.android.gms.maps.GoogleMap;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,14 +42,16 @@ public class MainActivity extends FragmentActivity implements
 
         /////TESTING
         //properties.add(new BallabaProperty("0001", "רחוב סומסום", "100000000000$"));
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.dummy_property);
+        /*Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.dummy_property);
+        PropertiesManager.getInstance(this).addProperties(
+        BallabaSearchPropertiesManager.getInstance(this).getResults());
         PropertiesManager.getInstance(this).addProperty(new BallabaProperty("0001", "רחוב סומסום", "10000", bitmap));
         PropertiesManager.getInstance(this).addProperty(new BallabaProperty("0002", "אבן גבירול 17", "2000", bitmap));
         PropertiesManager.getInstance(this).addProperty(new BallabaProperty("0003", "הזית 42", "1300", bitmap));
         PropertiesManager.getInstance(this).addProperty(new BallabaProperty("0004", "רחוב הלם", "12000", bitmap));
         PropertiesManager.getInstance(this).addProperty(new BallabaProperty("0005", "אבן גבירול 147", "2300", bitmap));
         PropertiesManager.getInstance(this).addProperty(new BallabaProperty("0006", "הזית 4", "4300", bitmap));
-        /////END OF TESTING
+     */   /////END OF TESTING
 
         properties = PropertiesManager.getInstance(this).getProperties();
         presenter = new MainPresenter(this, binder, getSupportFragmentManager());
@@ -88,7 +87,7 @@ public class MainActivity extends FragmentActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == MainPresenter.REQ_CODE_SELECT_CITY) {
             if (resultCode == RESULT_OK && data != null) {
-                presenter.activityStateChanger(MainPresenter.ActivityStates.FILTERED);
+                //presenter.activityStateChanger(MainPresenter.ActivityStates.FILTERED);
                 Toast.makeText(this, data.getStringExtra("DUMMY!!!"), Toast.LENGTH_LONG).show();
             }
         }

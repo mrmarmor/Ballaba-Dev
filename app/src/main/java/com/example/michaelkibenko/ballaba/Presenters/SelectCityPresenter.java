@@ -85,7 +85,7 @@ public class SelectCityPresenter extends BasePresenter implements
                 //BallabaMapFragment.newInstance().onItemSelected(googleMap, selectedPlace);
 
                 ////TODO TESTING! These line should appear in Done button to close this activity/presenter and return back to MainActivity
-                ((Activity)context).getIntent().putExtra("DUMMY!!!", selectedPlace);
+                ((Activity)context).getIntent().putExtra("DUMMY!!!", selectedPlace.toString());
                 ((Activity)context).setResult(Activity.RESULT_OK, ((Activity)context).getIntent());
                 ((Activity) context).finish();
                 ////

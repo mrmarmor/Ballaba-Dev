@@ -11,15 +11,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Adapters.PropertiesRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
 import com.example.michaelkibenko.ballaba.Presenters.SearchPropertiesPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PropertiesRecyclerFragment extends Fragment {
@@ -30,7 +34,7 @@ public class PropertiesRecyclerFragment extends Fragment {
     //private List<BallabaProperty> mParam;
     private PropertiesRecyclerAdapter rvAdapter;
     private RecyclerView rvProperties;
-    private List<BallabaProperty> properties;
+    private ArrayList<BallabaPropertyResult> properties;
 
     private SearchPropertiesPresenter presenter;
     private static ActivityMainLayoutBinding binder;
@@ -77,7 +81,9 @@ public class PropertiesRecyclerFragment extends Fragment {
     }
 
     private void initRecycler(View view) {
-        properties = PropertiesManager.getInstance(getContext()).getProperties();//new ArrayList<BallabaProperty>();
+        properties = BallabaSearchPropertiesManager.getInstance(getContext()).getResults();
+        Log.d(TAG, "properties: " + properties);
+                //PropertiesManager.getInstance(getContext()).getProperties();//new ArrayList<BallabaProperty>();
         //TODO moving binder across fragments when a specific widget is in the child fragment and
         //TODO not in the parent activity cause binder not be able to see the specific widget.
         //TODO that is why binder.getRoot() returns null. use findViewById instead!!!
@@ -86,7 +92,7 @@ public class PropertiesRecyclerFragment extends Fragment {
         rvProperties = (RecyclerView)view.findViewById(R.id.properties_recycler_RV);
         //GridLayoutManager manager = new GridLayoutManager(getContext(), 2);//TODO to display 2 properties in a row
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        rvAdapter = new PropertiesRecyclerAdapter(getContext(), rvProperties, manager, properties, new BallabaUser());
+        rvAdapter = new PropertiesRecyclerAdapter(getContext(), properties);
         rvProperties.setLayoutManager(manager);
         rvProperties.setAdapter(rvAdapter);
     }

@@ -15,14 +15,15 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
 import com.example.michaelkibenko.ballaba.Adapters.SearchViewPagerAdapter;
-import com.example.michaelkibenko.ballaba.Common.ClassesCommunicationListener;
-import com.example.michaelkibenko.ballaba.databinding.MainScreenLayoutBinding;
+import com.example.michaelkibenko.ballaba.Common.BallabaSelectedCityListener;
+import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
 import java.io.IOException;
 import java.util.List;
@@ -41,11 +42,11 @@ public class MainPresenter extends BasePresenter {
     private Context context;
     private FragmentManager fm;
     private PagerAdapter pagerAdapter;
-    private MainScreenLayoutBinding binder;
-    private ClassesCommunicationListener listener;
+    private ActivityMainLayoutBinding binder;
+    private BallabaSelectedCityListener listener;
     //private GoogleMap googleMap;
 
-    public MainPresenter(Context context, MainScreenLayoutBinding binder, FragmentManager fm){
+    public MainPresenter(Context context, ActivityMainLayoutBinding binder, FragmentManager fm){
         this.binder = binder;
         this.context = context;
         this.fm = fm;
@@ -55,12 +56,12 @@ public class MainPresenter extends BasePresenter {
     }
 
     private void initDrawer(){
-        binder.mainScreenNavigationView.setNavigationItemSelectedListener(
+        binder.mainActivityNavigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         menuItem.setChecked(true);
-                        binder.mainScreenDrawerLayout.closeDrawers();
+                        binder.mainActivityDrawerLayout.closeDrawers();
 
                         //TODO here i need to add switch between menu items
 
@@ -72,7 +73,7 @@ public class MainPresenter extends BasePresenter {
 
     private void initViewPager(){
         pagerAdapter = new SearchViewPagerAdapter(context, binder, fm);
-        binder.mainScreenViewPager.setAdapter(pagerAdapter);
+        binder.mainActivityViewPager.setAdapter(pagerAdapter);
     }
 
     public void onClickToSelectCity(){
@@ -81,8 +82,12 @@ public class MainPresenter extends BasePresenter {
     }
 
     public void onClickToGoogleMap(){
-        binder.mainScreenViewPager.setCurrentItem(
-                binder.mainScreenViewPager.getCurrentItem()==0? 1:0, false);
+        binder.mainActivityViewPager.setCurrentItem(
+                binder.mainActivityViewPager.getCurrentItem()==0? 1:0, false);
+    }
+
+    public void onClickDrawer(){
+
     }
 
     /*private void setViewportByName(String name){
