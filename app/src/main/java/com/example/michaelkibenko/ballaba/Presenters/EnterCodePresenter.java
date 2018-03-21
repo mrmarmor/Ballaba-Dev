@@ -3,10 +3,10 @@ package com.example.michaelkibenko.ballaba.Presenters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.IntDef;
-import android.support.design.widget.Snackbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -16,21 +16,25 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
+import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
+import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPhoneNumber;
+import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
+import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
+import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
-import com.example.michaelkibenko.ballaba.Utils.GeneralUtils;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.EnterCodeLayoutBinding;
 
-import java.util.Map;
 
 import static com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter.Flows.CODE_EXPIRED;
 import static com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter.Flows.INTERNAL_ERROR;
@@ -60,6 +64,8 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
     public BallabaPhoneNumber phoneNumber;//must be public so layout binding can see it
     private StringBuilder sbCode = new StringBuilder(4);
     private EditText[] editTexts;
+    public BallabaConnectivityListener connectivityListener;
+    private boolean wasConnectivityProblem;
 
     public EnterCodePresenter(Context context, EnterCodeLayoutBinding binding, String countryCode, String phoneNumber) {
         this.context = context;
@@ -69,6 +75,23 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
 
         initEditTexts(editTexts);
         show1MinuteClock();
+    }
+
+    private void listenToNetworkChanges(){
+        connectivityListener = new BallabaConnectivityListener() {
+            @Override
+            public void onConnectivityChanged(boolean is) {
+                if (!is){
+                    ((BaseActivity)context).showNetworkError(binder.getRoot());
+                    wasConnectivityProblem = true;
+                }else if(wasConnectivityProblem){
+                    ((BaseActivity)context).hideNetworkError();
+                    onCodeCompleted();
+                }
+
+            }
+        };
+        BallabaConnectivityAnnouncer.getInstance(context).register(connectivityListener);
     }
 
     public EnterCodePresenter getInstance() {
@@ -131,28 +154,35 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
     }
 
     private void onCodeCompleted() {
-        Map<String, String> params = GeneralUtils.getParams(new String[]{"phone", "code"}, new String[]{phoneNumber.getFullPhoneNumber(), sbCode.toString()});
-        Log.e(TAG, params.toString());
+        if(BallabaConnectivityAnnouncer.getInstance(context).isConnected()) {
+            ConnectionsManager.getInstance(context).enterCode(phoneNumber.getFullPhoneNumber(),sbCode.toString() , new BallabaResponseListener() {
+                @Override
+                public void resolve(BallabaBaseEntity entity) {
+                    Log.d(TAG, "enterCode");
+                    if (entity instanceof BallabaUser) {
+                        wasConnectivityProblem = false;
 
-        ConnectionsManager.getInstance(context).enterCode(params, new BallabaResponseListener() {
-            @Override
-            public void resolve(BallabaBaseEntity entity) {
-                Log.d(TAG, "enterCode");
-                if (entity instanceof BallabaOkResponse) {
-                    onFlowChanged(EnterPhoneNumberPresenter.Flows.OK);
+                        BallabaUser user = (BallabaUser)entity;
+                        BallabaUserManager.getInstance().setUser(user);
+                        SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.GLOBAL_TOKEN, user.getGlobal_token());
+                        onFlowChanged(EnterPhoneNumberPresenter.Flows.OK);
+                    }
                 }
-            }
 
-            @Override
-            public void reject(BallabaBaseEntity entity) {
-                if (entity instanceof BallabaErrorResponse) {
-                    Log.d(TAG, "enterCode rejected "+((BallabaErrorResponse) entity).statusCode);
-                    clearCode();
+                @Override
+                public void reject(BallabaBaseEntity entity) {
+                    if (entity instanceof BallabaErrorResponse) {
+                        Log.d(TAG, "enterCode rejected " + ((BallabaErrorResponse) entity).statusCode);
+                        clearCode();
 
-                    onFlowChanged(((BallabaErrorResponse) entity).statusCode);
+                        onFlowChanged(((BallabaErrorResponse) entity).statusCode);
+                    }
                 }
-            }
-        });
+            });
+        }else {
+            ((BaseActivity)context).showNetworkError(binder.getRoot());
+            listenToNetworkChanges();
+        }
     }
 
     private void onFlowChanged(int statusCode) {
@@ -160,6 +190,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
             case Flows.OK:
                 Intent intentToMainActivity = new Intent(context, MainActivity.class);
                 //intentToMainActivity.putExtra(SOMETHING TO MOVE);
+                intentToMainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intentToMainActivity);
                 break;
 
@@ -213,15 +244,10 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
         UiUtils.instance(true, context).buttonChanger(binder.enterCodeSendAgainButton, false);
         show1MinuteClock();
 
-        String deviceId = DeviceUtils.getInstance(true, context).getDeviceId();
-        Map<String, String> params = GeneralUtils.getParams(new String[]{"phone", "device_id"}, new String[]{phoneNumber.getFullPhoneNumber(), deviceId});
-        Log.d(TAG, "onNextButtonClick");
-        Log.d(TAG, "params: "+params);
-
         UiUtils.instance(true, context).hideSoftKeyboard(((Activity)context).getWindow().getDecorView());
-        Snackbar.make(binder.enterCodeRootLayout, context.getString(R.string.enter_code_send_again_snack_bar_text), Snackbar.LENGTH_LONG).show();
+        ((BaseActivity)context).getDefaultSnackBar(binder.getRoot(), context.getString(R.string.enter_code_send_again_snack_bar_text), true).show();
 
-        ConnectionsManager.getInstance(context).loginWithPhoneNumber(params, new BallabaResponseListener() {
+        ConnectionsManager.getInstance(context).loginWithPhoneNumber(phoneNumber.getFullPhoneNumber(), new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 if(entity instanceof BallabaOkResponse){

@@ -6,4 +6,8 @@ package com.example.michaelkibenko.ballaba.Entities;
 
 public class BallabaOkResponse extends BallabaBaseEntity{
     public String body;
+
+    public void setBody(String body) {
+        this.body = body;
+    }
 }

@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
@@ -18,7 +19,7 @@ import com.example.michaelkibenko.ballaba.R;
 public class BaseActivity extends AppCompatActivity{
 
     private static final String TAG = BaseActivity.class.getSimpleName();
-    private Snackbar networkErrorSB;
+    private Snackbar defaultSnackBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,17 +28,14 @@ public class BaseActivity extends AppCompatActivity{
     }
 
 
-    protected void showNetworkError(View parentView){
-        if(networkErrorSB == null){
-            networkErrorSB = Snackbar.make(parentView, getResources().getString(R.string.no_network_err_msg), Snackbar.LENGTH_INDEFINITE);
-        }
-        networkErrorSB.show();
+    public void showNetworkError(View parentView){
+        getDefaultSnackBar(parentView, getResources().getString(R.string.no_network_err_msg), true).show();
     }
 
-    protected void hideNetworkError(){
-        if(networkErrorSB != null) {
-            if (networkErrorSB.isShown()) {
-                networkErrorSB.dismiss();
+    public void hideNetworkError(){
+        if(defaultSnackBar != null) {
+            if (defaultSnackBar.isShown()) {
+                defaultSnackBar.dismiss();
             }else {
                 Log.e(TAG, "The network error SnackBar is not shown and you want to dismiss it");
             }
@@ -46,4 +44,15 @@ public class BaseActivity extends AppCompatActivity{
         }
     }
 
+    public Snackbar getDefaultSnackBar(View parentView, String text, boolean isShowAlways){
+        if(defaultSnackBar == null){
+            defaultSnackBar = Snackbar.make(parentView, text, isShowAlways?Snackbar.LENGTH_INDEFINITE:Snackbar.LENGTH_LONG);
+            View snackBarView = defaultSnackBar.getView();
+            snackBarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary, this.getTheme()));
+            ((TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text)).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+        }else {
+            defaultSnackBar.setText(text);
+        }
+        return defaultSnackBar;
+    }
 }

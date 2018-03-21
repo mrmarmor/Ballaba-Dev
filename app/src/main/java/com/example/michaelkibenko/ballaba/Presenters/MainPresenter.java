@@ -1,7 +1,6 @@
 package com.example.michaelkibenko.ballaba.Presenters;
 
 import android.Manifest;
-import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -15,18 +14,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
 import com.example.michaelkibenko.ballaba.Adapters.SearchViewPagerAdapter;
-import com.example.michaelkibenko.ballaba.Common.BallabaSelectedCityListener;
-import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
+import com.example.michaelkibenko.ballaba.Common.ClassesCommunicationListener;
+import com.example.michaelkibenko.ballaba.databinding.MainScreenLayoutBinding;
 
 import java.io.IOException;
 import java.util.List;
@@ -38,61 +34,45 @@ import java.util.Locale;
 
 public class MainPresenter extends BasePresenter {
     private final String TAG = MainPresenter.class.getSimpleName();
+    //private final String PLACES_API_BASE = EndpointsHolder.GOOGLE_PLACES_API
+    //        , TYPE_TEXT_SEARCH = "/textsearch", OUT_JSON = "/json?query=";
     public static final int REQ_CODE_GPS_PERMISSION = 1, REQ_CODE_SELECT_CITY = 2;
 
-    public @interface ActivityStates { int NOT_FILTERED = 1; int FILTERED = 2; }
-
-    private Activity context;
+    private Context context;
     private FragmentManager fm;
     private PagerAdapter pagerAdapter;
-    private ActivityMainLayoutBinding binder;
-    private BallabaSelectedCityListener listener;
+    private MainScreenLayoutBinding binder;
+    private ClassesCommunicationListener listener;
     //private GoogleMap googleMap;
 
-    public MainPresenter() {}
-    public MainPresenter(Context context, ActivityMainLayoutBinding binder, FragmentManager fm){
+    public MainPresenter(Context context, MainScreenLayoutBinding binder, FragmentManager fm){
         this.binder = binder;
-        this.context = (Activity)context;
+        this.context = context;
         this.fm = fm;
 
         initDrawer();
         initViewPager();
     }
 
-    public MainPresenter getInstance() {
-        return new MainPresenter(context, binder, fm);
-    }
-
     private void initDrawer(){
-        binder.mainActivityNavigationView.setNavigationItemSelectedListener(
+        binder.mainScreenNavigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
                         menuItem.setChecked(true);
-                        binder.mainActivityDrawerLayout.closeDrawers();
+                        binder.mainScreenDrawerLayout.closeDrawers();
 
                         //TODO here i need to add switch between menu items
 
                         return true;
                     }
                 });
+
     }
 
     private void initViewPager(){
         pagerAdapter = new SearchViewPagerAdapter(context, binder, fm);
-        binder.mainActivityViewPager.setAdapter(pagerAdapter);
-    }
-
-    public void activityStateChanger(@ActivityStates int state){
-        setMainActivityUi(state);
-    }
-
-    private void setMainActivityUi(@ActivityStates int state){
-        if (state == ActivityStates.NOT_FILTERED){
-            Toast.makeText(context, "not filtered", Toast.LENGTH_LONG).show();
-        } else if (state == ActivityStates.FILTERED){
-            Toast.makeText(context, "filtered", Toast.LENGTH_LONG).show();
-        }
+        binder.mainScreenViewPager.setAdapter(pagerAdapter);
     }
 
     public void onClickToSelectCity(){
@@ -101,12 +81,8 @@ public class MainPresenter extends BasePresenter {
     }
 
     public void onClickToGoogleMap(){
-        binder.mainActivityViewPager.setCurrentItem(
-                binder.mainActivityViewPager.getCurrentItem() == 0? 1:0, false);
-    }
-
-    public void onClickDrawer(){
-        binder.mainActivityDrawerLayout.openDrawer(Gravity.START);
+        binder.mainScreenViewPager.setCurrentItem(
+                binder.mainScreenViewPager.getCurrentItem()==0? 1:0, false);
     }
 
     /*private void setViewportByName(String name){

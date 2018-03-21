@@ -13,8 +13,11 @@ import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
+import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
+import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
+import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
@@ -40,7 +43,8 @@ public class SplashActivity extends BaseActivity {
     private static final long MIN_SPLASH_DELAY = 3000;
     private SplashLayoutBinding binder;
     private long startTime,endTime;
-    boolean isGetConfig, isLoggedIn;
+    boolean isGetConfig, isLoggedIn,isGetProperty, wasConnectivityProblem;
+    @FLOW_TYPES private int logInStatus = NEED_AUTHENTICATION;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,15 +53,16 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onConnectivityChanged(boolean is) {
                 if(!is){
+                    wasConnectivityProblem = true;
                     showNetworkError(binder.getRoot());
-                }else{
+                }else if(wasConnectivityProblem){
                     hideNetworkError();
                     if(!isGetConfig){
                         getConfigRequestAndAuthenticate();
                     }else if(!isLoggedIn){
                         logInWithToken();
-                    }else{
-                        getConfigRequestAndAuthenticate();
+                    }else if(!isGetProperty){
+                        getProperties(logInStatus);
                     }
                 }
             }
@@ -95,8 +100,11 @@ public class SplashActivity extends BaseActivity {
             ConnectionsManager.getInstance(SplashActivity.this).logInByToken(new BallabaResponseListener() {
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
-                    Log.d(TAG, "logInWithToken");
-                    checkSplashDelay(FLOW_TYPES.AUTHENTICATED);
+                    if(entity instanceof BallabaUser){
+                        BallabaUserManager.getInstance().setUser((BallabaUser) entity);
+                        logInStatus = FLOW_TYPES.AUTHENTICATED;
+                        getProperties(logInStatus);
+                    }
                 }
 
                 @Override
@@ -104,14 +112,31 @@ public class SplashActivity extends BaseActivity {
                     Log.d(TAG, "logInWithToken rejected");
                     if(entity instanceof BallabaErrorResponse){
                         if(((BallabaErrorResponse)entity).statusCode != 500){
-                            checkSplashDelay(FLOW_TYPES.NEED_AUTHENTICATION);
+                            logInStatus = FLOW_TYPES.NEED_AUTHENTICATION;
+                            getProperties(logInStatus);
                         }
                     }
                 }
             }, token);
         }else{
-            checkSplashDelay(FLOW_TYPES.NEED_AUTHENTICATION);
+            logInStatus = FLOW_TYPES.NEED_AUTHENTICATION;
+            checkSplashDelay(logInStatus);
+            //first from here
         }
+    }
+
+    private void getProperties(@FLOW_TYPES final int whatNext){
+        BallabaSearchPropertiesManager.getInstance(this).getRandomProperties(new BallabaResponseListener() {
+            @Override
+            public void resolve(BallabaBaseEntity entity) {
+                checkSplashDelay(whatNext);
+            }
+
+            @Override
+            public void reject(BallabaBaseEntity entity) {
+                getDefaultSnackBar(binder.getRoot(), getResources().getString(R.string.error_network_internal), true);
+            }
+        }, true);
     }
 
     private void checkSplashDelay(final @FLOW_TYPES int what){
@@ -119,7 +144,7 @@ public class SplashActivity extends BaseActivity {
         endTime = System.currentTimeMillis();
         if(endTime - startTime > MIN_SPLASH_DELAY){
             continueFlow(what);
-        }else {
+        }else if(isGetConfig){
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

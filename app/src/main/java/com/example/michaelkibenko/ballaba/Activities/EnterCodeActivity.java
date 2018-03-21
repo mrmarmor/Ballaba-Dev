@@ -37,7 +37,6 @@ public class EnterCodeActivity extends BaseActivity {
     private BallabaSMSReceiver smsReceiver;
     private boolean isReceiverRunning;
     private EnterCodeLayoutBinding binder;
-    private BallabaConnectivityListener client;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,33 +49,9 @@ public class EnterCodeActivity extends BaseActivity {
         binder.setPresenter(presenter);
 
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED &&
-                ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED)
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED) {
             runSMSReader();
-
-        listenToNetworkChanges();
-        if(!BallabaConnectivityAnnouncer.getInstance(this).isConnected())
-            Snackbar.make(binder.enterCodeRootLayout, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
-    }
-
-    private void listenToNetworkChanges(){
-        client = new BallabaConnectivityListener() {
-            @Override
-            public void onConnectivityChanged(boolean is) {
-                if (!is){
-                    //TODO replace next line with a dialog
-                    Toast.makeText(EnterCodeActivity.this, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
-                    Snackbar.make(binder.enterCodeRootLayout, "Here will be error dialog because of no internet", Toast.LENGTH_LONG).show();
-                }else{
-                    Toast.makeText(EnterCodeActivity.this, "TESTING: network is on!", Toast.LENGTH_LONG).show();
-                    Snackbar.make(binder.enterCodeRootLayout, "TESTING: network is on!", Toast.LENGTH_LONG).show();
-
-                    //TODO here we prevent user from sending phone when there is no network. However, if we don't prevent him, he got an error message
-                    //TODO in "enter_phone_number_text_error_answer" textView anyway. Decide what is better.
-                }
-
-            }
-        };
-        BallabaConnectivityAnnouncer.getInstance(this).register(client);
+        }
     }
 
     @Override
@@ -84,15 +59,18 @@ public class EnterCodeActivity extends BaseActivity {
         super.onStop();
 
         UiUtils.instance(true, this).hideSoftKeyboard(getWindow().getDecorView());
-        BallabaConnectivityAnnouncer.getInstance(this).unRegister(client);// network receiver
         stopSmsReceiver();
     }
 
+    @Override
+    protected void onDestroy() {
+        BallabaConnectivityAnnouncer.getInstance(this).unRegister(presenter.connectivityListener);
+        super.onDestroy();
+    }
+
     public void runSMSReader(){
-        Log.d(TAG, "Before Receiver registration");
         if(!isReceiverRunning) {
             smsReceiver = new BallabaSMSReceiver();
-            Log.d(TAG, "Receiver registration");
             IntentFilter intentFilter = new IntentFilter(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
             registerReceiver(smsReceiver, intentFilter);
             isReceiverRunning = true;

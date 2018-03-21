@@ -1,8 +1,10 @@
 package com.example.michaelkibenko.ballaba.Managers;
 
+import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
+import android.os.UserManager;
 import android.text.LoginFilter;
 import android.util.Log;
 
@@ -11,6 +13,8 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.michaelkibenko.ballaba.BallabaApplication;
@@ -23,6 +27,10 @@ import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -65,70 +73,78 @@ import java.util.Map;
         getQueue().add(request);
     }
 
-    public void loginWithPhoneNumber(final Map<String, String> params, final BallabaResponseListener callback){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, EndpointsHolder.LOGIN,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        callback.resolve(new BallabaOkResponse());
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if(error.networkResponse != null){
-                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
-                }else{
-                    callback.reject(new BallabaErrorResponse(500, null));
-                }
-            }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String>  params = new HashMap<String, String>();
-                return params;
-            }
+    public void loginWithPhoneNumber(final String phoneNumber, final BallabaResponseListener callback){
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("phone", phoneNumber);
 
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                return params;
-            }
-        };
-        queue.add(stringRequest);
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, EndpointsHolder.LOGIN, jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    callback.resolve(new BallabaOkResponse());
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if(error.networkResponse != null){
+                        callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                    }else{
+                        callback.reject(new BallabaErrorResponse(500, null));
+                    }
+                }
+            });
+
+            queue.add(jsonObjectRequest);
+        }catch (JSONException ex){
+            ex.printStackTrace();
+        }
     }
 
-    public void enterCode(final Map<String, String> params, final BallabaResponseListener callback){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, EndpointsHolder.AUTHENTICATE,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        BallabaUser user = SharedPreferencesManager.getInstance(context).getUser(SharedPreferencesKeysHolder.USER, new BallabaUser()/*empty user*/);
-                        SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.GLOBAL_TOKEN, user.getGlobal_token());
-                        Log.d(TAG, response+"\n"+user.getGlobal_token());
-                        callback.resolve(new BallabaOkResponse());
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+    public void enterCode(String phoneNUmber, String code, final BallabaResponseListener callback){
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("phone", phoneNUmber);
+            jsonObject.put("code", code);
 
-                if(error.networkResponse != null){
-                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
-                }else{
-                    callback.reject(new BallabaErrorResponse(500, null));
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, EndpointsHolder.AUTHENTICATE, jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                        BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
+
+                        if(user == null){
+                            callback.reject(new BallabaErrorResponse(500, null));
+                        }else {
+                            callback.resolve(user);
+                        }
                 }
-            }
-        }){
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String>  params = new HashMap<String, String>();
-                return params;
-            }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if(error.networkResponse != null){
+                        callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                    }else{
+                        callback.reject(new BallabaErrorResponse(500, null));
+                    }
+                }
+            }){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String>  params = new HashMap<String, String>();
+                    params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
+                    return params;
+                }
 
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                return params;
-            }
-        };
-        queue.add(stringRequest);
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    return null;
+                }
+            };;
+
+            queue.add(jsonObjectRequest);
+        }catch (JSONException ex){
+            ex.printStackTrace();
+        }
     }
 
     public void getConfigRequest(final BallabaResponseListener callback){
@@ -165,13 +181,17 @@ import java.util.Map;
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.e(TAG, response);
-                        callback.resolve(new BallabaOkResponse());
+                        BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
+                        if(user == null){
+                            callback.reject(new BallabaErrorResponse(500, null));
+                        }else {
+                            callback.resolve(user);
+                        }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, error.toString());
+                Log.e(TAG, error.getMessage());
                 if(error.networkResponse != null){
                     callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
                 }else{
@@ -182,20 +202,22 @@ import java.util.Map;
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put("token", token);
-                params.put("device", DeviceUtils.getInstance(true, context).getDeviceId());
+                params.put("global_token", token);
+                params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
                 return params;
             }
         };
         queue.add(stringRequest);
     }
 
-    public void getProperty(final String deviceId, final BallabaResponseListener callback){
+    public void getRandomProperties(final BallabaResponseListener callback){
         StringRequest stringRequest = new StringRequest(Request.Method.GET, EndpointsHolder.PROPERTY,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.d(TAG, response);
+                        BallabaOkResponse okResponse = new BallabaOkResponse();
+                        okResponse.setBody(response);
+                        callback.resolve(okResponse);
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -211,10 +233,12 @@ import java.util.Map;
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("deviceId", deviceId);
+                params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
                 return params;
             }
         };
+
+        queue.add(stringRequest);
 
     }
 
