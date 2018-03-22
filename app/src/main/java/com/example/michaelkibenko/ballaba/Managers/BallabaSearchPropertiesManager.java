@@ -80,6 +80,32 @@ public class BallabaSearchPropertiesManager {
         });
     }
 
+    public void getPropertiesByLatLng(final String latLngStr, final BallabaResponseListener callback, boolean isLazy){
+        ConnectionsManager.getInstance(context).getPropertyByLatLng(latLngStr, new BallabaResponseListener() {
+            @Override
+            public void resolve(BallabaBaseEntity entity) {
+                if(entity instanceof BallabaOkResponse){
+                    ArrayList<BallabaPropertyResult> results = parsePropertyResults(((BallabaOkResponse) entity).body);
+
+                    if(results != null){
+                        appendProperties(results, true);
+                    }else {
+                        Log.e(TAG, "results is null, Json parse error");
+                    }
+
+                    callback.resolve(entity);
+                }else {
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }
+            }
+
+            @Override
+            public void reject(BallabaBaseEntity entity) {
+                callback.reject(entity);
+            }
+        });
+    }
+
     public ArrayList<BallabaPropertyResult> parsePropertyResults(String result){
         try{
             ArrayList<BallabaPropertyResult> returned = new ArrayList<>();

@@ -26,6 +26,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
+import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -239,6 +240,43 @@ import java.util.Map;
         };
 
         queue.add(stringRequest);
+
+    }
+
+    public void getPropertyByLatLng(String latLngStr, final BallabaResponseListener callback){
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("latlong", latLngStr);//string format must be: "<latitude>,<longitude>"
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, EndpointsHolder.PROPERTY, jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    BallabaOkResponse okResponse = new BallabaOkResponse();
+                    //okResponse.setBody(response.getString("latlong"));
+                    callback.resolve(okResponse);                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if(error.networkResponse != null){
+                        callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                    }else{
+                        callback.reject(new BallabaErrorResponse(500, null));
+                    }
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
+                    return params;
+                }
+            };
+
+            queue.add(jsonObjectRequest);
+
+        } catch (JSONException ex){
+            ex.printStackTrace();
+        }
 
     }
 

@@ -77,8 +77,6 @@ public class SelectCityPresenter extends BasePresenter implements
         actvSelectCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //LatLng selectedCityLatLng = BallabaLocationManager.getInstance(activity)
-                //        .locationGeoCoder(((TextView)view).getText().toString());
                 String selectedCity = ((TextView)view).getText().toString();
                 actvSelectCity.setText(selectedCity);
 

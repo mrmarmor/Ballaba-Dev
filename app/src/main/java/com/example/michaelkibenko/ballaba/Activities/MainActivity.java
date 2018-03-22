@@ -9,16 +9,21 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
+import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
+import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
 import com.example.michaelkibenko.ballaba.Presenters.SelectCityPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,8 +82,24 @@ public class MainActivity extends BaseActivity implements
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == MainPresenter.REQ_CODE_SELECT_CITY) {
             if (resultCode == RESULT_OK && data != null) {
-                presenter.SearchBarStateUIChanger(data.getStringExtra(
-                        SelectCityPresenter.SELECTED_CITY_KEY), MainPresenter.SearchState.FILTERED);
+                String city = data.getStringExtra(SelectCityPresenter.SELECTED_CITY_KEY);
+                String cityLatLng = BallabaLocationManager.getInstance(this).locationGeoCoder(city)+"";
+
+                presenter.SearchBarStateUIChanger(city, MainPresenter.SearchState.FILTERED);
+
+                BallabaSearchPropertiesManager.getInstance(this).getPropertiesByLatLng(cityLatLng
+                        , new BallabaResponseListener() {
+                            @Override
+                            public void resolve(BallabaBaseEntity entity) {
+                                Log.d(TAG, "entity: "+entity);
+                            }
+
+                            @Override
+                            public void reject(BallabaBaseEntity entity) {
+                                Log.e(TAG, "entity: "+entity);
+                            }
+                        }, true);
+
                 Toast.makeText(this, data.getStringExtra(SelectCityPresenter.SELECTED_CITY_KEY), Toast.LENGTH_LONG).show();
             }
         }
