@@ -83,11 +83,12 @@ public class MainActivity extends BaseActivity implements
         if (requestCode == MainPresenter.REQ_CODE_SELECT_CITY) {
             if (resultCode == RESULT_OK && data != null) {
                 String city = data.getStringExtra(SelectCityPresenter.SELECTED_CITY_KEY);
-                String cityLatLng = BallabaLocationManager.getInstance(this).locationGeoCoder(city)+"";
+                LatLng cityLatLng = BallabaLocationManager.getInstance(this).locationGeoCoder(city);
+                String cityLatLngStr = cityLatLng.latitude + "," + cityLatLng.longitude;
 
                 presenter.SearchBarStateUIChanger(city, MainPresenter.SearchState.FILTERED);
 
-                BallabaSearchPropertiesManager.getInstance(this).getPropertiesByLatLng(cityLatLng
+                BallabaSearchPropertiesManager.getInstance(this).getPropertiesByLatLng(cityLatLngStr
                         , new BallabaResponseListener() {
                             @Override
                             public void resolve(BallabaBaseEntity entity) {

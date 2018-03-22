@@ -13,6 +13,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
@@ -30,6 +31,7 @@ import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -246,20 +248,29 @@ import java.util.Map;
     public void getPropertyByLatLng(String latLngStr, final BallabaResponseListener callback){
         try {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("latlong", latLngStr);//string format must be: "<latitude>,<longitude>"
+            jsonObject.put("latlong", latLngStr);
+            //JSONArray jsonArray = new JSONArray();
+            //jsonArray.put(/*"latlong", */latLngStr);//string format must be: "<latitude>,<longitude>"
 
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, EndpointsHolder.PROPERTY, jsonObject, new Response.Listener<JSONObject>() {
+            JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
+                    Request.Method.POST, EndpointsHolder.PROPERTY, jsonObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    BallabaOkResponse okResponse = new BallabaOkResponse();
-                    //okResponse.setBody(response.getString("latlong"));
-                    callback.resolve(okResponse);                }
+                    try {
+                        BallabaOkResponse okResponse = new BallabaOkResponse();
+                        okResponse.setBody(response.getString("latlong"));
+                        callback.resolve(okResponse);
+                    } catch (JSONException e) {
+                        e.getStackTrace();
+                    }
+                }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     if(error.networkResponse != null){
                         callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
                     }else{
+                        Log.e(TAG, error+"\n"+ error.getMessage());
                         callback.reject(new BallabaErrorResponse(500, null));
                     }
                 }
@@ -272,7 +283,7 @@ import java.util.Map;
                 }
             };
 
-            queue.add(jsonObjectRequest);
+            queue.add(jsonArrayRequest);
 
         } catch (JSONException ex){
             ex.printStackTrace();
