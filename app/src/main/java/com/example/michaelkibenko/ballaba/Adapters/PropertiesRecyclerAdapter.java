@@ -32,6 +32,7 @@ import com.example.michaelkibenko.ballaba.Presenters.TestingPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.PropertyItemBinding;
 
+import java.text.Format;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -81,6 +82,10 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
                 .into(binder.propertyItemImageView);
         binder.propertyItemAddressTextView.setText(property.formattedAddress);
         binder.propertyItemPriceTextView.setText(property.price);
+        binder.propertyItemRoomsTextView.setText(String.format("%s %s"
+                , property.roomsNumber, mContext.getString(R.string.propertyItem_numberOfRooms)));
+        binder.propertyItemPropertySizeTextView.setText(String.format("%s %s"
+                , property.size, mContext.getString(R.string.propertyItem_propertySize)));
 
             //TODO without binder and glide:
             //holder.propertyImageView.setImageBitmap(property.bitmap());

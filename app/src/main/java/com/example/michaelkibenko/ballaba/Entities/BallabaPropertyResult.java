@@ -1,6 +1,8 @@
 package com.example.michaelkibenko.ballaba.Entities;
 
 
+import com.example.michaelkibenko.ballaba.Utils.StringUtils;
+
 import java.util.ArrayList;
 
 /**
@@ -18,11 +20,10 @@ public class BallabaPropertyResult extends BallabaBaseEntity {
     public ArrayList<String> photos;
     public boolean isSaved;
 
-
     public BallabaPropertyResult(String id, String roomsNumber, String price, String size, String formattedAddress, String rentPeriod, String numberOfPayments, ArrayList<String> photos, boolean isSaved) {
         this.id = id;
         this.roomsNumber = roomsNumber;
-        this.price = price;
+        this.price = StringUtils.getInstance(true, null).formattedNumberWithComma(price);
         this.size = size;
         this.formattedAddress = formattedAddress;
         this.rentPeriod = rentPeriod;

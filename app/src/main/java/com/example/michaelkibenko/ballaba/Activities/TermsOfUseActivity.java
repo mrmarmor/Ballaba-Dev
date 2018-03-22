@@ -7,7 +7,7 @@ import android.view.MenuItem;
 
 import com.example.michaelkibenko.ballaba.R;
 
-public class TermsOfUseActivity extends AppCompatActivity {
+public class TermsOfUseActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -27,11 +27,10 @@ import com.google.android.gms.maps.model.LatLng;
 
 public class SelectCityPresenter extends BasePresenter implements
         BallabaLocationManager.OnGoogleMapListener, BallabaSelectedCityListener {
-    private final String TAG = SelectCityPresenter.class.getSimpleName(),
-            PLACES_API_BASE = EndpointsHolder.GOOGLE_PLACES_API,
-            TYPE_TEXT_SEARCH = "/textsearch", OUT_JSON = "/json?query=";
+    public final static String TAG = SelectCityPresenter.class.getSimpleName(),
+                SELECTED_CITY_KEY = "selected_city";
 
-    private Context context;
+    private Activity activity;
     private ActivitySelectCityBinding binder;
 
     private AutoCompleteTextView actvSelectCity;
@@ -42,7 +41,7 @@ public class SelectCityPresenter extends BasePresenter implements
     //public SelectCityPresenter(){}
     public SelectCityPresenter(Context context, ActivitySelectCityBinding binder){
         this.binder = binder;
-        this.context = context;
+        this.activity = (Activity)context;
 
         //initGoogleMapListener();
         initAutoCompleteTextView();
@@ -64,7 +63,7 @@ public class SelectCityPresenter extends BasePresenter implements
         actvSelectCity = binder.selectCityAutoCompleteTextView;
 
         final GooglePlacesAdapter dataAdapter = new GooglePlacesAdapter(
-                context, android.R.layout.simple_list_item_1);
+                activity, android.R.layout.simple_list_item_1);
         actvSelectCity.setAdapter(dataAdapter);
 
         actvSelectCity.addTextChangedListener(new TextWatcher() {
@@ -78,16 +77,18 @@ public class SelectCityPresenter extends BasePresenter implements
         actvSelectCity.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                actvSelectCity.setText(((TextView)view).getText());
-                LatLng selectedPlace = BallabaLocationManager.getInstance(context)
-                        .locationGeoCoder(((TextView)view).getText().toString());
+                //LatLng selectedCityLatLng = BallabaLocationManager.getInstance(activity)
+                //        .locationGeoCoder(((TextView)view).getText().toString());
+                String selectedCity = ((TextView)view).getText().toString();
+                actvSelectCity.setText(selectedCity);
 
                 //BallabaMapFragment.newInstance().onItemSelected(googleMap, selectedPlace);
 
                 ////TODO TESTING! These line should appear in Done button to close this activity/presenter and return back to MainActivity
-                ((Activity)context).getIntent().putExtra("DUMMY!!!", selectedPlace.toString());
-                ((Activity)context).setResult(Activity.RESULT_OK, ((Activity)context).getIntent());
-                ((Activity) context).finish();
+
+                activity.getIntent().putExtra(SELECTED_CITY_KEY, selectedCity);
+                activity.setResult(Activity.RESULT_OK, activity.getIntent());
+                activity.finish();
                 ////
             }
         });

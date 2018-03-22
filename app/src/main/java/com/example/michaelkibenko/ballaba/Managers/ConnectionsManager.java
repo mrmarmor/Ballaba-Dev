@@ -191,7 +191,7 @@ import java.util.Map;
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, error.getMessage());
+                Log.e(TAG, "Error: " + error.getMessage());
                 if(error.networkResponse != null){
                     callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
                 }else{

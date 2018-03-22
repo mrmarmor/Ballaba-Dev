@@ -112,6 +112,7 @@
             android:id="@+id/propertyItem_address_dot"
             style="@style/allWrapContent"
             android:text="•"
+            android:textAlignment="center"
             app:layout_constraintStart_toEndOf="@+id/propertyItem_address_textView"
             app:layout_constraintTop_toTopOf="@+id/propertyItem_address_textView"
             android:layout_marginStart="@dimen/small_margin"
@@ -124,13 +125,13 @@
             app:layout_constraintTop_toTopOf="@+id/propertyItem_address_dot"
             android:textSize="@dimen/propertyItem_bottomStrip_address_and_rooms_textView_textSize"
             android:layout_marginStart="@dimen/small_margin"
-            android:text="2 חדרים"
             android:fontFamily="@font/rubik_regular"
             />
         <TextView
             android:id="@+id/propertyItem_rooms_dot"
             style="@style/allWrapContent"
             android:text="•"
+            android:textAlignment="center"
             app:layout_constraintStart_toEndOf="@+id/propertyItem_rooms_textView"
             app:layout_constraintTop_toTopOf="@+id/propertyItem_address_textView"
             android:layout_marginStart="@dimen/small_margin"
@@ -143,7 +144,6 @@
             app:layout_constraintTop_toTopOf="@+id/propertyItem_rooms_dot"
             android:layout_marginStart="@dimen/small_margin"
             android:textSize="@dimen/propertyItem_bottomStrip_address_and_rooms_textView_textSize"
-            android:text="63 מ'\'\ר"
             android:fontFamily="@font/rubik_regular"
             />
 

@@ -29,6 +29,13 @@
     <string name="enter_code_send_again_snack_bar_text">שולח קוד</string>
 
     <string name="mainScreen_searchButton_text">חיפוש</string>
+    <string name="mainScreen_sortButtons_text_relevant">רלוונטיות</string>
+    <string name="mainScreen_sortButtons_text_price">שכ\"ד</string>
+    <string name="mainScreen_sortButtons_text_size">גודל</string>
+    <string name="mainScreen_sortButtons_text_rooms">חדרים</string>
+
+    <string name="propertyItem_numberOfRooms">חדרים</string>
+    <string name="propertyItem_propertySize">מ\"ר</string>
 
     <string name="terms_of_use_label">תקנון</string>
     <string name="terms_of_use_text">לורם איפסום דולור סיט אמט, קונסקטורר אדיפיסינג
@@ -109,14 +116,11 @@
     <string name="error_network_default">שגיאת רשת שאינה ידועה</string>
     <string name="error_network_invalid_code">קוד או מספר טלפון שגוי</string>
     <string name="error_network_code_has_expired">הקוד פג תוקף או אינו מתאים</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- TODO: uniform naming: --><string name="no_network_err_msg">אין חיבור לאינטרנט</string>
 
     invalid code or phone number
     <!-- END ERROR SECTION -->
 
-    <string name="no_network_err_msg">אין חיבור לאינטרנט</string>
 
 
 </resources>

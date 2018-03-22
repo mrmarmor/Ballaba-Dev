@@ -1,5 +1,6 @@
 package com.example.michaelkibenko.ballaba.Activities;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -17,7 +18,7 @@ import com.example.michaelkibenko.ballaba.R;
  */
 
 public class BaseActivity extends AppCompatActivity{
-
+//TODO dismiss landscape orientation
     private static final String TAG = BaseActivity.class.getSimpleName();
     private Snackbar defaultSnackBar;
 
@@ -25,6 +26,7 @@ public class BaseActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
 

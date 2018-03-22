@@ -10,6 +10,8 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.annotation.IntDef;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
@@ -95,19 +98,45 @@ public class MainPresenter extends BasePresenter {
         binder.mainActivityDrawerLayout.openDrawer(Gravity.START);
     }
 
-    //TODO it could be united with next method
-    //TODO also, i can delete SearchState because there is only 1 state change - from not filtered to filtered
-    public void SearchBarStateChanger(@SearchState int state){
-        onSearchBarChanged(state);
+    public void onClickSortByRelevant(){
+        Toast.makeText(context, "relevant clicked", Toast.LENGTH_SHORT).show();
+    }
+    public void onClickSortByPrice(){
+        Toast.makeText(context, "price clicked", Toast.LENGTH_SHORT).show();
+    }
+    public void onClickSortBySize(){
+        Toast.makeText(context, "size clicked", Toast.LENGTH_SHORT).show();
+    }
+    public void onClickSortByRooms(){
+        Toast.makeText(context, "rooms clicked", Toast.LENGTH_SHORT).show();
     }
 
-    private void onSearchBarChanged(int state){
+    //TODO it could be united with next method
+    //TODO also, i can delete SearchState because there is only 1 state change - from not filtered to filtered
+    public void SearchBarStateUIChanger(String city, @SearchState int state){
+        onSearchBarUIChanged(city, state);
+    }
+
+    private void onSearchBarUIChanged(String city, int state){
         if (state == SearchState.FILTERED){
             binder.mainActivitySearchBar.setBackgroundColor(context.getResources()
                 .getColor(R.color.colorPrimary, context.getTheme()));
             binder.mainActivitySortButtonsLinearLayout.setVisibility(View.VISIBLE);
-        } else {
+            binder.mainActivitySearchButton.setText(city);
+            binder.propertiesRecyclerFloatingButton.setVisibility(View.VISIBLE);
 
+            ConstraintSet constraintSet = new ConstraintSet();
+            constraintSet.clone(binder.mainActivityRootLayout);
+            constraintSet.connect(R.id.mainActivity_horizontalScrollView, ConstraintSet.TOP, R.id.mainActivity_sortButtons_linearLayout, ConstraintSet.BOTTOM,0);
+            //constraintSet.connect(R.id.mainActivity_horizontalScrollView, ConstraintSet.RIGHT, R.id.mainActivity_drawerLayout, ConstraintSet.RIGHT,0);
+            constraintSet.applyTo(binder.mainActivityRootLayout);
+
+        } else {
+            binder.mainActivitySearchBar.setBackgroundColor(context.getResources()
+                    .getColor(android.R.color.white, context.getTheme()));
+            binder.mainActivitySortButtonsLinearLayout.setVisibility(View.GONE);
+            binder.mainActivitySearchButton.setText("");
+            binder.propertiesRecyclerFloatingButton.setVisibility(View.GONE);
         }
     }
 
