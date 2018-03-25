@@ -148,10 +148,8 @@ public class PropertiesRecyclerFragment extends Fragment {
                     Log.d(TAG, "Location: " + location);
                     if (location != null) {
                         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                        BallabaSearchPropertiesManager.getInstance(getContext()).getPropertiesByLatLng(latLng, listener, true);
-                    } /*else {
-                        BallabaSearchPropertiesManager.getInstance(SplashActivity.this).getRandomProperties(listener, true);
-                    }*/
+                        BallabaSearchPropertiesManager.getInstance(getContext()).getPropertiesByLatLng(latLng, listener, 0);
+                    }
                 }
                 @Override
                 public void onStatusChanged(String provider, int status, Bundle extras) {}

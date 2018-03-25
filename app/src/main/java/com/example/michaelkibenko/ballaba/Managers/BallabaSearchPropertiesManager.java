@@ -1,6 +1,7 @@
 package com.example.michaelkibenko.ballaba.Managers;
 
 import android.content.Context;
+import android.support.annotation.IntDef;
 import android.util.Log;
 
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
@@ -20,7 +21,6 @@ import java.util.ArrayList;
  */
 
 public class BallabaSearchPropertiesManager {
-
     private static final String TAG = BallabaSearchPropertiesManager.class.getSimpleName();
     private static BallabaSearchPropertiesManager instance;
     private Context context;
@@ -81,9 +81,12 @@ public class BallabaSearchPropertiesManager {
         });
     }
 
-    public void getPropertiesByLatLng(final LatLng latLng, final BallabaResponseListener callback, boolean isLazy){
-        String latLngStr = latLng.latitude + "," + latLng.longitude;
-        ConnectionsManager.getInstance(context).getPropertyByLatLng(latLngStr, new BallabaResponseListener() {
+    public void getPropertiesByLatLng(final LatLng latLng, final BallabaResponseListener callback, final int offset){
+        final String PARAMS = (latLng != null)?
+                  "?latlong=" + latLng.latitude + "," + latLng.longitude
+                : "?offset=" + offset;
+
+        ConnectionsManager.getInstance(context).getPropertyByLatLng(PARAMS, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 if(entity instanceof BallabaOkResponse){
@@ -105,7 +108,7 @@ public class BallabaSearchPropertiesManager {
             public void reject(BallabaBaseEntity entity) {
                 callback.reject(entity);
             }
-        });
+        }, offset);
     }
 
     public ArrayList<BallabaPropertyResult> parsePropertyResults(String result){

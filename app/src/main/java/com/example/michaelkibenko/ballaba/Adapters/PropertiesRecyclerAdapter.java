@@ -24,9 +24,15 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
+import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
+import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
+import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
 import com.example.michaelkibenko.ballaba.Presenters.PropertyItemPresenter;
 import com.example.michaelkibenko.ballaba.Presenters.TestingPresenter;
 import com.example.michaelkibenko.ballaba.R;
@@ -47,6 +53,7 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
 
     private List<BallabaPropertyResult> properties;
     final private Context mContext;
+    private BallabaSearchPropertiesManager propertiesManager;
     private LayoutInflater mInflater;
     private PropertyItemBinding binder;
 
@@ -62,6 +69,7 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
                 , parent, false);
         binder.setPresenter(new PropertyItemPresenter(mContext));
 
+        propertiesManager = BallabaSearchPropertiesManager.getInstance(mContext);
         ////mInflater = LayoutInflater.from(mContext);
         ////firstRootView = mInflater.inflate(R.layout.property_item_single_in_a_row, parent, false);
         //parent_layout = (LinearLayout)view.findViewById(R.id.single_Property_parent);
@@ -90,6 +98,29 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
             ////holder.textViewAddress.setText(property.address());
             ////holder.textViewPrice.setText(property.price());
             //parent_layout = (LinearLayout) findViewById(R.id.single_message_parent);
+
+        //TODO get offset properties from server
+        //ConnectionsManager.getInstance(this).getConfigRequest
+        if (position == (properties.size() - (/*OFFSET*/20 / 2))){
+            BallabaSearchPropertiesManager.getInstance(mContext).getPropertiesByLatLng(null, new BallabaResponseListener() {
+                @Override
+                public void resolve(BallabaBaseEntity entity) {
+                    ArrayList<BallabaPropertyResult> properties =
+                        propertiesManager.parsePropertyResults(((BallabaOkResponse)entity).body);
+                    //properties.add((BallabaPropertyResult)entity);
+                    propertiesManager.appendProperties(properties, true);
+
+                    updateList(propertiesManager.getResults());
+
+                }
+
+                @Override
+                public void reject(BallabaBaseEntity entity) {
+                    Log.e(TAG, "error fetching offset properties");
+                }
+            }, 20);
+        }
+
     }
 
     @Override

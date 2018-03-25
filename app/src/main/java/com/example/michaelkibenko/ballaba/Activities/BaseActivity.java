@@ -52,7 +52,7 @@ public class BaseActivity extends AppCompatActivity{
             defaultSnackBar = Snackbar.make(parentView, text, isShowAlways?Snackbar.LENGTH_INDEFINITE:Snackbar.LENGTH_LONG);
             View snackBarView = defaultSnackBar.getView();
             snackBarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary, this.getTheme()));
-            ((TextView) snackBarView.findViewById(android.support.design.R.id.snackbar_text)).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            snackBarView.findViewById(android.support.design.R.id.snackbar_text).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
         }else {
             defaultSnackBar.setText(text);
         }

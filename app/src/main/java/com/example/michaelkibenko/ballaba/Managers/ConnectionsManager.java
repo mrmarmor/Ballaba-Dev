@@ -245,9 +245,8 @@ public class ConnectionsManager{
 
     }
 
-    public void getPropertyByLatLng(final String latLngStr, final BallabaResponseListener callback){
-        final String PARAMS = "?latlong=" + latLngStr;
-        StringRequest jsonArrayRequest = new StringRequest(Request.Method.GET
+    public void getPropertyByLatLng(final String PARAMS, final BallabaResponseListener callback, int offset){
+        StringRequest stringRequest = new StringRequest(Request.Method.GET
                 , EndpointsHolder.PROPERTY + PARAMS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -274,7 +273,7 @@ public class ConnectionsManager{
             }
         };
 
-        queue.add(jsonArrayRequest);
+        queue.add(stringRequest);
 
     }
 
