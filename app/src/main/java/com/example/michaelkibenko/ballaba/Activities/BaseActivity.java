@@ -4,9 +4,11 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.TextView;
 
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
@@ -18,7 +20,6 @@ import com.example.michaelkibenko.ballaba.R;
  */
 
 public class BaseActivity extends AppCompatActivity{
-//TODO dismiss landscape orientation
     private static final String TAG = BaseActivity.class.getSimpleName();
     private Snackbar defaultSnackBar;
 

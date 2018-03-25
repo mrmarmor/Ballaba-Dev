@@ -82,10 +82,8 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
                 .into(binder.propertyItemImageView);
         binder.propertyItemAddressTextView.setText(property.formattedAddress);
         binder.propertyItemPriceTextView.setText(property.price);
-        binder.propertyItemRoomsTextView.setText(String.format("%s %s"
-                , property.roomsNumber, mContext.getString(R.string.propertyItem_numberOfRooms)));
-        binder.propertyItemPropertySizeTextView.setText(String.format("%s %s"
-                , property.size, mContext.getString(R.string.propertyItem_propertySize)));
+        binder.propertyItemRoomsTextView.setText(String.format("%s %s", property.roomsNumber, mContext.getString(R.string.propertyItem_numberOfRooms)));
+        binder.propertyItemPropertySizeTextView.setText(String.format("%s %s", property.size, mContext.getString(R.string.propertyItem_propertySize)));
 
             //TODO without binder and glide:
             //holder.propertyImageView.setImageBitmap(property.bitmap());

@@ -108,7 +108,7 @@
     <dimen name="mainActivity_searchIcon_margin_start">19.5dp</dimen>
     <dimen name="mainActivity_searchButton_text_padding_start">94dp</dimen>
     <dimen name="mainActivity_FAB_dimens">56dp</dimen>
-    <dimen name="mainActivity_FAB_margin_start">30dp</dimen>
+    <dimen name="mainActivity_FAB_margin_end">30dp</dimen>
     <dimen name="mainActivity_FAB_margin_bottom">40dp</dimen>
 
 </resources>

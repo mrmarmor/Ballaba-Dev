@@ -47,7 +47,7 @@ import java.util.Map;
  * Created by michaelkibenko on 19/02/2018.
  */
 
-    public class ConnectionsManager{
+public class ConnectionsManager{
     private static final String TAG = ConnectionsManager.class.getSimpleName();
 
 
@@ -113,13 +113,13 @@ import java.util.Map;
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, EndpointsHolder.AUTHENTICATE, jsonObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                        BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
+                    BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
 
-                        if(user == null){
-                            callback.reject(new BallabaErrorResponse(500, null));
-                        }else {
-                            callback.resolve(user);
-                        }
+                    if(user == null){
+                        callback.reject(new BallabaErrorResponse(500, null));
+                    }else {
+                        callback.resolve(user);
+                    }
                 }
             }, new Response.ErrorListener() {
                 @Override
@@ -245,49 +245,36 @@ import java.util.Map;
 
     }
 
-    public void getPropertyByLatLng(String latLngStr, final BallabaResponseListener callback){
-        try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("latlong", latLngStr);
-            //JSONArray jsonArray = new JSONArray();
-            //jsonArray.put(/*"latlong", */latLngStr);//string format must be: "<latitude>,<longitude>"
-
-            JsonObjectRequest jsonArrayRequest = new JsonObjectRequest(
-                    Request.Method.POST, EndpointsHolder.PROPERTY, jsonObject, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    try {
-                        BallabaOkResponse okResponse = new BallabaOkResponse();
-                        okResponse.setBody(response.getString("latlong"));
-                        callback.resolve(okResponse);
-                    } catch (JSONException e) {
-                        e.getStackTrace();
-                    }
+    public void getPropertyByLatLng(final String latLngStr, final BallabaResponseListener callback){
+        final String PARAMS = "?latlong=" + latLngStr;
+        StringRequest jsonArrayRequest = new StringRequest(Request.Method.GET
+                , EndpointsHolder.PROPERTY + PARAMS, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                BallabaOkResponse okResponse = new BallabaOkResponse();
+                okResponse.setBody(response);
+                callback.resolve(okResponse);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if(error.networkResponse != null){
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                }else{
+                    Log.e(TAG, error+"\n"+ error.getMessage());
+                    callback.reject(new BallabaErrorResponse(500, null));
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    if(error.networkResponse != null){
-                        callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
-                    }else{
-                        Log.e(TAG, error+"\n"+ error.getMessage());
-                        callback.reject(new BallabaErrorResponse(500, null));
-                    }
-                }
-            }) {
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
-                    return params;
-                }
-            };
+            }
+        })  {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
+                return params;
+            }
+        };
 
-            queue.add(jsonArrayRequest);
-
-        } catch (JSONException ex){
-            ex.printStackTrace();
-        }
+        queue.add(jsonArrayRequest);
 
     }
 

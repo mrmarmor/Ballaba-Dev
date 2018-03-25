@@ -127,7 +127,7 @@ public class MainPresenter extends BasePresenter {
 
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(binder.mainActivityRootLayout);
-            constraintSet.connect(R.id.mainActivity_horizontalScrollView, ConstraintSet.TOP, R.id.mainActivity_sortButtons_linearLayout, ConstraintSet.BOTTOM,0);
+            constraintSet.connect(R.id.mainActivity_viewPager, ConstraintSet.TOP, R.id.mainActivity_sortButtons_linearLayout, ConstraintSet.BOTTOM,0);
             //constraintSet.connect(R.id.mainActivity_horizontalScrollView, ConstraintSet.RIGHT, R.id.mainActivity_drawerLayout, ConstraintSet.RIGHT,0);
             constraintSet.applyTo(binder.mainActivityRootLayout);
 

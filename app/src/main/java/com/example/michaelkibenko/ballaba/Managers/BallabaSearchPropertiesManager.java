@@ -7,6 +7,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -80,7 +81,8 @@ public class BallabaSearchPropertiesManager {
         });
     }
 
-    public void getPropertiesByLatLng(final String latLngStr, final BallabaResponseListener callback, boolean isLazy){
+    public void getPropertiesByLatLng(final LatLng latLng, final BallabaResponseListener callback, boolean isLazy){
+        String latLngStr = latLng.latitude + "," + latLng.longitude;
         ConnectionsManager.getInstance(context).getPropertyByLatLng(latLngStr, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
@@ -139,7 +141,7 @@ public class BallabaSearchPropertiesManager {
             Log.d(TAG, returned.get(0).id);
             return returned;
 
-        }catch (JSONException ex){
+        }catch (JSONException | NullPointerException ex){
             Log.e(TAG, ex.getMessage());
             return null;
         }

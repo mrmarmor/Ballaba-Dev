@@ -80,6 +80,7 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //TODO add result to board
         if (requestCode == MainPresenter.REQ_CODE_SELECT_CITY) {
             if (resultCode == RESULT_OK && data != null) {
                 String city = data.getStringExtra(SelectCityPresenter.SELECTED_CITY_KEY);
@@ -88,7 +89,7 @@ public class MainActivity extends BaseActivity implements
 
                 presenter.SearchBarStateUIChanger(city, MainPresenter.SearchState.FILTERED);
 
-                BallabaSearchPropertiesManager.getInstance(this).getPropertiesByLatLng(cityLatLngStr
+                /*BallabaSearchPropertiesManager.getInstance(this).getPropertiesByLatLng(cityLatLngStr
                         , new BallabaResponseListener() {
                             @Override
                             public void resolve(BallabaBaseEntity entity) {
@@ -102,6 +103,7 @@ public class MainActivity extends BaseActivity implements
                         }, true);
 
                 Toast.makeText(this, data.getStringExtra(SelectCityPresenter.SELECTED_CITY_KEY), Toast.LENGTH_LONG).show();
+                */
             }
         }
     }

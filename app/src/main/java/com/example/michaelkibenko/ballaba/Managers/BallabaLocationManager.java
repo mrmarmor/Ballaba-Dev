@@ -47,12 +47,11 @@ public class BallabaLocationManager {
         try {
 //            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES,
 //                    MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
+
+            locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener, null);
             locationListener.onLocationChanged(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
-        }catch (NullPointerException ex){
+        }catch (NullPointerException | SecurityException ex){
             ex.printStackTrace();
-        }catch (SecurityException ex){
-            ex.printStackTrace();
-            //TODO set error flow
         }
     }
 
