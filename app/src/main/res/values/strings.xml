@@ -122,5 +122,10 @@
     <!-- END ERROR SECTION -->
 
 
+    <string name="saveMapSearch_topTxt">שירות שמירת אזור</string>
+    <string name="saveMapSearch_bottomTxt">לקלת התראות על דירה חדשה</string>
+    <string name="saveMapSearch_BTN_Txt">שמירה</string>
+
+
 
 </resources>

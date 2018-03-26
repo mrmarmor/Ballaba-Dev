@@ -1,6 +1,8 @@
 package com.example.michaelkibenko.ballaba.Fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -15,15 +17,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
+import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.function.Consumer;
 
 import static com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment.MAP_SAVE_CONTAINER_STATES.OFF;
 import static com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment.MAP_SAVE_CONTAINER_STATES.ON;
@@ -56,6 +65,8 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     private Button saveSearchButton;
     private View saveSearchContainerAnchor;
     private ConstraintLayout rootView, transition, notChangeableRootView;
+    private float markerSize;
+    private Bitmap guaranteeMarkerIcon, exclusivityMarkerIcon;
 
     private @MAP_SAVE_CONTAINER_STATES int saveContainerState = MAP_SAVE_CONTAINER_STATES.OFF;
 
@@ -89,6 +100,17 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         }
 
         mMapView.getMapAsync(this);
+
+        markerSize = getResources().getDimension(R.dimen.mapMarkerSize);
+
+        BitmapDrawable bitmapdrawGU=(BitmapDrawable)getResources().getDrawable(R.drawable.guarenty);
+        Bitmap gu=bitmapdrawGU.getBitmap();
+        guaranteeMarkerIcon = Bitmap.createScaledBitmap(gu, (int)markerSize, (int)markerSize, false);
+
+        BitmapDrawable bitmapdrawEX=(BitmapDrawable)getResources().getDrawable(R.drawable.exclusive);
+        Bitmap ex=bitmapdrawEX.getBitmap();
+        exclusivityMarkerIcon = Bitmap.createScaledBitmap(ex, (int)markerSize, (int)markerSize, false);
+
 
         //TODO optional in the future
         //googleMap = mMapView.getMap();
@@ -163,7 +185,9 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
 
             this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            this.googleMap.animateCamera(CameraUpdateFactory.zoomTo(14));
+            this.googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+
+            updatePropertiesMarkers(BallabaSearchPropertiesManager.getInstance(context).getResults());
         }
     }
 
@@ -231,6 +255,27 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         }
         TransitionManager.beginDelayedTransition(rootView);
         set.applyTo(rootView);
+    }
+
+    private void updatePropertiesMarkers(ArrayList<BallabaPropertyResult> arr){
+        clearGoogleMap();
+        for (BallabaPropertyResult prop : arr) {
+            googleMap.addMarker(getMarker(prop.isGuarantee, prop.latLng));
+        }
+    }
+
+    private MarkerOptions getMarker(boolean isGuarantee, LatLng position){
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(position);
+        markerOptions.draggable(false);
+        markerOptions.icon(BitmapDescriptorFactory.fromBitmap(isGuarantee?guaranteeMarkerIcon:exclusivityMarkerIcon));
+        return markerOptions;
+    }
+
+    private void clearGoogleMap(){
+        if(googleMap != null){
+            googleMap.clear();
+        }
     }
 
 }

@@ -135,8 +135,14 @@ public class BallabaSearchPropertiesManager {
                 }
                 boolean isSaved = res.getBoolean("is_saved");
 
+                LatLng latLng = new LatLng(Double.parseDouble(res.getString("lat")), Double.parseDouble(res.getString("lng")));
+
+                boolean isGuarantee = res.getBoolean("is_guaranteed");
+
+                //TODO change lat lng object
+
                 BallabaPropertyResult propertyResult = new BallabaPropertyResult(id, rooms, price, size,
-                        formattedAddress, rentPeriod, numberOfPayments, photos, isSaved);
+                        formattedAddress, rentPeriod, numberOfPayments, photos, isSaved, latLng, isGuarantee);
 
                 returned.add(propertyResult);
             }

@@ -21,7 +21,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/saveMapSearchContainer"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="@dimen/saveMapSearch_container"
         android:background="@color/colorPrimary"
         app:layout_constraintTop_toBottomOf="@+id/saveMapSearchContainerBottom_anchor"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,21 +32,21 @@
             android:id="@+id/saveMapSearch_top_TV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:text="שירות שמירת אזור"
+            android:textSize="@dimen/saveMapSearch_textSize"
+            android:text="@string/saveMapSearch_topTxt"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:textColor="@color/propertyRecyclerView_background_white"
             android:textStyle="bold"
-            android:layout_marginTop="11dp"
-            android:layout_marginStart="19dp"
+            android:layout_marginTop="@dimen/saveMapSearch_top_offset"
+            android:layout_marginStart="@dimen/saveMapSearch_start_offset"
             />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            android:text="לקלת התראות על דירה חדשה"
+            android:textSize="@dimen/saveMapSearch_bottom_text_size"
+            android:text="@string/saveMapSearch_bottomTxt"
             app:layout_constraintTop_toBottomOf="@+id/saveMapSearch_top_TV"
             app:layout_constraintStart_toStartOf="@+id/saveMapSearch_top_TV"
             android:textColor="@color/propertyRecyclerView_background_white"
@@ -54,16 +54,16 @@
         
         <Button
             android:id="@+id/saveMapSearch_save_BTN"
-            android:layout_width="70dp"
-            android:layout_height="39dp"
+            android:layout_width="@dimen/saveMapSearch_save_BTN_height"
+            android:layout_height="@dimen/saveMapSearch_save_BTN_width"
             android:background="@color/propertyRecyclerView_background_white"
             android:textColor="@color/colorPrimary"
-            android:text="שמירה"
-            android:textSize="16sp"
+            android:text="@string/saveMapSearch_BTN_Txt"
+            android:textSize="@dimen/saveMapSearch_save_text_size"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="19dp"
+            android:layout_marginEnd="@dimen/saveMapSearch_start_offset"
             />
         
     </android.support.constraint.ConstraintLayout>
