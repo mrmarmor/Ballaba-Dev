@@ -4,13 +4,17 @@ import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.support.annotation.IntDef;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.michaelkibenko.ballaba.Common.BallabaSelectedCityListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -21,14 +25,23 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
+import static com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment.MAP_SAVE_CONTAINER_STATES.OFF;
+import static com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment.MAP_SAVE_CONTAINER_STATES.ON;
+
 /**
  * Created by michaelkibenko on 08/03/2018.
  */
 
 public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, LocationListener , GoogleMap.OnCameraMoveStartedListener,
         GoogleMap.OnCameraMoveListener,
-        GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraIdleListener/*,
-        BallabaSelectedCityListener*/ {
+        GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraIdleListener {
+
+    @IntDef({ON, OFF})
+    @interface MAP_SAVE_CONTAINER_STATES {
+        int ON = 1;
+        int OFF = 2;
+    }
+
 
     private static final String TAG = BallabaMapFragment.class.getSimpleName();
 
@@ -39,6 +52,12 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     private boolean changed;
     private LatLngBounds bounds;
     private BallabaLocationManager.OnGoogleMapListener mListener;
+    private ConstraintLayout saveContainer;
+    private Button saveSearchButton;
+    private View saveSearchContainerAnchor;
+    private ConstraintLayout rootView, transition, notChangeableRootView;
+
+    private @MAP_SAVE_CONTAINER_STATES int saveContainerState = MAP_SAVE_CONTAINER_STATES.OFF;
 
     public BallabaMapFragment(){}
 
@@ -53,8 +72,13 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_map, container, false);
-
+        rootView = (ConstraintLayout) v;
+        notChangeableRootView = (ConstraintLayout) inflater.inflate(R.layout.fragment_map, container, false);
+        transition = (ConstraintLayout) inflater.inflate(R.layout.map_fragment_for_transition, container, false);
         mMapView = (MapView)v.findViewById(R.id.mapView);
+        saveContainer = (ConstraintLayout) v.findViewById(R.id.saveMapSearchContainer);
+        saveSearchButton = (Button) v.findViewById(R.id.saveMapSearch_save_BTN);
+        saveSearchContainerAnchor = (View) v.findViewById(R.id.saveMapSearchContainerBottom_anchor);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
 
@@ -162,7 +186,7 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     //map camera
     @Override
     public void onCameraMoveStarted(int i) {
-
+        changeMapSaveState(MAP_SAVE_CONTAINER_STATES.OFF);
     }
 
     @Override
@@ -177,6 +201,7 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     @Override
     public void onCameraIdle() {
         bounds = googleMap.getProjection().getVisibleRegion().latLngBounds;
+        changeMapSaveState(MAP_SAVE_CONTAINER_STATES.ON);
         //TODO here will be the get properties request
     }
 
@@ -186,5 +211,26 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
     }*/
     //map camera end
+
+    private void changeMapSaveState(@MAP_SAVE_CONTAINER_STATES int newState){
+        if(this.saveContainerState != newState) {
+            this.saveContainerState = newState;
+            onMapStateChanged();
+        }
+    }
+
+    private void onMapStateChanged(){
+        ConstraintSet set = new ConstraintSet();
+        if(this.saveContainerState == MAP_SAVE_CONTAINER_STATES.ON){
+            set.clone(transition);
+            saveSearchContainerAnchor.setBackgroundResource(R.color.colorPrimary);
+        }
+        if(this.saveContainerState == MAP_SAVE_CONTAINER_STATES.OFF){
+            set.clone(notChangeableRootView);
+            saveSearchContainerAnchor.setBackgroundResource(android.R.color.transparent);
+        }
+        TransitionManager.beginDelayedTransition(rootView);
+        set.applyTo(rootView);
+    }
 
 }
