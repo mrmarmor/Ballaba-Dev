@@ -2,6 +2,7 @@ package com.example.michaelkibenko.ballaba.Entities;
 
 
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
@@ -19,8 +20,10 @@ public class BallabaPropertyResult extends BallabaBaseEntity {
     public String numberOfPayments;
     public ArrayList<String> photos;
     public boolean isSaved;
+    public LatLng latLng;
+    public boolean isGuarantee;
 
-    public BallabaPropertyResult(String id, String roomsNumber, String price, String size, String formattedAddress, String rentPeriod, String numberOfPayments, ArrayList<String> photos, boolean isSaved) {
+    public BallabaPropertyResult(String id, String roomsNumber, String price, String size, String formattedAddress, String rentPeriod, String numberOfPayments, ArrayList<String> photos, boolean isSaved, LatLng latLng, boolean isGuarantee) {
         this.id = id;
         this.roomsNumber = roomsNumber;
         this.price = price;
@@ -30,5 +33,7 @@ public class BallabaPropertyResult extends BallabaBaseEntity {
         this.numberOfPayments = numberOfPayments;
         this.photos = photos;
         this.isSaved = isSaved;
+        this.latLng = latLng;
+        this.isGuarantee = isGuarantee;
     }
 }

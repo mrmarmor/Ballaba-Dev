@@ -111,4 +111,19 @@
     <dimen name="mainActivity_FAB_margin_end">30dp</dimen>
     <dimen name="mainActivity_FAB_margin_bottom">40dp</dimen>
 
+    <dimen name="mapMarkerSize">30dp</dimen>
+
+    <dimen name="saveMapSearch_top_offset">11dp</dimen>
+    <dimen name="saveMapSearch_start_offset">19dp</dimen>
+    <dimen name="saveMapSearch_textSize">12sp</dimen>
+    <dimen name="saveMapSearch_container">60dp</dimen>
+    <dimen name="saveMapSearch_save_text_size">16sp</dimen>
+    <dimen name="saveMapSearch_bottom_text_size">12sp</dimen>
+    <dimen name="saveMapSearch_save_BTN_height">39dp</dimen>
+    <dimen name="saveMapSearch_save_BTN_width">39dp</dimen>
+
+
+
+
+
 </resources>
