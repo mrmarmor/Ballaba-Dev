@@ -120,7 +120,7 @@
     <dimen name="saveMapSearch_save_text_size">16sp</dimen>
     <dimen name="saveMapSearch_bottom_text_size">12sp</dimen>
     <dimen name="saveMapSearch_save_BTN_height">39dp</dimen>
-    <dimen name="saveMapSearch_save_BTN_width">39dp</dimen>
+    <dimen name="saveMapSearch_save_BTN_width">70dp</dimen>
 
 
 

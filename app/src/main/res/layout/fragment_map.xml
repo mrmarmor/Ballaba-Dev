@@ -54,8 +54,8 @@
         
         <Button
             android:id="@+id/saveMapSearch_save_BTN"
-            android:layout_width="@dimen/saveMapSearch_save_BTN_height"
-            android:layout_height="@dimen/saveMapSearch_save_BTN_width"
+            android:layout_width="@dimen/saveMapSearch_save_BTN_width"
+            android:layout_height="@dimen/saveMapSearch_save_BTN_height"
             android:background="@color/propertyRecyclerView_background_white"
             android:textColor="@color/colorPrimary"
             android:text="@string/saveMapSearch_BTN_Txt"
