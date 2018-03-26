@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<android.support.v4.widget.SwipeRefreshLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/properties_recycler_root"
+    android:id="@+id/properties_recycler_root_swipeRefresh"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment">
@@ -14,5 +14,5 @@
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/mainActivity_RecyclerView_margin_top"/>
 
-</FrameLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
 

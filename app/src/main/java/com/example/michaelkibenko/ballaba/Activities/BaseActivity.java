@@ -26,10 +26,9 @@ public class BaseActivity extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+        if (getSupportActionBar().isShowing()) getSupportActionBar().hide();
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
-
 
     public void showNetworkError(View parentView){
         getDefaultSnackBar(parentView, getResources().getString(R.string.no_network_err_msg), true).show();

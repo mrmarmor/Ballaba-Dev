@@ -26,7 +26,7 @@ public class StringUtils {
 
     public String formattedNumberWithComma(String number){
         //for (int i = number.length() % 3; i >= 3 ; i -= 3){
-        for (int i = number.length() % 3; i < number.length() ; i += 3){
+        for (int i = number.length() % 3; i < number.length() - 1 ; i += 3){
             number = new StringBuilder(number).insert(i, ",").toString();
         }
 
