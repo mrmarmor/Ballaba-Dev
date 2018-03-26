@@ -36,6 +36,7 @@ import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
 import com.example.michaelkibenko.ballaba.Presenters.PropertyItemPresenter;
 import com.example.michaelkibenko.ballaba.Presenters.TestingPresenter;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.databinding.PropertyItemBinding;
 
 import java.text.Format;
@@ -89,7 +90,8 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
                 .apply(options)
                 .into(binder.propertyItemImageView);
         binder.propertyItemAddressTextView.setText(property.formattedAddress);
-        binder.propertyItemPriceTextView.setText(property.price);
+        binder.propertyItemPriceTextView.setText(StringUtils.getInstance(true, null)
+                .formattedNumberWithComma(property.price));
         binder.propertyItemRoomsTextView.setText(String.format("%s %s", property.roomsNumber, mContext.getString(R.string.propertyItem_numberOfRooms)));
         binder.propertyItemPropertySizeTextView.setText(String.format("%s %s", property.size, mContext.getString(R.string.propertyItem_propertySize)));
 
@@ -102,7 +104,7 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         //TODO get offset properties from server:
         //ConnectionsManager.getInstance(this).getConfigRequest
         if (position == (properties.size() - (/*OFFSET*/20 / 2))){
-            lazyLoading();
+            lazyLoading(properties.size());
         }
 
     }
@@ -133,8 +135,8 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         }
     }
 
-    private void lazyLoading(){
-        BallabaSearchPropertiesManager.getInstance(mContext).getPropertiesByLatLng(null, 20
+    private void lazyLoading(int offset){
+        BallabaSearchPropertiesManager.getInstance(mContext).getPropertiesByLatLng(null, offset
                 , BallabaSearchPropertiesManager.LAZY_LOADING_OFFSET_STATES.AFTER_20, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {

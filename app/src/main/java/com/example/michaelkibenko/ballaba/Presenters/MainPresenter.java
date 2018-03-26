@@ -17,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -68,6 +69,7 @@ public class MainPresenter extends BasePresenter {
     private PagerAdapter pagerAdapter;
     private ActivityMainLayoutBinding binder;
     private BallabaSelectedCityListener listener;
+    private PropertiesRecyclerFragment propertiesFragment;
     //private GoogleMap googleMap;
 
     public MainPresenter(Context context, ActivityMainLayoutBinding binder, FragmentManager fm){
@@ -75,6 +77,7 @@ public class MainPresenter extends BasePresenter {
         this.context = context;
         this.fm = fm;
 
+        propertiesFragment = PropertiesRecyclerFragment.newInstance(context, null);
         initDrawer();
         initViewPager();
     }
@@ -96,7 +99,7 @@ public class MainPresenter extends BasePresenter {
     }
 
     private void initViewPager(){
-        pagerAdapter = new SearchViewPagerAdapter(context, binder, fm);
+        pagerAdapter = new SearchViewPagerAdapter(context, binder, fm, propertiesFragment);
         binder.mainActivityViewPager.setAdapter(pagerAdapter);
     }
 
@@ -127,19 +130,21 @@ public class MainPresenter extends BasePresenter {
 
     public void onClickSortByRelevant(){
         Toast.makeText(context, "relevant clicked", Toast.LENGTH_SHORT).show();
-        PropertiesRecyclerFragment.newInstance(null).sortProperties(RELEVANT);
+        //RecyclerView rv = PropertiesRecyclerFragment.newInstance(null).g();
+        //new PropertiesRecyclerFragment().sortProperties(RELEVANT);
+        propertiesFragment.sortProperties(RELEVANT);
     }
     public void onClickSortByPrice(){
         Toast.makeText(context, "price clicked", Toast.LENGTH_SHORT).show();
-        PropertiesRecyclerFragment.newInstance(null).sortProperties(PRICE);
+        propertiesFragment.sortProperties(PRICE);
     }
     public void onClickSortBySize(){
         Toast.makeText(context, "size clicked", Toast.LENGTH_SHORT).show();
-        PropertiesRecyclerFragment.newInstance(null).sortProperties(SIZE);
+        propertiesFragment.sortProperties(SIZE);
     }
     public void onClickSortByRooms(){
         Toast.makeText(context, "rooms clicked", Toast.LENGTH_SHORT).show();
-        PropertiesRecyclerFragment.newInstance(null).sortProperties(NUMBER_OF_ROOMS);
+        propertiesFragment.sortProperties(NUMBER_OF_ROOMS);
     }
 
     public void onClickToFilter(){
@@ -162,6 +167,7 @@ public class MainPresenter extends BasePresenter {
 
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(binder.mainActivityRootLayout);
+            //app:layout_constraintBottom_toTopOf="@+id/mainActivity_viewPager" />
             constraintSet.connect(R.id.mainActivity_viewPager, ConstraintSet.TOP, R.id.mainActivity_sortButtons_linearLayout, ConstraintSet.BOTTOM,0);
             //constraintSet.connect(R.id.mainActivity_horizontalScrollView, ConstraintSet.RIGHT, R.id.mainActivity_drawerLayout, ConstraintSet.RIGHT,0);
             constraintSet.applyTo(binder.mainActivityRootLayout);

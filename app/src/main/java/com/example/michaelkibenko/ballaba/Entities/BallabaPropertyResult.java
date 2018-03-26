@@ -23,7 +23,7 @@ public class BallabaPropertyResult extends BallabaBaseEntity {
     public BallabaPropertyResult(String id, String roomsNumber, String price, String size, String formattedAddress, String rentPeriod, String numberOfPayments, ArrayList<String> photos, boolean isSaved) {
         this.id = id;
         this.roomsNumber = roomsNumber;
-        this.price = StringUtils.getInstance(true, null).formattedNumberWithComma(price);
+        this.price = price;
         this.size = size;
         this.formattedAddress = formattedAddress;
         this.rentPeriod = rentPeriod;

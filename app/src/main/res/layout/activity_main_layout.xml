@@ -90,7 +90,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/mainActivity_searchBar"
-                app:layout_constraintBottom_toTopOf="@id/mainActivity_viewPager"
                 android:background="@color/colorPrimary"
                 android:visibility="gone"
                 android:orientation="horizontal"
@@ -126,15 +125,15 @@
                 android:fillViewport="true">-->
             <com.example.michaelkibenko.ballaba.Views.NonSwipeableViewPager
                 android:id="@+id/mainActivity_viewPager"
-                style="@style/allMatchParent"
-                app:layout_constraintTop_toBottomOf="@id/mainActivity_searchBar"
+                style="@style/allWrapContent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
 <!--
             </HorizontalScrollView>
 -->
 
-            <!--TODO layout_marginStart/Bottom are now out of dimens file because tzlil sjould decide on uniform values for them between their appearance in viewPager's 2 fragments -->
+            <!--TODO layout_marginStart/Bottom are now out of dimens file because tzlil should decide on uniform values for them between their appearance in viewPager's 2 fragments -->
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/properties_recycler_floatingButton"
                 android:layout_width="@dimen/mainActivity_FAB_dimens"
@@ -146,7 +145,11 @@
                 android:onClick="@{() -> presenter.onClickToFilter()}"
                 android:scaleType="center"
                 android:src="@drawable/normal_blue"
-                android:visibility="visible" />
+                app:backgroundTint="@color/colorPrimary"
+                app:backgroundTintMode="src_atop"
+                app:borderWidth="0dp"
+                android:visibility="gone"
+                />
 
         </android.support.constraint.ConstraintLayout>
 

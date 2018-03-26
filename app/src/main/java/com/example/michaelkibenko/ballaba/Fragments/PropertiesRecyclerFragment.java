@@ -26,6 +26,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
+import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.SplashActivity;
 import com.example.michaelkibenko.ballaba.Adapters.PropertiesRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
@@ -59,6 +60,8 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     private String mParam;
     private int firstProperty, nextProperty;
 
+    private static PropertiesRecyclerFragment fragment;
+    private Context context;
     private View view;
     private BallabaResponseListener listener;
     private boolean isGPSPermissionGranted;
@@ -76,9 +79,9 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     public PropertiesRecyclerFragment() {}
 
     // TODO: Rename and change types and number of parameters
-    public static PropertiesRecyclerFragment newInstance(String param) {
+    public static PropertiesRecyclerFragment newInstance(Context context, String param) {
         //binder = mBinder;
-        PropertiesRecyclerFragment fragment = new PropertiesRecyclerFragment();
+        fragment = new PropertiesRecyclerFragment();
         Bundle args = new Bundle();
         args.putSerializable(PROPERTIES_KEY, param);
         fragment.setArguments(args);
@@ -89,7 +92,6 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //binder = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_properties_recycler);
-
         //binder.setPresenter(presenter);
 
         if (getArguments() != null) {
@@ -102,9 +104,9 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_properties_recycler, container, false);
         this.inflater = inflater;
-        binder = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_properties_recycler, null, false);
-        presenter = new SearchPropertiesPresenter(getActivity(), /*binder,*/ mParam);
+        //binder = DataBindingUtil.inflate(
+                //inflater, R.layout.fragment_properties_recycler, null, false);
+        //presenter = new SearchPropertiesPresenter(getActivity(), /*binder,*/ mParam);
 
         initRecycler(view);
         getProperties();
@@ -115,7 +117,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     private void initRecycler(View view) {
         properties = BallabaSearchPropertiesManager.getInstance(getContext()).getResults();
         Log.d(TAG, "properties: " + properties);
-                //PropertiesManager.getInstance(getContext()).getProperties();//new ArrayList<BallabaProperty>();
+
         //TODO moving binder across fragments when a specific widget is in the child fragment and
         //TODO not in the parent activity cause binder not be able to see the specific widget.
         //TODO that is why binder.getRoot() returns null. use findViewById instead!!!
@@ -128,7 +130,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
         rvProperties.setLayoutManager(manager);
         rvProperties.setAdapter(rvAdapter);
 
-        swipeRefreshLayout = view.findViewById(R.id.properties_recycler_root_swipeRefresh);
+        swipeRefreshLayout = view.findViewById(R.id.properties_recycler_swipeToRefresh);
         swipeRefreshLayout.setOnRefreshListener(this);
     }
 
@@ -189,7 +191,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
         if (requestCode == REO_CODE_LOCATION_PERMISSION && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "GPS granted");
             isGPSPermissionGranted = true;
-            getProperties();
+            getProperties();//to show properties by latLng
 
         } else if (requestCode == REO_CODE_LOCATION_PERMISSION){
             Log.d(TAG, "GPS not granted");
@@ -203,7 +205,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
             public int compare(final BallabaPropertyResult FIRST, final BallabaPropertyResult NEXT) {
                 switch (type){
                     case MainPresenter.SORT_TYPE.RELEVANT:
-                        //TODO what is relevant???
+                        //TODO what is relevant??? maybe distance?
                         firstProperty = Integer.parseInt(FIRST.price);
                         nextProperty = Integer.parseInt(NEXT.price);
                         break;
@@ -218,14 +220,18 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
                         nextProperty = Integer.parseInt(NEXT.size);
                         break;
 
-                    case MainPresenter.SORT_TYPE.NUMBER_OF_ROOMS:
-                        firstProperty = Integer.parseInt(FIRST.roomsNumber);
-                        nextProperty = Integer.parseInt(NEXT.roomsNumber);
+                    case MainPresenter.SORT_TYPE.NUMBER_OF_ROOMS://rooms can be a fraction
+                        return Double.parseDouble(FIRST.roomsNumber) > Double.parseDouble(NEXT.roomsNumber)? -1 : 1;
                 }
 
-                return firstProperty > nextProperty ? -1 : 1;
+                //TODO here we can add option to reverse sort by switching numbers
+                return firstProperty > nextProperty ? 1 : -1;
             }
         });
+
+        rvAdapter = new PropertiesRecyclerAdapter(getContext(), properties);
+        rvProperties.setAdapter(rvAdapter);
+        //rvAdapter.updateList(properties);
     }
 
     //hide swipeToRefresh progressIcon after 1 second

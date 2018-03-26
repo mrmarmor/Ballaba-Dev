@@ -23,11 +23,10 @@ import java.util.List;
  * Created by User on 14/03/2018.
  */
 
-public class SearchPropertiesPresenter extends BasePresenter implements SwipeRefreshLayout.OnRefreshListener{
+public class SearchPropertiesPresenter extends BasePresenter {
     private final String TAG = SearchPropertiesPresenter.class.getSimpleName();
 
     private Context context;
-    private PropertiesRecyclerFragment fragment;
     private ActivityMainLayoutBinding binder;
     private PropertiesRecyclerAdapter rvAdapter;
     private RecyclerView rvProperties;
@@ -35,7 +34,6 @@ public class SearchPropertiesPresenter extends BasePresenter implements SwipeRef
 
     public SearchPropertiesPresenter(Context context, /*ActivityMainLayoutBinding binder,*/ String params) {
         this.context = context;
-        this.fragment = PropertiesRecyclerFragment.newInstance(params);
         //this.binder = binder;
 
         //initRecycler is done in PropertiesRecyclerFragment
@@ -56,19 +54,4 @@ public class SearchPropertiesPresenter extends BasePresenter implements SwipeRef
         //binder.propertiesRecyclerRootSwipeRefresh.setOnRefreshListener(this);
     }
 
-    @Override
-    public void onRefresh() {
-        ((SwipeRefreshLayout)binder.getRoot().findViewById(R.id.properties_recycler_root_swipeRefresh)).setOnRefreshListener(
-                new SwipeRefreshLayout.OnRefreshListener() {
-                    @Override
-                    public void onRefresh() {
-                        Log.i(TAG, "onRefresh called from SwipeRefreshLayout");
-
-                        // This method performs the actual data-refresh operation.
-                        // The method calls setRefreshing(false) when it's finished.
-                        //myUpdateOperation();
-                    }
-                }
-        );
-    }
 }

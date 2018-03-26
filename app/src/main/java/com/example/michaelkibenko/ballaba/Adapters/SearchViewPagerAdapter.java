@@ -22,12 +22,14 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 public class SearchViewPagerAdapter extends FragmentStatePagerAdapter {
     private Context context;
     private ActivityMainLayoutBinding binder;
+    private PropertiesRecyclerFragment propertiesRecyclerFragment;
 
-    public SearchViewPagerAdapter(Context context, ActivityMainLayoutBinding binder, FragmentManager fm) {
+    public SearchViewPagerAdapter(Context context, ActivityMainLayoutBinding binder, FragmentManager fm, PropertiesRecyclerFragment propertiesRecyclerFragment) {
         super(fm);
 
         this.context = context;
         this.binder = binder;
+        this.propertiesRecyclerFragment = propertiesRecyclerFragment;
     }
 
     @Override
@@ -35,7 +37,7 @@ public class SearchViewPagerAdapter extends FragmentStatePagerAdapter {
         if (position == 1) {
             return BallabaMapFragment.newInstance();
         } else {
-            return PropertiesRecyclerFragment.newInstance(null);
+            return propertiesRecyclerFragment;
         }
     }
 
