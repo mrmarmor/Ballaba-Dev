@@ -32,7 +32,6 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
-import java.util.function.Consumer;
 
 import static com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment.MAP_SAVE_CONTAINER_STATES.OFF;
 import static com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment.MAP_SAVE_CONTAINER_STATES.ON;
@@ -85,7 +84,7 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         View v = inflater.inflate(R.layout.fragment_map, container, false);
         rootView = (ConstraintLayout) v;
         notChangeableRootView = (ConstraintLayout) inflater.inflate(R.layout.fragment_map, container, false);
-        transition = (ConstraintLayout) inflater.inflate(R.layout.map_fragment_for_transition, container, false);
+        transition = (ConstraintLayout) inflater.inflate(R.layout.map_fragment_for_transitions, container, false);
         mMapView = (MapView)v.findViewById(R.id.mapView);
         saveContainer = (ConstraintLayout) v.findViewById(R.id.saveMapSearchContainer);
         saveSearchButton = (Button) v.findViewById(R.id.saveMapSearch_save_BTN);
