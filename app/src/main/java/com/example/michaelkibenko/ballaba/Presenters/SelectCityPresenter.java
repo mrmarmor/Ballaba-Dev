@@ -17,6 +17,7 @@ import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
 import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivitySelectCityBinding;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -90,6 +91,9 @@ public class SelectCityPresenter extends BasePresenter implements
                 ////
             }
         });
+
+        UiUtils.instance(true, activity).showSoftKeyboard();
+
     }
 
     @Override
