@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.widget.ImageButton;
 
 import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
@@ -34,7 +35,7 @@ public class SearchViewPagerAdapter extends FragmentStatePagerAdapter {
         if (position == 1) {
             return BallabaMapFragment.newInstance();
         } else {
-            return PropertiesRecyclerFragment.newInstance(binder, null);
+            return PropertiesRecyclerFragment.newInstance(null);
         }
     }
 

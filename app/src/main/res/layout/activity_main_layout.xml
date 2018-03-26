@@ -29,7 +29,7 @@
                 android:elevation="@dimen/propertyItem_propertyElevation">
 -->
 
-                <Button
+            <Button
                 android:id="@+id/mainActivity_search_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -126,8 +126,8 @@
                 android:fillViewport="true">-->
             <com.example.michaelkibenko.ballaba.Views.NonSwipeableViewPager
                 android:id="@+id/mainActivity_viewPager"
-                style="@style/allMatchParent" android:focusable="false"
-                app:layout_constraintTop_toTopOf="parent"
+                style="@style/allMatchParent"
+                app:layout_constraintTop_toBottomOf="@id/mainActivity_searchBar"
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
 <!--
@@ -143,10 +143,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="@dimen/mainActivity_FAB_margin_end"
                 android:layout_marginBottom="@dimen/mainActivity_FAB_margin_bottom"
-                app:backgroundTint="@color/colorPrimary"
-                app:backgroundTintMode="src_atop"
-                android:src="@drawable/ic_menu_manage"
-                android:visibility="gone" />
+                android:onClick="@{() -> presenter.onClickToFilter()}"
+                android:scaleType="center"
+                android:src="@drawable/normal_blue"
+                android:visibility="visible" />
 
         </android.support.constraint.ConstraintLayout>
 

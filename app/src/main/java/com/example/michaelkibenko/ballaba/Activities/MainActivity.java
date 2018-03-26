@@ -50,7 +50,6 @@ public class MainActivity extends BaseActivity implements
         presenter = new MainPresenter(this, binder, getSupportFragmentManager());
         binder.setPresenter(presenter);
 
-        //TODO ask permission for GPS
         //initPropertiesRecyclerFragment();
     }
 
@@ -59,7 +58,7 @@ public class MainActivity extends BaseActivity implements
         if (binder.mainActivityViewPager.getCurrentItem() == 0) {
             super.onBackPressed();
         } else {
-            binder.mainActivityViewPager.setCurrentItem(binder.mainActivityViewPager.getCurrentItem() - 1, false);
+            presenter.onClickToGoogleMap();
         }
     }
 

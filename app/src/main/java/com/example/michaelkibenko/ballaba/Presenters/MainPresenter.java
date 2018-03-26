@@ -16,6 +16,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -28,18 +29,33 @@ import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
 import com.example.michaelkibenko.ballaba.Adapters.SearchViewPagerAdapter;
 import com.example.michaelkibenko.ballaba.Common.BallabaSelectedCityListener;
+import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+
+import static com.example.michaelkibenko.ballaba.Presenters.MainPresenter.SORT_TYPE.NUMBER_OF_ROOMS;
+import static com.example.michaelkibenko.ballaba.Presenters.MainPresenter.SORT_TYPE.PRICE;
+import static com.example.michaelkibenko.ballaba.Presenters.MainPresenter.SORT_TYPE.RELEVANT;
+import static com.example.michaelkibenko.ballaba.Presenters.MainPresenter.SORT_TYPE.SIZE;
 
 /**
  * Created by michaelkibenko on 12/03/2018.
  */
 
 public class MainPresenter extends BasePresenter {
+    @IntDef({RELEVANT, PRICE, SIZE, NUMBER_OF_ROOMS})
+    public @interface SORT_TYPE {
+        int RELEVANT = 1;
+        int PRICE = 2;
+        int SIZE = 3;
+        int NUMBER_OF_ROOMS = 4;
+    }
+
     private final String TAG = MainPresenter.class.getSimpleName();
     //private final String PLACES_API_BASE = EndpointsHolder.GOOGLE_PLACES_API
     //        , TYPE_TEXT_SEARCH = "/textsearch", OUT_JSON = "/json?query=";
@@ -84,14 +100,25 @@ public class MainPresenter extends BasePresenter {
         binder.mainActivityViewPager.setAdapter(pagerAdapter);
     }
 
+    public void onClickToGoogleMap(){
+        switch (binder.mainActivityViewPager.getCurrentItem()){
+            case 0:
+                binder.mainActivityViewPager.setCurrentItem(1, false);
+                binder.mainActivityToGoogleMapImageButton.setImageDrawable(
+                        context.getResources().getDrawable(R.drawable.enabled, context.getTheme()));
+                break;
+
+            case 1:
+                binder.mainActivityViewPager.setCurrentItem(0, false);
+                binder.mainActivityToGoogleMapImageButton.setImageDrawable(
+                        context.getResources().getDrawable(R.drawable.disabled, context.getTheme()));
+        }
+
+    }
+
     public void onClickToSelectCity(){
         Intent intentSelectCity = new Intent(context, SelectCitySubActivity.class);
         ((Activity)context).startActivityForResult(intentSelectCity, REQ_CODE_SELECT_CITY);
-    }
-
-    public void onClickToGoogleMap(){
-        binder.mainActivityViewPager.setCurrentItem(
-                binder.mainActivityViewPager.getCurrentItem() == 0? 1:0, false);
     }
 
     public void onClickDrawer(){
@@ -100,15 +127,23 @@ public class MainPresenter extends BasePresenter {
 
     public void onClickSortByRelevant(){
         Toast.makeText(context, "relevant clicked", Toast.LENGTH_SHORT).show();
+        PropertiesRecyclerFragment.newInstance(null).sortProperties(RELEVANT);
     }
     public void onClickSortByPrice(){
         Toast.makeText(context, "price clicked", Toast.LENGTH_SHORT).show();
+        PropertiesRecyclerFragment.newInstance(null).sortProperties(PRICE);
     }
     public void onClickSortBySize(){
         Toast.makeText(context, "size clicked", Toast.LENGTH_SHORT).show();
+        PropertiesRecyclerFragment.newInstance(null).sortProperties(SIZE);
     }
     public void onClickSortByRooms(){
         Toast.makeText(context, "rooms clicked", Toast.LENGTH_SHORT).show();
+        PropertiesRecyclerFragment.newInstance(null).sortProperties(NUMBER_OF_ROOMS);
+    }
+
+    public void onClickToFilter(){
+        Toast.makeText(context, "filter clicked", Toast.LENGTH_SHORT).show();
     }
 
     //TODO it could be united with next method
@@ -139,6 +174,8 @@ public class MainPresenter extends BasePresenter {
             binder.propertiesRecyclerFloatingButton.setVisibility(View.GONE);
         }
     }
+
+
 
     /*private void setViewportByName(String name){
         LatLngBounds bounds;
@@ -190,6 +227,7 @@ public class MainPresenter extends BasePresenter {
         List<Address> addresses = null;
         lm = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
         getPermissionsToGps();
+        //TODO checkPermissions
         location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         geo = new Geocoder(context.getApplicationContext(), Locale.getDefault());
 

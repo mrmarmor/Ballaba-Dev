@@ -151,7 +151,7 @@ public class SplashActivity extends BaseActivity {
             public void reject(BallabaBaseEntity entity) {
                 getDefaultSnackBar(binder.getRoot(), getResources().getString(R.string.error_network_internal), true);
             }
-        }, true);
+        });
     }
 
     private void checkSplashDelay(final @FLOW_TYPES int what){

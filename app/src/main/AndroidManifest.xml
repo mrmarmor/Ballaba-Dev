@@ -26,15 +26,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBF0dZnsnmBZ0Yuvyns6CX0bZwIK3jSGYA" />
 
         <activity
             android:name=".Activities.TestingActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -44,24 +42,20 @@
 
         <activity
             android:name=".Activities.SplashActivity"
-            android:label="Splash"
-            android:theme="@style/AppTheme" />
+            android:label="Splash" />
         <activity
             android:name=".Activities.TermsOfUseActivity"
-            android:label="Terms of use"
-            android:theme="@style/AppTheme" />
+            android:label="Terms of use" />
         <activity
             android:name=".Activities.EnterPhoneNumberActivity"
-            android:label="Pre auth"
-            android:theme="@style/AppTheme" />
+            android:label="Pre auth" />
         <activity
             android:name=".Activities.EnterCodeActivity"
             android:label="Enter code"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Activities.MainActivity"
-            android:label="Search"
-            android:theme="@style/AppTheme" />
+            android:label="Search" />
         <activity android:name=".Activities.SelectCitySubActivity" />
 
         <!-- RECEIVERS -->

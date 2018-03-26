@@ -99,26 +99,10 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
             ////holder.textViewPrice.setText(property.price());
             //parent_layout = (LinearLayout) findViewById(R.id.single_message_parent);
 
-        //TODO get offset properties from server
+        //TODO get offset properties from server:
         //ConnectionsManager.getInstance(this).getConfigRequest
         if (position == (properties.size() - (/*OFFSET*/20 / 2))){
-            BallabaSearchPropertiesManager.getInstance(mContext).getPropertiesByLatLng(null, new BallabaResponseListener() {
-                @Override
-                public void resolve(BallabaBaseEntity entity) {
-                    ArrayList<BallabaPropertyResult> properties =
-                        propertiesManager.parsePropertyResults(((BallabaOkResponse)entity).body);
-                    //properties.add((BallabaPropertyResult)entity);
-                    propertiesManager.appendProperties(properties, true);
-
-                    updateList(propertiesManager.getResults());
-
-                }
-
-                @Override
-                public void reject(BallabaBaseEntity entity) {
-                    Log.e(TAG, "error fetching offset properties");
-                }
-            }, 20);
+            lazyLoading();
         }
 
     }
@@ -147,6 +131,25 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
             //textViewAddress = itemView.findViewById(R.id.propertyItem_address_textView);
             //textViewPrice = itemView.findViewById(R.id.propertyItem_price_textView);
         }
+    }
+
+    private void lazyLoading(){
+        BallabaSearchPropertiesManager.getInstance(mContext).getPropertiesByLatLng(null, 20
+                , BallabaSearchPropertiesManager.LAZY_LOADING_OFFSET_STATES.AFTER_20, new BallabaResponseListener() {
+            @Override
+            public void resolve(BallabaBaseEntity entity) {
+                ArrayList<BallabaPropertyResult> properties =
+                        propertiesManager.parsePropertyResults(((BallabaOkResponse)entity).body);
+                propertiesManager.appendProperties(properties, true);
+
+                updateList(propertiesManager.getResults());
+            }
+
+            @Override
+            public void reject(BallabaBaseEntity entity) {
+                Log.e(TAG, "error fetching offset properties");
+            }
+        });
     }
 
     private void setFontForDevicesUnderApi26(){

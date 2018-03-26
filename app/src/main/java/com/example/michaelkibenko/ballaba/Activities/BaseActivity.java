@@ -26,7 +26,9 @@ public class BaseActivity extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getSupportActionBar().isShowing()) getSupportActionBar().hide();
+        //getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        //getSupportActionBar().hide();
+        //setTheme(R.style.AppTheme_NoActionBar);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 

@@ -3,21 +3,26 @@ package com.example.michaelkibenko.ballaba.Fragments;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.databinding.DataBindingUtil;
 import android.location.Location;
 import android.location.LocationListener;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
@@ -32,30 +37,38 @@ import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
+import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
 import com.example.michaelkibenko.ballaba.Presenters.SearchPropertiesPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
+import com.example.michaelkibenko.ballaba.databinding.FragmentPropertiesRecyclerBinding;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-public class PropertiesRecyclerFragment extends Fragment {
+public class PropertiesRecyclerFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private final String TAG = PropertiesRecyclerFragment.class.getSimpleName();
+    private final int SWIPE_TO_REFRESH_DISPLAY_DURATION = 1000;//1 second
     private static final String PROPERTIES_KEY = "properties key";
     private final int REO_CODE_LOCATION_PERMISSION = 1;
 
     // TODO: Rename and change types of parameters
-    //private List<BallabaProperty> mParam;
+    private String mParam;
+    private int firstProperty, nextProperty;
+
     private View view;
     private BallabaResponseListener listener;
     private boolean isGPSPermissionGranted;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private PropertiesRecyclerAdapter rvAdapter;
     private RecyclerView rvProperties;
     private ArrayList<BallabaPropertyResult> properties;
 
     private SearchPropertiesPresenter presenter;
-    private static ActivityMainLayoutBinding binder;
+    private static FragmentPropertiesRecyclerBinding binder;
     private LayoutInflater inflater;
 
     private OnFragmentInteractionListener mListener;
@@ -63,8 +76,8 @@ public class PropertiesRecyclerFragment extends Fragment {
     public PropertiesRecyclerFragment() {}
 
     // TODO: Rename and change types and number of parameters
-    public static PropertiesRecyclerFragment newInstance(ActivityMainLayoutBinding mBinder, String param) {
-        binder = mBinder;
+    public static PropertiesRecyclerFragment newInstance(String param) {
+        //binder = mBinder;
         PropertiesRecyclerFragment fragment = new PropertiesRecyclerFragment();
         Bundle args = new Bundle();
         args.putSerializable(PROPERTIES_KEY, param);
@@ -89,9 +102,9 @@ public class PropertiesRecyclerFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_properties_recycler, container, false);
         this.inflater = inflater;
-        //DataBindingUtil.inflate(
-        //        inflater, R.layout.fragment_properties_recycler, null, false);
-        //presenter = new SearchPropertiesPresenter(getActivity(), binder, mParam);
+        binder = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_properties_recycler, null, false);
+        presenter = new SearchPropertiesPresenter(getActivity(), /*binder,*/ mParam);
 
         initRecycler(view);
         getProperties();
@@ -114,6 +127,9 @@ public class PropertiesRecyclerFragment extends Fragment {
         rvAdapter = new PropertiesRecyclerAdapter(getContext(), properties);
         rvProperties.setLayoutManager(manager);
         rvProperties.setAdapter(rvAdapter);
+
+        swipeRefreshLayout = view.findViewById(R.id.properties_recycler_root_swipeRefresh);
+        swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     private void getProperties(){
@@ -148,7 +164,8 @@ public class PropertiesRecyclerFragment extends Fragment {
                     Log.d(TAG, "Location: " + location);
                     if (location != null) {
                         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                        BallabaSearchPropertiesManager.getInstance(getContext()).getPropertiesByLatLng(latLng, listener, 0);
+                        BallabaSearchPropertiesManager.getInstance(getContext()).getPropertiesByLatLng(
+                            latLng, 0, BallabaSearchPropertiesManager.LAZY_LOADING_OFFSET_STATES.FIRST_20, listener);
                     }
                 }
                 @Override
@@ -176,8 +193,51 @@ public class PropertiesRecyclerFragment extends Fragment {
 
         } else if (requestCode == REO_CODE_LOCATION_PERMISSION){
             Log.d(TAG, "GPS not granted");
-            BallabaSearchPropertiesManager.getInstance(getContext()).getRandomProperties(listener, true);
+            BallabaSearchPropertiesManager.getInstance(getContext()).getRandomProperties(listener);
         }
+    }
+
+    public void sortProperties(@MainPresenter.SORT_TYPE final int type){
+        Collections.sort(properties, new Comparator<BallabaPropertyResult>() {
+            @Override
+            public int compare(final BallabaPropertyResult FIRST, final BallabaPropertyResult NEXT) {
+                switch (type){
+                    case MainPresenter.SORT_TYPE.RELEVANT:
+                        //TODO what is relevant???
+                        firstProperty = Integer.parseInt(FIRST.price);
+                        nextProperty = Integer.parseInt(NEXT.price);
+                        break;
+
+                    case MainPresenter.SORT_TYPE.PRICE:
+                        firstProperty = Integer.parseInt(FIRST.price);
+                        nextProperty = Integer.parseInt(NEXT.price);
+                        break;
+
+                    case MainPresenter.SORT_TYPE.SIZE:
+                        firstProperty = Integer.parseInt(FIRST.size);
+                        nextProperty = Integer.parseInt(NEXT.size);
+                        break;
+
+                    case MainPresenter.SORT_TYPE.NUMBER_OF_ROOMS:
+                        firstProperty = Integer.parseInt(FIRST.roomsNumber);
+                        nextProperty = Integer.parseInt(NEXT.roomsNumber);
+                }
+
+                return firstProperty > nextProperty ? -1 : 1;
+            }
+        });
+    }
+
+    //hide swipeToRefresh progressIcon after 1 second
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (swipeRefreshLayout.isRefreshing())
+                    swipeRefreshLayout.setRefreshing(false);
+            }
+        }, SWIPE_TO_REFRESH_DISPLAY_DURATION);
     }
 
     //TODO to display 1 or 2 properties in a row

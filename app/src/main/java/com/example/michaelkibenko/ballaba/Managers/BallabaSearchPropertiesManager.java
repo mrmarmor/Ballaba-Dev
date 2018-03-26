@@ -16,11 +16,22 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import static com.example.michaelkibenko.ballaba.Activities.SplashActivity.FLOW_TYPES.AUTHENTICATED;
+import static com.example.michaelkibenko.ballaba.Activities.SplashActivity.FLOW_TYPES.NEED_AUTHENTICATION;
+import static com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager.LAZY_LOADING_OFFSET_STATES.AFTER_20;
+import static com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager.LAZY_LOADING_OFFSET_STATES.FIRST_20;
+
 /**
  * Created by michaelkibenko on 20/03/2018.
  */
 
 public class BallabaSearchPropertiesManager {
+    @IntDef({FIRST_20, AFTER_20})
+    public @interface LAZY_LOADING_OFFSET_STATES {
+        int FIRST_20 = 0;
+        int AFTER_20 = 1;
+    }
+
     private static final String TAG = BallabaSearchPropertiesManager.class.getSimpleName();
     private static BallabaSearchPropertiesManager instance;
     private Context context;
@@ -55,7 +66,7 @@ public class BallabaSearchPropertiesManager {
         }
     }
 
-    public void getRandomProperties(final BallabaResponseListener callback, boolean isLazy){
+    public void getRandomProperties(final BallabaResponseListener callback){
         ConnectionsManager.getInstance(context).getRandomProperties(new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
@@ -81,11 +92,10 @@ public class BallabaSearchPropertiesManager {
         });
     }
 
-    public void getPropertiesByLatLng(final LatLng latLng, final BallabaResponseListener callback, final int offset){
-        final String PARAMS = (latLng != null)?
-                  "?latlong=" + latLng.latitude + "," + latLng.longitude
-                : "?offset=" + offset;
+    public void getPropertiesByLatLng(final LatLng latLng, final int offset
+            , @LAZY_LOADING_OFFSET_STATES int state, final BallabaResponseListener callback){
 
+        final String PARAMS = lazyLoadingStatesChanger(state, latLng, offset);
         ConnectionsManager.getInstance(context).getPropertyByLatLng(PARAMS, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
@@ -109,6 +119,16 @@ public class BallabaSearchPropertiesManager {
                 callback.reject(entity);
             }
         }, offset);
+    }
+    private String lazyLoadingStatesChanger(final @LAZY_LOADING_OFFSET_STATES int state
+            , final LatLng latLng, final int offset){
+        if (state == FIRST_20){
+            return "?latlong=" + latLng.latitude + "," + latLng.longitude;
+        } else if (state == AFTER_20){
+            return "?offset=" + offset;
+        }
+
+        return null;
     }
 
     public ArrayList<BallabaPropertyResult> parsePropertyResults(String result){
