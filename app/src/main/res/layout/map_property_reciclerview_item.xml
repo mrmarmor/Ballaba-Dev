@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="148dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layoutDirection="rtl">
+
+    <ImageView
+        android:id="@+id/map_property_image"
+        android:layout_width="140dp"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
+
+    <ImageButton
+        android:id="@+id/map_property_saved_button"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/heart_white_24"
+        app:layout_constraintTop_toTopOf="@+id/map_property_image"
+        app:layout_constraintEnd_toEndOf="@+id/map_property_image"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        />
+
+    <TextView
+        android:id="@+id/map_property_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="7,200"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/map_property_image"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="37dp"
+        android:layout_marginStart="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="לחודש"
+        android:textSize="14sp"
+        android:textColor="#8d8d8d"
+        app:layout_constraintBottom_toBottomOf="@+id/map_property_price"
+        app:layout_constraintStart_toEndOf="@+id/map_property_price"
+        android:layout_marginStart="8dp"
+        android:gravity="bottom"
+        />
+    
+    <TextView
+        android:id="@+id/map_property_roomsNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@+id/map_property_price"
+        app:layout_constraintStart_toStartOf="@+id/map_property_price"
+        android:layout_marginTop="8dp"
+        />
+
+    <TextView
+        android:id="@+id/map_property_roomsNum_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="חדרים"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/map_property_roomsNum"
+        app:layout_constraintStart_toEndOf="@+id/map_property_roomsNum"
+        android:layout_marginStart="8dp"
+        />
+
+    <TextView
+        android:id="@+id/map_property_roomsNum_DOT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="●"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="@+id/map_property_roomsNum_text"
+        app:layout_constraintBottom_toBottomOf="@+id/map_property_roomsNum_text"
+        app:layout_constraintStart_toEndOf="@+id/map_property_roomsNum_text"
+        android:layout_marginStart="8dp"
+        />
+
+    <TextView
+        android:id="@+id/map_property_metresNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="@+id/map_property_roomsNum_DOT"
+        app:layout_constraintBottom_toBottomOf="@+id/map_property_roomsNum_DOT"
+        app:layout_constraintStart_toEndOf="@+id/map_property_roomsNum_DOT"
+        android:layout_marginStart="8dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="מ״ר"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="@+id/map_property_roomsNum_DOT"
+        app:layout_constraintBottom_toBottomOf="@+id/map_property_roomsNum_DOT"
+        app:layout_constraintStart_toEndOf="@+id/map_property_metresNum"
+        android:layout_marginStart="8dp"
+        />
+
+    <TextView
+        android:id="@+id/map_property_formattedAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="רחוב בן יהודה 1 תל אביב"
+        app:layout_constraintStart_toStartOf="@+id/map_property_price"
+        android:textSize="14sp"
+        android:textColor="#8d8d8d"
+        app:layout_constraintTop_toBottomOf="@+id/map_property_roomsNum"
+        android:layout_marginTop="8dp"
+        />
+
+</android.support.constraint.ConstraintLayout>
