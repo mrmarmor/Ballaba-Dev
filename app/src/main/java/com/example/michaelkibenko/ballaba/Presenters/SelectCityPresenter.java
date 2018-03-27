@@ -5,8 +5,11 @@ import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.AttributeSet;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
@@ -21,8 +24,7 @@ import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivitySelectCityBinding;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.zhy.view.flowlayout.FlowLayout;
-import com.zhy.view.flowlayout.TagAdapter;
+import com.nex3z.flowlayout.FlowLayout;
 
 /**
  * Created by User on 20/03/2018.
@@ -37,7 +39,7 @@ public class SelectCityPresenter extends BasePresenter implements
     private ActivitySelectCityBinding binder;
 
     private AutoCompleteTextView actvSelectCity;
-    //private FlowLayout
+    private FlowLayout citiesFlowLayout;
 
     private BallabaLocationManager.OnGoogleMapListener mListener;
     private GoogleMap googleMap;
@@ -101,17 +103,15 @@ public class SelectCityPresenter extends BasePresenter implements
     }
 
     private void initFlowLayout(){
-        /*.setAdapter(new TagAdapter<String>(mVals)
-        {
-            @Override
-            public View getView(FlowLayout parent, int position, String s)
-            {
-                TextView tv = (TextView) binder.inflate(R.layout.tv,
-                        , false);
-                tv.setText(s);
-                return tv;
-            }
-        });*/
+        binder.selectCityFlowLayout.addView(buildLabel("hello"));
+    }
+
+    private TextView buildLabel(String text) {
+        TextView textView = new TextView(activity);
+        textView.setText(text);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+
+        return textView;
     }
 
     @Override

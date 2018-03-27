@@ -27,15 +27,14 @@
             android:layout_height="@dimen/icon_regular"
             />
 
-        <com.zhy.view.flowlayout.TagFlowLayout
-            android:id="@+id/id_flowlayout"
-            app:layout_constraintTop_toBottomOf="@+id/selectCity_autoCompleteTextView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:max_select="-1"
-            android:layout_width="fill_parent"
+        <com.nex3z.flowlayout.FlowLayout
+            android:id="@+id/selectCity_flowLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp">
-        </com.zhy.view.flowlayout.TagFlowLayout>
+            app:flChildSpacing="auto"
+            app:flChildSpacingForLastRow="align"
+            app:flRowSpacing="8dp">
+        </com.nex3z.flowlayout.FlowLayout>
 
     </android.support.constraint.ConstraintLayout>
 </layout>
