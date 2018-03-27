@@ -27,5 +27,15 @@
             android:layout_height="@dimen/icon_regular"
             />
 
+        <com.zhy.view.flowlayout.TagFlowLayout
+            android:id="@+id/id_flowlayout"
+            app:layout_constraintTop_toBottomOf="@+id/selectCity_autoCompleteTextView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:max_select="-1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp">
+        </com.zhy.view.flowlayout.TagFlowLayout>
+
     </android.support.constraint.ConstraintLayout>
 </layout>

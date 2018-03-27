@@ -17,9 +17,12 @@ import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
 import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivitySelectCityBinding;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.zhy.view.flowlayout.FlowLayout;
+import com.zhy.view.flowlayout.TagAdapter;
 
 /**
  * Created by User on 20/03/2018.
@@ -34,6 +37,7 @@ public class SelectCityPresenter extends BasePresenter implements
     private ActivitySelectCityBinding binder;
 
     private AutoCompleteTextView actvSelectCity;
+    //private FlowLayout
 
     private BallabaLocationManager.OnGoogleMapListener mListener;
     private GoogleMap googleMap;
@@ -45,6 +49,7 @@ public class SelectCityPresenter extends BasePresenter implements
 
         //initGoogleMapListener();
         initAutoCompleteTextView();
+        initFlowLayout();
     }
 
     /*private void initGoogleMapListener(){
@@ -90,6 +95,23 @@ public class SelectCityPresenter extends BasePresenter implements
                 ////
             }
         });
+
+        UiUtils.instance(true, activity).showSoftKeyboard();
+
+    }
+
+    private void initFlowLayout(){
+        /*.setAdapter(new TagAdapter<String>(mVals)
+        {
+            @Override
+            public View getView(FlowLayout parent, int position, String s)
+            {
+                TextView tv = (TextView) binder.inflate(R.layout.tv,
+                        , false);
+                tv.setText(s);
+                return tv;
+            }
+        });*/
     }
 
     @Override

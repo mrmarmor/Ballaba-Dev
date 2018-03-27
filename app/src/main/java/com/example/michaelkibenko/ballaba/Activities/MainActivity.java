@@ -1,5 +1,6 @@
 package com.example.michaelkibenko.ballaba.Activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -8,10 +9,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
@@ -56,7 +59,22 @@ public class MainActivity extends BaseActivity implements
     @Override
     public void onBackPressed() {
         if (binder.mainActivityViewPager.getCurrentItem() == 0) {
-            super.onBackPressed();
+            BallabaDialogBuilder areUSureDialog = new BallabaDialogBuilder(this);
+
+            areUSureDialog.setButtons("Exit", "Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    MainActivity.super.onBackPressed();
+                }
+            }, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            areUSureDialog.setIcon(R.drawable.check_blue_24);
+            areUSureDialog.setContent("Exit", "Are You sure you want to exit?", null).show();
+
         } else {
             presenter.onClickToGoogleMap();
         }

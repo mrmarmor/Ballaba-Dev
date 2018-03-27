@@ -110,6 +110,7 @@
     <dimen name="mainActivity_FAB_dimens">56dp</dimen>
     <dimen name="mainActivity_FAB_margin_end">30dp</dimen>
     <dimen name="mainActivity_FAB_margin_bottom">40dp</dimen>
+    <dimen name="mainActivity_drawer_marginEnd">-58dp</dimen>
 
     <dimen name="mapMarkerSize">30dp</dimen>
 

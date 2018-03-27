@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 
 /**
  * Created by michaelkibenko on 21/02/2018.
@@ -29,6 +30,7 @@ public class BaseActivity extends AppCompatActivity{
         //getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         //getSupportActionBar().hide();
         //setTheme(R.style.AppTheme_NoActionBar);
+        UiUtils.instance(true, this).hideSoftKeyboard(getWindow().getDecorView());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 

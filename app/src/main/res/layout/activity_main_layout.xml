@@ -159,6 +159,9 @@
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
+            android:layout_marginEnd="@dimen/mainActivity_drawer_marginEnd"
+            app:itemTextColor="@drawable/drawer_text_state"
+            app:itemIconTint="@drawable/drawer_icon_state"
             app:headerLayout="@layout/nav_header_main"
             app:menu="@menu/activity_main_drawer" />
 
