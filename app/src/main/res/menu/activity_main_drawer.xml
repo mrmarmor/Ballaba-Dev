@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="nav_view">
 
-    <group android:checkableBehavior="single">
+    <group android:checkableBehavior="single" android:id="@+id/nav_group_top">
         <item
             android:id="@+id/nav_landlord"
             android:icon="@drawable/home_blue_24"
@@ -22,19 +22,16 @@
             android:title="@string/menuItem_savedAreas" />
         <item
             android:id="@+id/nav_meetings"
-            android:icon="@drawable/ic_menu_manage"
             android:title="@string/menuItem_editProfile" />
         <item
             android:id="@+id/nav_chat"
-            android:icon="@drawable/ic_menu_manage"
             android:title="@string/menuItem_chat" />
         <item
             android:id="@+id/nav_conflicts"
-            android:icon="@drawable/ic_menu_manage"
             android:title="@string/menuItem_conflicts" />
     </group>
 
-    <group>
+    <group android:checkableBehavior="single" android:id="@+id/nav_group_bottom">
         <item
             android:id="@+id/nav_editProfile"
             android:icon="@drawable/user_blue_24"
