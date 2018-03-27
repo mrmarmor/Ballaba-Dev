@@ -11,7 +11,6 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -178,11 +177,11 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
             mListener.OnGoogleMap(googleMap);
         }
 
-        initInsideResultsArray(BallabaSearchPropertiesManager.getInstance(context).getResults());
+        initInsideResultsHash(BallabaSearchPropertiesManager.getInstance(context).getResults());
         updatePropertiesMarkers(insideResHash);
     }
 
-    public void initInsideResultsArray(ArrayList<BallabaPropertyResult> arr){
+    public void initInsideResultsHash(ArrayList<BallabaPropertyResult> arr){
         insideResHash.clear();
         for (BallabaPropertyResult target : arr) {
             if(insideResHash.containsKey(target.formattedAddress)){
@@ -193,7 +192,6 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
                 insideResHash.put(target.formattedAddress, potable);
             }
         }
-        Log.e(TAG, "finished");
     }
 
     public GoogleMap getGoogleMapObject(){
@@ -206,7 +204,6 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         if(!changed) {
             changed = true;
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-
             this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
             this.googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         }
@@ -310,5 +307,4 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
             googleMap.clear();
         }
     }
-
 }
