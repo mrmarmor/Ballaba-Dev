@@ -112,4 +112,9 @@
     <dimen name="mainActivity_FAB_margin_bottom">40dp</dimen>
     <dimen name="mainActivity_drawer_marginEnd">-58dp</dimen>
 
+    <dimen name="chip_width">95dp</dimen>
+    <dimen name="chip_height">30dp</dimen>
+    <dimen name="chip_corners_radius">15dp</dimen>
+    <dimen name="chip_padding">6dp</dimen>
+
 </resources>

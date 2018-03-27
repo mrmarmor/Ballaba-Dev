@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="presenter"
+            type="com.example.michaelkibenko.ballaba.Presenters.SelectCityPresenter"/>
+    </data>
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/chip_root"
+    android:layout_width="@dimen/chip_width"
+    android:layout_height="@dimen/chip_height"
+    android:background="@drawable/chip" >
+
+    <TextView
+        android:id="@+id/chip_textView"
+        style="@style/allWrapContent"
+        app:layout_constraintTop_toTopOf="@id/chip_root"
+        app:layout_constraintBottom_toBottomOf="@id/chip_root"
+        app:layout_constraintStart_toStartOf="@id/chip_root"
+        app:layout_constraintEnd_toStartOf="@id/chip_x_button"
+        android:gravity="center"
+        android:padding="8dp"
+        android:background="@drawable/chip" />
+
+    <Button
+        android:id="@+id/chip_x_button"
+        app:layout_constraintTop_toTopOf="@id/chip_root"
+        app:layout_constraintBottom_toBottomOf="@id/chip_root"
+        app:layout_constraintStart_toEndOf="@id/chip_textView"
+        app:layout_constraintEnd_toEndOf="@id/chip_root"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
+        android:layout_margin="9dp"
+        android:background="@drawable/close_white_13" />
+
+</android.support.constraint.ConstraintLayout>
+</layout>

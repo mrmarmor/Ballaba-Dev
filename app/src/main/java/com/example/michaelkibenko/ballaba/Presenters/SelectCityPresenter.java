@@ -8,14 +8,17 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Adapters.GooglePlacesAdapter;
 import com.example.michaelkibenko.ballaba.Common.BallabaSelectedCityListener;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
 import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
@@ -25,6 +28,9 @@ import com.example.michaelkibenko.ballaba.databinding.ActivitySelectCityBinding;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.nex3z.flowlayout.FlowLayout;
+
+import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 /**
  * Created by User on 20/03/2018.
@@ -39,7 +45,7 @@ public class SelectCityPresenter extends BasePresenter implements
     private ActivitySelectCityBinding binder;
 
     private AutoCompleteTextView actvSelectCity;
-    private FlowLayout citiesFlowLayout;
+    private ArrayList<String> cities;
 
     private BallabaLocationManager.OnGoogleMapListener mListener;
     private GoogleMap googleMap;
@@ -49,9 +55,9 @@ public class SelectCityPresenter extends BasePresenter implements
         this.binder = binder;
         this.activity = (Activity)context;
 
+        cities = new ArrayList<>();
         //initGoogleMapListener();
         initAutoCompleteTextView();
-        initFlowLayout();
     }
 
     /*private void initGoogleMapListener(){
@@ -85,15 +91,18 @@ public class SelectCityPresenter extends BasePresenter implements
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedCity = ((TextView)view).getText().toString();
-                actvSelectCity.setText(selectedCity);
+                //actvSelectCity.setText(selectedCity);
+                actvSelectCity.setText("");
+                cities.add(selectedCity);
+                addCityToFlowLayout(selectedCity);
 
                 //BallabaMapFragment.newInstance().onItemSelected(googleMap, selectedPlace);
 
                 ////TODO TESTING! These line should appear in Done button to close this activity/presenter and return back to MainActivity
 
-                activity.getIntent().putExtra(SELECTED_CITY_KEY, selectedCity);
+                /*activity.getIntent().putExtra(SELECTED_CITIES_KEY, cities);
                 activity.setResult(Activity.RESULT_OK, activity.getIntent());
-                activity.finish();
+                activity.finish();*/
                 ////
             }
         });
@@ -102,14 +111,32 @@ public class SelectCityPresenter extends BasePresenter implements
 
     }
 
-    private void initFlowLayout(){
-        binder.selectCityFlowLayout.addView(buildLabel("hello"));
+    private void addCityToFlowLayout(String text){
+        //Inflater inflater = new Inflater().
+        final View view = activity.getLayoutInflater().inflate(R.layout.chip_with_x, null);
+        ((TextView)view.findViewById(R.id.chip_textView)).setText(text);
+        view.findViewById(R.id.chip_x_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binder.selectCityFlowLayout.removeView(view);
+                cities.remove(((TextView)view.findViewById(R.id.chip_textView)).getText());
+                Toast.makeText(activity, "chips left: " + cities.size(), Toast.LENGTH_SHORT).show();
+            }
+        });
+        binder.selectCityFlowLayout.addView(view);
+    }
+    public void removeCityFromFlowLayout(View view){
+        Toast.makeText(activity, view.getClass().getCanonicalName(), Toast.LENGTH_SHORT).show();
+        //binder.selectCityFlowLayout.removeView(((view.getParent());
     }
 
     private TextView buildLabel(String text) {
         TextView textView = new TextView(activity);
         textView.setText(text);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        textView.setBackgroundResource(R.drawable.chip);
+        textView.setPadding(8,8,8,8);
+        textView.setGravity(Gravity.START);
 
         return textView;
     }
