@@ -2,6 +2,7 @@ package com.example.michaelkibenko.ballaba.Managers;
 
 import android.content.Context;
 import android.support.annotation.IntDef;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
@@ -126,6 +127,20 @@ public class BallabaSearchPropertiesManager {
             return "?latlong=" + latLng.latitude + "," + latLng.longitude;
         } else if (state == AFTER_20){
             return "?offset=" + offset;
+        }
+
+        return null;
+    }
+
+    public BallabaPropertyResult getPropertyById(@Nullable ArrayList<BallabaPropertyResult> target, String id){
+        if(target == null){
+            target = getResults();
+        }
+
+        for (BallabaPropertyResult prop : target) {
+            if(prop.id.equals(id)){
+                return prop;
+            }
         }
 
         return null;

@@ -11,6 +11,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,9 +30,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 import static com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment.MAP_SAVE_CONTAINER_STATES.OFF;
 import static com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment.MAP_SAVE_CONTAINER_STATES.ON;
@@ -42,7 +46,7 @@ import static com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment.MA
 
 public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, LocationListener , GoogleMap.OnCameraMoveStartedListener,
         GoogleMap.OnCameraMoveListener,
-        GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraIdleListener {
+        GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraIdleListener ,GoogleMap.OnMarkerClickListener{
 
     @IntDef({ON, OFF})
     @interface MAP_SAVE_CONTAINER_STATES {
@@ -66,6 +70,7 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     private ConstraintLayout rootView, transition, notChangeableRootView;
     private float markerSize;
     private Bitmap guaranteeMarkerIcon, exclusivityMarkerIcon;
+    private HashMap<String,ArrayList<BallabaPropertyResult>> insideResHash;
 
     private @MAP_SAVE_CONTAINER_STATES int saveContainerState = MAP_SAVE_CONTAINER_STATES.OFF;
 
@@ -134,6 +139,7 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         super.onAttach(context);
         this.context = context;
         locationManager = BallabaLocationManager.getInstance(this.context);
+        insideResHash = new HashMap<>();
 
         //TODO context == MainActivity. next 6 lines throws exception because it is not instance of
         //TODO BallabaLocationManager.OnGoogleMapListener. needed to be fixed.
@@ -166,10 +172,28 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         this.googleMap.setOnCameraMoveListener(this);
         this.googleMap.setOnCameraMoveCanceledListener(this);
         this.googleMap.setOnCameraIdleListener(this);
+        this.googleMap.setOnMarkerClickListener(this);
 
         if (mListener != null) {
             mListener.OnGoogleMap(googleMap);
         }
+
+        initInsideResultsArray(BallabaSearchPropertiesManager.getInstance(context).getResults());
+        updatePropertiesMarkers(insideResHash);
+    }
+
+    public void initInsideResultsArray(ArrayList<BallabaPropertyResult> arr){
+        insideResHash.clear();
+        for (BallabaPropertyResult target : arr) {
+            if(insideResHash.containsKey(target.formattedAddress)){
+                insideResHash.get(target.formattedAddress).add(target);
+            }else{
+                ArrayList<BallabaPropertyResult> potable = new ArrayList<BallabaPropertyResult>();
+                potable.add(target);
+                insideResHash.put(target.formattedAddress, potable);
+            }
+        }
+        Log.e(TAG, "finished");
     }
 
     public GoogleMap getGoogleMapObject(){
@@ -185,8 +209,6 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
 
             this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
             this.googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-
-            updatePropertiesMarkers(BallabaSearchPropertiesManager.getInstance(context).getResults());
         }
     }
 
@@ -235,6 +257,14 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     }*/
     //map camera end
 
+    //marker
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Toast.makeText(context, (String)marker.getTag(), Toast.LENGTH_LONG).show();
+        return true;
+    }
+    //marker
+
     private void changeMapSaveState(@MAP_SAVE_CONTAINER_STATES int newState){
         if(this.saveContainerState != newState) {
             this.saveContainerState = newState;
@@ -256,14 +286,18 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         set.applyTo(rootView);
     }
 
-    private void updatePropertiesMarkers(ArrayList<BallabaPropertyResult> arr){
+    private void updatePropertiesMarkers(HashMap<String,ArrayList<BallabaPropertyResult>> insideResHash){
         clearGoogleMap();
-        for (BallabaPropertyResult prop : arr) {
-            googleMap.addMarker(getMarker(prop.isGuarantee, prop.latLng));
+        Set<String> resultsKeySet = insideResHash.keySet();
+        for (String address : resultsKeySet) {
+            ArrayList<BallabaPropertyResult> arrayList = insideResHash.get(address);
+            BallabaPropertyResult prop = arrayList.get(0);
+            Marker marker = googleMap.addMarker(getMarker(prop.isGuarantee, prop.latLng, arrayList.size()));
+            marker.setTag(address);
         }
     }
 
-    private MarkerOptions getMarker(boolean isGuarantee, LatLng position){
+    private MarkerOptions getMarker(boolean isGuarantee, LatLng position, int resultsNum){
         MarkerOptions markerOptions = new MarkerOptions();
         markerOptions.position(position);
         markerOptions.draggable(false);
