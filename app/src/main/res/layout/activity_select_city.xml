@@ -12,11 +12,26 @@
         android:layout_height="match_parent"
         tools:context="com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity">
 
+        <EditText
+            android:id="@+id/selectCity_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/selectCity_OK_button"
+            android:inputType="textAutoComplete"
+            android:hint="@string/selectCity_autoCompleteTextView_hint"
+            android:singleLine="true"
+            android:layout_margin="@dimen/small_margin"/>
         <AutoCompleteTextView
             android:id="@+id/selectCity_autoCompleteTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/selectCity_OK_button"
             android:inputType="textAutoComplete"
+            android:hint="@string/selectCity_autoCompleteTextView_hint"
             android:singleLine="true"
             android:layout_margin="@dimen/small_margin"
             />
@@ -25,7 +40,18 @@
             android:id="@+id/selectCity_OK_button"
             android:layout_width="@dimen/icon_regular"
             android:layout_height="@dimen/icon_regular"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/selectCity_editText"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="@drawable/check_blue_24"
+            android:onClick="@{() -> presenter.onOKButtonClick()}"
             />
+
+        <ListView
+            android:id="@+id/selectCity_listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <com.nex3z.flowlayout.FlowLayout
             android:id="@+id/selectCity_flowLayout"
@@ -33,64 +59,10 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/selectCity_autoCompleteTextView"
             android:layout_margin="@dimen/small_margin"
-            app:flChildSpacing="10dp"
+            app:flChildSpacing="@dimen/chip_childSpacing"
             app:flChildSpacingForLastRow="align"
-            app:flRowSpacing="8dp">
-           <!-- <TextView
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="8dp"
-                android:background="@drawable/chip"
-                android:text="sun"/>
+            app:flRowSpacing="@dimen/chip_rowSpacing">
 
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:gravity="start"
-                android:padding="8dp"
-                android:background="@drawable/chip"
-                android:text="mon"/>-->
-
-           <!-- <TextView
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="8dp"
-                android:background="@drawable/chip"
-                android:text="tue"/>
-
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="8dp"
-                android:background="@drawable/chip"
-                android:text="wed"/>
-
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="8dp"
-                android:background="@drawable/chip"
-                android:text="thu"/>
-
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="8dp"
-                android:background="@drawable/chip"
-                android:text="fri"/>
-
-            <TextView
-                android:layout_width="60dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="8dp"
-                android:background="@drawable/chip"
-                android:text="sat"/>-->
         </com.nex3z.flowlayout.FlowLayout>
 
     </android.support.constraint.ConstraintLayout>

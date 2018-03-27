@@ -37,6 +37,8 @@
     <string name="propertyItem_numberOfRooms">חדרים</string>
     <string name="propertyItem_propertySize">מ\"ר</string>
 
+    <string name="selectCity_autoCompleteTextView_hint">באזור שלי</string>
+
     <string name="terms_of_use_label">תקנון</string>
     <string name="terms_of_use_text">לורם איפסום דולור סיט אמט, קונסקטורר אדיפיסינג
 אלית נולום ארווס סאפיאן - פוסיליס קוויס, אקווזמן קוואזי
