@@ -99,6 +99,16 @@ public class SelectCityPresenter extends BasePresenter implements
             }
         });
 
+        //when editText lose his focus he loses his GooglePlaces adapter. so i need to give him it back
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus){
+                    initListView(binder.selectCityListView, editText);
+                }
+            }
+        });
+
         UiUtils.instance(true, activity).showSoftKeyboard();
 
     }
