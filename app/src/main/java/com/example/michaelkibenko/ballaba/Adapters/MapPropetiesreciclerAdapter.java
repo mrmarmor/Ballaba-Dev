@@ -13,17 +13,13 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.R;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by michaelkibenko on 27/03/2018.
  */
 
-public class MapPropetiesreciclerAdapter extends RecyclerView.Adapter {
+public class MapPropetiesreciclerAdapter extends RecyclerView.Adapter<MapPropetiesreciclerAdapter.MapPropertyItemViewHolder> {
 
     private final Context context;
     private ArrayList<BallabaPropertyResult> items;
@@ -36,18 +32,27 @@ public class MapPropetiesreciclerAdapter extends RecyclerView.Adapter {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MapPropertyItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mInflater = LayoutInflater.from(context);
         View v = mInflater.inflate(R.layout.map_property_reciclerview_item, parent, false);
         return new MapPropertyItemViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        
+    public void onBindViewHolder(@NonNull MapPropertyItemViewHolder holder, int position) {
+        BallabaPropertyResult propertyResult = items.get(position);
+        Glide.with(context).load(propertyResult.photos.get(0)).into(holder.photo);
+        if(propertyResult.isSaved){
+            holder.saved_icon.setBackground(context.getResources().getDrawable(R.drawable.heart_blue_24,context.getTheme()));
+        }else{
+            holder.saved_icon.setBackground(context.getResources().getDrawable(R.drawable.heart_white_24,context.getTheme()));
+        }
+        holder.roomsNumber.setText(propertyResult.roomsNumber);
+        //TODO set property metres
+        holder.formattedAddress.setText(propertyResult.formattedAddress);
     }
 
-    private class MapPropertyItemViewHolder extends RecyclerView.ViewHolder{
+    public class MapPropertyItemViewHolder extends RecyclerView.ViewHolder{
         public ImageView photo;
         public ImageButton saved_icon;
         public TextView roomsNumber;
@@ -66,5 +71,10 @@ public class MapPropetiesreciclerAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    public void updateItems(ArrayList<BallabaPropertyResult> arr){
+        this.items = arr;
+        notifyDataSetChanged();
     }
 }
