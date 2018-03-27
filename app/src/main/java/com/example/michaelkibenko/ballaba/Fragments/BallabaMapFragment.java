@@ -10,6 +10,7 @@ import android.support.annotation.IntDef;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.RecyclerView;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Adapters.MapPropetiesReciclerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
@@ -70,6 +72,8 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     private float markerSize;
     private Bitmap guaranteeMarkerIcon, exclusivityMarkerIcon;
     private HashMap<String,ArrayList<BallabaPropertyResult>> insideResHash;
+    private RecyclerView propertiesRV;
+    private MapPropetiesReciclerAdapter propetiesReciclerAdapter;
 
     private @MAP_SAVE_CONTAINER_STATES int saveContainerState = MAP_SAVE_CONTAINER_STATES.OFF;
 
@@ -93,6 +97,9 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         saveContainer = (ConstraintLayout) v.findViewById(R.id.saveMapSearchContainer);
         saveSearchButton = (Button) v.findViewById(R.id.saveMapSearch_save_BTN);
         saveSearchContainerAnchor = (View) v.findViewById(R.id.saveMapSearchContainerBottom_anchor);
+        propertiesRV = (RecyclerView) v.findViewById(R.id.mapFragment_properties_RV);
+        propetiesReciclerAdapter = new MapPropetiesReciclerAdapter(context);
+        propertiesRV.setAdapter(propetiesReciclerAdapter);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
 
@@ -254,13 +261,16 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     }*/
     //map camera end
 
-    //marker
+    //marker onclick
     @Override
     public boolean onMarkerClick(Marker marker) {
-        Toast.makeText(context, (String)marker.getTag(), Toast.LENGTH_LONG).show();
+        if(saveContainerState == MAP_SAVE_CONTAINER_STATES.ON){
+            changeMapSaveState(MAP_SAVE_CONTAINER_STATES.OFF);
+        }
+        showSelectedAddress((String)marker.getTag());
         return true;
     }
-    //marker
+    //marker end
 
     private void changeMapSaveState(@MAP_SAVE_CONTAINER_STATES int newState){
         if(this.saveContainerState != newState) {
@@ -306,5 +316,9 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         if(googleMap != null){
             googleMap.clear();
         }
+    }
+
+    private void showSelectedAddress(String address){
+        propetiesReciclerAdapter.updateItems(insideResHash.get(address));
     }
 }

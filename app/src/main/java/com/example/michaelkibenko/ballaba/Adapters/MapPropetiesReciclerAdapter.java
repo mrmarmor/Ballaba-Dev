@@ -19,13 +19,13 @@ import java.util.ArrayList;
  * Created by michaelkibenko on 27/03/2018.
  */
 
-public class MapPropetiesreciclerAdapter extends RecyclerView.Adapter<MapPropetiesreciclerAdapter.MapPropertyItemViewHolder> {
+public class MapPropetiesReciclerAdapter extends RecyclerView.Adapter<MapPropetiesReciclerAdapter.MapPropertyItemViewHolder> {
 
     private final Context context;
     private ArrayList<BallabaPropertyResult> items;
     private LayoutInflater mInflater;
 
-    public MapPropetiesreciclerAdapter(Context context){
+    public MapPropetiesReciclerAdapter(Context context){
         this.context = context;
         items = new ArrayList<>();
     }
