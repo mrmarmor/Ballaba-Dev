@@ -145,18 +145,20 @@ public class BallabaSearchPropertiesManager {
                 String formattedAddress = res.getString("formatted_address");
                 String rentPeriod = res.getString("rent_period");
                 String numberOfPayments = res.getString("no_of_payments");
+                boolean isSaved = res.getBoolean("is_saved");
+                boolean isGuaranteed = res.getBoolean("is_guaranteed");
+
                 JSONArray photosJsonArray = res.getJSONArray("photos");
                 ArrayList<String> photos = new ArrayList<>();
                 if (photosJsonArray != null) {
                     int len = photosJsonArray.length();
                     for (int g=0;g<len;g++){
-                        photos.add(photosJsonArray.get(g).toString());
+                        photos.add(photosJsonArray.getJSONObject(g).getString("photo_url"));
                     }
                 }
-                boolean isSaved = res.getBoolean("is_saved");
 
                 BallabaPropertyResult propertyResult = new BallabaPropertyResult(id, rooms, price, size,
-                        formattedAddress, rentPeriod, numberOfPayments, photos, isSaved);
+                        formattedAddress, rentPeriod, numberOfPayments, photos, isSaved, isGuaranteed);
 
                 returned.add(propertyResult);
             }

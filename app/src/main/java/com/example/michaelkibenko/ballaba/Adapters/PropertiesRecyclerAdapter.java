@@ -2,11 +2,15 @@ package com.example.michaelkibenko.ballaba.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.DrawableRes;
+import android.support.transition.Visibility;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
@@ -24,6 +28,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.michaelkibenko.ballaba.Common.BallabaPropertyListener;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
@@ -57,6 +62,8 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     private BallabaSearchPropertiesManager propertiesManager;
     private LayoutInflater mInflater;
     private PropertyItemBinding binder;
+    private BallabaPropertyListener listener;
+    private Resources res;
 
     public PropertiesRecyclerAdapter(Context mContext, List<BallabaPropertyResult> properties) {
         this.mContext = mContext;
@@ -68,7 +75,10 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         mInflater = LayoutInflater.from(mContext);
         binder = DataBindingUtil.inflate(mInflater, R.layout.property_item
                 , parent, false);
-        binder.setPresenter(new PropertyItemPresenter(mContext));
+        binder.setPresenter(new PropertyItemPresenter(mContext, binder));
+
+        listener = PropertyItemPresenter.getInstance(mContext, binder);
+        res = mContext.getResources();
 
         propertiesManager = BallabaSearchPropertiesManager.getInstance(mContext);
         ////mInflater = LayoutInflater.from(mContext);
@@ -85,10 +95,19 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
 
         RequestOptions options = new RequestOptions();
         options.centerCrop();
-        Glide.with(mContext)//TODO next line is only for testing!!!
-                .load(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.dummy_property))//property.photos.get(0))
+        if (property.photos.size() > 0)
+            Glide.with(mContext)
+                .load(property.photos.get(0))
                 .apply(options)
                 .into(binder.propertyItemImageView);
+
+        Drawable d = property.isSaved? res.getDrawable(R.drawable.heart_blue_24, mContext.getTheme())
+                :res.getDrawable(R.drawable.heart_white_24, mContext.getTheme());
+        binder.propertyItemIsSavedPropertyImageView.setImageDrawable(d);
+
+        @Visibility.Mode int visibility = property.isGuaranteed? View.VISIBLE : View.GONE;
+        binder.propertyItemGuaranteeImageView.setVisibility(visibility);
+
         binder.propertyItemAddressTextView.setText(property.formattedAddress);
         binder.propertyItemPriceTextView.setText(StringUtils.getInstance(true, null)
                 .formattedNumberWithComma(property.price));
@@ -112,17 +131,22 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     @Override
     public int getItemCount() {return properties == null? 0 : properties.size();}
 
-    public void updateList(List<BallabaPropertyResult> newList) {
+    public void updateList(ArrayList<BallabaPropertyResult> newList) {
         properties = newList;
+        BallabaSearchPropertiesManager.getInstance(mContext).appendProperties(newList, false);
         notifyDataSetChanged();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         //private TextView textViewPrice, textViewAddress;
         //private ImageView propertyImageView;
 
         ViewHolder(View itemView) {
             super(itemView);
+
+            itemView.setOnClickListener(this);
+            binder.propertyItemIsSavedPropertyImageView.setOnClickListener(this);
+            binder.propertyItemGuaranteeImageView.setOnClickListener(this);
 
             if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
                 setFontForDevicesUnderApi26();
@@ -132,6 +156,14 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
             //propertyImageView = itemView.findViewById(R.id.propertyItem_imageView);
             //textViewAddress = itemView.findViewById(R.id.propertyItem_address_textView);
             //textViewPrice = itemView.findViewById(R.id.propertyItem_price_textView);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Log.d(TAG, getLayoutPosition()+":"+properties.get(getLayoutPosition()).isSaved+"");
+            listener.BallabaPropertyOnClick(v, getLayoutPosition());
+
+
         }
     }
 

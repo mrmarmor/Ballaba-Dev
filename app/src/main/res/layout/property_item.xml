@@ -8,6 +8,7 @@
     </data>
 
 <android.support.constraint.ConstraintLayout
+    android:id="@+id/propertyItem_rootLayout"
     style="@style/allWrapContent"
     android:layoutDirection="rtl"
     android:layout_marginBottom="@dimen/small_margin"
@@ -47,7 +48,7 @@
         android:src="@drawable/shield_white_24"
         />
     <ImageView
-        android:id="@+id/propertyItem_saveProperty_ImageView"
+        android:id="@+id/propertyItem_isSavedProperty_ImageView"
         android:layout_width="@dimen/propertyItem_topStrip_imageView_dimens"
         android:layout_height="@dimen/propertyItem_topStrip_imageView_dimens"
         app:layout_constraintTop_toTopOf="parent"
@@ -55,7 +56,6 @@
         android:layout_marginTop="@dimen/propertyItem_topStrip_imageView_verticalOffset"
         android:layout_marginEnd="@dimen/propertyItem_topStrip_imageView_verticalOffset"
         android:background="@android:color/transparent"
-        android:src="@drawable/heart_white_24"
         />
 
     <android.support.constraint.ConstraintLayout

@@ -39,6 +39,7 @@ import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
+import com.example.michaelkibenko.ballaba.Presenters.PropertyItemPresenter;
 import com.example.michaelkibenko.ballaba.Presenters.SearchPropertiesPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
@@ -65,14 +66,14 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     private View view;
     private BallabaResponseListener listener;
     private boolean isGPSPermissionGranted;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    //private SwipeRefreshLayout swipeRefreshLayout;
     private PropertiesRecyclerAdapter rvAdapter;
-    private RecyclerView rvProperties;
+    //private RecyclerView rvProperties;
     private ArrayList<BallabaPropertyResult> properties;
 
-    private SearchPropertiesPresenter presenter;
+    //private PropertyItemPresenter presenter;
     private static FragmentPropertiesRecyclerBinding binder;
-    private LayoutInflater inflater;
+    //private LayoutInflater inflater;
 
     private OnFragmentInteractionListener mListener;
 
@@ -102,16 +103,16 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_properties_recycler, container, false);
-        this.inflater = inflater;
-        //binder = DataBindingUtil.inflate(
-                //inflater, R.layout.fragment_properties_recycler, null, false);
-        //presenter = new SearchPropertiesPresenter(getActivity(), /*binder,*/ mParam);
+        //view = inflater.inflate(R.layout.fragment_properties_recycler, container, false);
+        //this.inflater = inflater;
+        binder = DataBindingUtil.inflate(
+                inflater, R.layout.fragment_properties_recycler, null, false);
+        //presenter = new PropertyItemPresenter(getActivity(), binder);
 
         initRecycler(view);
         getProperties();
 
-        return view;//binder.getRoot();
+        return binder.getRoot();
     }
 
     private void initRecycler(View view) {
@@ -123,15 +124,15 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
         //TODO that is why binder.getRoot() returns null. use findViewById instead!!!
         //rvProperties = (RecyclerView)binder.getRoot().findViewById(R.id.properties_recycler_RV);
 
-        rvProperties = (RecyclerView)view.findViewById(R.id.properties_recycler_RV);
+        //rvProperties = (RecyclerView)view.findViewById(R.id.properties_recycler_RV);
         //GridLayoutManager manager = new GridLayoutManager(getContext(), 2);//TODO to display 2 properties in a row
         LinearLayoutManager manager = new LinearLayoutManager(getContext());
         rvAdapter = new PropertiesRecyclerAdapter(getContext(), properties);
-        rvProperties.setLayoutManager(manager);
-        rvProperties.setAdapter(rvAdapter);
+        binder.propertiesRecyclerRV.setLayoutManager(manager);
+        binder.propertiesRecyclerRV.setAdapter(rvAdapter);
 
-        swipeRefreshLayout = view.findViewById(R.id.properties_recycler_swipeToRefresh);
-        swipeRefreshLayout.setOnRefreshListener(this);
+        //swipeRefreshLayout = view.findViewById(R.id.properties_recycler_swipeToRefresh);
+        binder.propertiesRecyclerSwipeToRefresh.setOnRefreshListener(this);
     }
 
     private void getProperties(){
@@ -147,7 +148,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
 
                 //TODO notifyDataSetChanged doesn't refresh properties. that is why i set adapter again
                 rvAdapter = new PropertiesRecyclerAdapter(getContext(), properties);
-                rvProperties.setAdapter(rvAdapter);
+                binder.propertiesRecyclerRV.setAdapter(rvAdapter);
                 //rvAdapter.notifyDataSetChanged();
 
             }
@@ -230,8 +231,8 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
         });
 
         rvAdapter = new PropertiesRecyclerAdapter(getContext(), properties);
-        rvProperties.setAdapter(rvAdapter);
-        //rvAdapter.updateList(properties);
+        binder.propertiesRecyclerRV.setAdapter(rvAdapter);
+        rvAdapter.updateList(properties);
     }
 
     //hide swipeToRefresh progressIcon after 1 second
@@ -240,8 +241,8 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (swipeRefreshLayout.isRefreshing())
-                    swipeRefreshLayout.setRefreshing(false);
+                if (binder.propertiesRecyclerSwipeToRefresh.isRefreshing())
+                    binder.propertiesRecyclerSwipeToRefresh.setRefreshing(false);
             }
         }, SWIPE_TO_REFRESH_DISPLAY_DURATION);
     }
@@ -260,7 +261,6 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
         });
     }*/
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
