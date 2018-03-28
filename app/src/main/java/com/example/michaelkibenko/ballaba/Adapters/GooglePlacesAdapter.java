@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.annotation.StringDef;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Filter;
@@ -32,125 +34,112 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 
+import static com.example.michaelkibenko.ballaba.Adapters.GooglePlacesAdapter.GooglePlacesFilter.CITIES;
+import static com.example.michaelkibenko.ballaba.Adapters.GooglePlacesAdapter.GooglePlacesFilter.REGION;
+
 /**
  * Created by User on 14/03/2018.
  */
 
 public class GooglePlacesAdapter extends ArrayAdapter<String> implements Filterable {
-        private final String PLACES_API_BASE = EndpointsHolder.GOOGLE_PLACES_API
-                , TYPE_AUTOCOMPLETE = "/autocomplete", OUT_JSON = "/json";
-        private final String TAG = GooglePlacesAdapter.class.getSimpleName();
+    @StringDef({CITIES, REGION})
+    public @interface GooglePlacesFilter {
+        String CITIES = "&types=(cities)";
+        String REGION = "&components=locality:";
+    }
 
-        private String apiKey ="";
-        private ArrayList<String> resultList;
-        private Context context = null;
+    //TODO if i want a deep search within a specific city:
+    //https://maps.googleapis.com/maps/api/place/autocomplete/json?key=AIzaSyBF0dZnsnmBZ0Yuvyns6CX0bZwIK3jSGYA&components=country:IL&input=haifa+stadium
+    private final String PLACES_API_BASE = EndpointsHolder.GOOGLE_PLACES_API
+            , TYPE_AUTOCOMPLETE = "/autocomplete", OUT_JSON = "/json";
+    private final String TAG = GooglePlacesAdapter.class.getSimpleName();
 
-        public GooglePlacesAdapter(Context context, int textViewResourceId) {
-            super(context, textViewResourceId);
-            this.context = context;
+    private String apiKey ="";
+    private ArrayList<String> resultList;
+    private Context context = null;
+    private @GooglePlacesFilter String gpFilter;
 
-            apiKey = GeneralUtils.getMatadataFromManifest(context, "com.google.android.geo.API_KEY");
+    public GooglePlacesAdapter(Context context, int textViewResourceId, @Nullable @GooglePlacesFilter String filter) {
+        super(context, textViewResourceId);
+        this.context = context;
+        this.gpFilter = filter;
+
+        apiKey = GeneralUtils.getMatadataFromManifest(context, "com.google.android.geo.API_KEY");
+    }
+
+    @Override
+    public int getCount() {
+        if(resultList != null)
+            return resultList.size();
+        else
+            return 0;
+    }
+
+    @Override
+    public String getItem(int index) {
+        if (resultList.size() > index)
+            return resultList.get(index);
+        else
+            return null;
+    }
+
+    private ArrayList<String> autoComplete(final String INPUT, final @Nullable @GooglePlacesFilter String FILTER) {
+        //ArrayList<String> resultList = null;
+        ArrayList<String> descriptionList = null;
+
+        StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
+        sb.append("?key=" + apiKey);
+        sb.append(FILTER);
+        sb.append("&components=country:IL");//TODO set locale for another countries
+        try {
+            sb.append("&input=" + URLEncoder.encode(INPUT, "utf8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
         }
 
-        @Override
-        public int getCount() {
-            if(resultList != null)
-                return resultList.size();
-            else
-                return 0;
+        StringBuilder jsonResults = ConnectionsManager.getInstance(context).apiRequest(sb);
+
+        try {
+            JSONObject jsonObj = new JSONObject(jsonResults.toString());
+            JSONArray jsonArray = jsonObj.getJSONArray("predictions");
+
+            resultList = new ArrayList(jsonArray.length());
+            descriptionList = new ArrayList(jsonArray.length());
+            for (int i = 0; i < jsonArray.length(); i++) {
+                resultList.add(jsonArray.getJSONObject(i).toString());
+                descriptionList.add(jsonArray.getJSONObject(i).getString("description"));
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Cannot process JSON results", e);
         }
 
-        @Override
-        public String getItem(int index) {
-            if (resultList.size() > index)
-                return resultList.get(index);
-            else
-                return null;
-        }
+        return descriptionList;
+    }
 
-        private ArrayList<String> autoComplete(String input) {
-            //ArrayList<String> resultList = null;
-            ArrayList<String> descriptionList = null;
-
-            StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
-            sb.append("?key=" + apiKey);
-            sb.append("&components=country:IL");//TODO set locale for another countries
-            try {
-                sb.append("&input=" + URLEncoder.encode(input, "utf8"));
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+    @Override
+    public Filter getFilter() {
+        Log.d(TAG, apiKey);
+        final Filter filter = new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults filterResults = new FilterResults();
+                if (constraint != null) {
+                    resultList = autoComplete(constraint.toString(), gpFilter);
+                    filterResults.values = resultList;
+                    filterResults.count = resultList.size();
+                }
+                return filterResults;
             }
 
-            StringBuilder jsonResults = ConnectionsManager.getInstance(context).apiRequest(sb);
-            /*HttpURLConnection conn = null;
-            StringBuilder jsonResults = new StringBuilder();
-            //Log.d(TAG, apiKey);//AIzaSyBJ-y7b2ymSPDjM9vTKwHI8hFq072eehPk
-
-            try {
-                StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
-                sb.append("?key=" + apiKey);
-                sb.append("&components=country:IL");//TODO set locale for another countries
-                sb.append("&input=" + URLEncoder.encode(input, "utf8"));
-
-                URL url = new URL(sb.toString());
-                conn = (HttpURLConnection)url.openConnection();
-                InputStreamReader in = new InputStreamReader(conn.getInputStream());
-
-                int read;
-                char[] buff = new char[1024];
-                while ((read = in.read(buff)) != -1) {
-                    jsonResults.append(buff, 0, read);
-                }
-            } catch (IOException e) {
-                Log.e(TAG, "Error connecting to Places API", e);
-                return null;
-            } finally {
-                if (conn != null) {
-                    conn.disconnect();
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                if (results != null && results.count > 0) {
+                    notifyDataSetChanged();
+                } else {
+                    notifyDataSetInvalidated();
                 }
             }
-*/
-            try {
-                JSONObject jsonObj = new JSONObject(jsonResults.toString());
-                JSONArray jsonArray = jsonObj.getJSONArray("predictions");
-
-                resultList = new ArrayList(jsonArray.length());
-                descriptionList = new ArrayList(jsonArray.length());
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    resultList.add(jsonArray.getJSONObject(i).toString());
-                    descriptionList.add(jsonArray.getJSONObject(i).getString("description"));
-                }
-            } catch (JSONException e) {
-                Log.e(TAG, "Cannot process JSON results", e);
-            }
-
-            return descriptionList;
-        }
-
-        @Override
-        public Filter getFilter() {
-            Log.d(TAG, apiKey);
-            Filter filter = new Filter() {
-                @Override
-                protected FilterResults performFiltering(CharSequence constraint) {
-                    FilterResults filterResults = new FilterResults();
-                    if (constraint != null) {
-                        resultList = autoComplete(constraint.toString());
-                        filterResults.values = resultList;
-                        filterResults.count = resultList.size();
-                    }
-                    return filterResults;
-                }
-
-                @Override
-                protected void publishResults(CharSequence constraint, FilterResults results) {
-                    if (results != null && results.count > 0) {
-                        notifyDataSetChanged();
-                    } else {
-                        notifyDataSetInvalidated();
-                    }
-                }
-            };
-            return filter;
-        }
+        };
+        return filter;
+    }
 }

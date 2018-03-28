@@ -2,6 +2,7 @@ package com.example.michaelkibenko.ballaba.Presenters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
@@ -20,7 +21,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Activities.MainActivity;
+import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
 import com.example.michaelkibenko.ballaba.Adapters.GooglePlacesAdapter;
+import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
 import com.example.michaelkibenko.ballaba.Common.BallabaSelectedCityListener;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
@@ -36,12 +40,15 @@ import com.nex3z.flowlayout.FlowLayout;
 import java.util.ArrayList;
 import java.util.zip.Inflater;
 
+import static com.example.michaelkibenko.ballaba.Adapters.GooglePlacesAdapter.GooglePlacesFilter.CITIES;
+
 /**
  * Created by User on 20/03/2018.
  */
 
 public class SelectCityPresenter extends BasePresenter implements
-        BallabaLocationManager.OnGoogleMapListener{
+        BallabaLocationManager.OnGoogleMapListener, ListView.OnItemClickListener,
+        EditText.OnFocusChangeListener{
     public final static String TAG = SelectCityPresenter.class.getSimpleName(),
                 SELECTED_CITIES_KEY = "selected_city";
 
@@ -65,49 +72,31 @@ public class SelectCityPresenter extends BasePresenter implements
         initListView(binder.selectCityListView, binder.selectCityEditText);//TODO with listView
     }
 
-    //private void initAutoCompleteTextView(AutoCompleteTextView view){//TODO with autoCompleteTextView
-    private void initListView(final ListView view, final EditText editText){//TODO with listView
+    //private void initAutoCompleteTextView(AutoCompleteTextView autoComplete){//TODO with autoCompleteTextView
+    private void initListView(final ListView listView, final EditText editText){//TODO with listView
 
         //TODO if you want actvSearchPlace display device current address:
             //setListAdapterToDeviceAddress(listView);
 
         final GooglePlacesAdapter dataAdapter = new GooglePlacesAdapter(
-                activity, android.R.layout.simple_list_item_1);
-        view.setAdapter(dataAdapter);
+                activity, android.R.layout.simple_list_item_1,
+                //GooglePlacesAdapter.GooglePlacesFilter.REGION+"haifa");
+                GooglePlacesAdapter.GooglePlacesFilter.CITIES);
+        listView.setAdapter(dataAdapter);
+        TextView textView = new TextView(activity);
+        textView.setText(activity.getString(R.string.selectCity_autoCompleteTextView_hint_defaultItem));
+        listView.setEmptyView(textView);
+        listView.setOnItemClickListener(this);
 
         editText.addTextChangedListener(new TextWatcher() {//TODO with listView
         //view.addTextChangedListener(new TextWatcher() {//TODO with autoCompleteTextView
-            public void afterTextChanged(Editable s) {view.setAdapter(dataAdapter); }
+            public void afterTextChanged(Editable s) {listView.setAdapter(dataAdapter); }
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 dataAdapter.getFilter().filter(s.toString());
             }
         });
-
-        view.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedCity = ((TextView)view).getText().toString();
-                //actvSelectCity.setText(selectedCity);
-                editText.setText("");//TODO with listView
-                //((TextView) view).setText("");//TODO with autoCompleteTextView
-                cities.add(selectedCity);
-                addCityToFlowLayout(selectedCity);
-
-                //BallabaMapFragment.newInstance().onItemSelected(googleMap, selectedPlace);
-
-            }
-        });
-
-        //when editText lose his focus he loses his GooglePlaces adapter. so i need to give him it back
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus){
-                    initListView(binder.selectCityListView, editText);
-                }
-            }
-        });
+        editText.setOnFocusChangeListener(this);
 
         UiUtils.instance(true, activity).showSoftKeyboard();
 
@@ -133,6 +122,11 @@ public class SelectCityPresenter extends BasePresenter implements
         Toast.makeText(activity, "chips left: " + cities.size(), Toast.LENGTH_SHORT).show();
     }
 
+    public void onBackPressed() {
+        activity.setResult(Activity.RESULT_CANCELED);
+        activity.finish();
+    }
+
     public void onOKButtonClick(){
         for (String city : cities)
             Log.d(TAG, city+"\n");
@@ -145,6 +139,30 @@ public class SelectCityPresenter extends BasePresenter implements
     @Override
     public void OnGoogleMap(GoogleMap googleMap) {
         this.googleMap = googleMap;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        String selectedCity = ((TextView)view).getText().toString();
+        //actvSelectCity.setText(selectedCity);
+        if (cities.contains(selectedCity)){
+            Toast.makeText(activity, "TESTING: You have already typed " + selectedCity, Toast.LENGTH_LONG).show();
+        } else {
+            binder.selectCityEditText.setText("");//TODO with listView
+            //((TextView) view).setText("");//TODO with autoCompleteTextView
+            cities.add(selectedCity);
+            addCityToFlowLayout(selectedCity);
+        }
+
+        //BallabaMapFragment.newInstance().onItemSelected(googleMap, selectedPlace);
+    }
+
+    //when editText lose his focus he loses his GooglePlaces adapter. so i need to give him it back
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (hasFocus){
+            initListView(binder.selectCityListView, binder.selectCityEditText);
+        }
     }
 
   /*  @Override
