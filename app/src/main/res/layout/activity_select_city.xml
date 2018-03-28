@@ -55,6 +55,7 @@
             app:layout_constraintTop_toBottomOf="@+id/selectCity_return_button"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="@dimen/small_margin"
+            android:gravity="right"
             app:flChildSpacing="@dimen/chip_childSpacing"
             app:flChildSpacingForLastRow="align"
             app:flRowSpacing="@dimen/chip_rowSpacing" />

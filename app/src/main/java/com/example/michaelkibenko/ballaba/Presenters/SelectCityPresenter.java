@@ -112,7 +112,7 @@ public class SelectCityPresenter extends BasePresenter implements
                 removeCityFromFlowLayout(view, textViewCity);
             }
         });
-        binder.selectCityFlowLayout.addView(view);
+        binder.selectCityFlowLayout.addView(view, cities.size() - 1);
     }
 
     private void removeCityFromFlowLayout(@NonNull View view, @NonNull TextView textViewCity) {

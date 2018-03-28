@@ -69,7 +69,6 @@ public class PropertyItemPresenter extends BasePresenter implements BallabaPrope
     private void changeIsSavedIconState(final ImageView view, final BallabaPropertyResult property){
         property.isSaved = !property.isSaved;
         @DrawableRes int d = property.isSaved? R.drawable.heart_blue_24 : R.drawable.heart_white_24;
-        //Glide.with(context).load(d).into(binder.propertyItemIsSavedPropertyImageView);
         view.setImageResource(d);
     }
 
