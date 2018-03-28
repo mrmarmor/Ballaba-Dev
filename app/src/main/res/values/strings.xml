@@ -36,6 +36,13 @@
 
     <string name="propertyItem_numberOfRooms">חדרים</string>
     <string name="propertyItem_propertySize">מ\"ר</string>
+    <string name="propertyItem_rootLayout_tag">rootLayout</string>
+    <string name="propertyItem_isSavedButton_tag">isSavedButton</string>
+    <string name="propertyItem_guaranteeButton_tag">guaranteeButton</string>
+
+    <string name="selectCity_title">מיקום</string>
+    <string name="selectCity_autoCompleteTextView_hint">איפה?</string>
+    <string name="selectCity_autoCompleteTextView_hint_defaultItem">באזור שלי</string>
 
     <string name="terms_of_use_label">תקנון</string>
     <string name="terms_of_use_text">לורם איפסום דולור סיט אמט, קונסקטורר אדיפיסינג
@@ -102,7 +109,7 @@
     <string name="menuItem_chat">צ\'אט</string>
     <string name="menuItem_conflicts">מחלוקות</string>
     <string name="menuItem_editProfile">עריכת פרופיל</string>
-    <string name="menuItem_settimgs">הגדרות</string>
+    <string name="menuItem_settings">הגדרות</string>
     <!-- END OF MENU SECTION -->
 
     <!-- ERROR SECTION -->

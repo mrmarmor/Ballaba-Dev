@@ -39,7 +39,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-places:11.8.0'
     compile 'com.android.volley:volley:1.1.0'
     compile 'com.google.code.gson:gson:2.8.0'
-    compile 'com.hyman:flowlayout-lib:1.1.2'
+    compile 'com.nex3z:flow-layout:1.2.2'
     compile group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '8.8.11'
     compile('com.alibaba.android:vlayout:1.2.8@aar') {
         transitive = true

@@ -100,11 +100,17 @@ public class MainActivity extends BaseActivity implements
         //TODO add result to board
         if (requestCode == MainPresenter.REQ_CODE_SELECT_CITY) {
             if (resultCode == RESULT_OK && data != null) {
-                String city = data.getStringExtra(SelectCityPresenter.SELECTED_CITY_KEY);
-                LatLng cityLatLng = BallabaLocationManager.getInstance(this).locationGeoCoder(city);
-                String cityLatLngStr = cityLatLng.latitude + "," + cityLatLng.longitude;
+                ArrayList<String> cities = data.getStringArrayListExtra(SelectCityPresenter.SELECTED_CITIES_KEY);
 
-                presenter.SearchBarStateUIChanger(city, MainPresenter.SearchState.FILTERED);
+                for (String city : cities) {
+                    LatLng cityLatLng = BallabaLocationManager.getInstance(this).locationGeoCoder(city);
+                    if (cityLatLng != null) {
+                        String cityLatLngStr = cityLatLng.latitude + "," + cityLatLng.longitude;
+                        Log.d(TAG, cityLatLngStr + "\n");
+                    }
+                }
+
+                presenter.SearchBarStateUIChanger(cities.get(0), MainPresenter.SearchState.FILTERED);
 
                 /*BallabaSearchPropertiesManager.getInstance(this).getPropertiesByLatLng(cityLatLngStr
                         , new BallabaResponseListener() {

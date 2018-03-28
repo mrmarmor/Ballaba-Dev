@@ -104,17 +104,22 @@ public class MainPresenter extends BasePresenter {
     }
 
     public void onClickToGoogleMap(){
+        final int TO_GOOGLE_MAP = 0, BACK_TO_MAIN_SCREEN = 1;
         switch (binder.mainActivityViewPager.getCurrentItem()){
-            case 0:
+            case TO_GOOGLE_MAP:
                 binder.mainActivityViewPager.setCurrentItem(1, false);
                 binder.mainActivityToGoogleMapImageButton.setImageDrawable(
                         context.getResources().getDrawable(R.drawable.enabled, context.getTheme()));
+                binder.mainActivitySearchBar.setVisibility(View.GONE);
+                binder.mainActivitySortButtonsLinearLayout.setVisibility(View.GONE);
                 break;
 
-            case 1:
+            case BACK_TO_MAIN_SCREEN:
                 binder.mainActivityViewPager.setCurrentItem(0, false);
                 binder.mainActivityToGoogleMapImageButton.setImageDrawable(
                         context.getResources().getDrawable(R.drawable.disabled, context.getTheme()));
+                binder.mainActivitySearchBar.setVisibility(View.VISIBLE);
+                binder.mainActivitySortButtonsLinearLayout.setVisibility(View.VISIBLE);
         }
 
     }
@@ -130,8 +135,6 @@ public class MainPresenter extends BasePresenter {
 
     public void onClickSortByRelevant(){
         Toast.makeText(context, "relevant clicked", Toast.LENGTH_SHORT).show();
-        //RecyclerView rv = PropertiesRecyclerFragment.newInstance(null).g();
-        //new PropertiesRecyclerFragment().sortProperties(RELEVANT);
         propertiesFragment.sortProperties(RELEVANT);
     }
     public void onClickSortByPrice(){

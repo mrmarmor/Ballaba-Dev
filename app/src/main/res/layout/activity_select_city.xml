@@ -10,32 +10,86 @@
     <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layoutDirection="rtl"
         tools:context="com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity">
+
+        <Button
+            android:id="@+id/selectCity_return_button"
+            android:layout_width="@dimen/icon_regular"
+            android:layout_height="@dimen/icon_regular"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="@drawable/right_back_black_24"
+            android:onClick="@{() -> presenter.onBackPressed()}"
+            />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="@dimen/icon_regular"
+            app:layout_constraintTop_toTopOf="@+id/selectCity_return_button"
+            app:layout_constraintBottom_toBottomOf="@+id/selectCity_return_button"
+            app:layout_constraintEnd_toStartOf="@id/selectCity_OK_button"
+            app:layout_constraintStart_toEndOf="@id/selectCity_return_button"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:text="@string/selectCity_title"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/textSize_title"
+            android:includeFontPadding="false"
+            />
+        <Button
+            android:id="@+id/selectCity_OK_button"
+            android:layout_width="@dimen/icon_regular"
+            android:layout_height="@dimen/icon_regular"
+            app:layout_constraintTop_toTopOf="@+id/selectCity_return_button"
+            app:layout_constraintBottom_toBottomOf="@+id/selectCity_return_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="@drawable/check_blue_24"
+            android:onClick="@{() -> presenter.onOKButtonClick()}"
+            />
+
+        <com.nex3z.flowlayout.FlowLayout
+            android:id="@+id/selectCity_flowLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/selectCity_return_button"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="@dimen/small_margin"
+            android:gravity="right"
+            app:flChildSpacing="@dimen/chip_childSpacing"
+            app:flChildSpacingForLastRow="align"
+            app:flRowSpacing="@dimen/chip_rowSpacing" />
+
+        <!-- tzlil should decide between autoCompleteTextView and editText+listView -->
+        <EditText
+            android:id="@+id/selectCity_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/selectCity_flowLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            android:inputType="textAutoComplete"
+            android:hint="@string/selectCity_autoCompleteTextView_hint"
+            android:singleLine="true"
+            android:layout_margin="@dimen/small_margin"/>
+        <ListView
+            android:id="@+id/selectCity_listView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/selectCity_editText"
+            android:layout_margin="@dimen/small_margin"
+            />
 
         <AutoCompleteTextView
             android:id="@+id/selectCity_autoCompleteTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/selectCity_flowLayout"
+            app:layout_constraintStart_toStartOf="parent"
             android:inputType="textAutoComplete"
-            android:singleLine="true"
+            android:hint="@string/selectCity_autoCompleteTextView_hint"
+            android:singleLine="true" android:visibility="gone"
             android:layout_margin="@dimen/small_margin"
             />
-
-        <Button
-            android:id="@+id/selectCity_OK_button"
-            android:layout_width="@dimen/icon_regular"
-            android:layout_height="@dimen/icon_regular"
-            />
-
-        <com.zhy.view.flowlayout.TagFlowLayout
-            android:id="@+id/id_flowlayout"
-            app:layout_constraintTop_toBottomOf="@+id/selectCity_autoCompleteTextView"
-            app:layout_constraintStart_toStartOf="parent"
-            app:max_select="-1"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:padding="20dp">
-        </com.zhy.view.flowlayout.TagFlowLayout>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

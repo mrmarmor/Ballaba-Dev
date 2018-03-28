@@ -220,10 +220,6 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         }
     }
 
-    public GoogleMap getGoogleMapObject(){
-        return this.googleMap;
-    }
-
     //location
     @Override
     public void onLocationChanged(Location location) {

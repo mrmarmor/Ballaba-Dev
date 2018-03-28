@@ -6,6 +6,7 @@
     <dimen name="tiny_margin">4dp</dimen>
     <dimen name="textSize_small">14sp</dimen>
     <dimen name="textSize_regular">16sp</dimen>
+    <dimen name="textSize_title">20sp</dimen>
     <dimen name="icon_regular">24dp</dimen>
     <!-- End of Default app dimensions. -->
 
@@ -128,5 +129,11 @@
 
 
 
+    <dimen name="chip_width">95dp</dimen>
+    <dimen name="chip_height">30dp</dimen>
+    <dimen name="chip_corners_radius">15dp</dimen>
+    <dimen name="chip_padding">6dp</dimen>
+    <dimen name="chip_childSpacing">10dp</dimen>
+    <dimen name="chip_rowSpacing">8dp</dimen>
 
 </resources>

@@ -27,6 +27,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPhoneNumber;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
+import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
@@ -59,6 +60,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
         int INTERNAL_ERROR = 500;
     }
 
+    private static EnterCodePresenter instance;
     private Context context;
     private EnterCodeLayoutBinding binder;
     public BallabaPhoneNumber phoneNumber;//must be public so layout binding can see it
@@ -95,8 +97,12 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
     }
 
     public EnterCodePresenter getInstance() {
-        return new EnterCodePresenter(context, binder, phoneNumber.getCountryCode(), phoneNumber.getPhoneNumber());
+        if(instance == null){
+            instance = new EnterCodePresenter(context, binder, phoneNumber.getCountryCode(), phoneNumber.getPhoneNumber());
+        }
+        return instance;
     }
+
 
     private void initEditTexts(EditText[] editTexts) {
         for (EditText et : editTexts) {
