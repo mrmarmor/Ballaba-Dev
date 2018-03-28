@@ -20,9 +20,12 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Adapters.MapPropertiesRecyclerAdapter;
+import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
+import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
+import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -115,6 +118,14 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         propetiesReciclerAdapter = new MapPropertiesRecyclerAdapter(context);
         propertiesRV.setLayoutManager(new LinearLayoutManager(context));
         propertiesRV.setAdapter(propetiesReciclerAdapter);
+
+        v.findViewById(R.id.map_fragment_getPropertiesBTN).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getPropertiesByViewPort();
+            }
+        });
+
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
 
@@ -272,7 +283,6 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
 
     @Override
     public void onCameraIdle() {
-        bounds = googleMap.getProjection().getVisibleRegion().latLngBounds;
         changeMapSaveState(MAP_SAVE_CONTAINER_STATES.ON);
         //TODO here will be the get properties request
     }
@@ -380,5 +390,22 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
             propetiesReciclerAdapter.notifyDataSetChanged();
             isShowProperty = false;
         }
+    }
+
+    private void getPropertiesByViewPort(){
+        bounds = googleMap.getProjection().getVisibleRegion().latLngBounds;
+        BallabaSearchPropertiesManager.getInstance(context).getPropertiesByViewPort(bounds, new BallabaResponseListener() {
+            @Override
+            public void resolve(BallabaBaseEntity entity) {
+                initInsideResultsHash(BallabaSearchPropertiesManager.getInstance(context).getResults());
+                updatePropertiesMarkers(insideResHash);
+            }
+
+            @Override
+            public void reject(BallabaBaseEntity entity) {
+                //TODO delete it
+                Toast.makeText(context, "Some error occurred", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

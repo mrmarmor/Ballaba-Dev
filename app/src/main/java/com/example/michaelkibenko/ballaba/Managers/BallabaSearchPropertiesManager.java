@@ -10,6 +10,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -121,6 +122,26 @@ public class BallabaSearchPropertiesManager {
             }
         }, offset);
     }
+
+    public void getPropertiesByViewPort(LatLngBounds bounds, final BallabaResponseListener callback){
+        ConnectionsManager.getInstance(context).getPropertyByViewPort(bounds, new BallabaResponseListener() {
+            @Override
+            public void resolve(BallabaBaseEntity entity) {
+                if(entity instanceof BallabaOkResponse){
+                    ArrayList<BallabaPropertyResult> results = parsePropertyResults(((BallabaOkResponse) entity).body);
+                    BallabaSearchPropertiesManager.this.results = results;
+                    callback.resolve(entity);
+                }
+                reject(new BallabaErrorResponse(500, null));
+            }
+
+            @Override
+            public void reject(BallabaBaseEntity entity) {
+                reject(entity);
+            }
+        });
+    }
+
     private String lazyLoadingStatesChanger(final @LAZY_LOADING_OFFSET_STATES int state
             , final LatLng latLng, final int offset){
         if (state == FIRST_20){
@@ -145,6 +166,8 @@ public class BallabaSearchPropertiesManager {
 
         return null;
     }
+
+
 
     public ArrayList<BallabaPropertyResult> parsePropertyResults(String result){
         try{

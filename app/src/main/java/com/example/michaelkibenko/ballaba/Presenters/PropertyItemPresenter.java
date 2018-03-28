@@ -63,7 +63,6 @@ public class PropertyItemPresenter extends BasePresenter implements BallabaPrope
         } else if (view.getId() == SAVED_PROPERTY){
             changeIsSavedIconState((ImageView)view, property);
         }
-
     }
 
     private void changeIsSavedIconState(final ImageView view, final BallabaPropertyResult property){
