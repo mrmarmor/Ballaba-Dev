@@ -165,7 +165,7 @@ public class BallabaSearchPropertiesManager {
                 if (photosJsonArray != null) {
                     int len = photosJsonArray.length();
                     for (int g=0;g<len;g++){
-                        photos.add(photosJsonArray.get(g).toString());
+                        photos.add(photosJsonArray.getJSONObject(g).getString("photo_url"));
                     }
                 }
                 boolean isSaved = res.getBoolean("is_saved");

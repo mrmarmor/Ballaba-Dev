@@ -10,6 +10,7 @@ import android.support.annotation.IntDef;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
@@ -18,7 +19,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.michaelkibenko.ballaba.Adapters.MapPropetiesReciclerAdapter;
+import com.example.michaelkibenko.ballaba.Adapters.MapPropertiesRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
@@ -40,6 +41,9 @@ import java.util.Set;
 
 import static com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment.MAP_SAVE_CONTAINER_STATES.OFF;
 import static com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment.MAP_SAVE_CONTAINER_STATES.ON;
+import static com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment.PROPERTY_RECYCLER_VIEW_STATES.HIDE;
+import static com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment.PROPERTY_RECYCLER_VIEW_STATES.MORE_ITEMS;
+import static com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment.PROPERTY_RECYCLER_VIEW_STATES.ONE_ITEM;
 
 /**
  * Created by michaelkibenko on 08/03/2018.
@@ -47,7 +51,7 @@ import static com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment.MA
 
 public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, LocationListener , GoogleMap.OnCameraMoveStartedListener,
         GoogleMap.OnCameraMoveListener,
-        GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraIdleListener ,GoogleMap.OnMarkerClickListener{
+        GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraIdleListener ,GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener{
 
     @IntDef({ON, OFF})
     @interface MAP_SAVE_CONTAINER_STATES {
@@ -55,6 +59,12 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         int OFF = 2;
     }
 
+    @IntDef({ONE_ITEM, MORE_ITEMS, HIDE})
+    @interface PROPERTY_RECYCLER_VIEW_STATES {
+        int ONE_ITEM = 3;
+        int MORE_ITEMS = 4;
+        int HIDE = 5;
+    }
 
     private static final String TAG = BallabaMapFragment.class.getSimpleName();
 
@@ -68,14 +78,17 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     private ConstraintLayout saveContainer;
     private Button saveSearchButton;
     private View saveSearchContainerAnchor;
-    private ConstraintLayout rootView, transition, notChangeableRootView;
+    private ConstraintLayout rootView, searchBarTransition, notChangeableRootView, propertiesRecyclerViewTransition;
     private float markerSize;
     private Bitmap guaranteeMarkerIcon, exclusivityMarkerIcon;
     private HashMap<String,ArrayList<BallabaPropertyResult>> insideResHash;
     private RecyclerView propertiesRV;
-    private MapPropetiesReciclerAdapter propetiesReciclerAdapter;
+    private MapPropertiesRecyclerAdapter propetiesReciclerAdapter;
+    private boolean isShowProperty;
+    private float oneItemHeight, moreItemsHeight;
 
     private @MAP_SAVE_CONTAINER_STATES int saveContainerState = MAP_SAVE_CONTAINER_STATES.OFF;
+    private @PROPERTY_RECYCLER_VIEW_STATES int propertyRecyclerViewState = PROPERTY_RECYCLER_VIEW_STATES.ONE_ITEM;
 
     public BallabaMapFragment(){}
 
@@ -92,13 +105,15 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         View v = inflater.inflate(R.layout.fragment_map, container, false);
         rootView = (ConstraintLayout) v;
         notChangeableRootView = (ConstraintLayout) inflater.inflate(R.layout.fragment_map, container, false);
-        transition = (ConstraintLayout) inflater.inflate(R.layout.map_fragment_for_transitions, container, false);
+        searchBarTransition = (ConstraintLayout) inflater.inflate(R.layout.map_fragment_for_transitions, container, false);
+        propertiesRecyclerViewTransition = (ConstraintLayout) inflater.inflate(R.layout.map_fragment_items_recycler_view_transition, container, false);
         mMapView = (MapView)v.findViewById(R.id.mapView);
         saveContainer = (ConstraintLayout) v.findViewById(R.id.saveMapSearchContainer);
         saveSearchButton = (Button) v.findViewById(R.id.saveMapSearch_save_BTN);
         saveSearchContainerAnchor = (View) v.findViewById(R.id.saveMapSearchContainerBottom_anchor);
         propertiesRV = (RecyclerView) v.findViewById(R.id.mapFragment_properties_RV);
-        propetiesReciclerAdapter = new MapPropetiesReciclerAdapter(context);
+        propetiesReciclerAdapter = new MapPropertiesRecyclerAdapter(context);
+        propertiesRV.setLayoutManager(new LinearLayoutManager(context));
         propertiesRV.setAdapter(propetiesReciclerAdapter);
         mMapView.onCreate(savedInstanceState);
         mMapView.onResume();
@@ -112,6 +127,9 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         mMapView.getMapAsync(this);
 
         markerSize = getResources().getDimension(R.dimen.mapMarkerSize);
+
+        oneItemHeight = getResources().getDimension(R.dimen.map_fragment_properties_recycler_view_one_item_height);
+        moreItemsHeight = getResources().getDimension(R.dimen.map_fragment_properties_recycler_view_more_items_height);
 
         BitmapDrawable bitmapdrawGU=(BitmapDrawable)getResources().getDrawable(R.drawable.guarenty);
         Bitmap gu=bitmapdrawGU.getBitmap();
@@ -179,6 +197,7 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         this.googleMap.setOnCameraMoveCanceledListener(this);
         this.googleMap.setOnCameraIdleListener(this);
         this.googleMap.setOnMarkerClickListener(this);
+        this.googleMap.setOnMapClickListener(this);
 
         if (mListener != null) {
             mListener.OnGoogleMap(googleMap);
@@ -217,6 +236,13 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     }
 
     @Override
+    public void onMapClick(LatLng latLng) {
+        if(isShowProperty) {
+            hideSelectedAdress();
+        }
+    }
+
+    @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
 
     }
@@ -236,6 +262,7 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     @Override
     public void onCameraMoveStarted(int i) {
         changeMapSaveState(MAP_SAVE_CONTAINER_STATES.OFF);
+        changePropertyRVState(HIDE);
     }
 
     @Override
@@ -282,12 +309,33 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     private void onMapStateChanged(){
         ConstraintSet set = new ConstraintSet();
         if(this.saveContainerState == MAP_SAVE_CONTAINER_STATES.ON){
-            set.clone(transition);
+            set.clone(searchBarTransition);
             saveSearchContainerAnchor.setBackgroundResource(R.color.colorPrimary);
         }
         if(this.saveContainerState == MAP_SAVE_CONTAINER_STATES.OFF){
             set.clone(notChangeableRootView);
             saveSearchContainerAnchor.setBackgroundResource(android.R.color.transparent);
+        }
+        TransitionManager.beginDelayedTransition(rootView);
+        set.applyTo(rootView);
+    }
+
+    private void changePropertyRVState(@PROPERTY_RECYCLER_VIEW_STATES int newState){
+        if(propertyRecyclerViewState != newState){
+            propertyRecyclerViewState = newState;
+        }
+        onPropertyRecyclerViewStateChanged();
+    }
+
+    private void onPropertyRecyclerViewStateChanged(){
+        ConstraintSet set = new ConstraintSet();
+        set.clone(propertiesRecyclerViewTransition);
+        if(this.propertyRecyclerViewState == PROPERTY_RECYCLER_VIEW_STATES.ONE_ITEM){
+            set.constrainHeight(propertiesRV.getId(), (int)oneItemHeight);
+        }else if(this.propertyRecyclerViewState == PROPERTY_RECYCLER_VIEW_STATES.MORE_ITEMS){
+            set.constrainHeight(propertiesRV.getId(), (int)moreItemsHeight);
+        }else if(this.propertyRecyclerViewState == HIDE){
+            set.clone(notChangeableRootView);
         }
         TransitionManager.beginDelayedTransition(rootView);
         set.applyTo(rootView);
@@ -319,6 +367,22 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     }
 
     private void showSelectedAddress(String address){
+        if(insideResHash.get(address).size()==1){
+            changePropertyRVState(ONE_ITEM);
+        }else if(insideResHash.get(address).size()>1){
+            changePropertyRVState(MORE_ITEMS);
+        }
+        isShowProperty = true;
         propetiesReciclerAdapter.updateItems(insideResHash.get(address));
+        propetiesReciclerAdapter.notifyDataSetChanged();
+    }
+
+    private void hideSelectedAdress(){
+        if(isShowProperty){
+            changePropertyRVState(HIDE);
+            propetiesReciclerAdapter.updateItems(new ArrayList<BallabaPropertyResult>());
+            propetiesReciclerAdapter.notifyDataSetChanged();
+            isShowProperty = false;
+        }
     }
 }

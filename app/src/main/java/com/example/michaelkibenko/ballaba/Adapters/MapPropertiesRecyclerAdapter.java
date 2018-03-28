@@ -2,10 +2,12 @@ package com.example.michaelkibenko.ballaba.Adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,13 +21,13 @@ import java.util.ArrayList;
  * Created by michaelkibenko on 27/03/2018.
  */
 
-public class MapPropetiesReciclerAdapter extends RecyclerView.Adapter<MapPropetiesReciclerAdapter.MapPropertyItemViewHolder> {
+public class MapPropertiesRecyclerAdapter extends RecyclerView.Adapter<MapPropertiesRecyclerAdapter.MapPropertyItemViewHolder> {
 
     private final Context context;
     private ArrayList<BallabaPropertyResult> items;
     private LayoutInflater mInflater;
 
-    public MapPropetiesReciclerAdapter(Context context){
+    public MapPropertiesRecyclerAdapter(Context context){
         this.context = context;
         items = new ArrayList<>();
     }
@@ -41,18 +43,23 @@ public class MapPropetiesReciclerAdapter extends RecyclerView.Adapter<MapPropeti
     @Override
     public void onBindViewHolder(@NonNull MapPropertyItemViewHolder holder, int position) {
         BallabaPropertyResult propertyResult = items.get(position);
-        Glide.with(context).load(propertyResult.photos.get(0)).into(holder.photo);
+        try {
+            Glide.with(context).load(propertyResult.photos.get(0)).into(holder.photo);
+        }catch(IndexOutOfBoundsException ex){
+            ex.printStackTrace();
+        }
         if(propertyResult.isSaved){
             holder.saved_icon.setBackground(context.getResources().getDrawable(R.drawable.heart_blue_24,context.getTheme()));
         }else{
             holder.saved_icon.setBackground(context.getResources().getDrawable(R.drawable.heart_white_24,context.getTheme()));
         }
         holder.roomsNumber.setText(propertyResult.roomsNumber);
-        //TODO set property metres
+        holder.metres.setText(propertyResult.size);
         holder.formattedAddress.setText(propertyResult.formattedAddress);
     }
 
     public class MapPropertyItemViewHolder extends RecyclerView.ViewHolder{
+        public ConstraintLayout parent;
         public ImageView photo;
         public ImageButton saved_icon;
         public TextView roomsNumber;
@@ -60,6 +67,7 @@ public class MapPropetiesReciclerAdapter extends RecyclerView.Adapter<MapPropeti
         public TextView formattedAddress;
         public MapPropertyItemViewHolder(View itemView) {
             super(itemView);
+            parent = (ConstraintLayout) itemView;
             photo = (ImageView) itemView.findViewById(R.id.map_property_image);
             saved_icon = (ImageButton) itemView.findViewById(R.id.map_property_saved_button);
             roomsNumber = (TextView) itemView.findViewById(R.id.map_property_roomsNum);
@@ -74,7 +82,7 @@ public class MapPropetiesReciclerAdapter extends RecyclerView.Adapter<MapPropeti
     }
 
     public void updateItems(ArrayList<BallabaPropertyResult> arr){
-        this.items = arr;
-        notifyDataSetChanged();
+        items.clear();
+        items.addAll(arr);
     }
 }

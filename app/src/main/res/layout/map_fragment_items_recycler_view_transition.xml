@@ -27,7 +27,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         >
-        
+
         <TextView
             android:id="@+id/saveMapSearch_top_TV"
             android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
             app:layout_constraintStart_toStartOf="@+id/saveMapSearch_top_TV"
             android:textColor="@color/propertyRecyclerView_background_white"
             />
-        
+
         <Button
             android:id="@+id/saveMapSearch_save_BTN"
             android:layout_width="@dimen/saveMapSearch_save_BTN_width"
@@ -65,7 +65,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="@dimen/saveMapSearch_start_offset"
             />
-        
+
     </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
@@ -73,10 +73,9 @@
         android:layout_width="match_parent"
         android:layout_height="147dp"
         android:background="@android:color/transparent"
-        app:layout_constraintTop_toBottomOf="@+id/saveMapSearchContainerBottom_anchor"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
-
 
 </android.support.constraint.ConstraintLayout>

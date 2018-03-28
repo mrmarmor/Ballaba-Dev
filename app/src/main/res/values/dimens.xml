@@ -123,6 +123,8 @@
     <dimen name="saveMapSearch_save_BTN_height">39dp</dimen>
     <dimen name="saveMapSearch_save_BTN_width">70dp</dimen>
 
+    <dimen name="map_fragment_properties_recycler_view_more_items_height">300dp</dimen>
+    <dimen name="map_fragment_properties_recycler_view_one_item_height">147dp</dimen>
 
 
 
