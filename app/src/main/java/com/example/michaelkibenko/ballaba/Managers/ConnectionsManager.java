@@ -238,6 +238,7 @@ public class ConnectionsManager{
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
+                params.put("session_token", BallabaUserManager.getInstance().getUserSesionToken());
                 return params;
             }
         };
@@ -270,6 +271,7 @@ public class ConnectionsManager{
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
+                params.put("session_token", BallabaUserManager.getInstance().getUserSesionToken());
                 return params;
             }
         };
@@ -305,6 +307,7 @@ public class ConnectionsManager{
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
+                params.put("session_token", BallabaUserManager.getInstance().getUserSesionToken());
                 return params;
             }
         };

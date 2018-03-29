@@ -14,7 +14,7 @@ import org.json.JSONObject;
 
 public class BallabaUserManager {
     private static final String TAG = BallabaUserManager.class.getSimpleName();
-    private static BallabaUserManager instance = null;
+    private static BallabaUserManager instance;
     private BallabaUser user;
 
     private BallabaUserManager() {
@@ -84,5 +84,9 @@ public class BallabaUserManager {
             Log.e(TAG, ex.getMessage());
             return null;
         }
+    }
+
+    public String getUserSesionToken(){
+        return user.getSessionToken();
     }
 }

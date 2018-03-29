@@ -20,9 +20,12 @@ import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Adapters.MapPropertiesRecyclerAdapter;
@@ -97,6 +100,7 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     private MapPropertiesRecyclerAdapter propetiesReciclerAdapter;
     private boolean isShowProperty;
     private float oneItemHeight, moreItemsHeight;
+    private FrameLayout pnlFlash;
 
     private @MAP_SAVE_CONTAINER_STATES int saveContainerState = MAP_SAVE_CONTAINER_STATES.OFF;
     private @PROPERTY_RECYCLER_VIEW_STATES int propertyRecyclerViewState = PROPERTY_RECYCLER_VIEW_STATES.ONE_ITEM;
@@ -126,6 +130,14 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         propetiesReciclerAdapter = new MapPropertiesRecyclerAdapter(context);
         propertiesRV.setLayoutManager(new LinearLayoutManager(context));
         propertiesRV.setAdapter(propetiesReciclerAdapter);
+        pnlFlash = (FrameLayout) v.findViewById(R.id.pnlFlash);
+
+        saveSearchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snapShotAnimation();
+            }
+        });
 
         v.findViewById(R.id.map_fragment_getPropertiesBTN).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -446,5 +458,29 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
                 }
             }
         });
+    }
+
+    private void snapShotAnimation(){
+        pnlFlash.setVisibility(View.VISIBLE);
+
+        AlphaAnimation fade = new AlphaAnimation(0.5f, 0);
+        fade.setDuration(350);
+        fade.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationEnd(Animation anim) {
+                pnlFlash.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+        });
+        pnlFlash.startAnimation(fade);
     }
 }

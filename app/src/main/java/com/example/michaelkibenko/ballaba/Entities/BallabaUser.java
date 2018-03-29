@@ -39,4 +39,8 @@ public class BallabaUser extends BallabaBaseEntity {
     public BallabaUser fromStringToBallabaUser(String userString){
         return new Gson().fromJson(userString, BallabaUser.class);
     }
+
+    public String getSessionToken(){
+        return this.session_token;
+    }
 }
