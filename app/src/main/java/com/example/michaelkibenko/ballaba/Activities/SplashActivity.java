@@ -96,7 +96,7 @@ public class SplashActivity extends BaseActivity {
 
             @Override
             public void reject(BallabaBaseEntity entity) {
-                Toast.makeText(SplashActivity.this, "Here will be error dialog", Toast.LENGTH_LONG).show();
+                getDefaultSnackBar(binder.getRoot(), getResources().getString(R.string.error_network_internal), true).show();
             }
         });
     }
@@ -149,7 +149,7 @@ public class SplashActivity extends BaseActivity {
 
             @Override
             public void reject(BallabaBaseEntity entity) {
-                getDefaultSnackBar(binder.getRoot(), getResources().getString(R.string.error_network_internal), true);
+                getDefaultSnackBar(binder.getRoot(), getResources().getString(R.string.error_network_internal), true).show();
             }
         });
     }

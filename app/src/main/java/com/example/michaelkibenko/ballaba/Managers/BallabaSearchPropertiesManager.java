@@ -131,13 +131,14 @@ public class BallabaSearchPropertiesManager {
                     ArrayList<BallabaPropertyResult> results = parsePropertyResults(((BallabaOkResponse) entity).body);
                     BallabaSearchPropertiesManager.this.results = results;
                     callback.resolve(entity);
+                }else{
+                    callback.reject(new BallabaErrorResponse(500, null));
                 }
-                reject(new BallabaErrorResponse(500, null));
             }
 
             @Override
             public void reject(BallabaBaseEntity entity) {
-                reject(entity);
+                callback.reject(entity);
             }
         });
     }

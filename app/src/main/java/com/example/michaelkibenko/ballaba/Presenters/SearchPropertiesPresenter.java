@@ -48,7 +48,7 @@ public class SearchPropertiesPresenter extends BasePresenter {
         //rvProperties = (RecyclerView)binder.getRoot().findViewById(R.id.properties_recycler_RV);
 
         LinearLayoutManager manager = new LinearLayoutManager(context);
-        rvAdapter = new PropertiesRecyclerAdapter(context, properties);
+//        rvAdapter = new PropertiesRecyclerAdapter(context, properties);
         //binder.propertiesRecyclerRV.setLayoutManager(manager);
         //binder.propertiesRecyclerRV.setAdapter(rvAdapter);
         //binder.propertiesRecyclerRootSwipeRefresh.setOnRefreshListener(this);

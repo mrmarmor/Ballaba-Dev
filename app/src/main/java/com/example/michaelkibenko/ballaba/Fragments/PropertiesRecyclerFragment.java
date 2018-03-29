@@ -80,7 +80,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     public PropertiesRecyclerFragment() {}
 
     // TODO: Rename and change types and number of parameters
-    public static PropertiesRecyclerFragment newInstance(Context context, String param) {
+    public static PropertiesRecyclerFragment newInstance(String param) {
         //binder = mBinder;
         fragment = new PropertiesRecyclerFragment();
         Bundle args = new Bundle();
@@ -101,6 +101,24 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     }
 
     @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
+
+        this.context = context;
+
+        /*DataBindingUtil.inflate(
+                inflater, R.layout.fragment_properties_recycler, null, false);
+        presenter = new SearchPropertiesPresenter(getActivity(), binder, mParam);
+*/
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //view = inflater.inflate(R.layout.fragment_properties_recycler, container, false);
@@ -116,7 +134,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     }
 
     private void initRecycler(View view) {
-        properties = BallabaSearchPropertiesManager.getInstance(getContext()).getResults();
+        properties = BallabaSearchPropertiesManager.getInstance(context).getResults();
         Log.d(TAG, "properties: " + properties);
 
         //TODO moving binder across fragments when a specific widget is in the child fragment and
@@ -126,8 +144,8 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
 
         //rvProperties = (RecyclerView)view.findViewById(R.id.properties_recycler_RV);
         //GridLayoutManager manager = new GridLayoutManager(getContext(), 2);//TODO to display 2 properties in a row
-        LinearLayoutManager manager = new LinearLayoutManager(getContext());
-        rvAdapter = new PropertiesRecyclerAdapter(getContext(), properties);
+        LinearLayoutManager manager = new LinearLayoutManager(context);
+        rvAdapter = new PropertiesRecyclerAdapter(context, properties);
         binder.propertiesRecyclerRV.setLayoutManager(manager);
         binder.propertiesRecyclerRV.setAdapter(rvAdapter);
 
@@ -139,17 +157,14 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
         listener = new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
-                properties = BallabaSearchPropertiesManager.getInstance(getContext())
+                properties = BallabaSearchPropertiesManager.getInstance(context)
                         .parsePropertyResults(((BallabaOkResponse)entity).body);
 
                 Log.d(TAG, "properties: " + properties.get(0).formattedAddress+":"+properties.get(1).formattedAddress);
-                BallabaSearchPropertiesManager.getInstance(getContext()).appendProperties(
+                BallabaSearchPropertiesManager.getInstance(context).appendProperties(
                         properties, false);
 
-                //TODO notifyDataSetChanged doesn't refresh properties. that is why i set adapter again
-                rvAdapter = new PropertiesRecyclerAdapter(getContext(), properties);
-                binder.propertiesRecyclerRV.setAdapter(rvAdapter);
-                //rvAdapter.notifyDataSetChanged();
+                rvAdapter.updateList(properties);
 
             }
 
@@ -161,13 +176,13 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
 
         if(ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED){
-            BallabaLocationManager.getInstance(getContext()).getLocation(new LocationListener() {
+            BallabaLocationManager.getInstance(context).getLocation(new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
                     Log.d(TAG, "Location: " + location);
                     if (location != null) {
                         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                        BallabaSearchPropertiesManager.getInstance(getContext()).getPropertiesByLatLng(
+                        BallabaSearchPropertiesManager.getInstance(context).getPropertiesByLatLng(
                             latLng, 0, BallabaSearchPropertiesManager.LAZY_LOADING_OFFSET_STATES.FIRST_20, listener);
                     }
                 }
@@ -196,7 +211,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
 
         } else if (requestCode == REO_CODE_LOCATION_PERMISSION){
             Log.d(TAG, "GPS not granted");
-            BallabaSearchPropertiesManager.getInstance(getContext()).getRandomProperties(listener);
+            BallabaSearchPropertiesManager.getInstance(context).getRandomProperties(listener);
         }
     }
 
@@ -229,9 +244,6 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
                 return firstProperty > nextProperty ? 1 : -1;
             }
         });
-
-        rvAdapter = new PropertiesRecyclerAdapter(getContext(), properties);
-        binder.propertiesRecyclerRV.setAdapter(rvAdapter);
         rvAdapter.updateList(properties);
     }
 
@@ -265,22 +277,6 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-
-        /*DataBindingUtil.inflate(
-                inflater, R.layout.fragment_properties_recycler, null, false);
-        presenter = new SearchPropertiesPresenter(getActivity(), binder, mParam);
-*/
     }
 
     @Override

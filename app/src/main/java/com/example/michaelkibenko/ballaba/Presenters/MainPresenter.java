@@ -77,7 +77,7 @@ public class MainPresenter extends BasePresenter {
         this.context = context;
         this.fm = fm;
 
-        propertiesFragment = PropertiesRecyclerFragment.newInstance(context, null);
+        propertiesFragment = PropertiesRecyclerFragment.newInstance(null);
         initDrawer();
         initViewPager();
     }

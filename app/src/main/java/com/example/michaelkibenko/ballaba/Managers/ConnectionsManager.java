@@ -279,8 +279,11 @@ public class ConnectionsManager{
     }
 
     public void getPropertyByViewPort(final LatLngBounds bounds, final BallabaResponseListener callback){
+        String SW = "?SW="+bounds.southwest.latitude+","+bounds.southwest.longitude;
+        String NE = "&NE="+bounds.northeast.latitude+","+bounds.northeast.longitude;
+        String limit = "&limit="+Integer.MAX_VALUE;
         StringRequest stringRequest = new StringRequest(Request.Method.GET
-                , EndpointsHolder.PROPERTY, new Response.Listener<String>() {
+                , EndpointsHolder.PROPERTY+SW+NE+limit, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 BallabaOkResponse okResponse = new BallabaOkResponse();
@@ -298,15 +301,6 @@ public class ConnectionsManager{
                 }
             }
         })  {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put("SW", bounds.southwest.latitude+","+bounds.southwest.longitude);
-                params.put("NE", bounds.northeast.latitude+","+bounds.northeast.longitude);
-                params.put("limit", Integer.MAX_VALUE+"");
-                return params;
-            }
-
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();

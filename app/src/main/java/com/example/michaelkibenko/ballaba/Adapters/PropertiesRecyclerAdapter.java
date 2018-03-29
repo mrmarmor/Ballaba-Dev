@@ -132,8 +132,8 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     public int getItemCount() {return properties == null? 0 : properties.size();}
 
     public void updateList(ArrayList<BallabaPropertyResult> newList) {
-        properties = newList;
-        BallabaSearchPropertiesManager.getInstance(mContext).appendProperties(newList, false);
+        properties.clear();
+        properties.addAll(newList);
         notifyDataSetChanged();
     }
 
