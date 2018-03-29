@@ -69,6 +69,7 @@ public class SelectCityPresenter extends BasePresenter implements
         cities = new ArrayList<>();
         //initGoogleMapListener();
         //initAutoCompleteTextView(binder.selectCityAutoCompleteTextView);//TODO with autoCompleteTextView
+
         initListView(binder.selectCityListView, binder.selectCityEditText);//TODO with listView
     }
 
@@ -112,7 +113,7 @@ public class SelectCityPresenter extends BasePresenter implements
                 removeCityFromFlowLayout(view, textViewCity);
             }
         });
-        binder.selectCityFlowLayout.addView(view, cities.size() - 1);
+        binder.selectCityFlowLayout.addView(view);
     }
 
     private void removeCityFromFlowLayout(@NonNull View view, @NonNull TextView textViewCity) {
