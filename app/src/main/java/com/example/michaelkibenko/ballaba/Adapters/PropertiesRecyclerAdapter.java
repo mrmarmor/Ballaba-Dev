@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.transition.Visibility;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
@@ -34,6 +35,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Fragments.PropertyImageFragment;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
@@ -64,10 +66,12 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     private PropertyItemBinding binder;
     private BallabaPropertyListener listener;
     private Resources res;
+    private FragmentManager fragmentManager;
 
-    public PropertiesRecyclerAdapter(Context mContext, List<BallabaPropertyResult> properties) {
+    public PropertiesRecyclerAdapter(Context mContext, FragmentManager fm, List<BallabaPropertyResult> properties) {
         this.mContext = mContext;
         this.properties = properties;
+        this.fragmentManager = fm;
     }
 
     @Override
@@ -93,13 +97,16 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         Log.d(TAG, properties.size()+":"+position);
         BallabaPropertyResult property = properties.get(position);
 
-        RequestOptions options = new RequestOptions();
-        options.centerCrop();
-        if (property.photos.size() > 0)
-            Glide.with(mContext)
-                .load(property.photos.get(0))
-                .apply(options)
-                .into(binder.propertyItemImageView);
+//        RequestOptions options = new RequestOptions();
+//        options.centerCrop();
+//        if (property.photos.size() > 0)
+//            Glide.with(mContext)
+//                .load(property.photos.get(0))
+//                .apply(options)
+//                .into(binder.propertyItemImageView);
+
+        binder.propertyItemImageView.setAdapter(new PropertiesPhotosViewPagerAdapter(fragmentManager, generateImageFragments(property.photos)));
+        binder.propertyItemImageView.setOffscreenPageLimit(2);
 
         Drawable d = property.isSaved? res.getDrawable(R.drawable.heart_blue_24, mContext.getTheme())
                 :res.getDrawable(R.drawable.heart_white_24, mContext.getTheme());
@@ -126,6 +133,14 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
             lazyLoading(properties.size());
         }
 
+    }
+
+    private ArrayList<PropertyImageFragment> generateImageFragments(ArrayList<String> photos){
+        ArrayList<PropertyImageFragment> items= new ArrayList<>();
+        for (String photo : photos) {
+            items.add(PropertyImageFragment.newInstance(photo));
+        }
+        return items;
     }
 
     @Override

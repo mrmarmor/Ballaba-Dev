@@ -96,7 +96,7 @@ public class SplashActivity extends BaseActivity {
 
             @Override
             public void reject(BallabaBaseEntity entity) {
-                getDefaultSnackBar(binder.getRoot(), getResources().getString(R.string.error_network_internal), true).show();
+                Toast.makeText(SplashActivity.this, "Here will be error dialog", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -120,7 +120,7 @@ public class SplashActivity extends BaseActivity {
                     if(entity instanceof BallabaErrorResponse){
                         if(((BallabaErrorResponse)entity).statusCode != 500){
                             logInStatus = FLOW_TYPES.NEED_AUTHENTICATION;
-                            getProperties(logInStatus);
+                            checkSplashDelay(logInStatus);
                         }
                     }
                 }
@@ -149,7 +149,7 @@ public class SplashActivity extends BaseActivity {
 
             @Override
             public void reject(BallabaBaseEntity entity) {
-                getDefaultSnackBar(binder.getRoot(), getResources().getString(R.string.error_network_internal), true).show();
+                getDefaultSnackBar(binder.getRoot(), getResources().getString(R.string.error_network_internal), true);
             }
         });
     }

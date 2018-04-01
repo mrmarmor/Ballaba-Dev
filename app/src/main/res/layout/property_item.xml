@@ -18,15 +18,21 @@
     android:elevation="@dimen/propertyItem_propertyElevation"
     android:background="@color/propertyRecyclerView_background_white">
 
-    <ImageView
+    <!--<ImageView-->
+    <!--android:id="@+id/propertyItem_imageView"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="@dimen/propertyItem_imageView_height"-->
+    <!--app:layout_constraintTop_toTopOf="parent"-->
+    <!--android:scaleType="fitXY"-->
+    <!--android:src="@drawable/dummy_property"-->
+    <!--android:contentDescription="property image"-->
+    <!--/>-->
+
+    <android.support.v4.view.ViewPager
         android:id="@+id/propertyItem_imageView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/propertyItem_imageView_height"
-        app:layout_constraintTop_toTopOf="parent"
-        android:scaleType="fitXY"
-        android:src="@drawable/dummy_property"
-        android:contentDescription="property image"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <View
         android:layout_width="match_parent"
