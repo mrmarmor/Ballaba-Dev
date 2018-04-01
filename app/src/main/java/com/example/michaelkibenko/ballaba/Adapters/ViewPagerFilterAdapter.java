@@ -48,15 +48,12 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter {
                 return RoomsFragment.getInstance();//fm.findFragmentById(R.id.roomsFragment_rootLayout);
 
             case 2:
-                //animateScreen(false);
                 return SizeFragment.getInstance();//fm.findFragmentById(R.id.sizeFragment_rootLayout);
 
             case 3:
-                // animateScreen(true);
                 return AttachmentsFragment.getInstance(context, binder);//fm.findFragmentById(R.id.attachmentsFragment_rootLayout);
 
             case 4:
-                //animateScreen(false);
                 return DateOfEntranceFragment.getInstance();//fm.findFragmentById(R.id.dateOfEntranceFragment_rootLayout);
         }
     }
@@ -65,36 +62,4 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return 5; //NUM_PAGES
     }
-
-    private void animateScreen(boolean hasFocus){
-        Guideline guideline = binder.mainActivityFilterGuidelineTop;
-        ConstraintLayout.LayoutParams lp = (ConstraintLayout.LayoutParams)guideline.getLayoutParams();
-        lp.guidePercent = hasFocus? 0 : -50;
-        guideline.setLayoutParams(lp);
-
-        ConstraintLayout constraintLayout = binder.mainActivityFilterRoot;
-        ConstraintSet constraintSetFullHeight = new ConstraintSet();
-        constraintSetFullHeight.clone(context, R.layout.filter_screen_full_height);
-        constraintSetFullHeight.setGuidelinePercent(R.id.mainActivity_filter_guideline_top, 0.07f); // 7% // range: 0 <-> 1
-
-        /*ConstraintSet constraintSetHalfHeight = new ConstraintSet();
-        constraintSetHalfHeight.clone(rootLayoutHalfHeight);
-        ConstraintSet constraintSet = hasFocus? constraintSetFullHeight : constraintSetHalfHeight;
-        ConstraintLayout constraintLayout = hasFocus? rootLayoutFullHeight : rootLayoutHalfHeight;
-      */  //constraintSet.centerVertically(R.id.tv, 0);
-        //constraintSetFullHeight.connect(R.id.fragmentAttachments_rootLayout, ConstraintSet.TOP, R.id.mainActivity_rootLayout, ConstraintSet.TOP,0);
-
-        //constraintSet.setVerticalBias(R.id.tv, 1.5f);
-        //constraintSet.setHorizontalBias(R.id.tv, 0.5f);
-
-        AutoTransition transition = new AutoTransition();
-        transition.setDuration(100);
-        transition.setInterpolator(new AccelerateDecelerateInterpolator());
-
-
-
-        TransitionManager.beginDelayedTransition(constraintLayout, transition);
-        constraintSetFullHeight.applyTo(constraintLayout);
-    }
-
 }
