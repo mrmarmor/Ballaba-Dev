@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
@@ -101,8 +102,12 @@ public class MainActivity extends BaseActivity implements
         if (requestCode == MainPresenter.REQ_CODE_SELECT_CITY) {
             if (resultCode == RESULT_OK && data != null) {
                 ArrayList<String> cities = data.getStringArrayListExtra(SelectCityPresenter.SELECTED_CITIES_KEY);
-
+                ArrayList<String> allPropertiesLocations =
+                        BallabaSearchPropertiesManager.getInstance(this).getResultsByLocation();
                 for (String city : cities) {
+                    if (allPropertiesLocations.contains(city))
+                        Log.d(TAG, city);
+
                     LatLng cityLatLng = BallabaLocationManager.getInstance(this).locationGeoCoder(city);
                     if (cityLatLng != null) {
                         String cityLatLngStr = cityLatLng.latitude + "," + cityLatLng.longitude;

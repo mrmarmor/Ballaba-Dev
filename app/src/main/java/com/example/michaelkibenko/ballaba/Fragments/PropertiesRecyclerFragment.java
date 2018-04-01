@@ -72,7 +72,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     private ArrayList<BallabaPropertyResult> properties;
 
     //private PropertyItemPresenter presenter;
-    private static FragmentPropertiesRecyclerBinding binder;
+    private FragmentPropertiesRecyclerBinding binder;
     //private LayoutInflater inflater;
 
     private OnFragmentInteractionListener mListener;
@@ -127,14 +127,14 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
                 inflater, R.layout.fragment_properties_recycler, null, false);
         //presenter = new PropertyItemPresenter(getActivity(), binder);
 
-        initRecycler(view);
+        initRecycler();
         getProperties();
 
         return binder.getRoot();
     }
 
-    private void initRecycler(View view) {
-        properties = BallabaSearchPropertiesManager.getInstance(context).getResults();
+    private void initRecycler() {
+        properties = BallabaSearchPropertiesManager.getInstance(getContext()).getResults();
         Log.d(TAG, "properties: " + properties);
 
         //TODO moving binder across fragments when a specific widget is in the child fragment and
