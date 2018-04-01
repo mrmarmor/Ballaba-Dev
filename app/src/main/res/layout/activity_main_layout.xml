@@ -25,9 +25,6 @@
                 android:layout_height="64dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-<!--
-                android:elevation="@dimen/propertyItem_propertyElevation">
--->
 
             <Button
                 android:id="@+id/mainActivity_search_button"
@@ -96,21 +93,21 @@
                 android:weightSum="1">
 
                 <Button android:id="@+id/mainActivity_relevant_button"
-                    style="@style/mainActivity_sort_button"
-                    android:text="@string/mainScreen_sortButtons_text_relevant"
+                    style="@style/mainActivity_button"
+                    android:text="@string/mainScreen_buttons_text_relevant"
                     android:onClick="@{() -> presenter.onClickSortByRelevant()}"/>
                 <Button android:id="@+id/mainActivity_price_button"
-                    style="@style/mainActivity_sort_button"
-                    android:text="@string/mainScreen_sortButtons_text_price"
+                    style="@style/mainActivity_button"
+                    android:text="@string/mainScreen_buttons_text_price"
                     android:onClick="@{() -> presenter.onClickSortByPrice()}"/>
                 <Button
-                    style="@style/mainActivity_sort_button"
+                    style="@style/mainActivity_button"
                     android:id="@+id/mainActivity_size_button"
-                    android:text="@string/mainScreen_sortButtons_text_size"
+                    android:text="@string/mainScreen_buttons_text_size"
                     android:onClick="@{() -> presenter.onClickSortBySize()}"/>
                 <Button android:id="@+id/mainActivity_rooms_button"
-                    style="@style/mainActivity_sort_button"
-                    android:text="@string/mainScreen_sortButtons_text_rooms"
+                    style="@style/mainActivity_button"
+                    android:text="@string/mainScreen_buttons_text_rooms"
                     android:onClick="@{() -> presenter.onClickSortByRooms()}"/>
 
             </LinearLayout>
@@ -124,7 +121,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:fillViewport="true">-->
             <com.example.michaelkibenko.ballaba.Views.NonSwipeableViewPager
-                android:id="@+id/mainActivity_viewPager"
+                android:id="@+id/mainActivity_properties_viewPager"
                 style="@style/allWrapContent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -151,7 +148,105 @@
                 android:visibility="gone"
                 />
 
-        </android.support.constraint.ConstraintLayout>
+            <android.support.constraint.Guideline
+                android:id="@+id/mainActivity_filter_guideline_top"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/mainActivity_filter_root"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/mainActivity_filter_guideline_top"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:translationZ="3dp">
+
+                <LinearLayout
+                    android:id="@+id/mainActivity_filterButtons_linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@color/colorPrimary"
+                    android:orientation="horizontal"
+                    android:weightSum="1.25">
+
+                    <Button
+                        android:id="@+id/mainActivity_filter_price_button"
+                        style="@style/mainActivity_button"
+                        android:onClick="@{() -> presenter.onClickSortByRelevant()}"
+                        android:text="@string/mainScreen_buttons_text_price" />
+                    <Button
+                        android:id="@+id/mainActivity_filter_rooms_button"
+                        style="@style/mainActivity_button"
+                        android:onClick="@{() -> presenter.onClickSortByPrice()}"
+                        android:text="@string/mainScreen_buttons_text_rooms" />
+                    <Button
+                        android:id="@+id/mainActivity_filter_size_button"
+                        style="@style/mainActivity_button"
+                        android:onClick="@{() -> presenter.onClickSortBySize()}"
+                        android:text="@string/mainScreen_buttons_text_size" />
+                    <Button
+                        android:id="@+id/mainActivity_filter_attachments_button"
+                        style="@style/mainActivity_button"
+                        android:onClick="@{() -> presenter.onClickSortByRooms()}"
+                        android:text="@string/mainScreen_buttons_text_attachments" />
+                    <Button
+                        android:id="@+id/mainActivity_filter_dateOfEntrance_button"
+                        style="@style/mainActivity_button"
+                        android:onClick="@{() -> presenter.onClickSortByRooms()}"
+                        android:text="@string/mainScreen_buttons_text_dateOfEntrance" />
+
+                </LinearLayout>
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/mainActivity_filter_viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintTop_toBottomOf="@id/mainActivity_filterButtons_linearLayout"
+                    app:layout_constraintBottom_toTopOf="@id/mainActivity_filter_v_x_buttons_root"
+                    android:background="@color/colorPrimary" />
+
+                <LinearLayout
+                    android:id="@+id/mainActivity_filter_v_x_buttons_root"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@id/mainActivity_filter_viewPager"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:background="@color/colorAccent"
+                    android:orientation="horizontal"
+                    android:weightSum="0.5">
+
+                    <Button
+                        android:id="@+id/mainActivity_filter_v_button"
+                        style="@style/mainActivity_button"
+                        android:onClick="@{() -> presenter.onClickSortByRooms()}"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/check_white_24" />
+                    <Button
+                        android:id="@+id/mainActivity_filter_x_button"
+                        style="@style/mainActivity_button"
+                        android:onClick="@{() -> presenter.onClickSortByRooms()}"
+                        android:background="@android:color/transparent"
+                        android:src="@drawable/close_white_24" />
+
+                </LinearLayout>
+
+            </android.support.constraint.ConstraintLayout>
+
+            </android.support.constraint.ConstraintLayout>
+            <!--<include android:id="@+id/mainActivity_included_filterScreen"
+                layout="@layout/filter_screen_half_height"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:translationZ="3dp" />-->
 
         <android.support.design.widget.NavigationView
             android:id="@+id/mainActivity_navigationView"

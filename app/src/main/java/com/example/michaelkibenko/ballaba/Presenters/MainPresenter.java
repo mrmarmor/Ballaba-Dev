@@ -10,14 +10,12 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.support.annotation.IntDef;
-import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
@@ -28,14 +26,14 @@ import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
-import com.example.michaelkibenko.ballaba.Adapters.SearchViewPagerAdapter;
+import com.example.michaelkibenko.ballaba.Adapters.ViewPagerFilterAdapter;
+import com.example.michaelkibenko.ballaba.Adapters.ViewPagerPropertiesAdapter;
 import com.example.michaelkibenko.ballaba.Common.BallabaSelectedCityListener;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -66,7 +64,7 @@ public class MainPresenter extends BasePresenter {
 
     private Context context;
     private FragmentManager fm;
-    private PagerAdapter pagerAdapter;
+    private PagerAdapter propertiesPagerAdapter, filterPagerAdapter;
     private ActivityMainLayoutBinding binder;
     private BallabaSelectedCityListener listener;
     private PropertiesRecyclerFragment propertiesFragment;
@@ -79,7 +77,8 @@ public class MainPresenter extends BasePresenter {
 
         propertiesFragment = PropertiesRecyclerFragment.newInstance(null);
         initDrawer();
-        initViewPager();
+        initViewPagerProperties();
+        initViewPagerFilter();
     }
 
     private void initDrawer(){
@@ -95,19 +94,24 @@ public class MainPresenter extends BasePresenter {
                         return true;
                     }
                 });
-
     }
 
-    private void initViewPager(){
-        pagerAdapter = new SearchViewPagerAdapter(context, binder, fm, propertiesFragment);
-        binder.mainActivityViewPager.setAdapter(pagerAdapter);
+    private void initViewPagerProperties(){
+        propertiesPagerAdapter = new ViewPagerPropertiesAdapter(context, binder, fm, propertiesFragment);
+        binder.mainActivityPropertiesViewPager.setAdapter(propertiesPagerAdapter);
+    }
+
+    private void initViewPagerFilter(){
+        filterPagerAdapter = new ViewPagerFilterAdapter(context, binder, fm);
+        ViewPager filterViewPager = binder.getRoot().findViewById(R.id.mainActivity_filter_viewPager);
+        filterViewPager.setAdapter(filterPagerAdapter);
     }
 
     public void onClickToGoogleMap(){
         final int TO_GOOGLE_MAP = 0, BACK_TO_MAIN_SCREEN = 1;
-        switch (binder.mainActivityViewPager.getCurrentItem()){
+        switch (binder.mainActivityPropertiesViewPager.getCurrentItem()){
             case TO_GOOGLE_MAP:
-                binder.mainActivityViewPager.setCurrentItem(1, false);
+                binder.mainActivityPropertiesViewPager.setCurrentItem(1, false);
                 binder.mainActivityToGoogleMapImageButton.setImageDrawable(
                         context.getResources().getDrawable(R.drawable.enabled, context.getTheme()));
                 binder.mainActivitySearchBar.setVisibility(View.GONE);
@@ -115,7 +119,7 @@ public class MainPresenter extends BasePresenter {
                 break;
 
             case BACK_TO_MAIN_SCREEN:
-                binder.mainActivityViewPager.setCurrentItem(0, false);
+                binder.mainActivityPropertiesViewPager.setCurrentItem(0, false);
                 binder.mainActivityToGoogleMapImageButton.setImageDrawable(
                         context.getResources().getDrawable(R.drawable.disabled, context.getTheme()));
                 binder.mainActivitySearchBar.setVisibility(View.VISIBLE);
@@ -171,7 +175,7 @@ public class MainPresenter extends BasePresenter {
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(binder.mainActivityRootLayout);
             //app:layout_constraintBottom_toTopOf="@+id/mainActivity_viewPager" />
-            constraintSet.connect(R.id.mainActivity_viewPager, ConstraintSet.TOP, R.id.mainActivity_sortButtons_linearLayout, ConstraintSet.BOTTOM,0);
+            constraintSet.connect(R.id.mainActivity_properties_viewPager, ConstraintSet.TOP, R.id.mainActivity_sortButtons_linearLayout, ConstraintSet.BOTTOM,0);
             //constraintSet.connect(R.id.mainActivity_horizontalScrollView, ConstraintSet.RIGHT, R.id.mainActivity_drawerLayout, ConstraintSet.RIGHT,0);
             constraintSet.applyTo(binder.mainActivityRootLayout);
 

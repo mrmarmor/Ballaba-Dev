@@ -18,6 +18,11 @@ import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
+import com.example.michaelkibenko.ballaba.Fragments.Filter.AttachmentsFragment;
+import com.example.michaelkibenko.ballaba.Fragments.Filter.DateOfEntranceFragment;
+import com.example.michaelkibenko.ballaba.Fragments.Filter.PriceFragment;
+import com.example.michaelkibenko.ballaba.Fragments.Filter.RoomsFragment;
+import com.example.michaelkibenko.ballaba.Fragments.Filter.SizeFragment;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
@@ -37,7 +42,12 @@ import java.util.List;
  */
 
 public class MainActivity extends BaseActivity implements
-        PropertiesRecyclerFragment.OnFragmentInteractionListener{
+        PropertiesRecyclerFragment.OnFragmentInteractionListener,
+        PriceFragment.OnFragmentInteractionListener,
+        RoomsFragment.OnFragmentInteractionListener,
+        SizeFragment.OnFragmentInteractionListener,
+        AttachmentsFragment.OnFragmentInteractionListener,
+        DateOfEntranceFragment.OnFragmentInteractionListener {
 
     private final String TAG = MainActivity.class.getSimpleName();
 
@@ -59,7 +69,7 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     public void onBackPressed() {
-        if (binder.mainActivityViewPager.getCurrentItem() == 0) {
+        if (binder.mainActivityPropertiesViewPager.getCurrentItem() == 0) {
             BallabaDialogBuilder areUSureDialog = new BallabaDialogBuilder(this);
 
             areUSureDialog.setButtons("Exit", "Cancel", new DialogInterface.OnClickListener() {
@@ -91,6 +101,7 @@ public class MainActivity extends BaseActivity implements
                 .commit();*/
     }
 
+    //Here is all data from fragments: properties and filters
     @Override
     public void onFragmentInteraction(Uri uri) {
         Log.d(TAG, "data from fragment: "+uri.getEncodedUserInfo());
