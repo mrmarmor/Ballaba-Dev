@@ -109,13 +109,13 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
                 inflater, R.layout.fragment_properties_recycler, null, false);
         //presenter = new PropertyItemPresenter(getActivity(), binder);
 
-        initRecycler(view);
+        initRecycler();
         getProperties();
 
         return binder.getRoot();
     }
 
-    private void initRecycler(View view) {
+    private void initRecycler() {
         properties = BallabaSearchPropertiesManager.getInstance(getContext()).getResults();
         Log.d(TAG, "properties: " + properties);
 
