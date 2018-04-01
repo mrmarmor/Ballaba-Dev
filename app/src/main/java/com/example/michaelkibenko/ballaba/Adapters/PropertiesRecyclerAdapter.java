@@ -104,9 +104,9 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
 //                .load(property.photos.get(0))
 //                .apply(options)
 //                .into(binder.propertyItemImageView);
-
-        binder.propertyItemImageView.setAdapter(new PropertiesPhotosViewPagerAdapter(fragmentManager, generateImageFragments(property.photos)));
-        binder.propertyItemImageView.setOffscreenPageLimit(2);
+        PropertiesPhotosViewPagerAdapter propertiesPhotosViewPagerAdapter = new PropertiesPhotosViewPagerAdapter(fragmentManager, generateImageFragments(property.photos));
+        binder.propertyItemImageView.setId(propertiesPhotosViewPagerAdapter.hashCode());
+        binder.propertyItemImageView.setAdapter(propertiesPhotosViewPagerAdapter);
 
         Drawable d = property.isSaved? res.getDrawable(R.drawable.heart_blue_24, mContext.getTheme())
                 :res.getDrawable(R.drawable.heart_white_24, mContext.getTheme());
