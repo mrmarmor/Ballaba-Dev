@@ -65,7 +65,6 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     final private Context mContext;
     private BallabaSearchPropertiesManager propertiesManager;
     private LayoutInflater mInflater;
-    private PropertyItemBinding binder;
     private BallabaPropertyListener listener;
     private Resources res;
     private FragmentManager fragmentManager;
@@ -79,7 +78,8 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mInflater = LayoutInflater.from(mContext);
-        binder = DataBindingUtil.inflate(mInflater, R.layout.property_item
+
+        PropertyItemBinding binder = DataBindingUtil.inflate(mInflater, R.layout.property_item
                 , parent, false);
         binder.setPresenter(new PropertyItemPresenter(mContext, binder));
 
@@ -91,7 +91,7 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         ////firstRootView = mInflater.inflate(R.layout.property_item_single_in_a_row, parent, false);
         //parent_layout = (LinearLayout)view.findViewById(R.id.single_Property_parent);
 
-        return new ViewHolder(binder.getRoot());//firstRootView);
+        return new ViewHolder(binder);//firstRootView);
     }
 
     @Override
@@ -107,23 +107,23 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
 //                .apply(options)
 //                .into(binder.propertyItemImageView);
         PropertiesPhotosViewPagerAdapter propertiesPhotosViewPagerAdapter = new PropertiesPhotosViewPagerAdapter(fragmentManager, generateImageFragments(property.photos));
-        binder.propertyItemImageView.setId(position+propertiesPhotosViewPagerAdapter.hashCode());
-        binder.propertyItemImageView.setCurrentItem(property.photos.size()/2);
-        binder.propertyItemImageView.setOffscreenPageLimit(2);
-        binder.propertyItemImageView.setAdapter(propertiesPhotosViewPagerAdapter);
+        holder.binder.propertyItemImageView.setId(position+propertiesPhotosViewPagerAdapter.hashCode());
+        holder.binder.propertyItemImageView.setCurrentItem(property.photos.size()/2);
+        holder.binder.propertyItemImageView.setOffscreenPageLimit(2);
+        holder.binder.propertyItemImageView.setAdapter(propertiesPhotosViewPagerAdapter);
 
         Drawable d = property.isSaved? res.getDrawable(R.drawable.heart_blue_24, mContext.getTheme())
                 :res.getDrawable(R.drawable.heart_white_24, mContext.getTheme());
-        binder.propertyItemIsSavedPropertyImageView.setImageDrawable(d);
+        holder.binder.propertyItemIsSavedPropertyImageView.setImageDrawable(d);
 
         @Visibility.Mode int visibility = property.isGuarantee? View.VISIBLE : View.GONE;
-        binder.propertyItemGuaranteeImageView.setVisibility(visibility);
+        holder.binder.propertyItemGuaranteeImageView.setVisibility(visibility);
 
-        binder.propertyItemAddressTextView.setText(property.formattedAddress);
-        binder.propertyItemPriceTextView.setText(StringUtils.getInstance(true, null)
+        holder.binder.propertyItemAddressTextView.setText(property.formattedAddress);
+        holder.binder.propertyItemPriceTextView.setText(StringUtils.getInstance(true, null)
                 .formattedNumberWithComma(property.price));
-        binder.propertyItemRoomsTextView.setText(String.format("%s %s", property.roomsNumber, mContext.getString(R.string.propertyItem_numberOfRooms)));
-        binder.propertyItemPropertySizeTextView.setText(String.format("%s %s", property.size, mContext.getString(R.string.propertyItem_propertySize)));
+        holder.binder.propertyItemRoomsTextView.setText(String.format("%s %s", property.roomsNumber, mContext.getString(R.string.propertyItem_numberOfRooms)));
+        holder.binder.propertyItemPropertySizeTextView.setText(String.format("%s %s", property.size, mContext.getString(R.string.propertyItem_propertySize)));
 
             //TODO without binder and glide:
             //holder.propertyImageView.setImageBitmap(property.bitmap());
@@ -137,14 +137,13 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
             lazyLoading(properties.size());
         }
 
-        binder.getRoot().setOnClickListener(new View.OnClickListener() {
+        holder.binder.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, PropertyDescriptionActivity.class);
                 mContext.startActivity(intent);
             }
         });
-
     }
 
     private ArrayList<PropertyImageFragment> generateImageFragments(ArrayList<String> photos){
@@ -164,33 +163,29 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         notifyDataSetChanged();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    class ViewHolder extends RecyclerView.ViewHolder{
         //private TextView textViewPrice, textViewAddress;
         //private ImageView propertyImageView;
+        public PropertyItemBinding binder;
 
-        ViewHolder(View itemView) {
-            super(itemView);
+        ViewHolder(PropertyItemBinding binder) {
+            super(binder.getRoot());
+            this.binder = binder;
+            binder.propertyItemIsSavedPropertyImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-            itemView.setOnClickListener(this);
-            binder.propertyItemIsSavedPropertyImageView.setOnClickListener(this);
-            binder.propertyItemGuaranteeImageView.setOnClickListener(this);
+                }
+            });
 
             if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-                setFontForDevicesUnderApi26();
+                setFontForDevicesUnderApi26(binder);
             }
 
             //TODO without binder and glide:
             //propertyImageView = itemView.findViewById(R.id.propertyItem_imageView);
             //textViewAddress = itemView.findViewById(R.id.propertyItem_address_textView);
             //textViewPrice = itemView.findViewById(R.id.propertyItem_price_textView);
-        }
-
-        @Override
-        public void onClick(View v) {
-            Log.d(TAG, getLayoutPosition()+":"+properties.get(getLayoutPosition()).isSaved+"");
-            listener.BallabaPropertyOnClick(v, getLayoutPosition());
-
-
         }
     }
 
@@ -213,7 +208,7 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         });
     }
 
-    private void setFontForDevicesUnderApi26(){
+    private void setFontForDevicesUnderApi26(PropertyItemBinding binder){
         final Typeface typefaceRegular = ResourcesCompat.getFont(mContext, R.font.rubik_regular);
         final Typeface typefaceBold = ResourcesCompat.getFont(mContext, R.font.rubik_bold);
 
