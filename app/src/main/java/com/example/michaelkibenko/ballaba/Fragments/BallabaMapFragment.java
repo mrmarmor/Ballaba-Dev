@@ -128,7 +128,8 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         saveSearchContainerAnchor = (View) v.findViewById(R.id.saveMapSearchContainerBottom_anchor);
         propertiesRV = (RecyclerView) v.findViewById(R.id.mapFragment_properties_RV);
         propetiesReciclerAdapter = new MapPropertiesRecyclerAdapter(context);
-        propertiesRV.setLayoutManager(new LinearLayoutManager(context));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        propertiesRV.setLayoutManager(linearLayoutManager);
         propertiesRV.setAdapter(propetiesReciclerAdapter);
         pnlFlash = (FrameLayout) v.findViewById(R.id.pnlFlash);
 

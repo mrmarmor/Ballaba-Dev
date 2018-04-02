@@ -72,10 +72,10 @@
         android:id="@+id/mapFragment_properties_RV"
         android:layout_width="match_parent"
         android:layout_height="147dp"
-        android:background="@android:color/transparent"
         app:layout_constraintTop_toBottomOf="@+id/saveMapSearchContainerBottom_anchor"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:background="@color/propertyRecyclerView_background_white"
         />
 
     <Button
