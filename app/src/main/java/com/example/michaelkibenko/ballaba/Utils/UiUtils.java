@@ -4,7 +4,14 @@ import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.support.annotation.FloatRange;
+import android.support.annotation.IntDef;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
+import android.support.constraint.Guideline;
+import android.support.transition.TransitionManager;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -13,13 +20,24 @@ import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
+import java.util.zip.Inflater;
+
 import static android.content.ContentValues.TAG;
+import static com.example.michaelkibenko.ballaba.Utils.UiUtils.ScreenStates.FULL;
+import static com.example.michaelkibenko.ballaba.Utils.UiUtils.ScreenStates.HALF;
+import static com.example.michaelkibenko.ballaba.Utils.UiUtils.ScreenStates.HIDE;
 
 /**
  * Created by User on 11/03/2018.
  */
 
 public class UiUtils {
+    public @interface ScreenStates {
+        float FULL = 0;
+        float HALF = 0.5f;
+        float HIDE = 1;
+    }
+
     private static UiUtils instance;
     private Context ctx;
 
@@ -66,8 +84,25 @@ public class UiUtils {
         }
     }
 
-    public void setFilterBarVisibility(boolean isVisible){
+    /*public void setFilterBarVisibility(boolean isVisible){
         View rootView = ((Activity)ctx).getWindow().getDecorView().findViewById(R.id.mainActivity_filter_included);
         rootView.setVisibility(isVisible? View.VISIBLE : View.GONE);
+    }*/
+
+    public void setFilterBarVisibility(@ScreenStates float state){
+        View rootView = ((MainActivity)ctx).getWindow().getDecorView();//.findViewById(R.id.mainActivity_filter_included);
+
+        Guideline guideline = rootView.findViewById(R.id.mainActivity_filter_guideline_top);//mainActivityFilterGuidelineTop;
+        ConstraintLayout.LayoutParams lp = (ConstraintLayout.LayoutParams)guideline.getLayoutParams();
+        lp.guidePercent = state;
+        guideline.setLayoutParams(lp);
+
+        ConstraintLayout constraintLayout = rootView.findViewById(R.id.mainActivity_filter_included);
+        ConstraintSet constraintSetHeight = new ConstraintSet();
+        constraintSetHeight.clone(ctx, R.layout.search_filter_screen);
+        constraintSetHeight.setGuidelinePercent(R.id.mainActivity_filter_guideline_top, 0.07f); // 7% // range: 0 <-> 1
+
+        TransitionManager.beginDelayedTransition(constraintLayout);
+        constraintSetHeight.applyTo(constraintLayout);
     }
 }

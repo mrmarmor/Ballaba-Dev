@@ -42,6 +42,7 @@ import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
 import com.example.michaelkibenko.ballaba.Presenters.PropertyItemPresenter;
 import com.example.michaelkibenko.ballaba.Presenters.SearchPropertiesPresenter;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentPropertiesRecyclerBinding;
 import com.google.android.gms.maps.model.LatLng;
@@ -51,7 +52,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class PropertiesRecyclerFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class PropertiesRecyclerFragment extends Fragment  /*SwipeRefreshLayout.OnRefreshListener*/
+        /*RecyclerView.OnScrollListener*/ {
     private final String TAG = PropertiesRecyclerFragment.class.getSimpleName();
     private final int SWIPE_TO_REFRESH_DISPLAY_DURATION = 1000;//1 second
     private static final String PROPERTIES_KEY = "properties key";
@@ -63,7 +65,6 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
 
     private static PropertiesRecyclerFragment fragment;
     private Context context;
-    private View view;
     private BallabaResponseListener listener;
     private boolean isGPSPermissionGranted;
     //private SwipeRefreshLayout swipeRefreshLayout;
@@ -73,8 +74,6 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
 
     //private PropertyItemPresenter presenter;
     private FragmentPropertiesRecyclerBinding binder;
-//    private ActivityMainLayoutBinding mainBinder;
-    //private LayoutInflater inflater;
 
     private OnFragmentInteractionListener mListener;
 
@@ -104,12 +103,6 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        /*if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }*/
 
         this.context = context;
 
@@ -145,13 +138,46 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
 
         //rvProperties = (RecyclerView)view.findViewById(R.id.properties_recycler_RV);
         //GridLayoutManager manager = new GridLayoutManager(getContext(), 2);//TODO to display 2 properties in a row
-        LinearLayoutManager manager = new LinearLayoutManager(context);
+        final LinearLayoutManager manager = new LinearLayoutManager(context);
         rvAdapter = new PropertiesRecyclerAdapter(context, properties);
         binder.propertiesRecyclerRV.setLayoutManager(manager);
         binder.propertiesRecyclerRV.setAdapter(rvAdapter);
 
         //swipeRefreshLayout = view.findViewById(R.id.properties_recycler_swipeToRefresh);
-        binder.propertiesRecyclerSwipeToRefresh.setOnRefreshListener(this);
+        //binder.propertiesRecyclerSwipeToRefresh.setOnRefreshListener(this);
+
+        binder.propertiesRecyclerRV.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            int ydy = 0;
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                UiUtils.instance(true, context).setFilterBarVisibility(UiUtils.ScreenStates.HIDE);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int offset = dy - ydy;
+                ydy = dy;
+                boolean shouldRefresh = (manager.findFirstCompletelyVisibleItemPosition() == 0)
+                        && (recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING) && offset > 30;
+                if (shouldRefresh) {
+                    binder.propertiesRecyclerSwipeToRefresh.setRefreshing(true);
+                    //Refresh to load data here.
+                    return;
+                }
+                boolean shouldPullUpRefresh = manager.findLastCompletelyVisibleItemPosition() == manager.getChildCount() - 1
+                        && recyclerView.getScrollState() == RecyclerView.SCROLL_STATE_DRAGGING && offset < -30;
+                if (shouldPullUpRefresh) {
+                    binder.propertiesRecyclerSwipeToRefresh.setRefreshing(true);
+                    //refresh to load data here.
+                    return;
+                }
+                binder.propertiesRecyclerSwipeToRefresh.setRefreshing(false);
+
+            }
+        });
     }
 
     private void getProperties(){
@@ -249,9 +275,8 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     }
 
 
-
     //hide swipeToRefresh progressIcon after 1 second
-    @Override
+    /*@Override
     public void onRefresh() {
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -260,7 +285,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
                     binder.propertiesRecyclerSwipeToRefresh.setRefreshing(false);
             }
         }, SWIPE_TO_REFRESH_DISPLAY_DURATION);
-    }
+    }*/
 
     //TODO to display 1 or 2 properties in a row
     /*private void arrangeLayoutManagerToDisplaySingleAndDuplicateItems(final GridLayoutManager layoutManager){

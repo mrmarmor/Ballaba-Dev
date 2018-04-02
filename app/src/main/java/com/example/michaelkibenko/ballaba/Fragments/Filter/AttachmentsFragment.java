@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
 /**
@@ -70,31 +71,34 @@ public class AttachmentsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_attachments, container, false);
-        animateScreen(false);
+        UiUtils.instance(true, context).setFilterBarVisibility(UiUtils.ScreenStates.HALF);
+        //animateScreen(false);
 
         return v;
     }
 
-    private void animateScreen(boolean hasFocus){
+    /*private void animateScreen(boolean hasFocus){
         Guideline guideline = binder.mainActivityFilterGuidelineTop;
         ConstraintLayout.LayoutParams lp = (ConstraintLayout.LayoutParams)guideline.getLayoutParams();
         lp.guidePercent = hasFocus? 0 : .5f;
         guideline.setLayoutParams(lp);
 
-        ConstraintLayout constraintLayout = binder.mainActivityFilterIncluded.mainActivityFilterRoot;
+        ConstraintLayout constraintLayout = ((ConstraintLayout)binder.mainActivityFilterIncluded);
         ConstraintSet constraintSetHeight = new ConstraintSet();
         constraintSetHeight.clone(context, R.layout.search_filter_screen);
         constraintSetHeight.setGuidelinePercent(R.id.mainActivity_filter_guideline_top, 0.07f); // 7% // range: 0 <-> 1
 
         TransitionManager.beginDelayedTransition(constraintLayout);
         constraintSetHeight.applyTo(constraintLayout);
-    }
+    }*/
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
 
-        animateScreen(isVisibleToUser);
+        float screenState = isVisibleToUser ? UiUtils.ScreenStates.FULL : UiUtils.ScreenStates.HALF;
+        UiUtils.instance(true, context).setFilterBarVisibility(screenState);
+        //animateScreen(isVisibleToUser);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

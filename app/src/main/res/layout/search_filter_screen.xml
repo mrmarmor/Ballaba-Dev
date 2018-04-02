@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layoutDirection="ltr"
-        android:translationZ="3dp">
+        android:translationZ="6dp">
 
     <LinearLayout
         android:id="@+id/mainActivity_filterButtons_linearLayout"

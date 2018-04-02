@@ -212,7 +212,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
 
     public void onClickToFilter(){
         Toast.makeText(context, "filter clicked", Toast.LENGTH_SHORT).show();
-        UiUtils.instance(true, context).setFilterBarVisibility(true);
+        UiUtils.instance(true, context).setFilterBarVisibility(UiUtils.ScreenStates.HALF);
 
     }
 

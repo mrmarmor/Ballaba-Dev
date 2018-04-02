@@ -136,4 +136,6 @@
     <dimen name="chip_childSpacing">10dp</dimen>
     <dimen name="chip_rowSpacing">8dp</dimen>
 
+    <dimen name="filter_slider_circle">18dp</dimen>
+
 </resources>

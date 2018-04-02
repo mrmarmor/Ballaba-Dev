@@ -170,15 +170,10 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
             Log.d(TAG, getLayoutPosition()+":"+properties.get(getLayoutPosition()).isSaved+"");
             listener.BallabaPropertyOnClick(v, getLayoutPosition());
 
-            UiUtils.instance(true, mContext).setFilterBarVisibility(false);
+            //UiUtils.instance(true, mContext).setFilterBarVisibility(UiUtils.ScreenStates.HIDE);
+
         }
 
-       /* ActivityMainLayoutBinding mainBinder;
-        public void hideFilterBar(){
-            Log.d(TAG, "hiding");
-            mainBinder = DataBindingUtil.setContentView((Activity)mContext, R.layout.activity_main_layout);
-            mainBinder.mainActivityFilterRoot.setVisibility(View.GONE);
-        }*/
     }
 
     private void lazyLoading(int offset){
