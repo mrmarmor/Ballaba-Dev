@@ -97,7 +97,7 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     @Override
     public void onBindViewHolder(final PropertiesRecyclerAdapter.ViewHolder holder, final int position) {
         Log.d(TAG, properties.size()+":"+position);
-        BallabaPropertyResult property = properties.get(position);
+        final BallabaPropertyResult property = properties.get(position);
 
 //        RequestOptions options = new RequestOptions();
 //        options.centerCrop();
@@ -141,6 +141,7 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, PropertyDescriptionActivity.class);
+                intent.putExtra(PropertyDescriptionActivity.PROPERTY_ID, property.id);
                 mContext.startActivity(intent);
             }
         });

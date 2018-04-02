@@ -1,6 +1,7 @@
 package com.example.michaelkibenko.ballaba.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.R;
 import java.util.ArrayList;
@@ -42,7 +44,7 @@ public class MapPropertiesRecyclerAdapter extends RecyclerView.Adapter<MapProper
 
     @Override
     public void onBindViewHolder(@NonNull MapPropertyItemViewHolder holder, int position) {
-        BallabaPropertyResult propertyResult = items.get(position);
+        final BallabaPropertyResult propertyResult = items.get(position);
         try {
             Glide.with(context).load(propertyResult.photos.get(0)).into(holder.photo);
         }catch(IndexOutOfBoundsException ex){
@@ -56,6 +58,15 @@ public class MapPropertiesRecyclerAdapter extends RecyclerView.Adapter<MapProper
         holder.roomsNumber.setText(propertyResult.roomsNumber);
         holder.metres.setText(propertyResult.size);
         holder.formattedAddress.setText(propertyResult.formattedAddress);
+
+        holder.parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PropertyDescriptionActivity.class);
+                intent.putExtra(PropertyDescriptionActivity.PROPERTY_ID, propertyResult.id);
+                context.startActivity(intent);
+            }
+        });
     }
 
     public class MapPropertyItemViewHolder extends RecyclerView.ViewHolder{
