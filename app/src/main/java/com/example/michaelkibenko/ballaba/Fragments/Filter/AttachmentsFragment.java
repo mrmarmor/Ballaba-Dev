@@ -81,7 +81,7 @@ public class AttachmentsFragment extends Fragment {
         lp.guidePercent = hasFocus? 0 : .5f;
         guideline.setLayoutParams(lp);
 
-        ConstraintLayout constraintLayout = (ConstraintLayout)binder.mainActivityFilterRoot;
+        ConstraintLayout constraintLayout = binder.mainActivityFilterIncluded.mainActivityFilterRoot;
         ConstraintSet constraintSetHeight = new ConstraintSet();
         constraintSetHeight.clone(context, R.layout.search_filter_screen);
         constraintSetHeight.setGuidelinePercent(R.id.mainActivity_filter_guideline_top, 0.07f); // 7% // range: 0 <-> 1

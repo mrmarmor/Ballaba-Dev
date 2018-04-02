@@ -158,19 +158,14 @@
                 app:layout_constraintGuide_percent="0.5" />
 
             <include layout="@layout/search_filter_screen"
-                android:id="@+id/mainActivity_filter_root"
+                android:id="@+id/mainActivity_filter_included"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 app:layout_constraintTop_toBottomOf="@id/mainActivity_filter_guideline_top"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toBottomOf="parent" />
+            <!--android:onClickListener="@{() -> presenter.getClickListener()}"-->
+
             </android.support.constraint.ConstraintLayout>
-            <!--<include android:id="@+id/mainActivity_included_filterScreen"
-                layout="@layout/filter_screen_half_height"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:translationZ="3dp" />-->
 
         <android.support.design.widget.NavigationView
             android:id="@+id/mainActivity_navigationView"

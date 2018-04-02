@@ -73,6 +73,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
 
     //private PropertyItemPresenter presenter;
     private FragmentPropertiesRecyclerBinding binder;
+//    private ActivityMainLayoutBinding mainBinder;
     //private LayoutInflater inflater;
 
     private OnFragmentInteractionListener mListener;
@@ -103,12 +104,12 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
+        /*if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
-        }
+        }*/
 
         this.context = context;
 
@@ -247,6 +248,8 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
         rvAdapter.updateList(properties);
     }
 
+
+
     //hide swipeToRefresh progressIcon after 1 second
     @Override
     public void onRefresh() {
@@ -295,6 +298,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

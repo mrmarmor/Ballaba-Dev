@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.transition.Visibility;
@@ -28,20 +29,25 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Common.BallabaPropertyListener;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
+import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
 import com.example.michaelkibenko.ballaba.Presenters.PropertyItemPresenter;
 import com.example.michaelkibenko.ballaba.Presenters.TestingPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
+import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyItemBinding;
 
 import java.text.Format;
@@ -62,6 +68,7 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     private BallabaSearchPropertiesManager propertiesManager;
     private LayoutInflater mInflater;
     private PropertyItemBinding binder;
+    private PropertiesRecyclerFragment.OnFragmentInteractionListener recyclerListener;
     private BallabaPropertyListener listener;
     private Resources res;
 
@@ -163,8 +170,15 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
             Log.d(TAG, getLayoutPosition()+":"+properties.get(getLayoutPosition()).isSaved+"");
             listener.BallabaPropertyOnClick(v, getLayoutPosition());
 
-
+            UiUtils.instance(true, mContext).setFilterBarVisibility(false);
         }
+
+       /* ActivityMainLayoutBinding mainBinder;
+        public void hideFilterBar(){
+            Log.d(TAG, "hiding");
+            mainBinder = DataBindingUtil.setContentView((Activity)mContext, R.layout.activity_main_layout);
+            mainBinder.mainActivityFilterRoot.setVisibility(View.GONE);
+        }*/
     }
 
     private void lazyLoading(int offset){

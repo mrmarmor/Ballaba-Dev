@@ -1,12 +1,19 @@
 package com.example.michaelkibenko.ballaba.Utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
+import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by User on 11/03/2018.
@@ -57,5 +64,10 @@ public class UiUtils {
             btn.setClickable(false);
             btn.setTextColor(Color.BLACK);
         }
+    }
+
+    public void setFilterBarVisibility(boolean isVisible){
+        View rootView = ((Activity)ctx).getWindow().getDecorView().findViewById(R.id.mainActivity_filter_included);
+        rootView.setVisibility(isVisible? View.VISIBLE : View.GONE);
     }
 }

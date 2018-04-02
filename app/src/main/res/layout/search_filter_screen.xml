@@ -1,48 +1,80 @@
-<android.support.constraint.ConstraintLayout
-    android:id="@+id/mainActivity_filter_root"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:translationZ="3dp"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="presenter"
+            type="com.example.michaelkibenko.ballaba.Presenters.MainPresenter"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/mainActivity_filter_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layoutDirection="ltr"
+        android:translationZ="3dp">
 
     <LinearLayout
         android:id="@+id/mainActivity_filterButtons_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/colorPrimary"
         android:orientation="horizontal"
         android:weightSum="1.25">
 
         <Button
-            android:id="@+id/mainActivity_filter_price_button"
-            style="@style/mainActivity_button"
-            android:onClick="@{() -> presenter.onClickSortByRelevant()}"
-            android:text="@string/mainScreen_buttons_text_price" />
-        <Button
-            android:id="@+id/mainActivity_filter_rooms_button"
-            style="@style/mainActivity_button"
-            android:onClick="@{() -> presenter.onClickSortByPrice()}"
-            android:text="@string/mainScreen_buttons_text_rooms" />
-        <Button
-            android:id="@+id/mainActivity_filter_size_button"
-            style="@style/mainActivity_button"
-            android:onClick="@{() -> presenter.onClickSortBySize()}"
-            android:text="@string/mainScreen_buttons_text_size" />
+            android:id="@+id/mainActivity_filter_dateOfEntrance_button"
+            android:tag="4"
+            style="@style/mainActivity_button_filter"
+            android:text="@string/mainScreen_buttons_text_dateOfEntrance" />
         <Button
             android:id="@+id/mainActivity_filter_attachments_button"
-            style="@style/mainActivity_button"
-            android:onClick="@{() -> presenter.onClickSortByRooms()}"
+            android:tag="3"
+            style="@style/mainActivity_button_filter"
             android:text="@string/mainScreen_buttons_text_attachments" />
         <Button
-            android:id="@+id/mainActivity_filter_dateOfEntrance_button"
+            android:id="@+id/mainActivity_filter_size_button"
+            android:tag="2"
+            style="@style/mainActivity_button_filter"
+            android:text="@string/mainScreen_buttons_text_size" />
+        <Button
+            android:id="@+id/mainActivity_filter_rooms_button"
+            android:tag="1"
+            style="@style/mainActivity_button_filter"
+            android:text="@string/mainScreen_buttons_text_rooms" />
+        <Button
+            android:id="@+id/mainActivity_filter_price_button"
+            android:tag="0"
             style="@style/mainActivity_button"
-            android:onClick="@{() -> presenter.onClickSortByRooms()}"
-            android:text="@string/mainScreen_buttons_text_dateOfEntrance" />
+            android:text="@string/mainScreen_buttons_text_price"
+            android:background="@color/colorPrimaryDark" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/mainActivity_filterButtons_linearLayout"
+        android:orientation="horizontal"
+        android:weightSum="1.25">
+
+        <View android:id="@+id/mainActivity_filterButtons_divider_dateOfEntrance"
+            style="@style/mainActivity_button_filter_divider"
+            app:layout_constraintBottom_toBottomOf="@id/mainActivity_filterButtons_linearLayout"/>
+        <View android:id="@+id/mainActivity_filterButtons_divider_attachments"
+            style="@style/mainActivity_button_filter_divider"
+            app:layout_constraintBottom_toBottomOf="@id/mainActivity_filterButtons_linearLayout"/>
+        <View android:id="@+id/mainActivity_filterButtons_divider_size"
+            style="@style/mainActivity_button_filter_divider"
+            app:layout_constraintBottom_toBottomOf="@id/mainActivity_filterButtons_linearLayout"/>
+        <View android:id="@+id/mainActivity_filterButtons_divider_rooms"
+            style="@style/mainActivity_button_filter_divider"
+            app:layout_constraintBottom_toBottomOf="@id/mainActivity_filterButtons_linearLayout"/>
+        <View android:id="@+id/mainActivity_filterButtons_divider_price"
+            style="@style/mainActivity_button_filter_divider"
+            app:layout_constraintBottom_toBottomOf="@id/mainActivity_filterButtons_linearLayout"
+            android:visibility="visible"/>
     </LinearLayout>
 
     <android.support.v4.view.ViewPager
@@ -60,7 +92,7 @@
         app:layout_constraintTop_toBottomOf="@id/mainActivity_filter_viewPager"
         app:layout_constraintBottom_toBottomOf="parent"
         android:background="@color/colorAccent"
-        android:orientation="horizontal"
+        android:orientation="horizontal" android:translationZ="3dp"
         android:weightSum="0.5">
 
         <Button
@@ -79,3 +111,4 @@
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
+</layout>
