@@ -58,6 +58,8 @@
             android:label="Search" />
         <activity android:name=".Activities.SelectCitySubActivity" />
 
+        <activity android:name=".Activities.PropertyDescriptionActivity"/>
+
         <!-- RECEIVERS -->
         <receiver
             android:name=".Activities.EnterCodeActivity$BallabaSMSReceiver"

@@ -2,6 +2,7 @@ package com.example.michaelkibenko.ballaba.Adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Common.BallabaPropertyListener;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
@@ -56,7 +58,7 @@ import java.util.List;
  * Created by User on 13/03/2018.
  */
 
-public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRecyclerAdapter.ViewHolder> {
+public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRecyclerAdapter.ViewHolder>{
     private final String TAG = PropertiesRecyclerAdapter.class.getSimpleName();
 
     private List<BallabaPropertyResult> properties;
@@ -134,6 +136,14 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         if (position == (properties.size() - (/*OFFSET*/20 / 2))){
             lazyLoading(properties.size());
         }
+
+        binder.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, PropertyDescriptionActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
 
     }
 
