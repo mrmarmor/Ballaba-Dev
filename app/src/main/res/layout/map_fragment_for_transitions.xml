@@ -18,6 +18,14 @@
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
+    <View
+        android:id="@+id/saveMapSearchContainerTop_anchor"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/saveMapSearchContainer"
         android:layout_width="match_parent"
@@ -52,21 +60,20 @@
             android:textColor="@color/propertyRecyclerView_background_white"
             />
 
-        <Button
-            android:id="@+id/saveMapSearch_save_BTN"
-            android:layout_width="@dimen/saveMapSearch_save_BTN_width"
-            android:layout_height="@dimen/saveMapSearch_save_BTN_height"
-            android:background="@color/propertyRecyclerView_background_white"
-            android:textColor="@color/colorPrimary"
-            android:text="@string/saveMapSearch_BTN_Txt"
-            android:textSize="@dimen/saveMapSearch_save_text_size"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="@dimen/saveMapSearch_start_offset"
-            />
-
     </android.support.constraint.ConstraintLayout>
+
+    <Button
+        android:id="@+id/map_fragment_getPropertiesBTN"
+        android:layout_width="121dp"
+        android:layout_height="39dp"
+        android:text="חפש באזור זה"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@android:color/white"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="70dp"
+        />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/mapFragment_properties_RV"

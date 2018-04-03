@@ -18,6 +18,13 @@
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toBottomOf="parent" />
 
+    <View
+        android:id="@+id/saveMapSearchContainerTop_anchor"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/saveMapSearchContainer"
         android:layout_width="match_parent"
@@ -80,11 +87,15 @@
 
     <Button
         android:id="@+id/map_fragment_getPropertiesBTN"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:text="get"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="100dp"
+        android:layout_width="121dp"
+        android:layout_height="39dp"
+        android:text="חפש באזור זה"
+        app:layout_constraintBottom_toTopOf="@+id/saveMapSearchContainerTop_anchor"
+        android:background="@android:color/white"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="70dp"
         />
 
     <FrameLayout
