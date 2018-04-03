@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/roomsFragment_rootLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent" android:rotation="180"
     tools:context="com.example.michaelkibenko.ballaba.Fragments.Filter.RoomsFragment">
 
     <!-- TODO: Update blank fragment layout -->

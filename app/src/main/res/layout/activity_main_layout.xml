@@ -51,7 +51,7 @@
                 android:background="@android:color/transparent"
                 android:onClick="@{() -> presenter.onClickToGoogleMap()}"
                 android:src="@drawable/disabled"
-                android:translationZ="3dp"
+                android:translationZ="@dimen/translationZ"
                 app:layout_constraintEnd_toEndOf="@id/mainActivity_search_button"
                 app:layout_constraintTop_toTopOf="@id/mainActivity_search_button"
                 app:layout_constraintBottom_toBottomOf="@id/mainActivity_search_button" />
@@ -64,7 +64,7 @@
                 app:layout_constraintTop_toTopOf="@id/mainActivity_search_button"
                 app:layout_constraintBottom_toBottomOf="@id/mainActivity_search_button"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:translationZ="3dp"
+                android:translationZ="@dimen/translationZ"
                 android:background="@android:color/transparent"
                 android:src="@drawable/menu_grey_24"
                 android:onClick="@{() -> presenter.onClickDrawer()}"
@@ -77,7 +77,7 @@
                 app:layout_constraintTop_toTopOf="@id/mainActivity_search_button"
                 app:layout_constraintBottom_toBottomOf="@id/mainActivity_search_button"
                 android:layout_marginStart="@dimen/mainActivity_searchIcon_margin_start"
-                android:translationZ="3dp"
+                android:translationZ="@dimen/translationZ"
                 android:scaleType="fitXY"
                 android:background="@android:color/transparent"
                 android:src="@android:drawable/ic_search_category_default" />
@@ -112,23 +112,12 @@
 
             </LinearLayout>
 
-            <!-- this scrollView is only to prevent viewPager swiping -->
-           <!-- <HorizontalScrollView
-                android:id="@+id/mainActivity_horizontalScrollView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:fillViewport="true">-->
             <com.example.michaelkibenko.ballaba.Views.NonSwipeableViewPager
                 android:id="@+id/mainActivity_properties_viewPager"
                 style="@style/allWrapContent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
-<!--
-            </HorizontalScrollView>
--->
 
             <!--TODO layout_marginStart/Bottom are now out of dimens file because tzlil should decide on uniform values for them between their appearance in viewPager's 2 fragments -->
             <android.support.design.widget.FloatingActionButton

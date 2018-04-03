@@ -3,10 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/priceFragment_rootLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" android:background="@color/colorPrimaryDark"
+    android:layout_height="match_parent" android:rotation="180"
     tools:context="com.example.michaelkibenko.ballaba.Fragments.Filter.PriceFragment">
-
-
 
     <View
         android:layout_width="@dimen/filter_slider_circle"
@@ -15,7 +13,19 @@
         android:layout_alignTop="@id/mainActivity_filter_price_slider"
         android:background="@drawable/circle_white"
         />
-    <com.etiennelawlor.discreteslider.library.ui.DiscreteSlider
+
+    <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+        android:id="@+id/mainActivity_filter_price_slider"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        app:corner_radius="9"
+        app:max_value="7000"
+        app:min_value="1000"
+        app:steps="100"
+        app:position="right"/>
+
+    <!--<com.etiennelawlor.discreteslider.library.ui.DiscreteSlider
         android:id="@+id/mainActivity_filter_price_slider"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
@@ -27,7 +37,7 @@
         app:tickMarkCount="6"
         app:tickMarkRadius="9dp"
         app:position="3"
-        />
+        />-->
     <View
         android:layout_width="@dimen/filter_slider_circle"
         android:layout_height="@dimen/filter_slider_circle"
