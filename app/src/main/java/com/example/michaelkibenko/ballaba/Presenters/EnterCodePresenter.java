@@ -1,6 +1,7 @@
 package com.example.michaelkibenko.ballaba.Presenters;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 
@@ -14,21 +15,25 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
+import com.example.michaelkibenko.ballaba.Activities.SplashActivity;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPhoneNumber;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
+import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
@@ -36,6 +41,8 @@ import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.EnterCodeLayoutBinding;
 
+
+import java.util.ArrayList;
 
 import static com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter.Flows.CODE_EXPIRED;
 import static com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter.Flows.INTERNAL_ERROR;
@@ -171,7 +178,8 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
                         BallabaUser user = (BallabaUser)entity;
                         BallabaUserManager.getInstance().setUser(user);
                         SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.GLOBAL_TOKEN, user.getGlobal_token());
-                        onFlowChanged(EnterPhoneNumberPresenter.Flows.OK);
+                        UiUtils.instance(true, context).hideSoftKeyboard(binder.getRoot());
+                        getProperties();
                     }
                 }
 
@@ -189,6 +197,29 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
             ((BaseActivity)context).showNetworkError(binder.getRoot());
             listenToNetworkChanges();
         }
+    }
+
+    private void getProperties(){
+        binder.enterCodeProgress.setVisibility(View.VISIBLE);
+        BallabaSearchPropertiesManager.getInstance(context).getRandomProperties(new BallabaResponseListener() {
+            @Override
+            public void resolve(BallabaBaseEntity entity) {
+                ArrayList<BallabaPropertyResult> properties = BallabaSearchPropertiesManager
+                        .getInstance(context).parsePropertyResults(
+                                ((BallabaOkResponse)entity).body);
+
+                Log.d(TAG, "properties: " + properties+"");
+                BallabaSearchPropertiesManager.getInstance(context).appendProperties(
+                        properties, false);
+                binder.enterCodeProgress.setVisibility(View.GONE);
+                onFlowChanged(EnterPhoneNumberPresenter.Flows.OK);
+            }
+
+            @Override
+            public void reject(BallabaBaseEntity entity) {
+                ((BaseActivity)context).getDefaultSnackBar(binder.getRoot(), context.getResources().getString(R.string.error_network_internal), true);
+            }
+        });
     }
 
     private void onFlowChanged(int statusCode) {

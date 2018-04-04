@@ -84,6 +84,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
     private ArrayAdapter<CharSequence> spinnerArrayAdapter;
     private PhoneNumberUtil phoneUtil;
     public BallabaConnectivityListener connectivityListener;
+    private float progressBar_send_button_width, normal_send_button_width;
 
 
     public EnterPhoneNumberPresenter(Context context, EnterPhoneNumberLayoutBinding binder) {
@@ -107,6 +108,8 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         binder.enterPhoneNumberET.requestFocus();
 
         binder.enterPhoneNumberCheckbox.setOnCheckedChangeListener(this);
+        normal_send_button_width = context.getResources().getDimension(R.dimen.enterPhoneNumber_progressButton_no_progress_width);
+        progressBar_send_button_width = context.getResources().getDimension(R.dimen.enterPhoneNumber_progressButton_progress_width);
     }
 
     public BallabaPhoneNumber getPhoneNumber() {
@@ -206,6 +209,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
                 public void reject(BallabaBaseEntity entity) {
                     if (entity instanceof BallabaErrorResponse) {
                         //TODO replace next line with snackbar
+                        circleProgressBarChanger(false);
                         binder.enterPhoneNumberTextErrorAnswer.setVisibility(View.VISIBLE);
                         Log.d(TAG, "loginWithPhoneNumber rejected " + ((BallabaErrorResponse) entity).statusCode);
                         onFlowChanged(((BallabaErrorResponse) entity).statusCode);
@@ -251,7 +255,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)binder.enterPhoneNumberNextButton.getLayoutParams();
 
         if (isShow) {
-            params.width = 120;
+            params.width = (int)progressBar_send_button_width;
             binder.enterPhoneNumberNextButton.setLayoutParams(params);
             binder.enterPhoneNumberNextButton.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
             binder.enterPhoneNumberNextButton.setPaddingRelative((int)context.getResources().getDimension(R.dimen.small_margin), 0, 0, 0);
@@ -260,10 +264,9 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements AdapterV
             binder.enterPhoneNumberNextButtonProgress.getIndeterminateDrawable().setColorFilter(
                     context.getResources().getColor(R.color.colorPrimary, context.getTheme()), android.graphics.PorterDuff.Mode.SRC_IN);
         } else {
-            params.width = 105;
+            params.width = (int)normal_send_button_width;
             binder.enterPhoneNumberNextButton.setLayoutParams(params);
-            binder.enterPhoneNumberNextButton.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-
+            binder.enterPhoneNumberNextButton.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
             binder.enterPhoneNumberNextButtonProgress.setVisibility(View.GONE);
         }
     }
