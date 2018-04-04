@@ -23,6 +23,7 @@ public class ViewPagerPropertiesAdapter extends FragmentStatePagerAdapter {
     private Context context;
     private ActivityMainLayoutBinding binder;
     private PropertiesRecyclerFragment propertiesRecyclerFragment;
+    private BallabaMapFragment mapFragment;
 
     public ViewPagerPropertiesAdapter(Context context, ActivityMainLayoutBinding binder, FragmentManager fm, PropertiesRecyclerFragment propertiesRecyclerFragment) {
         super(fm);
@@ -30,12 +31,13 @@ public class ViewPagerPropertiesAdapter extends FragmentStatePagerAdapter {
         this.context = context;
         this.binder = binder;
         this.propertiesRecyclerFragment = propertiesRecyclerFragment;
+        this.mapFragment = BallabaMapFragment.newInstance();
     }
 
     @Override
     public Fragment getItem(int position) {
         if (position == 1) {
-            return BallabaMapFragment.newInstance();
+            return mapFragment;
         } else {
             return propertiesRecyclerFragment;
         }

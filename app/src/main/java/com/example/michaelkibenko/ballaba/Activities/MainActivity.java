@@ -3,21 +3,12 @@ package com.example.michaelkibenko.ballaba.Activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
-import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
-import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
-import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Fragments.Filter.AttachmentsFragment;
 import com.example.michaelkibenko.ballaba.Fragments.Filter.DateOfEntranceFragment;
 import com.example.michaelkibenko.ballaba.Fragments.Filter.PriceFragment;
@@ -25,9 +16,7 @@ import com.example.michaelkibenko.ballaba.Fragments.Filter.RoomsFragment;
 import com.example.michaelkibenko.ballaba.Fragments.Filter.SizeFragment;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
-import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
-import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
 import com.example.michaelkibenko.ballaba.Presenters.SelectCityPresenter;
 import com.example.michaelkibenko.ballaba.R;
@@ -35,7 +24,6 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by michaelkibenko on 12/03/2018.
@@ -52,7 +40,7 @@ public class MainActivity extends BaseActivity implements
     private final String TAG = MainActivity.class.getSimpleName();
 
     private ActivityMainLayoutBinding binder;
-    private MainPresenter presenter;
+    public MainPresenter presenter;
     //private List<BallabaProperty> properties = new ArrayList<>();
 
     @Override
@@ -126,7 +114,8 @@ public class MainActivity extends BaseActivity implements
                     }
                 }
 
-                presenter.SearchBarStateUIChanger(cities.get(0), MainPresenter.SearchState.FILTERED);
+                //TODO Moshe check it
+//                presenter.filterStateUIChanger(MainPresenter.FilterState.NO_FILTER);
 
                 /*BallabaSearchPropertiesManager.getInstance(this).getPropertiesByLatLng(cityLatLngStr
                         , new BallabaResponseListener() {

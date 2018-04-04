@@ -8,7 +8,7 @@
     </data>
 
     <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/mainActivity_drawerLayout"
+        android:id="@+id/mainActivity_drawerLayout"
         style="@style/allMatchParent"
         android:fitsSystemWindows="true"
         android:layoutDirection="rtl"
@@ -144,8 +144,8 @@
             <include layout="@layout/search_filter_screen"
                 android:id="@+id/mainActivity_filter_included"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/mainScreen_filter_middle_height"
-                app:layout_constraintTop_toBottomOf="@+id/mainActivity_bottom_anchor"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/mainActivity_bottom_anchor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -159,7 +159,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
-            </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
 
         <android.support.design.widget.NavigationView
             android:id="@+id/mainActivity_navigationView"

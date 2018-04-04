@@ -18,10 +18,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -64,7 +67,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     private final String TAG = MainPresenter.class.getSimpleName();
     public static final int REQ_CODE_GPS_PERMISSION = 1, REQ_CODE_SELECT_CITY = 2;
 
-    public @interface SearchState { int FILTERED = 1; int NOT_FILTERED = 2; }
+    public @interface FilterState { int NO_FILTER = 1; int MIDDLE_FILTER = 2; int FULL_FILTER = 3; }
 
     private Context context;
     private FragmentManager fm;
@@ -75,14 +78,23 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     public Button.OnClickListener clickListener;
     private PropertiesRecyclerFragment.OnFragmentInteractionListener mListener;
     private PropertiesRecyclerFragment propertiesFragment;
+    private LayoutInflater inflater;
+    private ConstraintLayout filterTransition, noFilterTransition;
     //private GoogleMap googleMap;
+    private float middleFilterHeight;
+    public @FilterState int filterState;
 
     public MainPresenter(Context context, ActivityMainLayoutBinding binder, FragmentManager fm){
         this.binder = binder;
         this.context = context;
         this.fm = fm;
-
+        this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.noFilterTransition = binder.mainActivityRootLayout;
+        ViewGroup parent = ((MainActivity)context).getWindow().getDecorView().findViewById(android.R.id.content);
+        this.filterTransition = (ConstraintLayout) inflater.inflate(R.layout.activity_main_layout_filter_transition, parent, false).findViewById(R.id.mainActivity_rootLayout);
         propertiesFragment = PropertiesRecyclerFragment.newInstance(null);
+        middleFilterHeight = context.getResources().getDimension(R.dimen.mainScreen_filter_middle_height);
+        this.filterState = FilterState.NO_FILTER;
         initDrawer();
         initViewPagerProperties();
         //TODO to be added only when after user selected city
@@ -211,44 +223,36 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     }
 
     public void onClickToFilter(){
-        Toast.makeText(context, "filter clicked", Toast.LENGTH_SHORT).show();
-        UiUtils.instance(true, context).setFilterBarVisibility(UiUtils.ScreenStates.HALF);
+        filterStateUIChanger(FilterState.MIDDLE_FILTER);
+//        UiUtils.instance(true, context).setFilterBarVisibility(UiUtils.ScreenStates.HALF);
 
     }
 
-    public void onClickFilterButton(/*int position*/){
-        Toast.makeText(context, "filter clicked", Toast.LENGTH_SHORT).show();
-        filterViewPager.setCurrentItem(1/*position*/);
-    }
-
-    //TODO it could be united with next method
-    //TODO also, i can delete SearchState because there is only 1 state change - from not filtered to filtered
-    public void SearchBarStateUIChanger(String city, @SearchState int state){
-        onSearchBarUIChanged(city, state);
-    }
-
-    private void onSearchBarUIChanged(String city, int state){
-        if (state == SearchState.FILTERED){
-            binder.mainActivitySearchBar.setBackgroundColor(context.getResources()
-                .getColor(R.color.colorPrimary, context.getTheme()));
-            binder.mainActivitySortButtonsLinearLayout.setVisibility(View.VISIBLE);
-            binder.mainActivitySearchButton.setText(city);
-            binder.propertiesRecyclerFloatingButton.setVisibility(View.VISIBLE);
-
-            ConstraintSet constraintSet = new ConstraintSet();
-            constraintSet.clone(binder.mainActivityRootLayout);
-            //app:layout_constraintBottom_toTopOf="@+id/mainActivity_viewPager" />
-            constraintSet.connect(R.id.mainActivity_properties_viewPager, ConstraintSet.TOP, R.id.mainActivity_sortButtons_linearLayout, ConstraintSet.BOTTOM,0);
-            //constraintSet.connect(R.id.mainActivity_horizontalScrollView, ConstraintSet.RIGHT, R.id.mainActivity_drawerLayout, ConstraintSet.RIGHT,0);
-            constraintSet.applyTo(binder.mainActivityRootLayout);
-
-        } else {
-            binder.mainActivitySearchBar.setBackgroundColor(context.getResources()
-                    .getColor(android.R.color.white, context.getTheme()));
-            binder.mainActivitySortButtonsLinearLayout.setVisibility(View.GONE);
-            binder.mainActivitySearchButton.setText("");
-            binder.propertiesRecyclerFloatingButton.setVisibility(View.GONE);
+    public void filterStateUIChanger(@FilterState int state){
+        if(state != filterState){
+            this.filterState = state;
+            onFilterUIChanged(state);
         }
+    }
+
+    private void onFilterUIChanged(int state){
+        ConstraintSet set = new ConstraintSet();
+        if (state == FilterState.NO_FILTER){
+            set.clone(noFilterTransition);
+            binder.propertiesRecyclerFloatingButton.setVisibility(View.VISIBLE);
+            binder.mainActivityBottomAnchor.setBackgroundColor(context.getResources().getColor(android.R.color.transparent, context.getTheme()));
+        } else if (state == FilterState.MIDDLE_FILTER){
+            set.clone(filterTransition);
+            set.constrainHeight(R.id.mainActivity_filter_included, (int)middleFilterHeight);
+            binder.propertiesRecyclerFloatingButton.setVisibility(View.GONE);
+            binder.mainActivityBottomAnchor.setBackgroundColor(context.getResources().getColor(R.color.colorAccent, context.getTheme()));
+        }else if(state == FilterState.FULL_FILTER){
+            set.clone(filterTransition);
+            set.constrainHeight(R.id.mainActivity_filter_included, ConstraintLayout.LayoutParams.MATCH_PARENT);
+            binder.mainActivityBottomAnchor.setBackgroundColor(context.getResources().getColor(R.color.colorAccent, context.getTheme()));
+        }
+        TransitionManager.beginDelayedTransition(binder.mainActivityRootLayout);
+        set.applyTo(binder.mainActivityRootLayout);
     }
 
     public Button.OnClickListener getClickListener(){

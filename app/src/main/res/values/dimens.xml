@@ -146,5 +146,7 @@
     <dimen name="enterPhoneNumber_progressButton_no_progress_width">70dp</dimen>
     <dimen name="enterPhoneNumber_progressButton_progress_width">100dp</dimen>
 
+    <dimen name="mainScreen_filter_middle_height">265dp</dimen>
+
 
 </resources>

@@ -151,6 +151,21 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
 
         //swipeRefreshLayout = view.findViewById(R.id.properties_recycler_swipeToRefresh);
         binder.propertiesRecyclerSwipeToRefresh.setOnRefreshListener(this);
+
+        binder.propertiesRecyclerRV.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                if(((MainActivity)context).presenter.filterState != MainPresenter.FilterState.NO_FILTER){
+                    ((MainActivity)context).presenter.filterStateUIChanger(MainPresenter.FilterState.NO_FILTER);
+                }
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
     }
 
     private void getProperties(){
