@@ -110,9 +110,9 @@
     <dimen name="mainActivity_searchIcon_margin_top_bottom">15.5dp</dimen>
     <dimen name="mainActivity_searchIcon_margin_start">19.5dp</dimen>
     <dimen name="mainActivity_searchButton_text_padding_start">94dp</dimen>
-    <dimen name="mainActivity_FAB_dimens">56dp</dimen>
-    <dimen name="mainActivity_FAB_margin_end">30dp</dimen>
-    <dimen name="mainActivity_FAB_margin_bottom">40dp</dimen>
+    <dimen name="mainActivity_FAB_dimens">70dp</dimen>
+    <dimen name="mainActivity_FAB_margin_end">15dp</dimen>
+    <dimen name="mainActivity_FAB_margin_bottom">70dp</dimen>
     <dimen name="mainActivity_drawer_marginEnd">-58dp</dimen>
 
     <dimen name="mapMarkerSize">30dp</dimen>

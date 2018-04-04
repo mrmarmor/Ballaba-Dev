@@ -120,7 +120,7 @@
                 />
 
             <!--TODO layout_marginStart/Bottom are now out of dimens file because tzlil should decide on uniform values for them between their appearance in viewPager's 2 fragments -->
-            <android.support.design.widget.FloatingActionButton
+            <ImageButton
                 android:id="@+id/properties_recycler_floatingButton"
                 android:layout_width="@dimen/mainActivity_FAB_dimens"
                 android:layout_height="@dimen/mainActivity_FAB_dimens"
@@ -129,12 +129,7 @@
                 android:layout_marginEnd="@dimen/mainActivity_FAB_margin_end"
                 android:layout_marginBottom="@dimen/mainActivity_FAB_margin_bottom"
                 android:onClick="@{() -> presenter.onClickToFilter()}"
-                android:scaleType="center"
-                android:src="@drawable/normal_blue"
-                app:backgroundTint="@color/colorPrimary"
-                app:backgroundTintMode="src_atop"
-                app:borderWidth="0dp"
-                android:visibility="gone"
+                android:background="@drawable/normal_blue"
                 />
 
             <android.support.constraint.Guideline
@@ -150,10 +145,20 @@
                 android:id="@+id/mainActivity_filter_included"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layout_constraintTop_toBottomOf="@id/mainActivity_filter_guideline_top"
-                app:layout_constraintBottom_toBottomOf="parent" />
-            <!--android:onClickListener="@{() -> presenter.getClickListener()}"-->
+                app:layout_constraintTop_toBottomOf="@+id/mainActivity_bottom_anchor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
 
+
+            <View
+                android:id="@+id/mainActivity_bottom_anchor"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/transparent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
             </android.support.constraint.ConstraintLayout>
 
         <android.support.design.widget.NavigationView
