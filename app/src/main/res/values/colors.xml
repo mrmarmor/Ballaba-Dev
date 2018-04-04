@@ -10,4 +10,5 @@
     <color name="red_error_phone">#e03f3f</color>
     <color name="black_strip_with_alpha">#66000000</color>
     <color name="propertyRecyclerView_background_white">#eeeeee</color>
+    <color name="filter_textColor_aquaBlue">#00d5f0</color>
 </resources>

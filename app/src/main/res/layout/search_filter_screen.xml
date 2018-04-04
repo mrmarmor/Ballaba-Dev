@@ -1,0 +1,113 @@
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="presenter"
+            type="com.example.michaelkibenko.ballaba.Presenters.MainPresenter"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/mainActivity_filter_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layoutDirection="rtl"
+        android:translationZ="6dp">
+
+    <LinearLayout
+        android:id="@+id/mainActivity_filterButtons_linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="horizontal"
+        android:weightSum="1.25" >
+
+        <Button
+            android:id="@+id/mainActivity_filter_price_button"
+            android:tag="0"
+            style="@style/mainActivity_button_filter"
+            android:text="@string/mainScreen_buttons_text_price" />
+        <Button
+            android:id="@+id/mainActivity_filter_rooms_button"
+            android:tag="1"
+            style="@style/mainActivity_button_filter"
+            android:text="@string/mainScreen_buttons_text_rooms" />
+        <Button
+            android:id="@+id/mainActivity_filter_size_button"
+            android:tag="2"
+            style="@style/mainActivity_button_filter"
+            android:text="@string/mainScreen_buttons_text_size" />
+        <Button
+            android:id="@+id/mainActivity_filter_attachments_button"
+            android:tag="3"
+            style="@style/mainActivity_button_filter"
+            android:text="@string/mainScreen_buttons_text_attachments" />
+        <Button
+            android:id="@+id/mainActivity_filter_dateOfEntrance_button"
+            android:tag="4"
+            style="@style/mainActivity_button_filter"
+            android:text="@string/mainScreen_buttons_text_dateOfEntrance" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/mainActivity_filterButtons_linearLayout"
+        android:orientation="horizontal"
+        android:weightSum="1.25">
+
+        <View android:id="@+id/mainActivity_filterButtons_divider_price"
+            style="@style/mainActivity_button_filter_divider"
+            app:layout_constraintBottom_toBottomOf="@id/mainActivity_filterButtons_linearLayout"
+            android:visibility="visible"/>
+        <View android:id="@+id/mainActivity_filterButtons_divider_rooms"
+            style="@style/mainActivity_button_filter_divider"
+            app:layout_constraintBottom_toBottomOf="@id/mainActivity_filterButtons_linearLayout"/>
+        <View android:id="@+id/mainActivity_filterButtons_divider_size"
+            style="@style/mainActivity_button_filter_divider"
+            app:layout_constraintBottom_toBottomOf="@id/mainActivity_filterButtons_linearLayout"/>
+        <View android:id="@+id/mainActivity_filterButtons_divider_attachments"
+            style="@style/mainActivity_button_filter_divider"
+            app:layout_constraintBottom_toBottomOf="@id/mainActivity_filterButtons_linearLayout"/>
+        <View android:id="@+id/mainActivity_filterButtons_divider_dateOfEntrance"
+            style="@style/mainActivity_button_filter_divider"
+            app:layout_constraintBottom_toBottomOf="@id/mainActivity_filterButtons_linearLayout"/>
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/mainActivity_filter_viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" android:rotation="180"
+        app:layout_constraintTop_toBottomOf="@id/mainActivity_filterButtons_linearLayout"
+        app:layout_constraintBottom_toTopOf="@id/mainActivity_filter_v_x_buttons_root"
+        android:background="@color/colorPrimary" />
+
+    <LinearLayout
+        android:id="@+id/mainActivity_filter_v_x_buttons_root"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bar_normal_height"
+        app:layout_constraintTop_toBottomOf="@id/mainActivity_filter_viewPager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/colorAccent"
+        android:orientation="horizontal"
+        android:translationZ="@dimen/translationZ"
+        android:weightSum="0.5">
+
+        <ImageButton
+            android:id="@+id/mainActivity_filter_x_button"
+            style="@style/mainActivity_button"
+            android:onClick="@{() -> presenter.onClickSortByRooms()}"
+            android:background="@android:color/transparent"
+            android:src="@drawable/close_white_24" />
+        <ImageButton
+            android:id="@+id/mainActivity_filter_v_button"
+            style="@style/mainActivity_button"
+            android:onClick="@{() -> presenter.onClickSortByRooms()}"
+            android:background="@android:color/transparent"
+            android:src="@drawable/check_white_24" />
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
+</layout>

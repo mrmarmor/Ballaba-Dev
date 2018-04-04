@@ -55,6 +55,14 @@ public class BallabaSearchPropertiesManager {
     public ArrayList<BallabaPropertyResult> getResults() {
         return results;
     }
+    public ArrayList<String> getResultsByLocation() {
+        ArrayList<String> locations = new ArrayList<>();
+        for (BallabaPropertyResult result : results)
+            locations.add(result.formattedAddress);
+
+        return locations;
+
+    }
 
     public int getResultsCount(){
         return results.size();

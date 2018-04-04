@@ -69,6 +69,7 @@ public class SelectCityPresenter extends BasePresenter implements
         cities = new ArrayList<>();
         //initGoogleMapListener();
         //initAutoCompleteTextView(binder.selectCityAutoCompleteTextView);//TODO with autoCompleteTextView
+
         initListView(binder.selectCityListView, binder.selectCityEditText);//TODO with listView
     }
 
@@ -82,10 +83,10 @@ public class SelectCityPresenter extends BasePresenter implements
                 activity, android.R.layout.simple_list_item_1,
                 //GooglePlacesAdapter.GooglePlacesFilter.REGION+"haifa");
                 GooglePlacesAdapter.GooglePlacesFilter.CITIES);
-        listView.setAdapter(dataAdapter);
         TextView textView = new TextView(activity);
         textView.setText(activity.getString(R.string.selectCity_autoCompleteTextView_hint_defaultItem));
-        listView.setEmptyView(textView);
+        listView.setEmptyView(textView);//hint
+        listView.setAdapter(dataAdapter);
         listView.setOnItemClickListener(this);
 
         editText.addTextChangedListener(new TextWatcher() {//TODO with listView
@@ -112,7 +113,7 @@ public class SelectCityPresenter extends BasePresenter implements
                 removeCityFromFlowLayout(view, textViewCity);
             }
         });
-        binder.selectCityFlowLayout.addView(view, cities.size() - 1);
+        binder.selectCityFlowLayout.addView(view);
     }
 
     private void removeCityFromFlowLayout(@NonNull View view, @NonNull TextView textViewCity) {

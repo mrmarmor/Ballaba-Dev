@@ -9,6 +9,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.support.annotation.IntDef;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
@@ -16,26 +17,27 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
-import com.example.michaelkibenko.ballaba.Adapters.SearchViewPagerAdapter;
+import com.example.michaelkibenko.ballaba.Adapters.ViewPagerFilterAdapter;
+import com.example.michaelkibenko.ballaba.Adapters.ViewPagerPropertiesAdapter;
 import com.example.michaelkibenko.ballaba.Common.BallabaSelectedCityListener;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -48,7 +50,9 @@ import static com.example.michaelkibenko.ballaba.Presenters.MainPresenter.SORT_T
  * Created by michaelkibenko on 12/03/2018.
  */
 
-public class MainPresenter extends BasePresenter {
+public class MainPresenter extends BasePresenter implements ConstraintLayout.OnFocusChangeListener
+        , PropertiesRecyclerFragment.OnFragmentInteractionListener {
+
     @IntDef({RELEVANT, PRICE, SIZE, NUMBER_OF_ROOMS})
     public @interface SORT_TYPE {
         int RELEVANT = 1;
@@ -58,17 +62,18 @@ public class MainPresenter extends BasePresenter {
     }
 
     private final String TAG = MainPresenter.class.getSimpleName();
-    //private final String PLACES_API_BASE = EndpointsHolder.GOOGLE_PLACES_API
-    //        , TYPE_TEXT_SEARCH = "/textsearch", OUT_JSON = "/json?query=";
     public static final int REQ_CODE_GPS_PERMISSION = 1, REQ_CODE_SELECT_CITY = 2;
 
     public @interface SearchState { int FILTERED = 1; int NOT_FILTERED = 2; }
 
     private Context context;
     private FragmentManager fm;
-    private PagerAdapter pagerAdapter;
+    private ViewPager filterViewPager;
+    private PagerAdapter propertiesPagerAdapter, filterPagerAdapter;
     private ActivityMainLayoutBinding binder;
     private BallabaSelectedCityListener listener;
+    public Button.OnClickListener clickListener;
+    private PropertiesRecyclerFragment.OnFragmentInteractionListener mListener;
     private PropertiesRecyclerFragment propertiesFragment;
     //private GoogleMap googleMap;
 
@@ -79,7 +84,9 @@ public class MainPresenter extends BasePresenter {
 
         propertiesFragment = PropertiesRecyclerFragment.newInstance(null);
         initDrawer();
-        initViewPager();
+        initViewPagerProperties();
+        //TODO to be added only when after user selected city
+        initViewPagerFilter();
     }
 
     private void initDrawer(){
@@ -95,19 +102,72 @@ public class MainPresenter extends BasePresenter {
                         return true;
                     }
                 });
-
     }
 
-    private void initViewPager(){
-        pagerAdapter = new SearchViewPagerAdapter(context, binder, fm, propertiesFragment);
-        binder.mainActivityViewPager.setAdapter(pagerAdapter);
+    private void initViewPagerProperties(){
+        propertiesPagerAdapter = new ViewPagerPropertiesAdapter(context, binder, fm, propertiesFragment);
+        binder.mainActivityPropertiesViewPager.setAdapter(propertiesPagerAdapter);
     }
+
+    private void initViewPagerFilter(){
+        filterPagerAdapter = new ViewPagerFilterAdapter(context, binder, fm);
+        filterViewPager = binder.mainActivityFilterIncluded.mainActivityFilterViewPager;
+        filterViewPager.setAdapter(filterPagerAdapter);
+
+        binder.mainActivityFilterIncluded.mainActivityFilterRoot.setOnFocusChangeListener(this);//new View.OnFocusChangeListener() {
+
+        /*if (context instanceof PropertiesRecyclerFragment.OnFragmentInteractionListener) {
+            mListener = (PropertiesRecyclerFragment.OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }*/
+ /*           @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (v.getId() == R.id.mainActivity_filter_included && !hasFocus) {
+                    Log.d(TAG, "hiding: "+binder.mainActivityFilterIncluded.mainActivityFilterRoot.getVisibility()+"");
+                    binder.mainActivityFilterIncluded.mainActivityFilterRoot.setVisibility(View.GONE);
+                    Log.d(TAG, "hiding: "+binder.mainActivityFilterIncluded.mainActivityFilterRoot.getVisibility()+"");
+
+                }
+            }
+        });*/
+        binder.mainActivityFilterIncluded.mainActivityFilterRoot.requestFocus();
+        //binder.mainActivityFilterRoot.clearFocus();
+        binder.mainActivityFilterIncluded.mainActivityFilterRoot.setFocusableInTouchMode(true);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+        Log.d(TAG, "hiding: " + binder.mainActivityFilterIncluded.mainActivityFilterRoot.getVisibility() + "");
+        binder.mainActivityFilterIncluded.mainActivityFilterRoot.setVisibility(View.GONE);
+        Log.d(TAG, "hiding: " + binder.mainActivityFilterIncluded.mainActivityFilterRoot.getVisibility() + "");
+    }
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (v.getId() == R.id.mainActivity_filter_root) {
+            if (hasFocus){
+                binder.mainActivityFilterIncluded.mainActivityFilterRoot.setVisibility(View.VISIBLE);
+            } else {
+                Log.d(TAG, "hiding: " + binder.mainActivityFilterIncluded.mainActivityFilterRoot.getVisibility() + "");
+                binder.mainActivityFilterIncluded.mainActivityFilterRoot.setVisibility(View.GONE);
+                Log.d(TAG, "hiding: " + binder.mainActivityFilterIncluded.mainActivityFilterRoot.getVisibility() + "");
+            }
+        }
+    }
+ /*   public void hideFilterBar(){
+        Log.d(TAG, "hiding: " + binder.mainActivityFilterRoot.getVisibility() + "");
+        binder.mainActivityFilterRoot.setVisibility(View.GONE);
+        Log.d(TAG, "hiding: " + binder.mainActivityFilterRoot.getVisibility() + "");
+
+    }*/
 
     public void onClickToGoogleMap(){
         final int TO_GOOGLE_MAP = 0, BACK_TO_MAIN_SCREEN = 1;
-        switch (binder.mainActivityViewPager.getCurrentItem()){
+        switch (binder.mainActivityPropertiesViewPager.getCurrentItem()){
             case TO_GOOGLE_MAP:
-                binder.mainActivityViewPager.setCurrentItem(1, false);
+                binder.mainActivityPropertiesViewPager.setCurrentItem(1, false);
                 binder.mainActivityToGoogleMapImageButton.setImageDrawable(
                         context.getResources().getDrawable(R.drawable.enabled, context.getTheme()));
                 binder.mainActivitySearchBar.setVisibility(View.GONE);
@@ -115,7 +175,7 @@ public class MainPresenter extends BasePresenter {
                 break;
 
             case BACK_TO_MAIN_SCREEN:
-                binder.mainActivityViewPager.setCurrentItem(0, false);
+                binder.mainActivityPropertiesViewPager.setCurrentItem(0, false);
                 binder.mainActivityToGoogleMapImageButton.setImageDrawable(
                         context.getResources().getDrawable(R.drawable.disabled, context.getTheme()));
                 binder.mainActivitySearchBar.setVisibility(View.VISIBLE);
@@ -152,6 +212,13 @@ public class MainPresenter extends BasePresenter {
 
     public void onClickToFilter(){
         Toast.makeText(context, "filter clicked", Toast.LENGTH_SHORT).show();
+        UiUtils.instance(true, context).setFilterBarVisibility(UiUtils.ScreenStates.HALF);
+
+    }
+
+    public void onClickFilterButton(/*int position*/){
+        Toast.makeText(context, "filter clicked", Toast.LENGTH_SHORT).show();
+        filterViewPager.setCurrentItem(1/*position*/);
     }
 
     //TODO it could be united with next method
@@ -171,7 +238,7 @@ public class MainPresenter extends BasePresenter {
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(binder.mainActivityRootLayout);
             //app:layout_constraintBottom_toTopOf="@+id/mainActivity_viewPager" />
-            constraintSet.connect(R.id.mainActivity_viewPager, ConstraintSet.TOP, R.id.mainActivity_sortButtons_linearLayout, ConstraintSet.BOTTOM,0);
+            constraintSet.connect(R.id.mainActivity_properties_viewPager, ConstraintSet.TOP, R.id.mainActivity_sortButtons_linearLayout, ConstraintSet.BOTTOM,0);
             //constraintSet.connect(R.id.mainActivity_horizontalScrollView, ConstraintSet.RIGHT, R.id.mainActivity_drawerLayout, ConstraintSet.RIGHT,0);
             constraintSet.applyTo(binder.mainActivityRootLayout);
 
@@ -184,43 +251,9 @@ public class MainPresenter extends BasePresenter {
         }
     }
 
-
-
-    /*private void setViewportByName(String name){
-        LatLngBounds bounds;
-        String apiKey = GeneralUtils.getMatadataFromManifest(context, "com.google.android.geo.API_KEY");
-
-        StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_TEXT_SEARCH + OUT_JSON);
-        try {
-            sb.append(URLEncoder.encode(name, "utf8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        sb.append("&key=" + apiKey);
-        sb.append("&components=country:IL");//TODO set locale for another countries
-
-       *//* ConnectionsManager.getInstance(getActivity()).apiRequest(sb, new BallabaResponseListener() {
-            @Override
-            public void resolve(BallabaBaseEntity entity) {
-                Log.d(TAG, "request result: " + ((BallabaOkResponse)entity).body);
-
-            }
-
-            @Override
-            public void reject(BallabaBaseEntity entity) {
-                Log.e(TAG, "request result: " + entity);
-
-            }
-        });*//*
-        *//*ConnectionsManager.UrlTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                StringBuilder result = ConnectionsManager.getInstance(getActivity()).apiRequest(sb);
-                Log.d(TAG, "request result: " + result);
-            }
-        });*//*
-
-    }*/
+    public Button.OnClickListener getClickListener(){
+        return clickListener;
+    }
 
     public void setListAdapterToDeviceAddress(ListView listView){
         ArrayAdapter myAddressAdapter = new ArrayAdapter(context, android.R.layout.simple_list_item_single_choice/*R.layout.one_item*//*R.layout.fragment_publish_job_location*/);
@@ -261,6 +294,7 @@ public class MainPresenter extends BasePresenter {
             Log.d(TAG, "gps permission had already been given");
         }
     }
+
 
     //TODO add onRequestPermissionsResult:
     /*@Override

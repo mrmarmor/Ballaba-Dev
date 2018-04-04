@@ -25,9 +25,6 @@
                 android:layout_height="64dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-<!--
-                android:elevation="@dimen/propertyItem_propertyElevation">
--->
 
             <Button
                 android:id="@+id/mainActivity_search_button"
@@ -54,7 +51,7 @@
                 android:background="@android:color/transparent"
                 android:onClick="@{() -> presenter.onClickToGoogleMap()}"
                 android:src="@drawable/disabled"
-                android:translationZ="3dp"
+                android:translationZ="@dimen/translationZ"
                 app:layout_constraintEnd_toEndOf="@id/mainActivity_search_button"
                 app:layout_constraintTop_toTopOf="@id/mainActivity_search_button"
                 app:layout_constraintBottom_toBottomOf="@id/mainActivity_search_button" />
@@ -67,7 +64,7 @@
                 app:layout_constraintTop_toTopOf="@id/mainActivity_search_button"
                 app:layout_constraintBottom_toBottomOf="@id/mainActivity_search_button"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:translationZ="3dp"
+                android:translationZ="@dimen/translationZ"
                 android:background="@android:color/transparent"
                 android:src="@drawable/menu_grey_24"
                 android:onClick="@{() -> presenter.onClickDrawer()}"
@@ -80,7 +77,7 @@
                 app:layout_constraintTop_toTopOf="@id/mainActivity_search_button"
                 app:layout_constraintBottom_toBottomOf="@id/mainActivity_search_button"
                 android:layout_marginStart="@dimen/mainActivity_searchIcon_margin_start"
-                android:translationZ="3dp"
+                android:translationZ="@dimen/translationZ"
                 android:scaleType="fitXY"
                 android:background="@android:color/transparent"
                 android:src="@android:drawable/ic_search_category_default" />
@@ -96,42 +93,31 @@
                 android:weightSum="1">
 
                 <Button android:id="@+id/mainActivity_relevant_button"
-                    style="@style/mainActivity_sort_button"
-                    android:text="@string/mainScreen_sortButtons_text_relevant"
+                    style="@style/mainActivity_button"
+                    android:text="@string/mainScreen_buttons_text_relevant"
                     android:onClick="@{() -> presenter.onClickSortByRelevant()}"/>
                 <Button android:id="@+id/mainActivity_price_button"
-                    style="@style/mainActivity_sort_button"
-                    android:text="@string/mainScreen_sortButtons_text_price"
+                    style="@style/mainActivity_button"
+                    android:text="@string/mainScreen_buttons_text_price"
                     android:onClick="@{() -> presenter.onClickSortByPrice()}"/>
                 <Button
-                    style="@style/mainActivity_sort_button"
+                    style="@style/mainActivity_button"
                     android:id="@+id/mainActivity_size_button"
-                    android:text="@string/mainScreen_sortButtons_text_size"
+                    android:text="@string/mainScreen_buttons_text_size"
                     android:onClick="@{() -> presenter.onClickSortBySize()}"/>
                 <Button android:id="@+id/mainActivity_rooms_button"
-                    style="@style/mainActivity_sort_button"
-                    android:text="@string/mainScreen_sortButtons_text_rooms"
+                    style="@style/mainActivity_button"
+                    android:text="@string/mainScreen_buttons_text_rooms"
                     android:onClick="@{() -> presenter.onClickSortByRooms()}"/>
 
             </LinearLayout>
 
-            <!-- this scrollView is only to prevent viewPager swiping -->
-           <!-- <HorizontalScrollView
-                android:id="@+id/mainActivity_horizontalScrollView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:fillViewport="true">-->
             <com.example.michaelkibenko.ballaba.Views.NonSwipeableViewPager
-                android:id="@+id/mainActivity_viewPager"
+                android:id="@+id/mainActivity_properties_viewPager"
                 style="@style/allWrapContent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 />
-<!--
-            </HorizontalScrollView>
--->
 
             <!--TODO layout_marginStart/Bottom are now out of dimens file because tzlil should decide on uniform values for them between their appearance in viewPager's 2 fragments -->
             <android.support.design.widget.FloatingActionButton
@@ -151,7 +137,24 @@
                 android:visibility="gone"
                 />
 
-        </android.support.constraint.ConstraintLayout>
+            <android.support.constraint.Guideline
+                android:id="@+id/mainActivity_filter_guideline_top"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.5" />
+
+            <include layout="@layout/search_filter_screen"
+                android:id="@+id/mainActivity_filter_included"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/mainActivity_filter_guideline_top"
+                app:layout_constraintBottom_toBottomOf="parent" />
+            <!--android:onClickListener="@{() -> presenter.getClickListener()}"-->
+
+            </android.support.constraint.ConstraintLayout>
 
         <android.support.design.widget.NavigationView
             android:id="@+id/mainActivity_navigationView"
