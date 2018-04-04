@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
+import com.example.michaelkibenko.ballaba.Common.BallabaFragmentListener;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
@@ -42,12 +43,8 @@ import java.util.List;
  */
 
 public class MainActivity extends BaseActivity implements
-        PropertiesRecyclerFragment.OnFragmentInteractionListener,
-        PriceFragment.OnFragmentInteractionListener,
-        RoomsFragment.OnFragmentInteractionListener,
-        SizeFragment.OnFragmentInteractionListener,
-        AttachmentsFragment.OnFragmentInteractionListener,
-        DateOfEntranceFragment.OnFragmentInteractionListener {
+        //PropertiesRecyclerFragment.OnFragmentInteractionListener,
+        BallabaFragmentListener {
 
     private final String TAG = MainActivity.class.getSimpleName();
 
@@ -64,6 +61,12 @@ public class MainActivity extends BaseActivity implements
         presenter = new MainPresenter(this, binder, getSupportFragmentManager());
         binder.setPresenter(presenter);
 
+        BallabaFragmentListener listener = new BallabaFragmentListener() {
+            @Override
+            public void onFragmentInteraction(Uri[] uri) {
+                Log.d(TAG, uri[0].getEncodedUserInfo()+uri[1].getEncodedUserInfo());
+            }
+        };
         //initPropertiesRecyclerFragment();
     }
 
@@ -103,8 +106,8 @@ public class MainActivity extends BaseActivity implements
 
     //Here is all data from fragments: properties and filters
     @Override
-    public void onFragmentInteraction(Uri uri) {
-        Log.d(TAG, "data from fragment: "+uri.getEncodedUserInfo());
+    public void onFragmentInteraction(Uri[] uri) {
+        Log.d(TAG, uri[0]+":"+uri[1]);
     }
 
     @Override

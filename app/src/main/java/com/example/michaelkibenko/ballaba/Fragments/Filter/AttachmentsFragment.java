@@ -12,33 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.michaelkibenko.ballaba.Common.BallabaFragmentListener;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AttachmentsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link AttachmentsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AttachmentsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private static AttachmentsFragment instance;
-    private OnFragmentInteractionListener mListener;
-    //private ConstraintLayout rootLayoutFullHeight, rootLayoutHalfHeight;
     private static Context context;
     private static ActivityMainLayoutBinding binder;
+    private BallabaFragmentListener listener;    //private ConstraintLayout rootLayoutFullHeight, rootLayoutHalfHeight;
 
     public AttachmentsFragment() {}
     public static AttachmentsFragment newInstance(Context mContext, ActivityMainLayoutBinding binding/*String param1, String param2*/) {
@@ -61,10 +45,10 @@ public class AttachmentsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+        /*if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        }*/
     }
 
     @Override
@@ -102,17 +86,19 @@ public class AttachmentsFragment extends Fragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+    public void onButtonPressed(Uri[] uri) {
+        if (listener != null) {
+            listener.onFragmentInteraction(uri);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+
+        this.context = context;
+        if (context instanceof BallabaFragmentListener) {
+            listener = (BallabaFragmentListener)context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -122,7 +108,7 @@ public class AttachmentsFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        listener = null;
     }
 
     /**
@@ -135,8 +121,8 @@ public class AttachmentsFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    /*public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
-    }
+    }*/
 }
