@@ -71,7 +71,7 @@ public class AttachmentsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_attachments, container, false);
-        UiUtils.instance(true, context).setFilterBarVisibility(UiUtils.ScreenStates.HALF);
+        //UiUtils.instance(true, context).setFilterBarVisibility(UiUtils.ScreenStates.HALF);
         //animateScreen(false);
 
         return v;
@@ -97,7 +97,7 @@ public class AttachmentsFragment extends Fragment {
         super.setUserVisibleHint(isVisibleToUser);
 
         float screenState = isVisibleToUser ? UiUtils.ScreenStates.FULL : UiUtils.ScreenStates.HALF;
-        UiUtils.instance(true, context).setFilterBarVisibility(screenState);
+        //UiUtils.instance(true, context).setFilterBarVisibility(screenState);
         //animateScreen(isVisibleToUser);
     }
 

@@ -98,13 +98,11 @@
         <ImageButton
             android:id="@+id/mainActivity_filter_x_button"
             style="@style/mainActivity_button"
-            android:onClick="@{() -> presenter.onClickSortByRooms()}"
             android:background="@android:color/transparent"
             android:src="@drawable/close_white_24" />
         <ImageButton
             android:id="@+id/mainActivity_filter_v_button"
             style="@style/mainActivity_button"
-            android:onClick="@{() -> presenter.onClickSortByRooms()}"
             android:background="@android:color/transparent"
             android:src="@drawable/check_white_24" />
     </LinearLayout>

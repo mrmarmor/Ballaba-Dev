@@ -31,8 +31,7 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
  * Created by User on 01/04/2018.
  */
 
-public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements View.OnClickListener
-        , ViewPager.OnPageChangeListener{
+public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements View.OnClickListener {
     private final String TAG = ViewPagerFilterAdapter.class.getSimpleName();
     private Context context;
     private ActivityMainLayoutBinding binder;
@@ -125,37 +124,6 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
                 binder.mainActivityFilterIncluded.mainActivityFilterViewPager.getCurrentItem());
         binder.mainActivityFilterIncluded.mainActivityFilterViewPager.setCurrentItem(position);
         onFilterButtonsStateChange(position);
-
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        Log.d("tag", position+":"+positionOffset);
-
-    }
-
-    @Override
-    public void onPageSelected(int i) {
-        Log.d("tag", i+":1");
-
-        /*int nextPageFactor = previousPageIndex < i? 1 : -1;
-        binder.mainActivityFilterIncluded.mainActivityFilterViewPager
-                .setCurrentItem(binder.mainActivityFilterIncluded.mainActivityFilterViewPager.getCurrentItem() + nextPageFactor);
-
-        //Use isMovingForward variable anywhere now
-        previousPageIndex = i;*/
-    }
-
-    /*@Override
-    public void onPageSelected(int position) {
-        binder.mainActivityFilterIncluded.mainActivityFilterViewPager.setCurrentItem(
-                binder.mainActivityFilterIncluded.mainActivityFilterViewPager.getCurrentItem()
-        );
-    }*/
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-        Log.d("tag", state+":2");
 
     }
 }

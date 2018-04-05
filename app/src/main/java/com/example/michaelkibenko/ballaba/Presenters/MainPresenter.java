@@ -37,7 +37,6 @@ import com.example.michaelkibenko.ballaba.Adapters.ViewPagerPropertiesAdapter;
 import com.example.michaelkibenko.ballaba.Common.BallabaSelectedCityListener;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
 import java.io.IOException;
@@ -89,8 +88,8 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         this.context = context;
         this.fm = fm;
         this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.noFilterTransition = binder.mainActivityRootLayout;
         ViewGroup parent = ((MainActivity)context).getWindow().getDecorView().findViewById(android.R.id.content);
+        this.noFilterTransition = (ConstraintLayout) inflater.inflate(R.layout.activity_main_layout, parent, false).findViewById(R.id.mainActivity_rootLayout);
         this.filterTransition = (ConstraintLayout) inflater.inflate(R.layout.activity_main_layout_filter_transition, parent, false).findViewById(R.id.mainActivity_rootLayout);
         propertiesFragment = PropertiesRecyclerFragment.newInstance(null);
         middleFilterHeight = context.getResources().getDimension(R.dimen.mainScreen_filter_middle_height);
@@ -98,7 +97,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         initDrawer();
         initViewPagerProperties();
         //TODO to be added only when after user selected city
-        initViewPagerFilter();
+        initFilter();
     }
 
     private void initDrawer(){
@@ -121,7 +120,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         binder.mainActivityPropertiesViewPager.setAdapter(propertiesPagerAdapter);
     }
 
-    private void initViewPagerFilter(){
+    private void initFilter(){
         filterPagerAdapter = new ViewPagerFilterAdapter(context, binder, fm);
         filterViewPager = binder.mainActivityFilterIncluded.mainActivityFilterViewPager;
         filterViewPager.setAdapter(filterPagerAdapter);
@@ -147,6 +146,42 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         binder.mainActivityFilterIncluded.mainActivityFilterRoot.requestFocus();
         //binder.mainActivityFilterRoot.clearFocus();
         binder.mainActivityFilterIncluded.mainActivityFilterRoot.setFocusableInTouchMode(true);
+        filterViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position == 3 && filterState != FilterState.FULL_FILTER){
+                    filterStateUIChanger(FilterState.FULL_FILTER);
+                }else if(filterState != FilterState.MIDDLE_FILTER){
+                    filterStateUIChanger(FilterState.MIDDLE_FILTER);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+
+        binder.mainActivityFilterIncluded.mainActivityFilterXButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO clear the search object here
+                filterStateUIChanger(FilterState.NO_FILTER);
+            }
+        });
+
+
+        binder.mainActivityFilterIncluded.mainActivityFilterVButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO save the search object here and start request
+                filterStateUIChanger(FilterState.NO_FILTER);
+            }
+        });
     }
 
     @Override
