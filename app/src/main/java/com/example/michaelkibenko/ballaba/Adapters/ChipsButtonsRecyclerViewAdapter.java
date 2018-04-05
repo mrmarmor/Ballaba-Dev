@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 
@@ -15,13 +16,13 @@ import java.util.ArrayList;
 
 public class ChipsButtonsRecyclerViewAdapter extends RecyclerView.Adapter<ChipsButtonsRecyclerViewAdapter.ChipsButtonViewHolder>{
 
-    private ArrayList<String> items;
+    private ArrayList<PropertyAttachmentAddonEntity> items;
     private Context context;
-    private UiUtils uiUtils;
-    public ChipsButtonsRecyclerViewAdapter(Context context,ArrayList<String> items) {
+    private View.OnClickListener itemOnClickListener;
+    public ChipsButtonsRecyclerViewAdapter(Context context, ArrayList<PropertyAttachmentAddonEntity> items, View.OnClickListener itemOnClickListener) {
         this.context = context;
         this.items = items;
-        this.uiUtils = UiUtils.instance(false, context);
+        this.itemOnClickListener = itemOnClickListener;
     }
 
     @NonNull
@@ -33,7 +34,7 @@ public class ChipsButtonsRecyclerViewAdapter extends RecyclerView.Adapter<ChipsB
 
     @Override
     public void onBindViewHolder(@NonNull ChipsButtonViewHolder holder, int position) {
-        holder.chips.setText(items.get(position));
+        holder.chips.setText(items.get(position).formattedTitle);
         if(holder.chips.getTag() != null) {
             if (!holder.chips.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
                 holder.chips.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
@@ -41,12 +42,14 @@ public class ChipsButtonsRecyclerViewAdapter extends RecyclerView.Adapter<ChipsB
         }else{
             holder.chips.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
         }
-        holder.chips.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                uiUtils.onChipsButtonClick((Button)v);
-            }
-        });
+
+        holder.chips.setOnClickListener(this.itemOnClickListener);
+//        holder.chips.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                uiUtils.onChipsButtonClick((Button)v);
+//            }
+//        });
     }
 
 

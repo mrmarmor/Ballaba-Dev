@@ -315,6 +315,38 @@ public class ConnectionsManager{
         queue.add(stringRequest);
     }
 
+    public void getAttachmentsAddonsConfig(final BallabaResponseListener callback){
+        StringRequest stringRequest = new StringRequest(Request.Method.GET
+                , EndpointsHolder.PROPERTY_ATTACHMENTS_ADDONS, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                BallabaOkResponse okResponse = new BallabaOkResponse();
+                okResponse.setBody(response);
+                callback.resolve(okResponse);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if(error.networkResponse != null){
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                }else{
+                    Log.e(TAG, error+"\n"+ error.getMessage());
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }
+            }
+        })  {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
+                params.put("session_token", BallabaUserManager.getInstance().getUserSesionToken());
+                return params;
+            }
+        };
+
+        queue.add(stringRequest);
+    }
+
     public StringBuilder apiRequest(StringBuilder sb) {
         HttpURLConnection conn = null;
         StringBuilder jsonResults = new StringBuilder();

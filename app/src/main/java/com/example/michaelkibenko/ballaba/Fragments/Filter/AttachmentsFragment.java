@@ -15,8 +15,11 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.michaelkibenko.ballaba.Adapters.ChipsButtonsRecyclerViewAdapter;
+import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
+import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
@@ -39,6 +42,7 @@ public class AttachmentsFragment extends Fragment {
     private ActivityMainLayoutBinding binder;
     private RecyclerView attachmentsRecyclerView;
     private ChipsButtonsRecyclerViewAdapter chipsAdapter;
+    private UiUtils uiUtils;
 
     public AttachmentsFragment() {}
     public static AttachmentsFragment newInstance(Context mContext, ActivityMainLayoutBinding binding) {
@@ -62,21 +66,14 @@ public class AttachmentsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_attachments, container, false);
         attachmentsRecyclerView = (RecyclerView)v.findViewById(R.id.attachmentsRV);
-        final ArrayList<String> dummyItems = new ArrayList<>();
-        dummyItems.add("blaasdf");
-        dummyItems.add("blayui");
-        dummyItems.add("ללא מוצרי חשמל");
-        dummyItems.add("blar");
-        dummyItems.add("blaaa");
-        dummyItems.add("blayrte");
-        dummyItems.add("blalhkgk");
-        dummyItems.add("blaq");
-        dummyItems.add("blarr");
-        dummyItems.add("blaer");
-        dummyItems.add("blatytyryrtuty");
-        dummyItems.add("blafdf");
-        dummyItems.add("bla11");
-        chipsAdapter = new ChipsButtonsRecyclerViewAdapter(context, dummyItems);
+        uiUtils = UiUtils.instance(false, context);
+        ArrayList<PropertyAttachmentAddonEntity> attachmentAddonEntities = PropertyAttachmentsAddonsHolder.getInstance().getAttachments();
+        chipsAdapter = new ChipsButtonsRecyclerViewAdapter(context, attachmentAddonEntities, new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uiUtils.onChipsButtonClick((Button)v);
+            }
+        });
 
         //TODO have to be auto fitted
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(3, 1);

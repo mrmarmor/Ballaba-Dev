@@ -2,8 +2,6 @@ package com.example.michaelkibenko.ballaba.Activities;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.IntDef;
@@ -16,9 +14,9 @@ import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
-import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
@@ -110,6 +108,17 @@ public class SplashActivity extends BaseActivity {
                     if(entity instanceof BallabaUser){
                         BallabaUserManager.getInstance().setUser((BallabaUser) entity);
                         logInStatus = FLOW_TYPES.AUTHENTICATED;
+                        ConnectionsManager.getInstance(SplashActivity.this).getAttachmentsAddonsConfig(new BallabaResponseListener() {
+                            @Override
+                            public void resolve(BallabaBaseEntity entity) {
+                                PropertyAttachmentsAddonsHolder.getInstance().parseAttachmentsAddonsResponse(((BallabaOkResponse)entity).body);
+                            }
+
+                            @Override
+                            public void reject(BallabaBaseEntity entity) {
+                                Log.e(TAG, entity.toString());
+                            }
+                        });
                         getProperties(logInStatus);
                     }
                 }

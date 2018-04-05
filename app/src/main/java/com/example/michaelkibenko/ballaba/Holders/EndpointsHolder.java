@@ -13,4 +13,5 @@ public @interface EndpointsHolder {
     String TESTING = "https://z1qybfaf36.execute-api.eu-west-1.amazonaws.com/DEV/";
     String GOOGLE_PLACES_API = "https://maps.googleapis.com/maps/api/place";
     String PROPERTY = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/property";
+    String PROPERTY_ATTACHMENTS_ADDONS = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/config/property";
 }
