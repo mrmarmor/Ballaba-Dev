@@ -258,13 +258,22 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     }
 
     public void onClickToFilter(){
-        filterStateUIChanger(FilterState.MIDDLE_FILTER);
-//        UiUtils.instance(true, context).setFilterBarVisibility(UiUtils.ScreenStates.HALF);
+        if(binder.mainActivityFilterIncluded.getRoot().getTag() != null) {
+            if (Integer.parseInt((String)binder.mainActivityFilterIncluded.getRoot().getTag()) == FilterState.FULL_FILTER) {
+                filterStateUIChanger(FilterState.FULL_FILTER);
+            } else {
+                filterStateUIChanger(FilterState.MIDDLE_FILTER);
+            }
+        }else {
+            filterStateUIChanger(FilterState.MIDDLE_FILTER);
+        }
 
     }
 
     public void filterStateUIChanger(@FilterState int state){
         if(state != filterState){
+            //this is the previous state
+            binder.mainActivityFilterIncluded.getRoot().setTag(this.filterState+"");
             this.filterState = state;
             onFilterUIChanged(state);
         }
@@ -274,6 +283,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         ConstraintSet set = new ConstraintSet();
         if (state == FilterState.NO_FILTER){
             set.clone(noFilterTransition);
+            set.constrainHeight(R.id.mainActivity_filter_included, binder.mainActivityFilterIncluded.getRoot().getHeight());
             binder.propertiesRecyclerFloatingButton.setVisibility(View.VISIBLE);
             binder.mainActivityBottomAnchor.setBackgroundColor(context.getResources().getColor(android.R.color.transparent, context.getTheme()));
         } else if (state == FilterState.MIDDLE_FILTER){

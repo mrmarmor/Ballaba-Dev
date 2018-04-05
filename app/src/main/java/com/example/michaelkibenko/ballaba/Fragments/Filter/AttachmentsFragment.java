@@ -84,6 +84,7 @@ public class AttachmentsFragment extends Fragment {
                         && chipsAdapter.getHolderByOriginalTitle("electronics").chips.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)){
                     uiUtils.onChipsButtonClick(chipsAdapter.getHolderByOriginalTitle("electronics").chips);
                 }
+
                 uiUtils.onChipsButtonClick((Button)v);
             }
         });
