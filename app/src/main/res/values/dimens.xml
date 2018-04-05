@@ -148,9 +148,9 @@
 
     <dimen name="mainScreen_filter_middle_height">265dp</dimen>
 
-    <dimen name="chipsButton_textSize">16sp</dimen>
+    <dimen name="chipsButton_textSize">10sp</dimen>
     <dimen name="chipsButton_textPadding">20dp</dimen>
-    <dimen name="chipsButton_radius">250dp</dimen>
+    <dimen name="chipsButton_radius">50dp</dimen>
 
 
 </resources>

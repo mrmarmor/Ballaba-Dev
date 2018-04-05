@@ -8,13 +8,19 @@ import android.support.constraint.ConstraintSet;
 import android.support.constraint.Guideline;
 import android.support.transition.TransitionManager;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.michaelkibenko.ballaba.Adapters.ChipsButtonsRecyclerViewAdapter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,30 +31,17 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
  * create an instance of this fragment.
  */
 public class AttachmentsFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     private static AttachmentsFragment instance;
     private OnFragmentInteractionListener mListener;
     //private ConstraintLayout rootLayoutFullHeight, rootLayoutHalfHeight;
-    private static Context context;
-    private static ActivityMainLayoutBinding binder;
+    private Context context;
+    private ActivityMainLayoutBinding binder;
+    private RecyclerView attachmentsRecyclerView;
+    private ChipsButtonsRecyclerViewAdapter chipsAdapter;
 
     public AttachmentsFragment() {}
-    public static AttachmentsFragment newInstance(Context mContext, ActivityMainLayoutBinding binding/*String param1, String param2*/) {
+    public static AttachmentsFragment newInstance(Context mContext, ActivityMainLayoutBinding binding) {
         AttachmentsFragment fragment = new AttachmentsFragment();
-        context = mContext;
-        binder = binding;
-        /*Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);*/
         return fragment;
     }
     public static AttachmentsFragment getInstance(Context context, ActivityMainLayoutBinding binder){
@@ -61,36 +54,35 @@ public class AttachmentsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_attachments, container, false);
-        //UiUtils.instance(true, context).setFilterBarVisibility(UiUtils.ScreenStates.HALF);
-        //animateScreen(false);
+        attachmentsRecyclerView = (RecyclerView)v.findViewById(R.id.attachmentsRV);
+        ArrayList<String> dummyItems = new ArrayList<>();
+        dummyItems.add("blaasdf");
+        dummyItems.add("blayui");
+        dummyItems.add("blattttttttttttttt");
+        dummyItems.add("blar");
+        dummyItems.add("blaaa");
+        dummyItems.add("blayrte");
+        dummyItems.add("blalhkgk");
+        dummyItems.add("blaq");
+        dummyItems.add("blarr");
+        dummyItems.add("blaer");
+        dummyItems.add("blatytyryrtuty");
+        dummyItems.add("blafdf");
+        dummyItems.add("bla11");
+        chipsAdapter = new ChipsButtonsRecyclerViewAdapter(context, dummyItems);
 
+        //TODO have to be auto fitted
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
+        attachmentsRecyclerView.setLayoutManager(gridLayoutManager);
+        attachmentsRecyclerView.setAdapter(chipsAdapter);
         return v;
     }
-
-    /*private void animateScreen(boolean hasFocus){
-        Guideline guideline = binder.mainActivityFilterGuidelineTop;
-        ConstraintLayout.LayoutParams lp = (ConstraintLayout.LayoutParams)guideline.getLayoutParams();
-        lp.guidePercent = hasFocus? 0 : .5f;
-        guideline.setLayoutParams(lp);
-
-        ConstraintLayout constraintLayout = ((ConstraintLayout)binder.mainActivityFilterIncluded);
-        ConstraintSet constraintSetHeight = new ConstraintSet();
-        constraintSetHeight.clone(context, R.layout.search_filter_screen);
-        constraintSetHeight.setGuidelinePercent(R.id.mainActivity_filter_guideline_top, 0.07f); // 7% // range: 0 <-> 1
-
-        TransitionManager.beginDelayedTransition(constraintLayout);
-        constraintSetHeight.applyTo(constraintLayout);
-    }*/
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -111,6 +103,7 @@ public class AttachmentsFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
+        this.context = context;
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
