@@ -19,9 +19,11 @@ public class ChipsButtonsRecyclerViewAdapter extends RecyclerView.Adapter<ChipsB
     private ArrayList<PropertyAttachmentAddonEntity> items;
     private Context context;
     private View.OnClickListener itemOnClickListener;
+    public ArrayList<ChipsButtonViewHolder> parsedItems;
     public ChipsButtonsRecyclerViewAdapter(Context context, ArrayList<PropertyAttachmentAddonEntity> items, View.OnClickListener itemOnClickListener) {
         this.context = context;
         this.items = items;
+        this.parsedItems = new ArrayList<>();
         this.itemOnClickListener = itemOnClickListener;
     }
 
@@ -29,12 +31,16 @@ public class ChipsButtonsRecyclerViewAdapter extends RecyclerView.Adapter<ChipsB
     @Override
     public ChipsButtonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View chipsView = LayoutInflater.from(context).inflate(R.layout.chips_item, parent, false);
-        return new ChipsButtonViewHolder(chipsView);
+        ChipsButtonViewHolder chipsButtonViewHolder = new ChipsButtonViewHolder(chipsView);
+        parsedItems.add(chipsButtonViewHolder);
+        return chipsButtonViewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ChipsButtonViewHolder holder, int position) {
-        holder.chips.setText(items.get(position).formattedTitle);
+        PropertyAttachmentAddonEntity propertyAttachmentAddonEntity = items.get(position);
+        holder.chips.setText(propertyAttachmentAddonEntity.formattedTitle);
+        holder.originalTitle = propertyAttachmentAddonEntity.title;
         if(holder.chips.getTag() != null) {
             if (!holder.chips.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
                 holder.chips.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
@@ -44,23 +50,34 @@ public class ChipsButtonsRecyclerViewAdapter extends RecyclerView.Adapter<ChipsB
         }
 
         holder.chips.setOnClickListener(this.itemOnClickListener);
-//        holder.chips.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                uiUtils.onChipsButtonClick((Button)v);
-//            }
-//        });
     }
-
-
 
     @Override
     public int getItemCount() {
         return items.size();
     }
 
+    public String getOriginalTitleByFormatted(String formatted){
+        for (PropertyAttachmentAddonEntity item : items) {
+            if(item.formattedTitle.equals(formatted)){
+                return item.title;
+            }
+        }
+        return null;
+    }
+
+    public ChipsButtonViewHolder getHolderByOriginalTitle(String title){
+        for (ChipsButtonViewHolder holder : parsedItems) {
+            if(holder.originalTitle.equals(title)){
+                return holder;
+            }
+        }
+        return null;
+    }
+
     public class ChipsButtonViewHolder extends RecyclerView.ViewHolder{
         public Button chips;
+        public String originalTitle;
         public ChipsButtonViewHolder(View itemView) {
             super(itemView);
             chips = (Button)itemView;

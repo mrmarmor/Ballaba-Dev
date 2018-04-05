@@ -71,6 +71,19 @@ public class AttachmentsFragment extends Fragment {
         chipsAdapter = new ChipsButtonsRecyclerViewAdapter(context, attachmentAddonEntities, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(chipsAdapter.getOriginalTitleByFormatted(((Button)v).getText()+"").equals("furnished")
+                        && chipsAdapter.getHolderByOriginalTitle("not_furnished").chips.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
+                    uiUtils.onChipsButtonClick(chipsAdapter.getHolderByOriginalTitle("not_furnished").chips);
+                }else if(chipsAdapter.getOriginalTitleByFormatted(((Button)v).getText()+"").equals("not_furnished")
+                        && chipsAdapter.getHolderByOriginalTitle("furnished").chips.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)){
+                    uiUtils.onChipsButtonClick(chipsAdapter.getHolderByOriginalTitle("furnished").chips);
+                } else if(chipsAdapter.getOriginalTitleByFormatted(((Button)v).getText()+"").equals("electronics")
+                        && chipsAdapter.getHolderByOriginalTitle("no_electronics").chips.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
+                    uiUtils.onChipsButtonClick(chipsAdapter.getHolderByOriginalTitle("no_electronics").chips);
+                }else if(chipsAdapter.getOriginalTitleByFormatted(((Button)v).getText()+"").equals("no_electronics")
+                        && chipsAdapter.getHolderByOriginalTitle("electronics").chips.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)){
+                    uiUtils.onChipsButtonClick(chipsAdapter.getHolderByOriginalTitle("electronics").chips);
+                }
                 uiUtils.onChipsButtonClick((Button)v);
             }
         });

@@ -1,8 +1,5 @@
 package com.example.michaelkibenko.ballaba.Holders;
 
-import android.util.Log;
-
-import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 
 import org.json.JSONArray;
