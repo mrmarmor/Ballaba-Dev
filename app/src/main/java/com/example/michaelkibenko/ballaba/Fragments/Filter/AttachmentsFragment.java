@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,10 +62,10 @@ public class AttachmentsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_attachments, container, false);
         attachmentsRecyclerView = (RecyclerView)v.findViewById(R.id.attachmentsRV);
-        ArrayList<String> dummyItems = new ArrayList<>();
+        final ArrayList<String> dummyItems = new ArrayList<>();
         dummyItems.add("blaasdf");
         dummyItems.add("blayui");
-        dummyItems.add("blattttttttttttttt");
+        dummyItems.add("ללא מוצרי חשמל");
         dummyItems.add("blar");
         dummyItems.add("blaaa");
         dummyItems.add("blayrte");
@@ -78,7 +79,17 @@ public class AttachmentsFragment extends Fragment {
         chipsAdapter = new ChipsButtonsRecyclerViewAdapter(context, dummyItems);
 
         //TODO have to be auto fitted
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(context, 3);
+        StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(3, 1);
+
+//        GridLayoutManager.SpanSizeLookup onSpanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
+//            @Override
+//            public int getSpanSize(int position) {
+//                return (position % 3) > 0 ? 1 : 2;
+//            }
+//        };
+//        gridLayoutManager.setSpanSizeLookup(onSpanSizeLookup);
+
+
         attachmentsRecyclerView.setLayoutManager(gridLayoutManager);
         attachmentsRecyclerView.setAdapter(chipsAdapter);
         return v;

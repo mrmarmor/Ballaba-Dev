@@ -3,14 +3,13 @@ package com.example.michaelkibenko.ballaba.Adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 
 import java.util.ArrayList;
 
@@ -18,9 +17,11 @@ public class ChipsButtonsRecyclerViewAdapter extends RecyclerView.Adapter<ChipsB
 
     private ArrayList<String> items;
     private Context context;
+    private UiUtils uiUtils;
     public ChipsButtonsRecyclerViewAdapter(Context context,ArrayList<String> items) {
         this.context = context;
         this.items = items;
+        this.uiUtils = UiUtils.instance(false, context);
     }
 
     @NonNull
@@ -33,13 +34,22 @@ public class ChipsButtonsRecyclerViewAdapter extends RecyclerView.Adapter<ChipsB
     @Override
     public void onBindViewHolder(@NonNull ChipsButtonViewHolder holder, int position) {
         holder.chips.setText(items.get(position));
+        if(holder.chips.getTag() != null) {
+            if (!holder.chips.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
+                holder.chips.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
+            }
+        }else{
+            holder.chips.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
+        }
         holder.chips.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, ((Button)v).getText(), Toast.LENGTH_LONG).show();
+                uiUtils.onChipsButtonClick((Button)v);
             }
         });
     }
+
+
 
     @Override
     public int getItemCount() {

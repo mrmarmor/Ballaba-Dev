@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Color;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntDef;
+import android.support.annotation.StringDef;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.constraint.Guideline;
@@ -23,6 +24,8 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 import java.util.zip.Inflater;
 
 import static android.content.ContentValues.TAG;
+import static com.example.michaelkibenko.ballaba.Utils.UiUtils.ChipsButtonStates.NOT_PRESSED;
+import static com.example.michaelkibenko.ballaba.Utils.UiUtils.ChipsButtonStates.PRESSED;
 import static com.example.michaelkibenko.ballaba.Utils.UiUtils.ScreenStates.FULL;
 import static com.example.michaelkibenko.ballaba.Utils.UiUtils.ScreenStates.HALF;
 import static com.example.michaelkibenko.ballaba.Utils.UiUtils.ScreenStates.HIDE;
@@ -36,6 +39,12 @@ public class UiUtils {
         float FULL = 0;
         float HALF = 0.5f;
         float HIDE = 1;
+    }
+
+    @StringDef({PRESSED, NOT_PRESSED})
+    public @interface ChipsButtonStates{
+        String PRESSED = "PRESSED";
+        String NOT_PRESSED = "NOT_PRESSED";
     }
 
     private static UiUtils instance;
@@ -105,4 +114,23 @@ public class UiUtils {
         TransitionManager.beginDelayedTransition(constraintLayout);
         constraintSetHeight.applyTo(constraintLayout);
     }
+
+    public void onChipsButtonClick(Button button){
+        String state = (String)button.getTag();
+
+        if(state.equals(ChipsButtonStates.NOT_PRESSED)){
+            //change the state to pressed
+            button.setBackgroundResource(R.drawable.chips_button_pressed);
+            button.setTextColor(ctx.getResources().getColor(R.color.colorPrimary,ctx.getTheme()));
+            button.setTag(ChipsButtonStates.PRESSED);
+        }else if(state.equals(ChipsButtonStates.PRESSED)){
+            //change the state to not pressed
+            button.setBackgroundResource(R.drawable.chips_button);
+            button.setTextColor(ctx.getResources().getColor(android.R.color.white,ctx.getTheme()));
+            button.setTag(ChipsButtonStates.NOT_PRESSED);
+        }else{
+            Log.e(TAG, "Chips does not have tag");
+        }
+    }
+
 }

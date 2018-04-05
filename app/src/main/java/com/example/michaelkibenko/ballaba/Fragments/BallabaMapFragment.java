@@ -28,6 +28,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Adapters.MapPropertiesRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
@@ -36,6 +37,7 @@ import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
+import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -289,6 +291,9 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     //map camera
     @Override
     public void onCameraMoveStarted(int i) {
+        if(((MainActivity)context).presenter.filterState != MainPresenter.FilterState.NO_FILTER){
+            ((MainActivity)context).presenter.filterStateUIChanger(MainPresenter.FilterState.NO_FILTER);
+        }
         changeMapSaveState(MAP_SAVE_CONTAINER_STATES.OFF);
         changePropertyRVState(HIDE);
     }
