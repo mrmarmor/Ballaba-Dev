@@ -40,6 +40,7 @@ import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -82,6 +83,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     //private GoogleMap googleMap;
     private float middleFilterHeight;
     public @FilterState int filterState;
+
 
     public MainPresenter(Context context, ActivityMainLayoutBinding binder, FragmentManager fm){
         this.binder = binder;

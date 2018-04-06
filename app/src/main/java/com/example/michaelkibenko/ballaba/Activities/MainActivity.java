@@ -42,7 +42,6 @@ public class MainActivity extends BaseActivity implements
     private ActivityMainLayoutBinding binder;
     public MainPresenter presenter;
     //private List<BallabaProperty> properties = new ArrayList<>();
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +50,7 @@ public class MainActivity extends BaseActivity implements
         //properties = PropertiesManager.getInstance(this).getProperties();
         presenter = new MainPresenter(this, binder, getSupportFragmentManager());
         binder.setPresenter(presenter);
+
 
         //initPropertiesRecyclerFragment();
     }

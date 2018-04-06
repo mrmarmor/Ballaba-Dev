@@ -41,6 +41,7 @@ public class ChipsButtonsRecyclerViewAdapter extends RecyclerView.Adapter<ChipsB
         PropertyAttachmentAddonEntity propertyAttachmentAddonEntity = items.get(position);
         holder.chips.setText(propertyAttachmentAddonEntity.formattedTitle);
         holder.originalTitle = propertyAttachmentAddonEntity.title;
+        holder.id = propertyAttachmentAddonEntity.id;
         if(holder.chips.getTag() != null) {
             if (!holder.chips.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
                 holder.chips.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
@@ -78,6 +79,7 @@ public class ChipsButtonsRecyclerViewAdapter extends RecyclerView.Adapter<ChipsB
     public class ChipsButtonViewHolder extends RecyclerView.ViewHolder{
         public Button chips;
         public String originalTitle;
+        public String id;
         public ChipsButtonViewHolder(View itemView) {
             super(itemView);
             chips = (Button)itemView;
