@@ -17,9 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Adapters.ChipsButtonsRecyclerViewAdapter;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
+import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
@@ -71,36 +73,43 @@ public class AttachmentsFragment extends Fragment {
         chipsAdapter = new ChipsButtonsRecyclerViewAdapter(context, attachmentAddonEntities, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String state = (String)v.getTag();
                 if(chipsAdapter.getOriginalTitleByFormatted(((Button)v).getText()+"").equals("furnished")
                         && chipsAdapter.getHolderByOriginalTitle("not_furnished").chips.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
-                    uiUtils.onChipsButtonClick(chipsAdapter.getHolderByOriginalTitle("not_furnished").chips);
+                    //switch between furnished and not furnished where furnished is checked
+                    ChipsButtonsRecyclerViewAdapter.ChipsButtonViewHolder holder = chipsAdapter.getHolderByOriginalTitle("not_furnished");
+                    ((MainActivity)context).presenter.filterResult.deleteAttachmentId(holder.id);
+                    uiUtils.onChipsButtonClick(holder.chips, (String)holder.chips.getTag());
                 }else if(chipsAdapter.getOriginalTitleByFormatted(((Button)v).getText()+"").equals("not_furnished")
                         && chipsAdapter.getHolderByOriginalTitle("furnished").chips.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)){
-                    uiUtils.onChipsButtonClick(chipsAdapter.getHolderByOriginalTitle("furnished").chips);
+                    //switch between furnished and not furnished where not_furnished is checked
+                    ChipsButtonsRecyclerViewAdapter.ChipsButtonViewHolder holder = chipsAdapter.getHolderByOriginalTitle("furnished");
+                    ((MainActivity)context).presenter.filterResult.deleteAttachmentId(holder.id);
+                    uiUtils.onChipsButtonClick(holder.chips, (String)holder.chips.getTag());
                 } else if(chipsAdapter.getOriginalTitleByFormatted(((Button)v).getText()+"").equals("electronics")
                         && chipsAdapter.getHolderByOriginalTitle("no_electronics").chips.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
-                    uiUtils.onChipsButtonClick(chipsAdapter.getHolderByOriginalTitle("no_electronics").chips);
+                    //switch between electronics and not no_electronics where electronics is checked
+                    ChipsButtonsRecyclerViewAdapter.ChipsButtonViewHolder holder = chipsAdapter.getHolderByOriginalTitle("no_electronics");
+                    ((MainActivity)context).presenter.filterResult.deleteAttachmentId(holder.id);
+                    uiUtils.onChipsButtonClick(holder.chips, (String)holder.chips.getTag());
+
                 }else if(chipsAdapter.getOriginalTitleByFormatted(((Button)v).getText()+"").equals("no_electronics")
                         && chipsAdapter.getHolderByOriginalTitle("electronics").chips.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)){
-                    uiUtils.onChipsButtonClick(chipsAdapter.getHolderByOriginalTitle("electronics").chips);
+                    //switch between electronics and not no_electronics where no_electronics is checked
+                    ChipsButtonsRecyclerViewAdapter.ChipsButtonViewHolder holder = chipsAdapter.getHolderByOriginalTitle("electronics");
+                    ((MainActivity)context).presenter.filterResult.deleteAttachmentId(holder.id);
+                    uiUtils.onChipsButtonClick(holder.chips, (String)holder.chips.getTag());
                 }
-
-                uiUtils.onChipsButtonClick((Button)v);
+                String text = ((Button) v).getText()+"";
+                if(state.equals(UiUtils.ChipsButtonStates.PRESSED)){
+                    ((MainActivity)context).presenter.filterResult.deleteAttachmentId(chipsAdapter.getHolderByFormattedTitle(text).id);
+                }else if(state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED)){
+                    ((MainActivity)context).presenter.filterResult.appendAttachmentId(chipsAdapter.getHolderByFormattedTitle(text).id);
+                }
+                uiUtils.onChipsButtonClick((Button)v, state);
             }
         });
-
-        //TODO have to be auto fitted
         StaggeredGridLayoutManager gridLayoutManager = new StaggeredGridLayoutManager(3, 1);
-
-//        GridLayoutManager.SpanSizeLookup onSpanSizeLookup = new GridLayoutManager.SpanSizeLookup() {
-//            @Override
-//            public int getSpanSize(int position) {
-//                return (position % 3) > 0 ? 1 : 2;
-//            }
-//        };
-//        gridLayoutManager.setSpanSizeLookup(onSpanSizeLookup);
-
-
         attachmentsRecyclerView.setLayoutManager(gridLayoutManager);
         attachmentsRecyclerView.setAdapter(chipsAdapter);
         return v;

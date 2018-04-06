@@ -35,6 +35,7 @@ import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
 import com.example.michaelkibenko.ballaba.Adapters.ViewPagerFilterAdapter;
 import com.example.michaelkibenko.ballaba.Adapters.ViewPagerPropertiesAdapter;
 import com.example.michaelkibenko.ballaba.Common.BallabaSelectedCityListener;
+import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
@@ -83,7 +84,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     //private GoogleMap googleMap;
     private float middleFilterHeight;
     public @FilterState int filterState;
-
+    public FilterResultEntity filterResult;
 
     public MainPresenter(Context context, ActivityMainLayoutBinding binder, FragmentManager fm){
         this.binder = binder;
@@ -96,6 +97,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         propertiesFragment = PropertiesRecyclerFragment.newInstance(null);
         middleFilterHeight = context.getResources().getDimension(R.dimen.mainScreen_filter_middle_height);
         this.filterState = FilterState.NO_FILTER;
+        filterResult = new FilterResultEntity();
         initDrawer();
         initViewPagerProperties();
         //TODO to be added only when after user selected city

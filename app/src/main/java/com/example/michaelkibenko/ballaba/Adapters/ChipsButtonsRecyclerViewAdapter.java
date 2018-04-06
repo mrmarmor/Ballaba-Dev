@@ -40,6 +40,7 @@ public class ChipsButtonsRecyclerViewAdapter extends RecyclerView.Adapter<ChipsB
     public void onBindViewHolder(@NonNull ChipsButtonViewHolder holder, int position) {
         PropertyAttachmentAddonEntity propertyAttachmentAddonEntity = items.get(position);
         holder.chips.setText(propertyAttachmentAddonEntity.formattedTitle);
+        holder.formattedTitle = propertyAttachmentAddonEntity.formattedTitle;
         holder.originalTitle = propertyAttachmentAddonEntity.title;
         holder.id = propertyAttachmentAddonEntity.id;
         if(holder.chips.getTag() != null) {
@@ -76,8 +77,18 @@ public class ChipsButtonsRecyclerViewAdapter extends RecyclerView.Adapter<ChipsB
         return null;
     }
 
+    public ChipsButtonViewHolder getHolderByFormattedTitle(String formattedTitle){
+        for (ChipsButtonViewHolder holder : parsedItems) {
+            if(holder.formattedTitle.equals(formattedTitle)){
+                return holder;
+            }
+        }
+        return null;
+    }
+
     public class ChipsButtonViewHolder extends RecyclerView.ViewHolder{
         public Button chips;
+        public String formattedTitle;
         public String originalTitle;
         public String id;
         public ChipsButtonViewHolder(View itemView) {
