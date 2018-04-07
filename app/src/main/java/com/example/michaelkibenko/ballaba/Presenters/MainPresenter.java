@@ -31,6 +31,7 @@ import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
 import com.example.michaelkibenko.ballaba.Adapters.ViewPagerFilterAdapter;
 import com.example.michaelkibenko.ballaba.Adapters.ViewPagerPropertiesAdapter;
+import com.example.michaelkibenko.ballaba.Common.BallabaFragmentListener;
 import com.example.michaelkibenko.ballaba.Common.BallabaSelectedCityListener;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.R;
@@ -213,7 +214,6 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     public void onClickToFilter(){
         Toast.makeText(context, "filter clicked", Toast.LENGTH_SHORT).show();
         UiUtils.instance(true, context).setFilterBarVisibility(UiUtils.ScreenStates.HALF);
-
     }
 
     public void onClickFilterButton(/*int position*/){

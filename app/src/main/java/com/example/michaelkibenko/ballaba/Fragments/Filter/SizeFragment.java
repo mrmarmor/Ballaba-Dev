@@ -15,9 +15,11 @@ import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.example.michaelkibenko.ballaba.Common.BallabaFragmentListener;
 import com.example.michaelkibenko.ballaba.R;
 
+import java.util.HashMap;
+
 public class SizeFragment extends Fragment {
-    //public static final String FILTER_SIZE_MIN = "size min value"
-      //      , FILTER_SIZE_MAX = "size max value";
+    public static final String FILTER_SIZE_MIN = "size min value"
+            , FILTER_SIZE_MAX = "size max value";
 
     private static SizeFragment instance;
     private Context context;
@@ -67,6 +69,9 @@ public class SizeFragment extends Fragment {
         final TextView tvMin = v.findViewById(R.id.mainActivity_filter_size_textView_min);
         final TextView tvMax = v.findViewById(R.id.mainActivity_filter_size_textView_max);
 
+        //TODO these values should be received from server or locally?
+        sizeMin = "20";
+        sizeMax = "100+";
 // set listener
         rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
@@ -87,11 +92,11 @@ public class SizeFragment extends Fragment {
         });
     }
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri[] uri) {
+    /*public void onButtonPressed(Uri[] uri) {
         if (listener != null) {
             listener.onFragmentInteraction(uri);
         }
-    }
+    }*/
 
     @Override
     public void onAttach(Context context) {
@@ -111,8 +116,10 @@ public class SizeFragment extends Fragment {
         super.setUserVisibleHint(visible);
         if (!visible){
             if (listener != null) {
-                listener.onFragmentInteraction(new Uri[]{Uri.parse(sizeMin), Uri.parse(sizeMax)});
-            }
+                HashMap<String, String> results = new HashMap<>(2);
+                results.put(FILTER_SIZE_MIN, sizeMin);
+                results.put(FILTER_SIZE_MAX, sizeMax);
+                listener.onFragmentInteraction(results);            }
         }
     }
 

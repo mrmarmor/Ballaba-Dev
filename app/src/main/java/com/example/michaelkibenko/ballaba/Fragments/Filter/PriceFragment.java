@@ -17,6 +17,9 @@ import com.example.michaelkibenko.ballaba.Common.BallabaFragmentListener;
 import com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter;
 import com.example.michaelkibenko.ballaba.R;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class PriceFragment extends Fragment {
     public static final String FILTER_PRICE_MIN = "price min value"
                               , FILTER_PRICE_MAX = "price max value";
@@ -74,6 +77,9 @@ public class PriceFragment extends Fragment {
         final TextView tvMin = v.findViewById(R.id.mainActivity_filter_price_textView_min);
         final TextView tvMax = v.findViewById(R.id.mainActivity_filter_price_textView_max);
 
+        //TODO these values should be received from server or locally?
+        priceMin = "1000";
+        priceMax = "7000+";
 // set listener
         rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
@@ -94,11 +100,11 @@ public class PriceFragment extends Fragment {
         });
     }
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri[] uri) {
+    /*public void onButtonPressed(Uri[] uri) {
         if (listener != null) {
             listener.onFragmentInteraction(uri);
         }
-    }
+    }*/
 
     @Override
     public void onAttach(Context context) {
@@ -127,7 +133,10 @@ public class PriceFragment extends Fragment {
         super.setUserVisibleHint(visible);
         if (!visible){
             if (listener != null) {
-                listener.onFragmentInteraction(new Uri[]{Uri.parse(priceMin), Uri.parse(priceMax)});
+                HashMap<String, String> results = new HashMap<>(2);
+                results.put(FILTER_PRICE_MIN, priceMin);
+                results.put(FILTER_PRICE_MAX, priceMax);
+                listener.onFragmentInteraction(results);
             }
         }
     }

@@ -84,7 +84,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@id/mainActivity_filterButtons_linearLayout"
-        app:layout_constraintBottom_toTopOf="@id/mainActivity_filter_v_x_buttons_root" />
+        app:layout_constraintBottom_toTopOf="@id/mainActivity_filter_v_x_buttons_root"
+        android:background="@color/colorPrimary" />
 
     <LinearLayout
         android:id="@+id/mainActivity_filter_v_x_buttons_root"
@@ -98,18 +99,17 @@
         android:weightSum="0.5">
 
         <ImageButton
-            android:id="@+id/mainActivity_filter_v_button"
-            style="@style/mainActivity_button"
-            android:onClick="@{() -> presenter.onClickSortByRooms()}"
-            android:background="@android:color/transparent"
-            android:src="@drawable/check_white_24" />
-        <ImageButton
             android:id="@+id/mainActivity_filter_x_button"
             style="@style/mainActivity_button"
-            android:onClick="@{() -> presenter.onClickSortByRooms()}"
+            android:onClick="onClickFilterCanceled"
             android:background="@android:color/transparent"
             android:src="@drawable/close_white_24" />
-
+        <ImageButton
+            android:id="@+id/mainActivity_filter_v_button"
+            style="@style/mainActivity_button"
+            android:onClick="onClickFilterDone"
+            android:background="@android:color/transparent"
+            android:src="@drawable/check_white_24" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

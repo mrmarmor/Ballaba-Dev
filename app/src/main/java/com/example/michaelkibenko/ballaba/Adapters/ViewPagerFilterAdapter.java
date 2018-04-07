@@ -33,8 +33,7 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
  * Created by User on 01/04/2018.
  */
 
-public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements View.OnClickListener
-        , /*ViewPager.OnPageChangeListener,*/ BallabaFragmentListener{
+public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements View.OnClickListener{
     private final String TAG = ViewPagerFilterAdapter.class.getSimpleName();
     private Context context;
     private ActivityMainLayoutBinding binder;
@@ -162,8 +161,4 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
     }
 */
 
-    @Override
-    public void onFragmentInteraction(Uri[] uri) {
-        Log.d(TAG, uri[0].getEncodedUserInfo()+uri[1].getEncodedUserInfo());
-    }
 }

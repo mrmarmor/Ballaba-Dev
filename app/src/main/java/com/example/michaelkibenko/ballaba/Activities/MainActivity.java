@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,7 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -50,6 +52,8 @@ public class MainActivity extends BaseActivity implements
 
     private ActivityMainLayoutBinding binder;
     private MainPresenter presenter;
+
+    private HashMap<String, String> filterResults = new HashMap<>();
     //private List<BallabaProperty> properties = new ArrayList<>();
 
     @Override
@@ -61,12 +65,12 @@ public class MainActivity extends BaseActivity implements
         presenter = new MainPresenter(this, binder, getSupportFragmentManager());
         binder.setPresenter(presenter);
 
-        BallabaFragmentListener listener = new BallabaFragmentListener() {
+        /*BallabaFragmentListener listener = new BallabaFragmentListener() {
             @Override
             public void onFragmentInteraction(Uri[] uri) {
                 Log.d(TAG, uri[0].getEncodedUserInfo()+uri[1].getEncodedUserInfo());
             }
-        };
+        };*/
         //initPropertiesRecyclerFragment();
     }
 
@@ -94,20 +98,23 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    private void initPropertiesRecyclerFragment(){
-        /*PropertiesRecyclerFragment autocompleteFragment = (PropertiesRecyclerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.search_autoCompleteTV_fragment);
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.search_autoCompleteTV_fragment, autocompleteFragment)
-                .commit();*/
+    public void onClickFilterDone(View view){
+        for (String results:filterResults.values())
+            Log.d(TAG, results+"\n");
+        Toast.makeText(this, "filters number: "+filterResults.size(), Toast.LENGTH_LONG).show();
+    }
+    public void onClickFilterCanceled(View view){
+        Toast.makeText(this, "canceled", Toast.LENGTH_LONG).show();
     }
 
     //Here is all data from fragments: properties and filters
     @Override
-    public void onFragmentInteraction(Uri[] uri) {
-        Log.d(TAG, uri[0]+":"+uri[1]);
+    public void onFragmentInteraction(HashMap<String, String> results) {
+        Object[] resultsKeys = results.keySet().toArray();
+        for (Object res : resultsKeys)
+            filterResults.put(res.toString(), results.get(res));
+        //filterResults.put(res[1].toString(), results.get(res[1]));
+        Log.d(TAG, filterResults.get(resultsKeys[0])+":"+resultsKeys[0]+":"+filterResults.size());
     }
 
     @Override

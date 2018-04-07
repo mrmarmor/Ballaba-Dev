@@ -16,6 +16,8 @@ import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
 import com.example.michaelkibenko.ballaba.Common.BallabaFragmentListener;
 import com.example.michaelkibenko.ballaba.R;
 
+import java.util.HashMap;
+
 public class RoomsFragment extends Fragment {
     public static final String FILTER_ROOMS_MIN = "rooms min value"
             , FILTER_ROOMS_MAX = "rooms max value";
@@ -69,6 +71,9 @@ public class RoomsFragment extends Fragment {
         final TextView tvMin = v.findViewById(R.id.mainActivity_filter_rooms_textView_min);
         final TextView tvMax = v.findViewById(R.id.mainActivity_filter_rooms_textView_max);
 
+        //TODO these values should be received from server or locally?
+        roomsMin = "1";
+        roomsMax = "10+";
 // set listener
         rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
@@ -89,11 +94,11 @@ public class RoomsFragment extends Fragment {
         });
     }
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri[] uri) {
+    /*public void onButtonPressed(Uri[] uri) {
         if (listener != null) {
             listener.onFragmentInteraction(uri);
         }
-    }
+    }*/
 
     @Override
     public void onAttach(Context context) {
@@ -113,8 +118,10 @@ public class RoomsFragment extends Fragment {
         super.setUserVisibleHint(visible);
         if (!visible){
             if (listener != null) {
-                listener.onFragmentInteraction(new Uri[]{Uri.parse(roomsMin), Uri.parse(roomsMax)});
-            }
+                HashMap<String, String> results = new HashMap<>(2);
+                results.put(FILTER_ROOMS_MIN, roomsMin);
+                results.put(FILTER_ROOMS_MAX, roomsMax);
+                listener.onFragmentInteraction(results);            }
         }
     }
 
