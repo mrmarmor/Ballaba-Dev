@@ -12,7 +12,9 @@ import android.widget.TextView;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
+import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Common.BallabaFragmentListener;
+import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.R;
 
 import java.util.HashMap;
@@ -21,34 +23,29 @@ public class SizeFragment extends Fragment {
     public static final String FILTER_SIZE_MIN = "size min value"
             , FILTER_SIZE_MAX = "size max value";
 
-    private static SizeFragment instance;
     private Context context;
     private BallabaFragmentListener listener;
 
     private String sizeMin, sizeMax;
+    private FilterResultEntity filterResults;
 
     public SizeFragment() {
         // Required empty public constructor
     }
 
-    public static SizeFragment newInstance(/*String param1, String param2*/) {
+    public static SizeFragment newInstance(String min, String max) {
         SizeFragment fragment = new SizeFragment();
-        /*Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);*/
+        Bundle args = new Bundle();
+        args.putString(FILTER_SIZE_MIN, min);
+        args.putString(FILTER_SIZE_MAX, max);
+        fragment.setArguments(args);
         return fragment;
-    }
-    public static SizeFragment getInstance(){
-        if(instance == null){
-            instance = newInstance();
-        }
-        return instance;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        filterResults = ((MainActivity)context).presenter.filterResult;
     }
 
     @Override
@@ -56,6 +53,8 @@ public class SizeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_size, container, false);
+        this.sizeMin= getArguments().getString(FILTER_SIZE_MIN, "10");
+        this.sizeMax = getArguments().getString(FILTER_SIZE_MAX, "1000");
         initSeekBar(v);
 
         return v;
@@ -64,14 +63,16 @@ public class SizeFragment extends Fragment {
     private void initSeekBar(View v){
         // get seekbar from view
         final CrystalRangeSeekbar rangeSeekbar = v.findViewById(R.id.mainActivity_filter_size_slider);
+        rangeSeekbar.setMinValue(Float.parseFloat(sizeMin));
+        rangeSeekbar.setMaxValue(Float.parseFloat(sizeMax));
 
 // get min and max text view
         final TextView tvMin = v.findViewById(R.id.mainActivity_filter_size_textView_min);
         final TextView tvMax = v.findViewById(R.id.mainActivity_filter_size_textView_max);
 
-        //TODO these values should be received from server or locally?
-        sizeMin = "20";
-        sizeMax = "100+";
+        tvMin.setText(sizeMin);
+        tvMax.setText(sizeMax);
+
 // set listener
         rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
@@ -87,7 +88,8 @@ public class SizeFragment extends Fragment {
             public void finalValue(Number minValue, Number maxValue) {
                 sizeMin = String.valueOf(minValue);
                 sizeMax = String.valueOf(maxValue);
-                //Log.d("CRS=>", priceMin + " : " + priceMax);
+                filterResults.setFromSize(minValue.intValue());
+                filterResults.setToSize(maxValue.intValue());
             }
         });
     }

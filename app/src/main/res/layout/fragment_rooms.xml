@@ -4,6 +4,7 @@
     android:id="@+id/roomsFragment_rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context="com.example.michaelkibenko.ballaba.Fragments.Filter.RoomsFragment">
 
         <TextView
@@ -39,7 +40,7 @@
         android:id="@+id/mainActivity_filter_rooms_slider"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="12dp"
         android:layout_centerHorizontal="true"
         app:max_value="10"
         app:min_value="1"

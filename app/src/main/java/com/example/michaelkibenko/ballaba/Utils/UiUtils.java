@@ -119,12 +119,12 @@ public class UiUtils {
         if(state.equals(ChipsButtonStates.NOT_PRESSED)){
             //change the state to pressed
             button.setBackgroundResource(R.drawable.chips_button_pressed);
-            button.setTextColor(ctx.getResources().getColor(R.color.colorPrimary,ctx.getTheme()));
+            button.setTextColor(ctx.getResources().getColor(android.R.color.white,ctx.getTheme()));
             button.setTag(ChipsButtonStates.PRESSED);
         }else if(state.equals(ChipsButtonStates.PRESSED)){
             //change the state to not pressed
             button.setBackgroundResource(R.drawable.chips_button);
-            button.setTextColor(ctx.getResources().getColor(android.R.color.white,ctx.getTheme()));
+            button.setTextColor(ctx.getResources().getColor(R.color.colorPrimary,ctx.getTheme()));
             button.setTag(ChipsButtonStates.NOT_PRESSED);
         }else{
             Log.e(TAG, "Chips does not have tag");
