@@ -114,6 +114,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         filterPagerAdapter = new ViewPagerFilterAdapter(context, binder, fm);
         filterViewPager = binder.mainActivityFilterIncluded.mainActivityFilterViewPager;
         filterViewPager.setAdapter(filterPagerAdapter);
+        filterViewPager.setOffscreenPageLimit(5);//to prevent destroying my 5 fragments on swiping
 
         binder.mainActivityFilterIncluded.mainActivityFilterRoot.setOnFocusChangeListener(this);//new View.OnFocusChangeListener() {
 

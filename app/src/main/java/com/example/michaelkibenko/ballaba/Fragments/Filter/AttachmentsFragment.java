@@ -27,7 +27,7 @@ public class AttachmentsFragment extends Fragment implements View.OnClickListene
     private static AttachmentsFragment instance;
     private static Activity activity;
     private static ActivityMainLayoutBinding binder;
-    private BallabaFragmentListener listener;    //private ConstraintLayout rootLayoutFullHeight, rootLayoutHalfHeight;
+    private BallabaFragmentListener listener;
     private Attachment[] attachments = new Attachment[5];
 
     private class Attachment{
@@ -41,10 +41,7 @@ public class AttachmentsFragment extends Fragment implements View.OnClickListene
         AttachmentsFragment fragment = new AttachmentsFragment();
         activity = (Activity)mContext;
         binder = binding;
-        /*Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);*/
+
         return fragment;
     }
     public static AttachmentsFragment getInstance(Context context, ActivityMainLayoutBinding binder){
@@ -55,53 +52,30 @@ public class AttachmentsFragment extends Fragment implements View.OnClickListene
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        /*if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }*/
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_attachments, container, false);
         FlowLayout flowLayout = v.findViewById(R.id.mainActivity_filter_attachments_flowLayout);
         UiUtils.instance(true, activity).setFilterBarVisibility(UiUtils.ScreenStates.HALF);
-        for (int i=0; i<5; i++)
-            addAttahmentToFlowLayout(flowLayout, "Furniture", i);
-
+        for (int i=0; i<5; i++) {
+            attachments[i] = new Attachment();
+            addAttahmentToFlowLayout(flowLayout, attachments[i], "Furniture"+i);
+        }
         return v;
     }
 
-    private void addAttahmentToFlowLayout(FlowLayout flowLayout, String text, int num){
+    private void addAttahmentToFlowLayout(FlowLayout flowLayout, Attachment attachment, String text){
         final View view = activity.getLayoutInflater().inflate(R.layout.chip_with_x, null);
-        attachments[num] = new Attachment();
-        attachments[num].rootView = view;
+        view.setId(View.generateViewId());
         //final TextView tvAttachment = view.findViewById(R.id.chip_textView);
-        attachments[num].textView = view.findViewById(R.id.chip_textView);
-        attachments[num].textView.setText(text + num);
+        attachment.textView = view.findViewById(R.id.chip_textView);
+        attachment.textView.setText(text);
         //tvAttachment.setText(text);
         view.findViewById(R.id.chip_x_button).setVisibility(View.GONE);
         view.setOnClickListener(this);
         flowLayout.addView(view);
+        attachment.rootView = view;
     }
-
-    /*private void animateScreen(boolean hasFocus){
-        Guideline guideline = binder.mainActivityFilterGuidelineTop;
-        ConstraintLayout.LayoutParams lp = (ConstraintLayout.LayoutParams)guideline.getLayoutParams();
-        lp.guidePercent = hasFocus? 0 : .5f;
-        guideline.setLayoutParams(lp);
-
-        ConstraintLayout constraintLayout = ((ConstraintLayout)binder.mainActivityFilterIncluded);
-        ConstraintSet constraintSetHeight = new ConstraintSet();
-        constraintSetHeight.clone(context, R.layout.search_filter_screen);
-        constraintSetHeight.setGuidelinePercent(R.id.mainActivity_filter_guideline_top, 0.07f); // 7% // range: 0 <-> 1
-
-        TransitionManager.beginDelayedTransition(constraintLayout);
-        constraintSetHeight.applyTo(constraintLayout);
-    }*/
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
