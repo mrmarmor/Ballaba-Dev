@@ -7,8 +7,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
+import com.example.michaelkibenko.ballaba.Common.BallabaFragmentListener;
+import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Fragments.Filter.AttachmentsFragment;
 import com.example.michaelkibenko.ballaba.Fragments.Filter.DateOfEntranceFragment;
 import com.example.michaelkibenko.ballaba.Fragments.Filter.PriceFragment;
@@ -24,23 +32,22 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by michaelkibenko on 12/03/2018.
  */
 
 public class MainActivity extends BaseActivity implements
-        PropertiesRecyclerFragment.OnFragmentInteractionListener,
-        PriceFragment.OnFragmentInteractionListener,
-        RoomsFragment.OnFragmentInteractionListener,
-        SizeFragment.OnFragmentInteractionListener,
-        AttachmentsFragment.OnFragmentInteractionListener,
-        DateOfEntranceFragment.OnFragmentInteractionListener {
+        //PropertiesRecyclerFragment.OnFragmentInteractionListener,
+        BallabaFragmentListener {
 
     private final String TAG = MainActivity.class.getSimpleName();
 
     private ActivityMainLayoutBinding binder;
     public MainPresenter presenter;
+    private HashMap<String, String> filterResults = new HashMap<>();
     //private List<BallabaProperty> properties = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,8 +57,6 @@ public class MainActivity extends BaseActivity implements
         //properties = PropertiesManager.getInstance(this).getProperties();
         presenter = new MainPresenter(this, binder, getSupportFragmentManager());
         binder.setPresenter(presenter);
-
-
         //initPropertiesRecyclerFragment();
     }
 
@@ -79,20 +84,23 @@ public class MainActivity extends BaseActivity implements
         }
     }
 
-    private void initPropertiesRecyclerFragment(){
-        /*PropertiesRecyclerFragment autocompleteFragment = (PropertiesRecyclerFragment)
-                getSupportFragmentManager().findFragmentById(R.id.search_autoCompleteTV_fragment);
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.search_autoCompleteTV_fragment, autocompleteFragment)
-                .commit();*/
-    }
+//    public void onClickFilterDone(View view){
+//        for (String results:filterResults.values())
+//            Log.d(TAG, results+"\n");
+//        Toast.makeText(this, "filters number: "+filterResults.size(), Toast.LENGTH_LONG).show();
+//    }
+//    public void onClickFilterCanceled(View view){
+//        Toast.makeText(this, "canceled", Toast.LENGTH_LONG).show();
+//    }
 
     //Here is all data from fragments: properties and filters
     @Override
-    public void onFragmentInteraction(Uri uri) {
-        Log.d(TAG, "data from fragment: "+uri.getEncodedUserInfo());
+    public void onFragmentInteraction(HashMap<String, String> results) {
+        Object[] resultsKeys = results.keySet().toArray();
+        for (Object res : resultsKeys)
+            filterResults.put(res.toString(), results.get(res));
+        //filterResults.put(res[1].toString(), results.get(res[1]));
+        Log.d(TAG, filterResults.get(resultsKeys[0])+":"+resultsKeys[0]+":"+filterResults.size());
     }
 
     @Override

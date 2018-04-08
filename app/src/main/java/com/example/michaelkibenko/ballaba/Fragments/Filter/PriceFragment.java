@@ -4,34 +4,31 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
+import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
+import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
+import com.example.michaelkibenko.ballaba.Common.BallabaFragmentListener;
 import com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter;
 import com.example.michaelkibenko.ballaba.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link PriceFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link PriceFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class PriceFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+import java.util.ArrayList;
+import java.util.HashMap;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class PriceFragment extends Fragment {
+    public static final String FILTER_PRICE_MIN = "price min value"
+                              , FILTER_PRICE_MAX = "price max value";
+
+    private String priceMin, priceMax;
 
     private static PriceFragment instance;
     private Context context;
-    private OnFragmentInteractionListener mListener;
+    private BallabaFragmentListener listener;
 
     public PriceFragment() {}
 
@@ -54,44 +51,111 @@ public class PriceFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+
+        /*if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        }*/
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_price, container, false);
+        View v = inflater.inflate(R.layout.fragment_price, container, false);
+        //onAttachFragment(getParentFragment());
+        initSeekBar(v);
+
+        return v;
+
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    private void initSeekBar(View v){
+        // get seekbar from view
+        final CrystalRangeSeekbar rangeSeekbar = v.findViewById(R.id.mainActivity_filter_price_slider);
+
+// get min and max text view
+        final TextView tvMin = v.findViewById(R.id.mainActivity_filter_price_textView_min);
+        final TextView tvMax = v.findViewById(R.id.mainActivity_filter_price_textView_max);
+
+        //TODO these values should be received from server or locally?
+        priceMin = "1000";
+        priceMax = "7000+";
+// set listener
+        rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
+            @Override
+            public void valueChanged(Number minValue, Number maxValue) {
+                tvMin.setText(String.valueOf(minValue));
+                tvMax.setText(String.valueOf(maxValue));
+            }
+        });
+
+// set final value listener
+        rangeSeekbar.setOnRangeSeekbarFinalValueListener(new OnRangeSeekbarFinalValueListener() {
+            @Override
+            public void finalValue(Number minValue, Number maxValue) {
+                priceMin = String.valueOf(minValue);
+                priceMax = String.valueOf(maxValue);
+                //Log.d("CRS=>", priceMin + " : " + priceMax);
+            }
+        });
     }
+    // TODO: Rename method, update argument and hook method into UI event
+    /*public void onButtonPressed(Uri[] uri) {
+        if (listener != null) {
+            listener.onFragmentInteraction(uri);
+        }
+    }*/
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
         this.context = context;
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof BallabaFragmentListener) {
+            listener = (BallabaFragmentListener)context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
     }
 
+  /*  @Override
+    public void onPause() {
+        super.onPause();
+
+        if (listener != null) {
+            listener.onFragmentInteraction(new Uri[]{Uri.parse(priceMin), Uri.parse(priceMax)});
+        }
+    }*/
+
     @Override
+    public void setUserVisibleHint(boolean visible){
+        super.setUserVisibleHint(visible);
+        if (!visible){
+            if (listener != null) {
+                HashMap<String, String> results = new HashMap<>(2);
+                results.put(FILTER_PRICE_MIN, priceMin);
+                results.put(FILTER_PRICE_MAX, priceMax);
+                listener.onFragmentInteraction(results);
+            }
+        }
+    }
+
+   /* @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
-    }
+
+        *//*Bundle bundle = new Bundle(2);
+        bundle.putString(FILTER_PRICE_MIN, priceMin);
+        bundle.putString(FILTER_PRICE_MAX, priceMax);
+        setArguments(bundle);
+*//*
+        //TODO if we want to pass data to MainActivity:
+        if (listener != null) {
+            listener.onFragmentInteraction(new Uri[]{Uri.parse(priceMin), Uri.parse(priceMax)});
+        }
+        listener = null;
+    }*/
 
     /**
      * This interface must be implemented by activities that contain this
@@ -103,8 +167,5 @@ public class PriceFragment extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+
 }
