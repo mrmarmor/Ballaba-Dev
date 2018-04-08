@@ -36,6 +36,7 @@ public class PropertyDescriptionPresenter {
 
     private void initProperty(){
         View includedMainImage = binder.getRoot().findViewById(R.id.propertyDescription_mainImage);
+
         Glide.with(activity)
              .load(propertyIntent.getStringExtra(PROPERTY_IMAGE))
              .into((ImageView)includedMainImage.findViewById(R.id.propertyDescription_mainImage));
