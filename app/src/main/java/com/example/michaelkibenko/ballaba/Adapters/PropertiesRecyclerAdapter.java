@@ -42,6 +42,7 @@ import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
+import com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter;
 import com.example.michaelkibenko.ballaba.Presenters.PropertyItemPresenter;
 import com.example.michaelkibenko.ballaba.Presenters.TestingPresenter;
 import com.example.michaelkibenko.ballaba.R;
@@ -142,6 +143,8 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, PropertyDescriptionActivity.class);
                 intent.putExtra(PropertyDescriptionActivity.PROPERTY_ID, property.id);
+                intent.putExtra(PropertyDescriptionPresenter.PROPERTY_IMAGE
+                        , property.photos.get(property.photos.size()/2));
                 mContext.startActivity(intent);
             }
         });

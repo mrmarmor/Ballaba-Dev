@@ -12,6 +12,7 @@ import android.support.transition.TransitionManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -33,7 +34,8 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
  * Created by User on 01/04/2018.
  */
 
-public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements View.OnClickListener{
+public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
+        View.OnClickListener, ViewPager.OnPageChangeListener{
     private final String TAG = ViewPagerFilterAdapter.class.getSimpleName();
     private Context context;
     private ActivityMainLayoutBinding binder;
@@ -129,7 +131,9 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
 
     }
 
-    /*@Override
+
+
+    @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
         Log.d("tag", position+":"+positionOffset);
 
@@ -139,26 +143,27 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
     public void onPageSelected(int i) {
         Log.d("tag", i+":1");
 
-        *//*int nextPageFactor = previousPageIndex < i? 1 : -1;
+        int nextPageFactor = previousPageIndex < i? 1 : -1;
         binder.mainActivityFilterIncluded.mainActivityFilterViewPager
                 .setCurrentItem(binder.mainActivityFilterIncluded.mainActivityFilterViewPager.getCurrentItem() + nextPageFactor);
 
         //Use isMovingForward variable anywhere now
-        previousPageIndex = i;*//*
+        previousPageIndex = i;
     }
 
-    *//*@Override
+/*
+    @Override
     public void onPageSelected(int position) {
         binder.mainActivityFilterIncluded.mainActivityFilterViewPager.setCurrentItem(
                 binder.mainActivityFilterIncluded.mainActivityFilterViewPager.getCurrentItem()
         );
-    }*//*
+    }
+*/
 
     @Override
     public void onPageScrollStateChanged(int state) {
         Log.d("tag", state+":2");
 
     }
-*/
 
 }

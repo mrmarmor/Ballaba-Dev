@@ -46,6 +46,11 @@
     <string name="selectCity_autoCompleteTextView_hint">איפה?</string>
     <string name="selectCity_autoCompleteTextView_hint_defaultItem">באזור שלי</string>
 
+    <string name="propertyDescription_root_textView_rentTitle">שכר דירה</string>
+    <string name="propertyDescription_root_textView_rentFee">₪ לחודש</string>
+    <string name="propertyDescription_root_button_text">המשך</string>
+    <string name="propertyDescription_mainImage_buttonToGallery_text">גלריית תמונות</string>
+
     <string name="terms_of_use_label">תקנון</string>
     <string name="terms_of_use_text">לורם איפסום דולור סיט אמט, קונסקטורר אדיפיסינג
 אלית נולום ארווס סאפיאן - פוסיליס קוויס, אקווזמן קוואזי

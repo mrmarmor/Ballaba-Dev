@@ -49,16 +49,6 @@ public class PriceFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        /*if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }*/
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_price, container, false);
@@ -95,7 +85,6 @@ public class PriceFragment extends Fragment {
             public void finalValue(Number minValue, Number maxValue) {
                 priceMin = String.valueOf(minValue);
                 priceMax = String.valueOf(maxValue);
-                //Log.d("CRS=>", priceMin + " : " + priceMax);
             }
         });
     }
@@ -106,7 +95,7 @@ public class PriceFragment extends Fragment {
         }
     }*/
 
-    @Override
+    /*@Override
     public void onAttach(Context context) {
         super.onAttach(context);
 
@@ -117,7 +106,7 @@ public class PriceFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-    }
+    }*/
 
   /*  @Override
     public void onPause() {
@@ -156,16 +145,5 @@ public class PriceFragment extends Fragment {
         }
         listener = null;
     }*/
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
 
 }

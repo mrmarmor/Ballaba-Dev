@@ -32,7 +32,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/small_margin"
                 android:background="@android:color/white"
-                android:elevation="@dimen/propertyItem_propertyElevation"
+                android:elevation="@dimen/elevation"
                 android:onClick="@{() -> presenter.onClickToSelectCity()}"
                 android:text="@string/mainScreen_searchButton_text"
                 android:paddingStart="@dimen/mainActivity_searchButton_text_padding_start"

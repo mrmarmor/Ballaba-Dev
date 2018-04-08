@@ -39,15 +39,15 @@ import java.util.List;
  * Created by michaelkibenko on 12/03/2018.
  */
 
-public class MainActivity extends BaseActivity implements
+public class MainActivity extends BaseActivity {
         //PropertiesRecyclerFragment.OnFragmentInteractionListener,
-        BallabaFragmentListener {
+        //BallabaFragmentListener {
 
     private final String TAG = MainActivity.class.getSimpleName();
 
     private ActivityMainLayoutBinding binder;
     public MainPresenter presenter;
-    private HashMap<String, String> filterResults = new HashMap<>();
+    //private HashMap<String, String> filterResults = new HashMap<>();
     //private List<BallabaProperty> properties = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,14 +94,14 @@ public class MainActivity extends BaseActivity implements
 //    }
 
     //Here is all data from fragments: properties and filters
-    @Override
+    /*@Override
     public void onFragmentInteraction(HashMap<String, String> results) {
         Object[] resultsKeys = results.keySet().toArray();
         for (Object res : resultsKeys)
             filterResults.put(res.toString(), results.get(res));
         //filterResults.put(res[1].toString(), results.get(res[1]));
         Log.d(TAG, filterResults.get(resultsKeys[0])+":"+resultsKeys[0]+":"+filterResults.size());
-    }
+    }*/
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -122,24 +122,6 @@ public class MainActivity extends BaseActivity implements
                     }
                 }
 
-                //TODO Moshe check it
-//                presenter.filterStateUIChanger(MainPresenter.FilterState.NO_FILTER);
-
-                /*BallabaSearchPropertiesManager.getInstance(this).getPropertiesByLatLng(cityLatLngStr
-                        , new BallabaResponseListener() {
-                            @Override
-                            public void resolve(BallabaBaseEntity entity) {
-                                Log.d(TAG, "entity: "+entity);
-                            }
-
-                            @Override
-                            public void reject(BallabaBaseEntity entity) {
-                                Log.e(TAG, "entity: "+entity);
-                            }
-                        }, true);
-
-                Toast.makeText(this, data.getStringExtra(SelectCityPresenter.SELECTED_CITY_KEY), Toast.LENGTH_LONG).show();
-                */
             }
         }
     }

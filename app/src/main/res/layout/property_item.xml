@@ -15,7 +15,7 @@
     android:layout_marginStart="@dimen/small_margin"
     android:layout_marginEnd="@dimen/small_margin"
     android:layout_marginTop="0dp"
-    android:elevation="@dimen/propertyItem_propertyElevation"
+    android:elevation="@dimen/elevation"
     android:background="@color/propertyRecyclerView_background_white">
 
     <!--<ImageView-->
@@ -44,8 +44,8 @@
 
     <ImageView
         android:id="@+id/propertyItem_guarantee_ImageView"
-        android:layout_width="@dimen/propertyItem_topStrip_imageView_dimens"
-        android:layout_height="@dimen/propertyItem_topStrip_imageView_dimens"
+        android:layout_width="@dimen/icon_regular"
+        android:layout_height="@dimen/icon_regular"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="@dimen/propertyItem_topStrip_imageView_verticalOffset"
@@ -56,8 +56,8 @@
         />
     <ImageView
         android:id="@+id/propertyItem_isSavedProperty_ImageView"
-        android:layout_width="@dimen/propertyItem_topStrip_imageView_dimens"
-        android:layout_height="@dimen/propertyItem_topStrip_imageView_dimens"
+        android:layout_width="@dimen/icon_regular"
+        android:layout_height="@dimen/icon_regular"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="@dimen/propertyItem_topStrip_imageView_verticalOffset"

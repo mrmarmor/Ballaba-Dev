@@ -21,19 +21,11 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AttachmentsFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link AttachmentsFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class AttachmentsFragment extends Fragment {
     private static AttachmentsFragment instance;
-    private OnFragmentInteractionListener mListener;
+    //private OnFragmentInteractionListener mListener;
     //private ConstraintLayout rootLayoutFullHeight, rootLayoutHalfHeight;
-    private Context context;
+    private static Context context;
     private ActivityMainLayoutBinding binder;
     private RecyclerView attachmentsRecyclerView;
     private ChipsButtonsRecyclerViewAdapter chipsAdapter;
@@ -42,6 +34,7 @@ public class AttachmentsFragment extends Fragment {
     public AttachmentsFragment() {}
     public static AttachmentsFragment newInstance(Context mContext, ActivityMainLayoutBinding binding) {
         AttachmentsFragment fragment = new AttachmentsFragment();
+        context = mContext;
         return fragment;
     }
     public static AttachmentsFragment getInstance(Context context, ActivityMainLayoutBinding binder){
@@ -117,14 +110,7 @@ public class AttachmentsFragment extends Fragment {
         //animateScreen(isVisibleToUser);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
+    /*@Override
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
@@ -134,16 +120,12 @@ public class AttachmentsFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-    }
+    }*/
 
-    @Override
+    /*@Override
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
+    }*/
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }
