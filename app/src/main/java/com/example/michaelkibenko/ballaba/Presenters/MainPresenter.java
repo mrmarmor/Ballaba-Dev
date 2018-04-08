@@ -73,7 +73,8 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     private Context context;
     private FragmentManager fm;
     private ViewPager filterViewPager;
-    private PagerAdapter propertiesPagerAdapter, filterPagerAdapter;
+    private PagerAdapter propertiesPagerAdapter;
+    private ViewPagerFilterAdapter filterPagerAdapter;
     private ActivityMainLayoutBinding binder;
     private BallabaSelectedCityListener listener;
     public Button.OnClickListener clickListener;
@@ -128,6 +129,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         filterPagerAdapter = new ViewPagerFilterAdapter(context, binder, fm);
         filterViewPager = binder.mainActivityFilterIncluded.mainActivityFilterViewPager;
         filterViewPager.setAdapter(filterPagerAdapter);
+        filterViewPager.addOnPageChangeListener(filterPagerAdapter);
 
         binder.mainActivityFilterIncluded.mainActivityFilterRoot.setOnFocusChangeListener(this);//new View.OnFocusChangeListener() {
 

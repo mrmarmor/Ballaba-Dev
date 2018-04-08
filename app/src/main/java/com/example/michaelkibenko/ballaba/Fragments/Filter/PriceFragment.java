@@ -34,11 +34,6 @@ public class PriceFragment extends Fragment {
 
     public static PriceFragment newInstance(/*String param1, String param2*/) {
         PriceFragment fragment = new PriceFragment();
-
-        //Bundle args = new Bundle();
-        //args.putString(ARG_PARAM1, param1);
-        //args.putString(ARG_PARAM2, param2);
-        //fragment.setArguments(args);
         return fragment;
     }
     public static PriceFragment getInstance(){
@@ -51,18 +46,12 @@ public class PriceFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        /*if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }*/
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_price, container, false);
-        //onAttachFragment(getParentFragment());
         initSeekBar(v);
 
         return v;
@@ -119,15 +108,6 @@ public class PriceFragment extends Fragment {
         }
     }
 
-  /*  @Override
-    public void onPause() {
-        super.onPause();
-
-        if (listener != null) {
-            listener.onFragmentInteraction(new Uri[]{Uri.parse(priceMin), Uri.parse(priceMax)});
-        }
-    }*/
-
     @Override
     public void setUserVisibleHint(boolean visible){
         super.setUserVisibleHint(visible);
@@ -141,31 +121,5 @@ public class PriceFragment extends Fragment {
         }
     }
 
-   /* @Override
-    public void onDetach() {
-        super.onDetach();
-
-        *//*Bundle bundle = new Bundle(2);
-        bundle.putString(FILTER_PRICE_MIN, priceMin);
-        bundle.putString(FILTER_PRICE_MAX, priceMax);
-        setArguments(bundle);
-*//*
-        //TODO if we want to pass data to MainActivity:
-        if (listener != null) {
-            listener.onFragmentInteraction(new Uri[]{Uri.parse(priceMin), Uri.parse(priceMax)});
-        }
-        listener = null;
-    }*/
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
 
 }

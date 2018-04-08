@@ -33,7 +33,7 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
  * Created by User on 01/04/2018.
  */
 
-public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements View.OnClickListener{
+public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements View.OnClickListener, ViewPager.OnPageChangeListener{
     private final String TAG = ViewPagerFilterAdapter.class.getSimpleName();
     private Context context;
     private ActivityMainLayoutBinding binder;
@@ -65,26 +65,21 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
     //TODO 2. layout direction
     @Override
     public Fragment getItem(int position) {
-        Log.d(TAG, position+":"+
-                binder.mainActivityFilterIncluded.mainActivityFilterViewPager.getCurrentItem());
-        //previousPage = position;
-        onFilterButtonsStateChange(binder.mainActivityFilterIncluded.mainActivityFilterViewPager.getCurrentItem());
-
         switch (position){
             case 0: default:
-                return PriceFragment.getInstance();//fm.findFragmentById(R.id.priceFragment_rootLayout);
+                return PriceFragment.getInstance();
 
             case 1:
-                return RoomsFragment.getInstance();//fm.findFragmentById(R.id.roomsFragment_rootLayout);
+                return RoomsFragment.getInstance();
 
             case 2:
-                return SizeFragment.getInstance();//fm.findFragmentById(R.id.sizeFragment_rootLayout);
+                return SizeFragment.getInstance();
 
             case 3:
-                return AttachmentsFragment.getInstance(context, binder);//fm.findFragmentById(R.id.attachmentsFragment_rootLayout);
+                return AttachmentsFragment.getInstance(context, binder);
 
             case 4:
-                return DateOfEntranceFragment.getInstance();//fm.findFragmentById(R.id.dateOfEntranceFragment_rootLayout);
+                return DateOfEntranceFragment.getInstance();
         }
     }
 
@@ -129,36 +124,18 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
 
     }
 
-    /*@Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        Log.d("tag", position+":"+positionOffset);
-
-    }
-
     @Override
-    public void onPageSelected(int i) {
-        Log.d("tag", i+":1");
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-        *//*int nextPageFactor = previousPageIndex < i? 1 : -1;
-        binder.mainActivityFilterIncluded.mainActivityFilterViewPager
-                .setCurrentItem(binder.mainActivityFilterIncluded.mainActivityFilterViewPager.getCurrentItem() + nextPageFactor);
-
-        //Use isMovingForward variable anywhere now
-        previousPageIndex = i;*//*
     }
-
-    *//*@Override
-    public void onPageSelected(int position) {
-        binder.mainActivityFilterIncluded.mainActivityFilterViewPager.setCurrentItem(
-                binder.mainActivityFilterIncluded.mainActivityFilterViewPager.getCurrentItem()
-        );
-    }*//*
 
     @Override
     public void onPageScrollStateChanged(int state) {
-        Log.d("tag", state+":2");
 
     }
-*/
 
+    @Override
+    public void onPageSelected(int position) {
+        onFilterButtonsStateChange(position);
+    }
 }

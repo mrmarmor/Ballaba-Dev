@@ -55,6 +55,7 @@ public class ConnectionsManager{
     private static ConnectionsManager instance;
     private Context context;
     private RequestQueue queue;
+    private boolean codeSent;
 
 
     public static ConnectionsManager getInstance(Context context) {
@@ -105,49 +106,55 @@ public class ConnectionsManager{
         }
     }
 
-    public void enterCode(String phoneNUmber, String code, final BallabaResponseListener callback){
-        try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("phone", phoneNUmber);
-            jsonObject.put("code", code);
+    public void enterCode(String phoneNUmber, final String code, final BallabaResponseListener callback){
+        if (!codeSent) {
+            codeSent = true;
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("phone", phoneNUmber);
+                jsonObject.put("code", code);
 
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, EndpointsHolder.AUTHENTICATE, jsonObject, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
-
-                    if(user == null){
-                        callback.reject(new BallabaErrorResponse(500, null));
-                    }else {
-                        callback.resolve(user);
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, EndpointsHolder.AUTHENTICATE, jsonObject, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
+                        if (user == null) {
+                            callback.reject(new BallabaErrorResponse(500, null));
+                        } else {
+                            callback.resolve(user);
+                        }
                     }
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    if(error.networkResponse != null){
-                        callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
-                    }else{
-                        callback.reject(new BallabaErrorResponse(500, null));
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        codeSent = false;
+                        if (error.networkResponse != null) {
+                            callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                        } else {
+                            callback.reject(new BallabaErrorResponse(500, null));
+                        }
                     }
-                }
-            }){
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String>  params = new HashMap<String, String>();
-                    params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
-                    return params;
-                }
+                }) {
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
+                        return params;
+                    }
 
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    return null;
-                }
-            };;
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        return null;
+                    }
+                };
+                ;
 
-            queue.add(jsonObjectRequest);
-        }catch (JSONException ex){
-            ex.printStackTrace();
+                queue.add(jsonObjectRequest);
+            }catch(JSONException ex){
+                ex.printStackTrace();
+            }
+        }else {
+            Log.e(TAG, "You try to send code twice");
         }
     }
 
