@@ -13,7 +13,9 @@ import android.widget.TextView;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
+import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Common.BallabaFragmentListener;
+import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter;
 import com.example.michaelkibenko.ballaba.R;
 
@@ -26,55 +28,59 @@ public class PriceFragment extends Fragment {
 
     private String priceMin, priceMax;
 
-    private static PriceFragment instance;
     private Context context;
-    private BallabaFragmentListener listener;
+    private FilterResultEntity filterResults;
 
     public PriceFragment() {}
 
-    public static PriceFragment newInstance(/*String param1, String param2*/) {
+    public static PriceFragment newInstance(String min, String max) {
         PriceFragment fragment = new PriceFragment();
+        Bundle args = new Bundle();
+        args.putString(FILTER_PRICE_MIN, min);
+        args.putString(FILTER_PRICE_MAX, max);
+        fragment.setArguments(args);
         return fragment;
-    }
-    public static PriceFragment getInstance(){
-        if(instance == null){
-            instance = newInstance();
-        }
-        return instance;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        filterResults = ((MainActivity)context).presenter.filterResult;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_price, container, false);
+
+        this.priceMax = getArguments().getString(FILTER_PRICE_MAX);
+        this.priceMin = getArguments().getString(FILTER_PRICE_MIN);
+
         initSeekBar(v);
-
         return v;
-
     }
 
     private void initSeekBar(View v){
         // get seekbar from view
         final CrystalRangeSeekbar rangeSeekbar = v.findViewById(R.id.mainActivity_filter_price_slider);
+        rangeSeekbar.setMaxValue(Float.parseFloat(priceMax));
+        rangeSeekbar.setMinValue(Float.parseFloat(priceMin));
+
 
 // get min and max text view
         final TextView tvMin = v.findViewById(R.id.mainActivity_filter_price_textView_min);
         final TextView tvMax = v.findViewById(R.id.mainActivity_filter_price_textView_max);
 
-        //TODO these values should be received from server or locally?
-        priceMin = "1000";
-        priceMax = "7000+";
+        tvMin.setText(priceMin);
+        tvMax.setText(priceMax);
 // set listener
         rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
             public void valueChanged(Number minValue, Number maxValue) {
                 tvMin.setText(String.valueOf(minValue));
                 tvMax.setText(String.valueOf(maxValue));
+                priceMax = maxValue +"";
+                priceMin = minValue + "";
             }
         });
 
@@ -84,42 +90,18 @@ public class PriceFragment extends Fragment {
             public void finalValue(Number minValue, Number maxValue) {
                 priceMin = String.valueOf(minValue);
                 priceMax = String.valueOf(maxValue);
-                //Log.d("CRS=>", priceMin + " : " + priceMax);
+                priceMax = maxValue +"";
+                priceMin = minValue + "";
+
+                filterResults.setFromPrice(Integer.parseInt(priceMin));
+                filterResults.setToPrice(Integer.parseInt(priceMax));
             }
         });
     }
-    // TODO: Rename method, update argument and hook method into UI event
-    /*public void onButtonPressed(Uri[] uri) {
-        if (listener != null) {
-            listener.onFragmentInteraction(uri);
-        }
-    }*/
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
         this.context = context;
-        if (context instanceof BallabaFragmentListener) {
-            listener = (BallabaFragmentListener)context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
-
-    @Override
-    public void setUserVisibleHint(boolean visible){
-        super.setUserVisibleHint(visible);
-        if (!visible){
-            if (listener != null) {
-                HashMap<String, String> results = new HashMap<>(2);
-                results.put(FILTER_PRICE_MIN, priceMin);
-                results.put(FILTER_PRICE_MAX, priceMax);
-                listener.onFragmentInteraction(results);
-            }
-        }
-    }
-
-
 }

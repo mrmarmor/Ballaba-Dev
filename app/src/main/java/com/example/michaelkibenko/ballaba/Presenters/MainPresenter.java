@@ -129,26 +129,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         filterPagerAdapter = new ViewPagerFilterAdapter(context, binder, fm);
         filterViewPager = binder.mainActivityFilterIncluded.mainActivityFilterViewPager;
         filterViewPager.setAdapter(filterPagerAdapter);
-        filterViewPager.addOnPageChangeListener(filterPagerAdapter);
-
         binder.mainActivityFilterIncluded.mainActivityFilterRoot.setOnFocusChangeListener(this);//new View.OnFocusChangeListener() {
-
-        /*if (context instanceof PropertiesRecyclerFragment.OnFragmentInteractionListener) {
-            mListener = (PropertiesRecyclerFragment.OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }*/
- /*           @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (v.getId() == R.id.mainActivity_filter_included && !hasFocus) {
-                    Log.d(TAG, "hiding: "+binder.mainActivityFilterIncluded.mainActivityFilterRoot.getVisibility()+"");
-                    binder.mainActivityFilterIncluded.mainActivityFilterRoot.setVisibility(View.GONE);
-                    Log.d(TAG, "hiding: "+binder.mainActivityFilterIncluded.mainActivityFilterRoot.getVisibility()+"");
-
-                }
-            }
-        });*/
         binder.mainActivityFilterIncluded.mainActivityFilterRoot.requestFocus();
         //binder.mainActivityFilterRoot.clearFocus();
         binder.mainActivityFilterIncluded.mainActivityFilterRoot.setFocusableInTouchMode(true);
@@ -160,11 +141,12 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
 
             @Override
             public void onPageSelected(int position) {
-                if(position == 3 && filterState != FilterState.FULL_FILTER){
+                if(position == 1 && filterState != FilterState.FULL_FILTER){
                     filterStateUIChanger(FilterState.FULL_FILTER);
                 }else if(filterState != FilterState.MIDDLE_FILTER){
                     filterStateUIChanger(FilterState.MIDDLE_FILTER);
                 }
+                filterPagerAdapter.onFilterButtonsStateChange(position);
             }
 
             @Override
@@ -188,6 +170,8 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                 filterStateUIChanger(FilterState.NO_FILTER);
             }
         });
+
+        filterViewPager.setCurrentItem(4);
     }
 
     @Override

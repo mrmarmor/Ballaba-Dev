@@ -1,75 +1,77 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/priceFragment_rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.michaelkibenko.ballaba.Fragments.Filter.PriceFragment">
+    tools:context="com.example.michaelkibenko.ballaba.Fragments.Filter.PriceFragment"
+    android:layoutDirection="rtl">
 
-    <!--<View
-        android:layout_width="@dimen/filter_slider_circle"
-        android:layout_height="@dimen/filter_slider_circle"
-        android:layout_toStartOf="@id/mainActivity_filter_price_slider"
-        android:layout_alignTop="@id/mainActivity_filter_price_slider"
-        android:background="@drawable/circle_white"
-        />-->
-    <LinearLayout
-        android:id="@+id/mainActivity_filter_price_linearLayout"
-        style="@style/allWrapContent"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp"
-        android:orientation="horizontal">
         <TextView
             android:id="@+id/mainActivity_filter_price_textView_min"
             style="@style/allWrapContent"
             android:textSize="22sp"
-            tools:text="₪1,000 - " />
-        <TextView
-            style="@style/allWrapContent"
-            android:textSize="22sp"
-            tools:text=" - " />
+            tools:text="1,000"
+            app:layout_constraintBottom_toTopOf="@+id/mainActivity_filter_price_slider"
+            app:layout_constraintEnd_toEndOf="@+id/mainActivity_filter_price_slider"
+            android:layout_marginBottom="22dp"
+            android:layout_marginEnd="50dp"
+            />
         <TextView
             android:id="@+id/mainActivity_filter_price_textView_max"
-        style="@style/allWrapContent"
-        android:textSize="22sp"
-        tools:text="₪7,000+" />
+            style="@style/allWrapContent"
+            android:textSize="22sp"
+            tools:text="7,000"
+            app:layout_constraintBottom_toTopOf="@+id/mainActivity_filter_price_slider"
+            app:layout_constraintStart_toStartOf="@+id/mainActivity_filter_price_slider"
+            android:layout_marginBottom="22dp"
+            android:layout_marginStart="35dp"/>
 
-    </LinearLayout>
+        <TextView
+            style="@style/allWrapContent"
+            android:text=" - "
+            android:textSize="22sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/mainActivity_filter_price_slider"
+            android:layout_marginBottom="22dp"
+            />
+
+        <TextView
+            style="@style/allWrapContent"
+            android:text="₪"
+            android:textSize="22sp"
+            app:layout_constraintBottom_toTopOf="@+id/mainActivity_filter_price_slider"
+            android:layout_marginBottom="22dp"
+            app:layout_constraintStart_toEndOf="@+id/mainActivity_filter_price_textView_min"
+        />
+
+    <TextView
+        style="@style/allWrapContent"
+        android:text="₪"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toTopOf="@+id/mainActivity_filter_price_slider"
+        android:layout_marginBottom="22dp"
+        app:layout_constraintStart_toEndOf="@+id/mainActivity_filter_price_textView_max"
+        />
 
     <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
         android:id="@+id/mainActivity_filter_price_slider"
         android:layout_width="240dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/mainActivity_filter_price_linearLayout"
-        android:layout_marginTop="23dp"
+        android:layout_marginTop="12dp"
         android:layout_centerHorizontal="true"
         app:max_value="7000"
         app:min_value="1000"
-        app:steps="100"
+        app:steps="50"
         app:bar_color="@color/colorAccent"
         app:bar_highlight_color="@color/colorAccent"
         app:left_thumb_color="@color/colorAccent"
         app:right_thumb_color="@color/colorAccent"
         app:data_type="_integer"
-        app:position="right"/>
-
-    <!--<com.etiennelawlor.discreteslider.library.ui.DiscreteSlider
-        android:id="@+id/mainActivity_filter_price_slider"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="bottom"
-        app:backdropFillColor="@color/colorPrimary"
-        app:backdropStrokeColor="@color/colorPrimaryDark"
-        app:horizontalBarThickness="3dp"
-        app:tickMarkCount="6"
-        app:tickMarkRadius="9dp"
-        app:position="3"
-        />-->
-    <!--<View
-        android:layout_width="@dimen/filter_slider_circle"
-        android:layout_height="@dimen/filter_slider_circle"
-        android:layout_toEndOf="@id/mainActivity_filter_price_slider"
-        android:layout_alignTop="@id/mainActivity_filter_price_slider"
-        android:background="@drawable/circle_white"/>-->
-</RelativeLayout>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+</android.support.constraint.ConstraintLayout>

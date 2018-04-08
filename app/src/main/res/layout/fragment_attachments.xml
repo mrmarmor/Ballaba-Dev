@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragmentAttachments_rootLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" android:rotation="180"
+    android:layout_height="match_parent"
     tools:context="com.example.michaelkibenko.ballaba.Fragments.Filter.AttachmentsFragment">
 
 

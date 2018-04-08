@@ -33,21 +33,24 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
  * Created by User on 01/04/2018.
  */
 
-public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements View.OnClickListener, ViewPager.OnPageChangeListener{
+public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements View.OnClickListener{
     private final String TAG = ViewPagerFilterAdapter.class.getSimpleName();
     private Context context;
     private ActivityMainLayoutBinding binder;
     private FragmentManager fm;
     private ConstraintLayout rootLayout;
+    private PriceFragment priceFragment;
     private int previousPageIndex = 0;
     //private int previousPage;
 
-    final private @IdRes Integer[] BUTTONS = {R.id.mainActivity_filter_price_button,
-        R.id.mainActivity_filter_rooms_button, R.id.mainActivity_filter_size_button,
-        R.id.mainActivity_filter_attachments_button, R.id.mainActivity_filter_dateOfEntrance_button};
-    final private @IdRes Integer[] DIVIDERS = {R.id.mainActivity_filterButtons_divider_price,
-        R.id.mainActivity_filterButtons_divider_rooms, R.id.mainActivity_filterButtons_divider_size,
-        R.id.mainActivity_filterButtons_divider_attachments, R.id.mainActivity_filterButtons_divider_dateOfEntrance};
+
+    final private @IdRes Integer[] BUTTONS = {R.id.mainActivity_filter_dateOfEntrance_button,
+            R.id.mainActivity_filter_attachments_button, R.id.mainActivity_filter_size_button,
+            R.id.mainActivity_filter_rooms_button, R.id.mainActivity_filter_price_button};
+
+    final private @IdRes Integer[] DIVIDERS = {R.id.mainActivity_filterButtons_divider_dateOfEntrance,
+            R.id.mainActivity_filterButtons_divider_attachments, R.id.mainActivity_filterButtons_divider_size,
+            R.id.mainActivity_filterButtons_divider_rooms, R.id.mainActivity_filterButtons_divider_price};
 
     public ViewPagerFilterAdapter(Context context, ActivityMainLayoutBinding binder, FragmentManager fm) {
         super(fm);
@@ -55,6 +58,7 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
         this.context = context;
         this.binder = binder;
         this.fm = fm;
+        priceFragment = PriceFragment.newInstance("2500", "5400");
         //binder.mainActivityFilterRoot.mainActivityFilterPriceButton
         rootLayout = binder.mainActivityFilterIncluded.mainActivityFilterRoot;
         binder.mainActivityFilterIncluded.mainActivityFilterViewPager.setCurrentItem(0);
@@ -67,19 +71,20 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
     public Fragment getItem(int position) {
         switch (position){
             case 0: default:
-                return PriceFragment.getInstance();
+                return DateOfEntranceFragment.getInstance();
 
             case 1:
-                return RoomsFragment.getInstance();
+                return AttachmentsFragment.getInstance(context, binder);
+
 
             case 2:
                 return SizeFragment.getInstance();
 
             case 3:
-                return AttachmentsFragment.getInstance(context, binder);
+                return RoomsFragment.getInstance();
 
             case 4:
-                return DateOfEntranceFragment.getInstance();
+                return priceFragment;
         }
     }
 
@@ -88,7 +93,7 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
         return 5; //NUM_PAGES
     }
 
-    private void onFilterButtonsStateChange(final int currentButtonPosition){
+    public void onFilterButtonsStateChange(final int currentButtonPosition){
 
         for (int button = 0; button < BUTTONS.length; button++){
             final Button currentButton = rootLayout.findViewById(BUTTONS[button]);
@@ -122,20 +127,5 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
         binder.mainActivityFilterIncluded.mainActivityFilterViewPager.setCurrentItem(position);
         onFilterButtonsStateChange(position);
 
-    }
-
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-    }
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-
-    }
-
-    @Override
-    public void onPageSelected(int position) {
-        onFilterButtonsStateChange(position);
     }
 }
