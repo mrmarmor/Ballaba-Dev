@@ -26,10 +26,6 @@
                     layout="@layout/property_description_image"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/propertyDescription_mainImage_height" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="sdfswef" />
 
             </LinearLayout>
 
