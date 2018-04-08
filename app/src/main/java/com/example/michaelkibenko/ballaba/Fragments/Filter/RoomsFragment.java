@@ -13,7 +13,9 @@ import android.widget.TextView;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarChangeListener;
 import com.crystal.crystalrangeseekbar.interfaces.OnRangeSeekbarFinalValueListener;
 import com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar;
+import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Common.BallabaFragmentListener;
+import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.R;
 
 import java.util.HashMap;
@@ -22,64 +24,70 @@ public class RoomsFragment extends Fragment {
     public static final String FILTER_ROOMS_MIN = "rooms min value"
             , FILTER_ROOMS_MAX = "rooms max value";
 
-    private static RoomsFragment instance;
     private Context context;
-    private BallabaFragmentListener listener;
-
     private String roomsMin, roomsMax;
+    private FilterResultEntity filterResults;
 
     public RoomsFragment() {
         // Required empty public constructor
     }
 
-    public static RoomsFragment newInstance(/*String param1, String param2*/) {
+    public static RoomsFragment newInstance(String min, String max) {
         RoomsFragment fragment = new RoomsFragment();
-        //Bundle args = new Bundle();
-        //args.putString(ARG_PARAM1, param1);
-        //args.putString(ARG_PARAM2, param2);
-        //fragment.setArguments(args);
+        Bundle args = new Bundle();
+        args.putString(FILTER_ROOMS_MIN, min);
+        args.putString(FILTER_ROOMS_MAX, max);
+        fragment.setArguments(args);
         return fragment;
-    }
-    public static RoomsFragment getInstance(){
-        if(instance == null){
-            instance = newInstance();
-        }
-        return instance;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        filterResults = ((MainActivity)context).presenter.filterResult;
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_rooms, container, false);
+        this.roomsMin = getArguments().getString(FILTER_ROOMS_MIN, "0");
+        this.roomsMax = getArguments().getString(FILTER_ROOMS_MAX, "20");
         initSeekBar(v);
-
         return v;
     }
 
     private void initSeekBar(View v){
         // get seekbar from view
         final CrystalRangeSeekbar rangeSeekbar = v.findViewById(R.id.mainActivity_filter_rooms_slider);
+        rangeSeekbar.setMinValue(Float.parseFloat(roomsMin));
+        rangeSeekbar.setMaxValue(Float.parseFloat(roomsMax));
 
 // get min and max text view
         final TextView tvMin = v.findViewById(R.id.mainActivity_filter_rooms_textView_min);
         final TextView tvMax = v.findViewById(R.id.mainActivity_filter_rooms_textView_max);
+        tvMin.setText(String.valueOf(roomsMin));
+        tvMax.setText(String.valueOf(roomsMax));
 
         //TODO these values should be received from server or locally?
-        roomsMin = "1";
-        roomsMax = "10+";
 // set listener
         rangeSeekbar.setOnRangeSeekbarChangeListener(new OnRangeSeekbarChangeListener() {
             @Override
             public void valueChanged(Number minValue, Number maxValue) {
-                tvMin.setText(String.valueOf(minValue));
-                tvMax.setText(String.valueOf(maxValue));
+                if(minValue.floatValue() - minValue.intValue() == 0){
+                    tvMin.setText(String.valueOf(minValue.intValue()));
+                }else{
+                    tvMin.setText(String.valueOf(minValue.floatValue()));
+                }
+
+                if(maxValue.floatValue() - maxValue.intValue() == 0){
+                    tvMax.setText(String.valueOf(maxValue.intValue()));
+                }else{
+                    tvMax.setText(String.valueOf(maxValue.floatValue()));
+                }
+
+                roomsMin = minValue.floatValue()+"";
+                roomsMax = maxValue.floatValue()+"";
             }
         });
 
@@ -89,40 +97,20 @@ public class RoomsFragment extends Fragment {
             public void finalValue(Number minValue, Number maxValue) {
                 roomsMin = String.valueOf(minValue);
                 roomsMax = String.valueOf(maxValue);
-                //Log.d("CRS=>", priceMin + " : " + priceMax);
+
+                roomsMin = minValue+"";
+                roomsMax = maxValue+"";
+
+                filterResults.setFromRooms(Float.parseFloat(roomsMin));
+                filterResults.setToRooms(Float.parseFloat(roomsMax));
             }
         });
     }
-    // TODO: Rename method, update argument and hook method into UI event
-    /*public void onButtonPressed(Uri[] uri) {
-        if (listener != null) {
-            listener.onFragmentInteraction(uri);
-        }
-    }*/
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
         this.context = context;
-        if (context instanceof BallabaFragmentListener) {
-            listener = (BallabaFragmentListener)context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean visible){
-        super.setUserVisibleHint(visible);
-        if (!visible){
-            if (listener != null) {
-                HashMap<String, String> results = new HashMap<>(2);
-                results.put(FILTER_ROOMS_MIN, roomsMin);
-                results.put(FILTER_ROOMS_MAX, roomsMax);
-                listener.onFragmentInteraction(results);            }
-        }
     }
 
 }

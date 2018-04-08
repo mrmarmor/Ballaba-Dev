@@ -181,7 +181,8 @@ public class BallabaSearchPropertiesManager {
     public ArrayList<BallabaPropertyResult> parsePropertyResults(String result){
         try{
             ArrayList<BallabaPropertyResult> returned = new ArrayList<>();
-            JSONArray object = new JSONArray(result);
+            JSONObject preObject = new JSONObject(result);
+            JSONArray object = preObject.getJSONArray("properties");
 
             for (int i = 0; i < object.length(); i++) {
                 JSONObject res = object.getJSONObject(i);

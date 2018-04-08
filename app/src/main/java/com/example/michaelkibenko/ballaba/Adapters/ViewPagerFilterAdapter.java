@@ -39,7 +39,8 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
     private ActivityMainLayoutBinding binder;
     private FragmentManager fm;
     private ConstraintLayout rootLayout;
-    private PriceFragment priceFragment;
+    public PriceFragment priceFragment;
+    public RoomsFragment roomsFragment;
     private int previousPageIndex = 0;
     //private int previousPage;
 
@@ -59,6 +60,7 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
         this.binder = binder;
         this.fm = fm;
         priceFragment = PriceFragment.newInstance("2500", "5400");
+        roomsFragment = RoomsFragment.newInstance("2", "15");
         //binder.mainActivityFilterRoot.mainActivityFilterPriceButton
         rootLayout = binder.mainActivityFilterIncluded.mainActivityFilterRoot;
         binder.mainActivityFilterIncluded.mainActivityFilterViewPager.setCurrentItem(0);
@@ -81,7 +83,7 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
                 return SizeFragment.getInstance();
 
             case 3:
-                return RoomsFragment.getInstance();
+                return roomsFragment;
 
             case 4:
                 return priceFragment;

@@ -7,8 +7,8 @@ public class FilterResultEntity extends BallabaBaseEntity {
 
     private int fromPrice;
     private int toPrice;
-    private int fromRooms;
-    private int toRooms;
+    private float fromRooms;
+    private float toRooms;
     private int fromSize;
     private int toSize;
     private ArrayList<String> attachments_ids;
@@ -35,19 +35,19 @@ public class FilterResultEntity extends BallabaBaseEntity {
         this.toPrice = toPrice;
     }
 
-    public int getFromRooms() {
+    public float getFromRooms() {
         return fromRooms;
     }
 
-    public void setFromRooms(int fromRooms) {
+    public void setFromRooms(float fromRooms) {
         this.fromRooms = fromRooms;
     }
 
-    public int getToRooms() {
+    public float getToRooms() {
         return toRooms;
     }
 
-    public void setToRooms(int toRooms) {
+    public void setToRooms(float toRooms) {
         this.toRooms = toRooms;
     }
 

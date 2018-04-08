@@ -53,8 +53,8 @@ public class PriceFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_price, container, false);
 
-        this.priceMax = getArguments().getString(FILTER_PRICE_MAX);
-        this.priceMin = getArguments().getString(FILTER_PRICE_MIN);
+        this.priceMax = getArguments().getString(FILTER_PRICE_MAX, "20000");
+        this.priceMin = getArguments().getString(FILTER_PRICE_MIN, "0");
 
         initSeekBar(v);
         return v;
@@ -79,8 +79,8 @@ public class PriceFragment extends Fragment {
             public void valueChanged(Number minValue, Number maxValue) {
                 tvMin.setText(String.valueOf(minValue));
                 tvMax.setText(String.valueOf(maxValue));
-                priceMax = maxValue +"";
-                priceMin = minValue + "";
+                priceMax = maxValue.intValue() +"";
+                priceMin = minValue.intValue() + "";
             }
         });
 
@@ -90,11 +90,11 @@ public class PriceFragment extends Fragment {
             public void finalValue(Number minValue, Number maxValue) {
                 priceMin = String.valueOf(minValue);
                 priceMax = String.valueOf(maxValue);
-                priceMax = maxValue +"";
-                priceMin = minValue + "";
+                priceMax = maxValue.intValue() +"";
+                priceMin = minValue.intValue() + "";
 
-                filterResults.setFromPrice(Integer.parseInt(priceMin));
-                filterResults.setToPrice(Integer.parseInt(priceMax));
+                filterResults.setFromPrice(minValue.intValue());
+                filterResults.setToPrice(maxValue.intValue());
             }
         });
     }
