@@ -1,0 +1,22 @@
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragmentAttachments_rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.michaelkibenko.ballaba.Fragments.Filter.AttachmentsFragment">
+
+
+    <com.nex3z.flowlayout.FlowLayout
+        android:id="@+id/mainActivity_filter_attachments_flowLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="@dimen/small_margin"
+        app:flRtl="true"
+        android:requiresFadingEdge="horizontal"
+        app:flChildSpacing="@dimen/chip_childSpacing"
+        app:flChildSpacingForLastRow="align"
+        app:flRowSpacing="@dimen/chip_rowSpacing" />
+
+</android.support.constraint.ConstraintLayout>

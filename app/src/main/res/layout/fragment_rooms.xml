@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/roomsFragment_rootLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.michaelkibenko.ballaba.Fragments.Filter.RoomsFragment">
+
+    <LinearLayout
+        android:id="@+id/mainActivity_filter_rooms_linearLayout"
+        style="@style/allWrapContent"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/mainActivity_filter_rooms_textView_min"
+            style="@style/allWrapContent"
+            android:textSize="22sp" />
+        <TextView
+            style="@style/allWrapContent"
+            android:textSize="22sp"
+            tools:text=" - " />
+        <TextView
+            android:id="@+id/mainActivity_filter_rooms_textView_max"
+            style="@style/allWrapContent"
+            android:textSize="22sp" />
+
+    </LinearLayout>
+
+    <com.crystal.crystalrangeseekbar.widgets.CrystalRangeSeekbar
+        android:id="@+id/mainActivity_filter_rooms_slider"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/mainActivity_filter_rooms_linearLayout"
+        android:layout_marginTop="23dp"
+        android:layout_centerHorizontal="true"
+        app:max_value="10"
+        app:min_value="1"
+        app:steps="1"
+        app:bar_color="@color/colorAccent"
+        app:bar_highlight_color="@color/colorAccent"
+        app:left_thumb_color="@color/colorAccent"
+        app:right_thumb_color="@color/colorAccent"
+        app:data_type="_integer"
+        app:position="right"/>
+
+</RelativeLayout>
