@@ -95,7 +95,6 @@ public class PriceFragment extends Fragment {
             public void finalValue(Number minValue, Number maxValue) {
                 priceMin = String.valueOf(minValue);
                 priceMax = String.valueOf(maxValue);
-                //Log.d("CRS=>", priceMin + " : " + priceMax);
             }
         });
     }
