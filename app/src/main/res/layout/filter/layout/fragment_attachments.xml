@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout android:id="@+id/fragmentAttachments_rootLayout"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    tools:context="com.example.michaelkibenko.ballaba.Fragments.Filter.AttachmentsFragment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+  >
+
+
+   <android.support.v7.widget.RecyclerView
+       android:id="@+id/attachmentsRV"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:background="@color/colorPrimaryDark" />
+
+</android.support.constraint.ConstraintLayout>
