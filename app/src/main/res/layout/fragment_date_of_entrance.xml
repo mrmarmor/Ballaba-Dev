@@ -1,15 +1,39 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/dateOfEntranceFragment_rootLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.michaelkibenko.ballaba.Fragments.Filter.DateOfEntranceFragment"
-    android:background="@android:color/white">
+    android:background="@android:color/white"
+    android:layoutDirection="rtl">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <CalendarView
+        android:id="@+id/entranceDateCalendarView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+    
+    <CheckBox
+        android:id="@+id/flexibleCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/entranceDateCalendarView"
+        app:layout_constraintStart_toStartOf="@+id/entranceDateCalendarView"
+        android:layout_marginStart="20dp"
+        />
 
-</FrameLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="גמיש/ה בתאריך כניסה (7 ימים +-)"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        app:layout_constraintTop_toTopOf="@+id/flexibleCheckBox"
+        app:layout_constraintBottom_toBottomOf="@+id/flexibleCheckBox"
+        app:layout_constraintStart_toEndOf="@+id/flexibleCheckBox" />
+
+</android.support.constraint.ConstraintLayout>

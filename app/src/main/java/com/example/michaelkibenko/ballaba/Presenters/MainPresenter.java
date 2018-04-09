@@ -141,7 +141,9 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
 
             @Override
             public void onPageSelected(int position) {
-                if(position == 1 && filterState != FilterState.FULL_FILTER){
+                if(position == 1){
+                    filterStateUIChanger(FilterState.FULL_FILTER);
+                }else if(position == 0){
                     filterStateUIChanger(FilterState.FULL_FILTER);
                 }else if(filterState != FilterState.MIDDLE_FILTER){
                     filterStateUIChanger(FilterState.MIDDLE_FILTER);
@@ -151,6 +153,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
 
             @Override
             public void onPageScrollStateChanged(int state) {
+
             }
         });
 

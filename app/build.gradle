@@ -44,7 +44,4 @@ dependencies {
     compile 'com.android.support:support-core-ui:27.1.0'
     compile 'com.duolingo.open:rtl-viewpager:1.0.3'
     compile group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '8.8.11'
-    compile('com.alibaba.android:vlayout:1.2.8@aar') {
-        transitive = true
-    }
 }

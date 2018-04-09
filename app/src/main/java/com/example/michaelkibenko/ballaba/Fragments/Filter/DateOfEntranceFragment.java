@@ -1,32 +1,31 @@
 package com.example.michaelkibenko.ballaba.Fragments.Filter;
 
 import android.content.Context;
-import android.net.Uri;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CalendarView;
 
-import com.example.michaelkibenko.ballaba.Common.BallabaFragmentListener;
+import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.R;
+
+import java.util.Locale;
 
 public class DateOfEntranceFragment extends Fragment {
 
     private static DateOfEntranceFragment instance;
     private Context context;
-    private BallabaFragmentListener listener;
+    private CalendarView calendarView;
 
     public DateOfEntranceFragment() {
         // Required empty public constructor
     }
 
-    public static DateOfEntranceFragment newInstance(/*String param1, String param2*/) {
+    public static DateOfEntranceFragment newInstance() {
         DateOfEntranceFragment fragment = new DateOfEntranceFragment();
-        /*Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);*/
         return fragment;
     }
     public static DateOfEntranceFragment getInstance(){
@@ -39,55 +38,31 @@ public class DateOfEntranceFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }*/
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_date_of_entrance, container, false);
+        View view = inflater.inflate(R.layout.fragment_date_of_entrance, container, false);
+        calendarView = view.findViewById(R.id.entranceDateCalendarView);
+        String languageToLoad  = "heb"; // your language
+        Locale locale = new Locale(languageToLoad);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+        ((MainActivity)context).getBaseContext().getResources().updateConfiguration(config,
+                ((MainActivity)context).getBaseContext().getResources().getDisplayMetrics());
+        return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-  /*  public void onButtonPressed(Uri[] uri) {
-        if (listener != null) {
-            listener.onFragmentInteraction(uri);
-        }
-    }
-*/
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof BallabaFragmentListener) {
-            listener = (BallabaFragmentListener)context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
+        this.context = context;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        listener = null;
     }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    /*public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }*/
 }
