@@ -8,5 +8,8 @@ import com.example.michaelkibenko.ballaba.BallabaApplication;
 
 public @interface GlobalValues {
     String appName = "Ballaba";
+    String deviceId = "device_id";
+    String sessionToken = "session_token";
+    String globalToken = "global_token";
 
 }

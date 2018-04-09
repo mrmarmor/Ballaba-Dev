@@ -1,20 +1,12 @@
 package com.example.michaelkibenko.ballaba.Presenters;
 
 import android.content.Context;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
-import android.widget.FrameLayout;
 
 import com.example.michaelkibenko.ballaba.Adapters.PropertiesRecyclerAdapter;
-import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
-import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
-import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
-import com.example.michaelkibenko.ballaba.databinding.FragmentPropertiesRecyclerBinding;
 
 import java.util.ArrayList;
 import java.util.List;

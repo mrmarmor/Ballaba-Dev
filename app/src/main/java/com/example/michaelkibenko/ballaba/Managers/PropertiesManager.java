@@ -2,7 +2,7 @@ package com.example.michaelkibenko.ballaba.Managers;
 
 import android.content.Context;
 
-import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
 public class PropertiesManager {
     private static PropertiesManager instance;
     private Context context;
-    private List<BallabaProperty> properties = new ArrayList<>();
+    private List<BallabaPropertyFull> properties = new ArrayList<>();
 
     public static PropertiesManager getInstance(Context context) {
         if(instance == null){
@@ -27,32 +27,32 @@ public class PropertiesManager {
         this.context = context;
     }
 
-    public List<BallabaProperty> getProperties() {
+    public List<BallabaPropertyFull> getProperties() {
         return properties;
     }
-    public void setProperties(List<BallabaProperty> properties){
+    public void setProperties(List<BallabaPropertyFull> properties){
         this.properties = properties;
     }
 
     // Properties management tools methods
-    public void addProperties(List<BallabaProperty> properties){
+    public void addProperties(List<BallabaPropertyFull> properties){
         this.properties.addAll(properties);
     }
-    public void addProperty(BallabaProperty property){
+    public void addProperty(BallabaPropertyFull property){
         properties.add(property);
     }
-    public void removeProperty(BallabaProperty property){
+    public void removeProperty(BallabaPropertyFull property){
         properties.remove(property);
     }
     public void removeProperty(int position){
         properties.remove(position);
     }
-    public BallabaProperty getProperty(int position){
+    public BallabaPropertyFull getProperty(int position){
         return properties.get(position);
     }
-    public BallabaProperty getPropertyById(String id){
-        for (BallabaProperty property : properties)
-            if (property.id().equals(id))
+    public BallabaPropertyFull getPropertyById(String id){
+        for (BallabaPropertyFull property : properties)
+            if (property.id.equals(id))
                 return property;
 
         return null;

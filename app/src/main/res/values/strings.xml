@@ -51,6 +51,11 @@
     <string name="propertyDescription_root_button_text">המשך</string>
     <string name="propertyDescription_mainImage_buttonToGallery_text">גלריית תמונות</string>
 
+    <string name="propertyDescriptionPrice_monthly_textView"> לחודש</string>
+    <string name="propertyDescriptionPrice_dateOfEntrance_textView">תאריך כניסה</string>
+    <string name="propertyDescriptionPrice_rentalPeriod_textView">תקופת השכרה</string>
+    <string name="propertyDescriptionPrice_streetView_button_text">תצוגת רחוב</string>
+
     <string name="terms_of_use_label">תקנון</string>
     <string name="terms_of_use_text">לורם איפסום דולור סיט אמט, קונסקטורר אדיפיסינג
 אלית נולום ארווס סאפיאן - פוסיליס קוויס, אקווזמן קוואזי

@@ -3,26 +3,11 @@ package com.example.michaelkibenko.ballaba.Activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
-import com.example.michaelkibenko.ballaba.Common.BallabaFragmentListener;
-import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
-import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
-import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
-import com.example.michaelkibenko.ballaba.Fragments.Filter.AttachmentsFragment;
-import com.example.michaelkibenko.ballaba.Fragments.Filter.DateOfEntranceFragment;
-import com.example.michaelkibenko.ballaba.Fragments.Filter.PriceFragment;
-import com.example.michaelkibenko.ballaba.Fragments.Filter.RoomsFragment;
-import com.example.michaelkibenko.ballaba.Fragments.Filter.SizeFragment;
-import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
@@ -32,8 +17,6 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by michaelkibenko on 12/03/2018.
@@ -48,7 +31,7 @@ public class MainActivity extends BaseActivity {
     private ActivityMainLayoutBinding binder;
     public MainPresenter presenter;
     //private HashMap<String, String> filterResults = new HashMap<>();
-    //private List<BallabaProperty> properties = new ArrayList<>();
+    //private List<BallabaPropertyFull> properties = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

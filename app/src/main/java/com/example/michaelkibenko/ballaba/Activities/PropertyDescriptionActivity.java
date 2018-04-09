@@ -13,7 +13,7 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityPropertyDescriptio
 
 public class PropertyDescriptionActivity extends BaseActivity {
 
-    public static final String PROPERTY_ID = "Prop_id";
+    public static final String PROPERTY = "Prop";
 
     private ActivityPropertyDescriptionBinding binder;
     private PropertyDescriptionPresenter presenter;

@@ -63,7 +63,7 @@ public class MapPropertiesRecyclerAdapter extends RecyclerView.Adapter<MapProper
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PropertyDescriptionActivity.class);
-                intent.putExtra(PropertyDescriptionActivity.PROPERTY_ID, propertyResult.id);
+                intent.putExtra(PropertyDescriptionActivity.PROPERTY, propertyResult);
                 context.startActivity(intent);
             }
         });

@@ -1,5 +1,5 @@
 <resources>
-    <!-- Default app dimensions. -->
+    <!-- Default app dimensions in order to keep app with uniform design. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="small_margin">8dp</dimen>
@@ -8,6 +8,7 @@
     <dimen name="textSize_small">14sp</dimen>
     <dimen name="textSize_regular">16sp</dimen>
     <dimen name="textSize_title">20sp</dimen>
+    <dimen name="textSize_big">22sp</dimen>
     <dimen name="icon_regular">24dp</dimen>
     <dimen name="bar_normal_height">48dp</dimen>
     <dimen name="button_width">70dp</dimen>
@@ -160,5 +161,12 @@
     <dimen name="propertyDescription_mainImage_topStrip_icon_horizontalOffset_heart_share">11dp</dimen>
     <dimen name="propertyDescription_mainImage_buttonToGallery_width">166dp</dimen>
     <dimen name="propertyDescription_mainImage_buttonToGallery_height">38dp</dimen>
+
+    <dimen name="propertyDescription_price_dateOfEntrance_marginStart">36dp</dimen>
+    <dimen name="propertyDescription_price_buttonToStreetView_width">96dp</dimen>
+    <dimen name="propertyDescription_price_buttonToStreetView_height">37dp</dimen>
+    <dimen name="propertyDescription_price_landlordProfileImage_dimens">40dp</dimen>
+    <dimen name="propertyDescription_price_landlordDetails_verticalOffset">6dp</dimen>
+    <dimen name="propertyDescription_price_fullDescription_horizontalOffset">32dp</dimen>
 
 </resources>
