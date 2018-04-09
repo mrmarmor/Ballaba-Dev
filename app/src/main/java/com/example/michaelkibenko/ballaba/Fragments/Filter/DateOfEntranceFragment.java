@@ -23,7 +23,6 @@ import java.util.Locale;
 public class DateOfEntranceFragment extends Fragment {
 
     private static final String TAG = DateOfEntranceFragment.class.getSimpleName();
-    private static DateOfEntranceFragment instance;
     private Context context;
     private CalendarView calendarView;
     private Date enteredDate;
@@ -38,12 +37,6 @@ public class DateOfEntranceFragment extends Fragment {
     public static DateOfEntranceFragment newInstance() {
         DateOfEntranceFragment fragment = new DateOfEntranceFragment();
         return fragment;
-    }
-    public static DateOfEntranceFragment getInstance(){
-        if(instance == null){
-            instance = newInstance();
-        }
-        return instance;
     }
 
     @Override

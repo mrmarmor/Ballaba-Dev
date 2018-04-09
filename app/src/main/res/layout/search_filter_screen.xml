@@ -24,12 +24,12 @@
 
         <Button
             android:id="@+id/mainActivity_filter_price_button"
-            android:tag="0"
+            android:tag="4"
             style="@style/mainActivity_button_filter"
             android:text="@string/mainScreen_buttons_text_price" />
         <Button
             android:id="@+id/mainActivity_filter_rooms_button"
-            android:tag="1"
+            android:tag="3"
             style="@style/mainActivity_button_filter"
             android:text="@string/mainScreen_buttons_text_rooms" />
         <Button
@@ -39,12 +39,12 @@
             android:text="@string/mainScreen_buttons_text_size" />
         <Button
             android:id="@+id/mainActivity_filter_attachments_button"
-            android:tag="3"
+            android:tag="1"
             style="@style/mainActivity_button_filter"
             android:text="@string/mainScreen_buttons_text_attachments" />
         <Button
             android:id="@+id/mainActivity_filter_dateOfEntrance_button"
-            android:tag="4"
+            android:tag="0"
             style="@style/mainActivity_button_filter"
             android:text="@string/mainScreen_buttons_text_dateOfEntrance" />
 
@@ -95,15 +95,16 @@
         android:weightSum="0.5">
 
         <ImageButton
-            android:id="@+id/mainActivity_filter_x_button"
-            style="@style/mainActivity_button"
-            android:background="@android:color/transparent"
-            android:src="@drawable/close_white_24" />
-        <ImageButton
             android:id="@+id/mainActivity_filter_v_button"
             style="@style/mainActivity_button"
             android:background="@android:color/transparent"
             android:src="@drawable/check_white_24" />
+
+        <ImageButton
+            android:id="@+id/mainActivity_filter_x_button"
+            style="@style/mainActivity_button"
+            android:background="@android:color/transparent"
+            android:src="@drawable/close_white_24" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

@@ -42,6 +42,8 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
     public PriceFragment priceFragment;
     public RoomsFragment roomsFragment;
     public SizeFragment sizeFragment;
+    public AttachmentsFragment attachmnetsFragment;
+    public DateOfEntranceFragment dateOfEntranceFragment;
     private int previousPageIndex = 0;
     //private int previousPage;
 
@@ -63,6 +65,8 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
         priceFragment = PriceFragment.newInstance("2500", "5400");
         roomsFragment = RoomsFragment.newInstance("2", "15");
         sizeFragment = SizeFragment.newInstance("20", "150");
+        attachmnetsFragment = AttachmentsFragment.newInstance();
+        dateOfEntranceFragment = DateOfEntranceFragment.newInstance();
         //binder.mainActivityFilterRoot.mainActivityFilterPriceButton
         rootLayout = binder.mainActivityFilterIncluded.mainActivityFilterRoot;
         binder.mainActivityFilterIncluded.mainActivityFilterViewPager.setCurrentItem(0);
@@ -74,11 +78,11 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
     @Override
     public Fragment getItem(int position) {
         switch (position){
-            case 0: default:
-                return DateOfEntranceFragment.getInstance();
+            case 0:
+                return dateOfEntranceFragment;
 
             case 1:
-                return AttachmentsFragment.getInstance(context, binder);
+                return attachmnetsFragment;
 
 
             case 2:
@@ -87,7 +91,7 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
             case 3:
                 return roomsFragment;
 
-            case 4:
+            case 4: default:
                 return priceFragment;
         }
     }

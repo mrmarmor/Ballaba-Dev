@@ -48,7 +48,6 @@ public class MainActivity extends BaseActivity implements
     private ActivityMainLayoutBinding binder;
     public MainPresenter presenter;
     private HashMap<String, String> filterResults = new HashMap<>();
-    //private List<BallabaProperty> properties = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
