@@ -49,6 +49,13 @@
     <string name="propertyDescription_root_textView_rentTitle">שכר דירה</string>
     <string name="propertyDescription_root_textView_rentFee">₪ לחודש</string>
     <string name="propertyDescription_root_button_text">המשך</string>
+    <string name="propertyDescription_root_attachments_title">הנכס</string>
+    <string name="propertyDescription_root_attachmentsExtended_title">על הנכס</string>
+    <string name="propertyDescription_root_payments_title">תשלומים שוטפים</string>
+    <string name="propertyDescription_root_paymentMethods_title">תשלום</string>
+    <string name="propertyDescription_root_comments_title">דברים שרואים משם</string>
+    <string name="propertyDescription_root_openDoorDates_title">תיאום פגישה</string>
+
     <string name="propertyDescription_mainImage_buttonToGallery_text">גלריית תמונות</string>
 
     <string name="propertyDescriptionPrice_monthly_textView"> לחודש</string>

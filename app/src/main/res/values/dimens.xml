@@ -162,12 +162,13 @@
     <dimen name="propertyDescription_mainImage_buttonToGallery_width">166dp</dimen>
     <dimen name="propertyDescription_mainImage_buttonToGallery_height">38dp</dimen>
 
-    <dimen name="propertyDescription_price_height">1260dp</dimen>
+    <dimen name="propertyDescription_price_height">260dp</dimen>
     <dimen name="propertyDescription_price_dateOfEntrance_marginStart">36dp</dimen>
     <dimen name="propertyDescription_price_buttonToStreetView_width">96dp</dimen>
     <dimen name="propertyDescription_price_buttonToStreetView_height">37dp</dimen>
     <dimen name="propertyDescription_price_landlordProfileImage_dimens">40dp</dimen>
     <dimen name="propertyDescription_price_landlordDetails_verticalOffset">6dp</dimen>
     <dimen name="propertyDescription_price_fullDescription_horizontalOffset">32dp</dimen>
+    <dimen name="propertyDescription_divider_horizontalOffset">40dp</dimen>
 
 </resources>

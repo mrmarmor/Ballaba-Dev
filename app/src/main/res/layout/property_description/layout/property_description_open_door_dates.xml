@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="presenter"
+            type="com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layoutDirection="rtl">
+
+        <TextView
+            android:id="@+id/propertyDescriptionOpenDoorDates_title_textView"
+            style="@style/allWrapContent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:text="@string/propertyDescription_root_openDoorDates_title"
+            android:textSize="@dimen/textSize_big"
+            android:textColor="@color/black" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

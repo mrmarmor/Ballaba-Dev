@@ -120,7 +120,10 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, PropertyDescriptionActivity.class);
-                intent.putExtra(PropertyDescriptionActivity.PROPERTY, property.id);
+                //TODO for testing only:
+                intent.putExtra(PropertyDescriptionActivity.PROPERTY, "1");
+                //TODO the real one:
+                //intent.putExtra(PropertyDescriptionActivity.PROPERTY, property.id);
                 intent.putExtra(PropertyDescriptionPresenter.PROPERTY_IMAGE
                         , property.photos.get(property.photos.size()/2));
                 mContext.startActivity(intent);

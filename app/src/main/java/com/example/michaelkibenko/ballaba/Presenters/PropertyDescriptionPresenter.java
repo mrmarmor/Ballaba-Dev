@@ -23,6 +23,7 @@ import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManage
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
+import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityPropertyDescriptionBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionImageBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPriceBinding;
@@ -91,7 +92,8 @@ public class PropertyDescriptionPresenter {
     }
 
     private void displayDataOnScreen(BallabaPropertyFull propertyFull){
-        binderPrice.propertyDescriptionPricePriceTextView.setText(propertyFull.price);
+        binderPrice.propertyDescriptionPricePriceTextView.setText("₪" +
+                StringUtils.getInstance(true, activity).formattedNumberWithComma(propertyFull.price));
         binderPrice.propertyDescriptionPriceAddressTextView.setText(propertyFull.formattedAddress);
         binderPrice.propertyDescriptionPriceDateOfEntranceTextView.setText(propertyFull.entry_date);
         binderPrice.propertyDescriptionPriceRentalPeriodTextView.setText(propertyFull.rentPeriod);
