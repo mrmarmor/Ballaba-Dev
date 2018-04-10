@@ -153,8 +153,8 @@
     <dimen name="chipsButton_textPadding">10dp</dimen>
     <dimen name="chipsButton_radius">30dp</dimen>
 
-    <dimen name="propertyDescription_bottomStrip_height">60dp</dimen>
     <dimen name="propertyDescription_mainImage_height">208dp</dimen>
+    <dimen name="propertyDescription_bottomStrip_height">60dp</dimen>
     <dimen name="propertyDescription_mainImage_topStrip_height">56dp</dimen>
     <dimen name="propertyDescription_mainImage_topStrip_icon_verticalOffset">16dp</dimen>
     <dimen name="propertyDescription_mainImage_topStrip_icon_horizontalOffset">21dp</dimen>
@@ -162,6 +162,7 @@
     <dimen name="propertyDescription_mainImage_buttonToGallery_width">166dp</dimen>
     <dimen name="propertyDescription_mainImage_buttonToGallery_height">38dp</dimen>
 
+    <dimen name="propertyDescription_price_height">1260dp</dimen>
     <dimen name="propertyDescription_price_dateOfEntrance_marginStart">36dp</dimen>
     <dimen name="propertyDescription_price_buttonToStreetView_width">96dp</dimen>
     <dimen name="propertyDescription_price_buttonToStreetView_height">37dp</dimen>

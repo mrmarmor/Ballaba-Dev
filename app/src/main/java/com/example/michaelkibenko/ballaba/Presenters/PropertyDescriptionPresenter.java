@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
@@ -23,6 +24,8 @@ import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityPropertyDescriptionBinding;
+import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionImageBinding;
+import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPriceBinding;
 
 import java.util.ArrayList;
 
@@ -36,6 +39,8 @@ public class PropertyDescriptionPresenter {
 
     private Activity activity;
     private ActivityPropertyDescriptionBinding binder;
+    private PropertyDescriptionPriceBinding binderPrice;
+    //private PropertyDescriptionImageBinding binderImage;
     private Intent propertyIntent;
     private BallabaResponseListener listener;
 
@@ -49,14 +54,13 @@ public class PropertyDescriptionPresenter {
     }
 
     private void initProperty(){
+        binderPrice = binder.propertyDescriptionPrice;
         fetchDataFromServer(propertyIntent.getStringExtra(PropertyDescriptionActivity.PROPERTY));
-        ImageView imageFrame = binder.propertyDescriptionImage.findViewById(R.id.propertyDescription_mainImage);
+        ImageView imageFrame = binder.propertyDescriptionImage.propertyDescriptionMainImage;//findViewById(R.id.propertyDescription_mainImage);
 
         Glide.with(activity)
              .load(propertyIntent.getStringExtra(PROPERTY_IMAGE))
              .into(imageFrame);
-
-
     }
 
     private void fetchDataFromServer(final String PROPERTY_ID){
@@ -69,9 +73,7 @@ public class PropertyDescriptionPresenter {
 
                     Log.d(TAG, "properties: " + propertyFull.formattedAddress+":"+propertyFull.street);
 
-                    View priceFrame = binder.propertyDescriptionPrice;
-                    TextView tvPropertyAddress = priceFrame.findViewById(R.id.propertyDescriptionPrice_address_textView);
-                    tvPropertyAddress.setText(propertyFull.formattedAddress);
+                    displayDataOnScreen(propertyFull);
                     //callback.resolve(entity);
                 }else {
                     Log.d(TAG, "properties: 500" );
@@ -88,4 +90,28 @@ public class PropertyDescriptionPresenter {
         });
     }
 
+    private void displayDataOnScreen(BallabaPropertyFull propertyFull){
+        binderPrice.propertyDescriptionPricePriceTextView.setText(propertyFull.price);
+        binderPrice.propertyDescriptionPriceAddressTextView.setText(propertyFull.formattedAddress);
+        binderPrice.propertyDescriptionPriceDateOfEntranceTextView.setText(propertyFull.entry_date);
+        binderPrice.propertyDescriptionPriceRentalPeriodTextView.setText(propertyFull.rentPeriod);
+        binderPrice.propertyDescriptionPriceLandlordNameTextView.setText(propertyFull.landlords.get("first_name"));
+        binderPrice.propertyDescriptionPriceLandlordCityTextView.setText(propertyFull.landlords.get("city"));
+        binderPrice.propertyDescriptionPriceFullDescriptionTextView.setText(propertyFull.description);
+        Glide.with(activity)
+             .load(propertyFull.landlords.get("profile_image"))
+             .into(binderPrice.propertyDescriptionPriceLandlordProfileImage);
+    }
+
+    public void onClickContinue(){
+        Toast.makeText(activity, "continue", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onClickToGallery(){
+        Toast.makeText(activity, "to gallery", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onClickToStreetView(){
+        Toast.makeText(activity, "to street view", Toast.LENGTH_SHORT).show();
+    }
 }

@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="presenter"
+            type="com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter"/>
+    </data>
+
+<android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:layoutDirection="rtl">
+     android:layoutDirection="rtl">
 
     <ImageView
         android:id="@+id/propertyDescription_mainImage"
@@ -59,6 +68,8 @@
         android:text="@string/propertyDescription_mainImage_buttonToGallery_text"
         android:textSize="@dimen/textSize_regular"
         android:gravity="bottom|center"
-        android:drawableStart="@drawable/gallery_black_24"/>
+        android:drawableStart="@drawable/gallery_black_24"
+        android:onClick="@{() -> presenter.onClickToGallery()}" />
 
 </android.support.constraint.ConstraintLayout>
+</layout>
