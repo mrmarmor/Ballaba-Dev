@@ -268,7 +268,8 @@ public class BallabaSearchPropertiesManager {
 
             //BallabaPropertyFull.Landlord[] landlords = new BallabaPropertyFull.Landlord[]{};
             HashMap<String, String> landlords = parseLandlords(res.getJSONArray("landlords"));
-            HashMap<String, String> attachments = parseAttchments(res.getJSONArray("attachments"));
+            //String[] attachments = res.get
+            ArrayList<String> attachments = parseAttachments(res.getJSONArray("attachments"));
             HashMap<String, String> payments = parsePayments(res.getJSONArray("payments"));
             HashMap<String, String> paymentMethods = parsePaymentMethods(res.getJSONArray("payment_methods"));
             HashMap<String, String> addons = parseAddons(res.getJSONArray("addons"));
@@ -321,13 +322,14 @@ public class BallabaSearchPropertiesManager {
         return landlords;
     }
 
-    private HashMap<String, String> parseAttchments(@NonNull JSONArray jsonArray) throws JSONException{
-        HashMap<String, String> attachments = new HashMap<>();
+    private ArrayList<String> parseAttachments(@NonNull JSONArray jsonArray) throws JSONException{
+        ArrayList<String> attachments = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++){
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            attachments.put("id", jsonObject.getString("id"));
+            //JSONObject jsonObject = jsonArray.getJSONObject(i);
+            attachments.add(jsonArray.get(i).toString());
+            /*attachments.put("id", jsonObject.getString("id"));
             attachments.put("property_id", jsonObject.getString("property_id"));
-            attachments.put("attachment_type", jsonObject.getString("attachment_type"));
+            attachments.put("attachment_type", jsonObject.getString("attachment_type"));*/
         }
 
         return attachments;

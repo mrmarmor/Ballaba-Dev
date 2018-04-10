@@ -63,6 +63,27 @@
     <string name="propertyDescriptionPrice_rentalPeriod_textView">תקופת השכרה</string>
     <string name="propertyDescriptionPrice_streetView_button_text">תצוגת רחוב</string>
 
+    <!-- TODO check this translation -->
+    <string name="attach_parking">חניה</string>
+    <string name="attach_furnished">מרוהטת</string>
+    <string name="attach_electronics">מוצרי חשמל</string>
+    <string name="attach_renovated">משופצת</string>
+    <string name="attach_sunboiler">דוד שמש</string>
+    <string name="attach_elevator">מעלית</string>
+    <string name="attach_guard">שומר</string>
+    <string name="attach_bars">סורגים</string>
+    <string name="attach_warehouse">מחסן</string>
+    <string name="attach_sunterrace">מרפסת שמש</string>
+    <string name="attach_service_balcony">מרפסת שירות</string>
+    <string name="attach_garden">גינה</string>
+    <string name="attach_pool">בריכה</string>
+    <string name="attach_animals">ללא בעלי חיים</string>
+    <string name="attach_floor_heat">חימום תת רצפתי</string>
+    <string name="attach_all_included">הכל כלול</string>
+    <string name="attach_gym">חדר כושר</string>
+    <string name="attach_disabled_access">גישה חסומה</string>
+    <string name="attach_aps">APS</string>
+
     <string name="terms_of_use_label">תקנון</string>
     <string name="terms_of_use_text">לורם איפסום דולור סיט אמט, קונסקטורר אדיפיסינג
 אלית נולום ארווס סאפיאן - פוסיליס קוויס, אקווזמן קוואזי

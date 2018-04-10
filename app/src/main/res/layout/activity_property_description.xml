@@ -11,16 +11,12 @@
     <android.support.constraint.ConstraintLayout
         style="@style/allMatchParent" android:layoutDirection="rtl">
 
-        <ScrollView
+         <ScrollView
             style="@style/allMatchParent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:orientation="vertical">
 
             <LinearLayout
-                style="@style/allMatchParent" android:orientation="vertical">
+                style="@style/allWrapContent" android:orientation="vertical">
 
                 <include
                     android:id="@+id/property_description_image"
@@ -34,44 +30,43 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/propertyDescription_price_height" />
                 <View style="@style/divider_gray" />
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp" android:text="@string/propertyDescription_root_comments_title"/>
 
                 <include
                     android:id="@+id/property_description_attachments"
                     layout="@layout/property_description_attachments"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/propertyDescription_price_height" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin" />
                 <View style="@style/divider_gray" />
 
                 <include
                     android:id="@+id/property_description_attachments_extended"
                     layout="@layout/property_description_attachments_extended"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/propertyDescription_price_height" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin" />
                 <View style="@style/divider_gray" />
 
                 <include
                     android:id="@+id/property_description_payments"
                     layout="@layout/property_description_payments"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/propertyDescription_price_height" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin" />                <View style="@style/divider_gray" />
                 <View style="@style/divider_gray" />
 
                 <include
                     android:id="@+id/property_description_payment_methods"
                     layout="@layout/property_description_payment_methods"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/propertyDescription_price_height" />
-                <View style="@style/divider_gray" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin" />                <View style="@style/divider_gray" />
 
                 <include
                     android:id="@+id/property_description_comments"
                     layout="@layout/property_description_comments"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/propertyDescription_price_height" />
-                <View style="@style/divider_gray" />
 
                 <include
                     android:id="@+id/property_description_open_door_dates"
@@ -91,8 +86,8 @@
 
             <TextView
                 android:id="@+id/propertyDescription_root_textView_rentTitle"
-                android:layout_width="100dp"
-                android:layout_height="15dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -102,8 +97,8 @@
                 tools:text="@string/propertyDescription_root_textView_rentTitle" />
             <TextView
                 android:id="@+id/propertyDescription_root_textView_rentFee"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/propertyDescription_root_textView_rentTitle"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"

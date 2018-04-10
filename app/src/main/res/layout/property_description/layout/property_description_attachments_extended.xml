@@ -11,7 +11,9 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layoutDirection="rtl">
+        android:layoutDirection="rtl"
+         >
+        <!--app:addView="@{() -> presenter.dynamicTextViews}"-->
 
         <TextView
             android:id="@+id/propertyDescriptionAttachmentsExtended_title_textView"
@@ -22,6 +24,10 @@
             android:text="@string/propertyDescription_root_attachmentsExtended_title"
             android:textSize="@dimen/textSize_big"
             android:textColor="@color/black" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/propertyDescriptionAttachmentsExtended_recyclerView"
+            style="@style/allWrapContent" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>
