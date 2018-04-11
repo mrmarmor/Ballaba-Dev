@@ -112,6 +112,7 @@ public class ConnectionsManager{
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("phone", phoneNUmber);
             jsonObject.put("code", code);
+            jsonObject.put("fcm_token", DeviceUtils.getInstance(true, context).getFcmToken());
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, EndpointsHolder.AUTHENTICATE, jsonObject, new Response.Listener<JSONObject>() {
                 @Override
@@ -183,18 +184,18 @@ public class ConnectionsManager{
     }
 
     public void logInByToken(final BallabaResponseListener callback, final String token){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, EndpointsHolder.LOGIN_BY_TOKEN,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
-                        if(user == null){
-                            callback.reject(new BallabaErrorResponse(500, null));
-                        }else {
-                            callback.resolve(user);
-                        }
-                    }
-                }, new Response.ErrorListener() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, EndpointsHolder.LOGIN_BY_TOKEN
+                , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
+                if(user == null){
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }else {
+                    callback.resolve(user);
+                }
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Error: " + error.getMessage());

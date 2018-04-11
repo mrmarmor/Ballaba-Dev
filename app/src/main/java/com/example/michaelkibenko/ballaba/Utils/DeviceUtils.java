@@ -4,10 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.Settings;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-
-import com.android.volley.toolbox.StringRequest;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 /**
  * Created by User on 05/03/2018.
@@ -33,6 +30,10 @@ public class DeviceUtils {
 
     public String getDeviceId(){
         return Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID);
+    }
+
+    public String getFcmToken(){
+        return FirebaseInstanceId.getInstance().getToken();
     }
 
     /*public String readSms() {

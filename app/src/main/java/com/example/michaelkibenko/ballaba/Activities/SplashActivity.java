@@ -139,6 +139,7 @@ public class SplashActivity extends BaseActivity {
             checkSplashDelay(logInStatus);
             //first from here
         }
+
     }
 
     private void getProperties(@FLOW_TYPES final int whatNext){
