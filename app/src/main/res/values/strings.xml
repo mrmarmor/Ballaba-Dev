@@ -65,6 +65,9 @@
     <string name="propertyDescriptionPrice_rentalPeriod_textView">תקופת השכרה</string>
     <string name="propertyDescriptionPrice_streetView_button_text">תצוגת רחוב</string>
 
+    <string name="propertyDescriptionComment_positive_title">טוב</string>
+    <string name="propertyDescriptionComment_negative_title">פחות טוב</string>
+
     <!-- TODO check this translation -->
     <string name="attach_parking">חניה</string>
     <string name="attach_furnished">מרוהטת</string>

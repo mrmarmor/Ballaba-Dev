@@ -48,7 +48,7 @@ public class PropertyDescriptionComment {
     }
 
     public class User {
-        private String id, first_name, last_name, profile_image;
+        public String id, first_name, last_name, profile_image;
 
         public User(String id, String first_name, String last_name, String profile_image) {
             this.id = id;
@@ -59,8 +59,8 @@ public class PropertyDescriptionComment {
     }
 
     public class Reply {
-        private String created_at, content;
-        private User user;
+        public String created_at, content;
+        public User user;
 
         //public Reply newInstance(){ return new Reply(); }
         /*public Reply(String created_at, String content, User user) {

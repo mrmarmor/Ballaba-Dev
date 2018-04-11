@@ -13,6 +13,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.PropertyDescriptionComment;
 import com.example.michaelkibenko.ballaba.Fragments.Filter.AttachmentsFragment;
+import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionAttachmentsBinding;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -21,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -43,6 +45,7 @@ public class BallabaSearchPropertiesManager {
     private static final String TAG = BallabaSearchPropertiesManager.class.getSimpleName();
     private static BallabaSearchPropertiesManager instance;
     private Context context;
+    StringUtils heb = StringUtils.getInstance(true, context);
     private ArrayList<BallabaPropertyResult> results;
 
     public static BallabaSearchPropertiesManager getInstance(Context context) {
@@ -315,9 +318,9 @@ public class BallabaSearchPropertiesManager {
         for (int i = 0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             landlords.put("id", jsonObject.getString("id"));
-            landlords.put("first_name", jsonObject.getString("first_name"));
-            landlords.put("last_name", jsonObject.getString("last_name"));
-            landlords.put("city", jsonObject.getString("city"));
+            landlords.put("first_name", heb.formattedHebrew(jsonObject.getString("first_name")));
+            landlords.put("last_name", heb.formattedHebrew(jsonObject.getString("last_name")));
+            landlords.put("city", heb.formattedHebrew(jsonObject.getString("city")));
             landlords.put("profile_image", jsonObject.getString("profile_image"));
             //landlords[i] = new BallabaPropertyFull().new Landlord();//jsonArray.getJSONObject(i).getString("photo_url"));
         }
@@ -415,7 +418,7 @@ public class BallabaSearchPropertiesManager {
             if (positiveArr != null){
                 for (int j = 0; j < positiveArr.length(); j++){
                     Log.d(TAG, positiveArr.getJSONObject(j).getString("content"));
-                    map.put("content", positiveArr.getJSONObject(j).getString("content"));
+                    map.put("content", heb.formattedHebrew(positiveArr.getJSONObject(j).getString("content")));
                     positive.add(map);
                 }
             }
@@ -424,7 +427,7 @@ public class BallabaSearchPropertiesManager {
             JSONArray negativeArr = jsonObject.getJSONArray("negative");
             if (negativeArr != null){
                 for (int j = 0; j < negativeArr.length(); j++){
-                    map.put("content", negativeArr.getJSONObject(j).getString("content"));
+                    map.put("content", heb.formattedHebrew(negativeArr.getJSONObject(j).getString("content")));
                     negative.add(map);
                 }
             }
@@ -435,7 +438,7 @@ public class BallabaSearchPropertiesManager {
             if (replArr != null){
                 for (int j = 0; j < replArr.length(); j++){
                     reply.setCreated_at(replArr.getJSONObject(j).getString("created_at"));
-                    reply.setContent(replArr.getJSONObject(j).getString("content"));
+                    reply.setContent(heb.formattedHebrew(replArr.getJSONObject(j).getString("content")));
                     reply.setUser(parseUser(replArr.getJSONObject(j).getJSONObject("user")));
                     replies.add(reply);
                 }
@@ -450,12 +453,13 @@ public class BallabaSearchPropertiesManager {
     private PropertyDescriptionComment.User parseUser(JSONObject userJson) throws JSONException {
         //TODO encode hebrew to utf-8
         String userId = userJson.getString("id");
-        String userFirstName = userJson.getString("first_name");
-        String userLastName = userJson.getString("last_name");
         String userProfileImage = userJson.getString("profile_image");
 
+        String userFirstName = heb.formattedHebrew(userJson.getString("first_name"));
+        String userLastName = heb.formattedHebrew(userJson.getString("last_name"));
+
         PropertyDescriptionComment.User user = new PropertyDescriptionComment().
-                                               new User(userId, userFirstName, userLastName, userProfileImage);
+                new User(userId, userFirstName, userLastName, userProfileImage);
 
         return user;
     }

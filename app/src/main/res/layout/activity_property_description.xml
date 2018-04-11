@@ -28,7 +28,8 @@
                     android:id="@+id/property_description_price"
                     layout="@layout/property_description_price"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/propertyDescription_price_height" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"/>
                 <View style="@style/divider_gray" />
 
                 <include
@@ -67,13 +68,13 @@
                     android:id="@+id/property_description_comments"
                     layout="@layout/property_description_comments"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/propertyDescription_price_height" />
+                    android:layout_height="wrap_content" />
 
                 <include
                     android:id="@+id/property_description_open_door_dates"
                     layout="@layout/property_description_open_door_dates"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/propertyDescription_price_height" />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
         </ScrollView>

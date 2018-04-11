@@ -10,7 +10,7 @@
     <dimen name="textSize_title">20sp</dimen>
     <dimen name="textSize_big">22sp</dimen>
     <dimen name="icon_regular">24dp</dimen>
-    <dimen name="icon_attachment">36dp</dimen>
+    <dimen name="icon_big">36dp</dimen>
     <dimen name="bar_normal_height">48dp</dimen>
     <dimen name="button_width">70dp</dimen>
     <dimen name="button_height">39dp</dimen>
@@ -163,7 +163,6 @@
     <dimen name="propertyDescription_mainImage_buttonToGallery_width">166dp</dimen>
     <dimen name="propertyDescription_mainImage_buttonToGallery_height">38dp</dimen>
 
-    <dimen name="propertyDescription_price_height">260dp</dimen>
     <dimen name="propertyDescription_price_dateOfEntrance_marginStart">36dp</dimen>
     <dimen name="propertyDescription_price_buttonToStreetView_width">96dp</dimen>
     <dimen name="propertyDescription_price_buttonToStreetView_height">37dp</dimen>
@@ -176,5 +175,10 @@
     <dimen name="propertyDescription_attachments_leftAttachmentsOffset_start">125dp</dimen>
     <dimen name="propertyDescription_attachments_bottomAttachmentsOffset_top">20dp</dimen>
     <dimen name="propertyDescription_googleMap_height">180dp</dimen>
+
+    <dimen name="descriptionCommentItem_profileImage_margin">20dp</dimen>
+    <dimen name="descriptionCommentItem_name_marginTop">9dp</dimen>
+    <dimen name="descriptionCommentItem_name_marginBottom">8dp</dimen>
+    <dimen name="descriptionCommentItem_name_marginStart">10dp</dimen>
 
 </resources>
