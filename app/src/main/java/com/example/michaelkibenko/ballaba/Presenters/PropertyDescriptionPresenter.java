@@ -43,6 +43,7 @@ import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionImageBi
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPaymentMethodsBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPriceBinding;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -115,14 +116,20 @@ public class PropertyDescriptionPresenter {
     }
 
     private void displayDataOnScreen(BallabaPropertyFull propertyFull){
-        binderPrice.propertyDescriptionPricePriceTextView.setText("₪" +
-                StringUtils.getInstance(true, activity).formattedNumberWithComma(propertyFull.price));
+        binderPrice.propertyDescriptionPricePriceTextView.setText(String.format("%s %s", "₪",
+                StringUtils.getInstance(true, activity).formattedNumberWithComma(propertyFull.price)));
         binderPrice.propertyDescriptionPriceAddressTextView.setText(propertyFull.formattedAddress);
         binderPrice.propertyDescriptionPriceDateOfEntranceTextView.setText(propertyFull.entry_date);
         binderPrice.propertyDescriptionPriceRentalPeriodTextView.setText(propertyFull.rentPeriod);
         binderPrice.propertyDescriptionPriceLandlordNameTextView.setText(propertyFull.landlords.get("first_name"));
         binderPrice.propertyDescriptionPriceLandlordCityTextView.setText(propertyFull.landlords.get("city"));
-        binderPrice.propertyDescriptionPriceFullDescriptionTextView.setText(propertyFull.description);
+
+        try {
+            binderPrice.propertyDescriptionPriceFullDescriptionTextView.setText(
+                    new String(propertyFull.description.getBytes("ISO_8859_1"), "utf-8"));
+        }catch (UnsupportedEncodingException ex){
+            ex.printStackTrace();
+        }
 
         binderAttach.propertyDescriptionAttachmentsNumberOfRoomsTextView.setText(
                 String.format("%s %s", propertyFull.roomsNumber, activity.getString(R.string.propertyItem_numberOfRooms)));

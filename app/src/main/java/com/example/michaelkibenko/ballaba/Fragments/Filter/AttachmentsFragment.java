@@ -1,5 +1,6 @@
 package com.example.michaelkibenko.ballaba.Fragments.Filter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,9 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Adapters.ChipsButtonsRecyclerViewAdapter;
+import com.example.michaelkibenko.ballaba.Common.BallabaFragmentListener;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.R;
@@ -26,15 +29,26 @@ public class AttachmentsFragment extends Fragment {
     //private OnFragmentInteractionListener mListener;
     //private ConstraintLayout rootLayoutFullHeight, rootLayoutHalfHeight;
     private static Context context;
-    private ActivityMainLayoutBinding binder;
     private RecyclerView attachmentsRecyclerView;
     private ChipsButtonsRecyclerViewAdapter chipsAdapter;
     private UiUtils uiUtils;
+
+    private static ActivityMainLayoutBinding binder;
+    private BallabaFragmentListener listener;
+    private Attachment[] attachments = new Attachment[5];
+
+    private class Attachment{
+        private View rootView;
+        private TextView textView;
+        private boolean isChipChecked;
+    }
 
     public AttachmentsFragment() {}
     public static AttachmentsFragment newInstance(Context mContext, ActivityMainLayoutBinding binding) {
         AttachmentsFragment fragment = new AttachmentsFragment();
         context = mContext;
+        binder = binding;
+
         return fragment;
     }
     public static AttachmentsFragment getInstance(Context context, ActivityMainLayoutBinding binder){
