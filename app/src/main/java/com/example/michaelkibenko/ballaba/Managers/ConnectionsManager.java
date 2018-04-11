@@ -57,7 +57,7 @@ import static com.android.volley.Request.Method.GET;
 
 public class ConnectionsManager{
     private static final String TAG = ConnectionsManager.class.getSimpleName();
-    
+
     private static ConnectionsManager instance;
     private Context context;
     private RequestQueue queue;
