@@ -9,6 +9,7 @@ import android.text.LoginFilter;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -56,12 +57,10 @@ import static com.android.volley.Request.Method.GET;
 
 public class ConnectionsManager{
     private static final String TAG = ConnectionsManager.class.getSimpleName();
-
-
+    
     private static ConnectionsManager instance;
     private Context context;
     private RequestQueue queue;
-    private boolean codeSent, phoneSent;
 
 
     public static ConnectionsManager getInstance(Context context) {
@@ -85,8 +84,6 @@ public class ConnectionsManager{
     }
 
     public void loginWithPhoneNumber(final String phoneNumber, final BallabaResponseListener callback){
-        if (!phoneSent) {
-            phoneSent = true;
             try {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("phone", phoneNumber);
@@ -100,7 +97,6 @@ public class ConnectionsManager{
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        phoneSent = false;
                         if (error.networkResponse != null) {
                             callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
                         } else {
@@ -109,16 +105,18 @@ public class ConnectionsManager{
                     }
                 });
 
+                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                        0,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
                 queue.add(jsonObjectRequest);
             } catch (JSONException ex) {
                 ex.printStackTrace();
             }
-        }
     }
 
     public void enterCode(String phoneNUmber, final String code, final BallabaResponseListener callback){
-        if (!codeSent) {
-            codeSent = true;
             try {
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("phone", phoneNUmber);
@@ -137,7 +135,6 @@ public class ConnectionsManager{
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        codeSent = false;
                         if (error.networkResponse != null) {
                             callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
                         } else {
@@ -157,15 +154,16 @@ public class ConnectionsManager{
                         return null;
                     }
                 };
-                ;
+
+                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                        0,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
                 queue.add(jsonObjectRequest);
             }catch(JSONException ex){
                 ex.printStackTrace();
             }
-        }else {
-            Log.e(TAG, "You try to send code twice");
-        }
     }
 
     public void getConfigRequest(final BallabaResponseListener callback){
@@ -194,6 +192,12 @@ public class ConnectionsManager{
                 return params;
             }
         };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         queue.add(stringRequest);
     }
 
@@ -228,6 +232,11 @@ public class ConnectionsManager{
                 return params;
             }
         };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         queue.add(stringRequest);
     }
 
@@ -259,6 +268,11 @@ public class ConnectionsManager{
                 return params;
             }
         };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         queue.add(stringRequest);
 
@@ -292,6 +306,11 @@ public class ConnectionsManager{
                 return params;
             }
         };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         queue.add(stringRequest);
 
@@ -329,6 +348,11 @@ public class ConnectionsManager{
             }
         };
 
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         queue.add(stringRequest);
     }
 
@@ -360,6 +384,11 @@ public class ConnectionsManager{
                 return params;
             }
         };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         queue.add(stringRequest);
     }
@@ -477,7 +506,12 @@ public class ConnectionsManager{
                 params.put("session_token", BallabaUserManager.getInstance().getUserSesionToken());
                 return params;
             }
-        };;
+        };
+
+        getByAddress.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         queue.add(getByAddress);
     }
