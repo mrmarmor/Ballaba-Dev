@@ -9,6 +9,7 @@
     </data>
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/propertyDescriptionAttachmentsExtended_rootView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layoutDirection="rtl"
@@ -25,9 +26,22 @@
             android:textSize="@dimen/textSize_big"
             android:textColor="@color/black" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/propertyDescriptionAttachmentsExtended_recyclerView"
-            style="@style/allWrapContent" />
+        <GridLayout
+            android:id="@+id/propertyDescriptionAttachmentsExtended_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/propertyDescriptionAttachmentsExtended_title_textView"
+            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionAttachmentsExtended_title_textView"
+            android:layout_gravity="fill"
+            android:columnCount="2"
+            android:layout_columnWeight="1" />
 
+        <!--<android.support.v7.widget.RecyclerView
+            android:id="@+id/propertyDescriptionAttachmentsExtended_recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/propertyDescriptionAttachmentsExtended_title_textView"
+            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionAttachmentsExtended_title_textView" />
+-->
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -173,7 +173,8 @@
 
     <dimen name="propertyDescription_divider_horizontalOffset">40dp</dimen>
 
-    <dimen name="propertyDescription_attachments_leftAttachmentsOffset_start">105dp</dimen>
+    <dimen name="propertyDescription_attachments_leftAttachmentsOffset_start">125dp</dimen>
     <dimen name="propertyDescription_attachments_bottomAttachmentsOffset_top">20dp</dimen>
+    <dimen name="propertyDescription_googleMap_height">180dp</dimen>
 
 </resources>

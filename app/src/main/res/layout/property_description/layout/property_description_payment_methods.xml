@@ -23,5 +23,13 @@
             android:textSize="@dimen/textSize_big"
             android:textColor="@color/black" />
 
+        <ImageView
+            android:id="@+id/propertyDescriptionPaymentMethods_googleMap_imageView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/propertyDescription_googleMap_height"
+            app:layout_constraintStart_toStartOf="@id/propertyDescriptionPaymentMethods_title_textView"
+            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPaymentMethods_title_textView"
+            />
+
     </android.support.constraint.ConstraintLayout>
 </layout>

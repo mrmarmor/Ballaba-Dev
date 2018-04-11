@@ -6,11 +6,15 @@ import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +27,9 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
+import com.example.michaelkibenko.ballaba.Entities.PropertyAttachment;
 import com.example.michaelkibenko.ballaba.Fragments.PropertyImageFragment;
+import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
@@ -34,6 +40,7 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityPropertyDescriptio
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionAttachmentsBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionAttachmentsExtendedBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionImageBinding;
+import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPaymentMethodsBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPriceBinding;
 
 import java.util.ArrayList;
@@ -52,6 +59,7 @@ public class PropertyDescriptionPresenter {
     private PropertyDescriptionPriceBinding binderPrice;
     private PropertyDescriptionAttachmentsBinding binderAttach;
     private PropertyDescriptionAttachmentsExtendedBinding binderAttachExt;
+    private PropertyDescriptionPaymentMethodsBinding binderPayMethod;
     //private PropertyDescriptionImageBinding binderImage;
     private Intent propertyIntent;
     private BallabaResponseListener listener;
@@ -69,12 +77,14 @@ public class PropertyDescriptionPresenter {
         binderPrice = binder.propertyDescriptionPrice;
         binderAttach = binder.propertyDescriptionAttachments;
         binderAttachExt = binder.propertyDescriptionAttachmentsExtended;
+        binderPayMethod = binder.propertyDescriptionPaymentMethods;
         fetchDataFromServer(propertyIntent.getStringExtra(PropertyDescriptionActivity.PROPERTY));
         ImageView imageFrame = binder.propertyDescriptionImage.propertyDescriptionMainImage;//findViewById(R.id.propertyDescription_mainImage);
 
         Glide.with(activity)
-             .load(propertyIntent.getStringExtra(PROPERTY_IMAGE))
-             .into(imageFrame);
+                .load(propertyIntent.getStringExtra(PROPERTY_IMAGE))
+                .into(imageFrame);
+
     }
 
     private void fetchDataFromServer(final String PROPERTY_ID){
@@ -119,44 +129,68 @@ public class PropertyDescriptionPresenter {
         binderAttach.propertyDescriptionAttachmentsBathroomsTextView.setText(propertyFull.bathrooms);
         binderAttach.propertyDescriptionAttachmentsToiletsTextView.setText(propertyFull.toilets);
 
-        initAttachmentExtendedRecyclerView(propertyFull);
-        //displayDynamicDataOnScreen(propertyFull, propertyFull.attachments);
+        //initAttachmentExtendedRecyclerView(propertyFull);
+        displayDynamicDataOnScreen(propertyFull);
 
         Glide.with(activity)
-             .load(propertyFull.landlords.get("profile_image"))
-             .into(binderPrice.propertyDescriptionPriceLandlordProfileImage);
+                .load(propertyFull.landlords.get("profile_image"))
+                .into(binderPrice.propertyDescriptionPriceLandlordProfileImage);
+
+        String url = EndpointsHolder.GOOGLE_MAP_API + propertyFull.lat + "," + propertyFull.lng + EndpointsHolder.GOOGLE_MAP_API_SETTINGS;
+        Glide.with(activity)
+                .load(url)
+                .into(binderPayMethod.propertyDescriptionPaymentMethodsGoogleMapImageView);
+
     }
 
-    private void initAttachmentExtendedRecyclerView(BallabaPropertyFull propertyFull){
+   /* private void initAttachmentExtendedRecyclerView(BallabaPropertyFull propertyFull){
         RecyclerView attachmentsRV = binderAttachExt.propertyDescriptionAttachmentsExtendedRecyclerView;
-        AttachmentsRecyclerAdapter attachAdapter = new AttachmentsRecyclerAdapter(activity, propertyFull.attachments/*propertyFull.attachments*/);
-        StaggeredGridLayoutManager sgLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.HORIZONTAL);
-        attachmentsRV.setLayoutManager(sgLayoutManager);
+        AttachmentsRecyclerAdapter attachAdapter = new AttachmentsRecyclerAdapter(activity, binderAttach, binderAttachExt, propertyFull.attachments*//*propertyFull.attachments*//*);
+        GridLayoutManager gLayoutManager = new GridLayoutManager(activity, 2, LinearLayoutManager.HORIZONTAL, false);
+        attachmentsRV.setLayoutManager(gLayoutManager);
         attachmentsRV.setAdapter(attachAdapter);
-    }
+    }*/
 
-    private void displayDynamicDataOnScreen(BallabaPropertyFull propertyFull, @NonNull HashMap<String, String> attachments){
-        for (int i = 0; i < attachments.size(); i++) {
-            TextView tv = getDynamicTextViews(attachments.get("attachment_type"), propertyFull);
-            addView(((ConstraintLayout)binderAttachExt.getRoot()), tv);
+    private void displayDynamicDataOnScreen(BallabaPropertyFull propertyFull){
+        ArrayList<String> propertyAttachments = propertyFull.attachments;
+        if (propertyAttachments != null) {
+            for (int i = 0; i < propertyAttachments.size(); i++) {
+                PropertyAttachment.Type propertyAttachment = PropertyAttachment.Type.getTypeById(
+                        propertyAttachments.get(i));
+
+                TextView tv = new TextView(activity);
+                tv.setText(propertyAttachment.getTitle());
+                tv.setCompoundDrawablesRelativeWithIntrinsicBounds(propertyAttachment.getIcon(), 0, 0, 0);
+                tv.setTextAppearance(R.style.property_description_textViews);
+                tv.setPaddingRelative(16, 16, 8, 16);
+
+                GridLayout.LayoutParams param = new GridLayout.LayoutParams(
+                        GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL,1f),
+                        GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL,1f));
+                tv.setLayoutParams(param);
+
+            /*    if (i > propertyAttachments.size() / 2) {
+                    tv.setX(-binderAttach.propertyDescriptionAttachmentsSizeTextView.getX()/2);
+                } else {
+                    tv.setPaddingRelative(16, 20, 0, 0);
+                }*/
+
+                addView(binderAttachExt.propertyDescriptionAttachmentsExtendedContainer, tv);
+            }
         }
-        //TextView tv = binderAttach.propertyDescriptionAttachmentsSizeTextView;
-        //tv.setText("dgfdsfg");
-
-        //binderAttachExt.getRoot()
-
     }
+
     @BindingAdapter("bind:addView")
-    public static void addView(ConstraintLayout rootView, TextView textView) {
-        //rootView.removeAllViews();
-        rootView.addView(textView);
+    public static void addView(ViewGroup container, TextView textView) {
+        container.addView(textView);
     }
-    public TextView getDynamicTextViews(String attachmentType, BallabaPropertyFull propertyFull) {
-        TextView textView = new TextView(activity);
-        textView.setText(attachmentType);
 
-        return textView;
-    }
+    /*public TextView getDynamicTextViews(String attachmentType) {
+        //TextView textView = new TextView(activity);
+        //textView.setText(attachmentType);
+
+        return new TextView(activity);
+    }*/
 
     public void onClickContinue(){
         Toast.makeText(activity, "continue", Toast.LENGTH_SHORT).show();
