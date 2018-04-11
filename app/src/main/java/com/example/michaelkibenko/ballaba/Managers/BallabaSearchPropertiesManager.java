@@ -11,7 +11,9 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
+import com.example.michaelkibenko.ballaba.Entities.PropertyDescriptionComment;
 import com.example.michaelkibenko.ballaba.Fragments.Filter.AttachmentsFragment;
+import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionAttachmentsBinding;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
@@ -275,6 +277,7 @@ public class BallabaSearchPropertiesManager {
             HashMap<String, String> addons = parseAddons(res.getJSONArray("addons"));
             HashMap<String, String> photos = parsePhotos(res.getJSONArray("photos"));
             HashMap<String, String> openDoorDates = parseOpenDoorDates(res.getJSONArray("open_door_dates"));
+            ArrayList<PropertyDescriptionComment> comments = parseComments(res.getJSONArray("comments"));
             //parseComments(res.getJSONArray("comments"));
 
       /*      BallabaPropertyFull.Attachment attachments = res.getString("");
@@ -296,7 +299,7 @@ public class BallabaSearchPropertiesManager {
                     description, payment_date, bathrooms, toilets, entry_date, status, country,
                     zip_code, level_1_area, level_2_area, google_place_id, created_at, updated_at,
                     furniture, electronics, show, priority, is_saved, is_guaranteed, landlords,
-                    attachments, payments, paymentMethods, addons, photos, openDoorDates);
+                    attachments, payments, paymentMethods, addons, photos, openDoorDates, comments);
 
             Log.d(TAG, property.id);
             return property;
@@ -395,5 +398,65 @@ public class BallabaSearchPropertiesManager {
         }
 
         return openDoorDates;
+    }
+
+    private ArrayList<PropertyDescriptionComment> parseComments(@NonNull JSONArray jsonArray) throws JSONException{
+        ArrayList<PropertyDescriptionComment> comments = new ArrayList<>();
+        for (int i = 0; i < jsonArray.length(); i++){
+            JSONObject jsonObject = jsonArray.getJSONObject(i);
+            String createdAt = jsonObject.getString("created_at");
+            String display = jsonObject.getString("display");
+
+            PropertyDescriptionComment.User user = parseUser(jsonObject.getJSONObject("user"));
+
+            ArrayList<HashMap<String, String>> positive = new ArrayList<>();
+            HashMap<String, String> map = new HashMap<>();
+            JSONArray positiveArr = jsonObject.getJSONArray("positive");
+            if (positiveArr != null){
+                for (int j = 0; j < positiveArr.length(); j++){
+                    Log.d(TAG, positiveArr.getJSONObject(j).getString("content"));
+                    map.put("content", positiveArr.getJSONObject(j).getString("content"));
+                    positive.add(map);
+                }
+            }
+
+            ArrayList<HashMap<String, String>> negative = new ArrayList<>();
+            JSONArray negativeArr = jsonObject.getJSONArray("negative");
+            if (negativeArr != null){
+                for (int j = 0; j < negativeArr.length(); j++){
+                    map.put("content", negativeArr.getJSONObject(j).getString("content"));
+                    negative.add(map);
+                }
+            }
+
+            ArrayList<PropertyDescriptionComment.Reply> replies = new ArrayList<>();
+            PropertyDescriptionComment.Reply reply = new PropertyDescriptionComment().new Reply();
+            JSONArray replArr = jsonObject.getJSONArray("replies");
+            if (replArr != null){
+                for (int j = 0; j < replArr.length(); j++){
+                    reply.setCreated_at(replArr.getJSONObject(j).getString("created_at"));
+                    reply.setContent(replArr.getJSONObject(j).getString("content"));
+                    reply.setUser(parseUser(replArr.getJSONObject(j).getJSONObject("user")));
+                    replies.add(reply);
+                }
+            }
+
+            comments.add(new PropertyDescriptionComment(createdAt, display, positive, negative, user, replies));
+        }
+
+        return comments;
+    }
+
+    private PropertyDescriptionComment.User parseUser(JSONObject userJson) throws JSONException {
+        //TODO encode hebrew to utf-8
+        String userId = userJson.getString("id");
+        String userFirstName = userJson.getString("first_name");
+        String userLastName = userJson.getString("last_name");
+        String userProfileImage = userJson.getString("profile_image");
+
+        PropertyDescriptionComment.User user = new PropertyDescriptionComment().
+                                               new User(userId, userFirstName, userLastName, userProfileImage);
+
+        return user;
     }
 }
