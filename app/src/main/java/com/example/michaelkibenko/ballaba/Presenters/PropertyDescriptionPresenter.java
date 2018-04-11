@@ -124,10 +124,14 @@ public class PropertyDescriptionPresenter {
         binderPrice.propertyDescriptionPriceLandlordCityTextView.setText(propertyFull.landlords.get("city"));
         binderPrice.propertyDescriptionPriceFullDescriptionTextView.setText(propertyFull.description);
 
-        binderAttach.propertyDescriptionAttachmentsNumberOfRoomsTextView.setText(propertyFull.roomsNumber);
-        binderAttach.propertyDescriptionAttachmentsSizeTextView.setText(propertyFull.size);
-        binderAttach.propertyDescriptionAttachmentsBathroomsTextView.setText(propertyFull.bathrooms);
-        binderAttach.propertyDescriptionAttachmentsToiletsTextView.setText(propertyFull.toilets);
+        binderAttach.propertyDescriptionAttachmentsNumberOfRoomsTextView.setText(
+                String.format("%s %s", propertyFull.roomsNumber, activity.getString(R.string.propertyItem_numberOfRooms)));
+        binderAttach.propertyDescriptionAttachmentsSizeTextView.setText(
+                String.format("%s %s", propertyFull.size, activity.getString(R.string.propertyItem_propertySize)));
+        binderAttach.propertyDescriptionAttachmentsBathroomsTextView.setText(
+                String.format("%s %s", propertyFull.bathrooms, activity.getString(R.string.propertyItem_bathtub)));
+        binderAttach.propertyDescriptionAttachmentsToiletsTextView.setText(
+                String.format("%s %s", propertyFull.toilets, activity.getString(R.string.propertyItem_toilets)));
 
         //initAttachmentExtendedRecyclerView(propertyFull);
         displayDynamicDataOnScreen(propertyFull);

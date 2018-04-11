@@ -38,6 +38,8 @@
 
     <string name="propertyItem_numberOfRooms">חדרים</string>
     <string name="propertyItem_propertySize">מ\"ר</string>
+    <string name="propertyItem_bathtub">מקלחת</string>
+    <string name="propertyItem_toilets">שירותים</string>
     <string name="propertyItem_rootLayout_tag">rootLayout</string>
     <string name="propertyItem_isSavedButton_tag">isSavedButton</string>
     <string name="propertyItem_guaranteeButton_tag">guaranteeButton</string>
