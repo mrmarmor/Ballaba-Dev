@@ -104,7 +104,7 @@
     <dimen name="propertyItem_propertyElevation">2dp</dimen>
 
     <dimen name="mainActivity_RecyclerView_margin_top">64dp</dimen>
-    <dimen name="mainActivity_toMapIcon_margin_end">9dp</dimen>
+    <dimen name="mainActivity_toMapIcon_margin_end">15dp</dimen>
     <dimen name="mainActivity_toMapIcon_margin_top_bottom">12dp</dimen>
     <dimen name="mainActivity_searchIcon_dimens">17.5dp</dimen>
     <dimen name="mainActivity_searchIcon_margin_top_bottom">15.5dp</dimen>

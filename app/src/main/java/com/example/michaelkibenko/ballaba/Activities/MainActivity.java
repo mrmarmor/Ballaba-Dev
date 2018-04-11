@@ -121,24 +121,7 @@ public class MainActivity extends BaseActivity implements
                     }
                 }
 
-                //TODO Moshe check it
-//                presenter.filterStateUIChanger(MainPresenter.FilterState.NO_FILTER);
-
-                /*BallabaSearchPropertiesManager.getInstance(this).getPropertiesByLatLng(cityLatLngStr
-                        , new BallabaResponseListener() {
-                            @Override
-                            public void resolve(BallabaBaseEntity entity) {
-                                Log.d(TAG, "entity: "+entity);
-                            }
-
-                            @Override
-                            public void reject(BallabaBaseEntity entity) {
-                                Log.e(TAG, "entity: "+entity);
-                            }
-                        }, true);
-
-                Toast.makeText(this, data.getStringExtra(SelectCityPresenter.SELECTED_CITY_KEY), Toast.LENGTH_LONG).show();
-                */
+                presenter.onSearchFlowComplete(cities);
             }
         }
     }

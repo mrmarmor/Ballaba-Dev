@@ -134,6 +134,5 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
                 binder.mainActivityFilterIncluded.mainActivityFilterViewPager.getCurrentItem());
         binder.mainActivityFilterIncluded.mainActivityFilterViewPager.setCurrentItem(position);
         onFilterButtonsStateChange(position);
-
     }
 }

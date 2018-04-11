@@ -88,7 +88,6 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 isGetConfig = true;
-                Log.d(TAG, "getConfig");
                 logInWithToken();
             }
 

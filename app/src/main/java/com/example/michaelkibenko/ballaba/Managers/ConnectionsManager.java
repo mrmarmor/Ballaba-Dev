@@ -24,7 +24,10 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
+import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
+import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
@@ -41,8 +44,11 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.android.volley.Request.Method.GET;
 
 /**
  * Created by michaelkibenko on 19/02/2018.
@@ -55,7 +61,7 @@ public class ConnectionsManager{
     private static ConnectionsManager instance;
     private Context context;
     private RequestQueue queue;
-    private boolean codeSent;
+    private boolean codeSent, phoneSent;
 
 
     public static ConnectionsManager getInstance(Context context) {
@@ -79,30 +85,34 @@ public class ConnectionsManager{
     }
 
     public void loginWithPhoneNumber(final String phoneNumber, final BallabaResponseListener callback){
-        try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("phone", phoneNumber);
+        if (!phoneSent) {
+            phoneSent = true;
+            try {
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("phone", phoneNumber);
 
 
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, EndpointsHolder.LOGIN, jsonObject, new Response.Listener<JSONObject>() {
-                @Override
-                public void onResponse(JSONObject response) {
-                    callback.resolve(new BallabaOkResponse());
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    if(error.networkResponse != null){
-                        callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
-                    }else{
-                        callback.reject(new BallabaErrorResponse(500, null));
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, EndpointsHolder.LOGIN, jsonObject, new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        callback.resolve(new BallabaOkResponse());
                     }
-                }
-            });
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        phoneSent = false;
+                        if (error.networkResponse != null) {
+                            callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                        } else {
+                            callback.reject(new BallabaErrorResponse(500, null));
+                        }
+                    }
+                });
 
-            queue.add(jsonObjectRequest);
-        }catch (JSONException ex){
-            ex.printStackTrace();
+                queue.add(jsonObjectRequest);
+            } catch (JSONException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
@@ -159,7 +169,7 @@ public class ConnectionsManager{
     }
 
     public void getConfigRequest(final BallabaResponseListener callback){
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, EndpointsHolder.CONFIG,
+        StringRequest stringRequest = new StringRequest(GET, EndpointsHolder.CONFIG,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -222,7 +232,7 @@ public class ConnectionsManager{
     }
 
     public void getRandomProperties(final BallabaResponseListener callback){
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, EndpointsHolder.PROPERTY,
+        StringRequest stringRequest = new StringRequest(GET, EndpointsHolder.PROPERTY,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -255,7 +265,7 @@ public class ConnectionsManager{
     }
 
     public void getPropertyByLatLng(final String PARAMS, final BallabaResponseListener callback, int offset){
-        StringRequest stringRequest = new StringRequest(Request.Method.GET
+        StringRequest stringRequest = new StringRequest(GET
                 , EndpointsHolder.PROPERTY + PARAMS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -291,7 +301,7 @@ public class ConnectionsManager{
         String SW = "?SW="+bounds.southwest.latitude+","+bounds.southwest.longitude;
         String NE = "&NE="+bounds.northeast.latitude+","+bounds.northeast.longitude;
         String limit = "&limit="+Integer.MAX_VALUE;
-        StringRequest stringRequest = new StringRequest(Request.Method.GET
+        StringRequest stringRequest = new StringRequest(GET
                 , EndpointsHolder.PROPERTY+SW+NE+limit, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -323,7 +333,7 @@ public class ConnectionsManager{
     }
 
     public void getAttachmentsAddonsConfig(final BallabaResponseListener callback){
-        StringRequest stringRequest = new StringRequest(Request.Method.GET
+        StringRequest stringRequest = new StringRequest(GET
                 , EndpointsHolder.PROPERTY_ATTACHMENTS_ADDONS, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -352,6 +362,124 @@ public class ConnectionsManager{
         };
 
         queue.add(stringRequest);
+    }
+
+    public void getPropertyByAddress(ArrayList<String> addresses, FilterResultEntity filterResult, final BallabaResponseListener callback){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("?address=");
+        for (String address : addresses) {
+            stringBuilder.append(address);
+            stringBuilder.append("_");
+        }
+        stringBuilder.deleteCharAt(stringBuilder.toString().length()-1);
+
+        StringBuilder filterStringBuilder = new StringBuilder();
+        boolean isIncludeFilter = false;
+        if(filterResult.getFromPrice() != 0){
+            if(!isIncludeFilter){
+                filterStringBuilder.append("&filter = true");
+                isIncludeFilter = true;
+            }
+            filterStringBuilder.append("&fromPrice="+filterResult.getFromPrice());
+        }
+        if(filterResult.getToPrice() != 0){
+            if(!isIncludeFilter){
+                filterStringBuilder.append("&filter = true");
+                isIncludeFilter = true;
+            }
+            filterStringBuilder.append("&toPrice="+filterResult.getToPrice());
+        }
+        if(filterResult.getFromRooms() != 0){
+            if(!isIncludeFilter){
+                filterStringBuilder.append("&filter = true");
+                isIncludeFilter = true;
+            }
+            filterStringBuilder.append("&fromRooms="+filterResult.getFromRooms());
+        }
+        if(filterResult.getToRooms() != 0){
+            if(!isIncludeFilter){
+                filterStringBuilder.append("&filter = true");
+                isIncludeFilter = true;
+            }
+            filterStringBuilder.append("&toRooms="+filterResult.getToRooms());
+        }
+        if(filterResult.getFromSize() != 0){
+            if(!isIncludeFilter){
+                filterStringBuilder.append("&filter = true");
+                isIncludeFilter = true;
+            }
+            filterStringBuilder.append("&fromSize="+filterResult.getFromSize());
+        }
+        if(filterResult.getToSize() != 0){
+            if(!isIncludeFilter){
+                filterStringBuilder.append("&filter = true");
+                isIncludeFilter = true;
+            }
+            filterStringBuilder.append("&toSize="+filterResult.getToSize());
+        }
+        if(filterResult.isElectronics() != null){
+            if(!isIncludeFilter){
+                filterStringBuilder.append("&filter = true");
+                isIncludeFilter = true;
+            }
+            filterStringBuilder.append("&electronics="+filterResult.isElectronics());
+        }
+        if(filterResult.isFurnished() != null){
+            if(!isIncludeFilter){
+                filterStringBuilder.append("&filter = true");
+                isIncludeFilter = true;
+            }
+            filterStringBuilder.append("&furniture="+filterResult.isFurnished());
+        }
+        if(filterResult.getAttachments_ids().contains("3")){
+            if(!isIncludeFilter) {
+                filterStringBuilder.append("&filter = true");
+                isIncludeFilter = true;
+            }
+            filterStringBuilder.append("&parking=true");
+        }
+        if(filterResult.getAttachments_ids().size()>0){
+            if(!isIncludeFilter) {
+                filterStringBuilder.append("&filter = true");
+                isIncludeFilter = true;
+            }
+            for (String id : filterResult.getAttachments_ids()){
+                PropertyAttachmentAddonEntity entity = PropertyAttachmentsAddonsHolder.getInstance().getAttachmentsById(id);
+                filterStringBuilder.append("&"+entity.title);
+            }
+        }
+
+        String queryFilter = filterStringBuilder.toString();
+        String queryAdresses = stringBuilder.toString();
+        String queryUrl = EndpointsHolder.PROPERTY_BY_ADDRESS+queryAdresses+queryFilter;
+        StringRequest getByAddress = new StringRequest(GET, queryUrl, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                BallabaOkResponse okResponse = new BallabaOkResponse();
+                okResponse.setBody(response);
+                callback.resolve(okResponse);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if(error.networkResponse != null){
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                }else{
+                    Log.e(TAG, error+"\n"+ error.getMessage());
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
+                params.put("session_token", BallabaUserManager.getInstance().getUserSesionToken());
+                return params;
+            }
+        };;
+
+        queue.add(getByAddress);
     }
 
     public StringBuilder apiRequest(StringBuilder sb) {

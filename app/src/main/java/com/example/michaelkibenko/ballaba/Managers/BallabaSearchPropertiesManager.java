@@ -9,6 +9,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
+import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
@@ -176,7 +177,9 @@ public class BallabaSearchPropertiesManager {
         return null;
     }
 
+    public void getPropertyByAddress(ArrayList<String> adresses, FilterResultEntity filterResult){
 
+    }
 
     public ArrayList<BallabaPropertyResult> parsePropertyResults(String result){
         try{
@@ -214,8 +217,6 @@ public class BallabaSearchPropertiesManager {
 
                 returned.add(propertyResult);
             }
-
-            Log.d(TAG, returned.get(0).id);
             return returned;
 
         }catch (JSONException | NullPointerException ex){

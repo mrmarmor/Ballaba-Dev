@@ -12,8 +12,9 @@ public class FilterResultEntity extends BallabaBaseEntity {
     private int fromSize;
     private int toSize;
     private ArrayList<String> attachments_ids;
+    private Boolean isElectronics = null, isFurnished = null;
     private Date enterDate;
-    private boolean isFlexible;
+    private boolean isFlexible = true;
 
     public FilterResultEntity() {
         this.attachments_ids = new ArrayList<>();
@@ -97,5 +98,21 @@ public class FilterResultEntity extends BallabaBaseEntity {
 
     public void setFlexible(boolean flexible) {
         isFlexible = flexible;
+    }
+
+    public Boolean isElectronics() {
+        return isElectronics;
+    }
+
+    public void setElectronics(Boolean electronics) {
+        isElectronics = electronics;
+    }
+
+    public Boolean isFurnished() {
+        return isFurnished;
+    }
+
+    public void setFurnished(Boolean furnished) {
+        isFurnished = furnished;
     }
 }

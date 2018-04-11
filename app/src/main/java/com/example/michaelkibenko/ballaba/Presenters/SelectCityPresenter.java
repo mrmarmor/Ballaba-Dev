@@ -120,7 +120,6 @@ public class SelectCityPresenter extends BasePresenter implements
         binder.selectCityFlowLayout.removeView(view);
         String cityStr = textViewCity.getText().toString();
         cities.remove(cityStr);
-        Toast.makeText(activity, "chips left: " + cities.size(), Toast.LENGTH_SHORT).show();
     }
 
     public void onBackPressed() {
@@ -129,9 +128,6 @@ public class SelectCityPresenter extends BasePresenter implements
     }
 
     public void onOKButtonClick(){
-        for (String city : cities)
-            Log.d(TAG, city+"\n");
-
         activity.getIntent().putExtra(SELECTED_CITIES_KEY, cities);
         activity.setResult(Activity.RESULT_OK, activity.getIntent());
         activity.finish();
@@ -145,12 +141,10 @@ public class SelectCityPresenter extends BasePresenter implements
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         String selectedCity = ((TextView)view).getText().toString();
-        //actvSelectCity.setText(selectedCity);
         if (cities.contains(selectedCity)){
             Toast.makeText(activity, "TESTING: You have already typed " + selectedCity, Toast.LENGTH_LONG).show();
         } else {
             binder.selectCityEditText.setText("");//TODO with listView
-            //((TextView) view).setText("");//TODO with autoCompleteTextView
             cities.add(selectedCity);
             addCityToFlowLayout(selectedCity);
         }

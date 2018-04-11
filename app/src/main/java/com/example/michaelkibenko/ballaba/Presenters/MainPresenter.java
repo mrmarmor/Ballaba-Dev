@@ -30,13 +30,20 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
 import com.example.michaelkibenko.ballaba.Adapters.ViewPagerFilterAdapter;
 import com.example.michaelkibenko.ballaba.Adapters.ViewPagerPropertiesAdapter;
 import com.example.michaelkibenko.ballaba.Common.BallabaSelectedCityListener;
+import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
+import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
+import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
+import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
@@ -73,7 +80,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     private Context context;
     private FragmentManager fm;
     private ViewPager filterViewPager;
-    private PagerAdapter propertiesPagerAdapter;
+    private ViewPagerPropertiesAdapter propertiesPagerAdapter;
     private ViewPagerFilterAdapter filterPagerAdapter;
     private ActivityMainLayoutBinding binder;
     private BallabaSelectedCityListener listener;
@@ -146,7 +153,9 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                 }else if(position == 0){
                     filterStateUIChanger(FilterState.FULL_FILTER);
                 }else if(filterState != FilterState.MIDDLE_FILTER){
-                    filterStateUIChanger(FilterState.MIDDLE_FILTER);
+                    if(binder.mainActivityFilterIncluded.getRoot().getTag() != null) {
+                        filterStateUIChanger(FilterState.MIDDLE_FILTER);
+                    }
                 }
                 filterPagerAdapter.onFilterButtonsStateChange(position);
             }
@@ -196,12 +205,6 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
             }
         }
     }
- /*   public void hideFilterBar(){
-        Log.d(TAG, "hiding: " + binder.mainActivityFilterRoot.getVisibility() + "");
-        binder.mainActivityFilterRoot.setVisibility(View.GONE);
-        Log.d(TAG, "hiding: " + binder.mainActivityFilterRoot.getVisibility() + "");
-
-    }*/
 
     public void onClickToGoogleMap(){
         final int TO_GOOGLE_MAP = 0, BACK_TO_MAIN_SCREEN = 1;
@@ -221,7 +224,6 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                 binder.mainActivitySearchBar.setVisibility(View.VISIBLE);
                 binder.mainActivitySortButtonsLinearLayout.setVisibility(View.VISIBLE);
         }
-
     }
 
     public void onClickToSelectCity(){
@@ -270,6 +272,26 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
             this.filterState = state;
             onFilterUIChanged(state);
         }
+    }
+
+    public void onSearchFlowComplete(ArrayList<String> cities){
+        binder.mainActivitySearchButton.setText(cities.get(0));
+        ConnectionsManager.getInstance(context).getPropertyByAddress(cities, filterResult, new BallabaResponseListener() {
+            @Override
+            public void resolve(BallabaBaseEntity entity) {
+                if(entity instanceof BallabaOkResponse) {
+                    BallabaSearchPropertiesManager searchPropertiesManager = BallabaSearchPropertiesManager.getInstance(context);
+                    ArrayList<BallabaPropertyResult> result = searchPropertiesManager.parsePropertyResults(((BallabaOkResponse)entity).body);
+                    searchPropertiesManager.appendProperties(result, false);
+                    propertiesPagerAdapter.getPropertiesRecyclerFragment().refreshPropertiesRecycler();
+                }
+            }
+
+            @Override
+            public void reject(BallabaBaseEntity entity) {
+                ((BaseActivity)context).getDefaultSnackBar(binder.getRoot(), context.getResources().getString(R.string.error_network_default), false).show();
+            }
+        });
     }
 
     private void onFilterUIChanged(int state){

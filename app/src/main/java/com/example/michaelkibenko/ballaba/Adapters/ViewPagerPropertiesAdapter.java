@@ -47,4 +47,12 @@ public class ViewPagerPropertiesAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return 2; //NUM_PAGES
     }
+
+    public PropertiesRecyclerFragment getPropertiesRecyclerFragment() {
+        return propertiesRecyclerFragment;
+    }
+
+    public BallabaMapFragment getMapFragment() {
+        return mapFragment;
+    }
 }

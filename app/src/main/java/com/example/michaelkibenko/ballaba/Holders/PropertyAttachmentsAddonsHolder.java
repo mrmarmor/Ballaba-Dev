@@ -55,16 +55,14 @@ public class PropertyAttachmentsAddonsHolder {
 
             //TODO delete it
             JSONObject not_furnished = new JSONObject();
-            not_furnished.put("id" , "123455");
+            not_furnished.put("id" , "11");
             not_furnished.put("title", "not_furnished");
             attachments.put(not_furnished);
 
             JSONObject no_electronics = new JSONObject();
-            no_electronics.put("id" , "12355");
+            no_electronics.put("id" , "22");
             no_electronics.put("title", "no_electronics");
             attachments.put(no_electronics);
-
-
 
             for (int i = 0; i < furniture.length(); i++) {
                 JSONObject currentObject = furniture.getJSONObject(i);
@@ -97,6 +95,15 @@ public class PropertyAttachmentsAddonsHolder {
 
     private String getFormattedFurnitureTitle(String title){
         return title;
+    }
+
+    public PropertyAttachmentAddonEntity getAttachmentsById(String id){
+        for (PropertyAttachmentAddonEntity entity : getAttachments()) {
+            if(entity.id.equals(id)){
+                return entity;
+            }
+        }
+        return null;
     }
 
     private String getFormattedAttachmentsTitle(String title){

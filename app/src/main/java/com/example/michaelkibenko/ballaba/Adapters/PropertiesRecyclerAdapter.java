@@ -220,5 +220,4 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         binder.propertyItemPriceTextView.setTypeface(typefaceBold);
         binder.propertyItemPriceCurrencyTextView.setTypeface(typefaceBold);
     }
-
 }

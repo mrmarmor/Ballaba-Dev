@@ -90,47 +90,24 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //binder = DataBindingUtil.setContentView(getActivity(), R.layout.fragment_properties_recycler);
-        //binder.setPresenter(presenter);
-
-        if (getArguments() != null) {
-            //get arguments here
-        }
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
-
         this.context = context;
-
-        /*DataBindingUtil.inflate(
-                inflater, R.layout.fragment_properties_recycler, null, false);
-        presenter = new SearchPropertiesPresenter(getActivity(), binder, mParam);
-*/
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //view = inflater.inflate(R.layout.fragment_properties_recycler, container, false);
-        //this.inflater = inflater;
         binder = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_properties_recycler, null, false);
-        //presenter = new PropertyItemPresenter(getActivity(), binder);
-
         initRecycler(view);
         getProperties();
-
         return binder.getRoot();
+    }
+
+    public void refreshPropertiesRecycler(){
+        properties = BallabaSearchPropertiesManager.getInstance(context).getResults();
+        rvAdapter.updateList(properties);
     }
 
     private void initRecycler(View view) {
@@ -272,6 +249,10 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
                     binder.propertiesRecyclerSwipeToRefresh.setRefreshing(false);
             }
         }, SWIPE_TO_REFRESH_DISPLAY_DURATION);
+    }
+
+    public void onRefreshAnimation(boolean is){
+        binder.propertiesRecyclerSwipeToRefresh.setRefreshing(is);
     }
 
     //TODO to display 1 or 2 properties in a row
