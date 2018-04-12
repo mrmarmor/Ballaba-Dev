@@ -282,6 +282,8 @@ public class BallabaSearchPropertiesManager {
             ArrayList<HashMap<String, String>> photos = parsePhotos(res.getJSONArray("photos"));
             ArrayList<HashMap<String, String>> openDoorDates = parseOpenDoorDates(res.getJSONArray("open_door_dates"));
             ArrayList<PropertyDescriptionComment> comments = parseComments(res.getJSONArray("comments"));
+            //TODO for testing only:
+            comments.add(parseComments(res.getJSONArray("comments")).get(0));
             //parseComments(res.getJSONArray("comments"));
 
       /*      BallabaPropertyFull.Attachment attachments = res.getString("");

@@ -17,6 +17,7 @@ import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by User on 12/04/2018.
@@ -44,8 +45,13 @@ public class DescCommentAdapter extends RecyclerView.Adapter<DescCommentAdapter.
     public void onBindViewHolder(@NonNull DescCommentAdapter.ViewHolder holder, int position) {
         PropertyDescriptionComment comment = comments.get(position);
         holder.tvUserName.setText(comment.user.first_name+" "+comment.user.last_name);
-        holder.tvPositiveComment.setText(comment.positive.get(position).get("content")+" - ");
-        holder.tvNegativeComment.setText(comment.negative.get(position).get("content")+" - ");
+
+        for (HashMap<String, String> posComment : comment.positive)
+            holder.tvPositiveComment.setText(posComment.get("content")+" - ");
+
+        for (HashMap<String, String> negComment : comment.negative)
+            holder.tvNegativeComment.setText(negComment.get("content")+" - ");
+
         Glide.with(context).load(comment.user.profile_image).into(holder.ivUserPhoto);
     }
 
