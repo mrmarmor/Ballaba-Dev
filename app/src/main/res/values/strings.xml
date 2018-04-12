@@ -65,6 +65,11 @@
     <string name="propertyDescriptionPrice_rentalPeriod_textView">תקופת השכרה</string>
     <string name="propertyDescriptionPrice_streetView_button_text">תצוגת רחוב</string>
 
+    <string name="propertyDescriptionPaymentMethods_or_textView">או</string>
+    <string name="propertyDescriptionPaymentMethods_date_textView">ב 1 לכל חודש</string>
+    <string name="propertyDescriptionPaymentMethods_cheque_textView">צ\'ק</string>
+    <string name="propertyDescriptionPaymentMethods_transfer_textView">העברה בנקאית</string>
+
     <string name="propertyDescriptionComment_positive_title">טוב</string>
     <string name="propertyDescriptionComment_negative_title">פחות טוב</string>
 

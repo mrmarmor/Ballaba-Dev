@@ -232,11 +232,13 @@ public class BallabaSearchPropertiesManager {
     }
 
     public BallabaPropertyFull parsePropertiesFull(String response){
+        StringUtils heb = StringUtils.getInstance(true, context);
+
         try{
             JSONObject res = new JSONObject(response);
             String id = res.getString("id");
-            String city = res.getString("city");
-            String street = res.getString("street");
+            String city = heb.formattedHebrew(res.getString("city"));
+            String street = heb.formattedHebrew(res.getString("street"));
             String street_number = res.getString("street_number");
             String entry = res.getString("entry");
             String floor = res.getString("floor");
@@ -246,7 +248,7 @@ public class BallabaSearchPropertiesManager {
             String parking_price = res.getString("parking_price");
             boolean furniture = res.getBoolean("furniture");
             boolean electronics = res.getBoolean("electronics");
-            String description = res.getString("description");
+            String description = heb.formattedHebrew(res.getString("description"));
             String payment_date = res.getString("payment_date");
             String rooms = res.getString("rooms");
             String bathrooms = res.getString("bathrooms");
@@ -259,27 +261,26 @@ public class BallabaSearchPropertiesManager {
             boolean is_saved = res.getBoolean("is_saved");
             boolean is_guaranteed = res.getBoolean("is_guaranteed");
             boolean priority = res.getBoolean("priority");
-            String country = res.getString("country");
+            String country = heb.formattedHebrew(res.getString("country"));
             String zip_code = res.getString("zip_code");
             String level_1_area = res.getString("level_1_area");
             String level_2_area = res.getString("level_2_area");
             String google_place_id = res.getString("google_place_id");
             String lat = res.getString("lat");
             String lng = res.getString("lng");
-            String formattedAddress = res.getString("formatted_address");
+            String formattedAddress = heb.formattedHebrew(res.getString("formatted_address"));
             boolean show = res.getBoolean("show");
             String created_at = res.getString("created_at");
             String updated_at = res.getString("updated_at");
 
             //BallabaPropertyFull.Landlord[] landlords = new BallabaPropertyFull.Landlord[]{};
-            HashMap<String, String> landlords = parseLandlords(res.getJSONArray("landlords"));
-            //String[] attachments = res.get
+            ArrayList<HashMap<String, String>> landlords = parseLandlords(res.getJSONArray("landlords"));
             ArrayList<String> attachments = parseAttachments(res.getJSONArray("attachments"));
-            HashMap<String, String> payments = parsePayments(res.getJSONArray("payments"));
-            HashMap<String, String> paymentMethods = parsePaymentMethods(res.getJSONArray("payment_methods"));
-            HashMap<String, String> addons = parseAddons(res.getJSONArray("addons"));
-            HashMap<String, String> photos = parsePhotos(res.getJSONArray("photos"));
-            HashMap<String, String> openDoorDates = parseOpenDoorDates(res.getJSONArray("open_door_dates"));
+            ArrayList<HashMap<String, String>> payments = parsePayments(res.getJSONArray("payments"));
+            ArrayList<HashMap<String, String>> paymentMethods = parsePaymentMethods(res.getJSONArray("payment_methods"));
+            ArrayList<HashMap<String, String>> addons = parseAddons(res.getJSONArray("addons"));
+            ArrayList<HashMap<String, String>> photos = parsePhotos(res.getJSONArray("photos"));
+            ArrayList<HashMap<String, String>> openDoorDates = parseOpenDoorDates(res.getJSONArray("open_door_dates"));
             ArrayList<PropertyDescriptionComment> comments = parseComments(res.getJSONArray("comments"));
             //parseComments(res.getJSONArray("comments"));
 
@@ -313,15 +314,17 @@ public class BallabaSearchPropertiesManager {
         }
     }
 
-    private HashMap<String, String> parseLandlords(@NonNull JSONArray jsonArray) throws JSONException{
-        HashMap<String, String> landlords = new HashMap<>();
+    private ArrayList<HashMap<String, String>> parseLandlords(@NonNull JSONArray jsonArray) throws JSONException{
+        ArrayList<HashMap<String, String>> landlords = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(i);
-            landlords.put("id", jsonObject.getString("id"));
-            landlords.put("first_name", heb.formattedHebrew(jsonObject.getString("first_name")));
-            landlords.put("last_name", heb.formattedHebrew(jsonObject.getString("last_name")));
-            landlords.put("city", heb.formattedHebrew(jsonObject.getString("city")));
-            landlords.put("profile_image", jsonObject.getString("profile_image"));
+            HashMap<String, String> map = new HashMap<>();
+            map.put("id", jsonObject.getString("id"));
+            map.put("first_name", heb.formattedHebrew(jsonObject.getString("first_name")));
+            map.put("last_name", heb.formattedHebrew(jsonObject.getString("last_name")));
+            map.put("city", heb.formattedHebrew(jsonObject.getString("city")));
+            map.put("profile_image", jsonObject.getString("profile_image"));
+            landlords.add(map);
             //landlords[i] = new BallabaPropertyFull().new Landlord();//jsonArray.getJSONObject(i).getString("photo_url"));
         }
 
@@ -341,63 +344,73 @@ public class BallabaSearchPropertiesManager {
         return attachments;
     }
 
-    private HashMap<String, String> parsePayments(@NonNull JSONArray jsonArray) throws JSONException{
-        HashMap<String, String> payments = new HashMap<>();
+    private ArrayList<HashMap<String, String>> parsePayments(@NonNull JSONArray jsonArray) throws JSONException{
+        ArrayList<HashMap<String, String>> payments = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(i);
-            payments.put("id", jsonObject.getString("id"));
-            payments.put("property_id", jsonObject.getString("property_id"));
-            payments.put("payment_type", jsonObject.getString("payment_type"));
-            payments.put("price", jsonObject.getString("price"));
-            payments.put("is_included", jsonObject.getBoolean("is_included")+"");
-            payments.put("currency", jsonObject.getString("currency"));
+            HashMap<String, String> map = new HashMap<>();
+            map.put("id", jsonObject.getString("id"));
+            map.put("property_id", jsonObject.getString("property_id"));
+            map.put("payment_type", jsonObject.getString("payment_type"));
+            map.put("price", StringUtils.getInstance(true, context).formattedNumberWithComma(jsonObject.getString("price")));
+            map.put("is_included", jsonObject.getBoolean("is_included")+"");
+            map.put("currency", jsonObject.getString("currency"));
+            payments.add(map);
         }
 
         return payments;
     }
 
-    private HashMap<String, String> parsePaymentMethods(@NonNull JSONArray jsonArray) throws JSONException{
-        HashMap<String, String> paymentMethods = new HashMap<>();
+    private ArrayList<HashMap<String, String>> parsePaymentMethods(@NonNull JSONArray jsonArray) throws JSONException{
+        ArrayList<HashMap<String, String>> paymentMethods = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(i);
-            paymentMethods.put("id", jsonObject.getString("id"));
-            paymentMethods.put("property_id", jsonObject.getString("property_id"));
-            paymentMethods.put("payment_method", jsonObject.getString("payment_method"));
+            HashMap<String, String> map = new HashMap<>();
+            map.put("id", jsonObject.getString("id"));
+            map.put("property_id", jsonObject.getString("property_id"));
+            map.put("payment_method", jsonObject.getString("payment_method"));
+            paymentMethods.add(map);
         }
 
         return paymentMethods;
     }
 
-    private HashMap<String, String> parseAddons(@NonNull JSONArray jsonArray) throws JSONException{
-        HashMap<String, String> addons = new HashMap<>();
+    private ArrayList<HashMap<String, String>> parseAddons(@NonNull JSONArray jsonArray) throws JSONException{
+        ArrayList<HashMap<String, String>> addons = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(i);
-            addons.put("id", jsonObject.getString("id"));
-            addons.put("property_id", jsonObject.getString("property_id"));
-            addons.put("addon_type", jsonObject.getString("addon_type"));
+            HashMap<String, String> map = new HashMap<>();
+            map.put("id", jsonObject.getString("id"));
+            map.put("property_id", jsonObject.getString("property_id"));
+            map.put("addon_type", jsonObject.getString("addon_type"));
+            addons.add(map);
         }
 
         return addons;
     }
 
-    private HashMap<String, String> parsePhotos(@NonNull JSONArray jsonArray) throws JSONException{
-        HashMap<String, String> photos = new HashMap<>();
+    private ArrayList<HashMap<String, String>> parsePhotos(@NonNull JSONArray jsonArray) throws JSONException{
+        ArrayList<HashMap<String, String>> photos = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(i);
-            photos.put("tags", jsonObject.getString("tags"));
-            photos.put("photo_url", jsonObject.getString("photo_url"));
-            photos.put("sort_order", jsonObject.getString("sort_order"));
+            HashMap<String, String> map = new HashMap<>();
+            map.put("tags", jsonObject.getString("tags"));
+            map.put("photo_url", jsonObject.getString("photo_url"));
+            map.put("sort_order", jsonObject.getString("sort_order"));
+            photos.add(map);
         }
 
         return photos;
     }
 
-    private HashMap<String, String> parseOpenDoorDates(@NonNull JSONArray jsonArray) throws JSONException{
-        HashMap<String, String> openDoorDates = new HashMap<>();
+    private ArrayList<HashMap<String, String>> parseOpenDoorDates(@NonNull JSONArray jsonArray) throws JSONException{
+        ArrayList<HashMap<String, String>> openDoorDates = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(i);
-            openDoorDates.put("start_time", jsonObject.getString("start_time"));
-            openDoorDates.put("end_time", jsonObject.getString("end_time"));
+            HashMap<String, String> map = new HashMap<>();
+            map.put("start_time", jsonObject.getString("start_time"));
+            map.put("end_time", jsonObject.getString("end_time"));
+            openDoorDates.add(map);
         }
 
         return openDoorDates;
@@ -423,6 +436,7 @@ public class BallabaSearchPropertiesManager {
                 }
             }
 
+            map.clear();
             ArrayList<HashMap<String, String>> negative = new ArrayList<>();
             JSONArray negativeArr = jsonObject.getJSONArray("negative");
             if (negativeArr != null){

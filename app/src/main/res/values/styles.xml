@@ -101,4 +101,11 @@
         <item name="android:drawablePadding">@dimen/small_margin</item>
     </style>
 
+    <style name="propertyDescriptionPayments_textView" parent="textViewsStyle">
+        <item name="android:layout_width">@dimen/propertyDescription_payments_textView_width</item>
+        <item name="android:layout_height">@dimen/propertyDescription_payments_textView_height</item>
+        <item name="android:textSize">@dimen/textSize_regular</item>
+        <item name="android:visibility">gone</item>
+    </style>
+
 </resources>

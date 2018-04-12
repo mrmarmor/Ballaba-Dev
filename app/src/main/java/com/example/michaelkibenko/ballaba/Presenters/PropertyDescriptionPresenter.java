@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BindingAdapter;
+import android.support.annotation.ColorInt;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -40,7 +41,9 @@ import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionAttachm
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionCommentsBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionImageBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPaymentMethodsBinding;
+import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPaymentsBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPriceBinding;
+import com.google.android.gms.maps.model.Marker;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -59,6 +62,7 @@ public class PropertyDescriptionPresenter {
     private PropertyDescriptionPriceBinding binderPrice;
     private PropertyDescriptionAttachmentsBinding binderAttach;
     private PropertyDescriptionAttachmentsExtendedBinding binderAttachExt;
+    private PropertyDescriptionPaymentsBinding binderPay;
     private PropertyDescriptionPaymentMethodsBinding binderPayMethod;
     private PropertyDescriptionCommentsBinding binderComment;
     //private PropertyDescriptionImageBinding binderImage;
@@ -79,6 +83,7 @@ public class PropertyDescriptionPresenter {
         binderPrice = binder.propertyDescriptionPrice;
         binderAttach = binder.propertyDescriptionAttachments;
         binderAttachExt = binder.propertyDescriptionAttachmentsExtended;
+        binderPay = binder.propertyDescriptionPayments;
         binderPayMethod = binder.propertyDescriptionPaymentMethods;
         binderComment = binder.propertyDescriptionComments;
 
@@ -104,7 +109,7 @@ public class PropertyDescriptionPresenter {
                     displayDataOnScreen(propertyFull);
                     //callback.resolve(entity);
                 }else {
-                    Log.d(TAG, "properties: 500" );
+                    Log.d(TAG, "error: Response is not an instance of BallabaOkResponse");
                     //callback.reject(new BallabaErrorResponse(500, null));
                 }
             }
@@ -120,7 +125,6 @@ public class PropertyDescriptionPresenter {
 
     private void displayDataOnScreen(BallabaPropertyFull propertyFull){
         String price = StringUtils.getInstance(true, activity).formattedNumberWithComma(propertyFull.price);
-        String desc = StringUtils.getInstance(true, activity).formattedHebrew(propertyFull.description);
         String rooms = String.format("%s %s", propertyFull.roomsNumber, activity.getString(R.string.propertyItem_numberOfRooms));
         String size = String.format("%s %s", propertyFull.size, activity.getString(R.string.propertyItem_propertySize));
         String baths = String.format("%s %s", propertyFull.bathrooms, activity.getString(R.string.propertyItem_bathtub));
@@ -130,25 +134,32 @@ public class PropertyDescriptionPresenter {
         binderPrice.propertyDescriptionPriceAddressTextView.setText(propertyFull.formattedAddress);
         binderPrice.propertyDescriptionPriceDateOfEntranceTextView.setText(propertyFull.entry_date);
         binderPrice.propertyDescriptionPriceRentalPeriodTextView.setText(propertyFull.rentPeriod);
-        binderPrice.propertyDescriptionPriceLandlordNameTextView.setText(propertyFull.landlords.get("first_name")+" "+propertyFull.landlords.get("last_name"));
-        binderPrice.propertyDescriptionPriceLandlordCityTextView.setText(propertyFull.landlords.get("city"));
-        binderPrice.propertyDescriptionPriceFullDescriptionTextView.setText(desc);
+        binderPrice.propertyDescriptionPriceFullDescriptionTextView.setText(propertyFull.description);
+
+        //TODO displayLandlord()
+        if (propertyFull.landlords != null){
+            binderPrice.propertyDescriptionPriceLandlordNameTextView.setText(propertyFull.landlords.get(0).get("first_name")+" "+propertyFull.landlords.get(0).get("last_name"));
+            binderPrice.propertyDescriptionPriceLandlordCityTextView.setText(propertyFull.landlords.get(0).get("city"));
+            Glide.with(activity)
+                    .load(propertyFull.landlords.get(0).get("profile_image"))
+                    .into(binderPrice.propertyDescriptionPriceLandlordProfileImage);
+
+        }
 
         binderAttach.propertyDescriptionAttachmentsNumberOfRoomsTextView.setText(rooms);
         binderAttach.propertyDescriptionAttachmentsSizeTextView.setText(size);
         binderAttach.propertyDescriptionAttachmentsBathroomsTextView.setText(baths);
         binderAttach.propertyDescriptionAttachmentsToiletsTextView.setText(toilets);
         //initAttachmentExtendedRecyclerView(propertyFull);
-        displayDynamicDataOnScreen(propertyFull);
+        displayAttachmentsOnScreen(propertyFull.attachments);
+        displayPaymentsOnScreen(propertyFull.payments);
 
+        String latLngStr = propertyFull.lat + "," + propertyFull.lng;
+        //Marker marker =
+        String url = String.format("%s%s%s|%s", EndpointsHolder.GOOGLE_MAP_API, latLngStr, EndpointsHolder.GOOGLE_MAP_API_SETTINGS, latLngStr);
         Glide.with(activity)
-                .load(propertyFull.landlords.get("profile_image"))
-                .into(binderPrice.propertyDescriptionPriceLandlordProfileImage);
-
-        String url = EndpointsHolder.GOOGLE_MAP_API + propertyFull.lat + "," + propertyFull.lng + EndpointsHolder.GOOGLE_MAP_API_SETTINGS;
-        Glide.with(activity)
-                .load(url)
-                .into(binderPayMethod.propertyDescriptionPaymentMethodsGoogleMapImageView);
+             .load(url)
+             .into(binderPayMethod.propertyDescriptionPaymentMethodsGoogleMapImageView);
 
         //TODO initRecycler()
         DescCommentAdapter adapter = new DescCommentAdapter(activity, propertyFull.comments);
@@ -165,8 +176,7 @@ public class PropertyDescriptionPresenter {
         attachmentsRV.setAdapter(attachAdapter);
     }*/
 
-    private void displayDynamicDataOnScreen(BallabaPropertyFull propertyFull){
-        ArrayList<String> propertyAttachments = propertyFull.attachments;
+    private void displayAttachmentsOnScreen(ArrayList<String> propertyAttachments){
         if (propertyAttachments != null) {
             for (int i = 0; i < propertyAttachments.size(); i++) {
                 PropertyAttachment.Type propertyAttachment = PropertyAttachment.Type.getTypeById(
@@ -189,15 +199,77 @@ public class PropertyDescriptionPresenter {
                     tv.setPaddingRelative(16, 20, 0, 0);
                 }*/
 
-                addView(binderAttachExt.propertyDescriptionAttachmentsExtendedContainer, tv);
+                binderAttachExt.propertyDescriptionAttachmentsExtendedContainer.addView(tv);
+                //addView(binderAttachExt.propertyDescriptionAttachmentsExtendedContainer, tv, i);
             }
         }
     }
 
-    @BindingAdapter("bind:addView")
-    public static void addView(ViewGroup container, TextView textView) {
-        container.addView(textView);
+    private void displayPaymentsOnScreen(ArrayList<HashMap<String, String>> propertyPayments){
+        if (propertyPayments != null) {
+            for (int i = 0; i < propertyPayments.size(); i++) {
+                TextView tv = getTextView(propertyPayments.get(i).get("payment_type"),
+                    activity.getResources().getColor(R.color.black, activity.getTheme()));
+                binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i * 2);
+
+                String formattedPrice = propertyPayments.get(i).get("price");
+                tv = getTextView(String.format("%s%s", "₪", formattedPrice),
+                    activity.getResources().getColor(R.color.colorAccent, activity.getTheme()));
+                binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i * 2);
+
+                tv = getTextView(propertyPayments.get(i).get("payment_type"),
+                        activity.getResources().getColor(R.color.black, activity.getTheme()));
+                binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i * 2 + 1);
+
+                formattedPrice = propertyPayments.get(i).get("price");
+                tv = getTextView(String.format("%s%s", formattedPrice, "₪"),
+                        activity.getResources().getColor(R.color.colorAccent, activity.getTheme()));
+                binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i * 2 + 1);
+
+                /*TextView tv = new TextView(activity);
+                String formattedPrice = propertyPayments.get(i).get("price");
+                tv.setText(String.format("%s%s", formattedPrice, "₪"));
+                tv.setTextAppearance(R.style.propertyDescriptionPayments_textView);
+                //tv.setWidth(R.dimen.propertyDescription_payments_textView_width);
+                //tv.setHeight(R.dimen.propertyDescription_payments_textView_height);
+                tv.setPaddingRelative(93, 16, 8, 16);
+                tv.setTextColor(activity.getResources().getColor(R.color.black, activity.getTheme()));
+
+                GridLayout.LayoutParams param = new GridLayout.LayoutParams(
+                        GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL,1f),
+                        GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL,1f));
+                tv.setLayoutParams(param);
+                binderPay.propertyDescriptionPaymentsContainer.addView(tv, 1);*/
+            }
+        }
     }
+
+    private TextView getTextView(final String text, final @ColorInt int color) {
+        TextView tv = new TextView(activity);
+        tv.setText(text);
+        tv.setTextAppearance(R.style.propertyDescriptionPayments_textView);
+        tv.setTextColor(color);
+        //ViewGroup.LayoutParams tvParams = tv.getLayoutParams();
+        //tvParams.width = 77;
+        //tvParams.height = 35;
+        tv.setLayoutParams(new ViewGroup.LayoutParams(77, 35));
+        //tv.setWidth(R.dimen.propertyDescription_payments_textView_width);
+        //tv.setHeight(R.dimen.propertyDescription_payments_textView_height);
+        //tv.setPaddingRelative((index%2 == 0? 16 : 0), 16, 0, 16);
+
+        /*GridLayout.LayoutParams param = new GridLayout.LayoutParams(
+                GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL,1f),
+                GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL,1f));
+        tv.setLayoutParams(param);*/
+
+        return tv;
+    }
+
+    //@BindingAdapter("bind:addView")
+   /* private ViewGroup addView(ViewGroup container, TextView textView, final int INDEX) {
+        container.addView(textView, INDEX);
+        return container;
+    }*/
 
     /*public TextView getDynamicTextViews(String attachmentType) {
         //TextView textView = new TextView(activity);

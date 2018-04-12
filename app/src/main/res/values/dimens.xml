@@ -170,6 +170,9 @@
     <dimen name="propertyDescription_price_landlordDetails_verticalOffset">6dp</dimen>
     <dimen name="propertyDescription_price_fullDescription_horizontalOffset">32dp</dimen>
 
+    <dimen name="propertyDescription_payments_textView_width">77dp</dimen>
+    <dimen name="propertyDescription_payments_textView_height">35dp</dimen>
+
     <dimen name="propertyDescription_divider_horizontalOffset">40dp</dimen>
 
     <dimen name="propertyDescription_attachments_leftAttachmentsOffset_start">125dp</dimen>

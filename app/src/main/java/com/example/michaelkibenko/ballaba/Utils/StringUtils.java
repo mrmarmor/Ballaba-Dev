@@ -37,7 +37,6 @@ public class StringUtils {
 
     public String formattedHebrew(String s){
         try {
-            Log.d("tagg", new String(s.getBytes("ISO_8859_1"), "utf-8"));
             return new String(s.getBytes("ISO_8859_1"), "utf-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

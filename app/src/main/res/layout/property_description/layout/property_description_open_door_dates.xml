@@ -23,5 +23,11 @@
             android:textSize="@dimen/textSize_big"
             android:textColor="@color/black" />
 
+        <CalendarView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/propertyDescriptionOpenDoorDates_title_textView"
+            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionOpenDoorDates_title_textView" />
+
     </android.support.constraint.ConstraintLayout>
 </layout>
