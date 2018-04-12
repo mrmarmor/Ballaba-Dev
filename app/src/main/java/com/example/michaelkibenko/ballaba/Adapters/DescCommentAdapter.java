@@ -44,8 +44,8 @@ public class DescCommentAdapter extends RecyclerView.Adapter<DescCommentAdapter.
     public void onBindViewHolder(@NonNull DescCommentAdapter.ViewHolder holder, int position) {
         PropertyDescriptionComment comment = comments.get(position);
         holder.tvUserName.setText(comment.user.first_name+" "+comment.user.last_name);
-        holder.tvPositiveComment.setText(comment.positive.get(position).get("content"));
-        holder.tvNegativeComment.setText(comment.negative.get(position).get("content"));
+        holder.tvPositiveComment.setText(comment.positive.get(position).get("content")+" - ");
+        holder.tvNegativeComment.setText(comment.negative.get(position).get("content")+" - ");
         Glide.with(context).load(comment.user.profile_image).into(holder.ivUserPhoto);
     }
 

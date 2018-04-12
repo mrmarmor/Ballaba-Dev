@@ -153,6 +153,7 @@ public class PropertyDescriptionPresenter {
         //initAttachmentExtendedRecyclerView(propertyFull);
         displayAttachmentsOnScreen(propertyFull.attachments);
         displayPaymentsOnScreen(propertyFull.payments);
+        paymentMethodsStatesChanger(propertyFull.paymentMethods);
 
         String latLngStr = propertyFull.lat + "," + propertyFull.lng;
         //Marker marker =
@@ -263,6 +264,26 @@ public class PropertyDescriptionPresenter {
         tv.setLayoutParams(param);*/
 
         return tv;
+    }
+
+    private final String ONLY_CHEQUE = "1", ONLY_TRANSFER = "2", BOTH = "3";
+    private void paymentMethodsStatesChanger(ArrayList<HashMap<String, String>> payMethods){
+        if (payMethods != null && payMethods.size() > 0) {
+            switch (payMethods.get(0).get("payment_method")) {
+                case ONLY_CHEQUE:
+                    binderPayMethod.propertyDescriptionPaymentMethodsOrTextView.setVisibility(View.GONE);
+                    binderPayMethod.propertyDescriptionPaymentMethodsTransferTextView.setVisibility(View.GONE);
+                    break;
+
+                case ONLY_TRANSFER:
+                    binderPayMethod.propertyDescriptionPaymentMethodsOrTextView.setVisibility(View.GONE);
+                    binderPayMethod.propertyDescriptionPaymentMethodsChequeTextView.setVisibility(View.GONE);
+                    break;
+
+                //case BOTH:
+
+            }
+        }
     }
 
     //@BindingAdapter("bind:addView")

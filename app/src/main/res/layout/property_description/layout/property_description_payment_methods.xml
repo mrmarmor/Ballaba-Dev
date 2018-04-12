@@ -10,7 +10,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layoutDirection="rtl">
 
         <TextView
@@ -54,7 +54,6 @@
             style="@style/property_description_textViews"
             app:layout_constraintStart_toEndOf="@id/propertyDescriptionPaymentMethods_or_textView"
             app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPaymentMethods_date_textView"
-            app:layout_constraintBottom_toBottomOf="@+id/propertyDescriptionPaymentMethods_cheque_textView"
             android:drawableStart="@drawable/transfer_blue_36"
             android:text="@string/propertyDescriptionPaymentMethods_transfer_textView" />
 
