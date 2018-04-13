@@ -28,9 +28,11 @@
             android:id="@+id/propertyDescriptionComments_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
+            android:background="@android:color/transparent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionComments_title_textView" />
+            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionComments_title_textView"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            tools:listitem="@layout/description_comment_item" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

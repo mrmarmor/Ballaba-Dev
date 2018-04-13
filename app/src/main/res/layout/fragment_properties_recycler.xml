@@ -7,22 +7,6 @@
             type="com.example.michaelkibenko.ballaba.Presenters.SearchPropertiesPresenter"/>
     </data>
 
-<!--<android.support.v4.widget.SwipeRefreshLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/properties_recycler_root_swipeRefresh"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="@dimen/mainActivity_RecyclerView_margin_top"
-    tools:context="com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment">
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/properties_recycler_RV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/mainActivity_RecyclerView_margin_top"/>
-
-</android.support.v4.widget.SwipeRefreshLayout>-->
-
     <FrameLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/properties_recycler_root"

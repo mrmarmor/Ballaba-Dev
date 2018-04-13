@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BindingAdapter;
+import android.graphics.Rect;
 import android.support.annotation.ColorInt;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -164,8 +166,12 @@ public class PropertyDescriptionPresenter {
 
         //TODO initRecycler()
         DescCommentAdapter adapter = new DescCommentAdapter(activity, propertyFull.comments);
-        LinearLayoutManager lManager = new LinearLayoutManager(activity);
-        binderComment.propertyDescriptionCommentsRecycler.setLayoutManager(lManager);
+        //LinearLayoutManager lManager = new LinearLayoutManager(activity);
+        //binderComment.propertyDescriptionCommentsRecycler.setLayoutManager(lManager);
+        //DividerItemDecoration divider = new DividerItemDecoration(activity,
+        //        lManager.getOrientation());
+        //divider.getItemOffsets(new Rect(0,0,0,20), null, binderComment.propertyDescriptionCommentsRecycler, null);
+        //binderComment.propertyDescriptionCommentsRecycler.addItemDecoration(divider);
         binderComment.propertyDescriptionCommentsRecycler.setAdapter(adapter);
     }
 
