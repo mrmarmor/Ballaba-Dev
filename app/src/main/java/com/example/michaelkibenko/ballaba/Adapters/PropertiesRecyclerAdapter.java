@@ -1,57 +1,36 @@
 package com.example.michaelkibenko.ballaba.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.DrawableRes;
 import android.support.transition.Visibility;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Common.BallabaPropertyListener;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
-import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
-import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Fragments.PropertyImageFragment;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
-import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
-import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
+import com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter;
 import com.example.michaelkibenko.ballaba.Presenters.PropertyItemPresenter;
-import com.example.michaelkibenko.ballaba.Presenters.TestingPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.databinding.PropertyItemBinding;
 
-import java.text.Format;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -129,7 +108,12 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, PropertyDescriptionActivity.class);
-                intent.putExtra(PropertyDescriptionActivity.PROPERTY_ID, property.id);
+                //TODO for testing only:
+                intent.putExtra(PropertyDescriptionActivity.PROPERTY, "1");
+                //TODO the real one:
+                //intent.putExtra(PropertyDescriptionActivity.PROPERTY, property.id);
+                intent.putExtra(PropertyDescriptionPresenter.PROPERTY_IMAGE
+                        , property.photos.get(property.photos.size()/2));
                 mContext.startActivity(intent);
             }
         });

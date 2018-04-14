@@ -108,12 +108,6 @@ public class SizeFragment extends Fragment {
         super.onAttach(context);
 
         this.context = context;
-        if (context instanceof BallabaFragmentListener) {
-            listener = (BallabaFragmentListener)context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
     }
 
     @Override

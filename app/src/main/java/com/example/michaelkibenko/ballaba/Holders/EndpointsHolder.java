@@ -15,4 +15,6 @@ public @interface EndpointsHolder {
     String PROPERTY = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/property";
     String PROPERTY_ATTACHMENTS_ADDONS = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/config/property";
     String PROPERTY_BY_ADDRESS = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/property";
+    String GOOGLE_MAP_API = "http://maps.google.com/maps/api/staticmap?center=";
+    String GOOGLE_MAP_API_SETTINGS = "&zoom=15&size=360x180&sensor=false&markers=color:0x00bfffff";
 }

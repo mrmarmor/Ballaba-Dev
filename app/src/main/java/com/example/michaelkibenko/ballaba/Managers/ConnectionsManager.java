@@ -4,10 +4,7 @@ import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
-import android.os.UserManager;
-import android.text.LoginFilter;
 import android.util.Log;
-import android.widget.ArrayAdapter;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -30,6 +27,7 @@ import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
 import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
+import com.example.michaelkibenko.ballaba.Holders.GlobalValues;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
@@ -124,6 +122,7 @@ public class ConnectionsManager{
                 JSONObject jsonObject = new JSONObject();
                 jsonObject.put("phone", phoneNUmber);
                 jsonObject.put("code", code);
+                jsonObject.put("fcm_token", DeviceUtils.getInstance(true, context).getFcmToken());
 
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, EndpointsHolder.AUTHENTICATE, jsonObject, new Response.Listener<JSONObject>() {
                     @Override
@@ -148,7 +147,7 @@ public class ConnectionsManager{
                     @Override
                     public Map<String, String> getHeaders() throws AuthFailureError {
                         Map<String, String> params = new HashMap<String, String>();
-                        params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
+                        params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
                         return params;
                     }
 
@@ -205,18 +204,18 @@ public class ConnectionsManager{
     }
 
     public void logInByToken(final BallabaResponseListener callback, final String token){
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, EndpointsHolder.LOGIN_BY_TOKEN,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
-                        if(user == null){
-                            callback.reject(new BallabaErrorResponse(500, null));
-                        }else {
-                            callback.resolve(user);
-                        }
-                    }
-                }, new Response.ErrorListener() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, EndpointsHolder.LOGIN_BY_TOKEN
+                , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
+                if(user == null){
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }else {
+                    callback.resolve(user);
+                }
+            }
+        }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "Error: " + error.getMessage());
@@ -230,8 +229,8 @@ public class ConnectionsManager{
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String>  params = new HashMap<String, String>();
-                params.put("global_token", token);
-                params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
+                params.put(GlobalValues.globalToken, token);
+                params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
                 return params;
             }
         };
@@ -267,8 +266,8 @@ public class ConnectionsManager{
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
-                params.put("session_token", BallabaUserManager.getInstance().getUserSesionToken());
+                params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
+                params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
                 return params;
             }
         };
@@ -282,12 +281,10 @@ public class ConnectionsManager{
 
     }
 
-    public void getPropertyByLatLng(final LatLng latLng, final BallabaResponseListener callback){
-        String params = "?latlong=" + latLng.latitude + "," + latLng.longitude;
-        String endpoint = EndpointsHolder.PROPERTY + params;
-        BallabaSearchPropertiesManager.getInstance(context).setCurrentSearchEndpoint(endpoint);
-        StringRequest stringRequest = new StringRequest(GET
-                , endpoint, new Response.Listener<String>() {
+    //TODO all these 3 method below could be easily replaced by one single generic method
+    public void getPropertyById(final String PROPERTY_ID, final BallabaResponseListener callback){
+        StringRequest stringRequest = new StringRequest(Request.Method.GET
+                , EndpointsHolder.PROPERTY+"/"+PROPERTY_ID, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 BallabaOkResponse okResponse = new BallabaOkResponse();
@@ -308,8 +305,43 @@ public class ConnectionsManager{
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
-                params.put("session_token", BallabaUserManager.getInstance().getUserSesionToken());
+                params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
+                params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
+                return params;
+            }
+        };
+
+        queue.add(stringRequest);
+    }
+
+    public void getPropertyByLatLng(LatLng latLng, final BallabaResponseListener callback){
+            String params = "?latlong=" + latLng.latitude + "," + latLng.longitude;
+            String endpoint = EndpointsHolder.PROPERTY + params;
+            BallabaSearchPropertiesManager.getInstance(context).setCurrentSearchEndpoint(endpoint);
+            StringRequest stringRequest = new StringRequest(GET
+                    , endpoint, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                BallabaOkResponse okResponse = new BallabaOkResponse();
+                okResponse.setBody(response);
+                callback.resolve(okResponse);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if(error.networkResponse != null){
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                }else{
+                    Log.e(TAG, error+"\n"+ error.getMessage());
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }
+            }
+        })  {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
+                params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
                 return params;
             }
         };
@@ -351,8 +383,8 @@ public class ConnectionsManager{
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
-                params.put("session_token", BallabaUserManager.getInstance().getUserSesionToken());
+                params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
+                params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
                 return params;
             }
         };
@@ -388,8 +420,8 @@ public class ConnectionsManager{
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> params = new HashMap<String, String>();
-                params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
-                params.put("session_token", BallabaUserManager.getInstance().getUserSesionToken());
+                params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
+                params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
                 return params;
             }
         };

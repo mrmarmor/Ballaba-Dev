@@ -1,15 +1,21 @@
 <resources>
-    <!-- Default app dimensions. -->
+    <!-- Default app dimensions in order to keep app with uniform design. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="small_margin">8dp</dimen>
     <dimen name="tiny_margin">4dp</dimen>
+    <dimen name="textSize_tiny">12sp</dimen>
     <dimen name="textSize_small">14sp</dimen>
     <dimen name="textSize_regular">16sp</dimen>
     <dimen name="textSize_title">20sp</dimen>
+    <dimen name="textSize_big">22sp</dimen>
     <dimen name="icon_regular">24dp</dimen>
+    <dimen name="icon_big">36dp</dimen>
     <dimen name="bar_normal_height">48dp</dimen>
+    <dimen name="button_width">70dp</dimen>
+    <dimen name="button_height">39dp</dimen>
     <dimen name="translationZ">3dp</dimen>
+    <dimen name="elevation">2dp</dimen>
     <!-- End of Default app dimensions. -->
 
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
@@ -101,7 +107,6 @@
     <dimen name="propertyItem_bottomStrip_price_top_offset">12dp</dimen>
     <dimen name="propertyItem_bottomStrip_price_monthly_textView_startOffset">5dp</dimen>
     <dimen name="propertyItem_bottomStrip_address_and_rooms_textView_textSize">13sp</dimen>
-    <dimen name="propertyItem_propertyElevation">2dp</dimen>
 
     <dimen name="mainActivity_RecyclerView_margin_top">64dp</dimen>
     <dimen name="mainActivity_toMapIcon_margin_end">15dp</dimen>
@@ -121,10 +126,7 @@
     <dimen name="saveMapSearch_start_offset">19dp</dimen>
     <dimen name="saveMapSearch_textSize">12sp</dimen>
     <dimen name="saveMapSearch_container">60dp</dimen>
-    <dimen name="saveMapSearch_save_text_size">16sp</dimen>
     <dimen name="saveMapSearch_bottom_text_size">12sp</dimen>
-    <dimen name="saveMapSearch_save_BTN_height">39dp</dimen>
-    <dimen name="saveMapSearch_save_BTN_width">70dp</dimen>
 
     <dimen name="map_fragment_properties_recycler_view_more_items_height">300dp</dimen>
     <dimen name="map_fragment_properties_recycler_view_one_item_height">147dp</dimen>
@@ -152,5 +154,34 @@
     <dimen name="chipsButton_textPadding">10dp</dimen>
     <dimen name="chipsButton_radius">30dp</dimen>
 
+    <dimen name="propertyDescription_mainImage_height">208dp</dimen>
+    <dimen name="propertyDescription_bottomStrip_height">60dp</dimen>
+    <dimen name="propertyDescription_mainImage_topStrip_height">56dp</dimen>
+    <dimen name="propertyDescription_mainImage_topStrip_icon_verticalOffset">16dp</dimen>
+    <dimen name="propertyDescription_mainImage_topStrip_icon_horizontalOffset">21dp</dimen>
+    <dimen name="propertyDescription_mainImage_topStrip_icon_horizontalOffset_heart_share">11dp</dimen>
+    <dimen name="propertyDescription_mainImage_buttonToGallery_width">166dp</dimen>
+    <dimen name="propertyDescription_mainImage_buttonToGallery_height">38dp</dimen>
+
+    <dimen name="propertyDescription_price_dateOfEntrance_marginStart">36dp</dimen>
+    <dimen name="propertyDescription_price_buttonToStreetView_width">96dp</dimen>
+    <dimen name="propertyDescription_price_buttonToStreetView_height">37dp</dimen>
+    <dimen name="propertyDescription_price_landlordProfileImage_dimens">40dp</dimen>
+    <dimen name="propertyDescription_price_landlordDetails_verticalOffset">6dp</dimen>
+    <dimen name="propertyDescription_price_fullDescription_horizontalOffset">32dp</dimen>
+
+    <dimen name="propertyDescription_payments_textView_width">77dp</dimen>
+    <dimen name="propertyDescription_payments_textView_height">35dp</dimen>
+
+    <dimen name="propertyDescription_divider_horizontalOffset">40dp</dimen>
+
+    <dimen name="propertyDescription_attachments_leftAttachmentsOffset_start">125dp</dimen>
+    <dimen name="propertyDescription_attachments_bottomAttachmentsOffset_top">20dp</dimen>
+    <dimen name="propertyDescription_googleMap_height">180dp</dimen>
+
+    <dimen name="descriptionCommentItem_profileImage_margin">20dp</dimen>
+    <dimen name="descriptionCommentItem_name_marginTop">9dp</dimen>
+    <dimen name="descriptionCommentItem_name_marginBottom">8dp</dimen>
+    <dimen name="descriptionCommentItem_name_marginStart">10dp</dimen>
 
 </resources>

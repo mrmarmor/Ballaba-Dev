@@ -61,12 +61,9 @@
         
         <Button
             android:id="@+id/saveMapSearch_save_BTN"
-            android:layout_width="@dimen/saveMapSearch_save_BTN_width"
-            android:layout_height="@dimen/saveMapSearch_save_BTN_height"
+            style="@style/AppButton"
             android:background="@color/propertyRecyclerView_background_white"
-            android:textColor="@color/colorPrimary"
             android:text="@string/saveMapSearch_BTN_Txt"
-            android:textSize="@dimen/saveMapSearch_save_text_size"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

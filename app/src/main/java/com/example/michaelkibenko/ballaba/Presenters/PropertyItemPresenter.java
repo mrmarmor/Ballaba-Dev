@@ -1,28 +1,16 @@
 package com.example.michaelkibenko.ballaba.Presenters;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
-import android.support.annotation.IntegerRes;
-import android.support.transition.Visibility;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import android.content.res.Resources;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.Resource;
-import com.example.michaelkibenko.ballaba.Adapters.PropertiesRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.Common.BallabaPropertyListener;
-import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.databinding.FragmentPropertiesRecyclerBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyItemBinding;
 
 /**

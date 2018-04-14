@@ -1,6 +1,5 @@
 package com.example.michaelkibenko.ballaba.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
@@ -10,46 +9,33 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
-import com.example.michaelkibenko.ballaba.Activities.SplashActivity;
 import com.example.michaelkibenko.ballaba.Adapters.PropertiesRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
-import com.example.michaelkibenko.ballaba.Entities.BallabaProperty;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
-import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
-import com.example.michaelkibenko.ballaba.Managers.PropertiesManager;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
-import com.example.michaelkibenko.ballaba.Presenters.PropertyItemPresenter;
-import com.example.michaelkibenko.ballaba.Presenters.SearchPropertiesPresenter;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentPropertiesRecyclerBinding;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 public class PropertiesRecyclerFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
     private final String TAG = PropertiesRecyclerFragment.class.getSimpleName();

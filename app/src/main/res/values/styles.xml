@@ -7,7 +7,11 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
+        <item name="android:button">@style/AppButton</item>
+        <item name="android:textViewStyle">@style/textViewsStyle</item>
+        <item name="font">@font/rubik_regular</item>
+        <item name="android:fontStyle">normal</item>
+        <item name="android:fontFamily">400</item>
         <item name="android:screenOrientation">portrait</item>
     </style>
 
@@ -30,6 +34,20 @@
         <item name="android:layout_marginEnd">@dimen/enter_code_code_edit_text_side_offset</item>
         <item name="android:inputType">numberDecimal</item>
         <item name="android:maxLength">1</item>
+    </style>
+
+    <style name="AppButton" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_width">@dimen/button_width</item>
+        <item name="android:layout_height">@dimen/button_height</item>
+        <item name="android:textSize">@dimen/textSize_regular</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+        <item name="background">@android:color/white</item>
+    </style>
+
+    <style name="textViewsStyle">
+        <item name="font">@font/rubik_regular</item>
+        <item name="android:fontStyle">normal</item>
+        <item name="android:fontFamily">400</item>
     </style>
     <!--END OF THEMES-->
 
@@ -63,6 +81,31 @@
         <item name="android:background">@android:color/white</item>
         <item name="android:layout_weight">0.25</item>
         <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="divider_gray">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/gray_button_color</item>
+        <item name="android:layout_marginStart">@dimen/propertyDescription_divider_horizontalOffset</item>
+        <item name="android:layout_marginEnd">@dimen/propertyDescription_divider_horizontalOffset</item>
+    </style>
+
+    <style name="property_description_textViews">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
+        <item name="android:gravity">center|end</item>
+        <item name="android:textSize">@dimen/textSize_regular</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:drawablePadding">@dimen/small_margin</item>
+    </style>
+
+    <style name="propertyDescriptionPayments_textView" parent="textViewsStyle">
+        <item name="android:layout_width">@dimen/propertyDescription_payments_textView_width</item>
+        <item name="android:layout_height">@dimen/propertyDescription_payments_textView_height</item>
+        <item name="android:textSize">@dimen/textSize_regular</item>
+        <item name="android:visibility">gone</item>
     </style>
 
 </resources>

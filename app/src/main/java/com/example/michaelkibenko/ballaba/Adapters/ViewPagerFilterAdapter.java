@@ -6,6 +6,8 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +25,8 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
  * Created by User on 01/04/2018.
  */
 
-public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements View.OnClickListener{
+public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
+        View.OnClickListener, ViewPager.OnPageChangeListener{
     private final String TAG = ViewPagerFilterAdapter.class.getSimpleName();
     private Context context;
     private ActivityMainLayoutBinding binder;
@@ -128,5 +131,38 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
         sizeFragment.updateRangeBar(filterDimensions.getMin_size(), filterDimensions.getMax_size());
         priceFragment.updateRangeBar(filterDimensions.getMin_price(), filterDimensions.getMax_price());
         roomsFragment.updateRangeBar(filterDimensions.getMin_rooms(), filterDimensions.getMax_rooms());
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        Log.d("tag", position+":"+positionOffset);
+
+    }
+
+    @Override
+    public void onPageSelected(int i) {
+        Log.d("tag", i+":1");
+
+        int nextPageFactor = previousPageIndex < i? 1 : -1;
+        binder.mainActivityFilterIncluded.mainActivityFilterViewPager
+                .setCurrentItem(binder.mainActivityFilterIncluded.mainActivityFilterViewPager.getCurrentItem() + nextPageFactor);
+
+        //Use isMovingForward variable anywhere now
+        previousPageIndex = i;
+    }
+
+/*
+    @Override
+    public void onPageSelected(int position) {
+        binder.mainActivityFilterIncluded.mainActivityFilterViewPager.setCurrentItem(
+                binder.mainActivityFilterIncluded.mainActivityFilterViewPager.getCurrentItem()
+        );
+    }
+*/
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+        Log.d("tag", state+":2");
+
     }
 }

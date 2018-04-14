@@ -38,6 +38,8 @@
 
     <string name="propertyItem_numberOfRooms">חדרים</string>
     <string name="propertyItem_propertySize">מ\"ר</string>
+    <string name="propertyItem_bathtub">מקלחת</string>
+    <string name="propertyItem_toilets">שירותים</string>
     <string name="propertyItem_rootLayout_tag">rootLayout</string>
     <string name="propertyItem_isSavedButton_tag">isSavedButton</string>
     <string name="propertyItem_guaranteeButton_tag">guaranteeButton</string>
@@ -45,6 +47,52 @@
     <string name="selectCity_title">מיקום</string>
     <string name="selectCity_autoCompleteTextView_hint">איפה?</string>
     <string name="selectCity_autoCompleteTextView_hint_defaultItem">באזור שלי</string>
+
+    <string name="propertyDescription_root_textView_rentTitle">שכר דירה</string>
+    <string name="propertyDescription_root_textView_rentFee">₪ לחודש</string>
+    <string name="propertyDescription_root_button_text">המשך</string>
+    <string name="propertyDescription_root_attachments_title">הנכס</string>
+    <string name="propertyDescription_root_attachmentsExtended_title">על הנכס</string>
+    <string name="propertyDescription_root_payments_title">תשלומים שוטפים</string>
+    <string name="propertyDescription_root_paymentMethods_title">תשלום</string>
+    <string name="propertyDescription_root_comments_title">דברים שרואים משם</string>
+    <string name="propertyDescription_root_openDoorDates_title">תיאום פגישה</string>
+
+    <string name="propertyDescription_mainImage_buttonToGallery_text">גלריית תמונות</string>
+
+    <string name="propertyDescriptionPrice_monthly_textView"> לחודש</string>
+    <string name="propertyDescriptionPrice_dateOfEntrance_textView">תאריך כניסה</string>
+    <string name="propertyDescriptionPrice_rentalPeriod_textView">תקופת השכרה</string>
+    <string name="propertyDescriptionPrice_streetView_button_text">תצוגת רחוב</string>
+
+    <string name="propertyDescriptionPaymentMethods_or_textView">או</string>
+    <string name="propertyDescriptionPaymentMethods_date_textView">ב 1 לכל חודש</string>
+    <string name="propertyDescriptionPaymentMethods_cheque_textView">צ\'ק</string>
+    <string name="propertyDescriptionPaymentMethods_transfer_textView">העברה בנקאית</string>
+
+    <string name="propertyDescriptionComment_positive_title">טוב</string>
+    <string name="propertyDescriptionComment_negative_title">פחות טוב</string>
+
+    <!-- TODO check this translation -->
+    <string name="attach_parking">חניה</string>
+    <string name="attach_furnished">מרוהטת</string>
+    <string name="attach_electronics">מוצרי חשמל</string>
+    <string name="attach_renovated">משופצת</string>
+    <string name="attach_sunboiler">דוד שמש</string>
+    <string name="attach_elevator">מעלית</string>
+    <string name="attach_guard">שומר</string>
+    <string name="attach_bars">סורגים</string>
+    <string name="attach_warehouse">מחסן</string>
+    <string name="attach_sunterrace">מרפסת שמש</string>
+    <string name="attach_service_balcony">מרפסת שירות</string>
+    <string name="attach_garden">גינה</string>
+    <string name="attach_pool">בריכה</string>
+    <string name="attach_animals">ללא בעלי חיים</string>
+    <string name="attach_floor_heat">חימום תת רצפתי</string>
+    <string name="attach_all_included">הכל כלול</string>
+    <string name="attach_gym">חדר כושר</string>
+    <string name="attach_disabled_access">גישה חסומה</string>
+    <string name="attach_aps">APS</string>
 
     <string name="terms_of_use_label">תקנון</string>
     <string name="terms_of_use_text">לורם איפסום דולור סיט אמט, קונסקטורר אדיפיסינג

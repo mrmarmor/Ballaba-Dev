@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "593996381212",
+    "firebase_url": "https://ballaba-1d215.firebaseio.com",
+    "project_id": "ballaba-1d215",
+    "storage_bucket": "ballaba-1d215.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593996381212:android:45b949a0220291bf",
+        "android_client_info": {
+          "package_name": "com.example.michaelkibenko.ballaba"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "593996381212-r2mim5teunn35j6vd9lqcgbefqpulfn7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4ltdzDjZPhk_Pd20IFbr-M043EItp3Rw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

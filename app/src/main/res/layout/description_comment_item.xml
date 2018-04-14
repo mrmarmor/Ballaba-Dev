@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="@dimen/descriptionCommentItem_profileImage_margin"
+    android:layoutDirection="rtl">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/descriptionCommentItem_profileImage"
+        android:layout_width="@dimen/icon_big"
+        android:layout_height="@dimen/icon_big"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="@dimen/descriptionCommentItem_profileImage_margin" />
+
+    <TextView
+        android:id="@+id/descriptionCommentItem_name_textView"
+        style="@style/allWrapContent"
+        app:layout_constraintStart_toEndOf="@id/descriptionCommentItem_profileImage"
+        app:layout_constraintTop_toTopOf="@id/descriptionCommentItem_profileImage"
+        android:layout_marginStart="@dimen/descriptionCommentItem_name_marginStart"
+        android:layout_marginTop="@dimen/descriptionCommentItem_name_marginTop"
+        android:layout_marginBottom="@dimen/descriptionCommentItem_name_marginBottom"
+        android:textSize="@dimen/textSize_regular"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/descriptionCommentItem_positive_title"
+        style="@style/allWrapContent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/descriptionCommentItem_profileImage"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/descriptionCommentItem_profileImage_margin"
+        android:text="@string/propertyDescriptionComment_positive_title"
+        android:textSize="@dimen/textSize_regular"
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/descriptionCommentItem_positive_comments"
+        style="@style/allWrapContent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/descriptionCommentItem_positive_title"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        android:textSize="@dimen/textSize_regular"
+        android:textColor="@color/gray_text_color" />
+
+    <TextView
+        android:id="@+id/descriptionCommentItem_negative_title"
+        style="@style/allWrapContent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/descriptionCommentItem_positive_comments"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/descriptionCommentItem_profileImage_margin"
+        android:text="@string/propertyDescriptionComment_negative_title"
+        android:textSize="@dimen/textSize_regular"
+        android:textColor="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/descriptionCommentItem_negative_comments"
+        style="@style/allWrapContent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/descriptionCommentItem_negative_title"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginBottom="@dimen/descriptionCommentItem_profileImage_margin"
+        android:text="propertyDescriptionComment_positive_title"
+        android:textSize="@dimen/textSize_regular"
+        android:textColor="@color/gray_text_color" />
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="presenter"
+            type="com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter"/>
+    </data>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layoutDirection="rtl">
+
+        <TextView
+            android:id="@+id/propertyDescriptionPaymentMethods_title_textView"
+            style="@style/allWrapContent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:text="@string/propertyDescription_root_paymentMethods_title"
+            android:textSize="@dimen/textSize_big"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/propertyDescriptionPaymentMethods_date_textView"
+            style="@style/property_description_textViews"
+            app:layout_constraintStart_toStartOf="@id/propertyDescriptionPaymentMethods_title_textView"
+            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPaymentMethods_title_textView"
+            android:drawableStart="@drawable/date_blue_36"
+            android:text="@string/propertyDescriptionPaymentMethods_date_textView"/>
+
+        <TextView
+            android:id="@+id/propertyDescriptionPaymentMethods_cheque_textView"
+            style="@style/property_description_textViews"
+            app:layout_constraintStart_toStartOf="@id/propertyDescriptionPaymentMethods_title_textView"
+            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPaymentMethods_date_textView"
+            android:drawableStart="@drawable/check_blue_36"
+            android:text="@string/propertyDescriptionPaymentMethods_cheque_textView" />
+
+        <TextView
+            android:id="@+id/propertyDescriptionPaymentMethods_or_textView"
+            style="@style/property_description_textViews"
+            android:layout_width="@dimen/propertyDescription_attachments_leftAttachmentsOffset_start"
+            android:gravity="center"
+            app:layout_constraintStart_toEndOf="@id/propertyDescriptionPaymentMethods_cheque_textView"
+            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPaymentMethods_date_textView"
+            app:layout_constraintBottom_toBottomOf="@+id/propertyDescriptionPaymentMethods_cheque_textView"
+            android:text="@string/propertyDescriptionPaymentMethods_or_textView" />
+
+        <TextView
+            android:id="@+id/propertyDescriptionPaymentMethods_transfer_textView"
+            style="@style/property_description_textViews"
+            app:layout_constraintStart_toEndOf="@id/propertyDescriptionPaymentMethods_or_textView"
+            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPaymentMethods_date_textView"
+            android:drawableStart="@drawable/transfer_blue_36"
+            android:text="@string/propertyDescriptionPaymentMethods_transfer_textView" />
+
+        <ImageView
+            android:id="@+id/propertyDescriptionPaymentMethods_googleMap_imageView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/propertyDescription_googleMap_height"
+            app:layout_constraintStart_toStartOf="@id/propertyDescriptionPaymentMethods_title_textView"
+            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPaymentMethods_cheque_textView"
+            android:layout_marginTop="@dimen/activity_vertical_margin" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

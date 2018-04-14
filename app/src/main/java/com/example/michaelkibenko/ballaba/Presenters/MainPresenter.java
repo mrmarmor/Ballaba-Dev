@@ -186,7 +186,6 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                 //TODO save the search object here and start request
                 filterStateUIChanger(FilterState.NO_FILTER);
                 getPropertiesByAddressAndFilter(citiesResults);
-
             }
         });
 
