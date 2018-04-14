@@ -30,6 +30,8 @@ public class PriceFragment extends Fragment {
 
     private Context context;
     private FilterResultEntity filterResults;
+    private CrystalRangeSeekbar rangeSeekbar;
+    private TextView tvMin, tvMax;
 
     public PriceFragment() {}
 
@@ -62,14 +64,14 @@ public class PriceFragment extends Fragment {
 
     private void initSeekBar(View v){
         // get seekbar from view
-        final CrystalRangeSeekbar rangeSeekbar = v.findViewById(R.id.mainActivity_filter_price_slider);
+        rangeSeekbar = v.findViewById(R.id.mainActivity_filter_price_slider);
         rangeSeekbar.setMaxValue(Float.parseFloat(priceMax));
         rangeSeekbar.setMinValue(Float.parseFloat(priceMin));
 
 
 // get min and max text view
-        final TextView tvMin = v.findViewById(R.id.mainActivity_filter_price_textView_min);
-        final TextView tvMax = v.findViewById(R.id.mainActivity_filter_price_textView_max);
+        tvMin = v.findViewById(R.id.mainActivity_filter_price_textView_min);
+        tvMax = v.findViewById(R.id.mainActivity_filter_price_textView_max);
 
         tvMin.setText(priceMin);
         tvMax.setText(priceMax);
@@ -103,5 +105,14 @@ public class PriceFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
+    }
+
+    public void updateRangeBar(String from, String to){
+        priceMin = from;
+        priceMax = to;
+        rangeSeekbar.setMinValue(Float.parseFloat(priceMin));
+        rangeSeekbar.setMaxValue(Float.parseFloat(priceMax));
+        tvMin.setText(priceMin);
+        tvMax.setText(priceMax);
     }
 }

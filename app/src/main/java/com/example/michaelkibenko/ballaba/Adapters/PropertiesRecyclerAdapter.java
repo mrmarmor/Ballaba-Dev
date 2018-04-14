@@ -87,10 +87,6 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         res = mContext.getResources();
 
         propertiesManager = BallabaSearchPropertiesManager.getInstance(mContext);
-        ////mInflater = LayoutInflater.from(mContext);
-        ////firstRootView = mInflater.inflate(R.layout.property_item_single_in_a_row, parent, false);
-        //parent_layout = (LinearLayout)view.findViewById(R.id.single_Property_parent);
-
         return new ViewHolder(binder);//firstRootView);
     }
 
@@ -98,14 +94,6 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     public void onBindViewHolder(final PropertiesRecyclerAdapter.ViewHolder holder, final int position) {
         Log.d(TAG, properties.size()+":"+position);
         final BallabaPropertyResult property = properties.get(position);
-
-//        RequestOptions options = new RequestOptions();
-//        options.centerCrop();
-//        if (property.photos.size() > 0)
-//            Glide.with(mContext)
-//                .load(property.photos.get(0))
-//                .apply(options)
-//                .into(binder.propertyItemImageView);
         PropertiesPhotosViewPagerAdapter propertiesPhotosViewPagerAdapter = new PropertiesPhotosViewPagerAdapter(fragmentManager, generateImageFragments(property.photos));
         holder.binder.propertyItemImageView.setId(position+propertiesPhotosViewPagerAdapter.hashCode());
         holder.binder.propertyItemImageView.setCurrentItem(property.photos.size()/2);
@@ -134,7 +122,7 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         //TODO get offset properties from server:
         //ConnectionsManager.getInstance(this).getConfigRequest
         if (position == (properties.size() - (/*OFFSET*/20 / 2))){
-            lazyLoading(properties.size());
+            lazyLoading();
         }
 
         holder.binder.getRoot().setOnClickListener(new View.OnClickListener() {
@@ -190,9 +178,8 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         }
     }
 
-    private void lazyLoading(int offset){
-        BallabaSearchPropertiesManager.getInstance(mContext).getPropertiesByLatLng(null, offset
-                , BallabaSearchPropertiesManager.LAZY_LOADING_OFFSET_STATES.AFTER_20, new BallabaResponseListener() {
+    private void lazyLoading(){
+        BallabaSearchPropertiesManager.getInstance(mContext).getLazyLoadingResults(new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 ArrayList<BallabaPropertyResult> properties =

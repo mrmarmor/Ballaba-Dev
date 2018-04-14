@@ -80,45 +80,42 @@ public class GooglePlacesAdapter extends ArrayAdapter<String> implements Filtera
         if (resultList.size() > index)
             return resultList.get(index);
         else
-            return null;
+            return "";
     }
 
     private ArrayList<String> autoComplete(final String INPUT, final @Nullable @GooglePlacesFilter String FILTER) {
         //ArrayList<String> resultList = null;
-        ArrayList<String> descriptionList = null;
+            ArrayList<String> descriptionList = null;
 
-        StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
-        sb.append("?key=" + apiKey);
-        sb.append(FILTER);
-        sb.append("&components=country:IL");//TODO set locale for another countries
-        try {
-            sb.append("&input=" + URLEncoder.encode(INPUT, "utf8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        StringBuilder jsonResults = ConnectionsManager.getInstance(context).apiRequest(sb);
-
-        try {
-            JSONObject jsonObj = new JSONObject(jsonResults.toString());
-            JSONArray jsonArray = jsonObj.getJSONArray("predictions");
-
-            resultList = new ArrayList(jsonArray.length());
-            descriptionList = new ArrayList(jsonArray.length());
-            for (int i = 0; i < jsonArray.length(); i++) {
-                resultList.add(jsonArray.getJSONObject(i).toString());
-                descriptionList.add(jsonArray.getJSONObject(i).getString("description"));
+            StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
+            sb.append("?key=" + apiKey);
+            sb.append(FILTER);
+            sb.append("&components=country:IL");//TODO set locale for another countries
+            try {
+                sb.append("&input=" + URLEncoder.encode(INPUT, "utf8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
             }
-        } catch (JSONException e) {
-            Log.e(TAG, "Cannot process JSON results", e);
-        }
 
-        return descriptionList;
+            StringBuilder jsonResults = ConnectionsManager.getInstance(context).apiRequest(sb);
+            try {
+                JSONObject jsonObj = new JSONObject(jsonResults.toString());
+                JSONArray jsonArray = jsonObj.getJSONArray("predictions");
+
+                resultList = new ArrayList(jsonArray.length());
+                descriptionList = new ArrayList(jsonArray.length());
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    resultList.add(jsonArray.getJSONObject(i).toString());
+                    descriptionList.add(jsonArray.getJSONObject(i).getString("description"));
+                }
+            } catch (JSONException e) {
+                Log.e(TAG, "Cannot process JSON results", e);
+            }
+            return descriptionList;
     }
 
     @Override
     public Filter getFilter() {
-        Log.d(TAG, apiKey);
         final Filter filter = new Filter() {
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {

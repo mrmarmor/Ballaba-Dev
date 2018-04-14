@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.os.UserManager;
 import android.text.LoginFilter;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -32,6 +33,7 @@ import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolde
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -42,6 +44,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -241,6 +244,7 @@ public class ConnectionsManager{
     }
 
     public void getRandomProperties(final BallabaResponseListener callback){
+        BallabaSearchPropertiesManager.getInstance(context).setCurrentSearchEndpoint(EndpointsHolder.PROPERTY);
         StringRequest stringRequest = new StringRequest(GET, EndpointsHolder.PROPERTY,
                 new Response.Listener<String>() {
                     @Override
@@ -278,9 +282,12 @@ public class ConnectionsManager{
 
     }
 
-    public void getPropertyByLatLng(final String PARAMS, final BallabaResponseListener callback, int offset){
+    public void getPropertyByLatLng(final LatLng latLng, final BallabaResponseListener callback){
+        String params = "?latlong=" + latLng.latitude + "," + latLng.longitude;
+        String endpoint = EndpointsHolder.PROPERTY + params;
+        BallabaSearchPropertiesManager.getInstance(context).setCurrentSearchEndpoint(endpoint);
         StringRequest stringRequest = new StringRequest(GET
-                , EndpointsHolder.PROPERTY + PARAMS, new Response.Listener<String>() {
+                , endpoint, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 BallabaOkResponse okResponse = new BallabaOkResponse();
@@ -320,8 +327,10 @@ public class ConnectionsManager{
         String SW = "?SW="+bounds.southwest.latitude+","+bounds.southwest.longitude;
         String NE = "&NE="+bounds.northeast.latitude+","+bounds.northeast.longitude;
         String limit = "&limit="+Integer.MAX_VALUE;
+        String endpoint = EndpointsHolder.PROPERTY+SW+NE+limit;
+        BallabaSearchPropertiesManager.getInstance(context).setCurrentSearchEndpoint(endpoint);
         StringRequest stringRequest = new StringRequest(GET
-                , EndpointsHolder.PROPERTY+SW+NE+limit, new Response.Listener<String>() {
+                , endpoint, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 BallabaOkResponse okResponse = new BallabaOkResponse();
@@ -481,6 +490,7 @@ public class ConnectionsManager{
         String queryFilter = filterStringBuilder.toString();
         String queryAdresses = stringBuilder.toString();
         String queryUrl = EndpointsHolder.PROPERTY_BY_ADDRESS+queryAdresses+queryFilter;
+        BallabaSearchPropertiesManager.getInstance(context).setCurrentSearchEndpoint(queryUrl);
         StringRequest getByAddress = new StringRequest(GET, queryUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -516,6 +526,46 @@ public class ConnectionsManager{
         queue.add(getByAddress);
     }
 
+    public void lazyLoading(final BallabaResponseListener callback){
+        int size = BallabaSearchPropertiesManager.getInstance(context).getResults().size();
+        String queryUrl = BallabaSearchPropertiesManager.getInstance(context).getCurrentSearchEndpoint()+"&offset="+size;
+        if(queryUrl != null) {
+            StringRequest lazyloading = new StringRequest(GET, queryUrl, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    BallabaOkResponse okResponse = new BallabaOkResponse();
+                    okResponse.setBody(response);
+                    callback.resolve(okResponse);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (error.networkResponse != null) {
+                        callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                    } else {
+                        Log.e(TAG, error + "\n" + error.getMessage());
+                        callback.reject(new BallabaErrorResponse(500, null));
+                    }
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
+                    params.put("session_token", BallabaUserManager.getInstance().getUserSesionToken());
+                    return params;
+                }
+            };
+
+            lazyloading.setRetryPolicy(new DefaultRetryPolicy(
+                    0,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+            queue.add(lazyloading);
+        }
+    }
+
     public StringBuilder apiRequest(StringBuilder sb) {
         HttpURLConnection conn = null;
         StringBuilder jsonResults = new StringBuilder();
@@ -533,7 +583,6 @@ public class ConnectionsManager{
             Log.d(TAG, "request result: " + jsonResults);
         } catch(
                 IOException e)
-
         {
             Log.e(TAG, "Error connecting to Places API", e);
             return null;

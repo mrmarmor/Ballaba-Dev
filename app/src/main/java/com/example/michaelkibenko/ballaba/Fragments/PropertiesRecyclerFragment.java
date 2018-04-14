@@ -175,7 +175,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
                     if (location != null) {
                         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
                         BallabaSearchPropertiesManager.getInstance(context).getPropertiesByLatLng(
-                            latLng, 0, BallabaSearchPropertiesManager.LAZY_LOADING_OFFSET_STATES.FIRST_20, listener);
+                            latLng, listener);
                     }
                 }
                 @Override

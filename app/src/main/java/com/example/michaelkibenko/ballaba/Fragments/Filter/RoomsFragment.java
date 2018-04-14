@@ -27,6 +27,8 @@ public class RoomsFragment extends Fragment {
     private Context context;
     private String roomsMin, roomsMax;
     private FilterResultEntity filterResults;
+    private CrystalRangeSeekbar rangeSeekbar;
+    private TextView tvMin, tvMax;
 
     public RoomsFragment() {
         // Required empty public constructor
@@ -59,13 +61,13 @@ public class RoomsFragment extends Fragment {
 
     private void initSeekBar(View v){
         // get seekbar from view
-        final CrystalRangeSeekbar rangeSeekbar = v.findViewById(R.id.mainActivity_filter_rooms_slider);
+        rangeSeekbar = v.findViewById(R.id.mainActivity_filter_rooms_slider);
         rangeSeekbar.setMinValue(Float.parseFloat(roomsMin));
         rangeSeekbar.setMaxValue(Float.parseFloat(roomsMax));
 
 // get min and max text view
-        final TextView tvMin = v.findViewById(R.id.mainActivity_filter_rooms_textView_min);
-        final TextView tvMax = v.findViewById(R.id.mainActivity_filter_rooms_textView_max);
+        tvMin = v.findViewById(R.id.mainActivity_filter_rooms_textView_min);
+        tvMax = v.findViewById(R.id.mainActivity_filter_rooms_textView_max);
         tvMin.setText(String.valueOf(roomsMin));
         tvMax.setText(String.valueOf(roomsMax));
 
@@ -111,6 +113,15 @@ public class RoomsFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
+    }
+
+    public void updateRangeBar(String from, String to){
+        roomsMin = from;
+        roomsMax = to;
+        rangeSeekbar.setMinValue(Float.parseFloat(roomsMin));
+        rangeSeekbar.setMaxValue(Float.parseFloat(roomsMax));
+        tvMin.setText(roomsMin);
+        tvMax.setText(roomsMax);
     }
 
 }

@@ -9,6 +9,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
+import com.example.michaelkibenko.ballaba.Entities.FilterDimensions;
 import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -19,8 +20,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import static com.example.michaelkibenko.ballaba.Activities.SplashActivity.FLOW_TYPES.AUTHENTICATED;
-import static com.example.michaelkibenko.ballaba.Activities.SplashActivity.FLOW_TYPES.NEED_AUTHENTICATION;
 import static com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager.LAZY_LOADING_OFFSET_STATES.AFTER_20;
 import static com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager.LAZY_LOADING_OFFSET_STATES.FIRST_20;
 
@@ -39,6 +38,9 @@ public class BallabaSearchPropertiesManager {
     private static BallabaSearchPropertiesManager instance;
     private Context context;
     private ArrayList<BallabaPropertyResult> results;
+    private FilterDimensions filterDimensions;
+    private String currentSearchEndpoint;
+
 
     public static BallabaSearchPropertiesManager getInstance(Context context) {
         if(instance == null){
@@ -103,11 +105,8 @@ public class BallabaSearchPropertiesManager {
         });
     }
 
-    public void getPropertiesByLatLng(final LatLng latLng, final int offset
-            , @LAZY_LOADING_OFFSET_STATES int state, final BallabaResponseListener callback){
-
-        final String PARAMS = lazyLoadingStatesChanger(state, latLng, offset);
-        ConnectionsManager.getInstance(context).getPropertyByLatLng(PARAMS, new BallabaResponseListener() {
+    public void getPropertiesByLatLng(final LatLng latLng, final BallabaResponseListener callback){
+        ConnectionsManager.getInstance(context).getPropertyByLatLng(latLng,new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 if(entity instanceof BallabaOkResponse){
@@ -129,7 +128,7 @@ public class BallabaSearchPropertiesManager {
             public void reject(BallabaBaseEntity entity) {
                 callback.reject(entity);
             }
-        }, offset);
+        });
     }
 
     public void getPropertiesByViewPort(LatLngBounds bounds, final BallabaResponseListener callback){
@@ -152,15 +151,20 @@ public class BallabaSearchPropertiesManager {
         });
     }
 
-    private String lazyLoadingStatesChanger(final @LAZY_LOADING_OFFSET_STATES int state
-            , final LatLng latLng, final int offset){
-        if (state == FIRST_20){
-            return "?latlong=" + latLng.latitude + "," + latLng.longitude;
-        } else if (state == AFTER_20){
-            return "?offset=" + offset;
-        }
+    public void getPropertiesByAddressAndFilter(ArrayList<String> cities, FilterResultEntity filterResult, BallabaResponseListener callback){
+        ConnectionsManager.getInstance(context).getPropertyByAddress(cities, filterResult, callback);
+    }
 
-        return null;
+    public void getLazyLoadingResults(BallabaResponseListener callback){
+        ConnectionsManager.getInstance(context).lazyLoading(callback);
+    }
+
+    public String getCurrentSearchEndpoint() {
+        return currentSearchEndpoint;
+    }
+
+    public void setCurrentSearchEndpoint(String currentSearchEndpoint) {
+        this.currentSearchEndpoint = currentSearchEndpoint;
     }
 
     public BallabaPropertyResult getPropertyById(@Nullable ArrayList<BallabaPropertyResult> target, String id){
@@ -177,8 +181,23 @@ public class BallabaSearchPropertiesManager {
         return null;
     }
 
-    public void getPropertyByAddress(ArrayList<String> adresses, FilterResultEntity filterResult){
+    public FilterDimensions parseFilterDimens(String result){
+        try{
+            JSONObject jsonObject = new JSONObject(result);
+            String max_price = jsonObject.getString("max_price");
+            String min_price = jsonObject.getString("min_price");
+            String max_size = jsonObject.getString("max_size");
+            String min_size = jsonObject.getString("min_size");
+            String max_rooms = jsonObject.getString("max_rooms");
+            String min_rooms = jsonObject.getString("min_rooms");
 
+            FilterDimensions filterDimensions = new FilterDimensions(max_price, min_price, max_size, min_size, max_rooms, min_rooms);
+            this.filterDimensions = filterDimensions;
+            return filterDimensions;
+        }catch (JSONException ex){
+            ex.printStackTrace();
+        }
+        return null;
     }
 
     public ArrayList<BallabaPropertyResult> parsePropertyResults(String result){
@@ -197,7 +216,7 @@ public class BallabaSearchPropertiesManager {
                 String rentPeriod = res.getString("rent_period");
                 String numberOfPayments = res.getString("no_of_payments");
                 JSONArray photosJsonArray = res.getJSONArray("photos");
-                ArrayList<String> photos = new ArrayList<>();
+                ArrayList<String> photos  = new ArrayList<>();
                 if (photosJsonArray != null) {
                     int len = photosJsonArray.length();
                     for (int g=0;g<len;g++){

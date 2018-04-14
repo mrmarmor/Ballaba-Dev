@@ -29,6 +29,9 @@ public class SizeFragment extends Fragment {
     private String sizeMin, sizeMax;
     private FilterResultEntity filterResults;
 
+    private CrystalRangeSeekbar rangeSeekbar;
+    private TextView tvMin, tvMax;
+
     public SizeFragment() {
         // Required empty public constructor
     }
@@ -62,13 +65,13 @@ public class SizeFragment extends Fragment {
 
     private void initSeekBar(View v){
         // get seekbar from view
-        final CrystalRangeSeekbar rangeSeekbar = v.findViewById(R.id.mainActivity_filter_size_slider);
+        rangeSeekbar = v.findViewById(R.id.mainActivity_filter_size_slider);
         rangeSeekbar.setMinValue(Float.parseFloat(sizeMin));
         rangeSeekbar.setMaxValue(Float.parseFloat(sizeMax));
 
 // get min and max text view
-        final TextView tvMin = v.findViewById(R.id.mainActivity_filter_size_textView_min);
-        final TextView tvMax = v.findViewById(R.id.mainActivity_filter_size_textView_max);
+        tvMin = v.findViewById(R.id.mainActivity_filter_size_textView_min);
+        tvMax = v.findViewById(R.id.mainActivity_filter_size_textView_max);
 
         tvMin.setText(sizeMin);
         tvMax.setText(sizeMax);
@@ -125,4 +128,12 @@ public class SizeFragment extends Fragment {
         }
     }
 
+    public void updateRangeBar(String from, String to){
+        sizeMin = from;
+        sizeMax = to;
+        rangeSeekbar.setMinValue(Float.parseFloat(sizeMin));
+        rangeSeekbar.setMaxValue(Float.parseFloat(sizeMax));
+        tvMin.setText(sizeMin);
+        tvMax.setText(sizeMax);
+    }
 }

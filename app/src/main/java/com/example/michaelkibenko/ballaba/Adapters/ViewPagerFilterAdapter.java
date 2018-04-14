@@ -1,31 +1,21 @@
 package com.example.michaelkibenko.ballaba.Adapters;
 
 import android.content.Context;
-import android.net.Uri;
 import android.support.annotation.IdRes;
-import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
-import android.support.constraint.ConstraintSet;
-import android.support.constraint.Guideline;
-import android.support.transition.AutoTransition;
-import android.support.transition.TransitionManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.Button;
 
-import com.example.michaelkibenko.ballaba.Common.BallabaFragmentListener;
-import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
+import com.example.michaelkibenko.ballaba.Entities.FilterDimensions;
 import com.example.michaelkibenko.ballaba.Fragments.Filter.AttachmentsFragment;
 import com.example.michaelkibenko.ballaba.Fragments.Filter.DateOfEntranceFragment;
 import com.example.michaelkibenko.ballaba.Fragments.Filter.PriceFragment;
 import com.example.michaelkibenko.ballaba.Fragments.Filter.RoomsFragment;
 import com.example.michaelkibenko.ballaba.Fragments.Filter.SizeFragment;
-import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
@@ -44,6 +34,7 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
     public SizeFragment sizeFragment;
     public AttachmentsFragment attachmnetsFragment;
     public DateOfEntranceFragment dateOfEntranceFragment;
+    private FilterDimensions filterDimensions;
     private int previousPageIndex = 0;
     //private int previousPage;
 
@@ -56,15 +47,15 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
             R.id.mainActivity_filterButtons_divider_attachments, R.id.mainActivity_filterButtons_divider_size,
             R.id.mainActivity_filterButtons_divider_rooms, R.id.mainActivity_filterButtons_divider_price};
 
-    public ViewPagerFilterAdapter(Context context, ActivityMainLayoutBinding binder, FragmentManager fm) {
+    public ViewPagerFilterAdapter(Context context, ActivityMainLayoutBinding binder, FragmentManager fm, FilterDimensions filterDimensions) {
         super(fm);
-
         this.context = context;
         this.binder = binder;
         this.fm = fm;
-        priceFragment = PriceFragment.newInstance("2500", "5400");
-        roomsFragment = RoomsFragment.newInstance("2", "15");
-        sizeFragment = SizeFragment.newInstance("20", "150");
+        this.filterDimensions = filterDimensions;
+        priceFragment = PriceFragment.newInstance(this.filterDimensions.getMin_price(), this.filterDimensions.getMax_price());
+        roomsFragment = RoomsFragment.newInstance(this.filterDimensions.getMin_rooms(), this.filterDimensions.getMax_rooms());
+        sizeFragment = SizeFragment.newInstance(this.filterDimensions.getMin_size(), this.filterDimensions.getMax_size());
         attachmnetsFragment = AttachmentsFragment.newInstance();
         dateOfEntranceFragment = DateOfEntranceFragment.newInstance();
         //binder.mainActivityFilterRoot.mainActivityFilterPriceButton
@@ -83,7 +74,6 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
 
             case 1:
                 return attachmnetsFragment;
-
 
             case 2:
                 return sizeFragment;
@@ -130,9 +120,13 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
     @Override
     public void onClick(View v) {
         int position = Integer.parseInt(v.getTag().toString());
-        Log.d("tag", position+":"+
-                binder.mainActivityFilterIncluded.mainActivityFilterViewPager.getCurrentItem());
         binder.mainActivityFilterIncluded.mainActivityFilterViewPager.setCurrentItem(position);
         onFilterButtonsStateChange(position);
+    }
+
+    public void updateFilterDimensions(FilterDimensions filterDimensions){
+        sizeFragment.updateRangeBar(filterDimensions.getMin_size(), filterDimensions.getMax_size());
+        priceFragment.updateRangeBar(filterDimensions.getMin_price(), filterDimensions.getMax_price());
+        roomsFragment.updateRangeBar(filterDimensions.getMin_rooms(), filterDimensions.getMax_rooms());
     }
 }
