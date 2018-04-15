@@ -30,6 +30,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPhoneNumber;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
@@ -179,7 +180,19 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
                         BallabaUserManager.getInstance().setUser(user);
                         SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.GLOBAL_TOKEN, user.getGlobal_token());
                         UiUtils.instance(true, context).hideSoftKeyboard(binder.getRoot());
-                        getProperties();
+                        binder.enterCodeProgress.setVisibility(View.VISIBLE);
+                        ConnectionsManager.getInstance(context).getAttachmentsAddonsConfig(new BallabaResponseListener() {
+                            @Override
+                            public void resolve(BallabaBaseEntity entity) {
+                                PropertyAttachmentsAddonsHolder.getInstance().parseAttachmentsAddonsResponse(((BallabaOkResponse)entity).body);
+                                getProperties();
+                            }
+
+                            @Override
+                            public void reject(BallabaBaseEntity entity) {
+                                Log.e(TAG, entity.toString());
+                            }
+                        });
                     }
                 }
 
@@ -200,7 +213,6 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
     }
 
     private void getProperties(){
-        binder.enterCodeProgress.setVisibility(View.VISIBLE);
         BallabaSearchPropertiesManager.getInstance(context).getRandomProperties(new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
