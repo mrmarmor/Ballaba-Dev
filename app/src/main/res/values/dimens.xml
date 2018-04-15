@@ -185,4 +185,8 @@
     <dimen name="descriptionCommentItem_name_marginBottom">8dp</dimen>
     <dimen name="descriptionCommentItem_name_marginStart">10dp</dimen>
 
+    <dimen name="property_gallery_item_width_linear">328dp</dimen>
+    <dimen name="property_gallery_item_height_linear">190dp</dimen>
+    <dimen name="property_gallery_item_size_grid">100dp</dimen>
+
 </resources>

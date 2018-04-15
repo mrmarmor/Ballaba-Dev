@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BindingAdapter;
+import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
+import com.example.michaelkibenko.ballaba.Activities.PropertyGalleryActivity;
 import com.example.michaelkibenko.ballaba.Adapters.AttachmentsRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.Adapters.DescCommentAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
@@ -68,6 +70,7 @@ public class PropertyDescriptionPresenter {
     //private PropertyDescriptionImageBinding binderImage;
     private Intent propertyIntent;
     private BallabaResponseListener listener;
+    private BallabaPropertyFull propertyFull;
 
     public PropertyDescriptionPresenter(Context context, ActivityPropertyDescriptionBinding binding){
         this.activity = (Activity)context;
@@ -89,6 +92,13 @@ public class PropertyDescriptionPresenter {
 
         fetchDataFromServer(propertyIntent.getStringExtra(PropertyDescriptionActivity.PROPERTY));
         ImageView imageFrame = binder.propertyDescriptionImage.propertyDescriptionMainImage;//findViewById(R.id.propertyDescription_mainImage);
+        binder.propertyDescriptionImage.goToGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickToGallery();
+            }
+        });
+
 
         Glide.with(activity)
                 .load(propertyIntent.getStringExtra(PROPERTY_IMAGE))
@@ -101,7 +111,7 @@ public class PropertyDescriptionPresenter {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 if(entity instanceof BallabaOkResponse){
-                    BallabaPropertyFull propertyFull = BallabaSearchPropertiesManager
+                    propertyFull = BallabaSearchPropertiesManager
                             .getInstance(activity).parsePropertiesFull(((BallabaOkResponse)entity).body);
 
                     Log.d(TAG, "properties: " + propertyFull.formattedAddress+":"+propertyFull.street);
@@ -304,7 +314,14 @@ public class PropertyDescriptionPresenter {
     }
 
     public void onClickToGallery(){
-        Toast.makeText(activity, "to gallery", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(activity, PropertyGalleryActivity.class);
+        ArrayList<String> photos = new ArrayList<>();
+        //TODO add sorting
+        for (HashMap<String, String> hash : propertyFull.photos) {
+            photos.add(hash.get("photo_url"));
+        }
+        intent.putStringArrayListExtra(PropertyGalleryActivity.PHOTOS_EXTRAS_KEY, photos);
+        activity.startActivity(intent);
     }
 
     public void onClickToStreetView(){

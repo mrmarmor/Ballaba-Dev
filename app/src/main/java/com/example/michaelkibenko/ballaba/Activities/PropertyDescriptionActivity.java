@@ -11,6 +11,8 @@ import com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresente
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityPropertyDescriptionBinding;
 
+import java.util.ArrayList;
+
 public class PropertyDescriptionActivity extends BaseActivity {
 
     public static final String PROPERTY = "Prop";

@@ -60,6 +60,8 @@
 
         <activity android:name=".Activities.PropertyDescriptionActivity"/>
 
+        <activity android:name=".Activities.PropertyGalleryActivity"/>
+
         <!-- RECEIVERS -->
         <receiver
             android:name=".Activities.EnterCodeActivity$BallabaSMSReceiver"

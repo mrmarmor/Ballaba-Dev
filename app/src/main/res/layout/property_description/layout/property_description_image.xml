@@ -60,6 +60,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <Button
+        android:id="@+id/goToGallery"
         android:layout_width="@dimen/propertyDescription_mainImage_buttonToGallery_width"
         android:layout_height="@dimen/propertyDescription_mainImage_buttonToGallery_height"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -69,7 +70,7 @@
         android:textSize="@dimen/textSize_regular"
         android:gravity="bottom|center"
         android:drawableStart="@drawable/gallery_black_24"
-        android:onClick="@{() -> presenter.onClickToGallery()}" />
+        />
 
 </android.support.constraint.ConstraintLayout>
 </layout>
