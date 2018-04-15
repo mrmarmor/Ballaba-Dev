@@ -12,6 +12,7 @@ import android.os.SystemClock;
 import android.support.annotation.IntDef;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -65,7 +66,7 @@ import static com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment.PR
  * Created by michaelkibenko on 08/03/2018.
  */
 
-public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, LocationListener , GoogleMap.OnCameraMoveStartedListener,
+public class BallabaMapFragment extends DialogFragment implements OnMapReadyCallback, LocationListener , GoogleMap.OnCameraMoveStartedListener,
         GoogleMap.OnCameraMoveListener,
         GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraIdleListener ,GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener{
 

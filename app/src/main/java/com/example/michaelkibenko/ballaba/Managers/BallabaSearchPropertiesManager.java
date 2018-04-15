@@ -428,23 +428,23 @@ public class BallabaSearchPropertiesManager {
             PropertyDescriptionComment.User user = parseUser(jsonObject.getJSONObject("user"));
 
             ArrayList<HashMap<String, String>> positive = new ArrayList<>();
-            HashMap<String, String> map = new HashMap<>();
+            HashMap<String, String> posMap = new HashMap<>();
             JSONArray positiveArr = jsonObject.getJSONArray("positive");
             if (positiveArr != null){
                 for (int j = 0; j < positiveArr.length(); j++){
                     Log.d(TAG, positiveArr.getJSONObject(j).getString("content"));
-                    map.put("content", heb.formattedHebrew(positiveArr.getJSONObject(j).getString("content")));
-                    positive.add(map);
+                    posMap.put("content", heb.formattedHebrew(positiveArr.getJSONObject(j).getString("content")));
+                    positive.add(posMap);
                 }
             }
 
-            map.clear();
+            HashMap<String, String> negMap = new HashMap<>();
             ArrayList<HashMap<String, String>> negative = new ArrayList<>();
             JSONArray negativeArr = jsonObject.getJSONArray("negative");
             if (negativeArr != null){
                 for (int j = 0; j < negativeArr.length(); j++){
-                    map.put("content", heb.formattedHebrew(negativeArr.getJSONObject(j).getString("content")));
-                    negative.add(map);
+                    negMap.put("content", heb.formattedHebrew(negativeArr.getJSONObject(j).getString("content")));
+                    negative.add(negMap);
                 }
             }
 

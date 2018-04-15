@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentActivity;
 
 import com.example.michaelkibenko.ballaba.Fragments.PropertyImageFragment;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
@@ -11,7 +12,7 @@ import com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresente
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityPropertyDescriptionBinding;
 
-public class PropertyDescriptionActivity extends BaseActivity {
+public class PropertyDescriptionActivity extends FragmentActivity {
 
     public static final String PROPERTY = "Prop";
 

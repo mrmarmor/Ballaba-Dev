@@ -1,11 +1,16 @@
 package com.example.michaelkibenko.ballaba.Presenters;
 
-import android.app.Activity;
+import android.app.Dialog;
+import android.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.FragmentActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.BindingAdapter;
 import android.graphics.Rect;
 import android.support.annotation.ColorInt;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,6 +18,9 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -22,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Adapters.AttachmentsRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.Adapters.DescCommentAdapter;
+import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
@@ -29,6 +38,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachment;
 import com.example.michaelkibenko.ballaba.Entities.PropertyDescriptionComment;
+import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
 import com.example.michaelkibenko.ballaba.Fragments.PropertyImageFragment;
 import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
@@ -45,7 +55,14 @@ import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionImageBi
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPaymentMethodsBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPaymentsBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPriceBinding;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -55,11 +72,11 @@ import java.util.HashMap;
  * Created by User on 08/04/2018.
  */
 
-public class PropertyDescriptionPresenter {
+public class PropertyDescriptionPresenter extends FragmentActivity{
     private final String TAG = PropertyDescriptionPresenter.class.getSimpleName();
     public static final String PROPERTY_IMAGE = "Prop_image";
 
-    private Activity activity;
+    private FragmentActivity activity;
     private ActivityPropertyDescriptionBinding binder;
     private PropertyDescriptionPriceBinding binderPrice;
     private PropertyDescriptionAttachmentsBinding binderAttach;
@@ -72,7 +89,7 @@ public class PropertyDescriptionPresenter {
     private BallabaResponseListener listener;
 
     public PropertyDescriptionPresenter(Context context, ActivityPropertyDescriptionBinding binding){
-        this.activity = (Activity)context;
+        this.activity = (FragmentActivity)context;
         this.binder = binding;
 
         propertyIntent = activity.getIntent();
@@ -88,6 +105,8 @@ public class PropertyDescriptionPresenter {
         binderPay = binder.propertyDescriptionPayments;
         binderPayMethod = binder.propertyDescriptionPaymentMethods;
         binderComment = binder.propertyDescriptionComments;
+
+        buttons_setOnClickListeners();
 
         fetchDataFromServer(propertyIntent.getStringExtra(PropertyDescriptionActivity.PROPERTY));
         ImageView imageFrame = binder.propertyDescriptionImage.propertyDescriptionMainImage;//findViewById(R.id.propertyDescription_mainImage);
@@ -217,21 +236,23 @@ public class PropertyDescriptionPresenter {
             for (int i = 0; i < propertyPayments.size(); i++) {
                 TextView tv = getTextView(propertyPayments.get(i).get("payment_type"),
                     activity.getResources().getColor(R.color.black, activity.getTheme()));
-                binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i * 2);
+                binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i);
 
                 String formattedPrice = propertyPayments.get(i).get("price");
                 tv = getTextView(String.format("%s%s", "₪", formattedPrice),
                     activity.getResources().getColor(R.color.colorAccent, activity.getTheme()));
-                binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i * 2);
+                binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i);
 
+                //TODO TESTING
                 tv = getTextView(propertyPayments.get(i).get("payment_type"),
                         activity.getResources().getColor(R.color.black, activity.getTheme()));
-                binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i * 2 + 1);
+                binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i + 1);
 
                 formattedPrice = propertyPayments.get(i).get("price");
-                tv = getTextView(String.format("%s%s", formattedPrice, "₪"),
+                tv = getTextView(String.format("%s%s", "₪", formattedPrice),
                         activity.getResources().getColor(R.color.colorAccent, activity.getTheme()));
-                binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i * 2 + 1);
+                binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i + 1);
+                //TODO END OF TESTING
 
                 /*TextView tv = new TextView(activity);
                 String formattedPrice = propertyPayments.get(i).get("price");
@@ -292,6 +313,100 @@ public class PropertyDescriptionPresenter {
         }
     }
 
+    private void buttons_setOnClickListeners(){
+        binderPrice.propertyDescriptionPriceToStreetViewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(activity, "streetview", Toast.LENGTH_SHORT).show();
+            }
+        });
+        binder.propertyDescriptionImage.propertyDescriptionMainImageButtonToGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(activity, "gallery", Toast.LENGTH_SHORT).show();
+            }
+        });
+        binderPayMethod.propertyDescriptionPaymentMethodsGoogleMapImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //if (!isFinishing() && !activity.isDestroyed()) {
+
+                    final BallabaMapFragment dialog = BallabaMapFragment.newInstance();
+                    View view = dialog.getLayoutInflater().inflate(R.layout.fragment_map, null);
+                    //dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                    /////make map clear
+                    //dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+
+                    //dialog.setContentView(R.layout.fragment_map);////your custom content
+
+                    MapView mMapView = (MapView) view.findViewById(R.id.mapView);
+                    MapsInitializer.initialize(activity);
+
+                    mMapView.onCreate(null);
+                    mMapView.onResume();
+
+                    mMapView.getMapAsync(new OnMapReadyCallback() {
+                        @Override
+                        public void onMapReady(final GoogleMap googleMap) {
+                            LatLng posisiabsen = new LatLng(32.109333, 34.855499); ////your lat lng
+                            googleMap.addMarker(new MarkerOptions().position(posisiabsen).title("Yout title"));
+                            googleMap.moveCamera(CameraUpdateFactory.newLatLng(posisiabsen));
+                            googleMap.getUiSettings().setZoomControlsEnabled(true);
+                            googleMap.animateCamera(CameraUpdateFactory.zoomTo(15), 2000, null);
+                        }
+                    });
+
+                    //dialog.create();
+                    dialog.show(getSupportFragmentManager(), "2");
+                    /*Button dialogButton = (Button) dialog.findViewById(R.id.btn_tutup);
+// if button is clicked, close the custom dialog
+                    dialogButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });*/
+
+                    /*BallabaMapFragment mapFragment = BallabaMapFragment.newInstance();
+                    FragmentTransaction ft = getSupportFragmentManager()
+                            .beginTransaction();
+
+                    BallabaDialogBuilder.MapDialog mapDialog = new BallabaDialogBuilder.MapDialog();
+                    mapDialog.show(ft, "DialogFragment");
+                    Log.d(TAG, mapFragment.getActivity()+"");
+                    ft.add(mapFragment, "2");
+                    ft.commit();
+                    ft.show(mapFragment);*/
+                //}
+
+                /*FragmentManager fm = getSupportFragmentManager();
+                // Show DialogFragment
+                //mapFragment.show(fm, "Dialog Fragment");
+
+                DialogFragment dialogFragment = new DialogFragment();
+                dialogFragment.setTargetFragment(mapFragment, 1);
+
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.attach(dialogFragment);
+                //FragmentManager fm = activity.getSupportFragmentManager();
+                //android.app.FragmentManager fm1 = activity.getFragmentManager();
+                //dialogFragment.show(fm, 2);
+
+                //DialogFragment newFragment = MyDialogFragment.newInstance(mStackLevel);
+                //dialogFragment.show(ft, "dialog");
+
+                BallabaDialogBuilder dialogBuilder = new BallabaDialogBuilder(activity);
+                dialogBuilder.setFragment(activity, dialogFragment, R.layout.fragment_map).show();
+          */      Toast.makeText(activity, "googlemap", Toast.LENGTH_SHORT).show();
+            }
+        });
+        binder.propertyDescriptionPrice.propertyDescriptionPriceToStreetViewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(activity, "to street view", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
     //@BindingAdapter("bind:addView")
    /* private ViewGroup addView(ViewGroup container, TextView textView, final int INDEX) {
         container.addView(textView, INDEX);

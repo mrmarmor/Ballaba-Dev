@@ -11,6 +11,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/propertyRecyclerView_background_white"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layoutDirection="rtl">
 
         <TextView
@@ -60,6 +62,7 @@
             app:layout_constraintTop_toBottomOf="@id/propertyDescriptionAttachments_numberOfRooms_textView"
             android:layout_marginStart="@dimen/propertyDescription_attachments_leftAttachmentsOffset_start"
             android:layout_marginTop="@dimen/propertyDescription_attachments_bottomAttachmentsOffset_top"
+            android:paddingBottom="@dimen/activity_vertical_margin"
             android:drawableStart="@drawable/toilet_blue_36" />
 
 </android.support.constraint.ConstraintLayout>

@@ -9,8 +9,7 @@
     </data>
 
 <android.support.constraint.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/allMatchParent"
      android:layoutDirection="rtl">
 
     <ImageView
@@ -60,6 +59,7 @@
     </android.support.constraint.ConstraintLayout>
 
     <Button
+        android:id="@+id/propertyDescription_mainImage_buttonToGallery"
         android:layout_width="@dimen/propertyDescription_mainImage_buttonToGallery_width"
         android:layout_height="@dimen/propertyDescription_mainImage_buttonToGallery_height"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -68,8 +68,8 @@
         android:text="@string/propertyDescription_mainImage_buttonToGallery_text"
         android:textSize="@dimen/textSize_regular"
         android:gravity="bottom|center"
-        android:drawableStart="@drawable/gallery_black_24"
-        android:onClick="@{() -> presenter.onClickToGallery()}" />
+        android:alpha="@integer/propertyDescription_buttonToGallery_alpha"
+        android:drawableStart="@drawable/gallery_black_24" />
 
 </android.support.constraint.ConstraintLayout>
 </layout>
