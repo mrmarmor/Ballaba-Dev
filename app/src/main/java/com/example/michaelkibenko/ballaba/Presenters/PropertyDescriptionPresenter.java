@@ -9,6 +9,7 @@ import android.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.transition.Visibility;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -64,10 +66,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
+import com.google.android.gms.maps.StreetViewPanorama;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.StreetViewPanoramaLocation;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
@@ -79,7 +84,7 @@ import static java.sql.Types.NULL;
  * Created by User on 08/04/2018.
  */
 
-public class PropertyDescriptionPresenter {
+public class PropertyDescriptionPresenter implements View.OnClickListener{
     private final String TAG = PropertyDescriptionPresenter.class.getSimpleName();
     public static final String PROPERTY_IMAGE = "Prop_image";
 
@@ -96,6 +101,7 @@ public class PropertyDescriptionPresenter {
     private Intent propertyIntent;
     private BallabaMapFragment mapFragment;
     private LatLng propertyLatLng;
+    private StreetViewPanorama panorama;
 
     public PropertyDescriptionPresenter(Context context, ActivityPropertyDescriptionBinding binding){
         this.activity = (FragmentActivity)context;
@@ -340,16 +346,18 @@ public class PropertyDescriptionPresenter {
             }
         });
 
-        binder.propertyDescriptionMapFragmentContainer.setOnClickListener(new View.OnClickListener() {
+        binder.propertyDescriptionMapFragmentContainer.setOnClickListener(this);
+        /*binder.propertyDescriptionMapFragmentContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setMapFullScreen();
             }
-        });
+        });*/
 
     }
 
     public void setMapFullScreen(){
+        //TODO states
         binder.propertyDescriptionMapFragmentContainer.setVisibility(View.GONE);
         binder.propertyDescriptionMapFragmentFullContainer.setVisibility(View.VISIBLE);
 
@@ -375,6 +383,20 @@ public class PropertyDescriptionPresenter {
     private void initStreetView(){
         final BallabaStreetViewfragment svFragment = BallabaStreetViewfragment.newInstance(propertyLatLng);
         //svFragment.getStreetViewPanoramaAsync(PropertyDescriptionActivity);
+
+        FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
+        //transaction.remove(mapFragment);
+        transaction.replace(binderPrice.propertyDescriptionPriceStreetViewContainer.getId(), svFragment);
+        //transaction.addToBackStack(null);
+        transaction.commit();
+        svFragment.getStreetViewPanoramaAsync(new OnStreetViewPanoramaReadyCallback() {
+            @Override
+            public void onStreetViewPanoramaReady(StreetViewPanorama streetViewPanorama) {
+                panorama = streetViewPanorama;
+                binderPrice.propertyDescriptionPriceToStreetViewButton.setVisibility(View.VISIBLE);
+            }
+        });
+
         svFragment.setResponseListener(new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
@@ -387,51 +409,32 @@ public class PropertyDescriptionPresenter {
     }
 
     private void buttons_setOnClickListeners(){
-
-        binderImage.propertyDescriptionMainImageToGalleryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(activity, "gallery", Toast.LENGTH_SHORT).show();
-            }
-        });
-        binderPrice.propertyDescriptionPriceToStreetViewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(activity, "streetview", Toast.LENGTH_SHORT).show();
-            }
-        });
+        binderImage.propertyDescriptionMainImageToGalleryButton.setOnClickListener(this);
+        binderPrice.propertyDescriptionPriceToStreetViewButton.setOnClickListener(this);
 
     }
-
-    //@BindingAdapter("bind:addView")
-   /* private ViewGroup addView(ViewGroup container, TextView textView, final int INDEX) {
-        container.addView(textView, INDEX);
-        return container;
-    }*/
-
-    /*public TextView getDynamicTextViews(String attachmentType) {
-        //TextView textView = new TextView(activity);
-        //textView.setText(attachmentType);
-
-        return new TextView(activity);
-    }*/
 
     public void onClickContinue(){
         Toast.makeText(activity, "continue", Toast.LENGTH_SHORT).show();
     }
 
-    public void onClickToStreetView(){
-        Toast.makeText(activity, "continue", Toast.LENGTH_SHORT).show();
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.propertyDescriptionPrice_toStreetView_button:
+                panorama.setPosition(propertyLatLng);
+
+                //TODO states
+                @Visibility.Mode int isStreetViewVisible = binderPrice.propertyDescriptionPriceStreetViewContainer.getVisibility();
+                binderPrice.propertyDescriptionPriceStreetViewContainer.setVisibility(
+                        isStreetViewVisible == View.GONE? View.VISIBLE:View.GONE);
+                Toast.makeText(activity, "street", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.propertyDescription_mapFragment_container:
+                setMapFullScreen();
+                break;
+        }
     }
 
-    /*@Override
-    public void onMapReady(GoogleMap mMap) {
-        //LatLng propertyPos = new LatLng(Float.parseFloat(propertyLat), Float.parseFloat(propertyLng));
-        Log.d(TAG, "map is ready. location is " + propertyPos);
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(propertyLatLng).zoom(15).build();
-        mMap.animateCamera(CameraUpdateFactory
-                .newCameraPosition(cameraPosition));
-    }*/
 }

@@ -459,7 +459,7 @@ public class BallabaSearchPropertiesManager {
                 }
             }
 
-            map.clear();
+            map = new HashMap<>();
             ArrayList<HashMap<String, String>> negative = new ArrayList<>();
             JSONArray negativeArr = jsonObject.getJSONArray("negative");
             if (negativeArr != null){
