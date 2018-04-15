@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 
 import com.example.michaelkibenko.ballaba.Fragments.PropertyImageFragment;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
@@ -28,5 +29,11 @@ public class PropertyDescriptionActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
 
+        binder.propertyDescriptionMapFragmentFullContainer.setVisibility(View.GONE);
+        binder.propertyDescriptionMapFragmentContainer.setVisibility(View.VISIBLE);
+    }
 }

@@ -40,6 +40,7 @@ import com.example.michaelkibenko.ballaba.Adapters.MapPropertiesRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.BallabaApplication;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
+import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
@@ -114,6 +115,7 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
     private LatLng location;
     private Context context;
     private boolean isFromPropertyDescription;
+    private BallabaResponseListener responseListener;
 
     private @MAP_SAVE_CONTAINER_STATES int saveContainerState = MAP_SAVE_CONTAINER_STATES.OFF;
     private @PROPERTY_RECYCLER_VIEW_STATES int propertyRecyclerViewState = PROPERTY_RECYCLER_VIEW_STATES.ONE_ITEM;
@@ -215,6 +217,14 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
 
         initInsideResultsHash(BallabaSearchPropertiesManager.getInstance(context).getResults());
         updatePropertiesMarkers(insideResHash);
+
+        if(responseListener != null){
+            responseListener.resolve(new BallabaOkResponse());
+        }
+    }
+
+    public void setResponseListener(BallabaResponseListener responseListener){
+        this.responseListener = responseListener;
     }
 
     public void initInsideResultsHash(ArrayList<BallabaPropertyResult> arr){
@@ -480,4 +490,5 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
             Log.e(TAG, "google map is null");
         }
     }
+
 }
