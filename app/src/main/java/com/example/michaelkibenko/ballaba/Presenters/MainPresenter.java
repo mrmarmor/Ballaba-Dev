@@ -16,7 +16,6 @@ import android.support.constraint.ConstraintSet;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.transition.TransitionManager;
 import android.util.Log;
@@ -35,7 +34,6 @@ import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
 import com.example.michaelkibenko.ballaba.Adapters.ViewPagerFilterAdapter;
 import com.example.michaelkibenko.ballaba.Adapters.ViewPagerPropertiesAdapter;
-import com.example.michaelkibenko.ballaba.Common.BallabaSelectedCityListener;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
@@ -44,7 +42,6 @@ import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
-import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
@@ -78,6 +75,8 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
 
     public @interface FilterState { int NO_FILTER = 1; int MIDDLE_FILTER = 2; int FULL_FILTER = 3; }
 
+    public @interface ScreenState {int BEFORE_SEARCH = 555; int AFTER_SEARCH = 666;}
+
     private Context context;
     private FragmentManager fm;
     private ViewPager filterViewPager;
@@ -95,6 +94,8 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     public FilterResultEntity filterResult;
     private FilterDimensions filterDimensions;
     private ArrayList<String> citiesResults;
+    private @ScreenState int screenState;
+
 
     public MainPresenter(Context context, ActivityMainLayoutBinding binder, FragmentManager fm){
         this.binder = binder;
@@ -113,6 +114,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         initViewPagerProperties();
         //TODO to be added only when after user selected city
         initFilter();
+        changeScreenState(ScreenState.BEFORE_SEARCH);
     }
 
     private void initDrawer(){
@@ -133,6 +135,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     private void initViewPagerProperties(){
         propertiesPagerAdapter = new ViewPagerPropertiesAdapter(context, binder, fm, propertiesFragment);
         binder.mainActivityPropertiesViewPager.setAdapter(propertiesPagerAdapter);
+        binder.mainActivityPropertiesViewPager.setOffscreenPageLimit(2);
     }
 
     private void initFilter(){
@@ -143,7 +146,6 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         filterViewPager.setOffscreenPageLimit(5);
         binder.mainActivityFilterIncluded.mainActivityFilterRoot.setOnFocusChangeListener(this);//new View.OnFocusChangeListener() {
         binder.mainActivityFilterIncluded.mainActivityFilterRoot.requestFocus();
-        //binder.mainActivityFilterRoot.clearFocus();
         binder.mainActivityFilterIncluded.mainActivityFilterRoot.setFocusableInTouchMode(true);
         filterViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -286,6 +288,22 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         getPropertiesByAddressAndFilter(cities);
     }
 
+    private void changeScreenState(@ScreenState int screenState){
+        if(this.screenState != screenState) {
+            this.screenState = screenState;
+            if (this.screenState == ScreenState.BEFORE_SEARCH){
+                binder.mainActivitySortButtonsLinearLayout.setVisibility(View.GONE);
+                binder.openFilterButton.setVisibility(View.GONE);
+            }
+            else if (this.screenState == ScreenState.AFTER_SEARCH){
+                binder.mainActivitySortButtonsLinearLayout.setVisibility(View.VISIBLE);
+                binder.openFilterButton.setVisibility(View.VISIBLE);
+            }
+        }else{
+            Log.e(TAG, "ScreenState is equals");
+        }
+    }
+
     private void getPropertiesByAddressAndFilter(ArrayList<String> cities){
         BallabaSearchPropertiesManager.getInstance(context).getPropertiesByAddressAndFilter(cities, filterResult, new BallabaResponseListener() {
             @Override
@@ -297,6 +315,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                     searchPropertiesManager.appendProperties(result, false);
                     propertiesPagerAdapter.getPropertiesRecyclerFragment().refreshPropertiesRecycler();
                     updateFilterDimensions(filterDimensions);
+                    changeScreenState(ScreenState.AFTER_SEARCH);
                 }
             }
 
@@ -316,12 +335,12 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         if (state == FilterState.NO_FILTER){
             set.clone(noFilterTransition);
             set.constrainHeight(R.id.mainActivity_filter_included, binder.mainActivityFilterIncluded.getRoot().getHeight());
-            binder.propertiesRecyclerFloatingButton.setVisibility(View.VISIBLE);
+            binder.openFilterButton.setVisibility(View.VISIBLE);
             binder.mainActivityBottomAnchor.setBackgroundColor(context.getResources().getColor(android.R.color.transparent, context.getTheme()));
         } else if (state == FilterState.MIDDLE_FILTER){
             set.clone(filterTransition);
             set.constrainHeight(R.id.mainActivity_filter_included, (int)middleFilterHeight);
-            binder.propertiesRecyclerFloatingButton.setVisibility(View.GONE);
+            binder.openFilterButton.setVisibility(View.GONE);
             binder.mainActivityBottomAnchor.setBackgroundColor(context.getResources().getColor(R.color.colorAccent, context.getTheme()));
         }else if(state == FilterState.FULL_FILTER){
             set.clone(filterTransition);

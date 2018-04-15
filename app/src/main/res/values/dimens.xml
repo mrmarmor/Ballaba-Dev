@@ -109,6 +109,7 @@
     <dimen name="propertyItem_bottomStrip_address_and_rooms_textView_textSize">13sp</dimen>
 
     <dimen name="mainActivity_RecyclerView_margin_top">64dp</dimen>
+    <dimen name="mainActivity_RecyclerView_margin_top_more">140dp</dimen>
     <dimen name="mainActivity_toMapIcon_margin_end">15dp</dimen>
     <dimen name="mainActivity_toMapIcon_margin_top_bottom">12dp</dimen>
     <dimen name="mainActivity_searchIcon_dimens">17.5dp</dimen>
