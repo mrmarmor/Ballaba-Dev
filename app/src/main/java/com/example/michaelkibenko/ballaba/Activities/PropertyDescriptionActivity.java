@@ -16,7 +16,7 @@ public class PropertyDescriptionActivity extends BaseActivity {
     public static final String PROPERTY = "Prop";
 
     private ActivityPropertyDescriptionBinding binder;
-    private PropertyDescriptionPresenter presenter;
+    public PropertyDescriptionPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

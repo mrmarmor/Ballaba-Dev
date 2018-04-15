@@ -64,6 +64,13 @@
                     android:layout_marginBottom="@dimen/activity_vertical_margin" />
                 <View style="@style/divider_gray" />
 
+                <FrameLayout
+                    android:id="@+id/propertyDescription_mapFragment_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/propertyDescription_googleMap_height"
+                    android:background="@android:color/transparent"
+                    />
+
                 <include
                     android:id="@+id/property_description_comments"
                     layout="@layout/property_description_comments"
@@ -77,7 +84,14 @@
                     android:layout_height="wrap_content" />
             </LinearLayout>
 
+
         </ScrollView>
+
+        <FrameLayout
+            android:id="@+id/propertyDescription_mapFragment_full_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"/>
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
@@ -121,6 +135,5 @@
                 android:onClick="@{() -> presenter.onClickContinue()}" />
 
         </android.support.constraint.ConstraintLayout>
-
     </android.support.constraint.ConstraintLayout>
 </layout>

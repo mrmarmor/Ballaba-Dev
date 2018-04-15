@@ -80,6 +80,7 @@
         android:textColor="@color/colorAccent" />
     
     <Button
+        android:id="@+id/propertyDescriptionPrice_toStreetView_button"
         android:layout_width="@dimen/propertyDescription_price_buttonToStreetView_width"
         android:layout_height="@dimen/propertyDescription_price_buttonToStreetView_height"
         app:layout_constraintEnd_toEndOf="parent"
@@ -87,8 +88,7 @@
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:text="@string/propertyDescriptionPrice_streetView_button_text"
         android:textColor="@color/colorPrimary"
-        android:background="@drawable/button_with_blue_border"
-        android:onClick="@{() -> presenter.onClickToStreetView()}"/>
+        android:background="@drawable/button_with_blue_border" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/propertyDescriptionPrice_landlordProfileImage"
