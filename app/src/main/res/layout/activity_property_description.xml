@@ -12,11 +12,12 @@
         style="@style/allMatchParent" android:layoutDirection="rtl">
 
          <ScrollView
-            style="@style/allMatchParent"
-            android:orientation="vertical">
+            style="@style/allMatchParent" android:orientation="vertical">
 
             <android.support.constraint.ConstraintLayout
-                style="@style/allWrapContent" android:orientation="vertical">
+                style="@style/allWrapContent"
+                android:orientation="vertical"
+                android:background="@color/gray_button_color">
 
                 <include
                     android:id="@+id/property_description_image"
@@ -44,9 +45,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/property_description_price"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin" />
-                <View style="@style/divider_gray" />
+                    app:layout_constraintTop_toBottomOf="@id/property_description_price" />
+                <View style="@style/divider_gray"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/property_description_attachments"/>
 
                 <include
                     android:id="@+id/property_description_attachments_extended"
@@ -58,7 +60,7 @@
                     android:layout_marginBottom="@dimen/activity_vertical_margin" />
                 <View style="@style/divider_gray"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/property_description_attachments"/>
+                    app:layout_constraintTop_toBottomOf="@id/property_description_attachments_extended"/>
 
                 <include
                     android:id="@+id/property_description_payments"
@@ -70,7 +72,7 @@
                     android:layout_marginBottom="@dimen/activity_vertical_margin" />
                 <View style="@style/divider_gray"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/property_description_attachments_extended" />
+                    app:layout_constraintTop_toBottomOf="@id/property_description_payments" />
 
                 <include
                     android:id="@+id/property_description_payment_methods"
@@ -82,14 +84,15 @@
                     android:layout_marginBottom="@dimen/activity_vertical_margin" />
                 <View style="@style/divider_gray"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/property_description_payments" />
+                    app:layout_constraintTop_toBottomOf="@id/property_description_payment_methods" />
 
                 <FrameLayout
                     android:id="@+id/propertyDescription_mapFragment_container"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/propertyDescription_googleMap_height"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/property_description_payment_methods" />
+                    app:layout_constraintTop_toBottomOf="@id/property_description_payment_methods"
+                    android:layout_marginTop="@dimen/activity_vertical_margin" />
 
                 <include
                     android:id="@+id/property_description_comments"
@@ -113,7 +116,8 @@
         <FrameLayout
             android:id="@+id/propertyDescription_mapFragment_full_container"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" android:visibility="gone"
+            android:layout_height="match_parent"
+            android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />
 
@@ -126,8 +130,8 @@
 
             <TextView
                 android:id="@+id/propertyDescription_root_textView_rentTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -137,8 +141,8 @@
                 tools:text="@string/propertyDescription_root_textView_rentTitle" />
             <TextView
                 android:id="@+id/propertyDescription_root_textView_rentFee"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/propertyDescription_root_textView_rentTitle"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"

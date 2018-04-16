@@ -170,7 +170,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener{
         String baths = String.format("%s %s", propertyFull.bathrooms, activity.getString(R.string.propertyItem_bathtub));
         String toilets = String.format("%s %s", propertyFull.toilets, activity.getString(R.string.propertyItem_toilets));
 
-        binderPrice.propertyDescriptionPricePriceTextView.setText(String.format("%s %s", "₪", price));
+        binderPrice.propertyDescriptionPricePriceTextView.setText(String.format("%s%s", price, "₪"));
         binderPrice.propertyDescriptionPriceAddressTextView.setText(propertyFull.formattedAddress);
         binderPrice.propertyDescriptionPriceDateOfEntranceTextView.setText(propertyFull.entry_date);
         binderPrice.propertyDescriptionPriceRentalPeriodTextView.setText(propertyFull.rentPeriod);
@@ -266,14 +266,16 @@ public class PropertyDescriptionPresenter implements View.OnClickListener{
                         activity.getResources().getColor(R.color.colorAccent, activity.getTheme()));
                 binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i * 2);
 
-                tv = getTextView(propertyPayments.get(i).get("payment_type"),
+                //TODO TESTING
+                /*tv = getTextView(propertyPayments.get(i).get("payment_type"),
                         activity.getResources().getColor(R.color.black, activity.getTheme()));
                 binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i * 2 + 1);
 
                 formattedPrice = propertyPayments.get(i).get("price");
-                tv = getTextView(String.format("%s%s", formattedPrice, "₪"),
+                tv = getTextView(String.format("%s%s", "₪", formattedPrice),
                         activity.getResources().getColor(R.color.colorAccent, activity.getTheme()));
-                binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i * 2 + 1);
+                binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i * 2 + 1);*/
+                //TODO END OF TESTING
 
                 /*TextView tv = new TextView(activity);
                 String formattedPrice = propertyPayments.get(i).get("price");
@@ -382,13 +384,11 @@ public class PropertyDescriptionPresenter implements View.OnClickListener{
 
     private void initStreetView(){
         final BallabaStreetViewfragment svFragment = BallabaStreetViewfragment.newInstance(propertyLatLng);
-        //svFragment.getStreetViewPanoramaAsync(PropertyDescriptionActivity);
 
         FragmentTransaction transaction = activity.getSupportFragmentManager().beginTransaction();
-        //transaction.remove(mapFragment);
         transaction.replace(binderPrice.propertyDescriptionPriceStreetViewContainer.getId(), svFragment);
-        //transaction.addToBackStack(null);
         transaction.commit();
+
         svFragment.getStreetViewPanoramaAsync(new OnStreetViewPanoramaReadyCallback() {
             @Override
             public void onStreetViewPanoramaReady(StreetViewPanorama streetViewPanorama) {

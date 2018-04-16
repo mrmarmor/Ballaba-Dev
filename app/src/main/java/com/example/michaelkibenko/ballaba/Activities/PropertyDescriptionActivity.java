@@ -33,6 +33,7 @@ public class PropertyDescriptionActivity extends BaseActivity {
     public void onBackPressed() {
         super.onBackPressed();
 
+        //TODO states
         binder.propertyDescriptionMapFragmentFullContainer.setVisibility(View.GONE);
         binder.propertyDescriptionMapFragmentContainer.setVisibility(View.VISIBLE);
     }

@@ -28,8 +28,10 @@ public class StringUtils {
     }
 
     public String formattedNumberWithComma(String number){
-        for (int i = number.length() % 3; i < number.length() - 2 ; i += 3){
-            number = new StringBuilder(number).insert(i, ",").toString();
+        if (number.length() > 3) {
+            for (int i = number.length() % 3; i < number.length() - 2; i += 3) {
+                number = new StringBuilder(number).insert(i, ",").toString();
+            }
         }
 
         return number;
