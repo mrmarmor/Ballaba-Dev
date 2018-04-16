@@ -63,6 +63,7 @@
             android:layout_height="28dp"
             app:layout_constraintStart_toStartOf="parent"
             android:background="@drawable/virtual_reality_blue_"
+            android:clickable="false"
             />
 
         <TextView
@@ -74,6 +75,7 @@
             app:layout_constraintTop_toTopOf="@+id/turtualTourImageButton"
             app:layout_constraintBottom_toBottomOf="@+id/turtualTourImageButton"
             android:layout_marginStart="3dp"
+            android:clickable="false"
             />
     </android.support.constraint.ConstraintLayout>
 
@@ -134,11 +136,11 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:zoomage_minScale="1"
+            app:zoomage_minScale="0.5"
             app:zoomage_maxScale="10"
             app:zoomage_restrictBounds="false"
             app:zoomage_animateOnReset="true"
-            app:zoomage_autoResetMode="ALWAYS"
+            app:zoomage_autoResetMode="UNDER"
             app:zoomage_autoCenter="true"
             app:zoomage_zoomable="true"
             app:zoomage_translatable="true"
