@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,7 +13,7 @@ import java.util.HashMap;
  * Created by User on 13/03/2018.
  */
 
-public class BallabaPropertyFull /*extends BallabaPropertyResult*/ {
+public class BallabaPropertyFull extends BallabaBaseEntity implements Serializable {
     private BallabaPropertyFull instance;
     private Context context;
 

@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent">
         
         <ImageButton
-            android:id="@+id/galleryGridWhite"
+            android:id="@+id/galleryChangeViewType"
             android:layout_width="24dp"
             android:layout_height="24dp"
             app:layout_constraintTop_toTopOf="parent"
@@ -30,7 +30,6 @@
             android:layout_height="wrap_content"
             android:textAlignment="textStart"
             android:textSize="20sp"
-            android:textStyle="bold"
             android:textColor="@android:color/white"
             android:text="גלריית תמונות"
             app:layout_constraintTop_toTopOf="parent"
@@ -57,11 +56,13 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="30dp"
         android:layout_marginStart="16dp">
+
         <ImageButton
             android:id="@+id/turtualTourImageButton"
             android:layout_width="40dp"
             android:layout_height="28dp"
             app:layout_constraintStart_toStartOf="parent"
+            android:background="@drawable/virtual_reality_blue_"
             />
 
         <TextView
@@ -86,6 +87,73 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="30dp"/>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/fullPhotoContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/background_dark"
+        android:layoutDirection="rtl"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/galleryTopToolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/close_button"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="18dp"
+            android:background="@drawable/close_white_24"
+            android:layout_marginTop="20dp"
+            android:elevation="2dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="סגור"
+            app:layout_constraintTop_toTopOf="@+id/close_button"
+            app:layout_constraintBottom_toBottomOf="@+id/close_button"
+            app:layout_constraintStart_toEndOf="@+id/close_button"
+            android:textColor="@android:color/white"
+            android:layout_marginStart="5dp"
+            android:textAlignment="center"
+            android:elevation="2dp"
+            />
+
+        <com.jsibbold.zoomage.ZoomageView
+            android:id="@+id/photo_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:zoomage_minScale="1"
+            app:zoomage_maxScale="10"
+            app:zoomage_restrictBounds="false"
+            app:zoomage_animateOnReset="true"
+            app:zoomage_autoResetMode="ALWAYS"
+            app:zoomage_autoCenter="true"
+            app:zoomage_zoomable="true"
+            app:zoomage_translatable="true"
+            />
+
+        <ProgressBar
+            android:id="@+id/fullPhoto_progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="@+id/photo_container"
+            app:layout_constraintBottom_toBottomOf="@+id/photo_container"
+            app:layout_constraintStart_toStartOf="@+id/photo_container"
+            app:layout_constraintEnd_toEndOf="@+id/photo_container"/>
+
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/galleryTopToolbar"

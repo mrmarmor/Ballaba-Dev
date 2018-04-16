@@ -114,6 +114,8 @@ public class PropertyDescriptionPresenter {
                     propertyFull = BallabaSearchPropertiesManager
                             .getInstance(activity).parsePropertiesFull(((BallabaOkResponse)entity).body);
 
+                    BallabaSearchPropertiesManager.getInstance(activity).setPropertyFull(propertyFull);
+
                     Log.d(TAG, "properties: " + propertyFull.formattedAddress+":"+propertyFull.street);
 
                     displayDataOnScreen(propertyFull);
@@ -315,12 +317,6 @@ public class PropertyDescriptionPresenter {
 
     public void onClickToGallery(){
         Intent intent = new Intent(activity, PropertyGalleryActivity.class);
-        ArrayList<String> photos = new ArrayList<>();
-        //TODO add sorting
-        for (HashMap<String, String> hash : propertyFull.photos) {
-            photos.add(hash.get("photo_url"));
-        }
-        intent.putStringArrayListExtra(PropertyGalleryActivity.PHOTOS_EXTRAS_KEY, photos);
         activity.startActivity(intent);
     }
 

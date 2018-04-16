@@ -48,6 +48,7 @@ public class BallabaSearchPropertiesManager {
     private ArrayList<BallabaPropertyResult> results;
     private FilterDimensions filterDimensions;
     private String currentSearchEndpoint;
+    private BallabaPropertyFull propertyFull;
 
 
     public static BallabaSearchPropertiesManager getInstance(Context context) {
@@ -73,6 +74,14 @@ public class BallabaSearchPropertiesManager {
 
         return locations;
 
+    }
+
+    public BallabaPropertyFull getPropertyFull() {
+        return propertyFull;
+    }
+
+    public void setPropertyFull(BallabaPropertyFull propertyFull) {
+        this.propertyFull = propertyFull;
     }
 
     public int getResultsCount(){

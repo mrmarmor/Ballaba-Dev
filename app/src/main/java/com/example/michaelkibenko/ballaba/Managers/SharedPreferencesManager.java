@@ -88,4 +88,12 @@ public class SharedPreferencesManager {
         BallabaUser user = new Gson().fromJson(json, BallabaUser.class);
         return user == null? userDef : user;
     }
+
+    public boolean putGalleryViewType(String viewType){
+        return putString(SharedPreferencesKeysHolder.GALLERY_VIEWTYPE,viewType);
+    }
+
+    public String getGalleryViewType(String defaultValue){
+        return getString(SharedPreferencesKeysHolder.GALLERY_VIEWTYPE,defaultValue);
+    }
 }
