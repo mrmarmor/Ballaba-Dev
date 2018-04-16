@@ -343,8 +343,8 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
 
     private void buttons_setOnClickListeners(){
         binderImage.propertyDescriptionMainImageToGalleryButton.setOnClickListener(this);
-        binderPrice.propertyDescriptionPriceToStreetViewButton.setOnClickListener(this);
-
+        binderPrice.propertyDescriptionPriceToVirtualTourButton.setOnClickListener(this);
+        binder.propertyDescriptionRootToStreetViewButton.setOnClickListener(this);
     }
 
     public void onClickContinue(){
@@ -363,7 +363,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         intent.putExtra(PROPERTY_LATLNG_EXTRA, propertyLatLng.latitude+","+propertyLatLng.longitude);
 
         switch (v.getId()){
-            case R.id.propertyDescriptionPrice_toStreetView_button:
+            case R.id.propertyDescription_root_toStreetView_button:
                 intent.putExtra(FRAGMENT_NAME, BallabaStreetViewFragment.TAG);
 
                 //TODO states
@@ -376,6 +376,9 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
             case R.id.propertyDescription_mapFragment_container:
                 intent.putExtra(FRAGMENT_NAME, BallabaMapFragment.TAG);
                 break;
+
+            case R.id.propertyDescriptionPrice_toVirtualTour_button:
+                Toast.makeText(activity, "virtual tour", Toast.LENGTH_SHORT).show();
         }
 
         activity.startActivity(intent);
