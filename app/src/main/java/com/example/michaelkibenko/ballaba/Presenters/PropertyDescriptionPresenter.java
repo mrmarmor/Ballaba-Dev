@@ -52,9 +52,7 @@ import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
-import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityPropertyDescriptionBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionAttachmentsBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionAttachmentsExtendedBinding;
@@ -63,25 +61,12 @@ import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionImageBi
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPaymentMethodsBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPaymentsBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPriceBinding;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
 import com.google.android.gms.maps.StreetViewPanorama;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.StreetViewPanoramaLocation;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import static java.sql.Types.NULL;
-
 /**
  * Created by User on 08/04/2018.
  */
@@ -196,7 +181,6 @@ public class PropertyDescriptionPresenter implements View.OnClickListener{
             Glide.with(activity)
                     .load(propertyFull.landlords.get(0).get("profile_image"))
                     .into(binderPrice.propertyDescriptionPriceLandlordProfileImage);
-
         }
 
         binderAttach.propertyDescriptionAttachmentsNumberOfRoomsTextView.setText(rooms);
@@ -360,13 +344,6 @@ public class PropertyDescriptionPresenter implements View.OnClickListener{
         });
 
         binder.propertyDescriptionMapFragmentContainer.setOnClickListener(this);
-        /*binder.propertyDescriptionMapFragmentContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setMapFullScreen();
-            }
-        });*/
-
     }
 
     public void setMapFullScreen(){
@@ -422,9 +399,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener{
     }
 
     private void buttons_setOnClickListeners(){
-        binderImage.goToGallery.setOnClickListener(this);
         binderPrice.propertyDescriptionPriceToStreetViewButton.setOnClickListener(this);
-
     }
 
     public void onClickContinue(){

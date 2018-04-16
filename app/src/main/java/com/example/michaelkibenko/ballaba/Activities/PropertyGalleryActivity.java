@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 import com.example.michaelkibenko.ballaba.Adapters.PropertyGalleryRecyclerViewAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
@@ -110,7 +111,9 @@ public class PropertyGalleryActivity extends BaseActivity {
 
     public void showPhotoFullScreen(String photoUrl){
         binding.fullPhotoContainer.setVisibility(View.VISIBLE);
-        Glide.with(this).load(photoUrl).listener(new RequestListener<Drawable>() {
+        RequestOptions options = new RequestOptions();
+        options.fitCenter();
+        Glide.with(this).load(photoUrl).apply(options).listener(new RequestListener<Drawable>() {
             @Override
             public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                 //TODO set x icon
