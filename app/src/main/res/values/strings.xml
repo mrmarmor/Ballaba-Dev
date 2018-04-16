@@ -96,6 +96,12 @@
     <string name="attach_disabled_access">גישה חסומה</string>
     <string name="attach_aps">APS</string>
 
+    <string name="underwriting_welcome_title">שאלון חיתום</string>
+    <string name="underwriting_welcome_description">הסבר למשתמש מה זה חיתום ולמה צריך
+אותו, מה ייצא לו מלבצע את החיתום                 </string>
+    <string name="underwriting_welcome_ok_button">המשך לחיתום</string>
+    <string name="underwriting_welcome_cancel_button">לא, תודה</string>
+
     <string name="terms_of_use_label">תקנון</string>
     <string name="terms_of_use_text">לורם איפסום דולור סיט אמט, קונסקטורר אדיפיסינג
 אלית נולום ארווס סאפיאן - פוסיליס קוויס, אקווזמן קוואזי
@@ -185,9 +191,6 @@
     <string name="saveMapSearch_topTxt">שירות שמירת אזור</string>
     <string name="saveMapSearch_bottomTxt">לקלת התראות על דירה חדשה</string>
     <string name="saveMapSearch_BTN_Txt">שמירה</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="flexible_calendar_checkbox_text">גמיש/ה בתאריך כניסה (7 ימים +-)</string>
 

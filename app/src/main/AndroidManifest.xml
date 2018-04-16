@@ -62,7 +62,8 @@
             android:name=".Activities.EnterCodeActivity$BallabaSMSReceiver"
             android:exported="true" />
 
-        <activity android:name=".Activities.StreetAndMapBoard"></activity>
+        <activity android:name=".Activities.StreetAndMapBoard" />
+        <activity android:name=".Activities.Underwriting.UnderwritingWelcomeActivity"></activity>
     </application>
 
 </manifest>

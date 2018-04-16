@@ -140,18 +140,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />-->
 
-        <Button
-            android:id="@+id/propertyDescription_root_button_next"
-            style="@style/AppButton"
-            app:layout_constraintTop_toTopOf="@id/propertyDescription_root_bottom_container"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="@dimen/saveMapSearch_start_offset"
-            android:layout_marginTop="@dimen/saveMapSearch_top_offset"
-            android:layout_marginBottom="@dimen/saveMapSearch_top_offset"
-            android:text="@string/propertyDescription_root_button_text"
-            android:background="@android:color/white"
-            android:onClick="@{() -> presenter.onClickContinue()}" />
-
         <View
             android:id="@+id/propertyDescription_root_bottom_container"
             android:layout_width="match_parent"
@@ -208,7 +196,17 @@
             android:textStyle="bold"
             tools:text="@string/propertyDescription_root_textView_rentFee" />-->
 
-
+        <Button
+            android:id="@+id/propertyDescription_root_button_next"
+            style="@style/AppButton"
+            app:layout_constraintTop_toTopOf="@id/propertyDescription_root_bottom_container"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="@dimen/saveMapSearch_start_offset"
+            android:layout_marginTop="@dimen/saveMapSearch_top_offset"
+            android:layout_marginBottom="@dimen/saveMapSearch_top_offset"
+            android:text="@string/propertyDescription_root_button_text"
+            android:background="@android:color/white"
+            android:onClick="@{() -> presenter.onClickContinue()}" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>
