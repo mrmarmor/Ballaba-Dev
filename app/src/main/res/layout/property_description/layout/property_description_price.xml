@@ -40,6 +40,7 @@
         app:layout_constraintStart_toStartOf="@id/propertyDescriptionPrice_price_textView"
         app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPrice_price_textView"
         android:textSize="@dimen/textSize_small"
+        android:paddingBottom="@dimen/small_margin"
         android:textColor="@color/gray_text_color"/>
 
     <TextView
@@ -79,17 +80,27 @@
         app:layout_constraintTop_toTopOf="@id/propertyDescriptionPrice_rentalPeriodTitle_textView"
         android:textSize="@dimen/textSize_regular"
         android:textColor="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/propertyDescriptionPrice_rentalPeriodMonthly_textView"
+        style="@style/allWrapContent"
+        app:layout_constraintStart_toEndOf="@id/propertyDescriptionPrice_rentalPeriod_textView"
+        app:layout_constraintTop_toTopOf="@id/propertyDescriptionPrice_rentalPeriodTitle_textView"
+        android:layout_marginStart="@dimen/small_margin"
+        android:text="@string/propertyDescriptionPrice_rentalPeriodMonthly_textView"
+        android:textSize="@dimen/textSize_regular"
+        android:textColor="@color/colorAccent"
+        android:fontFamily="@font/rubik_regular"/>
     
     <Button
-        android:id="@+id/propertyDescriptionPrice_toStreetView_button"
+        android:id="@+id/propertyDescriptionPrice_toVirtualTour_button"
         android:layout_width="@dimen/propertyDescription_price_buttonToStreetView_width"
         android:layout_height="@dimen/propertyDescription_price_buttonToStreetView_height"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:text="@string/propertyDescriptionPrice_streetView_button_text"
+        android:text="@string/propertyDescriptionPrice_virtualTour_button"
         android:textColor="@color/colorPrimary"
-        android:visibility="gone"
         android:background="@drawable/button_with_blue_border" />
 
     <de.hdodenhof.circleimageview.CircleImageView

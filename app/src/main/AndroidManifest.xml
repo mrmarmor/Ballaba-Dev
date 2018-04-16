@@ -25,21 +25,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBF0dZnsnmBZ0Yuvyns6CX0bZwIK3jSGYA" />
 
         <activity
             android:name=".Activities.TestingActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Activities.SplashActivity"
             android:label="Splash" />
@@ -57,8 +55,7 @@
             android:name=".Activities.MainActivity"
             android:label="Search" />
         <activity android:name=".Activities.SelectCitySubActivity" />
-
-        <activity android:name=".Activities.PropertyDescriptionActivity"/>
+        <activity android:name=".Activities.PropertyDescriptionActivity" />
 
         <activity android:name=".Activities.PropertyGalleryActivity"/>
 
@@ -69,6 +66,7 @@
             android:name=".Activities.EnterCodeActivity$BallabaSMSReceiver"
             android:exported="true" />
 
+        <activity android:name=".Activities.StreetAndMapBoard"></activity>
     </application>
 
 </manifest>

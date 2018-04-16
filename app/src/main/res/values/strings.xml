@@ -57,13 +57,15 @@
     <string name="propertyDescription_root_paymentMethods_title">תשלום</string>
     <string name="propertyDescription_root_comments_title">דברים שרואים משם</string>
     <string name="propertyDescription_root_openDoorDates_title">תיאום פגישה</string>
+    <string name="propertyDescription_root_streetView_button">תצוגת רחוב</string>
 
     <string name="propertyDescription_mainImage_buttonToGallery_text">גלריית תמונות</string>
 
     <string name="propertyDescriptionPrice_monthly_textView"> לחודש</string>
     <string name="propertyDescriptionPrice_dateOfEntrance_textView">תאריך כניסה</string>
     <string name="propertyDescriptionPrice_rentalPeriod_textView">תקופת השכרה</string>
-    <string name="propertyDescriptionPrice_streetView_button_text">תצוגת רחוב</string>
+    <string name="propertyDescriptionPrice_rentalPeriodMonthly_textView">חודשים</string>
+    <string name="propertyDescriptionPrice_virtualTour_button">סיור וירטואלי</string>
 
     <string name="propertyDescriptionPaymentMethods_or_textView">או</string>
     <string name="propertyDescriptionPaymentMethods_date_textView">ב 1 לכל חודש</string>

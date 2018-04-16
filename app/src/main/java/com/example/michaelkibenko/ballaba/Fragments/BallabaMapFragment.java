@@ -92,7 +92,8 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
         int HIDE = 5;
     }
 
-    private static final String TAG = BallabaMapFragment.class.getSimpleName();
+    public static final String TAG = BallabaMapFragment.class.getSimpleName()
+            , PROPERTY_MAP_EXTRA = "property map extra";
 
     private static GoogleMap googleMap;
     private MapView mMapView;
@@ -257,7 +258,7 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
             hideSelectedAdress();
         }
         if(isFromPropertyDescription){
-            ((PropertyDescriptionActivity)context).presenter.setMapFullScreen();
+            //((PropertyDescriptionActivity)context).presenter.setMapFullScreen();
         }
     }
 

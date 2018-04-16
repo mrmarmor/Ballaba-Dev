@@ -31,11 +31,12 @@ public class PropertyDescriptionActivity extends BaseActivity {
 
     }
 
-    @Override
+    /*@Override
     public void onBackPressed() {
         super.onBackPressed();
 
-        binder.propertyDescriptionMapFragmentFullContainer.setVisibility(View.GONE);
-        binder.propertyDescriptionMapFragmentContainer.setVisibility(View.VISIBLE);
-    }
+        //TODO states
+        //binder.propertyDescriptionMapFragmentFullContainer.setVisibility(View.GONE);
+        //binder.propertyDescriptionMapFragmentContainer.setVisibility(View.VISIBLE);
+    }*/
 }
