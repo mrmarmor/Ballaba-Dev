@@ -63,6 +63,7 @@
     <string name="propertyDescriptionPrice_monthly_textView"> לחודש</string>
     <string name="propertyDescriptionPrice_dateOfEntrance_textView">תאריך כניסה</string>
     <string name="propertyDescriptionPrice_rentalPeriod_textView">תקופת השכרה</string>
+    <string name="propertyDescriptionPrice_rentalPeriodMonthly_textView">חודשים</string>
     <string name="propertyDescriptionPrice_streetView_button_text">תצוגת רחוב</string>
 
     <string name="propertyDescriptionPaymentMethods_or_textView">או</string>

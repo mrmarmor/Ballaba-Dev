@@ -80,6 +80,17 @@
         app:layout_constraintTop_toTopOf="@id/propertyDescriptionPrice_rentalPeriodTitle_textView"
         android:textSize="@dimen/textSize_regular"
         android:textColor="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/propertyDescriptionPrice_rentalPeriodMonthly_textView"
+        style="@style/allWrapContent"
+        app:layout_constraintStart_toEndOf="@id/propertyDescriptionPrice_rentalPeriod_textView"
+        app:layout_constraintTop_toTopOf="@id/propertyDescriptionPrice_rentalPeriodTitle_textView"
+        android:layout_marginStart="@dimen/small_margin"
+        android:text="@string/propertyDescriptionPrice_rentalPeriodMonthly_textView"
+        android:textSize="@dimen/textSize_regular"
+        android:textColor="@color/colorAccent"
+        android:fontFamily="@font/rubik_regular"/>
     
     <Button
         android:id="@+id/propertyDescriptionPrice_toStreetView_button"
@@ -90,7 +101,6 @@
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:text="@string/propertyDescriptionPrice_streetView_button_text"
         android:textColor="@color/colorPrimary"
-        android:visibility="gone"
         android:background="@drawable/button_with_blue_border" />
 
     <de.hdodenhof.circleimageview.CircleImageView
