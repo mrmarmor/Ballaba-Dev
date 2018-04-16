@@ -2,6 +2,7 @@ package com.example.michaelkibenko.ballaba.Activities;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
 import android.webkit.WebView;
 
 import com.example.michaelkibenko.ballaba.R;
@@ -14,6 +15,12 @@ public class VirtualTourActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.virtual_tour_activity_layout);
+        findViewById(R.id.close_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         WebView example = (WebView)findViewById(R.id.exampleWebView);
         example.getSettings().setJavaScriptEnabled(true);
         example.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
