@@ -19,6 +19,8 @@
             style="@style/allWrapContent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/propertyDescriptionComments_recycler"
+            android:padding="@dimen/activity_vertical_margin"
             android:layout_margin="@dimen/activity_horizontal_margin"
             android:text="@string/propertyDescription_root_comments_title"
             android:textSize="@dimen/textSize_big"
@@ -28,9 +30,11 @@
             android:id="@+id/propertyDescriptionComments_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
+            android:background="@android:color/transparent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionComments_title_textView" />
+            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionComments_title_textView"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+            tools:listitem="@layout/description_comment_item" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

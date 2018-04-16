@@ -1,6 +1,7 @@
 package com.example.michaelkibenko.ballaba.Fragments;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
@@ -12,14 +13,19 @@ import android.os.SystemClock;
 import android.support.annotation.IntDef;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.BounceInterpolator;
@@ -29,15 +35,19 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
+import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Adapters.MapPropertiesRecyclerAdapter;
+import com.example.michaelkibenko.ballaba.BallabaApplication;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
+import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
+import com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -65,7 +75,7 @@ import static com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment.PR
  * Created by michaelkibenko on 08/03/2018.
  */
 
-public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, LocationListener , GoogleMap.OnCameraMoveStartedListener,
+public class BallabaMapFragment extends DialogFragment implements OnMapReadyCallback, LocationListener , GoogleMap.OnCameraMoveStartedListener,
         GoogleMap.OnCameraMoveListener,
         GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraIdleListener ,GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener{
 
@@ -84,10 +94,9 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
 
     private static final String TAG = BallabaMapFragment.class.getSimpleName();
 
-    private GoogleMap googleMap;
+    private static GoogleMap googleMap;
     private MapView mMapView;
     private BallabaLocationManager locationManager;
-    private Context context;
     private boolean changed;
     private LatLngBounds bounds;
     private BallabaLocationManager.OnGoogleMapListener mListener;
@@ -103,6 +112,10 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     private boolean isShowProperty;
     private float oneItemHeight, moreItemsHeight;
     private FrameLayout pnlFlash;
+    private LatLng location;
+    private Context context;
+    private boolean isFromPropertyDescription;
+    private BallabaResponseListener responseListener;
 
     private @MAP_SAVE_CONTAINER_STATES int saveContainerState = MAP_SAVE_CONTAINER_STATES.OFF;
     private @PROPERTY_RECYCLER_VIEW_STATES int propertyRecyclerViewState = PROPERTY_RECYCLER_VIEW_STATES.ONE_ITEM;
@@ -159,79 +172,44 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         }
 
         mMapView.getMapAsync(this);
+        Resources res = context.getResources();
+        markerSize = res.getDimension(R.dimen.mapMarkerSize);
 
-        markerSize = getResources().getDimension(R.dimen.mapMarkerSize);
-
-        oneItemHeight = getResources().getDimension(R.dimen.map_fragment_properties_recycler_view_one_item_height);
+        oneItemHeight = res.getDimension(R.dimen.map_fragment_properties_recycler_view_one_item_height);
         moreItemsHeight = getResources().getDimension(R.dimen.map_fragment_properties_recycler_view_more_items_height);
 
-        BitmapDrawable bitmapdrawGU=(BitmapDrawable)getResources().getDrawable(R.drawable.guarenty);
-        Bitmap gu=bitmapdrawGU.getBitmap();
+        BitmapDrawable bitmapdrawGU=(BitmapDrawable)res.getDrawable(R.drawable.guarenty);
+        Bitmap gu = bitmapdrawGU.getBitmap();
         guaranteeMarkerIcon = Bitmap.createScaledBitmap(gu, (int)markerSize, (int)markerSize, false);
 
-        BitmapDrawable bitmapdrawEX=(BitmapDrawable)getResources().getDrawable(R.drawable.exclusive);
-        Bitmap ex=bitmapdrawEX.getBitmap();
+        BitmapDrawable bitmapdrawEX=(BitmapDrawable)res.getDrawable(R.drawable.exclusive);
+        Bitmap ex = bitmapdrawEX.getBitmap();
         exclusivityMarkerIcon = Bitmap.createScaledBitmap(ex, (int)markerSize, (int)markerSize, false);
-
-
-        //TODO optional in the future
-        //googleMap = mMapView.getMap();
-        /*double latitude = 17.385044;
-        double longitude = 78.486671;
-
-        MarkerOptions marker = new MarkerOptions().position(
-                new LatLng(latitude, longitude)).title("title");
-
-        marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
-
-        googleMap.addMarker(marker);
-        CameraPosition cameraPosition = new CameraPosition.Builder()
-                .target(new LatLng(17.385044, 78.486671)).zoom(12).build();
-        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));*/
 
         return v;
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context;
+    public void onAttach(Context mContext) {
+        super.onAttach(mContext);
+        if(mContext instanceof PropertyDescriptionActivity){
+            isFromPropertyDescription = true;
+        }
+        this.context = mContext;
         locationManager = BallabaLocationManager.getInstance(this.context);
         insideResHash = new HashMap<>();
-
-        //TODO context == MainActivity. next 6 lines throws exception because it is not instance of
-        //TODO BallabaLocationManager.OnGoogleMapListener. needed to be fixed.
-        /*if (context instanceof BallabaLocationManager.OnGoogleMapListener) {
-            mListener = (BallabaLocationManager.OnGoogleMapListener)context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnGoogleMapListener");
-        }*/
-        //TODO end of TODO
-
-        /*DataBindingUtil.inflate(
-                inflater, R.layout.fragment_properties_recycler, null, false);
-        presenter = new SearchPropertiesPresenter(getActivity(), binder, mParam);
-*/
-
     }
 
-    /*  @Override
-    public void onResume() {
-        super.onResume();
-        mMapView.onResume();
-    }*/
-
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        this.googleMap = googleMap;
+    public void onMapReady(GoogleMap mMap) {
+        googleMap = mMap;
         locationManager.getLocation(this);
-        this.googleMap.setOnCameraMoveStartedListener(this);
-        this.googleMap.setOnCameraMoveListener(this);
-        this.googleMap.setOnCameraMoveCanceledListener(this);
-        this.googleMap.setOnCameraIdleListener(this);
-        this.googleMap.setOnMarkerClickListener(this);
-        this.googleMap.setOnMapClickListener(this);
+        googleMap.setOnCameraMoveStartedListener(this);
+        googleMap.setOnCameraMoveListener(this);
+        googleMap.setOnCameraMoveCanceledListener(this);
+        googleMap.setOnCameraIdleListener(this);
+        googleMap.setOnMarkerClickListener(this);
+        googleMap.setOnMapClickListener(this);
 
         if (mListener != null) {
             mListener.OnGoogleMap(googleMap);
@@ -239,6 +217,14 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
 
         initInsideResultsHash(BallabaSearchPropertiesManager.getInstance(context).getResults());
         updatePropertiesMarkers(insideResHash);
+
+        if(responseListener != null){
+            responseListener.resolve(new BallabaOkResponse());
+        }
+    }
+
+    public void setResponseListener(BallabaResponseListener responseListener){
+        this.responseListener = responseListener;
     }
 
     public void initInsideResultsHash(ArrayList<BallabaPropertyResult> arr){
@@ -260,15 +246,18 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         if(!changed) {
             changed = true;
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            this.googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         }
     }
 
     @Override
     public void onMapClick(LatLng latLng) {
-        if(isShowProperty) {
+        if (isShowProperty) {
             hideSelectedAdress();
+        }
+        if(isFromPropertyDescription){
+            ((PropertyDescriptionActivity)context).presenter.setMapFullScreen();
         }
     }
 
@@ -291,8 +280,10 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
     //map camera
     @Override
     public void onCameraMoveStarted(int i) {
-        if(((MainActivity)context).presenter.filterState != MainPresenter.FilterState.NO_FILTER){
-            ((MainActivity)context).presenter.filterStateUIChanger(MainPresenter.FilterState.NO_FILTER);
+        if (context instanceof MainActivity) {
+            if (((MainActivity) context).presenter.filterState != MainPresenter.FilterState.NO_FILTER) {
+                ((MainActivity) context).presenter.filterStateUIChanger(MainPresenter.FilterState.NO_FILTER);
+            }
         }
         changeMapSaveState(MAP_SAVE_CONTAINER_STATES.OFF);
         changePropertyRVState(HIDE);
@@ -489,4 +480,15 @@ public class BallabaMapFragment extends Fragment implements OnMapReadyCallback, 
         });
         pnlFlash.startAnimation(fade);
     }
+
+    public void setLocation(LatLng latLng){
+        this.location = latLng;
+        if(googleMap != null){
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        }else {
+            Log.e(TAG, "google map is null");
+        }
+    }
+
 }
