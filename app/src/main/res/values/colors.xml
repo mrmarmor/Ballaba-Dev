@@ -6,6 +6,7 @@
     <color name="colorAccentDark">#F45B41</color>
     <color name="gray_text_color">#8d8d8d</color>
     <color name="gray_button_color">#1e000000</color>
+    <color name="brownish_gray">#616161</color>
     <color name="black">#282828</color>
     <color name="enter_code_send_again_button_text_gray">#42000000</color>
     <color name="red_error_phone">#e03f3f</color>

@@ -190,4 +190,13 @@
     <dimen name="property_gallery_item_height_linear">190dp</dimen>
     <dimen name="property_gallery_item_size_grid">100dp</dimen>
 
+    <dimen name="underwriting_welcome_margin_big">72dp</dimen>
+    <dimen name="underwriting_welcome_title_textSize">40sp</dimen>
+    <dimen name="underwriting_welcome_questionMark_width">100sp</dimen>
+    <dimen name="underwriting_welcome_questionMark_height">162sp</dimen>
+    <dimen name="underwriting_welcome_text_marginTop">24dp</dimen>
+    <dimen name="underwriting_welcome_ok_button_height">51dp</dimen>
+    <dimen name="underwriting_welcome_cancel_button_width">64dp</dimen>
+    <dimen name="underwriting_welcome_cancel_button_height">37dp</dimen>
+
 </resources>
