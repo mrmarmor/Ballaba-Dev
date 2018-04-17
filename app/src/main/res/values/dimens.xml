@@ -2,6 +2,7 @@
     <!-- Default app dimensions in order to keep app with uniform design. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="large_margin">24dp</dimen>
     <dimen name="small_margin">8dp</dimen>
     <dimen name="tiny_margin">4dp</dimen>
     <dimen name="textSize_tiny">12sp</dimen>
@@ -14,6 +15,7 @@
     <dimen name="bar_normal_height">48dp</dimen>
     <dimen name="button_width">70dp</dimen>
     <dimen name="button_height">39dp</dimen>
+    <dimen name="view_height_large">51dp</dimen>
     <dimen name="translationZ">3dp</dimen>
     <dimen name="elevation">2dp</dimen>
     <!-- End of Default app dimensions. -->
@@ -179,7 +181,6 @@
     <dimen name="propertyDescription_attachments_leftAttachmentsOffset_start">125dp</dimen>
     <dimen name="propertyDescription_attachments_bottomAttachmentsOffset_top">20dp</dimen>
     <dimen name="propertyDescription_googleMap_height">180dp</dimen>
-    <dimen name="propertyDescription_streetView_button_topOffset">24dp</dimen>
 
     <dimen name="descriptionCommentItem_profileImage_margin">20dp</dimen>
     <dimen name="descriptionCommentItem_name_marginTop">9dp</dimen>
@@ -190,13 +191,16 @@
     <dimen name="property_gallery_item_height_linear">190dp</dimen>
     <dimen name="property_gallery_item_size_grid">100dp</dimen>
 
-    <dimen name="underwriting_welcome_margin_big">72dp</dimen>
-    <dimen name="underwriting_welcome_title_textSize">40sp</dimen>
-    <dimen name="underwriting_welcome_questionMark_width">100sp</dimen>
-    <dimen name="underwriting_welcome_questionMark_height">162sp</dimen>
-    <dimen name="underwriting_welcome_text_marginTop">24dp</dimen>
-    <dimen name="underwriting_welcome_ok_button_height">51dp</dimen>
-    <dimen name="underwriting_welcome_cancel_button_width">64dp</dimen>
-    <dimen name="underwriting_welcome_cancel_button_height">37dp</dimen>
+    <dimen name="scoring_welcome_margin_big">72dp</dimen>
+    <dimen name="scoring_welcome_title_textSize">40sp</dimen>
+    <dimen name="scoring_welcome_questionMark_width">100dp</dimen>
+    <dimen name="scoring_welcome_questionMark_height">162dp</dimen>
+    <dimen name="scoring_welcome_cancel_button_width">64dp</dimen>
+    <dimen name="scoring_welcome_cancel_button_height">37dp</dimen>
+
+    <dimen name="scoring_back_width">83dp</dimen>
+    <dimen name="scoring_back_height">40dp</dimen>
+    <dimen name="scoring_title_textSize">44sp</dimen>
+    <dimen name="scoring_dateOfBirth_container_height">80dp</dimen>
 
 </resources>

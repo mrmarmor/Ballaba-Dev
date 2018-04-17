@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -152,37 +153,36 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         String baths = String.format("%s %s", propertyFull.bathrooms, activity.getString(R.string.propertyItem_bathtub));
         String toilets = String.format("%s %s", propertyFull.toilets, activity.getString(R.string.propertyItem_toilets));
 
+        binder.propertyDescriptionRootTextViewRentFee.setText(price);
         binderPrice.propertyDescriptionPricePriceTextView.setText(String.format("%s%s", "₪", price));
         binderPrice.propertyDescriptionPriceAddressTextView.setText(propertyFull.formattedAddress);
         binderPrice.propertyDescriptionPriceDateOfEntranceTextView.setText(propertyFull.entry_date);
         binderPrice.propertyDescriptionPriceRentalPeriodTextView.setText(propertyFull.rentPeriod);
         binderPrice.propertyDescriptionPriceFullDescriptionTextView.setText(propertyFull.description);
 
-        //TODO displayLandlord()
-        if (propertyFull.landlords != null){
-            binderPrice.propertyDescriptionPriceLandlordNameTextView.setText(propertyFull.landlords.get(0).get("first_name")+" "+propertyFull.landlords.get(0).get("last_name"));
-            binderPrice.propertyDescriptionPriceLandlordCityTextView.setText(propertyFull.landlords.get(0).get("city"));
-            Glide.with(activity)
-                    .load(propertyFull.landlords.get(0).get("profile_image"))
-                    .into(binderPrice.propertyDescriptionPriceLandlordProfileImage);
-        }
-
         binderAttach.propertyDescriptionAttachmentsNumberOfRoomsTextView.setText(rooms);
         binderAttach.propertyDescriptionAttachmentsSizeTextView.setText(size);
         binderAttach.propertyDescriptionAttachmentsBathroomsTextView.setText(baths);
         binderAttach.propertyDescriptionAttachmentsToiletsTextView.setText(toilets);
         //initAttachmentExtendedRecyclerView(propertyFull);
+
+        if (propertyFull.landlords != null)
+            displayLandlord(propertyFull.landlords.get(0));
         displayAttachmentsOnScreen(propertyFull.attachments);
         displayPaymentsOnScreen(propertyFull.payments);
         paymentMethodsStatesChanger(propertyFull.paymentMethods);
+        initCommentsRecycler(binderComment.propertyDescriptionCommentsRecycler);
 
         propertyLatLng = new LatLng(Double.parseDouble(propertyFull.lat), Double.parseDouble(propertyFull.lng));
 
-                //TODO initRecycler()
-        DescCommentAdapter adapter = new DescCommentAdapter(activity, propertyFull.comments);
-        LinearLayoutManager lManager = new LinearLayoutManager(activity);
-        binderComment.propertyDescriptionCommentsRecycler.setLayoutManager(lManager);
-        binderComment.propertyDescriptionCommentsRecycler.setAdapter(adapter);
+    }
+
+    private void displayLandlord(HashMap<String, String> landlord){
+            binderPrice.propertyDescriptionPriceLandlordNameTextView.setText(landlord.get("first_name")+" "+landlord.get("last_name"));
+            binderPrice.propertyDescriptionPriceLandlordCityTextView.setText(landlord.get("city"));
+            Glide.with(activity)
+                    .load(landlord.get("profile_image"))
+                    .into(binderPrice.propertyDescriptionPriceLandlordProfileImage);
     }
 
    /* private void initAttachmentExtendedRecyclerView(BallabaPropertyFull propertyFull){
@@ -304,6 +304,13 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         }
     }
 
+    private void initCommentsRecycler(RecyclerView recyclerView){
+        DescCommentAdapter adapter = new DescCommentAdapter(activity, propertyFull.comments);
+        LinearLayoutManager lManager = new LinearLayoutManager(activity);
+        recyclerView.setLayoutManager(lManager);
+        recyclerView.setAdapter(adapter);
+    }
+
     private void initMapFragment(){
         mapFragment = BallabaMapFragment.newInstance();
 
@@ -377,8 +384,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                 break;
 
             case R.id.propertyDescriptionPrice_toVirtualTour_button:
-                Intent toVirtualTour = new Intent(activity, VirtualTourActivity.class);
-                activity.startActivity(toVirtualTour);
+                intent = new Intent(activity, VirtualTourActivity.class);
         }
 
         activity.startActivity(intent);

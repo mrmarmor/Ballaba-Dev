@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/allMatchParent"
+    android:orientation="vertical"
+    tools:context="com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringWelcomeActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/scoring_welcome_margin_big"
+        android:textSize="@dimen/scoring_welcome_title_textSize"
+        android:textColor="@color/brownish_gray"
+        android:gravity="center"
+        android:text="@string/scoring_welcome_title" />
+
+    <ImageView
+        android:layout_width="@dimen/scoring_welcome_questionMark_width"
+        android:layout_height="@dimen/scoring_welcome_questionMark_height"
+        android:src="@drawable/transfer_blue_36"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/textSize_regular"
+        android:textColor="@color/black"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/large_margin"
+        android:layout_marginBottom="@dimen/scoring_welcome_margin_big"
+        android:text="@string/scoring_welcome_description" />
+
+    <Button
+        android:id="@+id/scoring_welcome_ok_button"
+        style="@style/scoring_buttons_ok"
+        android:textColor="@android:color/white"
+        android:text="@string/scoring_welcome_ok_button"
+        android:background="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/scoring_cancel_button"
+        android:layout_width="@dimen/scoring_welcome_cancel_button_width"
+        android:layout_height="@dimen/scoring_welcome_cancel_button_height"
+        android:textSize="@dimen/textSize_small"
+        android:textColor="@color/black"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="@string/scoring_welcome_cancel_button"
+        android:onClick="onClickCancel" />
+
+</LinearLayout>

@@ -78,13 +78,13 @@
         />
 
     <Button
-        android:id="@+id/underwriting_BTN"
+        android:id="@+id/scoring_BTN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Underwriting"
+        android:text="scoring"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="150dp"
-        android:onClick="@{() -> presenter.onUnderwritingClicked()}"
+        android:onClick="@{() -> presenter.onscoringClicked()}"
         />
 
 

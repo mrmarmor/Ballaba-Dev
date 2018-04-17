@@ -56,10 +56,8 @@
             android:label="Search" />
         <activity android:name=".Activities.SelectCitySubActivity" />
         <activity android:name=".Activities.PropertyDescriptionActivity" />
-
-        <activity android:name=".Activities.PropertyGalleryActivity"/>
-
-        <activity android:name=".Activities.VirtualTourActivity"/>
+        <activity android:name=".Activities.PropertyGalleryActivity" />
+        <activity android:name=".Activities.VirtualTourActivity" />
 
         <!-- RECEIVERS -->
         <receiver
@@ -67,7 +65,9 @@
             android:exported="true" />
 
         <activity android:name=".Activities.StreetAndMapBoard" />
-        <activity android:name=".Activities.Underwriting.UnderwritingWelcomeActivity"></activity>
+        <activity android:name=".Activities.Scoring.ScoringWelcomeActivity" />
+        <activity android:name=".Activities.Scoring.ScoringPersonalActivity" />
+        <activity android:name=".Activities.Scoring.ScoringWorkActivity"></activity>
     </application>
 
 </manifest>
