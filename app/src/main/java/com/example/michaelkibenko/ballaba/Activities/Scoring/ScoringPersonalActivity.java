@@ -3,6 +3,7 @@ package com.example.michaelkibenko.ballaba.Activities.Scoring;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
@@ -22,4 +23,7 @@ public class ScoringPersonalActivity extends BaseActivity {
         binder.setPresenter(presenter);
     }
 
+    public void onScoringButtonClick(View v){
+        Toast.makeText(this, "on click1", Toast.LENGTH_SHORT).show();
+    }
 }

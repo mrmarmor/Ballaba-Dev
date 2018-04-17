@@ -18,7 +18,6 @@ import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
-import com.example.michaelkibenko.ballaba.databinding.ActivityScoringPersonalBinding;
 import com.example.michaelkibenko.ballaba.databinding.EnterPhoneNumberLayoutBinding;
 
 /**

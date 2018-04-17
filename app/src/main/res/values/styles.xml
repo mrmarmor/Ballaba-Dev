@@ -132,6 +132,8 @@
         <item name="android:textColor">@color/black</item>
         <item name="android:gravity">start|center_vertical</item>
         <item name="android:background">@android:color/white</item>
+        <item name="android:button">@android:color/transparent</item>
+        <item name="android:onClick">@{() -> presenter.onScoringButtonClick}</item>
     </style>
 
     <style name="dateOfBirth_editText" parent="EditText_enter_code">
