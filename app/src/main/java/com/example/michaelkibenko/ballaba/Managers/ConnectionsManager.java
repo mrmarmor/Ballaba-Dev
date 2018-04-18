@@ -560,8 +560,14 @@ public class ConnectionsManager{
 
     public void lazyLoading(final BallabaResponseListener callback){
         int size = BallabaSearchPropertiesManager.getInstance(context).getResults().size();
-        String queryUrl = BallabaSearchPropertiesManager.getInstance(context).getCurrentSearchEndpoint()+"&offset="+size;
+        String queryUrl = BallabaSearchPropertiesManager.getInstance(context).getCurrentSearchEndpoint();
+
         if(queryUrl != null) {
+            if(isQueryAdded(queryUrl)){
+                queryUrl+="&offset="+size;
+            }else{
+                queryUrl+="?&offset="+size;
+            }
             StringRequest lazyloading = new StringRequest(GET, queryUrl, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
@@ -596,6 +602,16 @@ public class ConnectionsManager{
 
             queue.add(lazyloading);
         }
+    }
+
+    private boolean isQueryAdded(String url){
+        char[] charArray = url.toCharArray();
+        for (char input : charArray) {
+            if (input == '?') {
+                return true;
+            }
+        }
+        return false;
     }
 
     public StringBuilder apiRequest(StringBuilder sb) {
