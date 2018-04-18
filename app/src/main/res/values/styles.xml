@@ -12,6 +12,8 @@
         <item name="android:textViewStyle">@style/textViewsStyle</item>
         <item name="android:fontFamily">@font/rubik_regular</item>
         <item name="android:screenOrientation">portrait</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/textSize_regular</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -136,10 +138,15 @@
         <item name="android:onClick">@{() -> presenter.onScoringButtonClick}</item>
     </style>
 
-    <style name="dateOfBirth_editText" parent="EditText_enter_code">
-        <item name="android:layout_height">2dp</item>
-        <item name="android:textSize">@dimen/textSize_regular</item>
-        <item name="android:inputType">none</item>
+    <style name="dateOfBirth_spinner" parent="EditText_enter_code">
+<!--
+        <item name="android:layout_width">@dimen/enter_code_code_edit_text_width</item>
+-->
+        <item name="android:layout_width">80dp</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginStart">@dimen/enter_code_code_edit_text_side_offset</item>
+        <item name="android:layout_marginEnd">@dimen/enter_code_code_edit_text_side_offset</item>
     </style>
 
     <style name="scoring_buttons_ok" parent="scoring_buttons">

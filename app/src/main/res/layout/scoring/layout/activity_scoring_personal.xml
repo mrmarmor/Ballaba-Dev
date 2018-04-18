@@ -27,7 +27,8 @@
                 android:drawablePadding="@dimen/small_margin"
                 android:drawableStart="@drawable/right_back_black_24"
                 android:gravity="center"
-                android:text="@string/scoring_back" />
+                android:text="@string/scoring_back"
+                android:onClick="onClickBack" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -36,7 +37,7 @@
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/scoring_title_textSize"
-                android:text="@string/scoring_title" />
+                android:text="@string/scoring_personal_title" />
 
             <TextView style="@style/scoring_title_textViews" android:text="@string/scoring_dateOfBirth_title"/>
             <LinearLayout style="@style/scoring_buttons_container"
@@ -44,37 +45,34 @@
                     android:gravity="center_horizontal|bottom"
                     android:paddingBottom="@dimen/large_margin"
                     android:orientation="horizontal">
-                <EditText android:id="@+id/scoring_dateOfBirth_day_editText" style="@style/dateOfBirth_editText" />
-                <EditText android:id="@+id/scoring_dateOfBirth_month_editText" style="@style/dateOfBirth_editText" />
-                <EditText android:id="@+id/scoring_dateOfBirth_year_editText" style="@style/dateOfBirth_editText" />
+                <Spinner android:id="@+id/scoring_dateOfBirth_day_spinner" style="@style/dateOfBirth_spinner" android:entries="@array/days" />
+                <Spinner android:id="@+id/scoring_dateOfBirth_month_spinner" style="@style/dateOfBirth_spinner" android:entries="@array/months"/>
+                <Spinner android:id="@+id/scoring_dateOfBirth_year_spinner" style="@style/dateOfBirth_spinner" />
             </LinearLayout>
 
             <TextView style="@style/scoring_title_textViews" android:text="@string/scoring_status_title"/>
-            <RadioGroup android:tag="status" style="@style/scoring_buttons_container" >
-                <RadioButton android:id="@+id/scoring_status_single_button" android:text="@string/scoring_status_single_button" style="@style/scoring_buttons" />
-                <RadioButton android:id="@+id/scoring_status_married_button" android:text="@string/scoring_status_married_button" style="@style/scoring_buttons" />
-                <RadioButton android:id="@+id/scoring_status_divorced_button" android:text="@string/scoring_status_divorced_button" style="@style/scoring_buttons" />
-                <RadioButton android:id="@+id/scoring_status_widower_button" android:text="@string/scoring_status_widower_button" style="@style/scoring_buttons" />
+            <RadioGroup android:tag="status" style="@style/scoring_buttons_container" android:checkedButton="@+id/scoringButtonStatus" >
+                <RadioButton android:text="@string/scoring_status_single_button" style="@style/scoring_buttons" android:id="@+id/scoringButtonStatus"/>
+                <RadioButton android:text="@string/scoring_status_married_button" style="@style/scoring_buttons" />
+                <RadioButton android:text="@string/scoring_status_divorced_button" style="@style/scoring_buttons" />
+                <RadioButton android:text="@string/scoring_status_widower_button" style="@style/scoring_buttons" />
             </RadioGroup>
 
             <TextView style="@style/scoring_title_textViews" android:text="@string/scoring_children_title"/>
-            <RadioGroup android:tag="children" style="@style/scoring_buttons_container" >
-                <RadioButton android:id="@+id/scoring_children_none_button" android:text="@string/scoring_children_none_button" style="@style/scoring_buttons" android:checked="true" />
-                <RadioButton android:id="@+id/scoring_children_under18_button" android:text="@string/scoring_children_under18_button" style="@style/scoring_buttons" />
-                <RadioButton android:id="@+id/scoring_children_above18_button" android:text="@string/scoring_children_above18_button" style="@style/scoring_buttons" />
-                <RadioButton android:id="@+id/scoring_children_under18AndAbove_button" android:text="@string/scoring_children_under18AndAbove_button" style="@style/scoring_buttons" />
+            <RadioGroup android:tag="children" style="@style/scoring_buttons_container" android:checkedButton="@id/scoringButtonChildren" >
+                <RadioButton android:text="@string/scoring_children_none_button" style="@style/scoring_buttons" android:id="@+id/scoringButtonChildren" />
+                <RadioButton android:text="@string/scoring_children_under18_button" style="@style/scoring_buttons" />
+                <RadioButton android:text="@string/scoring_children_above18_button" style="@style/scoring_buttons" />
+                <RadioButton android:text="@string/scoring_children_under18AndAbove_button" style="@style/scoring_buttons" />
             </RadioGroup>
 
-            <TextView style="@style/scoring_title_textViews" android:text="@string/scoring_car_title" android:checked="true" />
-            <RadioGroup android:tag="car" style="@style/scoring_buttons_container">
-                <RadioButton android:id="@+id/scoring_car_has_button" android:text="@string/scoring_car_has_button" style="@style/scoring_buttons" android:checked="true" />
-                <RadioButton android:id="@+id/scoring_car_has_not_button" android:text="@string/scoring_car_has_not_button" style="@style/scoring_buttons" />
+            <TextView style="@style/scoring_title_textViews" android:text="@string/scoring_car_title" />
+            <RadioGroup android:tag="car" style="@style/scoring_buttons_container" android:checkedButton="@id/scoringButtonCar" >
+                <RadioButton android:text="@string/scoring_car_has_button" style="@style/scoring_buttons" android:id="@+id/scoringButtonCar" />
+                <RadioButton android:text="@string/scoring_car_has_not_button" style="@style/scoring_buttons" />
             </RadioGroup>
 
-            <Button
-                android:id="@+id/scoring_personal_ok_button"
-                style="@style/scoring_buttons_ok"
-                />
+            <Button android:id="@+id/scoring_personal_ok_button" style="@style/scoring_buttons_ok" />
             <!--android:onClick="@{() -> presenter.onClickOk()}"-->
         </LinearLayout>
     </ScrollView>

@@ -23,7 +23,11 @@ public class ScoringPersonalActivity extends BaseActivity {
         binder.setPresenter(presenter);
     }
 
-    public void onScoringButtonClick(View v){
+ /*   public void onScoringButtonClick(View v){
         Toast.makeText(this, "on click1", Toast.LENGTH_SHORT).show();
+    }*/
+
+    public void onClickBack(View view){
+        finish();
     }
 }
