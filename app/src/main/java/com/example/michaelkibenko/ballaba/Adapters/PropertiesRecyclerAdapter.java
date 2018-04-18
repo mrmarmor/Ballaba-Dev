@@ -47,11 +47,13 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     private BallabaPropertyListener listener;
     private Resources res;
     private FragmentManager fragmentManager;
+    private int firstArraySize;
 
     public PropertiesRecyclerAdapter(Context mContext, FragmentManager fm, List<BallabaPropertyResult> properties) {
         this.mContext = mContext;
         this.properties = properties;
         this.fragmentManager = fm;
+        this.firstArraySize = properties.size();
     }
 
     @Override
@@ -136,6 +138,18 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         notifyDataSetChanged();
     }
 
+    public void updateList(ArrayList<BallabaPropertyResult> newList, boolean isLazyLoading) {
+        if(!isLazyLoading) {
+            properties.clear();
+        }
+        properties.addAll(newList);
+        if(!isLazyLoading) {
+            notifyDataSetChanged();
+        }else{
+            notifyItemInserted(properties.size()-this.firstArraySize);
+        }
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder{
         //private TextView textViewPrice, textViewAddress;
         //private ImageView propertyImageView;
@@ -170,7 +184,7 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
                         propertiesManager.parsePropertyResults(((BallabaOkResponse)entity).body);
                 propertiesManager.appendProperties(properties, true);
 
-                updateList(propertiesManager.getResults());
+                updateList(propertiesManager.getResults(), true);
             }
 
             @Override
