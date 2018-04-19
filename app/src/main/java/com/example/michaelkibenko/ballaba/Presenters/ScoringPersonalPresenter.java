@@ -17,6 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 
 import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringWorkActivity;
+import com.example.michaelkibenko.ballaba.Common.FinishActivityReceiver;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityScoringPersonalBinding;
 
@@ -49,7 +50,6 @@ public class ScoringPersonalPresenter implements RadioButton.OnClickListener{
 
         initButtons();
         setSpinnerYears(new ArrayList<String>());
-        activity.registerReceiver(broadcastReceiver, new IntentFilter("finish_activity"));
     }
 
     private void initButtons(){
@@ -108,6 +108,14 @@ public class ScoringPersonalPresenter implements RadioButton.OnClickListener{
                     }
                 }
             }
+
+            intent.putExtra(binder.scoringDateOfBirthDaySpinner.getTag()+""
+                 , binder.scoringDateOfBirthDaySpinner.getSelectedItem()+"");
+            intent.putExtra(binder.scoringDateOfBirthMonthSpinner.getTag()+""
+                 , binder.scoringDateOfBirthMonthSpinner.getSelectedItem()+"");
+            intent.putExtra(binder.scoringDateOfBirthYearSpinner.getTag()+""
+                 , binder.scoringDateOfBirthYearSpinner.getSelectedItem()+"");
+
         }
 
         activity.startActivity(intent);
@@ -122,15 +130,5 @@ public class ScoringPersonalPresenter implements RadioButton.OnClickListener{
         ArrayAdapter<String> adapter = new ArrayAdapter<>(activity, android.R.layout.simple_spinner_item, years);
         binder.scoringDateOfBirthYearSpinner.setAdapter(adapter);
     }
-
-    private final BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context arg, Intent intent) {
-            String action = intent.getAction();
-            if (action != null && action.equals(ScoringWorkPresenter.ACTION_FINISH_ACTIVITY)) {
-                activity.finish();
-            }
-        }
-    };
 
 }

@@ -4,17 +4,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Common.FinishActivityReceiver;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityScoringWorkBinding;
 
@@ -23,7 +27,7 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityScoringWorkBinding
  */
 
 public class ScoringWorkPresenter implements RadioButton.OnClickListener{
-    public static String TAG = ScoringWorkPresenter.class.getSimpleName(), ACTION_FINISH_ACTIVITY = "finish_activity";
+    public static String TAG = ScoringWorkPresenter.class.getSimpleName();
 
     private AppCompatActivity activity;
     private ActivityScoringWorkBinding binder;
@@ -35,6 +39,7 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener{
         this.root = binder.scoringWorkRoot;
 
         initButtons();
+        //setEditTextsUnderlineColor();
     }
 
     private void initButtons(){
@@ -82,6 +87,15 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener{
     }
 
     public void onClickOk(){
+        if (!isWebsiteNameValid()) {
+            displayError("website");
+            return;
+        }
+        if (!isEmailAddressValid()){
+            displayError("email");
+            return;
+        }
+
         Bundle bundle = activity.getIntent().getExtras();
         if (bundle != null) {
             for (int i = 0; i < root.getChildCount(); i++) {
@@ -96,6 +110,11 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener{
                 }
             }
 
+            bundle.putString(binder.scoringSiteEditText.getTag() +""
+                           , binder.scoringSiteEditText.getText()+"");
+            bundle.putString(binder.scoringEmailEditText.getTag() +""
+                           , binder.scoringEmailEditText.getText()+"");
+
             //TODO send data to server
 
             for (final String KEY : bundle.keySet()) {
@@ -106,7 +125,20 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener{
         }
 
         activity.finish();
-        activity.sendBroadcast(new Intent(ACTION_FINISH_ACTIVITY));
+        activity.sendBroadcast(new Intent(FinishActivityReceiver.ACTION_FINISH_ACTIVITY));
+    }
+
+    private boolean isWebsiteNameValid(){
+        CharSequence website = binder.scoringSiteEditText.getText();
+        return Patterns.WEB_URL.matcher(website).matches();
+    }
+    private boolean isEmailAddressValid(){
+        CharSequence email = binder.scoringEmailEditText.getText();
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private void displayError(String message){
+        Toast.makeText(activity, "Invalid "+message, Toast.LENGTH_SHORT).show();
     }
 
     public void onClickBack(){

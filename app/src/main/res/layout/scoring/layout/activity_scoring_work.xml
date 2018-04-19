@@ -60,12 +60,50 @@
             </RadioGroup>
 
             <TextView style="@style/scoring_title_textViews" android:text="@string/scoring_site_title" />
-            <EditText style="@style/EditText_enter_code"
-                android:layout_width="match_parent" android:hint="@string/scoring_site_hint" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:elevation="@dimen/elevation"
+                android:background="@android:color/white" >
+            <EditText
+                android:id="@+id/scoring_site_editText"
+                android:tag="site"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:inputType="textUri"
+                android:textSize="@dimen/textSize_regular"
+                android:gravity="start|center_vertical"
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="@color/colorPrimary"
+                android:hint="@string/scoring_site_hint" />
+            </FrameLayout>
 
             <TextView style="@style/scoring_title_textViews" android:text="@string/scoring_email_title" />
-            <EditText style="@style/EditText_enter_code"
-                android:layout_width="match_parent" android:hint="@string/scoring_email_hint" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:elevation="@dimen/elevation"
+                android:background="@android:color/white" >
+            <EditText
+                android:id="@+id/scoring_email_editText"
+                android:tag="email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:inputType="textEmailAddress"
+                android:textSize="@dimen/textSize_regular"
+                android:gravity="start|center_vertical"
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="@color/colorPrimary"
+                android:hint="@string/scoring_email_hint" />
+            </FrameLayout>
 
             <Button android:id="@+id/scoring_work_ok_button" style="@style/scoring_buttons_ok" android:onClick="@{() -> presenter.onClickOk()}"/>
             <!--android:onClick="@{() -> presenter.onClickOk()}"-->
