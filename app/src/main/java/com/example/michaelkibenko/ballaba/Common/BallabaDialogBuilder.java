@@ -2,10 +2,14 @@ package com.example.michaelkibenko.ballaba.Common;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
+import android.support.annotation.IntegerRes;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.widget.EditText;
+
+import com.example.michaelkibenko.ballaba.R;
 
 /**
  * Created by User on 27/03/2018.
@@ -42,10 +46,10 @@ public class BallabaDialogBuilder extends AlertDialog.Builder {
         return dialogBuilder;
     }
 
-    public AlertDialog.Builder setButtons(String textPositive, String textCancel, DialogInterface.OnClickListener clickListener
+    public AlertDialog.Builder setButtons(String textPositive, String textNegative, DialogInterface.OnClickListener clickListener
             , DialogInterface.OnClickListener cancelListener) {
         dialogBuilder.setPositiveButton(textPositive, clickListener);
-        dialogBuilder.setNegativeButton(textCancel, cancelListener);
+        dialogBuilder.setNegativeButton(textNegative, cancelListener);
 
         return dialogBuilder;
     }

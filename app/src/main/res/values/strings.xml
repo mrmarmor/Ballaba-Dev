@@ -96,11 +96,76 @@
     <string name="attach_disabled_access">גישה חסומה</string>
     <string name="attach_aps">APS</string>
 
-    <string name="underwriting_welcome_title">שאלון חיתום</string>
-    <string name="underwriting_welcome_description">הסבר למשתמש מה זה חיתום ולמה צריך
+    <string name="scoring_welcome_title">שאלון חיתום</string>
+    <string name="scoring_welcome_description">הסבר למשתמש מה זה חיתום ולמה צריך
 אותו, מה ייצא לו מלבצע את החיתום                 </string>
-    <string name="underwriting_welcome_ok_button">המשך לחיתום</string>
-    <string name="underwriting_welcome_cancel_button">לא, תודה</string>
+    <string name="scoring_welcome_ok_button">המשך לחיתום</string>
+    <string name="scoring_welcome_cancel_button">לא, תודה</string>
+
+    <string name="scoring_back">חזרה</string>
+    <string name="scoring_personal_title">מידע אישי</string>
+    <string name="scoring_work_title">עבודה</string>
+    <string name="scoring_dateOfBirth_title">תאריך לידה</string>
+
+    <string name="scoring_status_title">מצב משפחתי</string>
+    <string name="scoring_status_single_button">רווק</string>
+    <string name="scoring_status_married_button">נשוי</string>
+    <string name="scoring_status_divorced_button">גרוש</string>
+    <string name="scoring_status_widower_button">אלמן</string>
+
+    <string name="scoring_children_title">ילדים</string>
+    <string name="scoring_children_none_button">אין</string>
+    <string name="scoring_children_under18_button">מתחת לגיל 18</string>
+    <string name="scoring_children_above18_button">מעל גיל 18</string>
+    <string name="scoring_children_under18AndAbove_button">גם וגם</string>
+
+    <string name="scoring_car_title">רכב בבעלותך</string>
+    <string name="scoring_car_has_button">יש</string>
+    <string name="scoring_car_has_not_button">אין</string>
+
+    <string name="scoring_employmentStatus_title">מצב תעסוקתי</string>
+    <string name="scoring_employmentStatus_selfEmployed_button">עצמאי</string>
+    <string name="scoring_employmentStatus_employee_button">שכיר</string>
+    <string name="scoring_employmentStatus_both_button">משולב</string>
+    <string name="scoring_employmentStatus_unemployed_button">בין עבודות</string>
+
+    <string name="scoring_seniority_title">וותק</string>
+    <string name="scoring_seniority_lessThanYear_button">פחות משנה</string>
+    <string name="scoring_seniority_moreThanYear_button">יותר משנה</string>
+
+    <string name="scoring_income_title">הכנסה של יותר מ ₪5,000 בחודש?</string>
+    <string name="scoring_income_moreThan5k_button">כן</string>
+    <string name="scoring_income_lessThan5k_button">לא</string>
+
+    <string name="scoring_site_title">אתר אינטרנט של מקום העבודה</string>
+    <string name="scoring_site_hint">www.</string>
+
+    <string name="scoring_email_title">דוא״ל של איש קשר</string>
+    <string name="scoring_email_hint">example@ballaba-it.com</string>
+
+    <string name="addProperty_landlord_title">פרטים בעל הנכס</string>
+    <string name="addProperty_landlord_uploadImage_title">העלו תמונה שלכם</string>
+    <string name="addProperty_landlord_uploadImage_description">רושם ראשוני זה הכל. צרו אמון על ידי העלאת תמונה שלכם.</string>
+    <string name="addProperty_landlord_profileImage_title">העלו תמונה שלכם</string>
+    <string name="addProperty_landlord_profileImage_description">רושם ראשוני זה הכל. צרו אמון על ידי העלאת תמונה שלכם.</string>
+    <string name="addProperty_landlord_firstName">שם פרטי</string>
+    <string name="addProperty_landlord_firstName_hint">ישראל</string>
+    <string name="addProperty_landlord_lastName">שם משפחה</string>
+    <string name="addProperty_landlord_lastName_hint">ישראלי</string>
+    <string name="addProperty_landlord_email">דוא"ל</string>
+    <string name="addProperty_landlord_email_hint">israeli@gmail.com</string>
+    <string name="addProperty_landlord_phone">מספר טלפון</string>
+    <string name="addProperty_landlord_phone_hint">+972 54 123 4567 890</string>
+    <string name="addProperty_landlord_city">עיר מגורים</string>
+    <string name="addProperty_landlord_city_hint">תל אביב</string>
+    <string name="addProperty_landlord_address">כתובת: רחוב, בניין</string>
+    <string name="addProperty_landlord_address_hint">שדרות ירושלים 15</string>
+    <string name="addProperty_landlord_buildingNumber">מספר דירה</string>
+    <string name="addProperty_landlord_buildingNumber_hint">1</string>
+    <string name="addProperty_landlord_integrity_announcement">כתובת המגורים לא תפורסם בפומבי לעולם.</string>
+    <string name="addProperty_landlord_button_next">בוא נתחיל</string>
+
+    <string name="addProperty_asset_title">פרטים על הנכס</string>
 
     <string name="terms_of_use_label">תקנון</string>
     <string name="terms_of_use_text">לורם איפסום דולור סיט אמט, קונסקטורר אדיפיסינג
@@ -156,6 +221,56 @@
         <item>
             <code>+213</code>
         </item>
+    </string-array>
+
+    <!-- Date spinner values -->
+    <string-array name="months">
+        <item>ינואר</item>
+        <item>פברואר</item>
+        <item>מרץ</item>
+        <item>אפריל</item>
+        <item>מאי</item>
+        <item>יוני</item>
+        <item>יולי</item>
+        <item>אוגוסט</item>
+        <item>ספטמבר</item>
+        <item>אוקטובר</item>
+        <item>נובמבר</item>
+        <item>דצמבר</item>
+    </string-array>
+
+    <string-array name="days">
+        <item>01</item>
+        <item>02</item>
+        <item>03</item>
+        <item>04</item>
+        <item>05</item>
+        <item>06</item>
+        <item>07</item>
+        <item>08</item>
+        <item>09</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
     </string-array>
 
     <!-- MENU SECTION -->

@@ -101,7 +101,7 @@
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:text="@string/propertyDescriptionPrice_virtualTour_button"
         android:textColor="@color/colorPrimary"
-        android:background="@drawable/button_with_blue_border" />
+        android:background="@drawable/blue_border" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/propertyDescriptionPrice_landlordProfileImage"

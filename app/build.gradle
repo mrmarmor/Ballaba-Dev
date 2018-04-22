@@ -26,6 +26,8 @@ android {
             res.srcDirs =
                     [
                             'src/main/res/layout/property_description',
+                            'src/main/res/layout/sub_layouts',
+                            'src/main/res/layout/scoring',
                             'src/main/res/layout/filter',
                             'src/main/res/layout',
                             'src/main/res'
@@ -60,7 +62,6 @@ dependencies {
     compile group: 'com.googlecode.libphonenumber', name: 'libphonenumber', version: '8.8.11'
     compile 'com.jsibbold:zoomage:1.1.0'
 }
-
 
 
 apply plugin: 'com.google.gms.google-services'

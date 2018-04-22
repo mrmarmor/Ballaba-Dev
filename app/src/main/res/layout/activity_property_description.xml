@@ -100,11 +100,11 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/propertyDescription_mapFragment_container"
-                    android:layout_marginTop="@dimen/propertyDescription_streetView_button_topOffset"
+                    android:layout_marginTop="@dimen/large_margin"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:text="@string/propertyDescription_root_streetView_button"
                     android:textColor="@color/colorPrimary"
-                    android:background="@drawable/button_with_blue_border"
+                    android:background="@drawable/blue_border"
                     />
 
                 <View style="@style/divider_gray"
@@ -149,52 +149,36 @@
             android:background="@color/colorPrimary" />
 
         <TextView
+            android:id="@+id/propertyDescription_root_textView_rentTitle"
             style="@style/allWrapContent"
-
-
-            tools:text="@string/propertyDescription_root_textView_rentTitle" />
-
-        <TextView
-            style="@style/allWrapContent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/propertyDescription_root_bottom_container"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:foregroundGravity="fill"
-            android:textColor="@android:color/white"
-            tools:text="@string/propertyDescription_root_textView_rentTitle" />
-        <!--<TextView
-            style="@style/allWrapContent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/propertyDescription_root_bottom_container"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:fontFamily="@font/rubik_regular"
             android:textSize="@dimen/textSize_tiny"
             android:textColor="@android:color/white"
-            tools:text="@string/propertyDescription_root_textView_rentTitle" />
- -->
-        <!--<TextView
-            android:id="@+id/propertyDescription_root_textView_rentTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/propertyDescription_root_bottom_container"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:layout_marginStart="@dimen/activity_horizontal_margin" android:background="@color/colorAccent"
-            android:textSize="@dimen/textSize_tiny" android:translationZ="20dp" android:elevation="20dp"
-            android:textColor="@android:color/white"
-            tools:text="@string/propertyDescription_root_textView_rentTitle" />
+            android:text="@string/propertyDescription_root_textView_rentTitle" />
         <TextView
             android:id="@+id/propertyDescription_root_textView_rentFee"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:translationZ="20dp" android:elevation="20dp"
-            app:layout_constraintRight_toRightOf="parent"
+            style="@style/allWrapContent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/propertyDescription_root_textView_rentTitle"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:textSize="@dimen/textSize_regular" android:background="@color/colorAccent"
+            android:fontFamily="@font/rubik_bold"
+            android:textSize="@dimen/textSize_regular"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/propertyDescription_root_textView_rentFeeMonthly"
+            style="@style/allWrapContent"
+            app:layout_constraintStart_toEndOf="@id/propertyDescription_root_textView_rentFee"
+            app:layout_constraintTop_toBottomOf="@id/propertyDescription_root_textView_rentTitle"
+            android:fontFamily="@font/rubik_bold"
+            android:textSize="@dimen/textSize_regular"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            tools:text="@string/propertyDescription_root_textView_rentFee" />-->
+            android:text="@string/propertyDescription_root_textView_rentFee" />
 
         <Button
             android:id="@+id/propertyDescription_root_button_next"
@@ -204,6 +188,7 @@
             android:layout_marginEnd="@dimen/saveMapSearch_start_offset"
             android:layout_marginTop="@dimen/saveMapSearch_top_offset"
             android:layout_marginBottom="@dimen/saveMapSearch_top_offset"
+            android:fontFamily="@font/rubik_medium"
             android:text="@string/propertyDescription_root_button_text"
             android:background="@android:color/white"
             android:onClick="@{() -> presenter.onClickContinue()}" />

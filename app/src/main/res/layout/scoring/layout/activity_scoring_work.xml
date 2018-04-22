@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="presenter"
+            type="com.example.michaelkibenko.ballaba.Presenters.ScoringWorkPresenter"/>
+    </data>
+
+    <ScrollView
+        style="@style/allMatchParent"
+        android:layoutDirection="rtl"
+        android:background="@android:color/transparent">
+        <LinearLayout
+            android:id="@+id/scoring_work_root"
+            style="@style/allMatchParent"
+            android:orientation="vertical"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
+            tools:context="com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringPersonalActivity">
+
+            <TextView
+                android:layout_width="@dimen/scoring_back_width"
+                android:layout_height="@dimen/scoring_back_height"
+                android:layout_marginStart="@dimen/large_margin"
+                android:layout_marginTop="@dimen/small_margin"
+                android:drawablePadding="@dimen/small_margin"
+                android:drawableStart="@drawable/right_back_black_24"
+                android:gravity="center"
+                android:text="@string/scoring_back"
+                android:onClick="@{() -> presenter.onClickBack()}" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_height_large"
+                android:layout_marginTop="@dimen/large_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/scoring_title_textSize"
+                android:text="@string/scoring_work_title" />
+
+            <TextView style="@style/scoring_title_textViews" android:text="@string/scoring_employmentStatus_title" />
+            <RadioGroup android:tag="employmentStatus" style="@style/scoring_buttons_container" android:checkedButton="@id/scoringButtonSelfEmployed" >
+                <RadioButton android:text="@string/scoring_employmentStatus_selfEmployed_button" style="@style/scoring_buttons" android:id="@+id/scoringButtonSelfEmployed" />
+                <RadioButton android:text="@string/scoring_employmentStatus_employee_button" style="@style/scoring_buttons" />
+                <RadioButton android:text="@string/scoring_employmentStatus_both_button" style="@style/scoring_buttons" />
+                <RadioButton android:text="@string/scoring_employmentStatus_unemployed_button" style="@style/scoring_buttons" />
+            </RadioGroup>
+
+            <TextView style="@style/scoring_title_textViews" android:text="@string/scoring_seniority_title"/>
+            <RadioGroup android:tag="seniority" style="@style/scoring_buttons_container" android:checkedButton="@id/scoringButtonSeniority" >
+                <RadioButton android:text="@string/scoring_seniority_lessThanYear_button" style="@style/scoring_buttons" android:id="@+id/scoringButtonSeniority" />
+                <RadioButton android:text="@string/scoring_seniority_moreThanYear_button" style="@style/scoring_buttons" />
+            </RadioGroup>
+
+            <TextView style="@style/scoring_title_textViews" android:text="@string/scoring_income_title" />
+            <RadioGroup android:tag="income" style="@style/scoring_buttons_container" android:checkedButton="@id/scoringButtonIncome" >
+                <RadioButton android:text="@string/scoring_income_moreThan5k_button" style="@style/scoring_buttons" android:id="@+id/scoringButtonIncome" />
+                <RadioButton android:text="@string/scoring_income_lessThan5k_button" style="@style/scoring_buttons" />
+            </RadioGroup>
+
+            <TextView style="@style/scoring_title_textViews" android:text="@string/scoring_site_title" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:elevation="@dimen/elevation"
+                android:background="@android:color/white" >
+            <EditText
+                android:id="@+id/scoring_site_editText"
+                android:tag="site"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:inputType="textUri"
+                android:textSize="@dimen/textSize_regular"
+                android:gravity="start|center_vertical"
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="@color/colorPrimary"
+                android:hint="@string/scoring_site_hint" />
+            </FrameLayout>
+
+            <TextView style="@style/scoring_title_textViews" android:text="@string/scoring_email_title" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:elevation="@dimen/elevation"
+                android:background="@android:color/white" >
+            <EditText
+                android:id="@+id/scoring_email_editText"
+                android:tag="email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:inputType="textEmailAddress"
+                android:textSize="@dimen/textSize_regular"
+                android:gravity="start|center_vertical"
+                android:layout_gravity="center_vertical"
+                android:backgroundTint="@color/colorPrimary"
+                android:hint="@string/scoring_email_hint" />
+            </FrameLayout>
+
+            <Button android:id="@+id/scoring_work_ok_button" style="@style/scoring_buttons_ok" android:onClick="@{() -> presenter.onClickOk()}"/>
+            <!--android:onClick="@{() -> presenter.onClickOk()}"-->
+        </LinearLayout>
+    </ScrollView>
+</layout>

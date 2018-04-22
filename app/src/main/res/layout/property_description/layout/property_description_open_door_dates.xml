@@ -27,7 +27,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content" android:background="@android:color/white"
             app:layout_constraintStart_toStartOf="@id/propertyDescriptionOpenDoorDates_title_textView"
-            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionOpenDoorDates_title_textView" />
+            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionOpenDoorDates_title_textView"
+            android:layout_marginTop="@dimen/activity_vertical_margin" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>
