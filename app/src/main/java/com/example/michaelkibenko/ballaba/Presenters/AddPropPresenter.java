@@ -6,6 +6,7 @@ import android.provider.MediaStore;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,11 +85,15 @@ public class AddPropPresenter implements Button.OnClickListener{
         for (int i = 0; i < binder.addPropertyEditTextsRoot.getChildCount(); i++){//root.getChildCount(); i++) {
             View v = binder.addPropertyEditTextsRoot.getChildAt(i);
             if (v instanceof EditText) {
-                intent.putExtra(v.getTag()+"", ((EditText)v).getText());
+                intent.putExtra(v.getTag()+"", ((EditText)v).getText()+"");
             }
 
         }
 
+        intent.putExtra(binder.addPropAboutYourselfEditText.getTag()+""
+                , binder.addPropAboutYourselfEditText.getText()+"");
+
+        Log.d(TAG, intent.getStringExtra("aboutYourself")+":"+intent.getStringExtra("firstName"));
     }
 
 }

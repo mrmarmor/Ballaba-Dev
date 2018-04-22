@@ -136,6 +136,35 @@
 
             </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:elevation="@dimen/elevation"
+            android:orientation="vertical"
+            android:background="@android:color/white" >
+            <TextView
+                android:id="@+id/addProp_aboutYourself_title_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/textSize_big"
+                android:text="@string/addProperty_landlord_aboutYourself_title" />
+            <EditText
+                android:id="@+id/addProp_aboutYourself_editText"
+                android:tag="aboutYourself"
+                style="@style/addProperty_editTexts"
+                android:layout_height="@dimen/addProperty_aboutYourself_editText_height"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:padding="@dimen/small_margin"
+                android:gravity="start"
+                android:hint="@string/addProperty_landlord_aboutYourself_hint" />
+
+        </LinearLayout>
+
             <Button
                 android:id="@+id/addProperty_landlord_button_next"
                 style="@style/AppButtonAnother"

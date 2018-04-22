@@ -10,8 +10,8 @@
     <Button
         android:id="@+id/takePic_button_camera"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="צילום תמונה"
+        android:layout_height="@dimen/takePicSwitch_height"
+        android:text="@string/takePicSwitch_camera"
         android:paddingStart="@dimen/activity_horizontal_margin"
         android:drawablePadding="@dimen/large_margin"
         android:background="@android:color/white"
@@ -20,8 +20,8 @@
     <Button
         android:id="@+id/takePic_button_gallery"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="תמונה מהגלריה"
+        android:layout_height="@dimen/takePicSwitch_height"
+        android:text="@string/takePicSwitch_gallery"
         android:paddingStart="@dimen/activity_horizontal_margin"
         android:drawablePadding="@dimen/large_margin"
         android:background="@android:color/white"
