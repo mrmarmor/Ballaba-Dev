@@ -18,6 +18,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.TransitionManager;
@@ -31,9 +32,11 @@ import android.view.animation.Animation;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Adapters.MapPropertiesRecyclerAdapter;
@@ -78,6 +81,8 @@ import static com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment.PR
 public class BallabaMapFragment extends DialogFragment implements OnMapReadyCallback, LocationListener , GoogleMap.OnCameraMoveStartedListener,
         GoogleMap.OnCameraMoveListener,
         GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraIdleListener ,GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener{
+
+    private LayoutInflater inflater;
 
     @IntDef({ON, OFF})
     @interface MAP_SAVE_CONTAINER_STATES {
@@ -133,6 +138,7 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.inflater = inflater;
         View v = inflater.inflate(R.layout.fragment_map, container, false);
         rootView = (ConstraintLayout) v;
         notChangeableRootView = (ConstraintLayout) inflater.inflate(R.layout.fragment_map, container, false);
@@ -152,7 +158,7 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
         saveSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                snapShotAnimation();
+                openSaveViewPortDialog();
             }
         });
 
@@ -490,6 +496,37 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
         }else {
             Log.e(TAG, "google map is null");
         }
+    }
+
+    private void openSaveViewPortDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View v = inflater.inflate(R.layout.save_view_port_dialog_layout, null, false);
+        builder.setView(v);
+        final EditText nameEditText = v.findViewById(R.id.save_view_port_dialog_save_name_edit_text);
+        Button saveButton = v.findViewById(R.id.save_view_port_dialog_save_button);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                snapShotAnimation();
+                String name = nameEditText.getText().toString();
+                if(name.isEmpty()){
+                    name = "No Name";
+                }
+                ConnectionsManager.getInstance(context).saveViewPort(name, googleMap.getProjection().getVisibleRegion().latLngBounds, new BallabaResponseListener() {
+                    @Override
+                    public void resolve(BallabaBaseEntity entity) {
+                        ((BaseActivity)context).getDefaultSnackBar(getView(), "אזור זה נשמר בהצלחה", false);
+                    }
+
+                    @Override
+                    public void reject(BallabaBaseEntity entity) {
+                        ((BaseActivity)context).getDefaultSnackBar(getView(), "השמירה נכשלה נסה שנית מאוחר יותר", false);
+                    }
+                });
+            }
+        });
+
+        builder.show();
     }
 
 }
