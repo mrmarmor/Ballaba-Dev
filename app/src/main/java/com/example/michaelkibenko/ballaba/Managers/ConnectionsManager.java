@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothClass;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
+import android.os.UserManager;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -601,6 +602,49 @@ public class ConnectionsManager{
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
             queue.add(lazyloading);
+        }
+    }
+
+    public void saveViewPort(String name, LatLngBounds bounds, final BallabaResponseListener callback){
+        try{
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("NE", bounds.northeast.latitude+","+bounds.northeast.longitude);
+            jsonObject.put("SW", bounds.southwest.latitude+","+bounds.southwest.longitude);
+            jsonObject.put("name", name);
+
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, EndpointsHolder.SAVE_VIEW_PORT, jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    callback.resolve(new BallabaOkResponse());
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (error.networkResponse != null) {
+                        callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                    } else {
+                        callback.reject(new BallabaErrorResponse(500, null));
+                    }
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
+                    params.put("session_token", BallabaUserManager.getInstance().getUserSesionToken());
+                    return params;
+                }
+            };
+
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    0,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+            queue.add(jsonObjectRequest);
+        }catch (JSONException ex){
+            callback.reject(new BallabaErrorResponse(500, "JSON parsing error"));
+            ex.printStackTrace();
         }
     }
 
