@@ -96,6 +96,7 @@ public class ScoringPersonalPresenter implements RadioButton.OnClickListener{
         }
     }
 
+    //TODO use UiUtils.buttonChanger to disable button
     public void onClickOk(View view){
         Intent intent = new Intent(activity, ScoringWorkActivity.class);
         for (int i = 0; i < root.getChildCount(); i++) {

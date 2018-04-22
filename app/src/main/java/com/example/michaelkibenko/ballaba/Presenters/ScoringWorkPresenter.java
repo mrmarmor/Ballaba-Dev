@@ -14,19 +14,23 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Common.FinishActivityReceiver;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityScoringWorkBinding;
 
 /**
  * Created by User on 18/04/2018.
  */
 
-public class ScoringWorkPresenter implements RadioButton.OnClickListener{
+public class ScoringWorkPresenter implements RadioButton.OnClickListener
+        , EditText.OnFocusChangeListener {
+
     public static String TAG = ScoringWorkPresenter.class.getSimpleName();
 
     private AppCompatActivity activity;
@@ -39,7 +43,9 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener{
         this.root = binder.scoringWorkRoot;
 
         initButtons();
-        //setEditTextsUnderlineColor();
+
+        binder.scoringSiteEditText.setOnFocusChangeListener(this);
+        binder.scoringEmailEditText.setOnFocusChangeListener(this);
     }
 
     private void initButtons(){
@@ -139,6 +145,14 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener{
 
     private void displayError(String message){
         Toast.makeText(activity, "Invalid "+message, Toast.LENGTH_SHORT).show();
+    }
+
+    //hiding softKeyboard when user taps out of edit text
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (!hasFocus) {
+            UiUtils.instance(true, activity).hideSoftKeyboard(v);
+        }
     }
 
     public void onClickBack(){

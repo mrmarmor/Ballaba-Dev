@@ -17,6 +17,8 @@
             android:id="@+id/scoring_work_root"
             style="@style/allMatchParent"
             android:orientation="vertical"
+            android:clickable="true"
+            android:focusableInTouchMode="true"
             tools:context="com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringPersonalActivity">
 
             <TextView

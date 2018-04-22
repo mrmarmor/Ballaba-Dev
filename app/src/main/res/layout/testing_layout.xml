@@ -84,9 +84,18 @@
         android:text="scoring"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="150dp"
-        android:onClick="@{() -> presenter.onscoringClicked()}"
+        android:onClick="@{() -> presenter.onScoringClicked()}"
         />
 
+    <Button
+        android:id="@+id/addProperty_BTN"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="add property"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="200dp"
+        android:onClick="@{() -> presenter.onAddPropertyClicked()}"
+        />
 
 </android.support.constraint.ConstraintLayout>
 </layout>

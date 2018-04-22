@@ -143,6 +143,11 @@
     <string name="scoring_email_title">דוא״ל של איש קשר</string>
     <string name="scoring_email_hint">example@ballaba-it.com</string>
 
+    <string name="addProperty_landlord_title">פרטים בעל הנכס</string>
+    <string name="addProperty_landlord_uploadImage_title">העלו תמונה שלכם</string>
+    <string name="addProperty_landlord_uploadImage_description">רושם ראשוני זה הכל. צרו אמון על ידי העלאת תמונה שלכם.</string>
+    <string name="addProperty_asset_title">פרטים על הנכס</string>
+
     <string name="terms_of_use_label">תקנון</string>
     <string name="terms_of_use_text">לורם איפסום דולור סיט אמט, קונסקטורר אדיפיסינג
 אלית נולום ארווס סאפיאן - פוסיליס קוויס, אקווזמן קוואזי
