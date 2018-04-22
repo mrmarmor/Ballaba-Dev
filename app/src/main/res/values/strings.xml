@@ -146,6 +146,25 @@
     <string name="addProperty_landlord_title">פרטים בעל הנכס</string>
     <string name="addProperty_landlord_uploadImage_title">העלו תמונה שלכם</string>
     <string name="addProperty_landlord_uploadImage_description">רושם ראשוני זה הכל. צרו אמון על ידי העלאת תמונה שלכם.</string>
+    <string name="addProperty_landlord_profileImage_title">העלו תמונה שלכם</string>
+    <string name="addProperty_landlord_profileImage_description">רושם ראשוני זה הכל. צרו אמון על ידי העלאת תמונה שלכם.</string>
+    <string name="addProperty_landlord_firstName">שם פרטי</string>
+    <string name="addProperty_landlord_firstName_hint">ישראל</string>
+    <string name="addProperty_landlord_lastName">שם משפחה</string>
+    <string name="addProperty_landlord_lastName_hint">ישראלי</string>
+    <string name="addProperty_landlord_email">דוא"ל</string>
+    <string name="addProperty_landlord_email_hint">israeli@gmail.com</string>
+    <string name="addProperty_landlord_phone">מספר טלפון</string>
+    <string name="addProperty_landlord_phone_hint">+972 54 123 4567 890</string>
+    <string name="addProperty_landlord_city">עיר מגורים</string>
+    <string name="addProperty_landlord_city_hint">תל אביב</string>
+    <string name="addProperty_landlord_address">כתובת: רחוב, בניין</string>
+    <string name="addProperty_landlord_address_hint">שדרות ירושלים 15</string>
+    <string name="addProperty_landlord_buildingNumber">מספר דירה</string>
+    <string name="addProperty_landlord_buildingNumber_hint">1</string>
+    <string name="addProperty_landlord_integrity_announcement">כתובת המגורים לא תפורסם בפומבי לעולם.</string>
+    <string name="addProperty_landlord_button_next">בוא נתחיל</string>
+
     <string name="addProperty_asset_title">פרטים על הנכס</string>
 
     <string name="terms_of_use_label">תקנון</string>

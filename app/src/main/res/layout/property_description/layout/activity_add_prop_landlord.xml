@@ -1,14 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:theme="@style/Theme.AppCompat"
-    tools:context="com.example.michaelkibenko.ballaba.Activities.AddProperty.AddPropLandlordActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <TextView
-        android:layout_width="wrap_content" android:text="asrgedg"
-        android:layout_height="wrap_content" />
+    <data>
+        <variable
+            name="presenter"
+            type="com.example.michaelkibenko.ballaba.Presenters.AddPropPresenter"/>
+    </data>
 
-</android.support.constraint.ConstraintLayout>
+    <ScrollView
+        style="@style/allMatchParent"
+        android:layoutDirection="rtl"
+        android:background="@android:color/transparent">
+        <LinearLayout
+            android:id="@+id/addProperty_root"
+            style="@style/allMatchParent"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:background="@android:color/transparent"
+            android:orientation="vertical"
+            tools:context="com.example.michaelkibenko.ballaba.Activities.AddProperty.AddPropLandlordActivity">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:elevation="@dimen/elevation"
+                android:orientation="vertical"
+                android:background="@android:color/white" >
+                <TextView
+                    android:id="@+id/addProp_profile_title_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginBottom="@dimen/tiny_margin"
+                    android:fontFamily="@font/rubik_medium"
+                    android:text="@string/addProperty_landlord_profileImage_title" />
+
+                <TextView
+                    android:id="@+id/addProp_profile_description_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    android:textSize="@dimen/textSize_small"
+                    android:textColor="@color/gray_text_color"
+                    android:text="@string/addProperty_landlord_profileImage_description" />
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/addProp_profile_imageButton"
+                    style="@style/allWrapContent"
+                    android:layout_margin="@dimen/activity_vertical_margin"
+                    android:layout_gravity="center_horizontal"
+                    android:elevation="@dimen/elevation"
+                    android:onClick="@{() -> presenter.onClickProfileImage() }"
+                    android:src="@drawable/transfer_blue_36" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/addProperty_editTexts_Root"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                android:elevation="@dimen/elevation"
+                android:orientation="vertical"
+                android:background="@android:color/white" >
+                <TextView
+                    style="@style/addProperty_textViews"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:text="@string/addProperty_landlord_firstName" />
+                <EditText
+                    android:id="@+id/addProp_firstName_editText"
+                    android:tag="firstName"
+                    style="@style/addProperty_editTexts"
+                    android:inputType="textPersonName"
+                    android:hint="@string/addProperty_landlord_firstName_hint" />
+
+                <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_lastName" />
+                <EditText
+                    android:id="@+id/addProp_lastName_editText"
+                    android:tag="lastName"
+                    style="@style/addProperty_editTexts"
+                    android:inputType="textPersonName"
+                    android:hint="@string/addProperty_landlord_lastName_hint" />
+
+                <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_email" />
+                <EditText
+                    android:id="@+id/addProp_email_editText"
+                    android:tag="email"
+                    style="@style/addProperty_editTexts"
+                    android:inputType="textEmailAddress"
+                    android:hint="@string/addProperty_landlord_email_hint" />
+
+                <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_phone" />
+                <EditText
+                    android:id="@+id/addProp_phone_editText"
+                    android:tag="phone"
+                    style="@style/addProperty_editTexts"
+                    android:inputType="phone"
+                    android:hint="@string/addProperty_landlord_phone_hint" />
+
+                <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_city" />
+                <EditText
+                    android:id="@+id/addProp_city_editText"
+                    android:tag="city"
+                    style="@style/addProperty_editTexts"
+                    android:hint="@string/addProperty_landlord_city_hint" />
+
+                <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_address" />
+                <EditText
+                    android:id="@+id/addProp_address_editText"
+                    android:tag="address"
+                    style="@style/addProperty_editTexts"
+                    android:hint="@string/addProperty_landlord_address_hint" />
+
+                <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_buildingNumber" />
+                <EditText
+                    android:id="@+id/addProp_buildingNumber_editText"
+                    android:layout_width="@dimen/addProperty_buildingNumber_editText_width"
+                    android:tag="buildingNumber"
+                    style="@style/addProperty_editTexts"
+                    android:gravity="center"
+                    android:inputType="numberDecimal"
+                    android:hint="@string/addProperty_landlord_buildingNumber_hint" />
+
+                <TextView
+                    style="@style/allWrapContent"
+                    android:layout_margin="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:textSize="@dimen/textSize_small"
+                    android:textColor="@color/gray_text_color"
+                    android:text="@string/addProperty_landlord_integrity_announcement" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/addProperty_landlord_button_next"
+                style="@style/AppButtonAnother"
+                android:layout_marginTop="@dimen/addProperty_button_next_offset"
+                android:layout_marginBottom="@dimen/addProperty_button_next_offset"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:text="@string/addProperty_landlord_button_next" />
+
+        </LinearLayout>
+    </ScrollView>
+</layout>

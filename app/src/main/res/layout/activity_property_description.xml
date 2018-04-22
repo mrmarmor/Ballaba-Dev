@@ -104,7 +104,7 @@
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:text="@string/propertyDescription_root_streetView_button"
                     android:textColor="@color/colorPrimary"
-                    android:background="@drawable/button_with_blue_border"
+                    android:background="@drawable/blue_border"
                     />
 
                 <View style="@style/divider_gray"

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior"
+    android:layoutDirection="rtl"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/takePic_button_camera"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="צילום תמונה"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:drawablePadding="@dimen/large_margin"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:drawableStart="@drawable/camera_blue_24"/>
+    <Button
+        android:id="@+id/takePic_button_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="תמונה מהגלריה"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:drawablePadding="@dimen/large_margin"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:drawableStart="@drawable/gallery_blue_24"/>
+
+</LinearLayout>

@@ -27,11 +27,8 @@ public class BaseActivity extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //  getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        //getSupportActionBar().hide();
         setTheme(R.style.Theme_AppCompat_Light_NoActionBar);
         UiUtils.instance(true, this).hideSoftKeyboard(getWindow().getDecorView());
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
     public void showNetworkError(View parentView){

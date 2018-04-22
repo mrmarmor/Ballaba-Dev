@@ -26,6 +26,7 @@ android {
             res.srcDirs =
                     [
                             'src/main/res/layout/property_description',
+                            'src/main/res/layout/sub_layouts',
                             'src/main/res/layout/scoring',
                             'src/main/res/layout/filter',
                             'src/main/res/layout',

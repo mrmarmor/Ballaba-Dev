@@ -2,7 +2,7 @@
 
     <!-- THEMES -->
     <!-- Base application theme. -->
-    <style name="AppTheme" >
+    <style name="AppTheme" parent="AppTheme.NoActionBar">
         <!-- Customize your theme here. -->
         <!--parent="Theme.AppCompat.Light.NoActionBar"-->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -10,7 +10,9 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="android:button">@style/AppButton</item>
+<!--
         <item name="android:textViewStyle">@style/textViewsStyle</item>
+-->
         <item name="android:fontFamily">@font/rubik_regular</item>
         <item name="android:screenOrientation">portrait</item>
         <item name="android:textColor">@color/black</item>
@@ -23,9 +25,8 @@
         <item name="android:elevation">@dimen/elevation</item>
         <item name="android:fontFamily">@font/rubik_regular</item>
         <item name="android:screenOrientation">portrait</item>
-    </style>
-    <style name="AppTheme.ActionBar" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:actionBarStyle">@style/ActionBarStyle</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/textSize_regular</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -55,6 +56,13 @@
         <item name="android:textSize">@dimen/textSize_regular</item>
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:background">@android:color/white</item>
+    </style>
+    <style name="AppButtonAnother" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/view_height_large</item>
+        <item name="android:textSize">@dimen/textSize_regular</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:background">@color/colorPrimary</item>
     </style>
 
     <style name="textViewsStyle">
@@ -170,6 +178,19 @@
         <item name="android:elevation">@dimen/elevation</item>
         <item name="android:onClick">onClickOk</item>
         <item name="android:text">@string/propertyDescription_root_button_text</item>
+    </style>
+    
+    <style name="addProperty_textViews">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/small_margin</item>
+        <item name="android:layout_marginBottom">@dimen/small_margin</item>
+    </style>
+    <style name="addProperty_editTexts" parent="addProperty_textViews">
+        <item name="android:layout_height">@dimen/addProperty_editText_height</item>
+        <item name="android:paddingStart">@dimen/small_margin</item>
+        <item name="android:background">@drawable/gray_border</item>
+        <item name="android:gravity">right|center_vertical</item>
     </style>
 
 </resources>
