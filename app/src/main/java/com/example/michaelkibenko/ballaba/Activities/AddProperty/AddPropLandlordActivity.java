@@ -3,14 +3,17 @@ package com.example.michaelkibenko.ballaba.Activities.AddProperty;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
@@ -53,6 +56,15 @@ public class AddPropLandlordActivity extends AppCompatActivity {
                     break;
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        TextView pagesCounterTv = new TextView(this);
+        pagesCounterTv.setText("1/4");
+        pagesCounterTv.setPadding(16, 0, 16, 0);
+        menu.add(0, 1, 1, "1/4").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        return true;
     }
 
     @Override
