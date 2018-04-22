@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/propertyRecyclerView_background_white"
+    android:layoutDirection="rtl">
+
+    <TextView
+        android:id="@+id/save_view_port_dialog_top_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="איך לקרוא לאזור?"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="21dp"
+        />
+
+    <android.support.v7.widget.AppCompatEditText
+        android:id="@+id/save_view_port_dialog_save_name_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="לדוגמה: שכונת פלורנטין"
+        app:backgroundTint="@color/colorPrimaryDark"
+        app:layout_constraintTop_toBottomOf="@+id/save_view_port_dialog_top_text"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        />
+
+    <Button
+        android:id="@+id/save_view_port_dialog_save_button"
+        android:layout_width="75dp"
+        android:layout_height="36dp"
+        android:textColor="@color/colorPrimary"
+        android:text="שמור"
+        android:background="@android:color/transparent"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_margin="10dp"/>
+
+
+</android.support.constraint.ConstraintLayout>
