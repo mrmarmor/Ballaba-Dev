@@ -29,47 +29,27 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter /*impleme
     //private Context context;
     private ActivityAddPropertyBinding binder;
     private FragmentManager fm;
-    //private Fragment[] fragments;
-    private HashMap<String, String> data = new HashMap<>();
 
-    final private @IdRes Integer[] BUTTONS = {R.id.addProperty_landlord_button_next};
-
-    //private ConstraintLayout rootLayout;
-    //public AddPropLandlordFrag landlordFragment;
-
-    public AddPropertyPagerAdapter(/*Context context, */ActivityAddPropertyBinding binder, /*Fragment[] fragments,*//*ActivityAddPropertyBinding binder,*/ FragmentManager fm/*, HashMap<String, String> map*/) {
+    public AddPropertyPagerAdapter(ActivityAddPropertyBinding binder, FragmentManager fm) {
         super(fm);
-        //this.context = context;
-        //this.fragments = fragments;
-        //data.putAll(map);
+
         this.binder = binder;
-        //this.fm = fm;
-        //priceFragment = PriceFragment.newInstance(this.filterDimensions.getMin_price(), this.filterDimensions.getMax_price());
-        //roomsFragment = RoomsFragment.newInstance(this.filterDimensions.getMin_rooms(), this.filterDimensions.getMax_rooms());
-        //sizeFragment = SizeFragment.newInstance(this.filterDimensions.getMin_size(), this.filterDimensions.getMax_size());
-        //attachmnetsFragment = AttachmentsFragment.newInstance();
-        //dateOfEntranceFragment = DateOfEntranceFragment.newInstance();
-        //binder.mainActivityFilterRoot.mainActivityFilterPriceButton
-        //rootLayout = binder.mainActivityFilterIncluded.mainActivityFilterRoot;
-        //binder.addPropertyViewPager.setCurrentItem(0);
-        //initButtonsClickListener();
     }
 
     @Override
     public Fragment getItem(int position) {
-        //return fragments[position];
         switch (position){
             case 0: default:
                 return AddPropLandlordFrag.newInstance(binder);
 
             case 1:
-                return AddPropAssetFrag.newInstance(null, null);
+                return AddPropAssetFrag.newInstance(binder);
 
             case 2:
-                return AddPropAddonsFrag.newInstance(null, null);
+                return AddPropAddonsFrag.newInstance(binder);
 
             case 3:
-                return AddPropPaymentsFrag.newInstance(null, null);
+                return AddPropPaymentsFrag.newInstance(binder);
 
         }
     }

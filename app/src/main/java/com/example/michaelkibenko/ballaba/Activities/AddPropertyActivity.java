@@ -4,28 +4,37 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.UserManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Entities.PropertyDescriptionComment;
+import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Presenters.AddPropPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
+
+import java.util.HashMap;
 
 public class AddPropertyActivity extends AppCompatActivity {
     private final static String TAG = AddPropertyActivity.class.getSimpleName();
 
     private AddPropPresenter presenter;
     private ActivityAddPropertyBinding binder;
+    public BallabaUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binder = DataBindingUtil.setContentView(this, R.layout.activity_add_property);
         binder.setPresenter(new AddPropPresenter(this, binder));
+        user = BallabaUserManager.getInstance().getUser();
 
         UiUtils.instance(true, this).hideSoftKeyboard(binder.getRoot());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -50,7 +59,7 @@ public class AddPropertyActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                super.onBackPressed();
+                super.onBackPressed();//we can use binder.addPropertyViewPager.setCurrentItem(binder.addPropertyViewPager.getCurrentItem() - 1);
                 return true;
 
             default:

@@ -69,6 +69,7 @@
         <activity android:name=".Activities.Scoring.ScoringWelcomeActivity" />
         <activity android:name=".Activities.Scoring.ScoringPersonalActivity" />
         <activity android:name=".Activities.Scoring.ScoringWorkActivity" />
+        <activity android:name=".Activities.ContinueAddPropertyActivity" />
         <activity android:name=".Activities.AddPropertyActivity"
             android:label="@string/addProperty_landlord_title" android:theme="@style/ActionBarStyle" />
     </application>

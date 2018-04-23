@@ -29,7 +29,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivity;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
+import com.example.michaelkibenko.ballaba.Activities.ContinueAddPropertyActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
 import com.example.michaelkibenko.ballaba.Adapters.FilterPagerAdapter;
@@ -40,8 +42,10 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.FilterDimensions;
 import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
+import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
+import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
@@ -126,6 +130,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                         binder.mainActivityDrawerLayout.closeDrawers();
 
                         //TODO here i need to add switch between menu items
+                        switchScreenByMenuItem(menuItem);
 
                         return true;
                     }
@@ -302,6 +307,55 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         }else{
             Log.e(TAG, "ScreenState is equals");
         }
+    }
+
+    private void switchScreenByMenuItem(MenuItem menuItem){
+        Intent intent = null;
+        switch (menuItem.getItemId()){
+            case R.id.nav_addProperty:
+                String propertyId = SharedPreferencesManager.getInstance(context).getString(
+                        SharedPreferencesKeysHolder.PROPERTY_ID, null);
+                if (propertyId == null){//== user had finished upload his property
+                    intent = new Intent(context, AddPropertyActivity.class);
+                } else {
+                    intent = new Intent(context, ContinueAddPropertyActivity.class);
+                }
+                break;
+
+            case R.id.nav_payments:
+
+                break;
+
+            case R.id.nav_myProperties:
+
+                break;
+
+            case R.id.nav_favorites:
+
+                break;
+
+            case R.id.nav_savedAreas:
+
+                break;
+
+            case R.id.nav_changeName:
+
+                break;
+
+            case R.id.nav_conflicts:
+
+                break;
+
+            case R.id.nav_editProfile:
+
+                break;
+
+            case R.id.nav_settings: default:
+
+        }
+
+        if (intent != null)
+            context.startActivity(intent);
     }
 
     private void getPropertiesByAddressAndFilter(ArrayList<String> cities){
