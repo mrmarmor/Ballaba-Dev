@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivity;
 import com.example.michaelkibenko.ballaba.Adapters.AddPropertyPagerAdapter;
 import com.example.michaelkibenko.ballaba.Common.BallabaFragmentListener;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropAddonsFrag;
@@ -33,29 +34,52 @@ import java.util.HashMap;
  * Created by User on 22/04/2018.
  */
 
-public class AddPropPresenter implements Button.OnClickListener, BallabaFragmentListener{
+public class AddPropPresenter /*implements Button.OnClickListener, BallabaFragmentListener*/{
     private static String TAG = AddPropPresenter.class.getSimpleName();
 
     private AppCompatActivity activity;
+    private static AddPropPresenter instance;
     private ActivityAddPropertyBinding binder;
-    private FragmentAddPropLandlordBinding binderLandlord;
+    //private FragmentAddPropLandlordBinding binderLandlord;
     /*private FragmentAddPropAssetBinding binderAsset;
     private FragmentAddPropAddonsBinding binderAsset;
     private FragmentAddPropPaymentsBinding binderPay;*/
     private ViewGroup root;
     private BottomSheetDialog bottomSheetDialog;
     private AddPropertyPagerAdapter addPropertyPagerAdapter;
-    private final Fragment[] FRAGMENTS = new Fragment[]{new AddPropLandlordFrag(), new AddPropAssetFrag()
-            , new AddPropAddonsFrag(), new AddPropPaymentsFrag()};
-    private HashMap<String, String> data = new HashMap<>();
+   /* private final Fragment[] FRAGMENTS = new Fragment[]{AddPropLandlordFrag.newInstance(binder), AddPropAssetFrag.newInstance(null, null)
+            , AddPropAddonsFrag.newInstance(null ,null), AddPropPaymentsFrag.newInstance(null, null)};
+   */ private HashMap<String, String> data = new HashMap<>();
 
-    public AddPropPresenter(AppCompatActivity activity) {
+    public AddPropPresenter(){}
+    public AddPropPresenter(AppCompatActivity activity, ActivityAddPropertyBinding binding) {
         this.activity = activity;
         //this.root = binder.addPropertyRoot;
-        binderLandlord = DataBindingUtil.inflate(activity.getLayoutInflater(), R.layout.fragment_add_prop_landlord,null , false);
+        //binderLandlord = DataBindingUtil.inflate(activity.getLayoutInflater(), R.layout.fragment_add_prop_landlord,null , false);
+        this.binder = binding;
 
-        binder.addPropertyLandlordButtonNext.setOnClickListener(this);
-        addPropertyPagerAdapter = new AddPropertyPagerAdapter(activity, FRAGMENTS, activity.getSupportFragmentManager());
+        //binder.addPropertyLandlordButtonNext.setOnClickListener(this);
+        addPropertyPagerAdapter = new AddPropertyPagerAdapter(binder, activity.getSupportFragmentManager());
+        binder.addPropertyViewPager.setAdapter(addPropertyPagerAdapter);
+    }
+
+    public static AddPropPresenter getInstance(/*ActivityAddPropertyBinding binding*/){
+        //binder = binding;
+
+        if (instance == null)
+            instance = new AddPropPresenter();
+
+        return instance;
+    }
+
+    public void getDataFromFragment(HashMap<String, String> fragmentData, int position){
+        data.putAll(fragmentData);
+        Log.d(TAG, "elements: "+data.size());
+
+        //binder = DataBindingUtil.inflate(new AddPropertyActivity().getLayoutInflater(), R.layout.activity_add_property, null, false);
+
+        binder.addPropertyViewPager.setCurrentItem(position + 1);
+        activity.invalidateOptionsMenu();
     }
 
     /*public void onClickProfileImage(){
@@ -68,10 +92,10 @@ public class AddPropPresenter implements Button.OnClickListener, BallabaFragment
         bottomSheetDialog.show();
     }*/
 
-    @Override
+    /*@Override
     public void onClick(View v) {
         switch (v.getId()){
-            /*case R.id.takePic_button_camera:
+            *//*case R.id.takePic_button_camera:
                 Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 activity.startActivityForResult(takePicture, AddPropertyActivity.REQUEST_CODE_CAMERA);
                 bottomSheetDialog.dismiss();
@@ -82,12 +106,13 @@ public class AddPropPresenter implements Button.OnClickListener, BallabaFragment
                         android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 activity.startActivityForResult(pickPhoto , AddPropertyActivity.REQUEST_CODE_GALLERY);
                 bottomSheetDialog.dismiss();
-                break;*/
+                break;*//*
 
             case R.id.addProperty_landlord_button_next:
                 Toast.makeText(activity, "next", Toast.LENGTH_SHORT).show();
                 int position = binder.addPropertyViewPager.getCurrentItem();
-                switch (position){
+                binder.addPropertyViewPager.setCurrentItem(position + 1);
+                *//*switch (position){
                     case 0:
                         data.putAll(((AddPropLandlordFrag)FRAGMENTS[0]).getFieldsData());
                         break;
@@ -102,7 +127,7 @@ public class AddPropPresenter implements Button.OnClickListener, BallabaFragment
 
                     case 3: default:
                         //data.putAll(((AddPropPaymentsFrag)FRAGMENTS[3]).getFieldsData());
-                }
+                }*//*
                 //FRAGMENTS[position].
                 //storeDataOnFinish();
         }
@@ -111,7 +136,7 @@ public class AddPropPresenter implements Button.OnClickListener, BallabaFragment
     @Override
     public void onFragmentInteraction(HashMap<String, String> map) {
 
-    }
+    }*/
 
     /*private void storeDataOnFinish(){
         Intent intent = new Intent(activity, AddPropertyActivity.class);

@@ -17,7 +17,6 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding
 
 public class AddPropertyActivity extends AppCompatActivity {
     private final static String TAG = AddPropertyActivity.class.getSimpleName();
-    public final static int REQUEST_CODE_CAMERA = 1, REQUEST_CODE_GALLERY = 2;
 
     private AddPropPresenter presenter;
     private ActivityAddPropertyBinding binder;
@@ -26,7 +25,7 @@ public class AddPropertyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binder = DataBindingUtil.setContentView(this, R.layout.activity_add_property);
-        binder.setPresenter(new AddPropPresenter(this/*, binder*/));
+        binder.setPresenter(new AddPropPresenter(this, binder));
 
         UiUtils.instance(true, this).hideSoftKeyboard(binder.getRoot());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -35,28 +34,14 @@ public class AddPropertyActivity extends AppCompatActivity {
 
     }
 
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent imageIntent) {
-        super.onActivityResult(requestCode, resultCode, imageIntent);
-
-        if (resultCode == RESULT_OK && imageIntent != null){
-            Uri selectedImage = imageIntent.getData();
-
-            switch(requestCode) {
-                case REQUEST_CODE_CAMERA: case REQUEST_CODE_GALLERY:
-                    binder.addPropertyViewPager.addPropProfileImageButton.setImageURI(selectedImage);
-                    break;
-            }
-        }
-    }*/
-
     //Here we adds in the left corner of the actionbar a counter of pages
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         TextView pagesCounterTv = new TextView(this);
-        pagesCounterTv.setText("1/4");
+        int pageNumber = binder.addPropertyViewPager.getCurrentItem() + 1;
+        pagesCounterTv.setText(pageNumber + "/4");
         pagesCounterTv.setPadding(16, 0, 16, 0);
-        menu.add(0, 1, 1, "1/4").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(0, 1, 1, pageNumber+"/4").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         return true;
     }
 
