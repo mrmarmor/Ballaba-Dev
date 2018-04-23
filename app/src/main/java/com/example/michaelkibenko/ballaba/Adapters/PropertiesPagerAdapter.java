@@ -19,13 +19,13 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
  * Created by User on 13/03/2018.
  */
 
-public class ViewPagerPropertiesAdapter extends FragmentStatePagerAdapter {
+public class PropertiesPagerAdapter extends FragmentStatePagerAdapter {
     private Context context;
     private ActivityMainLayoutBinding binder;
     private PropertiesRecyclerFragment propertiesRecyclerFragment;
     private BallabaMapFragment mapFragment;
 
-    public ViewPagerPropertiesAdapter(Context context, ActivityMainLayoutBinding binder, FragmentManager fm, PropertiesRecyclerFragment propertiesRecyclerFragment) {
+    public PropertiesPagerAdapter(Context context, ActivityMainLayoutBinding binder, FragmentManager fm, PropertiesRecyclerFragment propertiesRecyclerFragment) {
         super(fm);
 
         this.context = context;

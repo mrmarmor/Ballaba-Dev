@@ -8,11 +8,11 @@ import com.example.michaelkibenko.ballaba.Fragments.PropertyImageFragment;
 
 import java.util.ArrayList;
 
-public class PropertiesPhotosViewPagerAdapter extends FragmentStatePagerAdapter{
+public class PropertiesPhotosPagerAdapter extends FragmentStatePagerAdapter{
 
     private ArrayList<PropertyImageFragment> items;
 
-    public PropertiesPhotosViewPagerAdapter(FragmentManager fm, ArrayList<PropertyImageFragment> items) {
+    public PropertiesPhotosPagerAdapter(FragmentManager fm, ArrayList<PropertyImageFragment> items) {
         super(fm);
         this.items = items;
     }

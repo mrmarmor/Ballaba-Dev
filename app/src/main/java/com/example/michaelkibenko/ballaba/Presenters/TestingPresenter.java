@@ -3,7 +3,7 @@ package com.example.michaelkibenko.ballaba.Presenters;
 import android.content.Context;
 import android.content.Intent;
 
-import com.example.michaelkibenko.ballaba.Activities.AddProperty.AddPropLandlordActivity;
+import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterPhoneNumberActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
@@ -47,6 +47,6 @@ public class TestingPresenter extends BasePresenter {
     }
 
     public void onAddPropertyClicked(){
-        context.startActivity(new Intent(context, AddPropLandlordActivity.class));
+        context.startActivity(new Intent(context, AddPropertyActivity.class));
     }
 }

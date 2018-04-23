@@ -32,8 +32,8 @@ import android.widget.Toast;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
-import com.example.michaelkibenko.ballaba.Adapters.ViewPagerFilterAdapter;
-import com.example.michaelkibenko.ballaba.Adapters.ViewPagerPropertiesAdapter;
+import com.example.michaelkibenko.ballaba.Adapters.FilterPagerAdapter;
+import com.example.michaelkibenko.ballaba.Adapters.PropertiesPagerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
@@ -60,7 +60,7 @@ import static com.example.michaelkibenko.ballaba.Presenters.MainPresenter.SORT_T
  */
 
 public class MainPresenter extends BasePresenter implements ConstraintLayout.OnFocusChangeListener
-        , PropertiesRecyclerFragment.OnFragmentInteractionListener {
+       /* , PropertiesRecyclerFragment.OnFragmentInteractionListener*/ {
 
     @IntDef({RELEVANT, PRICE, SIZE, NUMBER_OF_ROOMS})
     public @interface SORT_TYPE {
@@ -80,8 +80,8 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     private Context context;
     private FragmentManager fm;
     private ViewPager filterViewPager;
-    private ViewPagerPropertiesAdapter propertiesPagerAdapter;
-    private ViewPagerFilterAdapter filterPagerAdapter;
+    private PropertiesPagerAdapter propertiesPagerAdapter;
+    private FilterPagerAdapter filterPagerAdapter;
     private ActivityMainLayoutBinding binder;
     public Button.OnClickListener clickListener;
     private PropertiesRecyclerFragment.OnFragmentInteractionListener mListener;
@@ -133,14 +133,14 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     }
 
     private void initViewPagerProperties(){
-        propertiesPagerAdapter = new ViewPagerPropertiesAdapter(context, binder, fm, propertiesFragment);
+        propertiesPagerAdapter = new PropertiesPagerAdapter(context, binder, fm, propertiesFragment);
         binder.mainActivityPropertiesViewPager.setAdapter(propertiesPagerAdapter);
         binder.mainActivityPropertiesViewPager.setOffscreenPageLimit(2);
     }
 
     private void initFilter(){
         //TODO initFilter just after response
-        filterPagerAdapter = new ViewPagerFilterAdapter(context, binder, fm, new FilterDimensions("100000", "0", "500", "10", "50", "1"));
+        filterPagerAdapter = new FilterPagerAdapter(context, binder, fm, new FilterDimensions("100000", "0", "500", "10", "50", "1"));
         filterViewPager = binder.mainActivityFilterIncluded.mainActivityFilterViewPager;
         filterViewPager.setAdapter(filterPagerAdapter);
         filterViewPager.setOffscreenPageLimit(5);
@@ -194,12 +194,12 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         filterViewPager.setCurrentItem(4);
     }
 
-    @Override
+    /*@Override
     public void onFragmentInteraction(Uri uri) {
         Log.d(TAG, "hiding: " + binder.mainActivityFilterIncluded.mainActivityFilterRoot.getVisibility() + "");
         binder.mainActivityFilterIncluded.mainActivityFilterRoot.setVisibility(View.GONE);
         Log.d(TAG, "hiding: " + binder.mainActivityFilterIncluded.mainActivityFilterRoot.getVisibility() + "");
-    }
+    }*/
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
