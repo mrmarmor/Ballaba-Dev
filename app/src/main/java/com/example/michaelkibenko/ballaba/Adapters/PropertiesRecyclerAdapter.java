@@ -76,11 +76,11 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     public void onBindViewHolder(final PropertiesRecyclerAdapter.ViewHolder holder, final int position) {
         Log.d(TAG, properties.size()+":"+position);
         final BallabaPropertyResult property = properties.get(position);
-        PropertiesPhotosViewPagerAdapter propertiesPhotosViewPagerAdapter = new PropertiesPhotosViewPagerAdapter(fragmentManager, generateImageFragments(property.photos, property.id));
-        holder.binder.propertyItemImageView.setId(position+propertiesPhotosViewPagerAdapter.hashCode());
+        PropertiesPhotosPagerAdapter propertiesPhotosPagerAdapter = new PropertiesPhotosPagerAdapter(fragmentManager, generateImageFragments(property.photos, property.id));
+        holder.binder.propertyItemImageView.setId(position+propertiesPhotosPagerAdapter.hashCode());
         holder.binder.propertyItemImageView.setCurrentItem(property.photos.size()/2);
         holder.binder.propertyItemImageView.setOffscreenPageLimit(2);
-        holder.binder.propertyItemImageView.setAdapter(propertiesPhotosViewPagerAdapter);
+        holder.binder.propertyItemImageView.setAdapter(propertiesPhotosPagerAdapter);
         Drawable d = property.isSaved? res.getDrawable(R.drawable.heart_blue_24, mContext.getTheme())
                 :res.getDrawable(R.drawable.heart_white_24, mContext.getTheme());
         holder.binder.propertyItemIsSavedPropertyImageView.setImageDrawable(d);

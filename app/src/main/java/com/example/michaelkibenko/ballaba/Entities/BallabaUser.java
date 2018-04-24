@@ -1,5 +1,7 @@
 package com.example.michaelkibenko.ballaba.Entities;
 
+import android.graphics.Bitmap;
+
 import com.google.gson.Gson;
 
 /**
@@ -7,20 +9,23 @@ import com.google.gson.Gson;
  */
 
 public class BallabaUser extends BallabaBaseEntity {
-    private String id, phone, email, first_name, last_name, gender, tenant_score, landlord_score, guarantor_score, date_created, date_updated, session_token
+    private String id, phone, email, first_name, last_name, city, address, apt_no, gender, tenant_score, landlord_score, guarantor_score, date_created, date_updated, session_token
             , device_id, global_token;
+    private Bitmap profile_image;
 
     public BallabaUser(){}
 
     //TODO MAKE THIS CLASS BECOME A SINGLETON
 
-    public BallabaUser(String id, String phone, String email, String first_name, String last_name, String gender, String tenant_score, String landlord_score
-            , String guarantor_score, String date_created, String date_updated, String session_token, String device_id, String global_token) {
+    public BallabaUser(String id, String phone, String email, String first_name, String last_name, String city, String address, String apt_no, String gender, String tenant_score, String landlord_score, String guarantor_score, String date_created, String date_updated, String session_token, String device_id, String global_token, Bitmap profile_image) {
         this.id = id;
         this.phone = phone;
         this.email = email;
         this.first_name = first_name;
         this.last_name = last_name;
+        this.city = city;
+        this.address = address;
+        this.apt_no = apt_no;
         this.gender = gender;
         this.tenant_score = tenant_score;
         this.landlord_score = landlord_score;
@@ -30,6 +35,7 @@ public class BallabaUser extends BallabaBaseEntity {
         this.session_token = session_token;
         this.device_id = device_id;
         this.global_token = global_token;
+        this.profile_image = profile_image;
     }
 
     public String getGlobal_token() {
@@ -42,5 +48,69 @@ public class BallabaUser extends BallabaBaseEntity {
 
     public String getSessionToken(){
         return this.session_token;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getApt_no() {
+        return apt_no;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public String getTenant_score() {
+        return tenant_score;
+    }
+
+    public String getLandlord_score() {
+        return landlord_score;
+    }
+
+    public String getGuarantor_score() {
+        return guarantor_score;
+    }
+
+    public String getDate_created() {
+        return date_created;
+    }
+
+    public String getDate_updated() {
+        return date_updated;
+    }
+
+    public String getDevice_id() {
+        return device_id;
+    }
+
+    public Bitmap getProfile_image() {
+        return profile_image;
     }
 }

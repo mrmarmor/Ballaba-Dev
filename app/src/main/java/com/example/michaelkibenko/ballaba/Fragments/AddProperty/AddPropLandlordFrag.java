@@ -1,6 +1,5 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -14,12 +13,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.example.michaelkibenko.ballaba.Presenters.AddPropPresenter;
+import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
+import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropLandlordBinding;
@@ -36,6 +35,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     private static ActivityAddPropertyBinding binderMain;
     private FragmentAddPropLandlordBinding binderLandLord;
     private BottomSheetDialog bottomSheetDialog;
+    public BallabaUser user = BallabaUserManager.getInstance().getUser();
 
     public AddPropLandlordFrag() {}
 
@@ -53,6 +53,10 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         binderLandLord = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_add_prop_landlord, container, false);
         View view = binderLandLord.getRoot();
+
+        //TODO i tried to setText automatically from layout by dataBinding. for some reason it is not working.
+        //TODO we need to fill all editTexts in this way and not programmatically as below:
+        //binderLandLord.addPropPhoneEditText.setText(user.getPhone());
 
         initButtons(view);
         return view;
@@ -94,7 +98,6 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             if (v instanceof EditText) {
                 map.put(v.getTag()+"", ((EditText)v).getText()+"");
             }
-
         }
 
         map.put(binderLandLord.addPropAboutYourselfEditText.getTag()+""
@@ -132,9 +135,9 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.addProperty_landlord_button_next:
-                Toast.makeText(context, "next", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "next", Toast.LENGTH_SHORT).show();
                 HashMap<String, String> data = storeDataOnFinish(new HashMap<String, String>());
-                new AddPropPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(data, 0);
+                new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(data, 0);
         }
     }
 

@@ -33,6 +33,7 @@ import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivity;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.ContinueAddPropertyActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
+import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
 import com.example.michaelkibenko.ballaba.Adapters.FilterPagerAdapter;
 import com.example.michaelkibenko.ballaba.Adapters.PropertiesPagerAdapter;
@@ -47,10 +48,13 @@ import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -91,7 +95,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     private PropertiesRecyclerFragment.OnFragmentInteractionListener mListener;
     private PropertiesRecyclerFragment propertiesFragment;
     private LayoutInflater inflater;
-    private ConstraintLayout filterTransition, noFilterTransition, searchStateTransition;
+    private ConstraintLayout filterTransition, noFilterTransition;
     //private GoogleMap googleMap;
     private float middleFilterHeight;
     public @FilterState int filterState;
@@ -109,7 +113,6 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         ViewGroup parent = ((MainActivity)context).getWindow().getDecorView().findViewById(android.R.id.content);
         this.noFilterTransition = (ConstraintLayout) inflater.inflate(R.layout.activity_main_layout, parent, false).findViewById(R.id.mainActivity_rootLayout);
         this.filterTransition = (ConstraintLayout) inflater.inflate(R.layout.activity_main_layout_filter_transition, parent, false).findViewById(R.id.mainActivity_rootLayout);
-        this.searchStateTransition = (ConstraintLayout) inflater.inflate(R.layout.activity_main_layout_search_state_layout, parent, false).findViewById(R.id.mainActivity_rootLayout);
         propertiesFragment = PropertiesRecyclerFragment.newInstance(null);
         middleFilterHeight = context.getResources().getDimension(R.dimen.mainScreen_filter_middle_height);
         this.filterState = FilterState.NO_FILTER;
@@ -117,6 +120,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         citiesResults = new ArrayList<>();
         initDrawer();
         initViewPagerProperties();
+        //TODO to be added only when after user selected city
         initFilter();
         changeScreenState(ScreenState.BEFORE_SEARCH);
     }
@@ -295,19 +299,14 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
 
     private void changeScreenState(@ScreenState int screenState){
         if(this.screenState != screenState) {
-            ConstraintSet set = new ConstraintSet();
             this.screenState = screenState;
             if (this.screenState == ScreenState.BEFORE_SEARCH){
-                binder.mainActivitySortButtonsLinearLayout.setVisibility(View.INVISIBLE);
+                binder.mainActivitySortButtonsLinearLayout.setVisibility(View.GONE);
                 binder.openFilterButton.setVisibility(View.GONE);
             }
             else if (this.screenState == ScreenState.AFTER_SEARCH){
                 binder.mainActivitySortButtonsLinearLayout.setVisibility(View.VISIBLE);
                 binder.openFilterButton.setVisibility(View.VISIBLE);
-                binder.mainActivitySearchBar.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary, context.getTheme()));
-                set.clone(searchStateTransition);
-                TransitionManager.beginDelayedTransition(binder.mainActivityRootLayout);
-                set.applyTo(binder.mainActivityRootLayout);
             }
         }else{
             Log.e(TAG, "ScreenState is equals");
@@ -318,13 +317,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         Intent intent = null;
         switch (menuItem.getItemId()){
             case R.id.nav_addProperty:
-                String propertyId = SharedPreferencesManager.getInstance(context).getString(
-                        SharedPreferencesKeysHolder.PROPERTY_ID, null);
-                if (propertyId == null){//== user had finished upload his property
-                    intent = new Intent(context, AddPropertyActivity.class);
-                } else {
-                    intent = new Intent(context, ContinueAddPropertyActivity.class);
-                }
+                intent = getIntent_addProperty();
                 break;
 
             case R.id.nav_payments:
@@ -392,7 +385,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     private void onFilterUIChanged(int state){
         ConstraintSet set = new ConstraintSet();
         if (state == FilterState.NO_FILTER){
-            set.clone(searchStateTransition);
+            set.clone(noFilterTransition);
             set.constrainHeight(R.id.mainActivity_filter_included, binder.mainActivityFilterIncluded.getRoot().getHeight());
             binder.openFilterButton.setVisibility(View.VISIBLE);
             binder.mainActivityBottomAnchor.setBackgroundColor(context.getResources().getColor(android.R.color.transparent, context.getTheme()));
@@ -410,12 +403,34 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         set.applyTo(binder.mainActivityRootLayout);
     }
 
-    public Button.OnClickListener getClickListener(){
-        return clickListener;
-    }
+    private Intent getIntent_addProperty(){
+        final int TWO_WEEKS = 14 * 24 * 60 * 60 * 1000;//TODO decide what will be expire date
 
-    public void setListAdapterToDeviceAddress(ListView listView){
-        ArrayAdapter myAddressAdapter = new ArrayAdapter(context, android.R.layout.simple_list_item_single_choice/*R.layout.one_item*//*R.layout.fragment_publish_job_location*/);
+        String propertyId = SharedPreferencesManager.getInstance(context).getString(
+                SharedPreferencesKeysHolder.PROPERTY_ID, null);
+        String uploadDateStr = SharedPreferencesManager.getInstance(context).getString(
+                SharedPreferencesKeysHolder.PROPERTY_UPLOAD_DATE, null);
+
+        Date expireDate = new Date(StringUtils.getInstance(true, context)
+                .stringToTime(uploadDateStr) + TWO_WEEKS);
+        Date now = new Date(Calendar.getInstance().getTimeInMillis());
+
+        /*TODO TESTING*/propertyId = "1";/*TODO END OF TESTING*/
+        if (propertyId == null //=> user had finished upload his property or had never uploaded any
+                || (expireDate != null && expireDate.after(now))){ //=> or user had not finished upload, but 14 days had passed
+            return new Intent(context, AddPropertyActivity.class);
+        } else {// => user had started upload + had not finished yet + 14 days had not passed yet from starting uploading
+            Intent intent = new Intent(context, ContinueAddPropertyActivity.class);
+            intent.putExtra(PropertyDescriptionActivity.PROPERTY, propertyId);
+            return intent;
+        }
+    }
+    /*public Button.OnClickListener getClickListener(){
+        return clickListener;
+    }*/
+
+    /*public void setListAdapterToDeviceAddress(ListView listView){
+        ArrayAdapter myAddressAdapter = new ArrayAdapter(context, android.R.layout.simple_list_item_single_choice*//*R.layout.one_item*//**//*R.layout.fragment_publish_job_location*//*);
         myAddressAdapter.add(getDeviceAddress(context));
         listView.setAdapter(myAddressAdapter);
     }
@@ -452,7 +467,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         }else{
             Log.d(TAG, "gps permission had already been given");
         }
-    }
+    }*/
 
 
     //TODO add onRequestPermissionsResult:
@@ -470,4 +485,3 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     }*/
 
 }
-

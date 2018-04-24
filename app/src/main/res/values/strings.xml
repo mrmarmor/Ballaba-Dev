@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Ballaba</string>
+    <string name="button_next">המשך</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -150,7 +151,15 @@
     <string name="addProperty_continue_button_continue">המשך תהליך</string>
     <string name="addProperty_continue_button_not_now">לא כרגע</string>
 
-    <string name="addProperty_landlord_title">פרטים בעל הנכס</string>
+    <string-array name="addProperty_titles">
+        <item>פרטים בעל הנכס</item>
+        <item>פרטים על הנכס</item>
+        <item>תכולה ותוספות</item>
+        <item>תשלומים</item>
+        <item>העלאת תמונות</item>
+    </string-array>
+    <!--<string name="addProperty_landlord_title">פרטים בעל הנכס</string>-->
+
     <string name="addProperty_landlord_uploadImage_title">העלו תמונה שלכם</string>
     <string name="addProperty_landlord_uploadImage_description">רושם ראשוני זה הכל. צרו אמון על ידי העלאת תמונה שלכם.</string>
     <string name="addProperty_landlord_profileImage_title">העלו תמונה שלכם</string>
@@ -159,13 +168,13 @@
     <string name="addProperty_landlord_firstName_hint">ישראל</string>
     <string name="addProperty_landlord_lastName">שם משפחה</string>
     <string name="addProperty_landlord_lastName_hint">ישראלי</string>
-    <string name="addProperty_landlord_email">דוא"ל</string>
+    <string name="addProperty_landlord_email">דוא\"ל</string>
     <string name="addProperty_landlord_email_hint">israeli@gmail.com</string>
     <string name="addProperty_landlord_phone">מספר טלפון</string>
     <string name="addProperty_landlord_phone_hint">+972 54 123 4567 890</string>
     <string name="addProperty_landlord_city">עיר מגורים</string>
     <string name="addProperty_landlord_city_hint">תל אביב</string>
-    <string name="addProperty_landlord_address">כתובת: רחוב, בניין</string>
+    <string name="addProperty_landlord_address">כתובת מגורים</string>
     <string name="addProperty_landlord_address_hint">שדרות ירושלים 15</string>
     <string name="addProperty_landlord_buildingNumber">מספר דירה</string>
     <string name="addProperty_landlord_buildingNumber_hint">1</string>
@@ -174,7 +183,26 @@
     <string name="addProperty_landlord_aboutYourself_hint">תיאור קצר על מנת שיוכלו להכיר אותך טוב יותר</string>
     <string name="addProperty_landlord_button_next">בוא נתחיל</string>
 
-    <string name="addProperty_asset_title">פרטים על הנכס</string>
+    <string name="addProperty_asset_propertyPosition_title">היכן ממוקם הנכס?</string>
+    <string name="addProperty_asset_city">עיר</string>
+    <string name="addProperty_asset_city_hint">תל אביב</string>
+    <string name="addProperty_asset_address">כתובת: רחוב, בניין</string>
+    <string name="addProperty_asset_address_hint">ביאליק 8</string>
+    <string name="addProperty_asset_apartmentNumber">מספר דירה</string>
+    <string name="addProperty_asset_hint">1</string>
+    <string name="addProperty_asset_floor">קומה</string>
+    <string name="addProperty_asset_floor_hint">12</string>
+    <string name="addProperty_asset_propertyArchitecture_title">מבנה הנכס</string>
+    <string name="addProperty_asset_numberOfRooms">חדרים</string>
+    <string name="addProperty_asset_toilets">שירותים</string>
+    <string name="addProperty_asset_bathtubs">מקלחת</string>
+    <string name="addProperty_asset_size">גודל (מ\"ר)</string>
+    <string name="addProperty_asset_rentalPeriod_title">תקופת ההשכרה</string>
+    <string name="addProperty_asset_dateOfEntrance">תאריך כניסה</string>
+    <string name="addProperty_asset_rentalLong">למשך</string>
+    <string name="addProperty_asset_months">חודשים</string>
+    <string name="addProperty_asset_months_hint">12</string>
+    <string name="addProperty_asset_option">אופציה להארכת חוזה</string>
 
     <string name="takePicSwitch_camera">צילום תמונה</string>
     <string name="takePicSwitch_gallery">תמונה מהגלריה</string>
@@ -313,8 +341,8 @@
     <string name="error_network_code_has_expired">הקוד פג תוקף או אינו מתאים</string>
     <!-- TODO: uniform naming: -->
     <string name="no_network_err_msg">אין חיבור לאינטרנט</string>
+    <string name="error_property_download">שגיאה בקבלת מידע מן השרת. אנא נסו שנית מאוחר יותר.</string>
 
-    invalid code or phone number
     <!-- END ERROR SECTION -->
 
 

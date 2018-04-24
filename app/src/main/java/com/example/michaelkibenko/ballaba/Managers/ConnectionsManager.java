@@ -524,7 +524,7 @@ public class ConnectionsManager{
 
         String queryFilter = filterStringBuilder.toString();
         String queryAdresses = stringBuilder.toString();
-        String queryUrl = EndpointsHolder.PROPERTY_BY_ADDRESS+queryAdresses+queryFilter;
+        String queryUrl = EndpointsHolder.PROPERTY + queryAdresses + queryFilter;
         BallabaSearchPropertiesManager.getInstance(context).setCurrentSearchEndpoint(queryUrl);
         StringRequest getByAddress = new StringRequest(GET, queryUrl, new Response.Listener<String>() {
             @Override

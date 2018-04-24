@@ -55,7 +55,7 @@
                     android:layout_gravity="center_horizontal"
                     android:elevation="@dimen/elevation"
                     android:src="@drawable/transfer_blue_36" />
-<!--                android:onClick="@{() -> presenter.onClickProfileImage() }"-->
+                <!--                android:onClick="@{() -> presenter.onClickProfileImage() }"-->
 
             </LinearLayout>
 
@@ -76,6 +76,7 @@
                     android:tag="firstName"
                     style="@style/addProperty_editTexts"
                     android:inputType="textPersonName"
+                    android:text="@{presenter.user.first_name}"
                     android:hint="@string/addProperty_landlord_firstName_hint" />
 
                 <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_lastName" />
@@ -84,6 +85,7 @@
                     android:tag="lastName"
                     style="@style/addProperty_editTexts"
                     android:inputType="textPersonName"
+                    android:text="@{presenter.user.last_name}"
                     android:hint="@string/addProperty_landlord_lastName_hint" />
 
                 <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_email" />
@@ -92,6 +94,7 @@
                     android:tag="email"
                     style="@style/addProperty_editTexts"
                     android:inputType="textEmailAddress"
+                    android:text="@{presenter.user.email}"
                     android:hint="@string/addProperty_landlord_email_hint" />
 
                 <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_phone" />
@@ -100,8 +103,11 @@
                     android:tag="phone"
                     style="@style/addProperty_editTexts"
                     android:inputType="phone"
+                    android:text="@{presenter.user.phone}"
                     android:hint="@string/addProperty_landlord_phone_hint" />
+                <!--android:text="@{presenter.phone}"-->
 
+                <!-- TODO add city from BallabaUser -->
                 <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_city" />
                 <EditText
                     android:id="@+id/addProp_city_editText"
@@ -119,7 +125,7 @@
                 <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_buildingNumber" />
                 <EditText
                     android:id="@+id/addProp_buildingNumber_editText"
-                    android:layout_width="@dimen/addProperty_buildingNumber_editText_width"
+                    android:layout_width="@dimen/addProperty_editText_short_width"
                     android:tag="buildingNumber"
                     style="@style/addProperty_editTexts"
                     android:gravity="center"
@@ -173,7 +179,7 @@
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:text="@string/addProperty_landlord_button_next" />
-<!--            android:onClick="@{() -> presenter.onClick()}"-->
+            <!--            android:onClick="@{() -> presenter.onClick()}"-->
 
         </LinearLayout>
     </ScrollView>

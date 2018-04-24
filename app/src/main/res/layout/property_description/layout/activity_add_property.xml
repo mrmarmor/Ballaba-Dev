@@ -6,7 +6,7 @@
     <data>
         <variable
             name="presenter"
-            type="com.example.michaelkibenko.ballaba.Presenters.AddPropPresenter"/>
+            type="com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter"/>
     </data>
 
         <com.example.michaelkibenko.ballaba.Views.NonSwipeableViewPager
