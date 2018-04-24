@@ -33,6 +33,7 @@ import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivity;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.ContinueAddPropertyActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
+import com.example.michaelkibenko.ballaba.Activities.SavedPropertiesActivity;
 import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
 import com.example.michaelkibenko.ballaba.Adapters.FilterPagerAdapter;
 import com.example.michaelkibenko.ballaba.Adapters.PropertiesPagerAdapter;
@@ -349,7 +350,8 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                 break;
 
             case R.id.nav_favorites:
-
+                Intent goSaved = new Intent(context, SavedPropertiesActivity.class);
+                context.startActivity(goSaved);
                 break;
 
             case R.id.nav_savedAreas:

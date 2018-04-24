@@ -720,6 +720,42 @@ public class ConnectionsManager{
         queue.add(stringRequest);
     }
 
+    public void getSavedProperties(final BallabaResponseListener callback){
+        StringRequest stringRequest = new StringRequest(GET, EndpointsHolder.GET_SAVED, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                BallabaOkResponse ok = new BallabaOkResponse();
+                ok.body = response;
+                callback.resolve(ok);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error.networkResponse != null) {
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                } else {
+                    Log.e(TAG, error + "\n" + error.getMessage());
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
+                params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
+                return params;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(stringRequest);
+    }
+
     private boolean isQueryAdded(String url){
         char[] charArray = url.toCharArray();
         for (char input : charArray) {

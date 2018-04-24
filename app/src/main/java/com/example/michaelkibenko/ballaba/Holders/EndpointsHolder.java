@@ -24,4 +24,6 @@ public @interface EndpointsHolder {
     String SAVE_VIEW_PORT = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/viewport/";
 
     String SAVE_PROPERTY = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/property/";
+
+    String GET_SAVED = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/property/saved";
 }
