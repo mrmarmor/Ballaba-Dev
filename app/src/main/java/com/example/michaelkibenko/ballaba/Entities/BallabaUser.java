@@ -38,8 +38,15 @@ public class BallabaUser extends BallabaBaseEntity {
         this.profile_image = profile_image;
     }
 
+    private String trimNull(String s){
+        if (s.equals("null"))
+            return "";
+        else
+            return s;
+    }
+
     public String getGlobal_token() {
-        return global_token;
+        return trimNull(global_token);
     }
 
     public BallabaUser fromStringToBallabaUser(String userString){
@@ -47,67 +54,67 @@ public class BallabaUser extends BallabaBaseEntity {
     }
 
     public String getSessionToken(){
-        return this.session_token;
+        return trimNull(this.session_token);
     }
 
     public String getId() {
-        return id;
+        return trimNull(id);
     }
 
     public String getPhone() {
-        return phone;
+        return trimNull(phone);
     }
 
     public String getEmail() {
-        return email;
+        return trimNull(email);
     }
 
     public String getFirst_name() {
-        return first_name;
+        return trimNull(first_name);
     }
 
     public String getLast_name() {
-        return last_name;
+        return trimNull(last_name);
     }
 
     public String getCity() {
-        return city;
+        return trimNull(city);
     }
 
     public String getAddress() {
-        return address;
+        return trimNull(address);
     }
 
     public String getApt_no() {
-        return apt_no;
+        return trimNull(apt_no);
     }
 
     public String getGender() {
-        return gender;
+        return trimNull(gender);
     }
 
     public String getTenant_score() {
-        return tenant_score;
+        return trimNull(tenant_score);
     }
 
     public String getLandlord_score() {
-        return landlord_score;
+        return trimNull(landlord_score);
     }
 
     public String getGuarantor_score() {
-        return guarantor_score;
+        return trimNull(guarantor_score);
     }
 
     public String getDate_created() {
-        return date_created;
+        return trimNull(date_created);
     }
 
     public String getDate_updated() {
-        return date_updated;
+        return trimNull(date_updated);
     }
 
     public String getDevice_id() {
-        return device_id;
+        return trimNull(device_id);
     }
 
     public Bitmap getProfile_image() {

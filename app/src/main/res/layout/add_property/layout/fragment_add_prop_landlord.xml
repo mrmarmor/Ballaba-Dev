@@ -50,6 +50,7 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/addProp_profile_imageButton"
+                    android:tag="profile_image"
                     style="@style/allWrapContent"
                     android:layout_margin="@dimen/activity_vertical_margin"
                     android:layout_gravity="center_horizontal"
@@ -73,19 +74,17 @@
                     android:text="@string/addProperty_landlord_firstName" />
                 <EditText
                     android:id="@+id/addProp_firstName_editText"
-                    android:tag="firstName"
+                    android:tag="first_name"
                     style="@style/addProperty_editTexts"
                     android:inputType="textPersonName"
-                    android:text="@{presenter.user.first_name}"
                     android:hint="@string/addProperty_landlord_firstName_hint" />
 
                 <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_lastName" />
                 <EditText
                     android:id="@+id/addProp_lastName_editText"
-                    android:tag="lastName"
+                    android:tag="last_name"
                     style="@style/addProperty_editTexts"
                     android:inputType="textPersonName"
-                    android:text="@{presenter.user.last_name}"
                     android:hint="@string/addProperty_landlord_lastName_hint" />
 
                 <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_email" />
@@ -94,8 +93,8 @@
                     android:tag="email"
                     style="@style/addProperty_editTexts"
                     android:inputType="textEmailAddress"
-                    android:text="@{presenter.user.email}"
                     android:hint="@string/addProperty_landlord_email_hint" />
+                <!--android:text="@{presenter.user.email}"-->
 
                 <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_phone" />
                 <EditText
@@ -103,9 +102,8 @@
                     android:tag="phone"
                     style="@style/addProperty_editTexts"
                     android:inputType="phone"
-                    android:text="@{presenter.user.phone}"
                     android:hint="@string/addProperty_landlord_phone_hint" />
-                <!--android:text="@{presenter.phone}"-->
+                <!--   android:text="@{presenter.user.phone}"-->
 
                 <!-- TODO add city from BallabaUser -->
                 <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_city" />
@@ -122,15 +120,15 @@
                     style="@style/addProperty_editTexts"
                     android:hint="@string/addProperty_landlord_address_hint" />
 
-                <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_buildingNumber" />
+                <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_aptNo" />
                 <EditText
-                    android:id="@+id/addProp_buildingNumber_editText"
+                    android:id="@+id/addProp_aptNo_editText"
                     android:layout_width="@dimen/addProperty_editText_short_width"
-                    android:tag="buildingNumber"
+                    android:tag="apt_no"
                     style="@style/addProperty_editTexts"
                     android:gravity="center"
                     android:inputType="numberDecimal"
-                    android:hint="@string/addProperty_landlord_buildingNumber_hint" />
+                    android:hint="@string/addProperty_landlord_aptNo_hint" />
 
                 <TextView
                     style="@style/allWrapContent"
@@ -161,7 +159,7 @@
                     android:text="@string/addProperty_landlord_aboutYourself_title" />
                 <EditText
                     android:id="@+id/addProp_aboutYourself_editText"
-                    android:tag="aboutYourself"
+                    android:tag="about_yourself"
                     style="@style/addProperty_editTexts"
                     android:layout_height="@dimen/addProperty_aboutYourself_editText_height"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"

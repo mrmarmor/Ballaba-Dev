@@ -42,7 +42,7 @@
                     style="@style/addProperty_textViews"
                     android:text="@string/addProperty_asset_city" />
                 <EditText
-                    android:id="@+id/addProp_asset_city_editText"
+                    android:id="@+id/addProp_city_editText"
                     android:tag="city"
                     style="@style/addProperty_editTexts"
                     android:hint="@string/addProperty_asset_city_hint" />
@@ -51,16 +51,16 @@
                     style="@style/addProperty_textViews"
                     android:text="@string/addProperty_asset_address" />
                 <EditText
-                    android:id="@+id/addProp_asset_address_editText"
+                    android:id="@+id/addProp_address_editText"
                     android:tag="address"
                     style="@style/addProperty_editTexts"
                     android:hint="@string/addProperty_asset_address_hint" />
 
                 <TextView
                     style="@style/addProperty_textViews"
-                    android:text="@string/addProperty_asset_apartmentNumber" />
+                    android:text="@string/addProperty_asset_aptNo" />
                 <EditText
-                    android:id="@+id/addProp_asset_apartmentNumber_editText"
+                    android:id="@+id/addProp_aptNo_editText"
                     android:layout_width="@dimen/addProperty_editText_short_width"
                     android:tag="apartmentNumber"
                     style="@style/addProperty_editTexts"
@@ -71,7 +71,7 @@
                     style="@style/addProperty_textViews"
                     android:text="@string/addProperty_asset_floor" />
                 <EditText
-                    android:id="@+id/addProp_asset_floor_editText"
+                    android:id="@+id/addProp_floor_editText"
                     android:layout_width="@dimen/addProperty_editText_short_width"
                     android:tag="floor"
                     style="@style/addProperty_editTexts"
@@ -124,27 +124,27 @@
 
                 <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_city" />
                 <EditText
-                    android:id="@+id/addProp_city_editText"
+                    android:id="@+id/addProp_city_editText1"
                     android:tag="city"
                     style="@style/addProperty_editTexts"
                     android:hint="@string/addProperty_landlord_city_hint" />
 
                 <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_address" />
                 <EditText
-                    android:id="@+id/addProp_address_editText"
+                    android:id="@+id/addProp_address_editText1"
                     android:tag="address"
                     style="@style/addProperty_editTexts"
                     android:hint="@string/addProperty_landlord_address_hint" />
 
-                <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_buildingNumber" />
+                <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_aptNo" />
                 <EditText
-                    android:id="@+id/addProp_buildingNumber_editText"
+                    android:id="@+id/addProp_aptNo_editText1"
                     android:layout_width="@dimen/addProperty_editText_short_width"
-                    android:tag="buildingNumber"
+                    android:tag="apt_no"
                     style="@style/addProperty_editTexts"
                     android:gravity="center"
                     android:inputType="numberDecimal"
-                    android:hint="@string/addProperty_landlord_buildingNumber_hint" />
+                    android:hint="@string/addProperty_landlord_aptNo_hint" />
 
                 <TextView
                     style="@style/allWrapContent"

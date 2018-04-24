@@ -16,12 +16,17 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
+import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropLandlordBinding;
+import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropPaymentsBinding;
 
 import java.util.HashMap;
 
@@ -50,16 +55,27 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        binderLandLord = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_add_prop_landlord, container, false);
+        binderLandLord = FragmentAddPropLandlordBinding.inflate(getLayoutInflater());
         View view = binderLandLord.getRoot();
 
         //TODO i tried to setText automatically from layout by dataBinding. for some reason it is not working.
         //TODO we need to fill all editTexts in this way and not programmatically as below:
         //binderLandLord.addPropPhoneEditText.setText(user.getPhone());
 
+        initEditTexts();
         initButtons(view);
         return view;
+    }
+
+    private void initEditTexts(){
+        binderLandLord.addPropFirstNameEditText.setText(user.getFirst_name());
+        binderLandLord.addPropLastNameEditText.setText(user.getLast_name());
+        binderLandLord.addPropEmailEditText.setText(user.getEmail());
+        binderLandLord.addPropPhoneEditText.setText(user.getPhone());
+        binderLandLord.addPropCityEditText.setText(user.getCity());
+        binderLandLord.addPropAddressEditText.setText(user.getAddress());
+        binderLandLord.addPropAptNoEditText.setText(user.getApt_no());
+        //TODO aboutYourself field is missing. i do not receive it from server and it is not is class BallabaUser
     }
 
     private void initButtons(View view){
@@ -102,6 +118,8 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
 
         map.put(binderLandLord.addPropAboutYourselfEditText.getTag()+""
                 , binderLandLord.addPropAboutYourselfEditText.getText()+"");
+        map.put(binderLandLord.addPropProfileImageButton.getTag()+""
+                , StringUtils.getInstance(true, context).DrawableToString(binderLandLord.addPropProfileImageButton.getDrawable()));
 
         Log.d(TAG, map.get("aboutYourself")+":"+map.get("firstName"));
 
@@ -137,6 +155,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             case R.id.addProperty_landlord_button_next:
                 //Toast.makeText(context, "next", Toast.LENGTH_SHORT).show();
                 HashMap<String, String> data = storeDataOnFinish(new HashMap<String, String>());
+                ConnectionsManager.getInstance(context).uploadUser(user.getId(), data);
                 new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(data, 0);
         }
     }

@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
+import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
@@ -49,7 +51,19 @@ public class AddPropAssetFrag extends Fragment {
             }
         });
 
+        initEditTexts(BallabaSearchPropertiesManager.getInstance(context).getPropertyFull());
+
         return view;
+    }
+
+    private void initEditTexts(BallabaPropertyFull property){
+        binderAsset.addPropCityEditText.setText(property.city);
+        binderAsset.addPropAddressEditText.setText(property.formattedAddress);
+        binderAsset.addPropAptNoEditText.setText(property.street_number);
+        binderAsset.addPropFloorEditText.setText(property.floor);
+        //binderAsset.addPropCityEditText.setText(property.getCity());
+        //binderAsset.addPropAddressEditText.setText(property.getAddress());
+        //binderAsset.addPropAptNoEditText.setText(property.getApt_no());
     }
 
     private HashMap<String, String> storeDataOnFinish(HashMap<String, String> map){

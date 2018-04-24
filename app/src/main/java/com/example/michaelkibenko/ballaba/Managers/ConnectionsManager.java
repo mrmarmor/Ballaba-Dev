@@ -88,87 +88,87 @@ public class ConnectionsManager{
     }
 
     public void loginWithPhoneNumber(final String phoneNumber, final BallabaResponseListener callback){
-            try {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("phone", phoneNumber);
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("phone", phoneNumber);
 
 
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, EndpointsHolder.LOGIN, jsonObject, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        callback.resolve(new BallabaOkResponse());
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, EndpointsHolder.LOGIN, jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    callback.resolve(new BallabaOkResponse());
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (error.networkResponse != null) {
+                        callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                    } else {
+                        callback.reject(new BallabaErrorResponse(500, null));
                     }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (error.networkResponse != null) {
-                            callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
-                        } else {
-                            callback.reject(new BallabaErrorResponse(500, null));
-                        }
-                    }
-                });
+                }
+            });
 
-                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                        0,
-                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    0,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-                queue.add(jsonObjectRequest);
-            } catch (JSONException ex) {
-                ex.printStackTrace();
-            }
+            queue.add(jsonObjectRequest);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void enterCode(String phoneNUmber, final String code, final BallabaResponseListener callback){
-            try {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("phone", phoneNUmber);
-                jsonObject.put("code", code);
-                jsonObject.put("fcm_token", DeviceUtils.getInstance(true, context).getFcmToken());
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("phone", phoneNUmber);
+            jsonObject.put("code", code);
+            jsonObject.put("fcm_token", DeviceUtils.getInstance(true, context).getFcmToken());
 
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, EndpointsHolder.AUTHENTICATE, jsonObject, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
-                        if (user == null) {
-                            callback.reject(new BallabaErrorResponse(500, null));
-                        } else {
-                            callback.resolve(user);
-                        }
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, EndpointsHolder.AUTHENTICATE, jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
+                    if (user == null) {
+                        callback.reject(new BallabaErrorResponse(500, null));
+                    } else {
+                        callback.resolve(user);
                     }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        if (error.networkResponse != null) {
-                            callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
-                        } else {
-                            callback.reject(new BallabaErrorResponse(500, null));
-                        }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (error.networkResponse != null) {
+                        callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                    } else {
+                        callback.reject(new BallabaErrorResponse(500, null));
                     }
-                }) {
-                    @Override
-                    public Map<String, String> getHeaders() throws AuthFailureError {
-                        Map<String, String> params = new HashMap<String, String>();
-                        params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
-                        return params;
-                    }
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String, String> params = new HashMap<String, String>();
+                    params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
+                    return params;
+                }
 
-                    @Override
-                    protected Map<String, String> getParams() throws AuthFailureError {
-                        return null;
-                    }
-                };
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    return null;
+                }
+            };
 
-                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                        0,
-                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    0,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-                queue.add(jsonObjectRequest);
-            }catch(JSONException ex){
-                ex.printStackTrace();
-            }
+            queue.add(jsonObjectRequest);
+        }catch(JSONException ex){
+            ex.printStackTrace();
+        }
     }
 
     public void getConfigRequest(final BallabaResponseListener callback){
@@ -318,11 +318,11 @@ public class ConnectionsManager{
     }
 
     public void getPropertyByLatLng(LatLng latLng, final BallabaResponseListener callback){
-            String params = "?latlong=" + latLng.latitude + "," + latLng.longitude;
-            String endpoint = EndpointsHolder.PROPERTY + params;
-            BallabaSearchPropertiesManager.getInstance(context).setCurrentSearchEndpoint(endpoint);
-            StringRequest stringRequest = new StringRequest(GET
-                    , endpoint, new Response.Listener<String>() {
+        String params = "?latlong=" + latLng.latitude + "," + latLng.longitude;
+        String endpoint = EndpointsHolder.PROPERTY + params;
+        BallabaSearchPropertiesManager.getInstance(context).setCurrentSearchEndpoint(endpoint);
+        StringRequest stringRequest = new StringRequest(GET
+                , endpoint, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 BallabaOkResponse okResponse = new BallabaOkResponse();
@@ -650,8 +650,9 @@ public class ConnectionsManager{
         }
     }
 
+    //TODO I think function name getting me a little bit confused. maybe "propertySetSaved" is better(Moshe)
     public void saveProperty(String propertyId){
-        String query = EndpointsHolder.SAVE_PROPERTY+propertyId+"/save";
+        String query = EndpointsHolder.PROPERTY+propertyId+"/save";
         StringRequest stringRequest = new StringRequest(POST, query, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -686,7 +687,7 @@ public class ConnectionsManager{
     }
 
     public void unSaveProperty(String propertyId){
-        String query = EndpointsHolder.SAVE_PROPERTY+propertyId+"/save";
+        String query = EndpointsHolder.PROPERTY+propertyId+"/save";
         StringRequest stringRequest = new StringRequest(DELETE, query, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -718,6 +719,60 @@ public class ConnectionsManager{
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         queue.add(stringRequest);
+    }
+
+    public void uploadUser(String userId, final HashMap<String, String> userData){
+        String url = EndpointsHolder.USER + userId;
+        StringRequest stringRequest = new StringRequest(POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
+                if (user == null) {
+                    //callback.reject(new BallabaErrorResponse(500, null));
+                } else {
+                    //callback.resolve(user);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error.networkResponse != null) {
+                    //callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                } else {
+                    //callback.reject(new BallabaErrorResponse(500, null));
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+                params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
+                params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
+                return params;
+            }
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                JSONObject jsonObject = new JSONObject();
+                for (String key : userData.keySet()) {
+                    try {
+                        jsonObject.put(key, userData.get(key));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                return null;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(stringRequest);
+
     }
 
     private boolean isQueryAdded(String url){

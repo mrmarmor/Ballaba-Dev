@@ -176,8 +176,8 @@
     <string name="addProperty_landlord_city_hint">תל אביב</string>
     <string name="addProperty_landlord_address">כתובת מגורים</string>
     <string name="addProperty_landlord_address_hint">שדרות ירושלים 15</string>
-    <string name="addProperty_landlord_buildingNumber">מספר דירה</string>
-    <string name="addProperty_landlord_buildingNumber_hint">1</string>
+    <string name="addProperty_landlord_aptNo">מספר דירה</string>
+    <string name="addProperty_landlord_aptNo_hint">1</string>
     <string name="addProperty_landlord_integrity_announcement">כתובת המגורים לא תפורסם בפומבי לעולם.</string>
     <string name="addProperty_landlord_aboutYourself_title">על עצמך</string>
     <string name="addProperty_landlord_aboutYourself_hint">תיאור קצר על מנת שיוכלו להכיר אותך טוב יותר</string>
@@ -188,7 +188,7 @@
     <string name="addProperty_asset_city_hint">תל אביב</string>
     <string name="addProperty_asset_address">כתובת: רחוב, בניין</string>
     <string name="addProperty_asset_address_hint">ביאליק 8</string>
-    <string name="addProperty_asset_apartmentNumber">מספר דירה</string>
+    <string name="addProperty_asset_aptNo">מספר דירה</string>
     <string name="addProperty_asset_hint">1</string>
     <string name="addProperty_asset_floor">קומה</string>
     <string name="addProperty_asset_floor_hint">12</string>

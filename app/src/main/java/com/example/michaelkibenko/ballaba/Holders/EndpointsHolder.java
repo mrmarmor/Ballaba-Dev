@@ -12,6 +12,7 @@ public @interface EndpointsHolder {
     String CONFIG = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/config";
     String TESTING = "https://z1qybfaf36.execute-api.eu-west-1.amazonaws.com/DEV/";
     String GOOGLE_PLACES_API = "https://maps.googleapis.com/maps/api/place";
+    String USER = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/user/";
     String PROPERTY = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/property";
     String PROPERTY_ATTACHMENTS_ADDONS = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/config/property";
     String GOOGLE_MAP_API = "http://maps.google.com/maps/api/staticmap?center=";
@@ -21,6 +22,4 @@ public @interface EndpointsHolder {
     String GOOGLE_STREET_VIEW_API = "https://maps.googleapis.com/maps/api/streetview?size=600x300&location=6.414382,10.013988&heading=151.78&pitch=-0.76&key=AIzaSyAQmnHnqeLXmnWrBIoF1TAdaEw7fVwdVDI";
 
     String SAVE_VIEW_PORT = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/viewport/";
-
-    String SAVE_PROPERTY = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/property/";
 }

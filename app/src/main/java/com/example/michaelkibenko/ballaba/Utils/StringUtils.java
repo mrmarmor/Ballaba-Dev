@@ -3,11 +3,14 @@ package com.example.michaelkibenko.ballaba.Utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Base64;
 import android.util.Log;
 
+import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -74,8 +77,25 @@ public class StringUtils {
 
     public Bitmap stringToBitmap(@Nullable String bitmapStr){
         byte[] decodedString = Base64.decode(bitmapStr, Base64.DEFAULT);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        return decodedByte;
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
     }
+    public String DrawableToString(Drawable d){
+        Bitmap bitmap = null;
 
+        if (d instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable)d;
+            if(bitmapDrawable.getBitmap() != null) {
+                bitmap = bitmapDrawable.getBitmap();
+            }
+        }
+        if (bitmap == null){
+            return null;
+        } else {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] b = baos.toByteArray();
+            String bitmapString = Base64.encodeToString(b, Base64.DEFAULT);
+            return bitmapString;
+        }
+    }
 }
