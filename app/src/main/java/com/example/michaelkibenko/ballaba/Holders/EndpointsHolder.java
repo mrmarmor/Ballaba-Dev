@@ -22,4 +22,6 @@ public @interface EndpointsHolder {
     String GOOGLE_STREET_VIEW_API = "https://maps.googleapis.com/maps/api/streetview?size=600x300&location=6.414382,10.013988&heading=151.78&pitch=-0.76&key=AIzaSyAQmnHnqeLXmnWrBIoF1TAdaEw7fVwdVDI";
 
     String SAVE_VIEW_PORT = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/viewport/";
+
+    String SAVE_PROPERTY = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/property/";
 }

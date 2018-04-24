@@ -51,7 +51,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.android.volley.Request.Method.DELETE;
 import static com.android.volley.Request.Method.GET;
+import static com.android.volley.Request.Method.POST;
 
 /**
  * Created by michaelkibenko on 19/02/2018.
@@ -646,6 +648,76 @@ public class ConnectionsManager{
             callback.reject(new BallabaErrorResponse(500, "JSON parsing error"));
             ex.printStackTrace();
         }
+    }
+
+    public void saveProperty(String propertyId){
+        String query = EndpointsHolder.SAVE_PROPERTY+propertyId+"/save";
+        StringRequest stringRequest = new StringRequest(POST, query, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+//                callback.resolve(new BallabaOkResponse());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                if (error.networkResponse != null) {
+//                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+//                } else {
+//                    Log.e(TAG, error + "\n" + error.getMessage());
+//                    callback.reject(new BallabaErrorResponse(500, null));
+//                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
+                params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
+                return params;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(stringRequest);
+    }
+
+    public void unSaveProperty(String propertyId){
+        String query = EndpointsHolder.SAVE_PROPERTY+propertyId+"/save";
+        StringRequest stringRequest = new StringRequest(DELETE, query, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+//                callback.resolve(new BallabaOkResponse());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//                if (error.networkResponse != null) {
+//                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+//                } else {
+//                    Log.e(TAG, error + "\n" + error.getMessage());
+//                    callback.reject(new BallabaErrorResponse(500, null));
+//                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
+                params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
+                return params;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(stringRequest);
     }
 
     private boolean isQueryAdded(String url){

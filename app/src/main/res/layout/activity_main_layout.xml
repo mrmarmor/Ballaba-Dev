@@ -24,7 +24,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/mainActivity_sortButtons_linearLayout"/>
 
             <Button
                 android:id="@+id/mainActivity_search_button"
@@ -88,7 +90,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/mainActivity_searchBar"
                 android:background="@color/colorPrimary"
-                android:visibility="visible"
+                android:visibility="invisible"
                 android:orientation="horizontal"
                 android:weightSum="1">
 
@@ -115,11 +117,13 @@
 
             <com.example.michaelkibenko.ballaba.Views.NonSwipeableViewPager
                 android:id="@+id/mainActivity_properties_viewPager"
-                style="@style/allWrapContent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/mainActivity_searchBar"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginTop="8dp"
                 />
             <!--TODO layout_marginStart/Bottom are now out of dimens file because tzlil should decide on uniform values for them between their appearance in viewPager's 2 fragments -->
             <ImageButton

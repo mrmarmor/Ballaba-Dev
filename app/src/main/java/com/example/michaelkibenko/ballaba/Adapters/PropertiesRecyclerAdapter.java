@@ -24,6 +24,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Fragments.PropertyImageFragment;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
+import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter;
 import com.example.michaelkibenko.ballaba.Presenters.PropertyItemPresenter;
 import com.example.michaelkibenko.ballaba.R;
@@ -83,6 +84,22 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         Drawable d = property.isSaved? res.getDrawable(R.drawable.heart_blue_24, mContext.getTheme())
                 :res.getDrawable(R.drawable.heart_white_24, mContext.getTheme());
         holder.binder.propertyItemIsSavedPropertyImageView.setImageDrawable(d);
+
+        holder.binder.propertyItemIsSavedPropertyImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Drawable d;
+                if (property.isSaved){
+                    d = res.getDrawable(R.drawable.heart_white_24, mContext.getTheme());
+                    ConnectionsManager.getInstance(mContext).unSaveProperty(property.id);
+                }else{
+                    d = res.getDrawable(R.drawable.heart_blue_24, mContext.getTheme());
+                    ConnectionsManager.getInstance(mContext).saveProperty(property.id);
+                }
+                holder.binder.propertyItemIsSavedPropertyImageView.setImageDrawable(d);
+                property.isSaved = !property.isSaved;
+            }
+        });
 
         @Visibility.Mode int visibility = property.isGuarantee? View.VISIBLE : View.GONE;
         holder.binder.propertyItemGuaranteeImageView.setVisibility(visibility);
