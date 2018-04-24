@@ -163,8 +163,8 @@
 <!--
         <item name="android:layout_width">@dimen/enter_code_code_edit_text_width</item>
 -->
-        <item name="android:layout_width">80dp</item>
-        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_width">@dimen/scoring_dateOfBirth_spinner_width</item>
+        <item name="android:layout_height">@dimen/scoring_dateOfBirth_spinner_height</item>
         <item name="android:gravity">center</item>
         <item name="android:textAlignment">center</item>
         <item name="android:layout_marginStart">@dimen/enter_code_code_edit_text_side_offset</item>
@@ -184,10 +184,14 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginStart">@dimen/small_margin</item>
+        <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
         <item name="android:layout_marginBottom">@dimen/small_margin</item>
     </style>
-    <style name="addProperty_editTexts" parent="addProperty_textViews">
+    <style name="addProperty_editTexts">
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/addProperty_editText_height</item>
+        <item name="android:layout_marginStart">@dimen/small_margin</item>
+        <item name="android:layout_marginEnd">@dimen/small_margin</item>
         <item name="android:paddingStart">@dimen/small_margin</item>
         <item name="android:background">@drawable/gray_border</item>
         <item name="android:gravity">right|center_vertical</item>

@@ -5,13 +5,17 @@
 
     <group android:checkableBehavior="single" android:id="@+id/nav_group_top">
         <item
-            android:id="@+id/nav_landlord"
+            android:id="@+id/nav_addProperty"
             android:icon="@drawable/home_blue_24"
-            android:title="@string/menuItem_landlord" />
+            android:title="@string/menuItem_addProperty" />
         <item
             android:id="@+id/nav_payments"
             android:icon="@drawable/money_blue_24"
             android:title="@string/menuItem_payments" />
+        <item
+            android:id="@+id/nav_myProperties"
+            android:icon="@drawable/building_blue_36"
+            android:title="@string/menuItem_myProperties" />
         <item
             android:id="@+id/nav_favorites"
             android:icon="@drawable/heart_blue_24"
@@ -20,14 +24,13 @@
             android:id="@+id/nav_savedAreas"
             android:icon="@drawable/position_blue_24"
             android:title="@string/menuItem_savedAreas" />
+        <!--TODO icon is missing -->
         <item
-            android:id="@+id/nav_meetings"
-            android:title="@string/menuItem_editProfile" />
-        <item
-            android:id="@+id/nav_chat"
-            android:title="@string/menuItem_chat" />
+            android:id="@+id/nav_changeName"
+            android:title="@string/menuItem_changeName" />
         <item
             android:id="@+id/nav_conflicts"
+            android:icon="@drawable/flag_blue_24"
             android:title="@string/menuItem_conflicts" />
     </group>
 

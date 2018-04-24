@@ -17,6 +17,7 @@ public class BallabaUserManager {
     private static BallabaUserManager instance;
     private BallabaUser user;
 
+
     private BallabaUserManager() {
     }
 
@@ -88,5 +89,9 @@ public class BallabaUserManager {
 
     public String getUserSesionToken(){
         return user.getSessionToken();
+    }
+
+    public BallabaUser getUser() {
+        return user;
     }
 }

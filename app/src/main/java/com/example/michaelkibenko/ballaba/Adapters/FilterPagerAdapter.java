@@ -6,7 +6,6 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.View;
@@ -25,9 +24,8 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
  * Created by User on 01/04/2018.
  */
 
-public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
-        View.OnClickListener, ViewPager.OnPageChangeListener{
-    private final String TAG = ViewPagerFilterAdapter.class.getSimpleName();
+public class FilterPagerAdapter extends FragmentStatePagerAdapter implements View.OnClickListener{
+    private final String TAG = FilterPagerAdapter.class.getSimpleName();
     private Context context;
     private ActivityMainLayoutBinding binder;
     private FragmentManager fm;
@@ -50,7 +48,7 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
             R.id.mainActivity_filterButtons_divider_attachments, R.id.mainActivity_filterButtons_divider_size,
             R.id.mainActivity_filterButtons_divider_rooms, R.id.mainActivity_filterButtons_divider_price};
 
-    public ViewPagerFilterAdapter(Context context, ActivityMainLayoutBinding binder, FragmentManager fm, FilterDimensions filterDimensions) {
+    public FilterPagerAdapter(Context context, ActivityMainLayoutBinding binder, FragmentManager fm, FilterDimensions filterDimensions) {
         super(fm);
         this.context = context;
         this.binder = binder;
@@ -133,13 +131,7 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
         roomsFragment.updateRangeBar(filterDimensions.getMin_rooms(), filterDimensions.getMax_rooms());
     }
 
-    @Override
-    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-        Log.d("tag", position+":"+positionOffset);
-
-    }
-
-    @Override
+    /*@Override
     public void onPageSelected(int i) {
         Log.d("tag", i+":1");
 
@@ -149,20 +141,6 @@ public class ViewPagerFilterAdapter extends FragmentStatePagerAdapter implements
 
         //Use isMovingForward variable anywhere now
         previousPageIndex = i;
-    }
+    }*/
 
-/*
-    @Override
-    public void onPageSelected(int position) {
-        binder.mainActivityFilterIncluded.mainActivityFilterViewPager.setCurrentItem(
-                binder.mainActivityFilterIncluded.mainActivityFilterViewPager.getCurrentItem()
-        );
-    }
-*/
-
-    @Override
-    public void onPageScrollStateChanged(int state) {
-        Log.d("tag", state+":2");
-
-    }
 }

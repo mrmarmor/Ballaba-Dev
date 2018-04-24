@@ -8,12 +8,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.StreetAndMapBoard;
 import com.example.michaelkibenko.ballaba.Common.FinishActivityReceiver;
 import com.example.michaelkibenko.ballaba.Presenters.ScoringWorkPresenter;
 import com.example.michaelkibenko.ballaba.R;
 
-public class ScoringWelcomeActivity extends AppCompatActivity {
+public class ScoringWelcomeActivity extends BaseActivity {
     private BroadcastReceiver receiver;
 
     @Override

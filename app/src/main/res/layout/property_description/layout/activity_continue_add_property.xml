@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/allMatchParent"
+    android:orientation="vertical"
+    tools:context="com.example.michaelkibenko.ballaba.Activities.ContinueAddPropertyActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/scoring_welcome_margin_big"
+        android:textSize="@dimen/scoring_welcome_title_textSize"
+        android:textColor="@color/brownish_gray"
+        android:fontFamily="@font/rubik_medium"
+        android:gravity="center"
+        android:text="@string/addProperty_continue_title" />
+
+    <ImageView
+        android:layout_width="@dimen/scoring_welcome_questionMark_height"
+        android:layout_height="@dimen/scoring_welcome_questionMark_height"
+        android:layout_marginTop="@dimen/large_margin"
+        android:src="@drawable/home_blue_160"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/textSize_regular"
+        android:textColor="@color/black"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:text="@string/addProperty_continue_description" />
+
+    <Button
+        android:id="@+id/addProperty_continue_button_ok"
+        android:layout_width="@dimen/addProperty_continue_button_ok_width"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginTop="@dimen/addProperty_continue_button_ok_top_offset"
+        android:textColor="@android:color/white"
+        android:text="@string/addProperty_continue_button_continue"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:fontFamily="@font/rubik_medium"
+        android:onClick="onClickOk"
+        android:background="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/addProperty_continue_button_cancel"
+        android:layout_width="@dimen/scoring_welcome_cancel_button_width"
+        android:layout_height="@dimen/scoring_welcome_cancel_button_height"
+        android:layout_marginTop="@dimen/addProperty_continue_button_cancel_top_offset"
+        android:textSize="@dimen/textSize_small"
+        android:textColor="@color/black"
+        android:fontFamily="@font/rubik_medium"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="@string/addProperty_continue_button_not_now"
+        android:onClick="onClickCancel" />
+
+</LinearLayout>

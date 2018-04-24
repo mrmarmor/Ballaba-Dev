@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="presenter"
+            type="com.example.michaelkibenko.ballaba.Presenters.AddPropPresenter"/>
+    </data>
+
+        <com.example.michaelkibenko.ballaba.Views.NonSwipeableViewPager
+            android:id="@+id/addProperty_viewPager"
+            style="@style/allWrapContent" />
+
+</layout>

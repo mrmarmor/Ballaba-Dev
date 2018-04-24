@@ -143,6 +143,13 @@
     <string name="scoring_email_title">דוא״ל של איש קשר</string>
     <string name="scoring_email_hint">example@ballaba-it.com</string>
 
+    <string name="addProperty_continue_title">פתאום נעלמת</string>
+    <string name="addProperty_continue_description">זיהינו שלא סיימת תהליך העלאת נכס.\n
+באפשרותך להמשיך מאותה נקודה או להתחיל את התהליך
+מחדש. ניתן להמשיך את התהליך גם בהמשך.</string>
+    <string name="addProperty_continue_button_continue">המשך תהליך</string>
+    <string name="addProperty_continue_button_not_now">לא כרגע</string>
+
     <string name="addProperty_landlord_title">פרטים בעל הנכס</string>
     <string name="addProperty_landlord_uploadImage_title">העלו תמונה שלכם</string>
     <string name="addProperty_landlord_uploadImage_description">רושם ראשוני זה הכל. צרו אמון על ידי העלאת תמונה שלכם.</string>
@@ -163,9 +170,14 @@
     <string name="addProperty_landlord_buildingNumber">מספר דירה</string>
     <string name="addProperty_landlord_buildingNumber_hint">1</string>
     <string name="addProperty_landlord_integrity_announcement">כתובת המגורים לא תפורסם בפומבי לעולם.</string>
+    <string name="addProperty_landlord_aboutYourself_title">על עצמך</string>
+    <string name="addProperty_landlord_aboutYourself_hint">תיאור קצר על מנת שיוכלו להכיר אותך טוב יותר</string>
     <string name="addProperty_landlord_button_next">בוא נתחיל</string>
 
     <string name="addProperty_asset_title">פרטים על הנכס</string>
+
+    <string name="takePicSwitch_camera">צילום תמונה</string>
+    <string name="takePicSwitch_gallery">תמונה מהגלריה</string>
 
     <string name="terms_of_use_label">תקנון</string>
     <string name="terms_of_use_text">לורם איפסום דולור סיט אמט, קונסקטורר אדיפיסינג
@@ -274,12 +286,15 @@
     </string-array>
 
     <!-- MENU SECTION -->
-    <string name="menuItem_landlord">אני משכיר\/ה</string>
+    <!--string name="menuItem_landlord">אני משכיר\/ה</string-->
+    <string name="menuItem_addProperty">העלאת נכס</string>
     <string name="menuItem_payments">מוצרים ותשלומים</string>
+    <string name="menuItem_myProperties">הנכסים שלי</string>
     <string name="menuItem_favorites">מועדפים</string>
     <string name="menuItem_savedAreas">אזורים שמורים</string>
-    <string name="menuItem_meetings">פגישות</string>
-    <string name="menuItem_chat">צ\'אט</string>
+    <!--string name="menuItem_meetings">פגישות</string-->
+    <!--string name="menuItem_chat">צ\'אט</string-->
+    <string name="menuItem_changeName">שינוי שם משלם</string>
     <string name="menuItem_conflicts">מחלוקות</string>
     <string name="menuItem_editProfile">עריכת פרופיל</string>
     <string name="menuItem_settings">הגדרות</string>
