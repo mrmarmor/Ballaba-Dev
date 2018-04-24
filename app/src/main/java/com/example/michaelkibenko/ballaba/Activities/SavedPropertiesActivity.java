@@ -79,9 +79,13 @@ public class SavedPropertiesActivity extends BaseActivity {
             public void resolve(BallabaBaseEntity entity) {
                 if(entity instanceof BallabaOkResponse){
                     items = BallabaSearchPropertiesManager.getInstance(SavedPropertiesActivity.this).parsePropertyResults(((BallabaOkResponse)entity).body);
-                    adapter = new PropertiesRecyclerAdapter(SavedPropertiesActivity.this, getSupportFragmentManager(), items);
-                    binding.savedPropertiesRV.setAdapter(adapter);
-                    onScreenStateChanger(ITEMS);
+                    if(items!= null) {
+                        adapter = new PropertiesRecyclerAdapter(SavedPropertiesActivity.this, getSupportFragmentManager(), items);
+                        binding.savedPropertiesRV.setAdapter(adapter);
+                        onScreenStateChanger(ITEMS);
+                    }else{
+                        onScreenStateChanger(EMPTY_STATE);
+                    }
                 }
             }
 
