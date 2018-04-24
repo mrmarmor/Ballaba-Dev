@@ -76,7 +76,7 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     public void onBindViewHolder(final PropertiesRecyclerAdapter.ViewHolder holder, final int position) {
         Log.d(TAG, properties.size()+":"+position);
         final BallabaPropertyResult property = properties.get(position);
-        PropertiesPhotosViewPagerAdapter propertiesPhotosViewPagerAdapter = new PropertiesPhotosViewPagerAdapter(fragmentManager, generateImageFragments(property.photos, property.id));
+        PropertiesPhotosPagerAdapter propertiesPhotosViewPagerAdapter = new PropertiesPhotosPagerAdapter(fragmentManager, generateImageFragments(property.photos, property.id));
         holder.binder.propertyItemImageView.setId(position+propertiesPhotosViewPagerAdapter.hashCode());
         holder.binder.propertyItemImageView.setCurrentItem(property.photos.size()/2);
         holder.binder.propertyItemImageView.setOffscreenPageLimit(2);
