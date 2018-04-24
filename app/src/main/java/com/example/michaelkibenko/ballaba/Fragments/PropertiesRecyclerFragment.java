@@ -68,11 +68,10 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     public PropertiesRecyclerFragment() {}
 
     // TODO: Rename and change types and number of parameters
-    public static PropertiesRecyclerFragment newInstance(String param) {
+    public static PropertiesRecyclerFragment newInstance() {
         //binder = mBinder;
         fragment = new PropertiesRecyclerFragment();
         Bundle args = new Bundle();
-        args.putSerializable(PROPERTIES_KEY, param);
         fragment.setArguments(args);
         return fragment;
     }
@@ -132,6 +131,8 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
             }
         });
     }
+
+
 
     private void getProperties(){
         listener = new BallabaResponseListener() {

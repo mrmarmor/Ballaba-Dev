@@ -136,6 +136,7 @@
                 android:layout_marginBottom="@dimen/mainActivity_FAB_margin_bottom"
                 android:onClick="@{() -> presenter.onClickToFilter()}"
                 android:background="@drawable/normal_blue"
+                android:visibility="gone"
                 />
 
             <android.support.constraint.Guideline

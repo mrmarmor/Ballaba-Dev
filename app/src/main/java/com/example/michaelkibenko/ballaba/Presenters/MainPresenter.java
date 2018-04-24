@@ -9,7 +9,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.support.annotation.IntDef;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
@@ -18,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.transition.TransitionManager;
+import android.transition.Visibility;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -106,7 +106,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     public FilterResultEntity filterResult;
     private FilterDimensions filterDimensions;
     private ArrayList<String> citiesResults;
-    private @ScreenState int screenState;
+    private @ScreenState int screenState = ScreenState.BEFORE_SEARCH;
     private @ScreenState int beforeScreenState;
 
     public MainPresenter(Context context, ActivityMainLayoutBinding binder, FragmentManager fm){
@@ -119,7 +119,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         this.filterTransition = (ConstraintLayout) inflater.inflate(R.layout.activity_main_layout_filter_transition, parent, false).findViewById(R.id.mainActivity_rootLayout);
         this.searchStateTransition = (ConstraintLayout) inflater.inflate(R.layout.activity_main_layout_search_state_layout, parent, false).findViewById(R.id.mainActivity_rootLayout);
         this.maplayoutTransition = (ConstraintLayout) inflater.inflate(R.layout.activity_main_map_state_layout, parent, false).findViewById(R.id.mainActivity_rootLayout);
-        propertiesFragment = PropertiesRecyclerFragment.newInstance(null);
+        propertiesFragment = PropertiesRecyclerFragment.newInstance();
         middleFilterHeight = context.getResources().getDimension(R.dimen.mainScreen_filter_middle_height);
         this.filterState = NO_FILTER;
         filterResult = new FilterResultEntity();
@@ -246,7 +246,6 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                 binder.mainActivityToGoogleMapImageButton.setImageDrawable(
                         context.getResources().getDrawable(R.drawable.disabled, context.getTheme()));
                 binder.mainActivitySearchBar.setVisibility(View.VISIBLE);
-                binder.mainActivitySortButtonsLinearLayout.setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -305,7 +304,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         if(this.screenState != screenState) {
             ConstraintSet set = new ConstraintSet();
             this.beforeScreenState = this.screenState;
-                    this.screenState = screenState;
+            this.screenState = screenState;
             if (this.screenState == BEFORE_SEARCH){
                 binder.mainActivitySortButtonsLinearLayout.setVisibility(View.INVISIBLE);
                 binder.openFilterButton.setVisibility(View.GONE);
@@ -378,6 +377,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     }
 
     private void getPropertiesByAddressAndFilter(ArrayList<String> cities){
+        propertiesFragment.onRefreshAnimation(true);
         BallabaSearchPropertiesManager.getInstance(context).getPropertiesByAddressAndFilter(cities, filterResult, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
@@ -389,6 +389,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                     propertiesPagerAdapter.getPropertiesRecyclerFragment().refreshPropertiesRecycler();
                     updateFilterDimensions(filterDimensions);
                     changeScreenState(AFTER_SEARCH);
+                    propertiesFragment.onRefreshAnimation(false);
                 }
             }
 
@@ -414,9 +415,11 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
             set.clone(filterTransition);
             set.constrainHeight(R.id.mainActivity_filter_included, (int)middleFilterHeight);
             binder.openFilterButton.setVisibility(View.GONE);
+            binder.mainActivitySearchBar.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary, context.getTheme()));
             binder.mainActivityBottomAnchor.setBackgroundColor(context.getResources().getColor(R.color.colorAccent, context.getTheme()));
         }else if(state == FULL_FILTER){
             set.clone(filterTransition);
+            binder.mainActivitySearchBar.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary, context.getTheme()));
             set.constrainHeight(R.id.mainActivity_filter_included, ConstraintLayout.LayoutParams.MATCH_PARENT);
             binder.mainActivityBottomAnchor.setBackgroundColor(context.getResources().getColor(R.color.colorAccent, context.getTheme()));
         }
