@@ -26,7 +26,7 @@
         android:hint="לדוגמה: שכונת פלורנטין"
         app:backgroundTint="@color/colorPrimaryDark"
         app:layout_constraintTop_toBottomOf="@+id/save_view_port_dialog_top_text"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="50dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="10dp"
@@ -41,9 +41,12 @@
         android:text="שמור"
         android:background="@android:color/transparent"
         android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="10dp"/>
+        android:textAlignment="center"
+        app:layout_constraintTop_toBottomOf="@+id/save_view_port_dialog_save_name_edit_text"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="50dp"
+        />
 
 
 </android.support.constraint.ConstraintLayout>

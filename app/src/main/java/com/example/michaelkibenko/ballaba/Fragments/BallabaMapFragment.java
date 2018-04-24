@@ -13,23 +13,19 @@ import android.os.SystemClock;
 import android.support.annotation.IntDef;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.TransitionManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
-import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,7 +36,6 @@ import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Adapters.MapPropertiesRecyclerAdapter;
-import com.example.michaelkibenko.ballaba.BallabaApplication;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
@@ -50,7 +45,6 @@ import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
-import com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -83,6 +77,7 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
         GoogleMap.OnCameraMoveCanceledListener, GoogleMap.OnCameraIdleListener ,GoogleMap.OnMarkerClickListener, GoogleMap.OnMapClickListener{
 
     private LayoutInflater inflater;
+    private ViewGroup container;
 
     @IntDef({ON, OFF})
     @interface MAP_SAVE_CONTAINER_STATES {
@@ -122,6 +117,7 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
     private Context context;
     private boolean isFromPropertyDescription;
     private BallabaResponseListener responseListener;
+    private AlertDialog saveViewPort;
 
     private @MAP_SAVE_CONTAINER_STATES int saveContainerState = MAP_SAVE_CONTAINER_STATES.OFF;
     private @PROPERTY_RECYCLER_VIEW_STATES int propertyRecyclerViewState = PROPERTY_RECYCLER_VIEW_STATES.ONE_ITEM;
@@ -138,6 +134,7 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        this.container = container;
         this.inflater = inflater;
         View v = inflater.inflate(R.layout.fragment_map, container, false);
         rootView = (ConstraintLayout) v;
@@ -499,8 +496,8 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
     }
 
     private void openSaveViewPortDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        View v = inflater.inflate(R.layout.save_view_port_dialog_layout, null, false);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.Theme_AppCompat_Dialog_Alert);
+        View v = inflater.inflate(R.layout.save_view_port_dialog_layout, container, false);
         builder.setView(v);
         final EditText nameEditText = v.findViewById(R.id.save_view_port_dialog_save_name_edit_text);
         Button saveButton = v.findViewById(R.id.save_view_port_dialog_save_button);
@@ -508,6 +505,7 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
             @Override
             public void onClick(View v) {
                 snapShotAnimation();
+                saveViewPort.dismiss();
                 String name = nameEditText.getText().toString();
                 if(name.isEmpty()){
                     name = "No Name";
@@ -515,18 +513,20 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
                 ConnectionsManager.getInstance(context).saveViewPort(name, googleMap.getProjection().getVisibleRegion().latLngBounds, new BallabaResponseListener() {
                     @Override
                     public void resolve(BallabaBaseEntity entity) {
-                        ((BaseActivity)context).getDefaultSnackBar(getView(), "אזור זה נשמר בהצלחה", false);
+                        ((BaseActivity)context).getDefaultSnackBar(getView(), "אזור זה נשמר בהצלחה", false).show();
                     }
 
                     @Override
                     public void reject(BallabaBaseEntity entity) {
-                        ((BaseActivity)context).getDefaultSnackBar(getView(), "השמירה נכשלה נסה שנית מאוחר יותר", false);
+                        ((BaseActivity)context).getDefaultSnackBar(getView(), "השמירה נכשלה נסה שנית מאוחר יותר", false).show();
                     }
                 });
             }
         });
+        saveViewPort = builder.create();
+        
+        saveViewPort.show();
 
-        builder.show();
     }
 
 }

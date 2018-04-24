@@ -75,12 +75,11 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     public void onBindViewHolder(final PropertiesRecyclerAdapter.ViewHolder holder, final int position) {
         Log.d(TAG, properties.size()+":"+position);
         final BallabaPropertyResult property = properties.get(position);
-        PropertiesPhotosViewPagerAdapter propertiesPhotosViewPagerAdapter = new PropertiesPhotosViewPagerAdapter(fragmentManager, generateImageFragments(property.photos));
+        PropertiesPhotosViewPagerAdapter propertiesPhotosViewPagerAdapter = new PropertiesPhotosViewPagerAdapter(fragmentManager, generateImageFragments(property.photos, property.id));
         holder.binder.propertyItemImageView.setId(position+propertiesPhotosViewPagerAdapter.hashCode());
         holder.binder.propertyItemImageView.setCurrentItem(property.photos.size()/2);
         holder.binder.propertyItemImageView.setOffscreenPageLimit(2);
         holder.binder.propertyItemImageView.setAdapter(propertiesPhotosViewPagerAdapter);
-
         Drawable d = property.isSaved? res.getDrawable(R.drawable.heart_blue_24, mContext.getTheme())
                 :res.getDrawable(R.drawable.heart_white_24, mContext.getTheme());
         holder.binder.propertyItemIsSavedPropertyImageView.setImageDrawable(d);
@@ -109,22 +108,23 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         holder.binder.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, PropertyDescriptionActivity.class);
-                //TODO for testing only:
-                intent.putExtra(PropertyDescriptionActivity.PROPERTY, "1");
-                //TODO the real one:
-                //intent.putExtra(PropertyDescriptionActivity.PROPERTY, property.id);
-                intent.putExtra(PropertyDescriptionPresenter.PROPERTY_IMAGE
-                        , property.photos.get(property.photos.size()/2));
-                mContext.startActivity(intent);
+                showFullProperty(property);
             }
         });
     }
 
-    private ArrayList<PropertyImageFragment> generateImageFragments(ArrayList<String> photos){
+    private void showFullProperty(BallabaPropertyResult property){
+        Intent intent = new Intent(mContext, PropertyDescriptionActivity.class);
+        intent.putExtra(PropertyDescriptionActivity.PROPERTY, property.id);
+        intent.putExtra(PropertyDescriptionPresenter.PROPERTY_IMAGE
+                , property.photos.get(property.photos.size()/2));
+        mContext.startActivity(intent);
+    }
+
+    private ArrayList<PropertyImageFragment> generateImageFragments(ArrayList<String> photos, String propertyId){
         ArrayList<PropertyImageFragment> items= new ArrayList<>();
         for (String photo : photos) {
-            items.add(PropertyImageFragment.newInstance(photo));
+            items.add(PropertyImageFragment.newInstance(photo, propertyId));
         }
         return items;
     }

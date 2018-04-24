@@ -166,7 +166,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         binderAttach.propertyDescriptionAttachmentsToiletsTextView.setText(toilets);
         //initAttachmentExtendedRecyclerView(propertyFull);
 
-        if (propertyFull.landlords != null)
+        if (propertyFull.landlords != null && !propertyFull.landlords.isEmpty())
             displayLandlord(propertyFull.landlords.get(0));
         displayAttachmentsOnScreen(propertyFull.attachments);
         displayPaymentsOnScreen(propertyFull.payments);
