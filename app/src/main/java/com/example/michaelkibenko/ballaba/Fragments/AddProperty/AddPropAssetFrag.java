@@ -1,21 +1,18 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.example.michaelkibenko.ballaba.Presenters.AddPropPresenter;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
+import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
+import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropAssetBinding;
@@ -50,16 +47,30 @@ public class AddPropAssetFrag extends Fragment {
             @Override
             public void onClick(View v) {
                 HashMap<String, String> data = storeDataOnFinish(new HashMap<String, String>());
-                new AddPropPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(data, 1);
+                new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(data, 1);
             }
         });
+
+        initEditTexts(BallabaSearchPropertiesManager.getInstance(context).getPropertyFull());
 
         return view;
     }
 
+    private void initEditTexts(BallabaPropertyFull property){
+        binderAsset.addPropCityEditText.setText(property.city);
+        binderAsset.addPropAddressEditText.setText(property.formattedAddress);
+        binderAsset.addPropAptNoEditText.setText(property.street_number);
+        binderAsset.addPropFloorEditText.setText(property.floor);
+        binderAsset.addPropMaxFloorEditText.setText(property.max_floor);
+        binderAsset.addPropRoomsEditText.setText(property.roomsNumber);
+        binderAsset.addPropToiletsEditText.setText(property.toilets);
+        binderAsset.addPropBathroomsEditText.setText(property.bathrooms);
+        binderAsset.addPropSizeEditText.setText(property.size);
+    }
+
     private HashMap<String, String> storeDataOnFinish(HashMap<String, String> map){
-        for (int i = 0; i < binderAsset.addPropertyEditTextsRoot.getChildCount(); i++){//root.getChildCount(); i++) {
-            View v = binderAsset.addPropertyEditTextsRoot.getChildAt(i);
+        for (int i = 0; i < binderAsset.addPropertyLocationRoot.getChildCount(); i++){//root.getChildCount(); i++) {
+            View v = binderAsset.addPropertyLocationRoot.getChildAt(i);
             if (v instanceof EditText) {
                 map.put(v.getTag()+"", ((EditText)v).getText()+"");
             }

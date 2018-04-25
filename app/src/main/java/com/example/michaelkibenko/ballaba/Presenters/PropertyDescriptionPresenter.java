@@ -27,9 +27,11 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachment;
+import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
 import com.example.michaelkibenko.ballaba.Fragments.BallabaStreetViewFragment;
 import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
+import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
@@ -55,7 +57,7 @@ import java.util.HashMap;
 public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnStreetViewPanoramaReadyCallback*/ {
     private final String TAG = PropertyDescriptionPresenter.class.getSimpleName();
     public static final String PROPERTY_IMAGE = "Prop_image", FRAGMENT_NAME = "fragment name"
-        , PROPERTY_LATLNG_EXTRA = "property latLng extra";
+            , PROPERTY_LATLNG_EXTRA = "property latLng extra";
 
     private FragmentActivity activity;
     private ActivityPropertyDescriptionBinding binder;
@@ -66,14 +68,10 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
     private PropertyDescriptionPaymentsBinding binderPay;
     private PropertyDescriptionPaymentMethodsBinding binderPayMethod;
     private PropertyDescriptionCommentsBinding binderComment;
-    //private PropertyDescriptionImageBinding binderImage;
     private Intent propertyIntent;
-    private BallabaResponseListener listener;
     private BallabaPropertyFull propertyFull;
     private BallabaMapFragment mapFragment;
     private LatLng propertyLatLng;
-    private StreetViewPanorama panorama;
-    private BallabaResponseListener responseListener;
 
     public PropertyDescriptionPresenter(final Context context, ActivityPropertyDescriptionBinding binding){
         this.activity = (FragmentActivity)context;
@@ -82,8 +80,6 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         propertyIntent = activity.getIntent();
 
         initProperty();
-        //getStreetViewPanoramaAsync(this);
-
     }
 
     private void initProperty(){
@@ -154,7 +150,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         String toilets = String.format("%s %s", propertyFull.toilets, activity.getString(R.string.propertyItem_toilets));
 
         binder.propertyDescriptionRootTextViewRentFee.setText(price);
-        binderPrice.propertyDescriptionPricePriceTextView.setText(String.format("%s%s", "₪", price));
+        binderPrice.propertyDescriptionPricePriceTextView.setText(String.format("%s%s", "ג‚×", price));
         binderPrice.propertyDescriptionPriceAddressTextView.setText(propertyFull.formattedAddress);
         binderPrice.propertyDescriptionPriceDateOfEntranceTextView.setText(propertyFull.entry_date);
         binderPrice.propertyDescriptionPriceRentalPeriodTextView.setText(propertyFull.rentPeriod);
@@ -178,11 +174,11 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
     }
 
     private void displayLandlord(HashMap<String, String> landlord){
-            binderPrice.propertyDescriptionPriceLandlordNameTextView.setText(landlord.get("first_name")+" "+landlord.get("last_name"));
-            binderPrice.propertyDescriptionPriceLandlordCityTextView.setText(landlord.get("city"));
-            Glide.with(activity)
-                    .load(landlord.get("profile_image"))
-                    .into(binderPrice.propertyDescriptionPriceLandlordProfileImage);
+        binderPrice.propertyDescriptionPriceLandlordNameTextView.setText(landlord.get("first_name")+" "+landlord.get("last_name"));
+        binderPrice.propertyDescriptionPriceLandlordCityTextView.setText(landlord.get("city"));
+        Glide.with(activity)
+                .load(landlord.get("profile_image"))
+                .into(binderPrice.propertyDescriptionPriceLandlordProfileImage);
     }
 
    /* private void initAttachmentExtendedRecyclerView(BallabaPropertyFull propertyFull){
@@ -194,6 +190,10 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
     }*/
 
     private void displayAttachmentsOnScreen(ArrayList<String> propertyAttachments){
+        //TODO instead of fetching strings locally, we may fetch them from server. use next 2 lines:
+        //ArrayList<PropertyAttachmentAddonEntity> attachmentAddonEntities = PropertyAttachmentsAddonsHolder.getInstance().getAttachments();
+        //attachmentAddonEntities.get(0).formattedTitle
+
         if (propertyAttachments != null) {
             for (int i = 0; i < propertyAttachments.size(); i++) {
                 PropertyAttachment.Type propertyAttachment = PropertyAttachment.Type.getTypeById(
@@ -210,12 +210,6 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                         GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL,1f));
                 tv.setLayoutParams(param);
 
-            /*    if (i > propertyAttachments.size() / 2) {
-                    tv.setX(-binderAttach.propertyDescriptionAttachmentsSizeTextView.getX()/2);
-                } else {
-                    tv.setPaddingRelative(16, 20, 0, 0);
-                }*/
-
                 binderAttachExt.propertyDescriptionAttachmentsExtendedContainer.addView(tv);
                 //addView(binderAttachExt.propertyDescriptionAttachmentsExtendedContainer, tv, i);
             }
@@ -230,7 +224,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                 binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i * 2);
 
                 String formattedPrice = propertyPayments.get(i).get("price");
-                tv = getTextView(String.format("%s%s", "₪", formattedPrice),
+                tv = getTextView(String.format("%s%s", "ג‚×", formattedPrice),
                         activity.getResources().getColor(R.color.colorAccent, activity.getTheme()));
                 binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i * 2);
 
@@ -240,25 +234,11 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                 binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i * 2 + 1);
 
                 formattedPrice = propertyPayments.get(i).get("price");
-                tv = getTextView(String.format("%s%s", "₪", formattedPrice),
+                tv = getTextView(String.format("%s%s", "ג‚×", formattedPrice),
                         activity.getResources().getColor(R.color.colorAccent, activity.getTheme()));
                 binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i * 2 + 1);*/
                 //TODO END OF TESTING
 
-                /*TextView tv = new TextView(activity);
-                String formattedPrice = propertyPayments.get(i).get("price");
-                tv.setText(String.format("%s%s", formattedPrice, "₪"));
-                tv.setTextAppearance(R.style.propertyDescriptionPayments_textView);
-                //tv.setWidth(R.dimen.propertyDescription_payments_textView_width);
-                //tv.setHeight(R.dimen.propertyDescription_payments_textView_height);
-                tv.setPaddingRelative(93, 16, 8, 16);
-                tv.setTextColor(activity.getResources().getColor(R.color.black, activity.getTheme()));
-
-                GridLayout.LayoutParams param = new GridLayout.LayoutParams(
-                        GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL,1f),
-                        GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL,1f));
-                tv.setLayoutParams(param);
-                binderPay.propertyDescriptionPaymentsContainer.addView(tv, 1);*/
             }
         }
     }
@@ -268,18 +248,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         tv.setText(text);
         tv.setTextAppearance(R.style.propertyDescriptionPayments_textView);
         tv.setTextColor(color);
-        //ViewGroup.LayoutParams tvParams = tv.getLayoutParams();
-        //tvParams.width = 77;
-        //tvParams.height = 35;
         tv.setLayoutParams(new ViewGroup.LayoutParams(77, 35));
-        //tv.setWidth(R.dimen.propertyDescription_payments_textView_width);
-        //tv.setHeight(R.dimen.propertyDescription_payments_textView_height);
-        //tv.setPaddingRelative((index%2 == 0? 16 : 0), 16, 0, 16);
-
-        /*GridLayout.LayoutParams param = new GridLayout.LayoutParams(
-                GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL,1f),
-                GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL,1f));
-        tv.setLayoutParams(param);*/
 
         return tv;
     }
@@ -325,29 +294,6 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
 
         binder.propertyDescriptionMapFragmentContainer.setOnClickListener(this);
     }
-
-    /*@Override
-    public void onStreetViewPanoramaReady(StreetViewPanorama streetViewPanorama) {
-        if (latLng != null) {
-            panorama = streetViewPanorama;
-            panorama.setPosition(latLng);
-            panorama.setStreetNamesEnabled(true);
-
-            panorama.setOnStreetViewPanoramaChangeListener(new StreetViewPanorama.OnStreetViewPanoramaChangeListener() {
-                @Override
-                public void onStreetViewPanoramaChange(StreetViewPanoramaLocation streetViewPanoramaLocation) {
-                    if (streetViewPanoramaLocation != null && streetViewPanoramaLocation.links != null) {
-                        if (responseListener != null) {
-                            responseListener.resolve(new BallabaOkResponse());
-                        }
-                    } else {
-                        //TODO configure it
-                        Toast.makeText(getActivity(), "No Street View Available For This Location", Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
-        }
-    }*/
 
     private void buttons_setOnClickListeners(){
         binderPrice.propertyDescriptionPriceToVirtualTourButton.setOnClickListener(this);

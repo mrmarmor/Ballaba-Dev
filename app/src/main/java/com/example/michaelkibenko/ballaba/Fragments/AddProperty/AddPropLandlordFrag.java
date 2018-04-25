@@ -1,9 +1,9 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -14,15 +14,22 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.example.michaelkibenko.ballaba.Presenters.AddPropPresenter;
+import com.bumptech.glide.Glide;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
+import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
+import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
+import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
+import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropLandlordBinding;
+import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropPaymentsBinding;
 
 import java.util.HashMap;
 
@@ -36,6 +43,8 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     private static ActivityAddPropertyBinding binderMain;
     private FragmentAddPropLandlordBinding binderLandLord;
     private BottomSheetDialog bottomSheetDialog;
+    public BallabaUser user = BallabaUserManager.getInstance().getUser();
+    private boolean isProfileImageChanged = false;
 
     public AddPropLandlordFrag() {}
 
@@ -50,12 +59,31 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        binderLandLord = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_add_prop_landlord, container, false);
+        binderLandLord = FragmentAddPropLandlordBinding.inflate(getLayoutInflater());
         View view = binderLandLord.getRoot();
 
+        //TODO i tried to setText automatically from layout by dataBinding. for some reason it is not working.
+        //TODO we need to fill all editTexts in this way and not programmatically as below:
+        //binderLandLord.addPropPhoneEditText.setText(user.getPhone());
+
+        initEditTexts();
         initButtons(view);
         return view;
+    }
+
+    private void initEditTexts(){
+        if (user != null) {
+            binderLandLord.addPropFirstNameEditText.setText(user.getFirst_name());
+            binderLandLord.addPropLastNameEditText.setText(user.getLast_name());
+            binderLandLord.addPropEmailEditText.setText(user.getEmail());
+            binderLandLord.addPropPhoneEditText.setText(user.getPhone());
+            binderLandLord.addPropCityEditText.setText(user.getCity());
+            binderLandLord.addPropAddressEditText.setText(user.getAddress());
+            binderLandLord.addPropAptNoEditText.setText(user.getApt_no());
+            //Glide.with(context).load(user.getProfile_image()).into(binderLandLord.addPropProfileImageButton);
+
+            //TODO aboutYourself field is missing. i do not receive it from server and it is not is class BallabaUser
+        }
     }
 
     private void initButtons(View view){
@@ -83,24 +111,38 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             switch(requestCode) {
                 case REQUEST_CODE_CAMERA: case REQUEST_CODE_GALLERY:
                     binderLandLord.addPropProfileImageButton.setImageURI(selectedImage);
+                    isProfileImageChanged = true;
                     break;
             }
         }
     }
 
-    private HashMap<String, String> storeDataOnFinish(HashMap<String, String> map){
+    private HashMap<String, String> getDataFromEditTexts(HashMap<String, String> map){
+       // boolean isUserChangedData = false;
         for (int i = 0; i < binderLandLord.addPropertyEditTextsRoot.getChildCount(); i++){//root.getChildCount(); i++) {
             View v = binderLandLord.addPropertyEditTextsRoot.getChildAt(i);
             if (v instanceof EditText) {
-                map.put(v.getTag()+"", ((EditText)v).getText()+"");
-            }
+        //        if (!map.containsValue(((EditText)v).getText()+"")){
+                    map.put(v.getTag()+"", ((EditText)v).getText()+"");
+         //           isUserChangedData = true;
+      //          }
 
+            }
         }
 
-        map.put(binderLandLord.addPropAboutYourselfEditText.getTag()+""
-                , binderLandLord.addPropAboutYourselfEditText.getText()+"");
+        map.put(binderLandLord.addPropAboutEditText.getTag()+""
+                , binderLandLord.addPropAboutEditText.getText()+"");
 
-        Log.d(TAG, map.get("aboutYourself")+":"+map.get("firstName"));
+        //Log.d(TAG, map.get("aboutYourself")+":"+map.get("firstName"));
+
+        return map;
+    }
+    private HashMap<String, byte[]> getProfileImage(HashMap<String, byte[]> map){
+        if (isProfileImageChanged) {
+            Drawable d = binderLandLord.addPropProfileImageButton.getDrawable();
+            byte[] value = StringUtils.getInstance(true, context).DrawableToBytes(d);
+            map.put("profile_image", value);
+        }
 
         return map;
     }
@@ -132,10 +174,26 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.addProperty_landlord_button_next:
-                Toast.makeText(context, "next", Toast.LENGTH_SHORT).show();
-                HashMap<String, String> data = storeDataOnFinish(new HashMap<String, String>());
-                new AddPropPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(data, 0);
+                //Toast.makeText(context, "next", Toast.LENGTH_SHORT).show();
+                HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
+                HashMap<String, byte[]> profileImage = getProfileImage(new HashMap<String, byte[]>());
+
+                if (user != null && !isDataEqual(data, user))
+                    ConnectionsManager.getInstance(context).uploadUser(user.getId(), data, profileImage);
+                new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(data, 0);
         }
+    }
+
+    private boolean isDataEqual(HashMap<String, String> map, BallabaUser user){
+        return (map.get("first_name").equals(user.getFirst_name()) &&
+                map.get("last_name").equals(user.getLast_name()) &&
+                map.get("email").equals(user.getEmail()) &&
+                map.get("phone").equals(user.getPhone()) &&
+                map.get("city").equals(user.getCity()) &&
+                map.get("address").equals(user.getAddress()) &&
+                map.get("apt_no").equals(user.getApt_no()) &&
+                //TODO map.get("description").equals(user.getDescription()) &&
+                !isProfileImageChanged);
     }
 
 }

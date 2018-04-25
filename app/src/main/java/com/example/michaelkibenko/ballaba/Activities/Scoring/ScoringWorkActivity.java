@@ -6,11 +6,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Presenters.ScoringWorkPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityScoringWorkBinding;
 
-public class ScoringWorkActivity extends AppCompatActivity {
+public class ScoringWorkActivity extends BaseActivity {
     private final String TAG = ScoringWorkActivity.class.getSimpleName();
 
     private ActivityScoringWorkBinding binder;

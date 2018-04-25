@@ -8,5 +8,5 @@ public @interface SharedPreferencesKeysHolder {
     String USER = "user",
            GLOBAL_TOKEN = "global token";
     String GALLERY_VIEWTYPE = "gallery_view_type";
-    String PROPERTY_ID = "property id";
+    String PROPERTY_ID = "property id", PROPERTY_UPLOAD_DATE = "property upload date";
 }
