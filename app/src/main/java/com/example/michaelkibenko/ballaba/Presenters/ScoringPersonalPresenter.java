@@ -9,8 +9,10 @@ import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -23,6 +25,8 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityScoringPersonalBin
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by User on 17/04/2018.
@@ -111,11 +115,11 @@ public class ScoringPersonalPresenter implements RadioButton.OnClickListener{
             }
 
             intent.putExtra(binder.scoringDateOfBirthDaySpinner.getTag()+""
-                 , binder.scoringDateOfBirthDaySpinner.getSelectedItem()+"");
+                    , binder.scoringDateOfBirthDaySpinner.getSelectedItem()+"");
             intent.putExtra(binder.scoringDateOfBirthMonthSpinner.getTag()+""
-                 , binder.scoringDateOfBirthMonthSpinner.getSelectedItem()+"");
+                    , binder.scoringDateOfBirthMonthSpinner.getSelectedItem()+"");
             intent.putExtra(binder.scoringDateOfBirthYearSpinner.getTag()+""
-                 , binder.scoringDateOfBirthYearSpinner.getSelectedItem()+"");
+                    , binder.scoringDateOfBirthYearSpinner.getSelectedItem()+"");
 
         }
 
@@ -130,6 +134,43 @@ public class ScoringPersonalPresenter implements RadioButton.OnClickListener{
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(activity, android.R.layout.simple_spinner_item, years);
         binder.scoringDateOfBirthYearSpinner.setAdapter(adapter);
+
+        binder.scoringDateOfBirthYearSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                setSpinnerMonths(position);
+                Log.d("tag", ":"+binder.scoringDateOfBirthMonthSpinner.getAdapter().getCount());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        binder.scoringDateOfBirthMonthSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("tag", position + ":" + binder.scoringDateOfBirthMonthSpinner.getAdapter().getCount());
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+    }
+
+    private void setSpinnerMonths(int position){
+        String[] months = new String[12];
+        if (position == 0) {
+            int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
+            for (int i = 0; i < currentMonth; i++) {
+                months[i] = activity.getResources().getStringArray(R.array.months)[i];
+            }
+        } else {
+            months = activity.getResources().getStringArray(R.array.months);
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(activity, android.R.layout.simple_spinner_item, months);
+        binder.scoringDateOfBirthMonthSpinner.setAdapter(adapter);
     }
 
 }

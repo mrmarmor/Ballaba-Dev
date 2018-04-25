@@ -10,14 +10,14 @@ import com.google.gson.Gson;
 
 public class BallabaUser extends BallabaBaseEntity {
     private String id, phone, email, first_name, last_name, city, address, apt_no, gender, tenant_score, landlord_score, guarantor_score, date_created, date_updated, session_token
-            , device_id, global_token;
-    private Bitmap profile_image;
+            , device_id, global_token, profile_image;
+    //private Bitmap profile_image;
 
     public BallabaUser(){}
 
     //TODO MAKE THIS CLASS BECOME A SINGLETON
 
-    public BallabaUser(String id, String phone, String email, String first_name, String last_name, String city, String address, String apt_no, String gender, String tenant_score, String landlord_score, String guarantor_score, String date_created, String date_updated, String session_token, String device_id, String global_token, Bitmap profile_image) {
+    public BallabaUser(String id, String phone, String email, String first_name, String last_name, String city, String address, String apt_no, String gender, String tenant_score, String landlord_score, String guarantor_score, String date_created, String date_updated, String session_token, String device_id, String global_token, String profile_image) {
         this.id = id;
         this.phone = phone;
         this.email = email;
@@ -117,7 +117,7 @@ public class BallabaUser extends BallabaBaseEntity {
         return trimNull(device_id);
     }
 
-    public Bitmap getProfile_image() {
+    public String getProfile_image() {
         return profile_image;
     }
 }

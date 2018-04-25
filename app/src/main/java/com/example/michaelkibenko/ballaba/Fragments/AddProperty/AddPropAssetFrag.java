@@ -61,14 +61,16 @@ public class AddPropAssetFrag extends Fragment {
         binderAsset.addPropAddressEditText.setText(property.formattedAddress);
         binderAsset.addPropAptNoEditText.setText(property.street_number);
         binderAsset.addPropFloorEditText.setText(property.floor);
-        //binderAsset.addPropCityEditText.setText(property.getCity());
-        //binderAsset.addPropAddressEditText.setText(property.getAddress());
-        //binderAsset.addPropAptNoEditText.setText(property.getApt_no());
+        binderAsset.addPropMaxFloorEditText.setText(property.max_floor);
+        binderAsset.addPropRoomsEditText.setText(property.roomsNumber);
+        binderAsset.addPropToiletsEditText.setText(property.toilets);
+        binderAsset.addPropBathroomsEditText.setText(property.bathrooms);
+        binderAsset.addPropSizeEditText.setText(property.size);
     }
 
     private HashMap<String, String> storeDataOnFinish(HashMap<String, String> map){
-        for (int i = 0; i < binderAsset.addPropertyEditTextsRoot.getChildCount(); i++){//root.getChildCount(); i++) {
-            View v = binderAsset.addPropertyEditTextsRoot.getChildAt(i);
+        for (int i = 0; i < binderAsset.addPropertyLocationRoot.getChildCount(); i++){//root.getChildCount(); i++) {
+            View v = binderAsset.addPropertyLocationRoot.getChildAt(i);
             if (v instanceof EditText) {
                 map.put(v.getTag()+"", ((EditText)v).getText()+"");
             }

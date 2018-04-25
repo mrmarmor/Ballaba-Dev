@@ -79,7 +79,7 @@ public class StringUtils {
         byte[] decodedString = Base64.decode(bitmapStr, Base64.DEFAULT);
         return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
     }
-    public String DrawableToString(Drawable d){
+    public /*String*/byte[] DrawableToBytes/*String*/(Drawable d){
         Bitmap bitmap = null;
 
         if (d instanceof BitmapDrawable) {
@@ -93,9 +93,10 @@ public class StringUtils {
         } else {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-            byte[] b = baos.toByteArray();
-            String bitmapString = Base64.encodeToString(b, Base64.DEFAULT);
-            return bitmapString;
+            return baos.toByteArray();
+            //byte[] b = baos.toByteArray();
+            //String bitmapString = Base64.encodeToString(b, Base64.DEFAULT);
+            //return bitmapString;
         }
     }
 }

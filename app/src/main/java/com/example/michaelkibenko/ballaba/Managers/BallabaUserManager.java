@@ -55,8 +55,9 @@ public class BallabaUserManager {
             String globalToken = auth.getString("global_token");
             String sessionToken = auth.getString("session_token");
             String deviceId = auth.getString("device_id");
-            Bitmap profileImage = StringUtils.getInstance(true, null)
-                    .stringToBitmap(jsonObject.getString("profile_image"));
+            String profileImage = jsonObject.getString("profile_image");
+            //Bitmap profileImage = StringUtils.getInstance(true, null)
+            //        .stringToBitmap(jsonObject.getString("profile_image"));
 
             BallabaUser user = new BallabaUser(id, phone, email, name, lastName, city, address, aptNo, gender, tenantScore
                     , landlordScore , guarantorScore, dateCreated, dateUpdated, sessionToken, deviceId, globalToken, profileImage);
@@ -91,8 +92,9 @@ public class BallabaUserManager {
             String globalToken = auth.getString("global_token");
             String sessionToken = auth.getString("session_token");
             String deviceId = auth.getString("device_id");
-            Bitmap profileImage = StringUtils.getInstance(true, null)
-                    .stringToBitmap(auth.getString("profile_image"));
+            String profileImage = jsonObject.getString("profile_image");
+            //Bitmap profileImage = StringUtils.getInstance(true, null)
+            //        .stringToBitmap(jsonObject.getString("profile_image"));
 
             BallabaUser user = new BallabaUser(id, phone, email, name, lastName, city, address, aptNo, gender, tenantScore
                     , landlordScore , guarantorScore, dateCreated, dateUpdated, sessionToken, deviceId, globalToken, profileImage);

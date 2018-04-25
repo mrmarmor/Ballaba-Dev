@@ -54,6 +54,7 @@ import java.util.Map;
 import static com.android.volley.Request.Method.DELETE;
 import static com.android.volley.Request.Method.GET;
 import static com.android.volley.Request.Method.POST;
+import static com.android.volley.Request.Method.PUT;
 
 /**
  * Created by michaelkibenko on 19/02/2018.
@@ -85,6 +86,13 @@ public class ConnectionsManager{
 
     public <T> void addRequestToQueue(Request<T> request) {
         getQueue().add(request);
+    }
+
+    private Map<String, String> getHeadersWithSessionToken(){
+        Map<String, String> params = new HashMap<String, String>();
+        params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
+        params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
+        return params;
     }
 
     public void loginWithPhoneNumber(final String phoneNumber, final BallabaResponseListener callback){
@@ -268,10 +276,7 @@ public class ConnectionsManager{
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
-                params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
-                return params;
+                return getHeadersWithSessionToken();
             }
         };
 
@@ -307,10 +312,7 @@ public class ConnectionsManager{
         })  {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
-                params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
-                return params;
+                return getHeadersWithSessionToken();
             }
         };
 
@@ -342,10 +344,7 @@ public class ConnectionsManager{
         })  {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
-                params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
-                return params;
+                return getHeadersWithSessionToken();
             }
         };
 
@@ -385,10 +384,7 @@ public class ConnectionsManager{
         })  {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
-                params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
-                return params;
+                return getHeadersWithSessionToken();
             }
         };
 
@@ -422,10 +418,7 @@ public class ConnectionsManager{
         })  {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
-                params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
-                return params;
+                return getHeadersWithSessionToken();
             }
         };
 
@@ -546,10 +539,7 @@ public class ConnectionsManager{
         }){
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
-                params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
-                return params;
+                return getHeadersWithSessionToken();
             }
         };
 
@@ -591,10 +581,7 @@ public class ConnectionsManager{
             }) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("device_id", DeviceUtils.getInstance(true, context).getDeviceId());
-                    params.put("session_token", BallabaUserManager.getInstance().getUserSesionToken());
-                    return params;
+                    return getHeadersWithSessionToken();
                 }
             };
 
@@ -631,10 +618,7 @@ public class ConnectionsManager{
             }) {
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
-                    params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
-                    return params;
+                    return getHeadersWithSessionToken();
                 }
             };
 
@@ -671,10 +655,7 @@ public class ConnectionsManager{
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
-                params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
-                return params;
+                return getHeadersWithSessionToken();
             }
         };
 
@@ -706,10 +687,7 @@ public class ConnectionsManager{
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
-                params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
-                return params;
+                return getHeadersWithSessionToken();
             }
         };
 
@@ -721,21 +699,23 @@ public class ConnectionsManager{
         queue.add(stringRequest);
     }
 
-    public void uploadUser(String userId, final HashMap<String, String> userData){
+    public void uploadUser(String userId, final HashMap<String, String> userData, final HashMap<String, byte[]> image){
         String url = EndpointsHolder.USER + userId;
-        StringRequest stringRequest = new StringRequest(POST, url, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(PUT, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
                 if (user == null) {
                     //callback.reject(new BallabaErrorResponse(500, null));
                 } else {
+                    //TODO save userId on sharedPrefs
                     //callback.resolve(user);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                //TODO snackBar
                 if (error.networkResponse != null) {
                     //callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
                 } else {
@@ -745,21 +725,24 @@ public class ConnectionsManager{
         }) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> params = new HashMap<>();
-                params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
-                params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
-                return params;
+                return getHeadersWithSessionToken();
             }
+
+            /*@Override
+            public String getBodyContentType() {
+                return "application/json";
+            }*/
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                JSONObject jsonObject = new JSONObject();
-                for (String key : userData.keySet()) {
-                    try {
+                try {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("profile_image", image.get("profile_image"));
+                    for (String key : userData.keySet()) {
                         jsonObject.put(key, userData.get(key));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
                     }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
 
                 return null;

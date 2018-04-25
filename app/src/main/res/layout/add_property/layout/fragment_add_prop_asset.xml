@@ -15,7 +15,7 @@
         android:background="@android:color/transparent">
 
         <LinearLayout
-            android:id="@+id/addProperty_root"
+            android:id="@+id/addProperty_location_root"
             style="@style/allMatchParent"
             android:layout_marginStart="@dimen/small_margin"
             android:layout_marginEnd="@dimen/small_margin"
@@ -30,12 +30,7 @@
                 android:orientation="vertical"
                 android:background="@android:color/white" >
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/small_margin"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:textSize="@dimen/textSize_big"
-                    android:textColor="@color/colorAccent"
+                    style="@style/addProperty_titles"
                     android:text="@string/addProperty_asset_propertyPosition_title" />
 
                 <TextView
@@ -63,98 +58,107 @@
                     android:id="@+id/addProp_aptNo_editText"
                     android:layout_width="@dimen/addProperty_editText_short_width"
                     android:tag="apartmentNumber"
-                    style="@style/addProperty_editTexts"
-                    android:inputType="numberDecimal"
+                    style="@style/add_property_editTexts_with_number"
                     android:hint="@string/addProperty_asset_hint" />
 
                 <TextView
+                    android:layout_width="wrap_content"
                     style="@style/addProperty_textViews"
                     android:text="@string/addProperty_asset_floor" />
                 <EditText
                     android:id="@+id/addProp_floor_editText"
                     android:layout_width="@dimen/addProperty_editText_short_width"
                     android:tag="floor"
-                    style="@style/addProperty_editTexts"
-                    android:inputType="numberDecimal"
+                    style="@style/add_property_editTexts_with_number"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:hint="@string/addProperty_asset_floor_hint" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    style="@style/addProperty_textViews"
+                    android:layout_marginStart="@dimen/addProperty_asset_maxFloor_marginStart"
+                    android:layout_marginTop="@dimen/addProperty_asset_maxFloor_marginVertical"
+                    android:text="@string/addProperty_asset_maxFloor" />
+                <EditText
+                    android:id="@+id/addProp_maxFloor_editText"
+                    android:layout_width="@dimen/addProperty_editText_short_width"
+                    android:tag="max_floor"
+                    style="@style/add_property_editTexts_with_number"
+                    android:layout_marginStart="@dimen/addProperty_asset_maxFloor_marginStart"
+                    android:layout_marginBottom="@dimen/addProperty_asset_maxFloor_marginVertical"
                     android:hint="@string/addProperty_asset_floor_hint" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/addProperty_editTexts_Root"
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/addProperty_formation_Root"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small_margin"
                 android:elevation="@dimen/elevation"
-                android:orientation="vertical"
                 android:background="@android:color/white" >
                 <TextView
-                    style="@style/addProperty_textViews"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:text="@string/addProperty_landlord_firstName" />
-                <EditText
-                    android:id="@+id/addProp_firstName_editText"
-                    android:tag="firstName"
-                    style="@style/addProperty_editTexts"
-                    android:inputType="textPersonName"
-                    android:hint="@string/addProperty_landlord_firstName_hint" />
-
-                <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_lastName" />
-                <EditText
-                    android:id="@+id/addProp_lastName_editText"
-                    android:tag="lastName"
-                    style="@style/addProperty_editTexts"
-                    android:inputType="textPersonName"
-                    android:hint="@string/addProperty_landlord_lastName_hint" />
-
-                <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_email" />
-                <EditText
-                    android:id="@+id/addProp_email_editText"
-                    android:tag="email"
-                    style="@style/addProperty_editTexts"
-                    android:inputType="textEmailAddress"
-                    android:hint="@string/addProperty_landlord_email_hint" />
-
-                <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_phone" />
-                <EditText
-                    android:id="@+id/addProp_phone_editText"
-                    android:tag="phone"
-                    style="@style/addProperty_editTexts"
-                    android:inputType="phone"
-                    android:hint="@string/addProperty_landlord_phone_hint" />
-
-                <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_city" />
-                <EditText
-                    android:id="@+id/addProp_city_editText1"
-                    android:tag="city"
-                    style="@style/addProperty_editTexts"
-                    android:hint="@string/addProperty_landlord_city_hint" />
-
-                <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_address" />
-                <EditText
-                    android:id="@+id/addProp_address_editText1"
-                    android:tag="address"
-                    style="@style/addProperty_editTexts"
-                    android:hint="@string/addProperty_landlord_address_hint" />
-
-                <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_aptNo" />
-                <EditText
-                    android:id="@+id/addProp_aptNo_editText1"
-                    android:layout_width="@dimen/addProperty_editText_short_width"
-                    android:tag="apt_no"
-                    style="@style/addProperty_editTexts"
-                    android:gravity="center"
-                    android:inputType="numberDecimal"
-                    android:hint="@string/addProperty_landlord_aptNo_hint" />
+                    android:id="@+id/addProperty_formation_title_textView"
+                    style="@style/addProperty_titles"
+                    app:layout_constraintTop_toBottomOf="@id/addProperty_formation_Root"
+                    android:text="@string/addProperty_asset_formation_title" />
 
                 <TextView
-                    style="@style/allWrapContent"
-                    android:layout_margin="@dimen/small_margin"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin"
-                    android:textSize="@dimen/textSize_small"
-                    android:textColor="@color/gray_text_color"
-                    android:text="@string/addProperty_landlord_integrity_announcement" />
+                    android:id="@+id/addProperty_formation_rooms_textView"
+                    style="@style/addProperty_textViews"
+                    app:layout_constraintTop_toBottomOf="@id/addProperty_formation_title_textView"
+                    android:text="@string/addProperty_asset_formation_toilets" />
+                <EditText
+                    android:id="@+id/addProp_rooms_editText"
+                    android:layout_width="@dimen/addProperty_editText_short_width"
+                    android:tag="rooms"
+                    style="@style/add_property_editTexts_with_number"
+                    app:layout_constraintTop_toBottomOf="@id/addProperty_formation_rooms_textView"
+                    android:hint="@string/addProperty_asset_hint" />
 
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/addProperty_formation_toilets_textView"
+                    style="@style/addProperty_textViews"
+                    app:layout_constraintTop_toBottomOf="@id/addProperty_formation_title_textView"
+                    app:layout_constraintStart_toEndOf="@id/addProp_rooms_editText"
+                    android:text="@string/addProperty_asset_formation_toilets" />
+                <EditText
+                    android:id="@+id/addProp_toilets_editText"
+                    android:layout_width="@dimen/addProperty_editText_short_width"
+                    android:tag="toilets"
+                    style="@style/add_property_editTexts_with_number"
+                    app:layout_constraintTop_toBottomOf="@id/addProperty_formation_toilets_textView"
+                    app:layout_constraintStart_toEndOf="@id/addProp_rooms_editText"
+                    android:hint="@string/addProperty_asset_hint" />
+
+                <TextView
+                    android:id="@+id/addProperty_formation_bathrooms_textView"
+                    style="@style/addProperty_textViews"
+                    app:layout_constraintTop_toBottomOf="@id/addProperty_formation_title_textView"
+                    app:layout_constraintStart_toEndOf="@id/addProp_toilets_editText"
+                    android:text="@string/addProperty_asset_formation_bathrooms" />
+                <EditText
+                    android:id="@+id/addProp_bathrooms_editText"
+                    android:layout_width="@dimen/addProperty_editText_short_width"
+                    android:tag="bathrooms"
+                    style="@style/add_property_editTexts_with_number"
+                    app:layout_constraintTop_toBottomOf="@id/addProperty_formation_bathrooms_textView"
+                    app:layout_constraintStart_toEndOf="@id/addProp_toilets_editText"
+                    android:hint="@string/addProperty_asset_hint" />
+
+                <TextView
+                    android:id="@+id/addProperty_formation_size_textView"
+                    style="@style/addProperty_textViews"
+                    app:layout_constraintTop_toBottomOf="@id/addProp_rooms_editText"
+                    android:text="@string/addProperty_asset_formation_size" />
+                <EditText
+                    android:id="@+id/addProp_size_editText"
+                    android:layout_width="@dimen/addProperty_editText_short_width"
+                    android:tag="size"
+                    style="@style/add_property_editTexts_with_number"
+                    app:layout_constraintTop_toBottomOf="@id/addProperty_formation_size_textView"
+                    android:hint="@string/addProperty_asset_formation_size_hint" />
+
+            </android.support.constraint.ConstraintLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

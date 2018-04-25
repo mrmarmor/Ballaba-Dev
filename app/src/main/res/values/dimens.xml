@@ -214,6 +214,9 @@
     <dimen name="addProperty_button_next_offset">40dp</dimen>
     <dimen name="addProperty_aboutYourself_editText_height">70dp</dimen>
 
+    <dimen name="addProperty_asset_maxFloor_marginStart">120dp</dimen>
+    <dimen name="addProperty_asset_maxFloor_marginVertical">-82dp</dimen>
+
     <dimen name="takePicSwitch_height">56dp</dimen>
 
 </resources>
