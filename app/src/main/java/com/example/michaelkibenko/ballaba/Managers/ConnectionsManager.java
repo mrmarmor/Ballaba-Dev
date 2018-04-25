@@ -48,6 +48,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -691,6 +693,7 @@ public class ConnectionsManager{
             @Override
             public void onResponse(String response) {
 //                callback.resolve(new BallabaOkResponse());
+
             }
         }, new Response.ErrorListener() {
             @Override
@@ -719,6 +722,7 @@ public class ConnectionsManager{
 
         queue.add(stringRequest);
     }
+
 
     public void getSavedProperties(final BallabaResponseListener callback){
         StringRequest stringRequest = new StringRequest(GET, EndpointsHolder.GET_SAVED, new Response.Listener<String>() {
@@ -755,7 +759,6 @@ public class ConnectionsManager{
 
         queue.add(stringRequest);
     }
-
     private boolean isQueryAdded(String url){
         char[] charArray = url.toCharArray();
         for (char input : charArray) {

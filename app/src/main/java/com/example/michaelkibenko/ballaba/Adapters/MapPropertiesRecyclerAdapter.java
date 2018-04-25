@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
+import com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import java.util.ArrayList;
 
@@ -63,7 +64,9 @@ public class MapPropertiesRecyclerAdapter extends RecyclerView.Adapter<MapProper
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, PropertyDescriptionActivity.class);
-                intent.putExtra(PropertyDescriptionActivity.PROPERTY, propertyResult);
+                intent.putExtra(PropertyDescriptionActivity.PROPERTY, propertyResult.id);
+                intent.putExtra(PropertyDescriptionPresenter.PROPERTY_IMAGE
+                        , propertyResult.photos.get(0));
                 context.startActivity(intent);
             }
         });
