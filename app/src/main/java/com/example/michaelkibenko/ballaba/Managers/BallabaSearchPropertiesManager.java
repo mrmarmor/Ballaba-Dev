@@ -230,6 +230,8 @@ public class BallabaSearchPropertiesManager {
                 String price = res.getString("price");
                 String size = res.getString("size");
                 String formattedAddress = res.getString("formatted_address");
+                String rentPeriod = res.getString("rent_period");
+                String numberOfPayments = res.getString("no_of_payments");
                 JSONArray photosJsonArray = res.getJSONArray("photos");
                 ArrayList<String> photos  = new ArrayList<>();
                 if (photosJsonArray != null) {
@@ -247,7 +249,7 @@ public class BallabaSearchPropertiesManager {
                 //TODO change lat lng object
 
                 BallabaPropertyResult propertyResult = new BallabaPropertyResult(id, rooms, price, size,
-                        formattedAddress, photos, isSaved, latLng, isGuarantee);
+                        formattedAddress, rentPeriod, numberOfPayments, photos, isSaved, latLng, isGuarantee);
 
                 returned.add(propertyResult);
             }

@@ -109,7 +109,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
         //rvProperties = (RecyclerView)view.findViewById(R.id.properties_recycler_RV);
         //GridLayoutManager manager = new GridLayoutManager(getContext(), 2);//TODO to display 2 properties in a row
         LinearLayoutManager manager = new LinearLayoutManager(context);
-        rvAdapter = new PropertiesRecyclerAdapter(context,getFragmentManager(), properties);
+        rvAdapter = new PropertiesRecyclerAdapter(context,getFragmentManager(), properties, false);
         binder.propertiesRecyclerRV.setLayoutManager(manager);
         binder.propertiesRecyclerRV.setAdapter(rvAdapter);
 

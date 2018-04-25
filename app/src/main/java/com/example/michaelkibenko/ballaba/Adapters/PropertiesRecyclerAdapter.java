@@ -49,12 +49,14 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     private Resources res;
     private FragmentManager fragmentManager;
     private int firstArraySize;
+    private final boolean isSavedScreen;
 
-    public PropertiesRecyclerAdapter(Context mContext, FragmentManager fm, List<BallabaPropertyResult> properties) {
+    public PropertiesRecyclerAdapter(Context mContext, FragmentManager fm, List<BallabaPropertyResult> properties, boolean isSavedScreen) {
         this.mContext = mContext;
         this.properties = properties;
         this.fragmentManager = fm;
         this.firstArraySize = properties.size();
+        this.isSavedScreen = isSavedScreen;
     }
 
     @Override
@@ -118,8 +120,10 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
 
         //TODO get offset properties from server:
         //ConnectionsManager.getInstance(this).getConfigRequest
-        if (position == (properties.size() - (/*OFFSET*/20 / 2))){
-            lazyLoading();
+        if(!isSavedScreen) {
+            if (position == (properties.size() - (/*OFFSET*/20 / 2))) {
+                lazyLoading();
+            }
         }
 
         holder.binder.getRoot().setOnClickListener(new View.OnClickListener() {

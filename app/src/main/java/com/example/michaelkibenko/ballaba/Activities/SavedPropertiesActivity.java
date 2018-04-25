@@ -80,7 +80,7 @@ public class SavedPropertiesActivity extends BaseActivity {
                 if(entity instanceof BallabaOkResponse){
                     items = BallabaSearchPropertiesManager.getInstance(SavedPropertiesActivity.this).parsePropertyResults(((BallabaOkResponse)entity).body);
                     if(items!= null) {
-                        adapter = new PropertiesRecyclerAdapter(SavedPropertiesActivity.this, getSupportFragmentManager(), items);
+                        adapter = new PropertiesRecyclerAdapter(SavedPropertiesActivity.this, getSupportFragmentManager(), items, true);
                         binding.savedPropertiesRV.setAdapter(adapter);
                         onScreenStateChanger(ITEMS);
                     }else{
