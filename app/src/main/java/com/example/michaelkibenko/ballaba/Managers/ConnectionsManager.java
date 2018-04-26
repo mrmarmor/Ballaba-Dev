@@ -708,10 +708,21 @@ public class ConnectionsManager{
 
     public void uploadUser(final String userId, final HashMap<String, String> userData
             , final HashMap<String, byte[]> image, final BallabaResponseListener callback){
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("profile_image", image.get("profile_image"));
+            for (String key : userData.keySet()) {
+                jsonObject.put(key, userData.get(key));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         String url = EndpointsHolder.USER + userId;
-        StringRequest stringRequest = new StringRequest(PUT, url, new Response.Listener<String>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(PUT, url, jsonObject, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(String response) {
+            public void onResponse(JSONObject response) {
                 BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
                 if (user == null) {
                     callback.reject(new BallabaErrorResponse(500, null));
@@ -740,9 +751,9 @@ public class ConnectionsManager{
                 return "application/json";
             }*/
 
-            @Override
+            /*@Override
             protected Map<String, String> getParams() throws AuthFailureError {
-                /*JSONObject jsonObject = new JSONObject();
+                *//*JSONObject jsonObject = new JSONObject();
                 try {
                     jsonObject.put("profile_image", image.get("profile_image"));
                     for (String key : userData.keySet()) {
@@ -750,37 +761,49 @@ public class ConnectionsManager{
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }*/
+                }*//*
 
                 if (image.get("profile_image") != null)
                     userData.put("profile_image", image.get("profile_image").toString());
 
                 return userData;
                 //return null;
-            }
+            }*/
         };
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
                 0,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        queue.add(stringRequest);
+        queue.add(jsonObjectRequest);
 
     }
 
-    public void uploadProperty(final HashMap<String, String> propertyData, final String step){
-        StringRequest stringRequest = new StringRequest(POST, EndpointsHolder.PROPERTY, new Response.Listener<String>() {
+    public void uploadProperty(final HashMap<String, String> propertyData, final String step, final BallabaResponseListener callback){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("step", step);
+            JSONObject innerObject = new JSONObject();
+            for (String key : propertyData.keySet()) {
+                innerObject.put(key, propertyData.get(key));
+            }
+            jsonObject.put("data", innerObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(POST, EndpointsHolder.PROPERTY, jsonObject, new Response.Listener<JSONObject>() {
             @Override
-            public void onResponse(String response) {
+            public void onResponse(JSONObject response) {
                 BallabaPropertyFull property = BallabaSearchPropertiesManager
-                        .getInstance(context).parsePropertiesFull(response);
+                        .getInstance(context).parsePropertiesFull(response.toString());
 
                 if (property == null) {
-                    //callback.reject(new BallabaErrorResponse(500, null));
+                    callback.reject(new BallabaErrorResponse(500, null));
                 } else {
                     //TODO save userId on sharedPrefs
-                    //callback.resolve(user);
+                    callback.resolve(property);
                 }
             }
         }, new Response.ErrorListener() {
@@ -788,9 +811,9 @@ public class ConnectionsManager{
             public void onErrorResponse(VolleyError error) {
                 //TODO snackBar
                 if (error.networkResponse != null) {
-                    //callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
                 } else {
-                    //callback.reject(new BallabaErrorResponse(500, null));
+                    callback.reject(new BallabaErrorResponse(500, null));
                 }
             }
         }) {
@@ -804,7 +827,7 @@ public class ConnectionsManager{
                 return "application/json";
             }*/
 
-            @Override
+            /*@Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 JSONObject jsonObject = new JSONObject();
                 try {
@@ -820,15 +843,15 @@ public class ConnectionsManager{
                 }
 
                 return null;
-            }
+            }*/
         };
 
-        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
                 0,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-        queue.add(stringRequest);
+        queue.add(jsonObjectRequest);
 
     }
 

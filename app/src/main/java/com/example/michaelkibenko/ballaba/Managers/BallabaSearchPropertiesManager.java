@@ -262,7 +262,7 @@ public class BallabaSearchPropertiesManager {
     }
 
     public BallabaPropertyFull parsePropertiesFull(String response){
-        StringUtils heb = StringUtils.getInstance(true, context);
+        //StringUtils heb = StringUtils.getInstance(true, context);
 
         try{
             JSONObject res = new JSONObject(response);

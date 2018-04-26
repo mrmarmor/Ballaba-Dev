@@ -9,6 +9,7 @@ import android.graphics.Typeface;
 import android.icu.util.HebrewCalendar;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -23,10 +24,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
+import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
+import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
@@ -64,10 +69,23 @@ public class AddPropAssetFrag extends Fragment {
         binderAsset.addPropertyAssetButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
+                final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
                 if (!isDataEqual(data))
-                    ConnectionsManager.getInstance(context).uploadProperty(data, "create");
-                new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(data, 1);
+                    ConnectionsManager.getInstance(context).uploadProperty(data, "create", new BallabaResponseListener() {
+                        @Override
+                        public void resolve(BallabaBaseEntity entity) {
+                            SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.USER_ID, ((BallabaUser)entity).getId());
+                            new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(data, 1);
+                        }
+
+                        @Override
+                        public void reject(BallabaBaseEntity entity) {
+                            showSnackBar();
+
+                            //TODO NEXT LINE IS ONLY FOR TESTING:
+                            new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(data, 1);
+                        }
+                    });
             }
         });
 
@@ -132,6 +150,14 @@ public class AddPropAssetFrag extends Fragment {
         } catch(Exception e) {
             Log.e(TAG, e.getMessage());
         }
+    }
+
+    private void showSnackBar(){
+        final View snackBarView = binderAsset.addPropertyLocationRoot;
+        Snackbar snackBar = Snackbar.make(snackBarView, "השמירה נכשלה נסה שנית מאוחר יותר", Snackbar.LENGTH_LONG);
+        snackBar.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary, context.getTheme()));
+        snackBar.show();
+        //snackBarView.findViewById(android.support.design.R.id.snackbar_text).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
     }
 
     private HashMap<String, String> getDataFromEditTexts(HashMap<String, String> map){
