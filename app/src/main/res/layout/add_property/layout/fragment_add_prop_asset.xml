@@ -197,12 +197,11 @@
                     android:id="@+id/addProp_asset_rentalPeriod_datePicker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/white"
-                    android:headerBackground="@color/pinkish_gray"
+                    android:theme="@style/MyDatePickerDialogTheme"
                     android:layout_marginStart="@dimen/addProp_asset_rentalPeriod_datePicker"
                     android:layout_marginEnd="@dimen/addProp_asset_rentalPeriod_datePicker"
                     android:layout_marginBottom="@dimen/small_margin"
-                    android:calendarTextColor="@android:color/white" />
+                />
 
                 <TextView
                     android:id="@+id/addProperty_rentalPeriod_rentalLong_textView"
