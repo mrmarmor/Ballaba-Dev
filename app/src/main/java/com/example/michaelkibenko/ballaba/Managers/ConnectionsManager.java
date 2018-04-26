@@ -23,6 +23,7 @@ import com.example.michaelkibenko.ballaba.Config;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
@@ -763,6 +764,66 @@ public class ConnectionsManager{
 
     }
 
+    public void uploadProperty(final String PROPERTY_ID, final HashMap<String, String> propertyData){
+        String url = EndpointsHolder.PROPERTY+PROPERTY_ID;
+        StringRequest stringRequest = new StringRequest(POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                BallabaPropertyFull property = BallabaSearchPropertiesManager
+                        .getInstance(context).parsePropertiesFull(response);
+
+                if (property == null) {
+                    //callback.reject(new BallabaErrorResponse(500, null));
+                } else {
+                    //TODO save userId on sharedPrefs
+                    //callback.resolve(user);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //TODO snackBar
+                if (error.networkResponse != null) {
+                    //callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                } else {
+                    //callback.reject(new BallabaErrorResponse(500, null));
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return getHeadersWithSessionToken();
+            }
+
+            /*@Override
+            public String getBodyContentType() {
+                return "application/json";
+            }*/
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                try {
+                    JSONObject jsonObject = new JSONObject();
+                    for (String key : propertyData.keySet()) {
+                        jsonObject.put(key, propertyData.get(key));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                return null;
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(stringRequest);
+
+    }
 
     public void getSavedProperties(final BallabaResponseListener callback){
         StringRequest stringRequest = new StringRequest(GET, EndpointsHolder.GET_SAVED, new Response.Listener<String>() {
