@@ -42,7 +42,6 @@ public class AddPropAssetFrag extends Fragment {
     private Context context;
     private static ActivityAddPropertyBinding binderMain;
     private FragmentAddPropAssetBinding binderAsset;
-    private BallabaPropertyFull property;
     //private TextView yearTextView;
 
     public AddPropAssetFrag() {}
@@ -65,10 +64,9 @@ public class AddPropAssetFrag extends Fragment {
         binderAsset.addPropertyAssetButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                property = BallabaSearchPropertiesManager.getInstance(context).getPropertyFull();
                 HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
-                if (property != null && !isDataEqual(data))
-                    ConnectionsManager.getInstance(context).uploadProperty(property.id, data);
+                if (!isDataEqual(data))
+                    ConnectionsManager.getInstance(context).uploadProperty(data, "create");
                 new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(data, 1);
             }
         });
@@ -137,13 +135,23 @@ public class AddPropAssetFrag extends Fragment {
     }
 
     private HashMap<String, String> getDataFromEditTexts(HashMap<String, String> map){
-        for (int i = 0; i < binderAsset.addPropertyLocationLayout.getChildCount(); i++){//root.getChildCount(); i++) {
-            View v = binderAsset.addPropertyLocationLayout.getChildAt(i);
-            if (v instanceof EditText) {
-                map.put(v.getTag()+"", ((EditText)v).getText()+"");
+        LinearLayout root = binderAsset.addPropertyLocationRoot;
+        for (int i = 0; i < root.getChildCount(); i++) {
+            try {
+                for (int j = 0; j < ((ViewGroup)root.getChildAt(i)).getChildCount(); j++) {
+                    View v = ((ViewGroup)root.getChildAt(i)).getChildAt(j);
+                    if (v instanceof EditText) {
+                        map.put(v.getTag() + "", ((EditText) v).getText() + "");
+                    }
+                }
+            } catch (ClassCastException e){
+                Log.e(TAG, e.getMessage()+"\n class is:" + root.getChildAt(i).getClass());
             }
-
         }
+
+        DatePicker picker = binderAsset.addPropAssetRentalPeriodDatePicker;
+        map.put("entry_date", String.format("%d-%02d-%02d", picker.getYear(), picker.getMonth()+1, picker.getDayOfMonth()));
+        map.put("is_extendable", binderAsset.addPropertyRentalPeriodOptionTextView.isChecked()+"");
 
         return map;
     }
@@ -155,18 +163,20 @@ public class AddPropAssetFrag extends Fragment {
     }
 
     private boolean isDataEqual(HashMap<String, String> map){
-        return (map.get("city").equals(property.city) &&
+        BallabaPropertyFull property = BallabaSearchPropertiesManager.getInstance(context).getPropertyFull();
+        return (property != null &&
+                map.get("city").equals(property.city) &&
                 map.get("street").equals(property.street) &&
                 map.get("apartment").equals(property.street_number) &&//TODO marik wrote "appartment" which is typo error
                 map.get("floor").equals(property.floor) &&
-                map.get("max_floor").equals(property.max_floor) /*&&
+                map.get("max_floor").equals(property.max_floor) &&
                 map.get("rooms").equals(property.roomsNumber) &&
                 map.get("toilets").equals(property.toilets) &&
                 map.get("bathrooms").equals(property.bathrooms) &&
                 map.get("size").equals(property.size) &&
                 map.get("entry_date").equals(property.entry_date) &&
-                map.get("rent_period").equals(property.rentPeriod)*/);// &&
-                //TODO missing value in property: map.get("is_extendable").equals(property.));
+                map.get("rent_period").equals(property.rentPeriod));
+        //TODO missing value in property: map.get("is_extendable").equals(property.));
     }
 
 }

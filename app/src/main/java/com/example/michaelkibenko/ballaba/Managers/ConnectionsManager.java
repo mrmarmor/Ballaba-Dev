@@ -437,7 +437,8 @@ public class ConnectionsManager{
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("?address=");
         for (String address : addresses) {
-            stringBuilder.append(address);
+            String addressEncoded = URLEncoder.encode(address);
+            stringBuilder.append(addressEncoded);
             stringBuilder.append("_");
         }
         stringBuilder.deleteCharAt(stringBuilder.toString().length()-1);
@@ -705,17 +706,17 @@ public class ConnectionsManager{
         queue.add(stringRequest);
     }
 
-    public void uploadUser(String userId, final HashMap<String, String> userData, final HashMap<String, byte[]> image){
+    public void uploadUser(final String userId, final HashMap<String, String> userData
+            , final HashMap<String, byte[]> image, final BallabaResponseListener callback){
         String url = EndpointsHolder.USER + userId;
         StringRequest stringRequest = new StringRequest(PUT, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
                 if (user == null) {
-                    //callback.reject(new BallabaErrorResponse(500, null));
+                    callback.reject(new BallabaErrorResponse(500, null));
                 } else {
-                    //TODO save userId on sharedPrefs
-                    //callback.resolve(user);
+                    callback.resolve(user);
                 }
             }
         }, new Response.ErrorListener() {
@@ -723,9 +724,9 @@ public class ConnectionsManager{
             public void onErrorResponse(VolleyError error) {
                 //TODO snackBar
                 if (error.networkResponse != null) {
-                    //callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
                 } else {
-                    //callback.reject(new BallabaErrorResponse(500, null));
+                    callback.reject(new BallabaErrorResponse(500, null));
                 }
             }
         }) {
@@ -741,17 +742,21 @@ public class ConnectionsManager{
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
+                /*JSONObject jsonObject = new JSONObject();
                 try {
-                    JSONObject jsonObject = new JSONObject();
                     jsonObject.put("profile_image", image.get("profile_image"));
                     for (String key : userData.keySet()) {
                         jsonObject.put(key, userData.get(key));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }
+                }*/
 
-                return null;
+                if (image.get("profile_image") != null)
+                    userData.put("profile_image", image.get("profile_image").toString());
+
+                return userData;
+                //return null;
             }
         };
 
@@ -764,12 +769,10 @@ public class ConnectionsManager{
 
     }
 
-    public void uploadProperty(final String PROPERTY_ID, final HashMap<String, String> propertyData){
-        String url = EndpointsHolder.PROPERTY+PROPERTY_ID;
-        StringRequest stringRequest = new StringRequest(POST, url, new Response.Listener<String>() {
+    public void uploadProperty(final HashMap<String, String> propertyData, final String step){
+        StringRequest stringRequest = new StringRequest(POST, EndpointsHolder.PROPERTY, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
                 BallabaPropertyFull property = BallabaSearchPropertiesManager
                         .getInstance(context).parsePropertiesFull(response);
 
@@ -803,11 +806,15 @@ public class ConnectionsManager{
 
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
+                JSONObject jsonObject = new JSONObject();
                 try {
-                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("step", step);
+                    JSONObject innerObject = new JSONObject();
                     for (String key : propertyData.keySet()) {
-                        jsonObject.put(key, propertyData.get(key));
+                        innerObject.put(key, propertyData.get(key));
                     }
+                    jsonObject.put("data", innerObject);
+                    Log.d(TAG, jsonObject.toString());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

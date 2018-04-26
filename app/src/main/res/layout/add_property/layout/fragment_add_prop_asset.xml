@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- TODO DO NOT CHANGE TAGS HERE. IT IS SENT TO THE SERVER AS KEYS, AND SERVER WILL NOT RECOGNIZE IF YOU CHANGE IT!! -->
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -197,6 +198,7 @@
                     android:id="@+id/addProp_asset_rentalPeriod_datePicker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:tag="entry_date"
                     android:theme="@style/MyDatePickerDialogTheme"
                     android:layout_marginStart="@dimen/addProp_asset_rentalPeriod_datePicker"
                     android:layout_marginEnd="@dimen/addProp_asset_rentalPeriod_datePicker"
@@ -217,6 +219,7 @@
 
                 <android.support.v7.widget.AppCompatCheckBox
                     android:id="@+id/addProperty_rentalPeriod_option_textView"
+                    android:tag="is_extendable"
                     style="@style/addProperty_textViews"
                     android:text="@string/addProperty_asset_option" />
 

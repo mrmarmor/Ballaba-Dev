@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,11 +20,16 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
+import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
+import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
@@ -175,13 +181,34 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
 
             case R.id.addProperty_landlord_button_next:
                 //Toast.makeText(context, "next", Toast.LENGTH_SHORT).show();
-                HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
+                final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
                 HashMap<String, byte[]> profileImage = getProfileImage(new HashMap<String, byte[]>());
 
                 if (user != null && !isDataEqual(data, user))
-                    ConnectionsManager.getInstance(context).uploadUser(user.getId(), data, profileImage);
-                new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(data, 0);
+                    ConnectionsManager.getInstance(context).uploadUser(user.getId(), data, profileImage, new BallabaResponseListener() {
+                        @Override
+                        public void resolve(BallabaBaseEntity entity) {
+                            SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.USER_ID, user.getId());
+                            new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(data, 0);
+                        }
+
+                        @Override
+                        public void reject(BallabaBaseEntity entity) {
+                            showSnackBar();
+
+                            //TODO NEXT LINE IS ONLY FOR TESTING:
+                            new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(data, 0);
+                        }
+                    });
         }
+    }
+
+    private void showSnackBar(){
+        final View snackBarView = binderLandLord.addPropertyRoot;
+        Snackbar snackBar = Snackbar.make(snackBarView, "השמירה נכשלה נסה שנית מאוחר יותר", Snackbar.LENGTH_LONG);
+        snackBar.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary, context.getTheme()));
+        snackBar.show();
+        //snackBarView.findViewById(android.support.design.R.id.snackbar_text).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
     }
 
     private boolean isDataEqual(HashMap<String, String> map, BallabaUser user){
