@@ -42,6 +42,7 @@ public class BallabaPropertyFull extends BallabaBaseEntity implements Serializab
     }
 
     public BallabaPropertyFull(){}
+    public BallabaPropertyFull(String id){ this.id = id; }
     private BallabaPropertyFull(Context context){
         this.context = context;
     }

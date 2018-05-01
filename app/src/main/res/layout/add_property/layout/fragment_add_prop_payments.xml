@@ -4,22 +4,239 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-        <variable
-            name="presenter"
-            type="com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter"/>
-    </data>
-
-    <FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropPaymentsFrag">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
+        style="@style/allWrapContent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="payments" />
+        android:layoutDirection="rtl"
+        android:background="@android:color/transparent">
 
-</FrameLayout>
+        <LinearLayout
+            android:id="@+id/addProperty_payments_root"
+            style="@style/allMatchParent"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:background="@android:color/transparent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/addProperty_payments_included"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@android:color/white" >
+                <TextView
+                    style="@style/addProperty_titles"
+                    android:text="@string/addProperty_payments_included_title" />
+                <com.nex3z.flowlayout.FlowLayout
+                    android:id="@+id/addProperty_payments_included_flowLayout"
+                    android:tag="payments"
+                    style="@style/flowLayout"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/small_margin"
+                    app:flRtl="true"
+                    app:flChildSpacing="@dimen/chip_childSpacing"
+                    app:flRowSpacing="@dimen/chip_rowSpacing" >
+                    <Button
+                        android:background="@drawable/chips_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="sdsdgf sdgsdf"/>
+                </com.nex3z.flowlayout.FlowLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/addProperty_payments_methods"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@android:color/white" >
+               <TextView
+                    style="@style/addProperty_titles"
+                   android:layout_marginBottom="@dimen/small_margin"
+                    android:text="@string/addProperty_payments_methods_title" />
+                <com.nex3z.flowlayout.FlowLayout
+                    android:id="@+id/addProperty_payments_methods_flowLayout"
+                    android:tag="payment_methods"
+                    style="@style/flowLayout"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/small_margin"
+                    app:flRtl="true"
+                    app:flChildSpacing="@dimen/chip_childSpacing"
+                    app:flRowSpacing="@dimen/chip_rowSpacing" >
+                    <Button
+                        android:background="@drawable/chips_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="dgf"/>
+                </com.nex3z.flowlayout.FlowLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/addProperty_payments_taxes_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                android:orientation="vertical"
+                android:background="@android:color/white" >
+
+                <TextView
+                    style="@style/addProperty_titles"
+                    android:layout_marginBottom="@dimen/small_margin"
+                    android:text="@string/addProperty_payments_time_title" />
+                <Spinner
+                    android:id="@+id/addProperty_payments_time_spinner"
+                    android:tag="time"
+                    style="@style/addProperty_editTexts"
+                    android:entries="@array/paymentFrequency"
+                    android:hint="@string/addProperty_payments_time_title" />
+
+                <TextView
+                    style="@style/addProperty_titles"
+                    android:layout_marginBottom="@dimen/small_margin"
+                    android:text="@string/addProperty_payments_municipality_title" />
+                <EditText
+                    android:id="@+id/addProp_payments_municipality_editText"
+                    android:layout_width="@dimen/addProperty_editText_short_width"
+                    android:tag="municipality"
+                    style="@style/add_property_editTexts_with_number"
+                    android:hint="@string/addProperty_payments_municipality_hint" />
+
+                <TextView
+                    style="@style/addProperty_titles"
+                    android:layout_marginBottom="@dimen/small_margin"
+                    android:text="@string/addProperty_payments_household_title" />
+                <EditText
+                    android:id="@+id/addProp_payments_household_editText"
+                    android:layout_width="@dimen/addProperty_editText_short_width"
+                    android:tag="household"
+                    style="@style/add_property_editTexts_with_number"
+                    android:hint="@string/addProperty_payments_hint" />
+
+                <TextView
+                    style="@style/addProperty_titles"
+                    android:layout_marginBottom="@dimen/small_margin"
+                    android:text="@string/addProperty_payments_management_title" />
+                <EditText
+                    android:id="@+id/addProp_payments_management_editText"
+                    android:layout_width="@dimen/addProperty_editText_short_width"
+                    android:tag="management"
+                    style="@style/add_property_editTexts_with_number"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:hint="@string/addProperty_payments_hint" />
+            </LinearLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/addProperty_payments_parking_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:layoutDirection="rtl"
+            android:orientation="vertical"
+            android:background="@android:color/white" >
+
+            <TextView
+                android:id="@+id/addProperty_payments_parking_title"
+                style="@style/addProperty_titles"
+                android:layout_width="wrap_content"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:paddingStart="@dimen/small_margin"
+                android:text="@string/addProperty_payments_parking_title" />
+            <TextView
+                style="@style/subTextView"
+                app:layout_constraintRight_toLeftOf="@id/addProperty_payments_parking_title"
+                app:layout_constraintBottom_toBottomOf="@id/addProperty_payments_parking_title"
+                android:layout_marginRight="@dimen/small_margin" />
+
+            <TextView
+                android:id="@+id/addProperty_payments_parking_amount"
+                style="@style/allWrapContent"
+                app:layout_constraintTop_toBottomOf="@id/addProperty_payments_parking_title"
+                app:layout_constraintRight_toRightOf="parent"
+                android:paddingBottom="@dimen/small_margin"
+                android:layout_marginRight="@dimen/small_margin"
+                android:text="@string/addProperty_payments_parking_amount" />
+            <EditText
+                android:id="@+id/addProperty_payments_parking_amount_editText"
+                android:layout_width="@dimen/addProperty_editText_short_width"
+                android:tag="amount"
+                style="@style/add_property_editTexts_with_number"
+                app:layout_constraintTop_toBottomOf="@id/addProperty_payments_parking_amount"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:hint="@string/addProperty_payments_zero_hint" />
+
+            <TextView
+                android:id="@+id/addProperty_payments_parking_price"
+                style="@style/allWrapContent"
+                app:layout_constraintTop_toBottomOf="@id/addProperty_payments_parking_title"
+                app:layout_constraintRight_toLeftOf="@id/addProperty_payments_parking_amount_editText"
+                android:paddingBottom="@dimen/small_margin"
+                android:layout_marginRight="@dimen/small_margin"
+                android:text="@string/addProperty_payments_parking_price" />
+            <EditText
+                android:id="@+id/addProperty_payments_parking_price_editText"
+                android:layout_width="@dimen/addProperty_editText_short_width"
+                android:tag="price"
+                style="@style/add_property_editTexts_with_number"
+                app:layout_constraintTop_toBottomOf="@id/addProperty_payments_parking_price"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/addProperty_payments_parking_amount_editText"
+                android:layout_marginBottom="@dimen/activity_vertical_margin"
+                android:hint="@string/addProperty_payments_hint" />
+
+        </android.support.constraint.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/addProperty_payments_rentalFee_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                android:orientation="vertical"
+                android:background="@android:color/white" >
+                <TextView
+                    style="@style/addProperty_titles"
+                    android:layout_marginBottom="@dimen/small_margin"
+                    android:text="@string/addProperty_payments_rentalFee_title" />
+                <EditText
+                    android:id="@+id/addProp_payments_rentalFee_editText"
+                    android:layout_width="@dimen/addProperty_editText_short_width"
+                    android:tag="rental_fee"
+                    style="@style/add_property_editTexts_with_number"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:hint="@string/addProperty_payments_rentFee_hint" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/addProperty_payments_freeText_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_margin"
+                android:orientation="vertical"
+                android:background="@android:color/white" >
+                <TextView
+                    style="@style/addProperty_titles"
+                    android:layout_marginBottom="@dimen/small_margin"
+                    android:text="@string/addProperty_payments_freeText_title" />
+                <EditText
+                    android:id="@+id/addProp_payments_freeText_editText"
+                    android:tag="free_text"
+                    style="@style/addProperty_editTexts"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:hint="@string/addProperty_payments_freeText_hint" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/addProperty_payments_button_next"
+                style="@style/AppButtonAnother"
+                android:layout_marginTop="@dimen/addProperty_button_next_offset"
+                android:layout_marginBottom="@dimen/addProperty_button_next_offset"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:text="@string/button_next" />
+
+        </LinearLayout>
+    </ScrollView>
 </layout>

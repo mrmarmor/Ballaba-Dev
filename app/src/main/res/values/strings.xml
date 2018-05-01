@@ -206,6 +206,32 @@
     <string name="addProperty_asset_months_hint">12</string>
     <string name="addProperty_asset_option">אופציה להארכת חוזה</string>
 
+    <string name="addProperty_addons_furniture_title">ריהוט</string>
+    <string name="addProperty_addons_electronics_title">אלקטרוניקה</string>
+    <string name="addProperty_addons_extras_title">תוספות</string>
+
+    <string name="addProperty_payments_included_title">מה כלול בשכר הדירה?</string>
+    <string name="addProperty_payments_methods_title">צורת התשלום</string>
+    <string name="addProperty_payments_time_title">זמן תשלום</string>
+   <!-- <string name="addProperty_payments_time_spinner1">חודשי</string>
+    <string name="addProperty_payments_time_spinner2">פעם בחודשיים</string>
+    <string name="addProperty_payments_time_spinner3">פעם בשלושה חודשים</string>
+   --> <string name="addProperty_payments_municipality_title">ארנונה לחודשיים</string>
+    <string name="addProperty_payments_municipality_hint">₪300</string>
+    <string name="addProperty_payments_household_title">ועד בית</string>
+    <string name="addProperty_payments_hint">₪0</string>
+    <string name="addProperty_payments_zero_hint">0</string>
+    <string name="addProperty_payments_management_title">דמי ניהול</string>
+    <string name="addProperty_payments_parking_title">חניה</string>
+    <string name="addProperty_payments_parking_amount">כמות</string>
+    <string name="addProperty_payments_parking_price">מחיר</string>
+    <string name="addProperty_payments_rentalFee_title">שכר הדירה</string>
+    <string name="addProperty_payments_rentFee_hint">₪5,000</string>
+    <string name="addProperty_payments_freeText_title">טקסט חופשי</string>
+    <string name="addProperty_payments_freeText_hint">תיאור הדירה, תוספות וכו\'</string>
+    <string name="addProperty_payments_sub">(אם יש)</string>
+
+
     <string name="takePicSwitch_camera">צילום תמונה</string>
     <string name="takePicSwitch_gallery">תמונה מהגלריה</string>
 
@@ -315,6 +341,12 @@
         <item>31</item>
     </string-array>
 
+    <string-array name="paymentFrequency">
+        <item>חודשי</item>
+        <item>פעם בחודשיים</item>
+        <item>פעם בשלושה חודשים</item>
+    </string-array>
+
     <!-- MENU SECTION -->
     <!--string name="menuItem_landlord">אני משכיר\/ה</string-->
     <string name="menuItem_addProperty">העלאת נכס</string>
@@ -347,12 +379,11 @@
 
     <!-- END ERROR SECTION -->
 
-
     <string name="saveMapSearch_topTxt">שירות שמירת אזור</string>
     <string name="saveMapSearch_bottomTxt">לקלת התראות על דירה חדשה</string>
     <string name="saveMapSearch_BTN_Txt">שמירה</string>
 
-    <string name="flexible_calendar_checkbox_text">גמיש/ה בתאריך כניסה (7 ימים +-)</string>
+    <string name="flexible_calendar_checkbox_text">גמיש/ה בתאריך כניסה (7 ימים ±)</string>
 
 
 </resources>

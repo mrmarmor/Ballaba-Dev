@@ -4,22 +4,111 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
+    <!--<data>
         <variable
             name="presenter"
             type="com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter"/>
-    </data>
+    </data>-->
 
-    <FrameLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropAddonsFrag">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
+        style="@style/allWrapContent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="addons" />
+        android:layoutDirection="rtl"
+        android:background="@android:color/transparent">
 
-</FrameLayout>
+        <LinearLayout
+            android:id="@+id/addProperty_addons_root"
+            style="@style/allMatchParent"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:background="@android:color/transparent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/addProperty_addons_furniture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@android:color/white" >
+                <TextView
+                    style="@style/addProperty_titles"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:text="@string/addProperty_addons_furniture_title" />
+
+                <!--<com.nex3z.flowlayout.FlowLayout
+                    android:id="@+id/addProperty_addons_furnitureRV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:flRtl="true"
+                    android:requiresFadingEdge="horizontal"
+                    android:animateLayoutChanges="true"
+                    app:flChildSpacing="@dimen/chip_childSpacing"
+                    app:flChildSpacingForLastRow="align"
+                    app:flRowSpacing="@dimen/chip_rowSpacing"
+                    android:background="@android:color/white" />-->
+                <com.nex3z.flowlayout.FlowLayout
+                    android:id="@+id/addProperty_addons_furniture_flowLayout"
+                    android:tag="furniture"
+                    style="@style/flowLayout"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/small_margin"
+                    app:flRtl="true"
+                    app:flChildSpacing="@dimen/chip_childSpacing"
+                    app:flRowSpacing="@dimen/chip_rowSpacing" />
+                <TextView
+                    style="@style/addProperty_titles"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:text="@string/addProperty_addons_electronics_title" />
+
+                <com.nex3z.flowlayout.FlowLayout
+                    android:id="@+id/addProperty_addons_electronics_flowLayout"
+                    android:tag="electronics"
+                    style="@style/flowLayout"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    app:flRtl="true"
+                    app:flChildSpacing="@dimen/chip_childSpacing"
+                    app:flChildSpacingForLastRow="align"
+                    app:flRowSpacing="@dimen/chip_rowSpacing" />
+                <!--<android.support.v7.widget.RecyclerView
+                    android:id="@+id/addProperty_addons_electronicsRV"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white" />-->
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/addProperty_extras_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:orientation="vertical"
+                android:background="@android:color/white" >
+                <TextView
+                    style="@style/addProperty_titles"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:text="@string/addProperty_addons_extras_title" />
+
+                <com.nex3z.flowlayout.FlowLayout
+                    android:id="@+id/addProperty_addons_extras_flowLayout"
+                    android:tag="extras"
+                    style="@style/flowLayout"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    app:flRtl="true"
+                    app:flChildSpacing="@dimen/chip_childSpacing"
+                    app:flRowSpacing="@dimen/chip_rowSpacing" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/addProperty_addons_button_next"
+                style="@style/AppButtonAnother"
+                android:layout_marginTop="@dimen/addProperty_button_next_offset"
+                android:layout_marginBottom="@dimen/addProperty_button_next_offset"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:text="@string/button_next" />
+
+        </LinearLayout>
+    </ScrollView>
 </layout>

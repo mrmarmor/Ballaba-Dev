@@ -1,30 +1,30 @@
 package com.example.michaelkibenko.ballaba.Fragments.Filter;
 
 import android.content.Context;
-import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CalendarView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
+import android.widget.Spinner;
 
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Views.MultiLanguagesDatePicker;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class DateOfEntranceFragment extends Fragment {
 
     private static final String TAG = DateOfEntranceFragment.class.getSimpleName();
     private Context context;
-    private CalendarView calendarView;
+    private MultiLanguagesDatePicker datePicker;
     private Date enteredDate;
     private FilterResultEntity filterResult;
     private CheckBox isFlexibleCheckBox;
@@ -49,22 +49,19 @@ public class DateOfEntranceFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_date_of_entrance, container, false);
-        calendarView = view.findViewById(R.id.entranceDateCalendarView);
+        datePicker = view.findViewById(R.id.entranceDate_datePicker);
         isFlexibleCheckBox = view.findViewById(R.id.flexibleCheckBox);
-        String languageToLoad  = "heb"; // your language
-        Locale locale = new Locale(languageToLoad);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        ((MainActivity)context).getBaseContext().getResources().updateConfiguration(config,
-                ((MainActivity)context).getBaseContext().getResources().getDisplayMetrics());
 
-        calendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+        datePicker.setTitle(getString(R.string.addProperty_asset_dateOfEntrance))
+                  .setTextSize(14);
+
+        final Calendar c = Calendar.getInstance();
+        datePicker.init(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)
+                , new MultiLanguagesDatePicker.OnDateChangedListener() {
             @Override
-            public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(year, month, dayOfMonth);
-                enteredDate = calendar.getTime();
+            public void onDateChanged(DatePicker view, int year, int month, int dayOfMonth) {
+                c.set(year, month, dayOfMonth);
+                enteredDate = c.getTime();
                 filterResult.setEnterDate(enteredDate);
             }
         });

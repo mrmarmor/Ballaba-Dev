@@ -120,6 +120,7 @@
                     style="@style/add_property_editTexts_with_number"
                     app:layout_constraintTop_toBottomOf="@id/addProperty_formation_rooms_textView"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
                     android:layout_marginTop="@dimen/small_margin"
                     android:hint="@string/addProperty_asset_hint" />
 
@@ -171,6 +172,7 @@
                     app:layout_constraintTop_toBottomOf="@id/addProperty_formation_size_textView"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
                     android:layout_marginTop="@dimen/small_margin"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:hint="@string/addProperty_asset_formation_size_hint" />
@@ -194,7 +196,7 @@
                     android:textColor="@color/colorAccent"
                     android:textSize="@dimen/textSize_big"
                     android:text="@string/addProperty_asset_rentalPeriod_title" />
-                <DatePicker
+                <com.example.michaelkibenko.ballaba.Views.MultiLanguagesDatePicker
                     android:id="@+id/addProp_asset_rentalPeriod_datePicker"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

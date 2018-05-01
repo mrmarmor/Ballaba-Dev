@@ -1,5 +1,6 @@
 package com.example.michaelkibenko.ballaba.Presenters;
 
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,6 +11,7 @@ import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -43,12 +45,19 @@ public class AddPropertyPresenter {
         return instance;
     }
 
-    public void getDataFromFragment(HashMap<String, String> fragmentData, int position){
-        data.putAll(fragmentData);
+    public void getDataFromFragment(/*HashMap<String, String> fragmentData, */int position){
+        //data.putAll(fragmentData);
+        //Log.d(TAG, "elements: "+data.size());
+
+        binder.addPropertyViewPager.setCurrentItem(position + 2);
+        activity.invalidateOptionsMenu();
+    }
+   /* public void getChipsFromFragment(@Nullable HashMap<String, ArrayList<String>> fragmentData, int position){
+        //TODO data.putAll(fragmentData);
         Log.d(TAG, "elements: "+data.size());
 
         binder.addPropertyViewPager.setCurrentItem(position + 1);
         activity.invalidateOptionsMenu();
-    }
+    }*/
 
 }

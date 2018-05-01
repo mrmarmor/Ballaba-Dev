@@ -146,7 +146,7 @@ public class SelectCityPresenter extends BasePresenter implements
         } else {
             binder.selectCityEditText.setText("");//TODO with listView
             cities.add(selectedCity);
-            addCityToFlowLayout(selectedCity);
+            addCityToFlowLayout(selectedCity.replace("Israel", ""));//TODO do so for other countries
         }
 
         //BallabaMapFragment.newInstance().onItemSelected(googleMap, selectedPlace);

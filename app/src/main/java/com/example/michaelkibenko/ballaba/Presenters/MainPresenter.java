@@ -440,7 +440,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                 .stringToTime(uploadDateStr) + TWO_WEEKS);
         Date now = new Date(Calendar.getInstance().getTimeInMillis());
 
-        /*TODO TESTING*/propertyId = "1";/*TODO END OF TESTING*/
+        /*TODO TESTING*///propertyId = "1";/*TODO END OF TESTING*/
         if (propertyId == null //=> user had finished upload his property or had never uploaded any
                 || (expireDate != null && expireDate.after(now))){ //=> or user had not finished upload, but 14 days had passed
             return new Intent(context, AddPropertyActivity.class);

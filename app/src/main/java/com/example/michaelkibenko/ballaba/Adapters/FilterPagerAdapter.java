@@ -12,13 +12,17 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.michaelkibenko.ballaba.Entities.FilterDimensions;
+import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 import com.example.michaelkibenko.ballaba.Fragments.Filter.AttachmentsFragment;
 import com.example.michaelkibenko.ballaba.Fragments.Filter.DateOfEntranceFragment;
 import com.example.michaelkibenko.ballaba.Fragments.Filter.PriceFragment;
 import com.example.michaelkibenko.ballaba.Fragments.Filter.RoomsFragment;
 import com.example.michaelkibenko.ballaba.Fragments.Filter.SizeFragment;
+import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
+
+import java.util.ArrayList;
 
 /**
  * Created by User on 01/04/2018.
@@ -54,10 +58,12 @@ public class FilterPagerAdapter extends FragmentStatePagerAdapter implements Vie
         this.binder = binder;
         this.fm = fm;
         this.filterDimensions = filterDimensions;
+        ArrayList<PropertyAttachmentAddonEntity> items = PropertyAttachmentsAddonsHolder.getInstance().getAttachments();
+
         priceFragment = PriceFragment.newInstance(this.filterDimensions.getMin_price(), this.filterDimensions.getMax_price());
         roomsFragment = RoomsFragment.newInstance(this.filterDimensions.getMin_rooms(), this.filterDimensions.getMax_rooms());
         sizeFragment = SizeFragment.newInstance(this.filterDimensions.getMin_size(), this.filterDimensions.getMax_size());
-        attachmnetsFragment = AttachmentsFragment.newInstance();
+        attachmnetsFragment = AttachmentsFragment.newInstance(items);
         dateOfEntranceFragment = DateOfEntranceFragment.newInstance();
         //binder.mainActivityFilterRoot.mainActivityFilterPriceButton
         rootLayout = binder.mainActivityFilterIncluded.mainActivityFilterRoot;

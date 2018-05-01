@@ -189,7 +189,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                         @Override
                         public void resolve(BallabaBaseEntity entity) {
                             SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.USER_ID, user.getId());
-                            new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(data, 0);
+                            new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(0);
                         }
 
                         @Override
@@ -197,7 +197,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                             showSnackBar();
 
                             //TODO NEXT LINE IS ONLY FOR TESTING:
-                            new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(data, 0);
+                            new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(0);
                         }
                     });
         }
@@ -206,7 +206,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     private void showSnackBar(){
         final View snackBarView = binderLandLord.addPropertyRoot;
         Snackbar snackBar = Snackbar.make(snackBarView, "השמירה נכשלה נסה שנית מאוחר יותר", Snackbar.LENGTH_LONG);
-        snackBar.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary, context.getTheme()));
+        snackBar.getView().setBackgroundColor(context.getResources().getColor(R.color.colorPrimary, context.getTheme()));
         snackBar.show();
         //snackBarView.findViewById(android.support.design.R.id.snackbar_text).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
     }

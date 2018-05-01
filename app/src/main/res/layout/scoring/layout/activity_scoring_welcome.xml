@@ -16,9 +16,9 @@
         android:text="@string/scoring_welcome_title" />
 
     <ImageView
-        android:layout_width="@dimen/scoring_welcome_questionMark_width"
-        android:layout_height="@dimen/scoring_welcome_questionMark_height"
-        android:src="@drawable/transfer_blue_36"
+        style="@style/allWrapContent"
+        android:layout_marginTop="@dimen/large_margin"
+        android:src="@drawable/question_mark_blue_160"
         android:layout_gravity="center_horizontal" />
 
     <TextView

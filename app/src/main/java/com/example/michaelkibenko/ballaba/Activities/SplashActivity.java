@@ -45,7 +45,7 @@ public class SplashActivity extends BaseActivity {
 
     private static final String TAG = SplashActivity.class.getSimpleName();
     private BallabaConnectivityListener connectivityListener;
-    private static final long MIN_SPLASH_DELAY = 3000;
+    private static final long MIN_SPLASH_DELAY = 3;
     private SplashLayoutBinding binder;
     private long startTime,endTime;
     boolean isGetConfig, isLoggedIn,isGetProperty, wasConnectivityProblem;

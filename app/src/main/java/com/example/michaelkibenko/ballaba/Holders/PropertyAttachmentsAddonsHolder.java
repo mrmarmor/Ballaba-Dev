@@ -54,15 +54,16 @@ public class PropertyAttachmentsAddonsHolder {
             JSONArray attachments = jsonObject.getJSONArray("attachments");
 
             //TODO delete it
+            //WARNING! there is already an attachment: {"id":11,"title":"service_balcony"}
             JSONObject not_furnished = new JSONObject();
             not_furnished.put("id" , "11");
             not_furnished.put("title", "not_furnished");
-            attachments.put(not_furnished);
+            attachments.put(1, not_furnished);
 
             JSONObject no_electronics = new JSONObject();
             no_electronics.put("id" , "22");
             no_electronics.put("title", "no_electronics");
-            attachments.put(no_electronics);
+            attachments.put(2, no_electronics);
 
             for (int i = 0; i < furniture.length(); i++) {
                 JSONObject currentObject = furniture.getJSONObject(i);
@@ -93,10 +94,6 @@ public class PropertyAttachmentsAddonsHolder {
         }
     }
 
-    private String getFormattedFurnitureTitle(String title){
-        return title;
-    }
-
     public PropertyAttachmentAddonEntity getAttachmentsById(String id){
         for (PropertyAttachmentAddonEntity entity : getAttachments()) {
             if(entity.id.equals(id)){
@@ -104,6 +101,58 @@ public class PropertyAttachmentsAddonsHolder {
             }
         }
         return null;
+    }
+
+    private String getFormattedFurnitureTitle(String title) {
+        switch (title) {
+            case "sofa":
+                return "ספה";
+            case "closet":
+                return "ארון";
+            case "bed":
+                return "מטה";
+            case "mattress":
+                return "מיזרן";
+            case "chair":
+                return "כסא";
+            case "table":
+                return "שולחן";
+            case "dining area":
+                return "פינת אוכל";
+            case "couch":
+                return "כורסא";
+            case "living room":
+                return "סלון";
+
+            default:
+                return title;
+        }
+    }
+
+    private String getFormattedElectronicsTitle(String title) {
+        switch (title) {
+            case "AC":
+                return "מזגן";
+            case "refrigerator":
+                return "מקרר";
+            case "tv":
+                return "טלוויזיה";
+            case "oven":
+                return "תנור";
+            case "washing machine":
+                return "מכונת כביסה";
+            case "dryer":
+                return "מייבש כביסה";
+            case "dishwasher":
+                return "מדיח כלים";
+            case "microwave":
+                return "מיקרוגל";
+            case "entertainment center":
+                return "מרכז בידור";
+
+            default:
+                return title;
+        }
     }
 
     private String getFormattedAttachmentsTitle(String title){
@@ -155,7 +204,4 @@ public class PropertyAttachmentsAddonsHolder {
         }
     }
 
-    private String getFormattedElectronicsTitle(String title){
-        return title;
-    }
 }

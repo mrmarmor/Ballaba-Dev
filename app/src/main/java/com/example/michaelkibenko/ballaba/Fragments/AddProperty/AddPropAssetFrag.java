@@ -1,14 +1,11 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
-import android.icu.util.HebrewCalendar;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -22,7 +19,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
@@ -74,8 +70,8 @@ public class AddPropAssetFrag extends Fragment {
                     ConnectionsManager.getInstance(context).uploadProperty(data, "create", new BallabaResponseListener() {
                         @Override
                         public void resolve(BallabaBaseEntity entity) {
-                            SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.USER_ID, ((BallabaUser)entity).getId());
-                            new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(data, 1);
+                            SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_ID, ((BallabaPropertyFull)entity).id);
+                            new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(/*data, */1);
                         }
 
                         @Override
@@ -83,14 +79,17 @@ public class AddPropAssetFrag extends Fragment {
                             showSnackBar();
 
                             //TODO NEXT LINE IS ONLY FOR TESTING:
-                            new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(data, 1);
+                            new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(/*data, */1);
                         }
                     });
             }
         });
 
         initEditTexts(BallabaSearchPropertiesManager.getInstance(context).getPropertyFull());
-        customizeDatePicker("he");
+
+        binderAsset.addPropAssetRentalPeriodDatePicker
+                .setTitle(getString(R.string.addProperty_asset_dateOfEntrance))
+                .setTextSize(14);
 
         return view;
     }
@@ -106,49 +105,7 @@ public class AddPropAssetFrag extends Fragment {
             binderAsset.addPropToiletsEditText.setText(property.toilets);
             binderAsset.addPropBathroomsEditText.setText(property.bathrooms);
             binderAsset.addPropSizeEditText.setText(property.size);
-        }
-    }
-
-    private void customizeDatePicker(String locale){
-        Resources res = context. getResources();
-
-        //1. change datePicker language to hebrew. TODO IF WE WANT OTHER LANGUAGES, USE OTHER LOCALES!
-        //1.a. change datePicker frame to hebrew:
-        Locale.setDefault(new Locale("he"));
-
-        //1.b. change calendar frame to hebrew:
-        Configuration hebrewConfiguration = res.getConfiguration();
-        hebrewConfiguration.setLocale(new Locale(locale));
-        context.createConfigurationContext(hebrewConfiguration);
-
-        //2. replace "2018" field from datePicker header with "תאריך כניסה" field
-        ViewGroup group = binderAsset.addPropAssetRentalPeriodDatePicker;
-        try {
-            group = (ViewGroup) group.getChildAt(0);//=layoutManager
-            group = (ViewGroup)group.getChildAt(0);//=child layoutManager
-            final TextView titleTextView = (TextView)group.getChildAt(0);//==textView "2018"
-            titleTextView.setText(getString(R.string.addProperty_asset_dateOfEntrance));
-            titleTextView.setPaddingRelative(0, 8, 0, 8);
-            titleTextView.setTextSize(14);
-
-            //to prevent OS from writing "2018" when user changes date
-            titleTextView.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {}
-                @Override
-                public void afterTextChanged(Editable s) {
-                    if (s.toString().equals(Calendar.getInstance().get(Calendar.YEAR)+""))
-                        titleTextView.setText(getString(R.string.addProperty_asset_dateOfEntrance));
-                }
-            });
-
-            TextView formattedDateTextView = (TextView)group.getChildAt(1);
-            formattedDateTextView.setTextSize(22);
-            formattedDateTextView.setTypeface(null, Typeface.BOLD);
-        } catch(Exception e) {
-            Log.e(TAG, e.getMessage());
+            binderAsset.addPropertyRentalPeriodMonthsEditText.setText(property.rentPeriod);
         }
     }
 
@@ -178,6 +135,9 @@ public class AddPropAssetFrag extends Fragment {
         DatePicker picker = binderAsset.addPropAssetRentalPeriodDatePicker;
         map.put("entry_date", String.format("%d-%02d-%02d", picker.getYear(), picker.getMonth()+1, picker.getDayOfMonth()));
         map.put("is_extendable", binderAsset.addPropertyRentalPeriodOptionTextView.isChecked()+"");
+
+        //TODO TESTING!!!
+        map.put("zip_code", "00000");
 
         return map;
     }

@@ -1,6 +1,8 @@
 package com.example.michaelkibenko.ballaba.Entities;
 
-public class PropertyAttachmentAddonEntity extends BallabaBaseEntity {
+import java.io.Serializable;
+
+public class PropertyAttachmentAddonEntity extends BallabaBaseEntity implements Serializable{
     public String id;
     public String title;
     public String formattedTitle;

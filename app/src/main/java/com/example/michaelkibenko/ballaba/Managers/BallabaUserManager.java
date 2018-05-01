@@ -82,16 +82,17 @@ public class BallabaUserManager {
             String city = jsonObject.getString("city");
             String address = jsonObject.getString("address");
             String aptNo = jsonObject.getString("apt_no");
-            String gender = jsonObject.getString("gender");
-            String tenantScore = jsonObject.getString("tenant_score");
-            String landlordScore = jsonObject.getString("landlord_score");
-            String guarantorScore = jsonObject.getString("guarantor_score");
-            String dateCreated = jsonObject.getString("date_created");
-            String dateUpdated = jsonObject.getString("date_updated");
-            JSONObject auth = jsonObject.getJSONObject("auth");
-            String globalToken = auth.getString("global_token");
-            String sessionToken = auth.getString("session_token");
-            String deviceId = auth.getString("device_id");
+            //TODO next keys are missing from server response so i put a dummy values for testing
+            String gender = "male";//jsonObject.getString("gender");
+            String tenantScore = "1";//jsonObject.getString("tenant_score");
+            String landlordScore = "1";//jsonObject.getString("landlord_score");
+            String guarantorScore = "1";//jsonObject.getString("guarantor_score");
+            String dateCreated = "1";//jsonObject.getString("date_created");
+            String dateUpdated = "1";//jsonObject.getString("date_updated");
+            //JSONObject auth = jsonObject.getJSONObject("auth");
+            String globalToken = "1";//auth.getString("global_token");
+            String sessionToken = "1";//auth.getString("session_token");
+            String deviceId = "1";//auth.getString("device_id");
             String profileImage = jsonObject.getString("profile_image");
             //Bitmap profileImage = StringUtils.getInstance(true, null)
             //        .stringToBitmap(jsonObject.getString("profile_image"));

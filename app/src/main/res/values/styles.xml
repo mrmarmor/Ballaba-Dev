@@ -216,4 +216,19 @@
         <item name="android:calendarTextColor">@android:color/white</item>
     </style>
 
+    <style name="subTextView" parent="allWrapContent">
+        <item name="android:text">@string/addProperty_payments_sub</item>
+        <item name="android:textSize">@dimen/textSize_small</item>
+        <item name="android:textColor">@color/gray_text_color</item>
+    </style>
+
+    <style name="flowLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:requiresFadingEdge">horizontal</item>
+        <item name="android:animateLayoutChanges">true</item>
+        <item name="android:elevation">-2dp</item>
+        <item name="android:background">@android:color/white</item>
+    </style>
+
 </resources>

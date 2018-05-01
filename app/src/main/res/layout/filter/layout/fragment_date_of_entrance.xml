@@ -8,25 +8,29 @@
     android:background="@android:color/white"
     android:layoutDirection="rtl">
 
-    <CalendarView
-        android:id="@+id/entranceDateCalendarView"
+    <com.example.michaelkibenko.ballaba.Views.MultiLanguagesDatePicker
+        android:id="@+id/entranceDate_datePicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:theme="@style/MyDatePickerDialogTheme"
+        android:layout_marginStart="@dimen/mainScreen_filter_datePicker_horizontal_offset"
+        android:layout_marginEnd="@dimen/mainScreen_filter_datePicker_horizontal_offset"
+        android:layout_marginTop="@dimen/large_margin"
         />
     
     <CheckBox
         android:id="@+id/flexibleCheckBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/entranceDateCalendarView"
-        app:layout_constraintStart_toStartOf="@+id/entranceDateCalendarView"
-        android:layout_marginStart="20dp"
-        />
+        style="@style/allWrapContent"
+        app:layout_constraintTop_toBottomOf="@+id/entranceDate_datePicker"
+        app:layout_constraintStart_toStartOf="@+id/entranceDate_datePicker"
+        android:layout_marginTop="@dimen/mainScreen_filter_checkBox_vertical_offset"
+        android:drawablePadding="@dimen/small_margin"
+        android:text="@string/flexible_calendar_checkbox_text" />
 
-    <TextView
+    <!--<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/flexible_calendar_checkbox_text"
@@ -34,6 +38,6 @@
         android:textColor="@android:color/black"
         app:layout_constraintTop_toTopOf="@+id/flexibleCheckBox"
         app:layout_constraintBottom_toBottomOf="@+id/flexibleCheckBox"
-        app:layout_constraintStart_toEndOf="@+id/flexibleCheckBox" />
+        app:layout_constraintStart_toEndOf="@+id/flexibleCheckBox" />-->
 
 </android.support.constraint.ConstraintLayout>

@@ -24,9 +24,11 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
+import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropAddonsFrag;
 import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
 import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.Holders.GlobalValues;
@@ -36,6 +38,7 @@ import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
@@ -780,7 +783,7 @@ public class ConnectionsManager{
 
     }
 
-    public void uploadProperty(final HashMap<String, String> propertyData, final String step, final BallabaResponseListener callback){
+    public void uploadProperty(final HashMap<String, String> propertyData, final String step, final BallabaResponseListener callback) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("step", step);
@@ -793,16 +796,45 @@ public class ConnectionsManager{
             e.printStackTrace();
         }
 
+        uploadCallback(jsonObject, callback);
+
+    }
+
+    //these functions are duplicated due to back-end necessaries
+    public void uploadPropertyIntegers(final AddPropAddonsFrag.Data propertyData, final String step, final BallabaResponseListener callback) {
+        JsonObject jsonObject = new JsonObject();
+        JsonObject innerObject = new JsonObject();
+
+        innerObject.addProperty("property_id", propertyData.property_id);
+        innerObject.add("attachments", new Gson().toJsonTree(propertyData.attachments));
+        innerObject.add("addons", new Gson().toJsonTree(propertyData.addons));
+
+        jsonObject.addProperty("step", step);
+        jsonObject.add("data", innerObject);
+
+        try {
+            uploadCallback(new JSONObject(jsonObject.toString()), callback);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void uploadCallback(final JSONObject jsonObject, final BallabaResponseListener callback){
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(POST, EndpointsHolder.PROPERTY, jsonObject, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                BallabaPropertyFull property = BallabaSearchPropertiesManager
-                        .getInstance(context).parsePropertiesFull(response.toString());
+                BallabaPropertyResult property = BallabaSearchPropertiesManager
+                        .getInstance(context).getPropertyById(null, response.toString());
 
                 if (property == null) {
-                    callback.reject(new BallabaErrorResponse(500, null));
+                    try {
+                        callback.resolve(new BallabaPropertyFull(response.get("id")+""));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 } else {
-                    //TODO save userId on sharedPrefs
+                    //TODO save propertyId on sharedPrefs
                     callback.resolve(property);
                 }
             }
@@ -821,29 +853,6 @@ public class ConnectionsManager{
             public Map<String, String> getHeaders() throws AuthFailureError {
                 return getHeadersWithSessionToken();
             }
-
-            /*@Override
-            public String getBodyContentType() {
-                return "application/json";
-            }*/
-
-            /*@Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                JSONObject jsonObject = new JSONObject();
-                try {
-                    jsonObject.put("step", step);
-                    JSONObject innerObject = new JSONObject();
-                    for (String key : propertyData.keySet()) {
-                        innerObject.put(key, propertyData.get(key));
-                    }
-                    jsonObject.put("data", innerObject);
-                    Log.d(TAG, jsonObject.toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-                return null;
-            }*/
         };
 
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
@@ -852,7 +861,6 @@ public class ConnectionsManager{
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         queue.add(jsonObjectRequest);
-
     }
 
     public void getSavedProperties(final BallabaResponseListener callback){

@@ -152,6 +152,8 @@
     <dimen name="enterPhoneNumber_progressButton_progress_width">100dp</dimen>
 
     <dimen name="mainScreen_filter_middle_height">265dp</dimen>
+    <dimen name="mainScreen_filter_datePicker_horizontal_offset">20dp</dimen>
+    <dimen name="mainScreen_filter_checkBox_vertical_offset">27dp</dimen>
 
     <dimen name="chipsButton_textSize">13sp</dimen>
     <dimen name="chipsButton_textPadding">10dp</dimen>

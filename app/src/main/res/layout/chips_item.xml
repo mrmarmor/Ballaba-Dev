@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Button
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="wrap_content"
-    android:layout_height="50dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/chip_width"
+    android:layout_height="@dimen/chip_height"
     android:background="@drawable/chips_button"
     android:textColor="@color/colorPrimary"
-    android:textSize="@dimen/chipsButton_textSize"
+    android:textSize="@dimen/textSize_regular"
     android:layout_margin="5dp"
-    android:padding="@dimen/chipsButton_textPadding"
+    android:padding="@dimen/small_margin" 
     android:textAlignment="center"
     android:gravity="center"
     >
