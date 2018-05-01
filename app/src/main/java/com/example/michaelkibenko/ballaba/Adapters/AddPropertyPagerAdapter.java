@@ -23,8 +23,7 @@ import java.util.HashMap;
  * Created by User on 22/04/2018.
  */
 
-public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter /*implements
-        View.OnClickListener*//*, ViewPager.OnPageChangeListener*/{
+public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
     private final String TAG = FilterPagerAdapter.class.getSimpleName();
     //private Context context;
     private ActivityAddPropertyBinding binder;
@@ -58,44 +57,5 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter /*impleme
     public int getCount() {
         return 4; //NUM_PAGES
     }
-
-    /*private void initButtonsClickListener() {
-        for (@IdRes int buttonId : BUTTONS) {
-            final Button button = rootLayout.findViewById(buttonId);
-            button.setOnClickListener(this);
-        }
-    }*/
-
-    /*@Override
-    public void onClick(View v) {
-        int position = Integer.parseInt(v.getTag().toString());
-        binder.addPropertyViewPager.setCurrentItem(position);
-    }*/
-
-   /* private void initButtonsClickListener() {
-        for (@IdRes int buttonId : BUTTONS) {
-            final Button button = rootLayout.findViewById(buttonId);
-            button.setOnClickListener(this);
-        }
-    }*/
-
-  /*  @Override
-    public void onClick(View v) {
-        int position = Integer.parseInt(v.getTag().toString());
-        binder.mainActivityFilterIncluded.mainActivityFilterViewPager.setCurrentItem(position);
-        onFilterButtonsStateChange(position);
-    }*/
-
-    /*@Override
-    public void onPageSelected(int i) {
-        Log.d("tag", i+":1");
-
-        int nextPageFactor = previousPageIndex < i? 1 : -1;
-        binder.mainActivityFilterIncluded.mainActivityFilterViewPager
-                .setCurrentItem(binder.mainActivityFilterIncluded.mainActivityFilterViewPager.getCurrentItem() + nextPageFactor);
-
-        //Use isMovingForward variable anywhere now
-        previousPageIndex = i;
-    }*/
 
 }

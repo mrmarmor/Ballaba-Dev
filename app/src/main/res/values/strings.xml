@@ -213,12 +213,9 @@
     <string name="addProperty_payments_included_title">מה כלול בשכר הדירה?</string>
     <string name="addProperty_payments_methods_title">צורת התשלום</string>
     <string name="addProperty_payments_time_title">זמן תשלום</string>
-   <!-- <string name="addProperty_payments_time_spinner1">חודשי</string>
-    <string name="addProperty_payments_time_spinner2">פעם בחודשיים</string>
-    <string name="addProperty_payments_time_spinner3">פעם בשלושה חודשים</string>
-   --> <string name="addProperty_payments_municipality_title">ארנונה לחודשיים</string>
+    <string name="addProperty_payments_municipality_title">ארנונה לחודשיים</string>
     <string name="addProperty_payments_municipality_hint">₪300</string>
-    <string name="addProperty_payments_household_title">ועד בית</string>
+    <string name="addProperty_payments_houseCommittee_title">ועד בית</string>
     <string name="addProperty_payments_hint">₪0</string>
     <string name="addProperty_payments_zero_hint">0</string>
     <string name="addProperty_payments_management_title">דמי ניהול</string>
@@ -376,6 +373,7 @@
     <!-- TODO: uniform naming: -->
     <string name="no_network_err_msg">אין חיבור לאינטרנט</string>
     <string name="error_property_download">שגיאה בקבלת מידע מן השרת. אנא נסו שנית מאוחר יותר.</string>
+    <string name="error_property_upload">"השמירה נכשלה. אנא נסו שנית מאוחר יותר."</string>
 
     <!-- END ERROR SECTION -->
 

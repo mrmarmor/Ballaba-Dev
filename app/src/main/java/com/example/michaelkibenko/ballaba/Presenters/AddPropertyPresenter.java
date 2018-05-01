@@ -38,9 +38,9 @@ public class AddPropertyPresenter {
         binder.addPropertyViewPager.setAdapter(addPropertyPagerAdapter);
     }
 
-    public static AddPropertyPresenter getInstance(){
+    public static AddPropertyPresenter getInstance(AppCompatActivity activity, ActivityAddPropertyBinding binding){
         if (instance == null)
-            instance = new AddPropertyPresenter();
+            instance = new AddPropertyPresenter(activity, binding);
 
         return instance;
     }
@@ -49,7 +49,8 @@ public class AddPropertyPresenter {
         //data.putAll(fragmentData);
         //Log.d(TAG, "elements: "+data.size());
 
-        binder.addPropertyViewPager.setCurrentItem(position + 2);
+        //if (position < binder.addPropertyViewPager.getChildCount() - 1)
+        binder.addPropertyViewPager.setCurrentItem(position + 1);
         activity.invalidateOptionsMenu();
     }
    /* public void getChipsFromFragment(@Nullable HashMap<String, ArrayList<String>> fragmentData, int position){

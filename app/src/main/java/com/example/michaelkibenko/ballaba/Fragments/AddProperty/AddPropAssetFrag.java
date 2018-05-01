@@ -33,6 +33,10 @@ import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropAssetBinding;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
@@ -67,10 +71,11 @@ public class AddPropAssetFrag extends Fragment {
             public void onClick(View v) {
                 final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
                 if (!isDataEqual(data))
-                    ConnectionsManager.getInstance(context).uploadProperty(data, "create", new BallabaResponseListener() {
+
+                    ConnectionsManager.getInstance(context).uploadProperty(jsonParse(data, "create"), new BallabaResponseListener() {
                         @Override
                         public void resolve(BallabaBaseEntity entity) {
-                            SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_ID, ((BallabaPropertyFull)entity).id);
+                            //SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_ID, ((BallabaPropertyFull)entity).id);
                             new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(/*data, */1);
                         }
 
@@ -163,6 +168,22 @@ public class AddPropAssetFrag extends Fragment {
                 map.get("entry_date").equals(property.entry_date) &&
                 map.get("rent_period").equals(property.rentPeriod));
         //TODO missing value in property: map.get("is_extendable").equals(property.));
+    }
+
+    private JSONObject jsonParse(HashMap<String, String> propertyData, String step){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("step", step);
+            JSONObject innerObject = new JSONObject();
+            for (String key : propertyData.keySet()) {
+                innerObject.put(key, propertyData.get(key));
+            }
+            jsonObject.put("data", innerObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return jsonObject;
     }
 
 }

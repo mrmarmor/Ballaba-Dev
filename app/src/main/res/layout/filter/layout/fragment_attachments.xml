@@ -9,12 +9,8 @@
 
    <com.nex3z.flowlayout.FlowLayout
        android:id="@+id/attachments_flowLayout"
-       style="@style/flowLayout"
-       android:layout_marginTop="@dimen/small_margin"
-       app:flRtl="true"
-       app:flChildSpacing="@dimen/chip_childSpacing"
-       app:flChildSpacingForLastRow="align"
-       app:flRowSpacing="@dimen/chip_rowSpacing" />
+       android:paddingTop="@dimen/small_margin"
+       style="@style/flowLayout" />
 
    <!--<android.support.v7.widget.RecyclerView
        android:id="@+id/attachmentsRV"

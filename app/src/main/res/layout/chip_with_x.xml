@@ -10,8 +10,9 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/chip_root"
-    android:layout_width="@dimen/chip_width"
+    android:layout_width="wrap_content"
     android:layout_height="@dimen/chip_height"
+    android:layoutDirection="rtl"
     android:background="@drawable/chip" >
 
     <TextView
@@ -22,7 +23,7 @@
         app:layout_constraintStart_toStartOf="@id/chip_root"
         app:layout_constraintEnd_toStartOf="@id/chip_x_button"
         android:gravity="center"
-        android:padding="8dp"
+        android:padding="@dimen/chip_textView_padding"
         android:background="@drawable/chip" />
 
     <Button
@@ -31,9 +32,9 @@
         app:layout_constraintBottom_toBottomOf="@id/chip_root"
         app:layout_constraintStart_toEndOf="@id/chip_textView"
         app:layout_constraintEnd_toEndOf="@id/chip_root"
-        android:layout_width="12dp"
-        android:layout_height="12dp"
-        android:layout_margin="9dp"
+        android:layout_width="@dimen/chip_x_dimens"
+        android:layout_height="@dimen/chip_x_dimens"
+        android:layout_margin="@dimen/chip_x_margin"
         android:background="@drawable/close_white_13" />
 
 </android.support.constraint.ConstraintLayout>

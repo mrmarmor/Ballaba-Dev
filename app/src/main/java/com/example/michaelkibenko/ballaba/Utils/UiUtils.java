@@ -115,7 +115,7 @@ public class UiUtils {
         constraintSetHeight.applyTo(constraintLayout);
     }
 
-    public void onChipsButtonClick(Button button, String state){
+    public Button onChipsButtonClick(Button button, String state){
         if(state.equals(ChipsButtonStates.NOT_PRESSED)){
             //change the state to pressed
             button.setBackgroundResource(R.drawable.chips_button_pressed);
@@ -129,6 +129,8 @@ public class UiUtils {
         }else{
             Log.e(TAG, "Chips does not have tag");
         }
+
+        return button;
     }
 
 }

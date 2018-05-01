@@ -140,13 +140,13 @@ public class SelectCityPresenter extends BasePresenter implements
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String selectedCity = ((TextView)view).getText().toString();
+        String selectedCity = ((TextView)view).getText().toString().replace(", Israel", "");
         if (cities.contains(selectedCity)){
             Toast.makeText(activity, "TESTING: You have already typed " + selectedCity, Toast.LENGTH_LONG).show();
         } else {
             binder.selectCityEditText.setText("");//TODO with listView
             cities.add(selectedCity);
-            addCityToFlowLayout(selectedCity.replace("Israel", ""));//TODO do so for other countries
+            addCityToFlowLayout(selectedCity);//TODO do so for other countries
         }
 
         //BallabaMapFragment.newInstance().onItemSelected(googleMap, selectedPlace);

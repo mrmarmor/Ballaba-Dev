@@ -142,6 +142,10 @@
     <dimen name="chip_padding">6dp</dimen>
     <dimen name="chip_childSpacing">10dp</dimen>
     <dimen name="chip_rowSpacing">8dp</dimen>
+    <dimen name="chip_x_dimens">12dp</dimen>
+    <dimen name="chip_x_margin">9dp</dimen>
+    <dimen name="chip_textView_padding">8dp</dimen>
+
 
     <dimen name="filter_slider_circle">18dp</dimen>
 

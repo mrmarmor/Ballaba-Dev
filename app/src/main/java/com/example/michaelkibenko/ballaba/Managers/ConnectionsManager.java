@@ -5,6 +5,8 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.UserManager;
+import android.support.annotation.StringDef;
+import android.support.annotation.StringRes;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -33,6 +35,7 @@ import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
 import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.Holders.GlobalValues;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
+import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.google.android.gms.maps.model.LatLng;
@@ -105,7 +108,6 @@ public class ConnectionsManager{
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("phone", phoneNumber);
-
 
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, EndpointsHolder.LOGIN, jsonObject, new Response.Listener<JSONObject>() {
                 @Override
@@ -736,11 +738,11 @@ public class ConnectionsManager{
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //TODO snackBar
+                @StringRes String message = context.getString(R.string.error_property_upload);
                 if (error.networkResponse != null) {
-                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, message));
                 } else {
-                    callback.reject(new BallabaErrorResponse(500, null));
+                    callback.reject(new BallabaErrorResponse(500, message));
                 }
             }
         }) {
@@ -783,69 +785,29 @@ public class ConnectionsManager{
 
     }
 
-    public void uploadProperty(final HashMap<String, String> propertyData, final String step, final BallabaResponseListener callback) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("step", step);
-            JSONObject innerObject = new JSONObject();
-            for (String key : propertyData.keySet()) {
-                innerObject.put(key, propertyData.get(key));
-            }
-            jsonObject.put("data", innerObject);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public void uploadProperty(JSONObject propertyData, final BallabaResponseListener callback) {
 
-        uploadCallback(jsonObject, callback);
-
-    }
-
-    //these functions are duplicated due to back-end necessaries
-    public void uploadPropertyIntegers(final AddPropAddonsFrag.Data propertyData, final String step, final BallabaResponseListener callback) {
-        JsonObject jsonObject = new JsonObject();
-        JsonObject innerObject = new JsonObject();
-
-        innerObject.addProperty("property_id", propertyData.property_id);
-        innerObject.add("attachments", new Gson().toJsonTree(propertyData.attachments));
-        innerObject.add("addons", new Gson().toJsonTree(propertyData.addons));
-
-        jsonObject.addProperty("step", step);
-        jsonObject.add("data", innerObject);
-
-        try {
-            uploadCallback(new JSONObject(jsonObject.toString()), callback);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    private void uploadCallback(final JSONObject jsonObject, final BallabaResponseListener callback){
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(POST, EndpointsHolder.PROPERTY, jsonObject, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(POST, EndpointsHolder.PROPERTY, propertyData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                BallabaPropertyResult property = BallabaSearchPropertiesManager
-                        .getInstance(context).getPropertyById(null, response.toString());
+                try {
+                    if (response.has("id"))
+                        SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_ID
+                            , response.get("id").toString());
 
-                if (property == null) {
-                    try {
-                        callback.resolve(new BallabaPropertyFull(response.get("id")+""));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    //TODO save propertyId on sharedPrefs
-                    callback.resolve(property);
+                    callback.resolve(new BallabaBaseEntity());
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                //TODO snackBar
+                @StringRes String message = context.getString(R.string.error_property_upload);
                 if (error.networkResponse != null) {
-                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, message));
                 } else {
-                    callback.reject(new BallabaErrorResponse(500, null));
+                    callback.reject(new BallabaErrorResponse(500, message));
                 }
             }
         }) {

@@ -225,10 +225,15 @@
     <style name="flowLayout">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/small_margin</item>
         <item name="android:requiresFadingEdge">horizontal</item>
         <item name="android:animateLayoutChanges">true</item>
         <item name="android:elevation">-2dp</item>
         <item name="android:background">@android:color/white</item>
+        <item name="flRtl">true</item>
+        <item name="flChildSpacing">@dimen/chip_childSpacing</item>
+        <item name="flRowSpacing">@dimen/chip_rowSpacing</item>
+        <item name="flChildSpacingForLastRow">align</item>
     </style>
 
 </resources>

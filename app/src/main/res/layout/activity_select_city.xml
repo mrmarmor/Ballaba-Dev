@@ -50,17 +50,10 @@
 
         <com.nex3z.flowlayout.FlowLayout
             android:id="@+id/selectCity_flowLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/flowLayout"
+            android:background="@android:color/transparent"
             app:layout_constraintTop_toBottomOf="@+id/selectCity_return_button"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_margin="@dimen/small_margin"
-            app:flRtl="true"
-            android:requiresFadingEdge="horizontal"
-            android:animateLayoutChanges="true"
-            app:flChildSpacing="@dimen/chip_childSpacing"
-            app:flChildSpacingForLastRow="align"
-            app:flRowSpacing="@dimen/chip_rowSpacing" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <!-- tzlil should decide between autoCompleteTextView and editText+listView -->
         <EditText

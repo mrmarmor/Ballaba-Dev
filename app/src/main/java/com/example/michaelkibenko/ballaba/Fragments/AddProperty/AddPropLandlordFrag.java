@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
@@ -184,28 +185,31 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
                 HashMap<String, byte[]> profileImage = getProfileImage(new HashMap<String, byte[]>());
 
-                if (user != null && !isDataEqual(data, user))
+                if (user != null && !isDataEqual(data, user)) {
                     ConnectionsManager.getInstance(context).uploadUser(user.getId(), data, profileImage, new BallabaResponseListener() {
                         @Override
                         public void resolve(BallabaBaseEntity entity) {
                             SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.USER_ID, user.getId());
-                            new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(0);
+                            AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).getDataFromFragment(0);
                         }
 
                         @Override
                         public void reject(BallabaBaseEntity entity) {
-                            showSnackBar();
+                            showSnackBar(((BallabaErrorResponse) entity).message);
 
                             //TODO NEXT LINE IS ONLY FOR TESTING:
-                            new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(0);
+                            //new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(0);
                         }
                     });
+                } else {
+                    AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).getDataFromFragment(0);
+                }
         }
     }
 
-    private void showSnackBar(){
+    private void showSnackBar(String message){
         final View snackBarView = binderLandLord.addPropertyRoot;
-        Snackbar snackBar = Snackbar.make(snackBarView, "השמירה נכשלה נסה שנית מאוחר יותר", Snackbar.LENGTH_LONG);
+        Snackbar snackBar = Snackbar.make(snackBarView, message, Snackbar.LENGTH_LONG);
         snackBar.getView().setBackgroundColor(context.getResources().getColor(R.color.colorPrimary, context.getTheme()));
         snackBar.show();
         //snackBarView.findViewById(android.support.design.R.id.snackbar_text).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);

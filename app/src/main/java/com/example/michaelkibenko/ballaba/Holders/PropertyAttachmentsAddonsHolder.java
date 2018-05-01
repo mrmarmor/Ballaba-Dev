@@ -10,12 +10,13 @@ import java.util.ArrayList;
 
 public class PropertyAttachmentsAddonsHolder {
     public static final String TAG = PropertyAttachmentsAddonsHolder.class.getSimpleName();
+    private final String FURNITURE = "furniture", ELECTRONICS = "electronics", ATTACHMENTS = "attachments"
+            , PAYMENT_TYPES = "payment_types", PAYMENT_METHODS = "payment_methods";
 
     private static PropertyAttachmentsAddonsHolder instance;
 
-    private ArrayList<PropertyAttachmentAddonEntity> furniture;
-    private ArrayList<PropertyAttachmentAddonEntity> electronics;
-    private ArrayList<PropertyAttachmentAddonEntity> attachments;
+    private ArrayList<PropertyAttachmentAddonEntity> furniture, electronics, attachments
+            , paymentTypes, paymentMethods;
 
     public static PropertyAttachmentsAddonsHolder getInstance() {
         if(instance == null){
@@ -28,6 +29,8 @@ public class PropertyAttachmentsAddonsHolder {
         furniture = new ArrayList<>();
         electronics = new ArrayList<>();
         attachments = new ArrayList<>();
+        paymentTypes = new ArrayList<>();
+        paymentMethods = new ArrayList<>();
     }
 
     public ArrayList<PropertyAttachmentAddonEntity> getFurniture() {
@@ -42,16 +45,28 @@ public class PropertyAttachmentsAddonsHolder {
         return attachments;
     }
 
+    public ArrayList<PropertyAttachmentAddonEntity> getPaymentTypes() {
+        return paymentTypes;
+    }
+
+    public ArrayList<PropertyAttachmentAddonEntity> getPaymentMethods() {
+        return paymentMethods;
+    }
+
     public void parseAttachmentsAddonsResponse(String response){
         try {
             this.furniture.clear();
             this.attachments.clear();
             this.electronics.clear();
+            this.paymentTypes.clear();
+            this.paymentMethods.clear();
 
             JSONObject jsonObject = new JSONObject(response);
-            JSONArray furniture = jsonObject.getJSONArray("furniture");
-            JSONArray electronics = jsonObject.getJSONArray("electronics");
-            JSONArray attachments = jsonObject.getJSONArray("attachments");
+            JSONArray furniture = jsonObject.getJSONArray(FURNITURE);
+            JSONArray electronics = jsonObject.getJSONArray(ELECTRONICS);
+            JSONArray attachments = jsonObject.getJSONArray(ATTACHMENTS);
+            JSONArray paymentTypes = jsonObject.getJSONArray(PAYMENT_TYPES);
+            JSONArray paymentMethods = jsonObject.getJSONArray(PAYMENT_METHODS);
 
             //TODO delete it
             //WARNING! there is already an attachment: {"id":11,"title":"service_balcony"}
@@ -65,15 +80,13 @@ public class PropertyAttachmentsAddonsHolder {
             no_electronics.put("title", "no_electronics");
             attachments.put(2, no_electronics);
 
-            for (int i = 0; i < furniture.length(); i++) {
-                JSONObject currentObject = furniture.getJSONObject(i);
-                String id = currentObject.getString("id");
-                String title = currentObject.getString("title");
-                PropertyAttachmentAddonEntity entity = new PropertyAttachmentAddonEntity(id, title, getFormattedFurnitureTitle(title));
-                this.furniture.add(entity);
-            }
+            addAttachments(this.furniture, furniture, FURNITURE);
+            addAttachments(this.electronics, electronics, ELECTRONICS);
+            addAttachments(this.attachments, attachments, ATTACHMENTS);
+            addAttachments(this.paymentTypes, paymentTypes, PAYMENT_TYPES);
+            addAttachments(this.paymentMethods, paymentMethods, PAYMENT_METHODS);
 
-            for (int i = 0; i < electronics.length(); i++) {
+            /*for (int i = 0; i < electronics.length(); i++) {
                 JSONObject currentObject = electronics.getJSONObject(i);
                 String id = currentObject.getString("id");
                 String title = currentObject.getString("title");
@@ -87,10 +100,37 @@ public class PropertyAttachmentsAddonsHolder {
                 String title = currentObject.getString("title");
                 PropertyAttachmentAddonEntity entity = new PropertyAttachmentAddonEntity(id, title, getFormattedAttachmentsTitle(title));
                 this.attachments.add(entity);
-            }
+            }*/
 
         }catch (JSONException ex){
             ex.printStackTrace();
+        }
+    }
+
+    private void addAttachments(ArrayList<PropertyAttachmentAddonEntity> entities, JSONArray attachment
+            , final String ATTACHMENT_TYPE) throws JSONException {
+        for (int i = 0; i < attachment.length(); i++) {
+            JSONObject currentObject = attachment.getJSONObject(i);
+            String id = currentObject.getString("id");
+            String title = currentObject.getString("title");
+
+            String formattedTitle = getFormattedTitle(ATTACHMENT_TYPE, title);
+            entities.add(new PropertyAttachmentAddonEntity(id, title, formattedTitle));
+        }
+    }
+
+    private String getFormattedTitle(final String ATTACHMENT_TYPE, final String TITLE){
+        switch (ATTACHMENT_TYPE) {
+            case "furniture":
+                return getFormattedFurnitureTitle(TITLE);
+            case "electronics":
+                return getFormattedElectronicsTitle(TITLE);
+            case "attachments":
+                return getFormattedAttachmentsTitle(TITLE);
+            case "payments":
+                return getFormattedPaymentTypesTitle(TITLE);
+            case "payment_methods": default:
+                return getFormattedPaymentMethodsTitle(TITLE);
         }
     }
 
@@ -201,6 +241,45 @@ public class PropertyAttachmentsAddonsHolder {
                 return "ממ״ד";
 
                 default:return title;
+        }
+    }
+
+    private String getFormattedPaymentTypesTitle(String title) {
+        switch (title) {
+            case "all_included":
+                return "הכל כלול";
+            case "arnona"://TODO
+                return "ארנונה";
+            case "house_committee":
+                return "ועד בית";
+            case "managment"://TODO
+                return "דמי ניהול";
+            case "electricity":
+                return "חשמל";
+            case "water":
+                return "מים";
+            case "gas":
+                return "גז";
+            case "internet":
+                return "אינטרנט";
+            case "cables":
+                return "כבלים";
+            case "parking":
+                return "חניה";
+
+            default:
+                return title;
+        }
+    }
+
+    private String getFormattedPaymentMethodsTitle(String title) {
+        switch (title) {
+            case "checks":
+                return "צ'קים";
+            case "wiretransfer":
+                return "העברה בנקאית";
+            default:
+                return title;
         }
     }
 
