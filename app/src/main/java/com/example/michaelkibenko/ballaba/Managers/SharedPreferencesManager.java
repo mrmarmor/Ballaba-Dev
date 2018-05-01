@@ -38,6 +38,10 @@ public class SharedPreferencesManager {
         return getEditor().putString(key, value).commit();
     }
 
+    public boolean removeString(final @SharedPreferencesKeysHolder String KEY) {
+        return getEditor().remove(KEY).commit();
+    }
+
     private boolean putInt(@SharedPreferencesKeysHolder String key, int value) {
         return getEditor().putInt(key, value).commit();
     }

@@ -53,10 +53,7 @@ public class AddPropAssetFrag extends Fragment {
     public static AddPropAssetFrag newInstance(ActivityAddPropertyBinding binding) {
         AddPropAssetFrag fragment = new AddPropAssetFrag();
         binderMain = binding;
-        /*Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);*/
+
         return fragment;
     }
 

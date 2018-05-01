@@ -268,7 +268,6 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
                 filterResult.deleteAttachmentId(attachment.id);
                 filterResult.setElectronics(false);
             }
-            uiUtils.onChipsButtonClick((Button) v, (String) v.getTag());
 
             String text = ((Button) v).getText() + "";
             if (state.equals(UiUtils.ChipsButtonStates.PRESSED)) {
@@ -279,6 +278,7 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
                     filterResult.appendAttachmentId(id);
                 }
             }
+
             uiUtils.onChipsButtonClick((Button) v, state);
         }
     }

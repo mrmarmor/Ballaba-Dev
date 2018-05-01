@@ -127,17 +127,26 @@ public class PropertyAttachmentsAddonsHolder {
                 return getFormattedElectronicsTitle(TITLE);
             case "attachments":
                 return getFormattedAttachmentsTitle(TITLE);
-            case "payments":
+            case "payment_types":
                 return getFormattedPaymentTypesTitle(TITLE);
             case "payment_methods": default:
                 return getFormattedPaymentMethodsTitle(TITLE);
         }
     }
 
-    public PropertyAttachmentAddonEntity getAttachmentsById(String id){
+    public PropertyAttachmentAddonEntity getAttachmentById(String id){
         for (PropertyAttachmentAddonEntity entity : getAttachments()) {
             if(entity.id.equals(id)){
                 return entity;
+            }
+        }
+        return null;
+    }
+
+    public String getFormattedTitleById(ArrayList<PropertyAttachmentAddonEntity> entities, String id){
+        for (PropertyAttachmentAddonEntity entity : entities) {
+            if(entity.id.equals(id)){
+                return entity.formattedTitle;
             }
         }
         return null;
@@ -252,7 +261,7 @@ public class PropertyAttachmentsAddonsHolder {
                 return "ארנונה";
             case "house_committee":
                 return "ועד בית";
-            case "managment"://TODO
+            case "managment_fee"://TODO
                 return "דמי ניהול";
             case "electricity":
                 return "חשמל";

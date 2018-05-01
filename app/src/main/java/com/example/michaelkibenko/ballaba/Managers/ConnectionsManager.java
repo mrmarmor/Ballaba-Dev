@@ -519,7 +519,7 @@ public class ConnectionsManager{
                 isIncludeFilter = true;
             }
             for (String id : filterResult.getAttachments_ids()){
-                PropertyAttachmentAddonEntity entity = PropertyAttachmentsAddonsHolder.getInstance().getAttachmentsById(id);
+                PropertyAttachmentAddonEntity entity = PropertyAttachmentsAddonsHolder.getInstance().getAttachmentById(id);
                 filterStringBuilder.append("&"+entity.title);
             }
         }

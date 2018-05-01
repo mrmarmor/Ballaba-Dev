@@ -54,6 +54,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     private ArrayList<PropertyAttachmentAddonEntity> items;
     private FlowLayout paymentsRoot, paymentMethodsRoot;
     private ArrayList<PropertyAttachmentAddonEntity> payments, paymentMethods;
+    private BallabaPropertyFull property;
     private boolean wasPaymentsChanged = false;
 
     public AddPropPaymentsFrag() {}
@@ -70,8 +71,8 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         binderPay = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_add_prop_payments, container, false);
         View view = binderPay.getRoot();
-
-        //initButtons(view);
+        property = BallabaSearchPropertiesManager.getInstance(context).getPropertyFull();
+        initView(view);
         return view;
     }
 
@@ -84,6 +85,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
 
         initButtons(paymentsRoot, payments);
         initButtons(paymentMethodsRoot, paymentMethods);
+        initEditTexts();
         binderPay.addPropertyPaymentsButtonNext.setOnClickListener(this);
     }
 
@@ -93,6 +95,15 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
             initAttachment(chipsItem, attachment);
             //chipsItem.setWidth(attachment.formattedTitle.length()*5);
             //Log.e("tagg", attachment.formattedTitle.length()+"");
+
+            for (HashMap<String, String> map : property.payments)
+                if (attachment.id.equals(map.get("payment_types")))
+                    chipsItem = UiUtils.instance(false, context).onChipsButtonClick(chipsItem, (String)chipsItem.getTag());
+
+            for (HashMap<String, String> map : property.paymentMethods)
+                if (attachment.id.equals(map.get("payment_methods")))
+                    chipsItem = UiUtils.instance(false, context).onChipsButtonClick(chipsItem, (String)chipsItem.getTag());
+
             flowLayout.addView(chipsItem);
         }
     }
@@ -111,6 +122,23 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         chipsItem.setOnClickListener(this);
 
         return chipsItem;
+    }
+
+    private void initEditTexts(){
+        if (property != null) {
+            PropertyAttachmentsAddonsHolder entity = PropertyAttachmentsAddonsHolder.getInstance();
+
+            binderPay.addPropPaymentsMunicipalityEditText.setText(
+                    entity.getFormattedTitleById(payments, payments.get(0).id));
+            binderPay.addPropPaymentsHouseCommitteeEditText.setText(
+                    entity.getFormattedTitleById(payments, payments.get(1).id));
+            binderPay.addPropPaymentsManagementEditText.setText(
+                    entity.getFormattedTitleById(payments, payments.get(2).id));
+            binderPay.addPropertyPaymentsParkingNoEditText.setText(property.no_of_parking);
+            binderPay.addPropertyPaymentsParkingPriceEditText.setText(property.parking_price);
+            binderPay.addPropPaymentsRentalFeeEditText.setText(property.price);
+            binderPay.addPropPaymentsFreeTextEditText.setText(property.description);
+        }
     }
 
     @Override
@@ -148,60 +176,28 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.addProperty_addons_button_next)
+        if (v.getId() == R.id.addProperty_payments_button_next)
             onFinish();
         else {
             wasPaymentsChanged = true;
             PropertyAttachmentsAddonsHolder attachments = PropertyAttachmentsAddonsHolder.getInstance();
             String state = (String) v.getTag();
+
             String itemParentTag = ((FlowLayout) v.getParent()).getTag() + "";
-            if (itemParentTag.equals("furniture")) {
-                items = attachments.getFurniture();
-            } else if (itemParentTag.equals("electronics")) {
-                items = attachments.getElectronics();
-            } else if (itemParentTag.equals("extras")) {
-                items = attachments.getAttachments();
+            if (itemParentTag.equals("payments")) {
+                items = attachments.getPaymentTypes();
+            } else if (itemParentTag.equals("payment_methods")) {
+                items = attachments.getPaymentMethods();
             }
 
             UiUtils uiUtils = UiUtils.instance(false, context);
             FilterResultEntity filterResult = new FilterResultEntity();
 
-            if (getOriginalTitleByFormatted(((Button) v).getText() + "").equals("furnished")
-                    && v.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
-                //switch between furnished and not furnished where furnished is checked
-                PropertyAttachmentAddonEntity attachment = getHolderByOriginalTitle("not_furnished");
-                filterResult.deleteAttachmentId(attachment.id);
-                filterResult.setFurnished(true);
-            } else if (getOriginalTitleByFormatted(((Button) v).getText() + "").equals("not_furnished")
-                    && v.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
-                //switch between furnished and not furnished where not_furnished is checked
-                PropertyAttachmentAddonEntity attachment = getHolderByOriginalTitle("furnished");
-                filterResult.deleteAttachmentId(attachment.id);
-                filterResult.setFurnished(false);
-            } else if (getOriginalTitleByFormatted(((Button) v).getText() + "").equals("electronics")
-                    && v.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
-                //switch between electronics and not no_electronics where electronics is checked
-                PropertyAttachmentAddonEntity attachment = getHolderByOriginalTitle("no_electronics");
-                filterResult.deleteAttachmentId(attachment.id);
-                filterResult.setElectronics(true);
-
-            } else if (getOriginalTitleByFormatted(((Button) v).getText() + "").equals("no_electronics")
-                    && v.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
-                //switch between electronics and not no_electronics where no_electronics is checked
-                PropertyAttachmentAddonEntity attachment = getHolderByOriginalTitle("electronics");
-                filterResult.deleteAttachmentId(attachment.id);
-                filterResult.setElectronics(false);
-            }
-            uiUtils.onChipsButtonClick((Button) v, (String) v.getTag());
-
             String text = ((Button) v).getText() + "";
             if (state.equals(UiUtils.ChipsButtonStates.PRESSED)) {
                 filterResult.deleteAttachmentId(getHolderByFormattedTitle(text).id);
             } else if (state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED)) {
-                //String id = ;
-                //if (!id.equals("1") && !id.equals("2") && !id.equals("11") && !id.equals("22")) {
                 filterResult.appendAttachmentId(getHolderByFormattedTitle(text).id);
-                //}
             }
             uiUtils.onChipsButtonClick((Button) v, state);
         }
@@ -217,8 +213,8 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
                     //TODO update property updating date on SharedPrefs??
-                    //SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_ID, ((BallabaPropertyFull)entity).id);
-                    AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).getDataFromFragment(3);
+                    //SharedPreferencesManager.getInstance(context).removeString(SharedPreferencesKeysHolder.PROPERTY_ID);
+                    AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).getDataFromFragment(4);
                 }
 
                 @Override
@@ -242,8 +238,6 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
                     View v = ((ViewGroup)root.getChildAt(i)).getChildAt(j);
                     if (v instanceof EditText) {
                         data.put(v.getTag() + "", ((EditText) v).getText() + "");
-                    } else if (v instanceof Spinner) {
-                        data.put(v.getTag() + "", ((Spinner) v).getPrompt() + "");
                     }
                 }
             } catch (ClassCastException e){
@@ -252,8 +246,9 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         }
 
         Spinner spinner = binderPay.addPropertyPaymentsTimeSpinner;
-        data.put("no_of_payments", );
-        data.put("is_extendable", binderAsset.addPropertyRentalPeriodOptionTextView.isChecked()+"");
+        PropertyAttachmentAddonEntity entity = getHolderByFormattedTitle(spinner.getPrompt()+"");
+        if (entity != null)
+            data.put(spinner.getTag() + "", entity.id);
 
         return data;
     }
@@ -272,30 +267,30 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
 
     private boolean areEditTextsEqual(HashMap<String, String> map){
         BallabaPropertyFull property = BallabaSearchPropertiesManager.getInstance(context).getPropertyFull();
+        PropertyAttachmentsAddonsHolder entity = PropertyAttachmentsAddonsHolder.getInstance();
         return (property != null &&
-                map.get("city").equals(property.city) &&
-                map.get("street").equals(property.street) &&
-                map.get("apartment").equals(property.street_number) &&//TODO marik wrote "appartment" which is typo error
-                map.get("floor").equals(property.floor) &&
-                map.get("max_floor").equals(property.max_floor) &&
-                map.get("rooms").equals(property.roomsNumber) &&
-                map.get("toilets").equals(property.toilets) &&
-                map.get("bathrooms").equals(property.bathrooms) &&
-                map.get("size").equals(property.size) &&
-                map.get("entry_date").equals(property.entry_date) &&
-                map.get("rent_period").equals(property.rentPeriod));
-        //TODO missing value in property: map.get("is_extendable").equals(property.));
+                map.get("no_of_payments").equals(property.numberOfPayments) &&
+                map.get("arnona").equals(entity.getFormattedTitleById(payments, payments.get(0).id)) &&
+                map.get("house_committee").equals(entity.getFormattedTitleById(payments, payments.get(1).id)) &&//TODO marik wrote "appartment" which is typo error
+                map.get("managment").equals(entity.getFormattedTitleById(payments, payments.get(2).id)) &&
+                map.get("no_of_parking").equals(property.no_of_parking) &&
+                map.get("parking_price").equals(property.parking_price) &&
+                map.get("rent_price").equals(property.price) &&
+                map.get("description").equals(property.description));
     }
 
-    private JSONObject jsonParse(Data propertyData, String step){
+    private JSONObject jsonParse(HashMap<String, String> propertyData, String step){
+        String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, NULL);
+
         try {
             JsonObject jsonObject = new JsonObject();
             JsonObject innerObject = new JsonObject();
 
-            innerObject.addProperty("property_id", propertyData.property_id);
+            innerObject.addProperty("property_id", Integer.parseInt(propertyId));
+            /*
             innerObject.add("addons", new Gson().toJsonTree(propertyData.addons));
             innerObject.add("attachments", new Gson().toJsonTree(propertyData.attachments));
-
+*/
             jsonObject.addProperty("step", step);
             jsonObject.add("data", innerObject);
 
@@ -313,7 +308,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         snackBar.show();
     }
 
-    public class Data {
+    /*public class Data {
         public Integer property_id;
         public ArrayList<Integer> attachments;
         public ArrayList<Integer> addons;
@@ -322,6 +317,6 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
             attachments = new ArrayList<>();
             addons = new ArrayList<>();
         }
-    }
+    }*/
 
 }

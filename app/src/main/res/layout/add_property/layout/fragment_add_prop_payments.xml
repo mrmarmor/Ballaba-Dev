@@ -114,16 +114,15 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/small_margin"
                     android:orientation="horizontal">
                     <TextView
                         android:layout_width="wrap_content"
                         style="@style/addProperty_titles"
-                        android:layout_marginBottom="@dimen/small_margin"
                         android:text="@string/addProperty_payments_houseCommittee_title" />
                     <TextView
                         style="@style/subTextView"
-                        android:layout_gravity="bottom"
-                        android:layout_marginBottom="@dimen/small_margin"
+                        android:layout_gravity="center_vertical"
                         android:layout_marginRight="@dimen/small_margin" />
                 </LinearLayout>
 
@@ -153,7 +152,7 @@
                 <EditText
                     android:id="@+id/addProp_payments_management_editText"
                     android:layout_width="@dimen/addProperty_editText_short_width"
-                    android:tag="management"
+                    android:tag="managment"
                     style="@style/add_property_editTexts_with_number"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:hint="@string/addProperty_payments_hint" />
@@ -185,7 +184,7 @@
                     android:layout_marginRight="@dimen/small_margin" />
 
                 <TextView
-                    android:id="@+id/addProperty_payments_parking_amount"
+                    android:id="@+id/addProperty_payments_parking_no"
                     style="@style/allWrapContent"
                     app:layout_constraintTop_toBottomOf="@id/addProperty_payments_parking_title"
                     app:layout_constraintRight_toRightOf="parent"
@@ -193,11 +192,11 @@
                     android:layout_marginRight="@dimen/small_margin"
                     android:text="@string/addProperty_payments_parking_amount" />
                 <EditText
-                    android:id="@+id/addProperty_payments_parking_amount_editText"
+                    android:id="@+id/addProperty_payments_parking_no_editText"
                     android:layout_width="@dimen/addProperty_editText_short_width"
-                    android:tag="amount"
+                    android:tag="no_of_parking"
                     style="@style/add_property_editTexts_with_number"
-                    app:layout_constraintTop_toBottomOf="@id/addProperty_payments_parking_amount"
+                    app:layout_constraintTop_toBottomOf="@id/addProperty_payments_parking_no"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
@@ -207,18 +206,18 @@
                     android:id="@+id/addProperty_payments_parking_price"
                     style="@style/allWrapContent"
                     app:layout_constraintTop_toBottomOf="@id/addProperty_payments_parking_title"
-                    app:layout_constraintRight_toLeftOf="@id/addProperty_payments_parking_amount_editText"
+                    app:layout_constraintRight_toLeftOf="@id/addProperty_payments_parking_no_editText"
                     android:paddingBottom="@dimen/small_margin"
                     android:layout_marginRight="@dimen/small_margin"
                     android:text="@string/addProperty_payments_parking_price" />
                 <EditText
                     android:id="@+id/addProperty_payments_parking_price_editText"
                     android:layout_width="@dimen/addProperty_editText_short_width"
-                    android:tag="price"
+                    android:tag="parking_price"
                     style="@style/add_property_editTexts_with_number"
                     app:layout_constraintTop_toBottomOf="@id/addProperty_payments_parking_price"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/addProperty_payments_parking_amount_editText"
+                    app:layout_constraintRight_toLeftOf="@id/addProperty_payments_parking_no_editText"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:hint="@string/addProperty_payments_hint" />
 
@@ -238,7 +237,7 @@
                 <EditText
                     android:id="@+id/addProp_payments_rentalFee_editText"
                     android:layout_width="@dimen/addProperty_editText_short_width"
-                    android:tag="rental_fee"
+                    android:tag="rent_price"
                     style="@style/add_property_editTexts_with_number"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:hint="@string/addProperty_payments_rentFee_hint" />
@@ -257,7 +256,7 @@
                     android:text="@string/addProperty_payments_freeText_title" />
                 <EditText
                     android:id="@+id/addProp_payments_freeText_editText"
-                    android:tag="free_text"
+                    android:tag="description"
                     style="@style/addProperty_editTexts"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:hint="@string/addProperty_payments_freeText_hint" />
