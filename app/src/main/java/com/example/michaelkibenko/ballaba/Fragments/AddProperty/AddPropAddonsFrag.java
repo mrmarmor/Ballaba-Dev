@@ -45,7 +45,7 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
     private static ActivityAddPropertyBinding binderMain;
     private FragmentAddPropAddonsBinding binderAddons;
     //public ChipsButtonsRecyclerViewAdapter adapter;
-    private ArrayList<PropertyAttachmentAddonEntity> items;
+    //private ArrayList<PropertyAttachmentAddonEntity> items;
     private FlowLayout furnitureRoot, electronicsRoot, extrasRoot;
     private ArrayList<PropertyAttachmentAddonEntity> furniture, electronics, extras;
     private boolean wasDataChanged = false;
@@ -193,7 +193,7 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         }*/
     }
 
-    private String getOriginalTitleByFormatted(String formatted){
+    /*private String getOriginalTitleByFormatted(String formatted){
         for (PropertyAttachmentAddonEntity item : items) {
             if(item.formattedTitle.equals(formatted)){
                 return item.title;
@@ -219,27 +219,37 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         }
         return null;
     }
-
+*/
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.addProperty_addons_button_next)
+        Button buttonNotFurnished = (Button) furnitureRoot.getChildAt(0);
+
+        if (v.getId() == R.id.addProperty_addons_button_next) {
             onFinish();
-        else if (v.getTag().equals(NOT_FURNISHED_TAG))
+        } else if (v.getTag().equals(NOT_FURNISHED_TAG)) {
             unselectAllFurnitureButtons(binderAddons.addPropertyAddonsFurnitureFlowLayout);
-        else {
+            highlightNotFurnishedButton(buttonNotFurnished);
+         } else {
             wasDataChanged = true;
-            PropertyAttachmentsAddonsHolder attachments = PropertyAttachmentsAddonsHolder.getInstance();
+            //PropertyAttachmentsAddonsHolder attachments = PropertyAttachmentsAddonsHolder.getInstance();
             String state = (String) v.getTag();
-            String itemParentTag = ((FlowLayout) v.getParent()).getTag() + "";
+          /*  String itemParentTag = ((FlowLayout) v.getParent()).getTag() + "";
             if (itemParentTag.equals("furniture")) {
                 items = attachments.getFurniture();
             } else if (itemParentTag.equals("electronics")) {
                 items = attachments.getElectronics();
             } else if (itemParentTag.equals("extras")) {
                 items = attachments.getAttachments();
-            }
+            }*/
 
             UiUtils.instance(false, context).onChipsButtonClick((Button) v, state);
+
+            if (areAllFurnitureButtonsUnselected()) {
+                highlightNotFurnishedButton(buttonNotFurnished);
+            } else {
+                buttonNotFurnished.setBackgroundResource(R.drawable.chips_button);
+                buttonNotFurnished.setTextColor(getResources().getColor(R.color.colorPrimary, context.getTheme()));
+            }
         }
     }
 
@@ -254,7 +264,7 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
                 public void resolve(BallabaBaseEntity entity) {
                     //TODO update property updating date on SharedPrefs??
                     //SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_ID, ((BallabaPropertyFull)entity).id);
-                    AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).getDataFromFragment(/*data, */2);
+                    AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).getDataFromFragment(/*data, */2);
                 }
 
                 @Override
@@ -311,14 +321,29 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         }
     }
 
+    //click on "not furnished" button will unselect all furniture buttons
     private void unselectAllFurnitureButtons(FlowLayout furnitureRoot){
         for (int i = 1; i < furnitureRoot.getChildCount(); i++){
             if (furnitureRoot.getChildAt(i) instanceof Button) {
                 Button button = (Button) furnitureRoot.getChildAt(i);
                 UiUtils.instance(false, context).onChipsButtonClick(button, UiUtils.ChipsButtonStates.PRESSED);
             }
-
         }
+    }
+
+    private void highlightNotFurnishedButton(Button buttonNotFurnished){
+        buttonNotFurnished.setBackgroundResource(R.drawable.chips_button_pressed);
+        buttonNotFurnished.setTextColor(getResources().getColor(android.R.color.white, context.getTheme()));
+    }
+
+    private boolean areAllFurnitureButtonsUnselected(){
+        boolean allButtonsUnselected = true;
+        for (int i = 1; i < furnitureRoot.getChildCount(); i++){
+            if (furnitureRoot.getChildAt(i).getTag().equals(UiUtils.ChipsButtonStates.PRESSED))
+                allButtonsUnselected = false;
+        }
+
+        return allButtonsUnselected;
     }
 
     private void showSnackBar(final String message){

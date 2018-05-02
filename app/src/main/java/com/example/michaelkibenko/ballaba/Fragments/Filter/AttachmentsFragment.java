@@ -87,7 +87,7 @@ public class AttachmentsFragment extends Fragment implements Button.OnClickListe
                 return item.title;
             }
         }
-        return "";
+        return null;
     }
 
     private PropertyAttachmentAddonEntity getHolderByOriginalTitle(String title){
@@ -170,17 +170,15 @@ public class AttachmentsFragment extends Fragment implements Button.OnClickListe
         PropertyAttachmentAddonEntity attachment = getHolderByOriginalTitle(tweenButtonTitle);
         Button tweenButton = ((ViewGroup)btn.getParent()).findViewById(Integer.parseInt(attachment.id));
         if (tweenButton != null) {
-            checkIfFilterDisabled(btn, tweenButton, TYPE);
+            checkIfBothButtonsUnselected(btn, tweenButton, TYPE);
             filterResult.deleteAttachmentId(attachment.id);
-            //uiUtils.onChipsButtonClick((Button)v, (String)v.getTag());
-            //Button tweenButton = ((ViewGroup)v.getParent()).findViewWithTag("not_furnished");
             tweenButton.setTag(UiUtils.ChipsButtonStates.PRESSED);
             uiUtils.onChipsButtonClick(tweenButton, (String)tweenButton.getTag());
 
         }
     }
 
-    private boolean checkIfFilterDisabled(Button btn, Button tweenButton, final String TYPE){
+    private boolean checkIfBothButtonsUnselected(Button btn, Button tweenButton, final String TYPE){
         if (btn.getTag().equals(UiUtils.ChipsButtonStates.PRESSED) &&
                 !tweenButton.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)){
             if (TYPE.equals(FURNISHED))
