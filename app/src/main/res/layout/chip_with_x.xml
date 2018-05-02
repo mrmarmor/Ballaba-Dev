@@ -28,12 +28,13 @@
 
     <Button
         android:id="@+id/chip_x_button"
+        android:layout_width="@dimen/chip_x_dimens"
+        android:layout_height="@dimen/chip_x_dimens"
+        style="?android:attr/buttonStyleSmall"
         app:layout_constraintTop_toTopOf="@id/chip_root"
         app:layout_constraintBottom_toBottomOf="@id/chip_root"
         app:layout_constraintStart_toEndOf="@id/chip_textView"
         app:layout_constraintEnd_toEndOf="@id/chip_root"
-        android:layout_width="@dimen/chip_x_dimens"
-        android:layout_height="@dimen/chip_x_dimens"
         android:layout_margin="@dimen/chip_x_margin"
         android:background="@drawable/close_white_13" />
 

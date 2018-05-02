@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="@dimen/chip_height"
+    style="?android:attr/buttonStyleSmall"
     android:background="@drawable/chips_button"
     android:textColor="@color/colorPrimary"
     android:textSize="@dimen/textSize_regular"
