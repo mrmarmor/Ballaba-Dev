@@ -4,5 +4,4 @@
     <!-- you can use any color you want I used here gray color-->
     <solid android:color="@color/colorPrimary"/>
     <corners android:radius="@dimen/chipsButton_radius" />
-    <stroke android:color="@android:color/white" android:width="1dp"/>
 </shape>

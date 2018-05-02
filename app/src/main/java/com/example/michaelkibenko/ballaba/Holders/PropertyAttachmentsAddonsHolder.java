@@ -1,5 +1,7 @@
 package com.example.michaelkibenko.ballaba.Holders;
 
+import android.util.Log;
+
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 
 import org.json.JSONArray;
@@ -73,12 +75,16 @@ public class PropertyAttachmentsAddonsHolder {
             JSONObject not_furnished = new JSONObject();
             not_furnished.put("id" , "11");
             not_furnished.put("title", "not_furnished");
-            attachments.put(1, not_furnished);
+            addInPosition(1, not_furnished, attachments);
+            //attachments.put(1, not_furnished);//this overrides element in position 1!
 
             JSONObject no_electronics = new JSONObject();
             no_electronics.put("id" , "22");
             no_electronics.put("title", "no_electronics");
-            attachments.put(2, no_electronics);
+            addInPosition(3, no_electronics, attachments);
+            //this.attachments = attachments;
+            //attachments.put(2, no_electronics);
+            //Log.e("d", electronics+"");
 
             addAttachments(this.furniture, furniture, FURNITURE);
             addAttachments(this.electronics, electronics, ELECTRONICS);
@@ -185,7 +191,7 @@ public class PropertyAttachmentsAddonsHolder {
             case "refrigerator":
                 return "מקרר";
             case "tv":
-                return "טלוויזיה";
+                return "טלויזיה";
             case "oven":
                 return "תנור";
             case "washing machine":
@@ -223,7 +229,7 @@ public class PropertyAttachmentsAddonsHolder {
             case "elevator":
                 return "מעלית";
             case "guard":
-                return "שומר בבנין";
+                return "שומר בניין";
             case "bars":
                 return "סורגים";
             case "warehouse":
@@ -237,7 +243,7 @@ public class PropertyAttachmentsAddonsHolder {
             case "pool":
                 return "בריכה";
             case "animals":
-                return "אפשר בע״ח";
+                return "אפשר חיות מחמד";
             case "floor_heat":
                 return "חימום רצפתי";
             case "all_included":
@@ -290,6 +296,13 @@ public class PropertyAttachmentsAddonsHolder {
             default:
                 return title;
         }
+    }
+
+    private void addInPosition(int position, JSONObject jsonObj, JSONArray jsonArr) throws JSONException{
+        for (int i = jsonArr.length(); i > position; i--){
+            jsonArr.put(i, jsonArr.get(i-1));
+        }
+        jsonArr.put(position, jsonObj);
     }
 
 }

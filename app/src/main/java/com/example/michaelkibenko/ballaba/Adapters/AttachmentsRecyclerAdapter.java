@@ -55,7 +55,7 @@ public class AttachmentsRecyclerAdapter {//extends RecyclerView.Adapter<Attachme
     @NonNull
     @Override
     public AttachmentsRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        //View chipsView = LayoutInflater.from(context).inflate(R.layout.chips_item, parent, false);
+        //View chipsView = LayoutInflater.from(context).inflate(R.layout.chip_regular, parent, false);
         AttachmentsRecyclerAdapter.ViewHolder viewHolder = new AttachmentsRecyclerAdapter.ViewHolder(new TextView(context));
         parsedItems.add(viewHolder);
         //res = context.getResources();

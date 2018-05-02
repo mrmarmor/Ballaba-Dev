@@ -13,7 +13,7 @@
     android:layout_width="wrap_content"
     android:layout_height="@dimen/chip_height"
     android:layoutDirection="rtl"
-    android:background="@drawable/chip" >
+    android:background="@drawable/chips_button_pressed" >
 
     <TextView
         android:id="@+id/chip_textView"
@@ -23,8 +23,8 @@
         app:layout_constraintStart_toStartOf="@id/chip_root"
         app:layout_constraintEnd_toStartOf="@id/chip_x_button"
         android:gravity="center"
-        android:padding="@dimen/chip_textView_padding"
-        android:background="@drawable/chip" />
+        android:textColor="@android:color/white"
+        android:padding="@dimen/chip_textView_padding" />
 
     <Button
         android:id="@+id/chip_x_button"

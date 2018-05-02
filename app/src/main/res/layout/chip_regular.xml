@@ -7,8 +7,10 @@
     android:background="@drawable/chips_button"
     android:textColor="@color/colorPrimary"
     android:textSize="@dimen/textSize_regular"
-    android:layout_margin="5dp"
-    android:padding="@dimen/small_margin" 
+    android:layout_margin="@dimen/chip_margin"
+    android:padding="@dimen/small_margin"
+    android:paddingStart="@dimen/chip_white_padding"
+    android:paddingEnd="@dimen/chip_white_padding"
     android:textAlignment="center"
     android:gravity="center"
     >

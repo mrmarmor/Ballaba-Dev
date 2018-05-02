@@ -36,8 +36,10 @@ import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropAssetBindin
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -138,8 +140,8 @@ public class AddPropAssetFrag extends Fragment {
         map.put("entry_date", String.format("%d-%02d-%02d", picker.getYear(), picker.getMonth()+1, picker.getDayOfMonth()));
         map.put("is_extendable", binderAsset.addPropertyRentalPeriodOptionTextView.isChecked()+"");
 
-        //TODO TESTING!!!
-        map.put("zip_code", "00000");
+        //TODO maybe marik needs a dummy zip code
+        // map.put("zip_code", "00000");
 
         return map;
     }

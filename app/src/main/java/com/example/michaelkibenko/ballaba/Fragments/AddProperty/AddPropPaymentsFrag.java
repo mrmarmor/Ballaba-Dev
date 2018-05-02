@@ -2,7 +2,6 @@ package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -12,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -31,9 +29,7 @@ import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
-import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropAddonsBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropPaymentsBinding;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nex3z.flowlayout.FlowLayout;
 
@@ -91,7 +87,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
 
     private void initButtons(FlowLayout flowLayout, ArrayList<PropertyAttachmentAddonEntity> items){
         for (PropertyAttachmentAddonEntity attachment : items) {
-            Button chipsItem = (Button)getLayoutInflater().inflate(R.layout.chips_item, null);
+            Button chipsItem = (Button)getLayoutInflater().inflate(R.layout.chip_regular, null);
             initAttachment(chipsItem, attachment);
             //chipsItem.setWidth(attachment.formattedTitle.length()*5);
             //Log.e("tagg", attachment.formattedTitle.length()+"");

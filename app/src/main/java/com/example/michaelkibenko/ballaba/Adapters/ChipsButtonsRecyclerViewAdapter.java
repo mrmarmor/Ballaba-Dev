@@ -30,7 +30,7 @@ public class ChipsButtonsRecyclerViewAdapter extends RecyclerView.Adapter<ChipsB
     @NonNull
     @Override
     public ChipsButtonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View chipsView = LayoutInflater.from(context).inflate(R.layout.chips_item, parent, false);
+        View chipsView = LayoutInflater.from(context).inflate(R.layout.chip_regular, parent, false);
         ChipsButtonViewHolder chipsButtonViewHolder = new ChipsButtonViewHolder(chipsView);
         parsedItems.add(chipsButtonViewHolder);
         return chipsButtonViewHolder;

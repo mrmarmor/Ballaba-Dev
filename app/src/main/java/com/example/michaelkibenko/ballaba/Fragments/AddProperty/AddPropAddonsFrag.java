@@ -1,33 +1,21 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.example.michaelkibenko.ballaba.Adapters.ChipsButtonsRecyclerViewAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
-import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
-import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
-import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
-import com.example.michaelkibenko.ballaba.Fragments.Filter.AttachmentsFragment;
 import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
@@ -39,7 +27,6 @@ import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropAddonsBinding;
-import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropAssetBinding;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nex3z.flowlayout.FlowLayout;
@@ -112,7 +99,7 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
             ((FlowLayout)fragment.getView()).addView();
         }*/
         /*for (PropertyAttachmentAddonEntity attachment : attachmentAddonEntities) {
-            final View chipsItem = getLayoutInflater().inflate(R.layout.chips_item, null);
+            final View chipsItem = getLayoutInflater().inflate(R.layout.chip_regular, null);
             ((Button)chipsItem).setText(attachment.formattedTitle);
             //binderAddons.addPropertyAddonsFurnitureRV.addView(chipsItem);
             Fragment fragment = getChildFragmentManager().findFragmentById(R.id.addProperty_addons_attachments_fragment);
@@ -144,7 +131,7 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         BallabaPropertyFull propertyFull = BallabaSearchPropertiesManager.getInstance(context).getPropertyFull();
 
         for (PropertyAttachmentAddonEntity attachment : items) {
-            Button chipsItem = (Button)getLayoutInflater().inflate(R.layout.chips_item, null);
+            Button chipsItem = (Button)getLayoutInflater().inflate(R.layout.chip_regular, null);
             initAttachment(chipsItem, attachment);
             //chipsItem.setWidth(attachment.formattedTitle.length()*5);
             //Log.e("tagg", attachment.formattedTitle.length()+"");

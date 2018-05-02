@@ -138,8 +138,10 @@
 
     <dimen name="chip_width">95dp</dimen>
     <dimen name="chip_height">30dp</dimen>
+    <dimen name="chip_margin">5dp</dimen>
     <dimen name="chip_corners_radius">15dp</dimen>
-    <dimen name="chip_padding">6dp</dimen>
+    <dimen name="chip_blue_padding">6dp</dimen>
+    <dimen name="chip_white_padding">20dp</dimen>
     <dimen name="chip_childSpacing">10dp</dimen>
     <dimen name="chip_rowSpacing">8dp</dimen>
     <dimen name="chip_x_dimens">12dp</dimen>
