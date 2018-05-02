@@ -40,6 +40,7 @@ import java.util.HashMap;
 import static com.google.android.gms.internal.zzbgp.NULL;
 
 public class AddPropAddonsFrag extends Fragment implements Button.OnClickListener{
+    private final String TAG = AddPropAddonsFrag.class.getSimpleName(), NOT_FURNISHED_TAG = "not_furnished_tag";
     private Context context;
     private static ActivityAddPropertyBinding binderMain;
     private FragmentAddPropAddonsBinding binderAddons;
@@ -121,10 +122,21 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         electronicsRoot = view.findViewById(R.id.addProperty_addons_electronics_flowLayout);
         extrasRoot = view.findViewById(R.id.addProperty_addons_extras_flowLayout);
 
+        initButtonNotFurnished((Button)getLayoutInflater().inflate(R.layout.chip_regular, null));
         initButtons(furnitureRoot, furniture);
         initButtons(electronicsRoot, electronics);
         initButtons(extrasRoot, extras);
         binderAddons.addPropertyAddonsButtonNext.setOnClickListener(this);
+    }
+
+    private void initButtonNotFurnished(Button chipsItem){
+        PropertyAttachmentAddonEntity entity = new PropertyAttachmentAddonEntity("not_furnished_id"
+                , "not_furnished", getString(R.string.attach_not_furnished));
+        chipsItem.setText(entity.formattedTitle);
+        chipsItem.setTag(NOT_FURNISHED_TAG);
+        chipsItem.setOnClickListener(this);
+        UiUtils.instance(false, context).onChipsButtonClick(chipsItem, (String)chipsItem.getTag());
+        furnitureRoot.addView(chipsItem);
     }
 
     private void initButtons(FlowLayout flowLayout, ArrayList<PropertyAttachmentAddonEntity> items){
@@ -133,8 +145,7 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         for (PropertyAttachmentAddonEntity attachment : items) {
             Button chipsItem = (Button)getLayoutInflater().inflate(R.layout.chip_regular, null);
             initAttachment(chipsItem, attachment);
-            //chipsItem.setWidth(attachment.formattedTitle.length()*5);
-            //Log.e("tagg", attachment.formattedTitle.length()+"");
+
             for (HashMap<String, String> map : propertyFull.addons)
                 if (attachment.id.equals(map.get("addon_type")))
                     chipsItem = UiUtils.instance(false, context).onChipsButtonClick(chipsItem, (String)chipsItem.getTag());
@@ -213,6 +224,8 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
     public void onClick(View v) {
         if (v.getId() == R.id.addProperty_addons_button_next)
             onFinish();
+        else if (v.getTag().equals(NOT_FURNISHED_TAG))
+            unselectAllFurnitureButtons(binderAddons.addPropertyAddonsFurnitureFlowLayout);
         else {
             wasDataChanged = true;
             PropertyAttachmentsAddonsHolder attachments = PropertyAttachmentsAddonsHolder.getInstance();
@@ -226,47 +239,7 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
                 items = attachments.getAttachments();
             }
 
-            UiUtils uiUtils = UiUtils.instance(false, context);
-            FilterResultEntity filterResult = new FilterResultEntity();
-
-            if (getOriginalTitleByFormatted(((Button) v).getText() + "").equals("furnished")
-                    && v.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
-                //switch between furnished and not furnished where furnished is checked
-                PropertyAttachmentAddonEntity attachment = getHolderByOriginalTitle("not_furnished");
-                filterResult.deleteAttachmentId(attachment.id);
-                filterResult.setFurnished(true);
-            } else if (getOriginalTitleByFormatted(((Button) v).getText() + "").equals("not_furnished")
-                    && v.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
-                //switch between furnished and not furnished where not_furnished is checked
-                PropertyAttachmentAddonEntity attachment = getHolderByOriginalTitle("furnished");
-                filterResult.deleteAttachmentId(attachment.id);
-                filterResult.setFurnished(false);
-            } else if (getOriginalTitleByFormatted(((Button) v).getText() + "").equals("electronics")
-                    && v.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
-                //switch between electronics and not no_electronics where electronics is checked
-                PropertyAttachmentAddonEntity attachment = getHolderByOriginalTitle("no_electronics");
-                filterResult.deleteAttachmentId(attachment.id);
-                filterResult.setElectronics(true);
-
-            } else if (getOriginalTitleByFormatted(((Button) v).getText() + "").equals("no_electronics")
-                    && v.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
-                //switch between electronics and not no_electronics where no_electronics is checked
-                PropertyAttachmentAddonEntity attachment = getHolderByOriginalTitle("electronics");
-                filterResult.deleteAttachmentId(attachment.id);
-                filterResult.setElectronics(false);
-            }
-
-            String text = ((Button) v).getText() + "";
-            if (state.equals(UiUtils.ChipsButtonStates.PRESSED)) {
-                filterResult.deleteAttachmentId(getHolderByFormattedTitle(text).id);
-            } else if (state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED)) {
-                String id = getHolderByFormattedTitle(text).id;
-                if (!id.equals("1") && !id.equals("2") && !id.equals("11") && !id.equals("22")) {
-                    filterResult.appendAttachmentId(id);
-                }
-            }
-
-            uiUtils.onChipsButtonClick((Button) v, state);
+            UiUtils.instance(false, context).onChipsButtonClick((Button) v, state);
         }
     }
 
@@ -335,6 +308,16 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
+        }
+    }
+
+    private void unselectAllFurnitureButtons(FlowLayout furnitureRoot){
+        for (int i = 1; i < furnitureRoot.getChildCount(); i++){
+            if (furnitureRoot.getChildAt(i) instanceof Button) {
+                Button button = (Button) furnitureRoot.getChildAt(i);
+                UiUtils.instance(false, context).onChipsButtonClick(button, UiUtils.ChipsButtonStates.PRESSED);
+            }
+
         }
     }
 

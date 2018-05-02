@@ -79,6 +79,7 @@
     <!-- TODO check this translation -->
     <string name="attach_parking">חניה</string>
     <string name="attach_furnished">מרוהטת</string>
+    <string name="attach_not_furnished">לא מרוהטת</string>
     <string name="attach_electronics">מוצרי חשמל</string>
     <string name="attach_renovated">משופצת</string>
     <string name="attach_sunboiler">דוד שמש</string>

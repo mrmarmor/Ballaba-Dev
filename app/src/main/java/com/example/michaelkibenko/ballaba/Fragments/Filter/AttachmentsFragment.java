@@ -66,7 +66,7 @@ public class AttachmentsFragment extends Fragment implements Button.OnClickListe
     }
 
     private Button initAttachment(Button chipsItem, PropertyAttachmentAddonEntity attachment){
-        chipsItem.setId(Integer.parseInt(attachment.id));
+        ////chipsItem.setId(Integer.parseInt(attachment.id));
         chipsItem.setText(attachment.formattedTitle);
         chipsItem.setOnClickListener(this);
 
