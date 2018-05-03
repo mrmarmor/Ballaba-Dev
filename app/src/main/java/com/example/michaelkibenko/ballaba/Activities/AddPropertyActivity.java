@@ -36,14 +36,14 @@ public class AddPropertyActivity extends AppCompatActivity {
 
     }
 
-    //Here we adds in the left corner of the actionbar a counter of pages
+    //Here we add in the left corner of the actionbar a counter of pages
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         TextView pagesCounterTv = new TextView(this);
         int pageNumber = binder.addPropertyViewPager.getCurrentItem();
-        //pagesCounterTv.setText((pageNumber+1) + "/4");
         pagesCounterTv.setPadding(16, 0, 16, 0);
-        menu.add(0, 1, 1, (pageNumber+1)+"/4").setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        menu.add(0, 1, 1, (pageNumber+1)+"/4")
+                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         String label = getResources().getStringArray(R.array.addProperty_titles)[pageNumber];
         getSupportActionBar().setTitle(label);
@@ -51,12 +51,18 @@ public class AddPropertyActivity extends AppCompatActivity {
         return true;
     }
 
-    //Here we adds a back button at the right corner of the actionbar
+    //Here we add a back button at the right corner of the actionbar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                super.onBackPressed();//we can use binder.addPropertyViewPager.setCurrentItem(binder.addPropertyViewPager.getCurrentItem() - 1);
+                int pageNumber = binder.addPropertyViewPager.getCurrentItem();
+                if (pageNumber == 0) {
+                    super.onBackPressed();
+                } else {
+                    binder.addPropertyViewPager.setCurrentItem(pageNumber - 1);
+                    invalidateOptionsMenu();
+                }
                 return true;
 
             default:

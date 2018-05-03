@@ -135,8 +135,8 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         chipsItem.setText(entity.formattedTitle);
         chipsItem.setTag(NOT_FURNISHED_TAG);
         chipsItem.setOnClickListener(this);
-        UiUtils.instance(false, context).onChipsButtonClick(chipsItem, (String)chipsItem.getTag());
-        furnitureRoot.addView(chipsItem);
+        UiUtils.instance(false, context).onChipsButtonClick(chipsItem, NOT_FURNISHED_TAG);
+        furnitureRoot.addView(chipsItem, 0);
     }
 
     private void initButtons(FlowLayout flowLayout, ArrayList<PropertyAttachmentAddonEntity> items){
@@ -171,55 +171,18 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         }
 
         chipsItem.setText(attachment.formattedTitle);
-
         chipsItem.setOnClickListener(this);
 
         return chipsItem;
     }
 
-    private void highlightSavedButtons(FlowLayout flowLayout, PropertyAttachmentAddonEntity attachment){
-
-    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
-        /*if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }*/
     }
 
-    /*private String getOriginalTitleByFormatted(String formatted){
-        for (PropertyAttachmentAddonEntity item : items) {
-            if(item.formattedTitle.equals(formatted)){
-                return item.title;
-            }
-        }
-        return "";
-    }
-
-    private PropertyAttachmentAddonEntity getHolderByOriginalTitle(String title){
-        for (PropertyAttachmentAddonEntity item : items) {
-            if(item.title.equals(title)){
-                return item;
-            }
-        }
-        return null;
-    }
-
-    private PropertyAttachmentAddonEntity getHolderByFormattedTitle(String formattedTitle){
-        for (PropertyAttachmentAddonEntity item : items) {
-            if(item.formattedTitle.equals(formattedTitle)){
-                return item;
-            }
-        }
-        return null;
-    }
-*/
     @Override
     public void onClick(View v) {
         Button buttonNotFurnished = (Button) furnitureRoot.getChildAt(0);

@@ -261,8 +261,8 @@ public class PropertyAttachmentsAddonsHolder {
 
     private String getFormattedPaymentTypesTitle(String title) {
         switch (title) {
-            case "all_included":
-                return "הכל כלול";
+            /*case "all_included":
+                return "הכל כלול";*/
             case "arnona"://TODO
                 return "ארנונה";
             case "house_committee":

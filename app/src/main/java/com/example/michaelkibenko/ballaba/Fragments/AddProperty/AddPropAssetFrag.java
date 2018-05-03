@@ -116,7 +116,8 @@ public class AddPropAssetFrag extends Fragment {
     private void showSnackBar(){
         final View snackBarView = binderAsset.addPropertyLocationRoot;
         Snackbar snackBar = Snackbar.make(snackBarView, "השמירה נכשלה נסה שנית מאוחר יותר", Snackbar.LENGTH_LONG);
-        snackBar.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary, context.getTheme()));
+        snackBar.getView().setBackgroundColor(
+                context.getResources().getColor(R.color.colorPrimary, context.getTheme()));
         snackBar.show();
         //snackBarView.findViewById(android.support.design.R.id.snackbar_text).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
     }
