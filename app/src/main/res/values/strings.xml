@@ -228,6 +228,14 @@
     <string name="addProperty_payments_freeText_title">טקסט חופשי</string>
     <string name="addProperty_payments_freeText_hint">תיאור הדירה, תוספות וכו\'</string>
     <string name="addProperty_payments_sub">(אם יש)</string>
+    <string-array name="addProperty_no_of_payments">
+        <item>חודשי</item>
+        <item>פעם בחודשיים</item>
+        <item>פעם בשלושה חודשים</item>
+        <item>פעם בארבעה חודשים</item>
+        <item>חצי שנתי</item>
+        <item>שנתי</item>
+    </string-array>
 
 
     <string name="takePicSwitch_camera">צילום תמונה</string>
@@ -337,12 +345,6 @@
         <item>29</item>
         <item>30</item>
         <item>31</item>
-    </string-array>
-
-    <string-array name="paymentFrequency">
-        <item>חודשי</item>
-        <item>פעם בחודשיים</item>
-        <item>פעם בשלושה חודשים</item>
     </string-array>
 
     <!-- MENU SECTION -->

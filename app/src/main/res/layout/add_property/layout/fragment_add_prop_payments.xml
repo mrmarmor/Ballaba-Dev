@@ -97,7 +97,7 @@
                     android:id="@+id/addProperty_payments_time_spinner"
                     android:tag="no_of_payments"
                     style="@style/addProperty_editTexts"
-                    android:entries="@array/paymentFrequency"
+                    android:entries="@array/addProperty_no_of_payments"
                     android:hint="@string/addProperty_payments_time_title" />
 
                 <TextView

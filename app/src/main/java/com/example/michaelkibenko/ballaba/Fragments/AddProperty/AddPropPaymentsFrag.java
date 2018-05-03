@@ -87,6 +87,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         initButtons(paymentsRoot, payments);
         initButtons(paymentMethodsRoot, paymentMethods);
         initEditTexts();
+        initSpinner(binderPay.addPropertyPaymentsTimeSpinner);
         binderPay.addPropertyPaymentsButtonNext.setOnClickListener(this);
     }
 
@@ -159,6 +160,18 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         }
     }
 
+    private void initSpinner(Spinner spinner){
+        //HashMap<String, String> spinnerItemsMap = {}
+        String[] values = context.getResources().getStringArray(R.array.addProperty_no_of_payments);
+        String [][] spinnerItemsMap = {{"12", values[0]}, {"6", values[1]}, {"4", values[2]}
+                    , {"3", values[3]}, {"2", values[4]}, {"1", values[5]}};
+        BallabaPropertyFull propertyFull = BallabaSearchPropertiesManager.getInstance(context).getPropertyFull();
+        for (int i = 0; i < spinnerItemsMap.length; i++)
+            if (propertyFull.numberOfPayments.equals(spinnerItemsMap[i][0])){
+                spinner.setSelection(i);
+        }
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -209,6 +222,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         else {
             wasPaymentsChanged = true;
             Button btn = (Button)v;
+            PropertyAttachmentAddonEntity attachment = getHolderByFormattedTitle(btn.getText()+"");
             PropertyAttachmentsAddonsHolder attachments = PropertyAttachmentsAddonsHolder.getInstance();
             String state = (String)btn.getTag();
 
@@ -225,10 +239,11 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
             //arnona + house committee + management fee:
             paymentsEditTextsSetEnabled(getHolderByFormattedTitle(btn.getText()+""), btn.getTag()+"");
 
-            onAllIncludedButtonClick(binderPay.addPropertyPaymentsIncludedFlowLayout, btn, state);
-            PropertyAttachmentAddonEntity entity = getHolderByFormattedTitle(btn.getText()+"");
-            if (entity != null)
-                onAllIncludedGroupMemberButtonClick(entity.id);
+            if (btn.getText().equals(getString(R.string.attach_all_included)))
+                onAllIncludedButtonClick(binderPay.addPropertyPaymentsIncludedFlowLayout, btn, state);
+
+            if (attachment != null && Integer.parseInt(attachment.id) >= 4 && Integer.parseInt(attachment.id) <= 9)
+                onAllIncludedGroupMemberButtonClick(attachment.id);
 
         }
     }
@@ -345,17 +360,14 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     }
 
     private void onAllIncludedButtonClick(FlowLayout flowLayout, Button btn, String state){
-        if (btn.getText().equals(getString(R.string.attach_all_included))
-                && state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED))
-
-            for (int i = 1; i < 7 && i < flowLayout.getChildCount(); i++){
-                Button button = (Button)flowLayout.getChildAt(i);
-                UiUtils.instance(false, context).onChipsButtonClick(button, UiUtils.ChipsButtonStates.NOT_PRESSED);
-
-                //Log.d(TAG, getHolderByFormattedTitle(button.getText()+"").id+":");
-            } else if (btn.getText().equals(getString(R.string.attach_all_included))
-                && state.equals(UiUtils.ChipsButtonStates.PRESSED))
-            UiUtils.instance(false, context).onChipsButtonClick(btn, UiUtils.ChipsButtonStates.NOT_PRESSED);
+        UiUtils uiUtils = UiUtils.instance(false, context);
+        if (state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED)) {
+            for (int i = 1; i < 7 && i < flowLayout.getChildCount(); i++) {
+                uiUtils.onChipsButtonClick((Button)flowLayout.getChildAt(i), UiUtils.ChipsButtonStates.NOT_PRESSED);
+            }
+        } else if (state.equals(UiUtils.ChipsButtonStates.PRESSED)) {
+            uiUtils.onChipsButtonClick(btn, UiUtils.ChipsButtonStates.NOT_PRESSED);
+        }
     }
 
     private void onAllIncludedGroupMemberButtonClick(String id){
