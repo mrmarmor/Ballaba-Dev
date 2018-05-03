@@ -29,6 +29,7 @@ import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropPaymentsBinding;
@@ -145,29 +146,33 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     //TODO on viewPager state of screen kept only for current screen and next screen. so if i scroll 2 screens state will not be kept. maybe i shall saveInstance
     private void initEditTexts(){
         if (property != null) {
-            PropertyAttachmentsAddonsHolder entity = PropertyAttachmentsAddonsHolder.getInstance();
 
-            binderPay.addPropPaymentsMunicipalityEditText.setText(
-                    entity.getFormattedTitleById(payments, payments.get(0).id));
-            binderPay.addPropPaymentsHouseCommitteeEditText.setText(
-                    entity.getFormattedTitleById(payments, payments.get(1).id));
-            binderPay.addPropPaymentsManagementEditText.setText(
-                    entity.getFormattedTitleById(payments, payments.get(2).id));
+            //id "4" = "arnona"; id "5" = "house committee"; "6" = "management fee"
+            for (HashMap<String, String> payment : property.payments){
+                if (payment.get("payment_type").equals(payments.get(0).id)){
+                    binderPay.addPropPaymentsMunicipalityEditText.setText(payment.get("price"));
+                } else if (payment.get("payment_type").equals(payments.get(1).id)){
+                    binderPay.addPropPaymentsHouseCommitteeEditText.setText(payment.get("price"));
+                } else if (payment.get("payment_type").equals(payments.get(2).id)){
+                    binderPay.addPropPaymentsManagementEditText.setText(payment.get("price"));
+                }
+            }
+
             binderPay.addPropertyPaymentsParkingNoEditText.setText(property.no_of_parking);
             binderPay.addPropertyPaymentsParkingPriceEditText.setText(property.parking_price);
-            binderPay.addPropPaymentsRentalFeeEditText.setText(property.price);
+            binderPay.addPropPaymentsRentalFeeEditText.setText(StringUtils.getInstance(true, context)
+                    .formattedNumberWithComma(property.price)+"₪");
             binderPay.addPropPaymentsFreeTextEditText.setText(property.description);
         }
     }
 
     private void initSpinner(Spinner spinner){
-        //HashMap<String, String> spinnerItemsMap = {}
         String[] values = context.getResources().getStringArray(R.array.addProperty_no_of_payments);
         String [][] spinnerItemsMap = {{"12", values[0]}, {"6", values[1]}, {"4", values[2]}
                     , {"3", values[3]}, {"2", values[4]}, {"1", values[5]}};
-        BallabaPropertyFull propertyFull = BallabaSearchPropertiesManager.getInstance(context).getPropertyFull();
+
         for (int i = 0; i < spinnerItemsMap.length; i++)
-            if (propertyFull.numberOfPayments.equals(spinnerItemsMap[i][0])){
+            if (property.numberOfPayments.equals(spinnerItemsMap[i][0])){
                 spinner.setSelection(i);
         }
     }

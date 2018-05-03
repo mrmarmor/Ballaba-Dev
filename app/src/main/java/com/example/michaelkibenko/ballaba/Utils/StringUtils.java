@@ -57,6 +57,10 @@ public class StringUtils {
         }
     }
 
+    public String trimNull(@NonNull String s){
+        return s.equals("null") ? null : s;
+    }
+
     public Long stringToTime(String dateString){
         if (dateString == null)
             return 0L;

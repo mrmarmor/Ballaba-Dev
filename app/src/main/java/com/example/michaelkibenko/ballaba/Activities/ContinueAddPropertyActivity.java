@@ -46,7 +46,7 @@ public class ContinueAddPropertyActivity extends BaseActivity {
     }
 
     private void fetchPropertyDataFromServer(){
-        String propertyId = getIntent().getStringExtra(PropertyDescriptionActivity.PROPERTY);
+        String propertyId = "1";//getIntent().getStringExtra(PropertyDescriptionActivity.PROPERTY);
         ConnectionsManager.getInstance(this).getPropertyById(propertyId, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {

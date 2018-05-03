@@ -255,53 +255,51 @@ public class BallabaSearchPropertiesManager {
             }
             return returned;
 
-        }catch (JSONException | NullPointerException ex){
+        } catch (JSONException | NullPointerException ex){
             Log.e(TAG, ex.getMessage());
             return null;
         }
     }
 
     public BallabaPropertyFull parsePropertiesFull(String response){
-        //StringUtils heb = StringUtils.getInstance(true, context);
-
         try{
             JSONObject res = new JSONObject(response);
-            String id = res.getString("id");
-            String city = heb.formattedHebrew(res.getString("city"));
-            String street = heb.formattedHebrew(res.getString("street"));
-            String street_number = res.getString("street_number");
-            String entry = res.getString("entry");
-            String floor = res.getString("floor");
-            String max_floor = res.getString("max_floor");
-            String size = res.getString("size");
-            String no_of_parking = res.getString("no_of_parking");
-            String parking_price = res.getString("parking_price");
+            String id = heb.trimNull(res.getString("id"));
+            String city = heb.trimNull(heb.formattedHebrew(res.getString("city")));
+            String street = heb.trimNull(heb.formattedHebrew(res.getString("street")));
+            String street_number = heb.trimNull(res.getString("street_number"));
+            String entry = heb.trimNull(res.getString("entry"));
+            String floor = heb.trimNull(res.getString("floor"));
+            String max_floor = heb.trimNull(res.getString("max_floor"));
+            String size = heb.trimNull(res.getString("size"));
+            String no_of_parking = heb.trimNull(res.getString("no_of_parking"));
+            String parking_price = heb.trimNull(res.getString("parking_price"));
             boolean furniture = res.getBoolean("furniture");
             boolean electronics = res.getBoolean("electronics");
-            String description = heb.formattedHebrew(res.getString("description"));
-            String payment_date = res.getString("payment_date");
-            String rooms = res.getString("rooms");
-            String bathrooms = res.getString("bathrooms");
-            String toilets = res.getString("toilets");
-            String entry_date = res.getString("entry_date");
-            String price = res.getString("price");
-            String rent_period = res.getString("rent_period");
-            String no_of_payments = res.getString("no_of_payments");
-            String status = res.getString("status");
+            String description = heb.trimNull(heb.formattedHebrew(res.getString("description")));
+            String payment_date = heb.trimNull(res.getString("payment_date"));
+            String rooms = heb.trimNull(res.getString("rooms"));
+            String bathrooms = heb.trimNull(res.getString("bathrooms"));
+            String toilets = heb.trimNull(res.getString("toilets"));
+            String entry_date = heb.trimNull(res.getString("entry_date"));
+            String price = heb.trimNull(res.getString("price"));
+            String rent_period = heb.trimNull(res.getString("rent_period"));
+            String no_of_payments = heb.trimNull(res.getString("no_of_payments"));
+            String status = heb.trimNull(res.getString("status"));
             boolean is_saved = res.getBoolean("is_saved");
             boolean is_guaranteed = res.getBoolean("is_guaranteed");
             boolean priority = res.getBoolean("priority");
-            String country = heb.formattedHebrew(res.getString("country"));
-            String zip_code = res.getString("zip_code");
-            String level_1_area = res.getString("level_1_area");
-            String level_2_area = res.getString("level_2_area");
-            String google_place_id = res.getString("google_place_id");
-            String lat = res.getString("lat");
-            String lng = res.getString("lng");
-            String formattedAddress = heb.formattedHebrew(res.getString("formatted_address"));
+            String country = heb.trimNull(heb.formattedHebrew(res.getString("country")));
+            String zip_code = heb.trimNull(res.getString("zip_code"));//TODO
+            String level_1_area = heb.trimNull(res.getString("level_1_area"));
+            String level_2_area = heb.trimNull(res.getString("level_2_area"));
+            String google_place_id = heb.trimNull(res.getString("google_place_id"));
+            String lat = heb.trimNull(res.getString("lat"));
+            String lng = heb.trimNull(res.getString("lng"));
+            String formattedAddress = heb.trimNull(heb.formattedHebrew(res.getString("formatted_address")));
             boolean show = res.getBoolean("show");
-            String created_at = res.getString("created_at");
-            String updated_at = res.getString("updated_at");
+            String created_at = heb.trimNull(res.getString("created_at"));
+            String updated_at = heb.trimNull(res.getString("updated_at"));
 
             //BallabaPropertyFull.Landlord[] landlords = new BallabaPropertyFull.Landlord[]{};
             ArrayList<HashMap<String, String>> landlords = parseLandlords(res.getJSONArray("landlords"));
@@ -351,11 +349,11 @@ public class BallabaSearchPropertiesManager {
         for (int i = 0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             HashMap<String, String> map = new HashMap<>();
-            map.put("id", jsonObject.getString("id"));
-            map.put("first_name", heb.formattedHebrew(jsonObject.getString("first_name")));
-            map.put("last_name", heb.formattedHebrew(jsonObject.getString("last_name")));
-            map.put("city", heb.formattedHebrew(jsonObject.getString("city")));
-            map.put("profile_image", jsonObject.getString("profile_image"));
+            map.put("id", heb.trimNull(jsonObject.getString("id")));
+            map.put("first_name", heb.trimNull(heb.formattedHebrew(jsonObject.getString("first_name"))));
+            map.put("last_name", heb.trimNull(heb.formattedHebrew(jsonObject.getString("last_name"))));
+            map.put("city", heb.trimNull(heb.formattedHebrew(jsonObject.getString("city"))));
+            map.put("profile_image", heb.trimNull(jsonObject.getString("profile_image")));
             landlords.add(map);
             //landlords[i] = new BallabaPropertyFull().new Landlord();//jsonArray.getJSONObject(i).getString("photo_url"));
         }
@@ -366,11 +364,7 @@ public class BallabaSearchPropertiesManager {
     private ArrayList<String> parseAttachments(@NonNull JSONArray jsonArray) throws JSONException{
         ArrayList<String> attachments = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++){
-            //JSONObject jsonObject = jsonArray.getJSONObject(i);
-            attachments.add(jsonArray.get(i).toString());
-            /*attachments.put("id", jsonObject.getString("id"));
-            attachments.put("property_id", jsonObject.getString("property_id"));
-            attachments.put("attachment_type", jsonObject.getString("attachment_type"));*/
+            attachments.add(heb.trimNull(jsonArray.get(i).toString()));
         }
 
         return attachments;
@@ -381,12 +375,12 @@ public class BallabaSearchPropertiesManager {
         for (int i = 0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             HashMap<String, String> map = new HashMap<>();
-            map.put("id", jsonObject.getString("id"));
-            map.put("property_id", jsonObject.getString("property_id"));
-            map.put("payment_type", jsonObject.getString("payment_type"));
-            map.put("price", StringUtils.getInstance(true, context).formattedNumberWithComma(jsonObject.getString("price")));
+            map.put("id", heb.trimNull(jsonObject.getString("id")));
+            map.put("property_id", heb.trimNull(jsonObject.getString("property_id")));
+            map.put("payment_type", heb.trimNull(jsonObject.getString("payment_type")));
+            map.put("price", heb.trimNull(heb.formattedNumberWithComma(jsonObject.getString("price"))));
             map.put("is_included", jsonObject.getBoolean("is_included")+"");
-            map.put("currency", jsonObject.getString("currency"));
+            map.put("currency", heb.trimNull(jsonObject.getString("currency")));
             payments.add(map);
         }
 
@@ -398,9 +392,9 @@ public class BallabaSearchPropertiesManager {
         for (int i = 0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             HashMap<String, String> map = new HashMap<>();
-            map.put("id", jsonObject.getString("id"));
-            map.put("property_id", jsonObject.getString("property_id"));
-            map.put("payment_method", jsonObject.getString("payment_method"));
+            map.put("id", heb.trimNull(jsonObject.getString("id")));
+            map.put("property_id", heb.trimNull(jsonObject.getString("property_id")));
+            map.put("payment_method", heb.trimNull(jsonObject.getString("payment_method")));
             paymentMethods.add(map);
         }
 
@@ -412,9 +406,9 @@ public class BallabaSearchPropertiesManager {
         for (int i = 0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             HashMap<String, String> map = new HashMap<>();
-            map.put("id", jsonObject.getString("id"));
-            map.put("property_id", jsonObject.getString("property_id"));
-            map.put("addon_type", jsonObject.getString("addon_type"));
+            map.put("id", heb.trimNull(jsonObject.getString("id")));
+            map.put("property_id", heb.trimNull(jsonObject.getString("property_id")));
+            map.put("addon_type", heb.trimNull(jsonObject.getString("addon_type")));
             addons.add(map);
         }
 
@@ -426,9 +420,9 @@ public class BallabaSearchPropertiesManager {
         for (int i = 0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             HashMap<String, String> map = new HashMap<>();
-            map.put("tags", jsonObject.getString("tags"));
-            map.put("photo_url", jsonObject.getString("photo_url"));
-            map.put("sort_order", jsonObject.getString("sort_order"));
+            map.put("tags", heb.trimNull(jsonObject.getString("tags")));
+            map.put("photo_url", heb.trimNull(jsonObject.getString("photo_url")));
+            map.put("sort_order", heb.trimNull(jsonObject.getString("sort_order")));
             photos.add(map);
         }
 
@@ -440,8 +434,8 @@ public class BallabaSearchPropertiesManager {
         for (int i = 0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             HashMap<String, String> map = new HashMap<>();
-            map.put("start_time", jsonObject.getString("start_time"));
-            map.put("end_time", jsonObject.getString("end_time"));
+            map.put("start_time", heb.trimNull(jsonObject.getString("start_time")));
+            map.put("end_time", heb.trimNull(jsonObject.getString("end_time")));
             openDoorDates.add(map);
         }
 
@@ -452,8 +446,8 @@ public class BallabaSearchPropertiesManager {
         ArrayList<PropertyDescriptionComment> comments = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(i);
-            String createdAt = jsonObject.getString("created_at");
-            String display = jsonObject.getString("display");
+            String createdAt = heb.trimNull(jsonObject.getString("created_at"));
+            String display = heb.trimNull(jsonObject.getString("display"));
 
             PropertyDescriptionComment.User user = parseUser(jsonObject.getJSONObject("user"));
 
@@ -463,7 +457,7 @@ public class BallabaSearchPropertiesManager {
             if (positiveArr != null){
                 for (int j = 0; j < positiveArr.length(); j++){
                     Log.d(TAG, positiveArr.getJSONObject(j).getString("content"));
-                    map.put("content", heb.formattedHebrew(positiveArr.getJSONObject(j).getString("content")));
+                    map.put("content", heb.trimNull(heb.formattedHebrew(positiveArr.getJSONObject(j).getString("content"))));
                     positive.add(map);
                 }
             }
@@ -473,7 +467,7 @@ public class BallabaSearchPropertiesManager {
             JSONArray negativeArr = jsonObject.getJSONArray("negative");
             if (negativeArr != null){
                 for (int j = 0; j < negativeArr.length(); j++){
-                    map.put("content", heb.formattedHebrew(negativeArr.getJSONObject(j).getString("content")));
+                    map.put("content", heb.trimNull(heb.formattedHebrew(negativeArr.getJSONObject(j).getString("content"))));
                     negative.add(map);
                 }
             }
@@ -483,8 +477,8 @@ public class BallabaSearchPropertiesManager {
             JSONArray replArr = jsonObject.getJSONArray("replies");
             if (replArr != null){
                 for (int j = 0; j < replArr.length(); j++){
-                    reply.setCreated_at(replArr.getJSONObject(j).getString("created_at"));
-                    reply.setContent(heb.formattedHebrew(replArr.getJSONObject(j).getString("content")));
+                    reply.setCreated_at(heb.trimNull(replArr.getJSONObject(j).getString("created_at")));
+                    reply.setContent(heb.trimNull(heb.formattedHebrew(replArr.getJSONObject(j).getString("content"))));
                     reply.setUser(parseUser(replArr.getJSONObject(j).getJSONObject("user")));
                     replies.add(reply);
                 }
@@ -498,11 +492,11 @@ public class BallabaSearchPropertiesManager {
 
     private PropertyDescriptionComment.User parseUser(JSONObject userJson) throws JSONException {
         //TODO encode hebrew to utf-8
-        String userId = userJson.getString("id");
-        String userProfileImage = userJson.getString("profile_image");
+        String userId = heb.trimNull(userJson.getString("id"));
+        String userProfileImage = heb.trimNull(userJson.getString("profile_image"));
 
-        String userFirstName = heb.formattedHebrew(userJson.getString("first_name"));
-        String userLastName = heb.formattedHebrew(userJson.getString("last_name"));
+        String userFirstName = heb.trimNull(heb.formattedHebrew(userJson.getString("first_name")));
+        String userLastName  = heb.trimNull(heb.formattedHebrew(userJson.getString("last_name")));
 
         PropertyDescriptionComment.User user = new PropertyDescriptionComment().
                 new User(userId, userFirstName, userLastName, userProfileImage);
