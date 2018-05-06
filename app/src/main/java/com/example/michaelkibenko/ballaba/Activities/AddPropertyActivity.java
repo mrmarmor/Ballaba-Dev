@@ -42,7 +42,8 @@ public class AddPropertyActivity extends AppCompatActivity {
         TextView pagesCounterTv = new TextView(this);
         int pageNumber = binder.addPropertyViewPager.getCurrentItem();
         pagesCounterTv.setPadding(16, 0, 16, 0);
-        menu.add(0, 1, 1, (pageNumber+1)+"/4")
+        if (pageNumber < 4)//page counter should be displayed only in first 4 screens
+            menu.add(0, 1, 1, (pageNumber+1)+"/4")
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
         String label = getResources().getStringArray(R.array.addProperty_titles)[pageNumber];

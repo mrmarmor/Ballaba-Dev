@@ -158,6 +158,9 @@
         <item>תכולה ותוספות</item>
         <item>תשלומים</item>
         <item>העלאת תמונות</item>
+        <item>העלאת תמונות</item>
+        <item>זמן מוגדר</item>
+        <item>צפייה מוקדמת</item>
     </string-array>
     <string name="addProperty_landlord_title">פרטים בעל הנכס</string>
 
@@ -237,6 +240,20 @@
         <item>שנתי</item>
     </string-array>
 
+    <string name="addProperty_takePhoto_title">למה צריך תמונות?</string>
+    <string name="addProperty_takePhoto_description">תמונות זה הפנים של הדירה. ככל שהתמונות יהיו
+איכותיות יותר רמת ההתעיינות תעלה וכמות
+השוכרים הפוטנציאליים תגדל.</string>
+    <string name="addProperty_takePhoto_bad_title">לא טוב</string>
+    <string name="addProperty_takePhoto_bad_description">התמונה באיכות ירודה.
+לא מקבלים פרספקטיבה
+של גודל החדר.</string>
+    <string name="addProperty_takePhoto_good_title">מצויין</string>
+    <string name="addProperty_takePhoto_good_description">התמונה באיכות גבוהה.
+מקבלים פרספקטיבה
+של גודל החדר.</string>
+    <string name="addProperty_takePhoto_button_professionalPhotographer">אני רוצה צילום מקצועי</string>
+    <string name="addProperty_takePhoto_button_takePhoto">צילום תמונות</string>
 
     <string name="takePicSwitch_camera">צילום תמונה</string>
     <string name="takePicSwitch_gallery">תמונה מהגלריה</string>

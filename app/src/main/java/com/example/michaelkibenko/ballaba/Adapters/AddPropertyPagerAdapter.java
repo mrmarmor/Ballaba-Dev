@@ -11,8 +11,10 @@ import android.widget.LinearLayout;
 
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropAddonsFrag;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropAssetFrag;
+import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropEditPhotoFrag;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropLandlordFrag;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropPaymentsFrag;
+import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropTakePhotoFrag;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 
@@ -50,12 +52,17 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
             case 3:
                 return AddPropPaymentsFrag.newInstance(binder);
 
+            case 4:
+                return AddPropTakePhotoFrag.newInstance(binder);
+
+            case 5: case 6: case 7:
+                return AddPropEditPhotoFrag.newInstance(binder);
         }
     }
 
     @Override
     public int getCount() {
-        return 4; //NUM_PAGES
+        return 8; //NUM_PAGES
     }
 
 }

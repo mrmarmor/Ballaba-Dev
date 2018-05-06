@@ -38,7 +38,7 @@
         android:id="@+id/addProperty_continue_button_ok"
         android:layout_width="@dimen/addProperty_continue_button_ok_width"
         android:layout_height="@dimen/button_height"
-        android:layout_marginTop="@dimen/addProperty_continue_button_ok_top_offset"
+        android:layout_marginTop="@dimen/button_next_offset"
         android:textColor="@android:color/white"
         android:text="@string/addProperty_continue_button_continue"
         android:layout_gravity="center_horizontal"
