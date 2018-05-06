@@ -108,7 +108,10 @@ public class BallabaUserManager {
     }
 
     public String getUserSesionToken(){
-        return user.getSessionToken();
+        if (user != null)
+            return user.getSessionToken();
+        else
+            return null;
     }
 
     public BallabaUser getUser() {

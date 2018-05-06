@@ -7,11 +7,13 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -33,6 +35,7 @@ import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropPaymentsBinding;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nex3z.flowlayout.FlowLayout;
 
@@ -55,6 +58,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     private FlowLayout paymentsRoot, paymentMethodsRoot;
     private ArrayList<PropertyAttachmentAddonEntity> payments, paymentMethods;
     private BallabaPropertyFull property;
+    private String noOfPayments = "12";
     private boolean wasPaymentsChanged = false;
 
     public AddPropPaymentsFrag() {}
@@ -168,13 +172,22 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
 
     private void initSpinner(Spinner spinner){
         String[] values = context.getResources().getStringArray(R.array.addProperty_no_of_payments);
-        String [][] spinnerItemsMap = {{"12", values[0]}, {"6", values[1]}, {"4", values[2]}
-                    , {"3", values[3]}, {"2", values[4]}, {"1", values[5]}};
+        final String [][] spinnerItemsMap = {{"12", values[0]}, {"6", values[1]}, {"4", values[2]}
+                , {"3", values[3]}, {"2", values[4]}, {"1", values[5]}};
 
         for (int i = 0; i < spinnerItemsMap.length; i++)
             if (property.numberOfPayments.equals(spinnerItemsMap[i][0])){
                 spinner.setSelection(i);
-        }
+            }
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                noOfPayments = spinnerItemsMap[position][0];
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
     }
 
     @Override
@@ -254,9 +267,16 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     }
 
     private void onFinish(){
-        //String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, NULL);
-        final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
-        //data.property_id = Integer.parseInt(propertyId);
+        String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, NULL);
+        final Data data = getDataFromEditTexts(new Data());
+
+        getPayment(data, binderPay.addPropPaymentsMunicipalityEditText, 4);//Integer.parseInt(binderPay.addPropPaymentsMunicipalityEditText.getText()+""));
+        getPayment(data, binderPay.addPropPaymentsHouseCommitteeEditText, 5);
+        getPayment(data, binderPay.addPropPaymentsManagementEditText, 6);
+
+        data.payment_methods.addAll(getDataFromChipsSection(new ArrayList<Integer>()
+                , binderPay.addPropertyPaymentsMethodsFlowLayout, paymentMethods));
+        data.property_id = Integer.parseInt(propertyId);
 
         if (wasPaymentsChanged || !areEditTextsEqual(data)) {
             ConnectionsManager.getInstance(context).uploadProperty(jsonParse(data, "payments"), new BallabaResponseListener() {
@@ -264,7 +284,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
                 public void resolve(BallabaBaseEntity entity) {
                     //TODO update property updating date on SharedPrefs??
                     //SharedPreferencesManager.getInstance(context).removeString(SharedPreferencesKeysHolder.PROPERTY_ID);
-                    AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).getDataFromFragment(4);
+                    AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).getDataFromFragment(3);
                 }
 
                 @Override
@@ -280,28 +300,59 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         }
     }
 
-    private HashMap<String, String> getDataFromEditTexts(HashMap<String, String> data){
-        LinearLayout root = binderPay.addPropertyPaymentsRoot;
-        for (int i = 0; i < root.getChildCount(); i++) {
-            try {
-                for (int j = 0; j < ((ViewGroup)root.getChildAt(i)).getChildCount(); j++) {
-                    View v = ((ViewGroup)root.getChildAt(i)).getChildAt(j);
-                    if (v instanceof EditText) {
-                        data.put(v.getTag() + "", ((EditText) v).getText() + "");
-                    }
-                }
-            } catch (ClassCastException e){
-                Log.e(TAG, e.getMessage()+"\n class is:" + root.getChildAt(i).getClass());
-            }
+    private Data getDataFromEditTexts(Data data){
+        /*String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, NULL);
+        StringBuilder sb = new StringBuilder();
+        sb.append("\"step\" : \"" + "payments"+"\"")
+          .append(",\"data\" : {\"property_id\" : "+propertyId)
+          .append(",\"payments\" : [");*/
+
+       /* if (binderPay.addPropPaymentsMunicipalityEditText.isEnabled())
+            data.details.put("arnona", Integer.parseInt(binderPay.addPropPaymentsMunicipalityEditText.getText()+""));
+        if (binderPay.addPropPaymentsHouseCommitteeEditText.isEnabled())
+            data.details.put("house_committee", Integer.parseInt(binderPay.addPropPaymentsHouseCommitteeEditText.getText()+""));
+        if (binderPay.addPropPaymentsManagementEditText.isEnabled())
+            data.details.put("managment", Integer.parseInt(binderPay.addPropPaymentsManagementEditText.getText()+""));
+*/
+        /*data.put("no_of_payments", noOfPayments);
+        data.put("no_of_parking", binderPay.addPropertyPaymentsParkingNoEditText.getText());
+        data.put("parking_price", binderPay.addPropertyPaymentsParkingPriceEditText.getText());
+        data.put("rent_price", binderPay.addPropPaymentsRentalFeeEditText.getText());
+        data.put("description", binderPay.addPropPaymentsFreeTextEditText.getText());*/
+        try {
+            data.details.put("no_of_payments", Integer.parseInt(noOfPayments));
+            data.details.put("no_of_parking", Integer.parseInt(binderPay.addPropertyPaymentsParkingNoEditText.getText() + ""));
+            data.details.put("parking_price", Integer.parseInt(binderPay.addPropertyPaymentsParkingPriceEditText
+                    .getText().toString().replace("₪,.", "")));
+            data.details.put("rent_price", Integer.parseInt(binderPay.addPropPaymentsRentalFeeEditText
+                    .getText().toString().replace("₪,.", "")));
+            data.details.put("description", binderPay.addPropPaymentsFreeTextEditText.getText());
+
+            return data;
+        } catch (NumberFormatException e) {
+            Log.e(TAG, e.getMessage());
+            return data;
         }
-
-        Spinner spinner = binderPay.addPropertyPaymentsTimeSpinner;
-        PropertyAttachmentAddonEntity entity = getHolderByFormattedTitle(spinner.getPrompt()+"");
-        if (entity != null)
-            data.put(spinner.getTag() + "", entity.id);
-
-        return data;
     }
+
+    private void getPayment(Data data, EditText paymentEditText, int typeNumber){
+        String price = paymentEditText.getText().toString();
+        if (paymentEditText.isEnabled() && !paymentEditText.getText().toString().equals("")) {
+            Payment payment = new Payment();
+            payment.type = typeNumber;
+            payment.price = Integer.parseInt(price.replace("₪,.", ""));
+            data.payments.add(payment);
+        }
+        //return payment;
+    }
+
+    /*private HashMap<String, Object> getDataFromChips(HashMap<String, Object> data){
+        data.put("payments", getDataFromChipsSection(new ArrayList<Integer>()
+                , binderPay.addPropertyPaymentsIncludedFlowLayout, payments));
+        data.put("payment_methods", getDataFromChipsSection(new ArrayList<Integer>()
+                , binderPay.addPropertyPaymentsMethodsFlowLayout, paymentMethods));
+        return data;
+    }*/
 
     private ArrayList<Integer> getDataFromChipsSection(ArrayList<Integer> chipsIds, FlowLayout layout
             , ArrayList<PropertyAttachmentAddonEntity> chips){
@@ -315,36 +366,50 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         return chipsIds;
     }
 
-    private boolean areEditTextsEqual(HashMap<String, String> map){
-        BallabaPropertyFull property = BallabaSearchPropertiesManager.getInstance(context).getPropertyFull();
+    private boolean areEditTextsEqual(final Data data){
+        //TODO this function needs a deep testing to check if all data fields are correct
         PropertyAttachmentsAddonsHolder entity = PropertyAttachmentsAddonsHolder.getInstance();
         return (property != null &&
-                map.get("no_of_payments").equals(property.numberOfPayments) &&
-                map.get("arnona").equals(entity.getFormattedTitleById(payments, payments.get(0).id)) &&
-                map.get("house_committee").equals(entity.getFormattedTitleById(payments, payments.get(1).id)) &&//TODO marik wrote "appartment" which is typo error
-                map.get("managment").equals(entity.getFormattedTitleById(payments, payments.get(2).id)) &&
-                map.get("no_of_parking").equals(property.no_of_parking) &&
-                map.get("parking_price").equals(property.parking_price) &&
-                map.get("rent_price").equals(property.price) &&
-                map.get("description").equals(property.description));
+                data.details.get("no_of_payments").equals(property.numberOfPayments) &&
+                data.details.get("arnona").equals(entity.getFormattedTitleById(payments, payments.get(0).id)) &&
+                data.details.get("house_committee").equals(entity.getFormattedTitleById(payments, payments.get(1).id)) &&//TODO marik wrote "appartment" which is typo error
+                data.details.get("managment").equals(entity.getFormattedTitleById(payments, payments.get(2).id)) &&
+                data.details.get("no_of_parking").equals(property.no_of_parking) &&
+                data.details.get("parking_price").equals(property.parking_price) &&
+                data.details.get("rent_price").equals(property.price) &&
+                data.details.get("description").equals(property.description));
     }
 
-    private JSONObject jsonParse(HashMap<String, String> propertyData, String step){
-        String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, NULL);
+    private JSONObject jsonParse(Data propertyData, String step){
 
         try {
             JsonObject jsonObject = new JsonObject();
             JsonObject innerObject = new JsonObject();
+            JsonObject detailsObj = new JsonObject();
 
-            innerObject.addProperty("property_id", Integer.parseInt(propertyId));
-            /*
-            innerObject.add("addons", new Gson().toJsonTree(propertyData.addons));
-            innerObject.add("attachments", new Gson().toJsonTree(propertyData.attachments));
-*/
+            //innerObject.add("details", new Gson().toJsonTree(propertyData.details));
+            if (propertyData.details.containsKey("arnona"))
+                detailsObj.add("arnona", new Gson().toJsonTree(propertyData.details.get("arnona")));
+            if (propertyData.details.containsKey("house_committee"))
+                detailsObj.add("house_committee", new Gson().toJsonTree(propertyData.details.get("house_committee")));
+            if (propertyData.details.containsKey("managment"))
+                detailsObj.add("managment", new Gson().toJsonTree(propertyData.details.get("managment")));
+            detailsObj.add("no_of_payments", new Gson().toJsonTree(propertyData.details.get("no_of_payments")));
+            detailsObj.add("no_of_parking", new Gson().toJsonTree(propertyData.details.get("no_of_parking")));
+            detailsObj.add("parking_price", new Gson().toJsonTree(propertyData.details.get("parking_price")));
+            detailsObj.add("rent_price", new Gson().toJsonTree(propertyData.details.get("rent_price")));
+            detailsObj.addProperty("description", propertyData.details.get("description")+"");
+
+            innerObject.addProperty("property_id", propertyData.property_id);
+            innerObject.add("payment_methods", new Gson().toJsonTree(propertyData.payment_methods));
+            innerObject.add("payments", new Gson().toJsonTree(propertyData.payments));
+            innerObject.add("details", detailsObj);
+
             jsonObject.addProperty("step", step);
             jsonObject.add("data", innerObject);
 
             return new JSONObject(jsonObject.toString());
+
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
@@ -362,6 +427,8 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
             binderPay.addPropPaymentsHouseCommitteeEditText.setEnabled(!state.equals(UiUtils.ChipsButtonStates.PRESSED));
         else if (entity.title.equals("managment_fee"))
             binderPay.addPropPaymentsManagementEditText.setEnabled(!state.equals(UiUtils.ChipsButtonStates.PRESSED));
+        else if (entity.title.equals("parking"))
+            binderPay.addPropertyPaymentsParkingPriceEditText.setEnabled(!state.equals(UiUtils.ChipsButtonStates.PRESSED));
     }
 
     private void onAllIncludedButtonClick(FlowLayout flowLayout, Button btn, String state){
@@ -401,15 +468,28 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         snackBar.show();
     }
 
-    /*public class Data {
+    public class Data {
         public Integer property_id;
-        public ArrayList<Integer> attachments;
-        public ArrayList<Integer> addons;
+        public ArrayList<Payment> payments;
+        public ArrayList<Integer> payment_methods;
+        public HashMap<String, Object> details;
 
         private Data(){
-            attachments = new ArrayList<>();
-            addons = new ArrayList<>();
+            payments = new ArrayList<>();
+            payment_methods = new ArrayList<>();
+            details = new HashMap<>();
         }
-    }*/
+    }
+
+    public class Payment {
+        public int type;// = new HashMap<>();
+        public /*HashMap<String, Integer>*/int price;// = new HashMap<>();
+
+        //private Payment(){}
+        /*private Payment(HashMap<String, Integer> type, HashMap<String, Integer> price) {
+            this.type = new HashMap<>();
+            this.price = new HashMap<>();
+        }*/
+    }
 
 }
