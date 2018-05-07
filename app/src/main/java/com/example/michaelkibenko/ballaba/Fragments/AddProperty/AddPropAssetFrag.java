@@ -75,7 +75,7 @@ public class AddPropAssetFrag extends Fragment {
                         @Override
                         public void resolve(BallabaBaseEntity entity) {
                             //SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_ID, ((BallabaPropertyFull)entity).id);
-                            new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(/*data, */1);
+                            new AddPropertyPresenter((AppCompatActivity)context, binderMain).onNextViewPagerItem(1);
                         }
 
                         @Override
@@ -83,7 +83,7 @@ public class AddPropAssetFrag extends Fragment {
                             showSnackBar();
 
                             //TODO NEXT LINE IS ONLY FOR TESTING:
-                            new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(/*data, */1);
+                            new AddPropertyPresenter((AppCompatActivity)context, binderMain).onNextViewPagerItem(1);
                         }
                     });
             }

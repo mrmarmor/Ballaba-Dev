@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.ViewGroup;
 
 import com.example.michaelkibenko.ballaba.Adapters.AddPropertyPagerAdapter;
+import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropEditPhotoFrag;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
@@ -45,11 +46,13 @@ public class AddPropertyPresenter {
         return instance;
     }
 
-    public void getDataFromFragment(/*HashMap<String, String> fragmentData, */int position){
-        //data.putAll(fragmentData);
-        //Log.d(TAG, "elements: "+data.size());
+    public void sendDataToActivity(String image, int position){
+        //activity.getSupportFragmentManager().findFragmentById(R.id.b).getLayoutInflater().inflate();
+        AddPropEditPhotoFrag.newInstance(binder).setImage(image);
+        onNextViewPagerItem(position);
+    }
 
-        //if (position < binder.addPropertyViewPager.getChildCount() - 1)
+    public void onNextViewPagerItem(int position){
         binder.addPropertyViewPager.setCurrentItem(position + 1);
         activity.invalidateOptionsMenu();
     }

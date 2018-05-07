@@ -190,7 +190,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                         @Override
                         public void resolve(BallabaBaseEntity entity) {
                             SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.USER_ID, user.getId());
-                            AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).getDataFromFragment(0);
+                            AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).onNextViewPagerItem(0);
                         }
 
                         @Override
@@ -202,7 +202,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                         }
                     });
                 } else {
-                    AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).getDataFromFragment(0);
+                    AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).onNextViewPagerItem(0);
                 }
         }
     }

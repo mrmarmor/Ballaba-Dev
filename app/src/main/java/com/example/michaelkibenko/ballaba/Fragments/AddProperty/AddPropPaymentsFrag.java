@@ -176,7 +176,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
                 , {"3", values[3]}, {"2", values[4]}, {"1", values[5]}};
 
         for (int i = 0; i < spinnerItemsMap.length; i++)
-            if (property.numberOfPayments.equals(spinnerItemsMap[i][0])){
+            if (property != null && property.numberOfPayments.equals(spinnerItemsMap[i][0])){
                 spinner.setSelection(i);
             }
 
@@ -267,7 +267,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     }
 
     private void onFinish(){
-        String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, NULL);
+        String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, "-1");
         final Data data = getDataFromEditTexts(new Data());
 
         getPayment(data, binderPay.addPropPaymentsMunicipalityEditText, 4);//Integer.parseInt(binderPay.addPropPaymentsMunicipalityEditText.getText()+""));
@@ -284,7 +284,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
                 public void resolve(BallabaBaseEntity entity) {
                     //TODO update property updating date on SharedPrefs??
                     //SharedPreferencesManager.getInstance(context).removeString(SharedPreferencesKeysHolder.PROPERTY_ID);
-                    AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).getDataFromFragment(3);
+                    AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(3);
                 }
 
                 @Override
@@ -292,11 +292,12 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
                     showSnackBar();
 
                     //TODO NEXT LINE IS ONLY FOR TESTING:
+                    AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(3);
                     //new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(2);
                 }
             });
         } else {
-            AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).getDataFromFragment(3);
+            AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).onNextViewPagerItem(3);
         }
     }
 

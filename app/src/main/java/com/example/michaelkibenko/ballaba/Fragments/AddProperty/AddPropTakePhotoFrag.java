@@ -7,15 +7,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
-
-import java.io.ByteArrayOutputStream;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -59,10 +59,12 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
             Uri image = imageIntent.getData();
 
             if (requestCode == REQUEST_CODE_CAMERA){
-                Intent intent = new Intent(getActivity(), AddPropEditPhotoFrag.class);
-                intent.putExtra("byteArray", image.toString());
-                startActivity(intent);
-                getActivity().finish();
+                //Intent intent = new Intent(getActivity(), AddPropEditPhotoFrag.class);
+                //intent.putExtra("byteArray", image.toString());
+
+                AddPropEditPhotoFrag.newInstance(binderMain).setImage(image);
+                AddPropertyPresenter.getInstance((AppCompatActivity)getActivity(), binderMain).onNextViewPagerItem(4);
+
             }
         }
     }

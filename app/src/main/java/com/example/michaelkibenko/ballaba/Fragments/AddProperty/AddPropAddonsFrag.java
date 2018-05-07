@@ -217,7 +217,7 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
     }
 
     private void onFinish(){
-        String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, NULL);
+        String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, "-1");
         final Data data = getDataFromChips(new Data());
         data.property_id = Integer.parseInt(propertyId);
 
@@ -227,7 +227,7 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
                 public void resolve(BallabaBaseEntity entity) {
                     //TODO update property updating date on SharedPrefs??
                     //SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_ID, ((BallabaPropertyFull)entity).id);
-                    AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).getDataFromFragment(/*data, */2);
+                    AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(2);
                 }
 
                 @Override
@@ -239,7 +239,7 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
                 }
             });
         } else {
-            AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).getDataFromFragment(/*data, */2);
+            AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).onNextViewPagerItem(2);
         }
     }
 
