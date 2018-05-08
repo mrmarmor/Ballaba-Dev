@@ -55,12 +55,14 @@ public class BallabaUserManager {
             String globalToken = auth.getString("global_token");
             String sessionToken = auth.getString("session_token");
             String deviceId = auth.getString("device_id");
+            //String fcmToken = auth.getString("fcm_token");
             String profileImage = jsonObject.getString("profile_image");
             //Bitmap profileImage = StringUtils.getInstance(true, null)
             //        .stringToBitmap(jsonObject.getString("profile_image"));
 
-            BallabaUser user = new BallabaUser(id, phone, email, name, lastName, city, address, aptNo, gender, tenantScore
-                    , landlordScore , guarantorScore, dateCreated, dateUpdated, sessionToken, deviceId, globalToken, profileImage);
+            BallabaUser user = new BallabaUser(id, phone, email, name, lastName, city, address, aptNo
+                    , gender, tenantScore, landlordScore , guarantorScore, dateCreated, dateUpdated
+                    , sessionToken, deviceId, globalToken, profileImage);
 
             return user;
         }catch (JSONException ex){
@@ -82,26 +84,33 @@ public class BallabaUserManager {
             String city = jsonObject.getString("city");
             String address = jsonObject.getString("address");
             String aptNo = jsonObject.getString("apt_no");
-            //TODO next keys are missing from server response so i put a dummy values for testing
-            String gender = "male";//jsonObject.getString("gender");
-            String tenantScore = "1";//jsonObject.getString("tenant_score");
-            String landlordScore = "1";//jsonObject.getString("landlord_score");
-            String guarantorScore = "1";//jsonObject.getString("guarantor_score");
-            String dateCreated = "1";//jsonObject.getString("date_created");
-            String dateUpdated = "1";//jsonObject.getString("date_updated");
-            //JSONObject auth = jsonObject.getJSONObject("auth");
-            String globalToken = "1";//auth.getString("global_token");
-            String sessionToken = "1";//auth.getString("session_token");
-            String deviceId = "1";//auth.getString("device_id");
             String profileImage = jsonObject.getString("profile_image");
-            //Bitmap profileImage = StringUtils.getInstance(true, null)
-            //        .stringToBitmap(jsonObject.getString("profile_image"));
+//TODO next keys are missing from server response so i put a dummy values for testing
+            if (jsonObject.has("gender")) {
+                String gender = jsonObject.getString("gender");
+                String tenantScore = jsonObject.getString("tenant_score");
+                String landlordScore = jsonObject.getString("landlord_score");
+                String guarantorScore = jsonObject.getString("guarantor_score");
+                String dateCreated = jsonObject.getString("date_created");
+                String dateUpdated = jsonObject.getString("date_updated");
+                JSONObject auth = jsonObject.getJSONObject("auth");
+                String globalToken = auth.getString("global_token");
+                String sessionToken = auth.getString("session_token");
+                String deviceId = auth.getString("device_id");
+                //String fcmToken = auth.getString("fcm_token");
+                //Bitmap profileImage = StringUtils.getInstance(true, null)
+                //        .stringToBitmap(jsonObject.getString("profile_image"));
 
-            BallabaUser user = new BallabaUser(id, phone, email, name, lastName, city, address, aptNo, gender, tenantScore
-                    , landlordScore , guarantorScore, dateCreated, dateUpdated, sessionToken, deviceId, globalToken, profileImage);
+                user = new BallabaUser(id, phone, email, name, lastName, city, address, aptNo, gender
+                        , tenantScore, landlordScore, guarantorScore, dateCreated, dateUpdated
+                        , sessionToken, deviceId, globalToken, profileImage);
+            } else {
+                user = new BallabaUser(id, phone, email, name, lastName, city, address, aptNo, profileImage);
+            }
 
             return user;
-        }catch (JSONException ex){
+
+        } catch (JSONException ex){
             Log.e(TAG, ex.getMessage());
             return null;
         }

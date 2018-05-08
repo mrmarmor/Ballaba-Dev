@@ -38,6 +38,18 @@ public class BallabaUser extends BallabaBaseEntity {
         this.profile_image = profile_image;
     }
 
+    public BallabaUser(String id, String phone, String email, String first_name, String last_name, String city, String address, String apt_no, String profile_image) {
+        this.id = id;
+        this.phone = phone;
+        this.email = email;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.city = city;
+        this.address = address;
+        this.apt_no = apt_no;
+        this.profile_image = profile_image;
+    }
+
     private String trimNull(String s){
         if (s.equals("null"))
             return "";
@@ -60,7 +72,6 @@ public class BallabaUser extends BallabaBaseEntity {
     public String getId() {
         return trimNull(id);
     }
-    public void setId(String id){this.id = id;}
 
     public String getPhone() {
         return trimNull(phone);
@@ -117,6 +128,10 @@ public class BallabaUser extends BallabaBaseEntity {
     public String getDevice_id() {
         return trimNull(device_id);
     }
+
+    /*public String getFcm_token() {
+        return trimNull(fcm_token);
+    }*/
 
     public String getProfile_image() {
         return profile_image;

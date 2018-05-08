@@ -51,7 +51,8 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/addProp_profile_imageButton"
-                    style="@style/allWrapContent"
+                    android:layout_width="@dimen/addProperty_landlordProfileImage_dimens"
+                    android:layout_height="@dimen/addProperty_landlordProfileImage_dimens"
                     android:layout_margin="@dimen/activity_vertical_margin"
                     android:layout_gravity="center_horizontal"
                     android:src="@drawable/home_blue_160"
@@ -175,6 +176,14 @@
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:text="@string/addProperty_landlord_button_next" />
             <!--            android:onClick="@{() -> presenter.onClick()}"-->
+            <!--<ProgressBar
+                android:id="@+id/addProperty_landlord_next_button_progress"
+                android:layout_width="@dimen/enter_phone_number_next_button_animation_dimen"
+                android:layout_height="@dimen/enter_phone_number_next_button_animation_dimen"
+                android:layout_marginTop="@dimen/enter_phone_number_next_button_animation_offset"
+                android:layout_marginEnd="@dimen/enter_phone_number_next_button_animation_offset"
+                android:clickable="false"
+                android:visibility="gone" />-->
 
         </LinearLayout>
     </ScrollView>

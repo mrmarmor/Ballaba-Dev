@@ -11,7 +11,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/properties_recycler_swipeToRefresh"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="200dp">
     <!-- android:minHeight="429dp" -->
     <android.support.v7.widget.RecyclerView
         android:id="@+id/addProp_photos_RV"
@@ -23,10 +23,11 @@
         android:id="@+id/addProp_photos_button_upload"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/button_height"
-        style="@style/AppButtonAnother"
         android:layout_gravity="center"
         android:padding="@dimen/addProp_takePhoto_button_takePhoto_padding"
+        android:layout_marginTop="@dimen/button_next_offset"
         android:layout_marginBottom="@dimen/button_next_offset"
+        style="@style/AppButtonInactive"
         android:text="@string/addProperty_editPhoto_button_takePhoto" />
 
 </LinearLayout>

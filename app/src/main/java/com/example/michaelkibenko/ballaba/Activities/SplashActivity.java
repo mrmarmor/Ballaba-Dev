@@ -45,7 +45,7 @@ public class SplashActivity extends BaseActivity {
 
     private static final String TAG = SplashActivity.class.getSimpleName();
     private BallabaConnectivityListener connectivityListener;
-    private static final long MIN_SPLASH_DELAY = 3;
+    private static final long MIN_SPLASH_DELAY = 4000;
     private SplashLayoutBinding binder;
     private long startTime,endTime;
     boolean isGetConfig, isLoggedIn,isGetProperty, wasConnectivityProblem;
@@ -89,12 +89,12 @@ public class SplashActivity extends BaseActivity {
             public void resolve(BallabaBaseEntity entity) {
                 isGetConfig = true;
                 logInWithToken();
-            }
+        }
 
-            @Override
-            public void reject(BallabaBaseEntity entity) {
-                Toast.makeText(SplashActivity.this, "Here will be error dialog", Toast.LENGTH_LONG).show();
-            }
+        @Override
+        public void reject(BallabaBaseEntity entity) {
+            Toast.makeText(SplashActivity.this, "Here will be error dialog", Toast.LENGTH_LONG).show();
+        }
         });
     }
 

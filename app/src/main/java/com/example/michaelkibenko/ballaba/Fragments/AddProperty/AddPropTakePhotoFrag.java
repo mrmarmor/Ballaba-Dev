@@ -3,6 +3,7 @@ package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -16,7 +17,11 @@ import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -49,7 +54,8 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
         if (v.getId() == R.id.addProp_takePhoto_button_professionalPhotographer)
             Toast.makeText(getActivity(), "taking Professional Photographer", Toast.LENGTH_SHORT).show();
         else
-            startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CODE_CAMERA);
+            AddPropertyPresenter.getInstance((AppCompatActivity) getActivity(), binderMain).onNextViewPagerItem(4);
+            //startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CODE_CAMERA);
     }
 
     @Override
@@ -57,22 +63,20 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
         super.onActivityResult(requestCode, resultCode, imageIntent);
 
         if (resultCode == RESULT_OK && imageIntent != null){
-            Uri image = imageIntent.getData();
-
-            if (requestCode == REQUEST_CODE_CAMERA){
-                AddPropertyPresenter.getInstance((AppCompatActivity)getActivity(), binderMain).onNextViewPagerItem(4);
-                AddPropEditPhotoFrag.newInstance(binderMain).addPhoto(getActivity(), image);
+            if (requestCode == REQUEST_CODE_CAMERA) {
+                AddPropertyPresenter.getInstance((AppCompatActivity) getActivity(), binderMain).onNextViewPagerItem(4);
+                AddPropEditPhotoFrag.newInstance(binderMain).addPhoto(getActivity(), imageIntent.getData());
             }
         }
     }
 
-    @Override
+  /*  @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
+        //if (isVisibleToUser) {
             Log.d(TAG, "visible");
             binderMain.addPropertyViewPager.setOffscreenPageLimit(1);
-        }
+        //}
             // execute your data loading logic.
-    }
+    }*/
 }

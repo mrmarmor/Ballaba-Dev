@@ -1,5 +1,6 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -18,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -186,33 +188,40 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.addProperty_landlord_button_next:
-                final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
-                data.put("profile_image", getProfileImage());
+                onFinish();
 
-                try {
-                if (user != null && !isDataEqual(data, user)) {
-                    ConnectionsManager.getInstance(context).uploadUser("10"/*user.getId()*/, jsonParse(data), new BallabaResponseListener() {
-                        @Override
-                        public void resolve(BallabaBaseEntity entity) {
-                            SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.USER_ID, "10"/*user.getId()*/);
-                            SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "1");
-                            AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).onNextViewPagerItem(0);
-                        }
+        }
+    }
 
-                        @Override
-                        public void reject(BallabaBaseEntity entity) {
-                            showSnackBar(((BallabaErrorResponse) entity).message);
+    private void onFinish(){
+        final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
+        data.put("profile_image", getProfileImage());
 
-                            //TODO NEXT LINE IS ONLY FOR TESTING:
-                            //new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(0);
-                        }
-                    });
-                } else {
-                    AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).onNextViewPagerItem(0);
-                }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+        try {
+            if (user != null && !isDataEqual(data, user)) {
+                ProgressDialog a = new ProgressDialog(context);
+
+                ConnectionsManager.getInstance(context).uploadUser(user.getId(), jsonParse(data), new BallabaResponseListener() {
+                    @Override
+                    public void resolve(BallabaBaseEntity entity) {
+                        SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.USER_ID, user.getId());
+                        SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "1");
+                        AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).onNextViewPagerItem(0);
+                    }
+
+                    @Override
+                    public void reject(BallabaBaseEntity entity) {
+                        showSnackBar(((BallabaErrorResponse) entity).message);
+
+                        //TODO NEXT LINE IS ONLY FOR TESTING:
+                        //new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(0);
+                    }
+                });
+            } else {
+                AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).onNextViewPagerItem(0);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 

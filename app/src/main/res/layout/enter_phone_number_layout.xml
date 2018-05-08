@@ -121,10 +121,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/enter_phone_number_text_error_answer"
                 android:text="@string/enter_phone_number_next_button_text"
                 android:layout_marginTop="@dimen/enter_phone_number_country_codes_next_button_top_offset"
-                android:background="@color/gray_button_color"
-                android:alpha="0.50"
+                style="@style/AppButtonInactive"
                 android:onClick="getPermissionsToReadSms"
-                android:clickable="false"
                 />
 
             <ProgressBar

@@ -3,6 +3,7 @@ package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -21,6 +22,7 @@ import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropAssetBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropEditPhotoBinding;
@@ -69,32 +71,35 @@ public class AddPropEditPhotoFrag extends Fragment {
         super.onActivityResult(requestCode, resultCode, imageIntent);
 
         if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK && imageIntent != null){
-            addPhoto(getActivity(), imageIntent.getData());
+            addPhoto(context, imageIntent.getData());
         }
     }
 
-    public void initRecyclerView(Context context) {
+    public void initRecyclerView(final Context context) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        //linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         List<PropertyAttachmentAddonEntity> attachments = new ArrayList<>();
         attachments.add(new PropertyAttachmentAddonEntity("4", "hall", "סלון"));
 
-        adapter =  new AddPropertyPhotoRecyclerAdapter(context, photos, attachments);
+        adapter =  new AddPropertyPhotoRecyclerAdapter(context, photos, attachments, new AddPropertyPhotoRecyclerAdapter.AddPropPhotoRecyclerListener() {
+            @Override
+            public void chipOnClick(String id, String state, int position) {
+                UiUtils.instance(true, context).buttonChanger(binderEditPhoto.addPropPhotosButtonUpload, true);
+            }
+        });
+        binderEditPhoto.addPropPhotosRV.setHasFixedSize(true);
         binderEditPhoto.addPropPhotosRV.setLayoutManager(linearLayoutManager);
-        //binderEditPhoto.addPropPhotosRV.setHasFixedSize(true);
         binderEditPhoto.addPropPhotosRV.setAdapter(adapter);
     }
 
     public void addPhoto(Context context, Uri photo) {
         photos.add(photo);
 
-        if (adapter == null){
+        if (adapter == null)
             initRecyclerView(context);
-            adapter.updateList(photos);
-        } else {
-            adapter.notifyDataSetChanged();
-        }
+
+        adapter.notifyDataSetChanged();
     }
 
     @Override
