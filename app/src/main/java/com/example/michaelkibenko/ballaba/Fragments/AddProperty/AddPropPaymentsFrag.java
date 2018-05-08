@@ -284,6 +284,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
                 public void resolve(BallabaBaseEntity entity) {
                     //TODO update property updating date on SharedPrefs??
                     //SharedPreferencesManager.getInstance(context).removeString(SharedPreferencesKeysHolder.PROPERTY_ID);
+                    SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "4");
                     AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(3);
                 }
 

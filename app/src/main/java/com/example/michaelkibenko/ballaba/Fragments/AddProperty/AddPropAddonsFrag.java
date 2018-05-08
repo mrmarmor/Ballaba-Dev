@@ -226,7 +226,7 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
                     //TODO update property updating date on SharedPrefs??
-                    //SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_ID, ((BallabaPropertyFull)entity).id);
+                    SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "3");
                     AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(2);
                 }
 

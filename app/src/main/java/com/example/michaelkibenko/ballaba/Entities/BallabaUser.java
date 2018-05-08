@@ -60,6 +60,7 @@ public class BallabaUser extends BallabaBaseEntity {
     public String getId() {
         return trimNull(id);
     }
+    public void setId(String id){this.id = id;}
 
     public String getPhone() {
         return trimNull(phone);

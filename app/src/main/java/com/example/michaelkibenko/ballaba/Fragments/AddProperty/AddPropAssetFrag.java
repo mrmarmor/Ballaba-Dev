@@ -74,7 +74,7 @@ public class AddPropAssetFrag extends Fragment {
                     ConnectionsManager.getInstance(context).uploadProperty(jsonParse(data, "create"), new BallabaResponseListener() {
                         @Override
                         public void resolve(BallabaBaseEntity entity) {
-                            //SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_ID, ((BallabaPropertyFull)entity).id);
+                            SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "2");
                             new AddPropertyPresenter((AppCompatActivity)context, binderMain).onNextViewPagerItem(1);
                         }
 

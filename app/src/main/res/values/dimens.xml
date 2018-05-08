@@ -230,6 +230,7 @@
     <dimen name="addProp_takePhoto_imageView_height">164dp</dimen>
     <dimen name="addProp_takePhoto_imageView_title_height">35dp</dimen>
     <dimen name="addProp_takePhoto_button_takePhoto_padding">10dp</dimen>
+    <dimen name="addProp_takePhoto_photo_height">194dp</dimen>
 
     <dimen name="takePicSwitch_height">56dp</dimen>
 

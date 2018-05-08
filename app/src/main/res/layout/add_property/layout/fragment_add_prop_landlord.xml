@@ -170,7 +170,6 @@
             <Button
                 android:id="@+id/addProperty_landlord_button_next"
                 style="@style/AppButtonAnother"
-                android:layout_marginTop="@dimen/button_next_offset"
                 android:layout_marginBottom="@dimen/button_next_offset"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"

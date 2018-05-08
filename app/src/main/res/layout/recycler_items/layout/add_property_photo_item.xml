@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <android.support.constraint.ConstraintLayout
+        style="@style/allMatchParent"
+        android:layoutDirection="rtl">
+
+        <ImageView
+            android:id="@+id/addProp_editPhoto_imageView"
+            android:layout_width="match_parent" android:src="@drawable/question_mark_blue_160"
+            android:layout_height="@dimen/addProp_takePhoto_photo_height"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+        <Button
+            android:id="@+id/addProp_editPhoto_button_close"
+            android:layout_width="@dimen/icon_regular"
+            android:layout_height="@dimen/icon_regular"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_margin="@dimen/small_margin"
+            android:background="@drawable/close_white_24" />
+
+        <TextView
+            android:id="@+id/addProp_editPhoto_title"
+            style="@style/addProperty_textViews"
+            app:layout_constraintTop_toBottomOf="@id/addProp_editPhoto_imageView"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/colorAccent"
+            android:text="@string/addProperty_editPhoto_title" />
+
+        <com.nex3z.flowlayout.FlowLayout
+            android:id="@+id/addProp_editPhoto_rooms_flow_layout"
+            style="@style/flowLayout"
+            app:layout_constraintTop_toBottomOf="@id/addProp_editPhoto_title"
+            app:layout_constraintStart_toStartOf="parent"
+            android:background="@android:color/transparent" />
+
+    </android.support.constraint.ConstraintLayout>
+</layout>

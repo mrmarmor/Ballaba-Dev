@@ -11,6 +11,7 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +38,9 @@ import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropLandlordBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropPaymentsBinding;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -144,14 +148,15 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
 
         return map;
     }
-    private HashMap<String, byte[]> getProfileImage(HashMap<String, byte[]> map){
+    private String getProfileImage(){
+
         if (isProfileImageChanged) {
             Drawable d = binderLandLord.addPropProfileImageButton.getDrawable();
-            byte[] value = StringUtils.getInstance(true, context).DrawableToBytes(d);
-            map.put("profile_image", value);
+            byte[] bytes = StringUtils.getInstance(true, context).DrawableToBytes(d);
+            return Base64.encodeToString(bytes, Base64.DEFAULT);
         }
 
-        return map;
+        return null;
     }
 
     @Override
@@ -181,15 +186,16 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.addProperty_landlord_button_next:
-                //Toast.makeText(context, "next", Toast.LENGTH_SHORT).show();
                 final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
-                HashMap<String, byte[]> profileImage = getProfileImage(new HashMap<String, byte[]>());
+                data.put("profile_image", getProfileImage());
 
+                try {
                 if (user != null && !isDataEqual(data, user)) {
-                    ConnectionsManager.getInstance(context).uploadUser(user.getId(), data, profileImage, new BallabaResponseListener() {
+                    ConnectionsManager.getInstance(context).uploadUser("10"/*user.getId()*/, jsonParse(data), new BallabaResponseListener() {
                         @Override
                         public void resolve(BallabaBaseEntity entity) {
-                            SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.USER_ID, user.getId());
+                            SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.USER_ID, "10"/*user.getId()*/);
+                            SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "1");
                             AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).onNextViewPagerItem(0);
                         }
 
@@ -204,7 +210,19 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 } else {
                     AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).onNextViewPagerItem(0);
                 }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
         }
+    }
+
+    private JSONObject jsonParse(HashMap<String, String> userData) throws JSONException{
+        JSONObject jsonObject = new JSONObject();
+            for (String key : userData.keySet()) {
+                jsonObject.put(key, userData.get(key));
+            }
+
+        return jsonObject;
     }
 
     private void showSnackBar(String message){

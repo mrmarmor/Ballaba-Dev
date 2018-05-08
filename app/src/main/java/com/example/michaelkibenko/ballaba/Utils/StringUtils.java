@@ -65,7 +65,7 @@ public class StringUtils {
         if (dateString == null)
             return 0L;
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         try {
             return sdf.parse(dateString).getTime();
         } catch (ParseException e ) {
@@ -74,7 +74,7 @@ public class StringUtils {
         }
     }
     public String dateToString(Date date){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         //Date newDate = new Date();
         return sdf.format(date);
     }

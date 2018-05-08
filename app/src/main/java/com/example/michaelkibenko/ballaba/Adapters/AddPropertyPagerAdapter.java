@@ -56,6 +56,7 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
                 return AddPropTakePhotoFrag.newInstance(binder);
 
             case 5: case 6: case 7:
+                binder.addPropertyViewPager.setOffscreenPageLimit(1);
                 return AddPropEditPhotoFrag.newInstance(binder);
         }
     }

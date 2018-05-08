@@ -46,11 +46,11 @@ public class AddPropertyPresenter {
         return instance;
     }
 
-    public void sendDataToActivity(String image, int position){
+    /*public void sendDataToActivity(String image, int position){
         //activity.getSupportFragmentManager().findFragmentById(R.id.b).getLayoutInflater().inflate();
         AddPropEditPhotoFrag.newInstance(binder).setImage(image);
         onNextViewPagerItem(position);
-    }
+    }*/
 
     public void onNextViewPagerItem(int position){
         binder.addPropertyViewPager.setCurrentItem(position + 1);

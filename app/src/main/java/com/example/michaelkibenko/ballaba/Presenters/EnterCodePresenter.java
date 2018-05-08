@@ -81,7 +81,8 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
         this.context = context;
         this.binder = binding;
         this.phoneNumber = new BallabaPhoneNumber(phoneNumber, countryCode);
-        editTexts = new EditText[]{binder.enterCodeFirstLeftEditText, binder.enterCodeSecondLeftEditText, binder.enterCodeThirdLeftEditText, binder.enterCodeFourthLeftEditText};
+        editTexts = new EditText[]{binder.enterCodeFirstLeftEditText, binder.enterCodeSecondLeftEditText
+                , binder.enterCodeThirdLeftEditText, binder.enterCodeFourthLeftEditText};
 
         initEditTexts(editTexts);
         show1MinuteClock();
@@ -172,7 +173,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
             ConnectionsManager.getInstance(context).enterCode(phoneNumber.getFullPhoneNumber(),sbCode.toString() , new BallabaResponseListener() {
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
-                    Log.d(TAG, "enterCode");
+                    Log.d(TAG, "enterCode success: "+entity);
                     if (entity instanceof BallabaUser) {
                         wasConnectivityProblem = false;
 
@@ -293,7 +294,9 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
         UiUtils.instance(true, context).buttonChanger(binder.enterCodeSendAgainButton, false);
         show1MinuteClock();
 
+        //TODO move next line method to basePresenter
         UiUtils.instance(true, context).hideSoftKeyboard(((Activity)context).getWindow().getDecorView());
+
         ((BaseActivity)context).getDefaultSnackBar(binder.getRoot(), context.getString(R.string.enter_code_send_again_snack_bar_text), true).show();
 
         ConnectionsManager.getInstance(context).loginWithPhoneNumber(phoneNumber.getFullPhoneNumber(), new BallabaResponseListener() {

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListener{
     private final String TAG = AddPropTakePhotoFrag.class.getSimpleName();
-    private final int REQUEST_CODE_CAMERA = 1;
+    public static final int REQUEST_CODE_CAMERA = 1;
 
     private static ActivityAddPropertyBinding binderMain;
 
@@ -59,13 +60,19 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
             Uri image = imageIntent.getData();
 
             if (requestCode == REQUEST_CODE_CAMERA){
-                //Intent intent = new Intent(getActivity(), AddPropEditPhotoFrag.class);
-                //intent.putExtra("byteArray", image.toString());
-
-                AddPropEditPhotoFrag.newInstance(binderMain).setImage(image);
                 AddPropertyPresenter.getInstance((AppCompatActivity)getActivity(), binderMain).onNextViewPagerItem(4);
-
+                AddPropEditPhotoFrag.newInstance(binderMain).addPhoto(getActivity(), image);
             }
         }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            Log.d(TAG, "visible");
+            binderMain.addPropertyViewPager.setOffscreenPageLimit(1);
+        }
+            // execute your data loading logic.
     }
 }
