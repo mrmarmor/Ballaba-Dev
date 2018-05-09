@@ -1,5 +1,6 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
@@ -467,6 +468,12 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         Snackbar snackBar = Snackbar.make(snackBarView, "השמירה נכשלה נסה שנית מאוחר יותר", Snackbar.LENGTH_LONG);
         snackBar.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary, context.getTheme()));
         snackBar.show();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        context = activity;
     }
 
     public class Data {

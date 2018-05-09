@@ -9,7 +9,6 @@
 
 <android.support.constraint.ConstraintLayout
     style="@style/allMatchParent"
-    android:layout_marginTop="@dimen/large_margin"
     android:layout_marginStart="@dimen/small_margin"
     android:layout_marginEnd="@dimen/small_margin"
     android:layoutDirection="rtl"
@@ -22,7 +21,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginTop="@dimen/large_margin"
+        android:layout_marginRight="@dimen/small_margin"
         android:textColor="@color/colorAccent"
         android:text="@string/addProperty_takePhoto_title" />
 
@@ -32,8 +32,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/addProp_takePhoto_title"
         app:layout_constraintTop_toBottomOf="@id/addProp_takePhoto_title"
-        android:layout_marginStart="@dimen/small_margin"
-        android:layout_marginEnd="@dimen/addProp_takePhoto_description_margin_end"
+        android:layout_marginRight="@dimen/small_margin"
+        android:layout_marginLeft="@dimen/addProp_takePhoto_description_margin_end"
         android:paddingBottom="@dimen/large_margin"
         android:text="@string/addProperty_takePhoto_description" />
     
@@ -41,19 +41,21 @@
         android:id="@+id/addProp_takePhoto_imageView_bad"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/addProp_takePhoto_imageView_height"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/addProp_takePhoto_imageView_good"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/addProp_takePhoto_imageView_good"
         app:layout_constraintTop_toBottomOf="@id/addProp_takePhoto_description"
-        android:layout_marginEnd="@dimen/small_margin"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginRight="@dimen/small_margin"
         android:src="@drawable/add_property_bad_photo" />
     <ImageView
         android:id="@+id/addProp_takePhoto_imageView_good"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/addProp_takePhoto_imageView_height"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/addProp_takePhoto_imageView_bad"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/addProp_takePhoto_imageView_bad"
         app:layout_constraintTop_toBottomOf="@id/addProp_takePhoto_description"
-        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginRight="@dimen/small_margin"
+        android:layout_marginLeft="@dimen/small_margin"
         android:src="@drawable/add_property_good_photo" />
 
     <TextView
@@ -91,8 +93,8 @@
         app:layout_constraintEnd_toStartOf="@id/addProp_takePhoto_good_description"
         app:layout_constraintTop_toBottomOf="@id/addProp_takePhoto_bad_title"
         android:layout_marginEnd="@dimen/small_margin"
-        android:paddingStart="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="@dimen/small_margin"
+        android:paddingStart="@dimen/small_margin"
+        android:layout_marginTop="@dimen/small_margin" android:textAlignment="textStart"
         android:text="@string/addProperty_takePhoto_bad_description" />
     <TextView
         android:id="@+id/addProp_takePhoto_good_description"
@@ -101,9 +103,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/addProp_takePhoto_bad_description"
         app:layout_constraintTop_toBottomOf="@id/addProp_takePhoto_good_title"
-        android:paddingEnd="@dimen/activity_horizontal_margin"
         android:layout_marginStart="@dimen/small_margin"
-        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginTop="@dimen/small_margin" android:textAlignment="textStart"
         android:text="@string/addProperty_takePhoto_good_description" />
 
     <Button

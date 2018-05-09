@@ -89,11 +89,13 @@ public class UiUtils {
             btn.setBackgroundColor(ctx.getResources().getColor(R.color.colorPrimary, ctx.getTheme()));
             btn.setAlpha(1f);
             btn.setClickable(true);
+            btn.setEnabled(true);
             btn.setTextColor(Color.WHITE);
         }else {
             btn.setBackgroundColor(ctx.getResources().getColor(R.color.gray_button_color, ctx.getTheme()));
             btn.setAlpha(0.50f);
             btn.setClickable(false);
+            btn.setEnabled(false);
             btn.setTextColor(Color.BLACK);
         }
     }

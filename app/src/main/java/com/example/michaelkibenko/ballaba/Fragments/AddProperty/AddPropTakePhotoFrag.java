@@ -51,17 +51,22 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
     }
 
     public void onClick(View v){
-        if (v.getId() == R.id.addProp_takePhoto_button_professionalPhotographer)
+        if (v.getId() == R.id.addProp_takePhoto_button_professionalPhotographer) {
             Toast.makeText(getActivity(), "taking Professional Photographer", Toast.LENGTH_SHORT).show();
-        else
-            AddPropertyPresenter.getInstance((AppCompatActivity) getActivity(), binderMain).onNextViewPagerItem(4);
-            //startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CODE_CAMERA);
+        } else {
+            //AddPropertyPresenter.getInstance((AppCompatActivity) getActivity(), binderMain).onNextViewPagerItem(4);
+            startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CODE_CAMERA);
+        }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent imageIntent) {
         super.onActivityResult(requestCode, resultCode, imageIntent);
 
+        //AddPropEditPhotoFrag.newInstance(binderMain).setCameraResult(
+        //        getActivity(), requestCode, resultCode, imageIntent);
+       // AddPropEditPhotoFrag.newInstance(binderMain)
+        //        .onActivityResult(requestCode, resultCode, imageIntent);
         if (resultCode == RESULT_OK && imageIntent != null){
             if (requestCode == REQUEST_CODE_CAMERA) {
                 AddPropertyPresenter.getInstance((AppCompatActivity) getActivity(), binderMain).onNextViewPagerItem(4);

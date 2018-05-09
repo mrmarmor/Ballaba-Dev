@@ -2,33 +2,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-<LinearLayout
-    style="@style/allMatchParent"
-    android:orientation="vertical"
-    tools:context="com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropEditPhotoFrag">
+    <android.support.constraint.ConstraintLayout
+        style="@style/allMatchParent"
+        android:orientation="vertical"
+        tools:context="com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropEditPhotoFrag">
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/properties_recycler_swipeToRefresh"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp">
-    <!-- android:minHeight="429dp" -->
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/addProp_photos_RV"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+        <android.support.v4.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/properties_recycler_swipeToRefresh"
+            style="@style/allWrapContent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/addProp_photos_button_upload" >
+            <!-- android:minHeight="429dp" -->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/addProp_photos_RV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.v4.widget.SwipeRefreshLayout>
 
-    <Button
-        android:id="@+id/addProp_photos_button_upload"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/button_height"
-        android:layout_gravity="center"
-        android:padding="@dimen/addProp_takePhoto_button_takePhoto_padding"
-        android:layout_marginTop="@dimen/button_next_offset"
-        android:layout_marginBottom="@dimen/button_next_offset"
-        style="@style/AppButtonInactive"
-        android:text="@string/addProperty_editPhoto_button_takePhoto" />
+        <Button
+            android:id="@+id/addProp_photos_button_upload"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/button_height"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/properties_recycler_swipeToRefresh"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_gravity="center"
+            android:padding="@dimen/addProp_takePhoto_button_takePhoto_padding"
+            android:layout_marginTop="@dimen/button_next_offset"
+            android:layout_marginBottom="@dimen/button_next_offset"
+            style="@style/AppButtonInactive"
+            android:enabled="false"
+            android:text="@string/addProperty_editPhoto_button_takePhoto" />
 
-</LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 </layout>

@@ -3,10 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.constraint.ConstraintLayout
-        style="@style/allMatchParent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/small_margin"
         android:layout_marginEnd="@dimen/small_margin"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layoutDirection="rtl">
 
         <ImageView
@@ -14,7 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/addProp_takePhoto_photo_height"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            android:scaleType="fitXY"
+            android:background="@color/black" />
         <Button
             android:id="@+id/addProp_editPhoto_button_close"
             android:layout_width="@dimen/icon_regular"
@@ -29,6 +32,7 @@
             style="@style/addProperty_textViews"
             app:layout_constraintTop_toBottomOf="@id/addProp_editPhoto_imageView"
             app:layout_constraintStart_toStartOf="parent"
+            android:paddingStart="@dimen/small_margin"
             android:textColor="@color/colorAccent"
             android:text="@string/addProperty_editPhoto_title" />
 
@@ -38,6 +42,18 @@
             app:layout_constraintTop_toBottomOf="@id/addProp_editPhoto_title"
             app:layout_constraintStart_toStartOf="parent"
             android:background="@android:color/transparent" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/addProp_editPhoto_rooms_flow_layout"
+            app:layout_constraintStart_toStartOf="parent"
+            android:paddingStart="@dimen/small_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:textSize="@dimen/textSize_tiny"
+            android:textColor="@color/red_error_phone"
+            android:text="@string/addProperty_editPhoto_error_message"
+            android:visibility="gone" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

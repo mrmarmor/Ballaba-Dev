@@ -9,7 +9,7 @@
             type="com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter"/>
     </data>
 
-        <com.example.michaelkibenko.ballaba.Views.NonSwipeableViewPager
+        <com.example.michaelkibenko.ballaba.Views.CustomViewPager
             android:id="@+id/addProperty_viewPager"
             style="@style/allWrapContent" />
 

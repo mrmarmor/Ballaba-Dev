@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -66,6 +67,11 @@ public class AddPropEditPhotoFrag extends Fragment {
         return binderEditPhoto.getRoot();
     }
 
+    /*public void setCameraResult(Context context, int requestCode, int resultCode, Intent imageIntent){
+        this.context = context;
+        onActivityResult(requestCode, resultCode, imageIntent);
+    }*/
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent imageIntent) {
         super.onActivityResult(requestCode, resultCode, imageIntent);
@@ -77,29 +83,31 @@ public class AddPropEditPhotoFrag extends Fragment {
 
     public void initRecyclerView(final Context context) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        //linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         List<PropertyAttachmentAddonEntity> attachments = new ArrayList<>();
         attachments.add(new PropertyAttachmentAddonEntity("4", "hall", "סלון"));
+        attachments.add(new PropertyAttachmentAddonEntity("5", "toilets", "שירותים"));
 
         adapter =  new AddPropertyPhotoRecyclerAdapter(context, photos, attachments, new AddPropertyPhotoRecyclerAdapter.AddPropPhotoRecyclerListener() {
             @Override
             public void chipOnClick(String id, String state, int position) {
-                UiUtils.instance(true, context).buttonChanger(binderEditPhoto.addPropPhotosButtonUpload, true);
+                Button btn = binderEditPhoto.addPropPhotosButtonUpload;
+                UiUtils.instance(true, context).buttonChanger(btn, state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED));
             }
         });
-        binderEditPhoto.addPropPhotosRV.setHasFixedSize(true);
         binderEditPhoto.addPropPhotosRV.setLayoutManager(linearLayoutManager);
+        //binderEditPhoto.addPropPhotosRV.setHasFixedSize(true);
         binderEditPhoto.addPropPhotosRV.setAdapter(adapter);
     }
 
     public void addPhoto(Context context, Uri photo) {
         photos.add(photo);
 
-        if (adapter == null)
+        //if (adapter == null)
             initRecyclerView(context);
 
-        adapter.notifyDataSetChanged();
+        adapter.notifyItemInserted(photos.size() - 1);
     }
 
     @Override

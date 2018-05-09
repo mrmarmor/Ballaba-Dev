@@ -73,7 +73,9 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
         AddPropertyPhotoItemBinding binder = DataBindingUtil.inflate(
                 mInflater, R.layout.add_property_photo_item, parent, false);
 
-        initTags(binder.addPropEditPhotoRoomsFlowLayout, attachments, 0);
+        //List<PropertyAttachmentAddonEntity> attachments = new ArrayList<>();
+        //attachments.add(new PropertyAttachmentAddonEntity("4", "hall", "סלון"));
+        //initTags(binder.addPropEditPhotoRoomsFlowLayout, attachments, 0);
 
         return new ViewHolder(binder, binder.addPropEditPhotoImageView);
     }
@@ -83,22 +85,22 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
         Log.d(TAG, photos.size() + ":" + position);
 
         if (photos.size() > 0) {
-            //TODO what if user photos too large image (>40960px*4096px)??
+            //TODO what if user photos are too large image (>40960px*4096px)??
             holder.binder.addPropEditPhotoImageView.setImageURI(photos.get(position));
         }
 
-        //initTags(holder.binder.addPropEditPhotoRoomsFlowLayout, attachments, position);
+        initTags(holder.binder.addPropEditPhotoRoomsFlowLayout, attachments, position);
     }
 
     @Override
     public int getItemCount() {
         Log.d(TAG, "property photos: " + photos.size());
         //TODO
-        return 1;
-        //return (photos == null || photos.size() == 0) ? 0 : photos.size();
+        //return 1;
+        return (photos == null || photos.size() == 0) ? 0 : photos.size();
     }
 
-    private void initTags(FlowLayout flowLayout, List<PropertyAttachmentAddonEntity> items, final int position){
+    private void initTags(final FlowLayout flowLayout, List<PropertyAttachmentAddonEntity> items, final int position){
         for (final PropertyAttachmentAddonEntity attachment : items) {
             Button chipsItem = (Button)mInflater.inflate(R.layout.chip_regular, null);
             if(chipsItem.getTag() != null) {
@@ -114,8 +116,10 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
                 @Override
                 public void onClick(View v) {
                     String state = (String) v.getTag();
-                    UiUtils.instance(true, context).onChipsButtonClick((Button) v, state);
-                    onClickListener.chipOnClick(attachment.id, state, position);
+                    if (state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED) || !allChipsUnselected(flowLayout, (Button)v)){
+                        UiUtils.instance(true, context).onChipsButtonClick((Button) v, state);
+                        onClickListener.chipOnClick(attachment.id, state, position);
+                    }
                 }
             });
             //highlightSavedButtons(flowLayout, attachment);
@@ -125,14 +129,27 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
     }
 
+    private boolean allChipsUnselected(FlowLayout flowLayout, Button currentButton){
+        //if (state.equals(UiUtils.ChipsButtonStates.PRESSED)){
+            for (int i = 0; i < flowLayout.getChildCount(); i++){
+                Log.d(TAG, flowLayout.getChildAt(i)+":"+currentButton);
+                if (!flowLayout.getChildAt(i).equals(currentButton))
+                    if (flowLayout.getChildAt(i).getTag().equals(UiUtils.ChipsButtonStates.PRESSED))
+                        return false;
+            }
+
+            return true;
+        //}
+    }
+
     class ViewHolder extends RecyclerView.ViewHolder {
         private AddPropertyPhotoItemBinding binder;
-        //private ImageView imageView;
+        private ImageView imageView;
 
         ViewHolder(AddPropertyPhotoItemBinding binder, ImageView imageView) {
             super(binder.getRoot());
             this.binder = binder;
-            //this.imageView = imageView;
+            this.imageView = imageView;
             //initTags(binder.addPropEditPhotoRoomsFlowLayout, attachments, 0);
 
         }
