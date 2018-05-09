@@ -99,7 +99,7 @@
     <string name="attach_aps">APS</string>
 
     <string name="scoring_welcome_title">שאלון חיתום</string>
-    <string name="scoring_welcome_description">הסבר למשתמש מה זה חיתום ולמה צריך
+    <string name="scoring_welcome_description">הסבר למשתמש מה זה חיתום ולמה צריך\n
 אותו, מה ייצא לו מלבצע את החיתום                 </string>
     <string name="scoring_welcome_ok_button">המשך לחיתום</string>
     <string name="scoring_welcome_cancel_button">לא, תודה</string>
@@ -110,12 +110,12 @@
     <string name="scoring_dateOfBirth_title">תאריך לידה</string>
 
     <string name="scoring_status_title">מצב משפחתי</string>
-    <string name="scoring_status_single_button">רווק</string>
-    <string name="scoring_status_married_button">נשוי</string>
-    <string name="scoring_status_divorced_button">גרוש</string>
-    <string name="scoring_status_widower_button">אלמן</string>
+    <string name="scoring_status_single_button">רווק/ה</string>
+    <string name="scoring_status_married_button">נשוי/ה</string>
+    <string name="scoring_status_divorced_button">גרוש/ה</string>
+    <string name="scoring_status_widower_button">אלמן/ה</string>
 
-    <string name="scoring_children_title">ילדים</string>
+    <string name="scoring_children_title">ילדים מתחת לגיל 18</string>
     <string name="scoring_children_none_button">אין</string>
     <string name="scoring_children_under18_button">מתחת לגיל 18</string>
     <string name="scoring_children_above18_button">מעל גיל 18</string>

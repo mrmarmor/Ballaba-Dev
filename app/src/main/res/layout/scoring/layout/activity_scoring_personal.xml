@@ -4,18 +4,23 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="presenter"
-            type="com.example.michaelkibenko.ballaba.Presenters.ScoringPersonalPresenter"/>
+            type="com.example.michaelkibenko.ballaba.Presenters.ScoringPersonalPresenter" />
     </data>
 
     <ScrollView
-        style="@style/allMatchParent"
-        android:layoutDirection="rtl"
-        android:background="@android:color/transparent">
+        android:id="@+id/scoring_main_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:layoutDirection="rtl">
+
         <LinearLayout
             android:id="@+id/scoring_personal_root"
             style="@style/allMatchParent"
+            android:focusableInTouchMode="true"
             android:orientation="vertical"
             tools:context="com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringPersonalActivity">
 
@@ -27,61 +32,179 @@
                 android:drawablePadding="@dimen/small_margin"
                 android:drawableStart="@drawable/right_back_black_24"
                 android:gravity="center"
-                android:text="@string/scoring_back"
-                android:onClick="onClickBack" />
+                android:onClick="onClickBack"
+                android:text="@string/scoring_back" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/view_height_large"
-                android:layout_marginTop="@dimen/large_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/large_margin"
+                android:text="@string/scoring_personal_title"
                 android:textColor="@color/colorAccent"
-                android:textSize="@dimen/scoring_title_textSize"
-                android:text="@string/scoring_personal_title" />
+                android:textSize="@dimen/scoring_title_textSize" />
 
-            <TextView style="@style/scoring_title_textViews" android:text="@string/scoring_dateOfBirth_title"/>
-            <LinearLayout style="@style/scoring_buttons_container"
-                    android:layout_height="@dimen/scoring_dateOfBirth_container_height"
-                    android:gravity="center_horizontal|bottom"
-                    android:paddingBottom="@dimen/large_margin"
-                    android:orientation="horizontal">
-                <Spinner android:id="@+id/scoring_dateOfBirth_day_spinner"
-                    android:tag="day"
+            <TextView
+                style="@style/scoring_title_textViews"
+                android:text="@string/scoring_dateOfBirth_title" />
+
+            <RelativeLayout
+                style="@style/scoring_buttons_container"
+                android:layout_height="@dimen/scoring_dateOfBirth_container_height"
+                android:gravity="center_horizontal|bottom"
+                android:orientation="horizontal"
+                android:layout_marginBottom="@dimen/large_margin">
+
+                <EditText
+                    android:id="@+id/scoring_dateOfBirth_day_edit_text"
                     style="@style/dateOfBirth_spinner"
                     android:entries="@array/days"
-                    android:gravity="center" />
-                <Spinner android:id="@+id/scoring_dateOfBirth_month_spinner"
-                    android:tag="month"
-                    style="@style/dateOfBirth_spinner"
-                    android:entries="@array/months" />
-                <Spinner android:id="@+id/scoring_dateOfBirth_year_spinner"
-                    android:tag="year"
-                    style="@style/dateOfBirth_spinner" />
-            </LinearLayout>
+                    android:gravity="center"
+                    android:hint="1"
+                    android:inputType="none"
+                    android:longClickable="false"
+                    android:maxLength="2"
+                    android:tag="day" />
 
-            <TextView style="@style/scoring_title_textViews" android:text="@string/scoring_status_title"/>
-            <RadioGroup android:tag="status" style="@style/scoring_buttons_container" android:checkedButton="@+id/scoringButtonStatus" >
-                <RadioButton android:text="@string/scoring_status_single_button" style="@style/scoring_buttons" android:id="@+id/scoringButtonStatus"/>
-                <RadioButton android:text="@string/scoring_status_married_button" style="@style/scoring_buttons" />
-                <RadioButton android:text="@string/scoring_status_divorced_button" style="@style/scoring_buttons" />
-                <RadioButton android:text="@string/scoring_status_widower_button" style="@style/scoring_buttons" />
+                <EditText
+                    android:layout_toLeftOf="@+id/scoring_dateOfBirth_day_edit_text"
+                    android:id="@+id/scoring_dateOfBirth_month_edit_text"
+                    style="@style/dateOfBirth_spinner"
+                    android:hint="ינואר"
+                    android:inputType="none"
+                    android:longClickable="false"
+                    android:maxLength="10"
+                    android:tag="month" />
+
+                <EditText
+                    android:layout_toLeftOf="@+id/scoring_dateOfBirth_month_edit_text"
+                    android:id="@+id/scoring_dateOfBirth_year_edit_text"
+                    style="@style/dateOfBirth_spinner"
+                    android:hint="1900"
+                    android:inputType="none"
+                    android:longClickable="false"
+                    android:maxLength="4"
+                    android:tag="year" />
+
+                <TextView
+                    android:visibility="invisible"
+                    android:id="@+id/scoring_date_of_birth_error"
+                    android:text="מגיל 18 ומעלה בלבד"
+                    android:gravity="center"
+                    android:textColor="@color/scoring_date_of_birth_error"
+                    android:layout_below="@+id/scoring_dateOfBirth_month_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <!-- <Spinner
+                     android:id="@+id/scoring_dateOfBirth_day_spinner"
+                     style="@style/dateOfBirth_spinner"
+                     android:entries="@array/days"
+                     android:gravity="center"
+                     android:tag="day" />
+
+                 <Spinner
+                     android:id="@+id/scoring_dateOfBirth_month_spinner"
+                     style="@style/dateOfBirth_spinner"
+                     android:tag="month" />
+
+                 <Spinner
+                     android:id="@+id/scoring_dateOfBirth_year_spinner"
+                     style="@style/dateOfBirth_spinner"
+                     android:tag="year" />-->
+            </RelativeLayout>
+
+            <TextView
+                style="@style/scoring_title_textViews"
+                android:text="@string/scoring_status_title" />
+
+            <RadioGroup
+                android:id="@+id/scoring_family_status_radio_group"
+                style="@style/scoring_buttons_container"
+                android:background="@android:color/white"
+                android:elevation="@dimen/elevation"
+                android:padding="1dp"
+                android:tag="status">
+
+                <RadioButton
+                    android:id="@+id/scoringButtonStatus"
+                    style="@style/scoring_buttons"
+                    android:background="@android:color/white"
+                    android:text="@string/scoring_status_single_button" />
+
+                <RadioButton
+                    style="@style/scoring_buttons"
+                    android:text="@string/scoring_status_married_button" />
+
+                <RadioButton
+                    style="@style/scoring_buttons"
+                    android:text="@string/scoring_status_divorced_button" />
+
+                <RadioButton
+                    style="@style/scoring_buttons"
+                    android:text="@string/scoring_status_widower_button" />
             </RadioGroup>
 
-            <TextView style="@style/scoring_title_textViews" android:text="@string/scoring_children_title"/>
+            <!--<TextView style="@style/scoring_title_textViews" android:text="@string/scoring_children_title"/>
             <RadioGroup android:tag="children" style="@style/scoring_buttons_container" android:checkedButton="@id/scoringButtonChildren" >
                 <RadioButton android:text="@string/scoring_children_none_button" style="@style/scoring_buttons" android:id="@+id/scoringButtonChildren" />
                 <RadioButton android:text="@string/scoring_children_under18_button" style="@style/scoring_buttons" />
                 <RadioButton android:text="@string/scoring_children_above18_button" style="@style/scoring_buttons" />
                 <RadioButton android:text="@string/scoring_children_under18AndAbove_button" style="@style/scoring_buttons" />
+            </RadioGroup>-->
+            <TextView
+                style="@style/scoring_title_textViews"
+                android:text="@string/scoring_children_title" />
+
+            <RelativeLayout
+                style="@style/scoring_buttons_container"
+                android:layout_height="@dimen/scoring_dateOfBirth_container_height"
+                android:background="@android:color/white"
+                android:paddingBottom="@dimen/large_margin">
+
+                <EditText
+                    android:id="@+id/scoring_number_of_children_edit_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="19dp"
+                    android:layout_marginTop="26dp"
+                    android:background="@drawable/blue_border"
+                    android:backgroundTint="@android:color/transparent"
+                    android:cursorVisible="false"
+                    android:gravity="center"
+                    android:hint="0"
+                    android:inputType="numberDecimal"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+
+            <TextView
+                style="@style/scoring_title_textViews"
+                android:text="@string/scoring_car_title" />
+
+            <RadioGroup
+                android:id="@+id/scoring_car_radio_group"
+                style="@style/scoring_buttons_container"
+                android:background="@android:color/white"
+                android:elevation="@dimen/elevation"
+                android:padding="1dp"
+                android:tag="car">
+
+                <RadioButton
+                    android:id="@+id/scoringButtonCar"
+                    style="@style/scoring_buttons"
+                    android:text="@string/scoring_car_has_button" />
+
+                <RadioButton
+                    style="@style/scoring_buttons"
+                    android:text="@string/scoring_car_has_not_button" />
             </RadioGroup>
 
-            <TextView style="@style/scoring_title_textViews" android:text="@string/scoring_car_title" />
-            <RadioGroup android:tag="car" style="@style/scoring_buttons_container" android:checkedButton="@id/scoringButtonCar" >
-                <RadioButton android:text="@string/scoring_car_has_button" style="@style/scoring_buttons" android:id="@+id/scoringButtonCar" />
-                <RadioButton android:text="@string/scoring_car_has_not_button" style="@style/scoring_buttons" />
-            </RadioGroup>
-
-            <Button android:id="@+id/scoring_personal_ok_button" style="@style/scoring_buttons_ok" />
+            <Button
+                android:id="@+id/scoring_personal_ok_button"
+                style="@style/scoring_buttons_ok" />
             <!--android:onClick="@{() -> presenter.onClickOk()}"-->
         </LinearLayout>
     </ScrollView>

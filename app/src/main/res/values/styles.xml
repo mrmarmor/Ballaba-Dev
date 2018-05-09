@@ -143,8 +143,6 @@
         <item name="android:layout_marginEnd">@dimen/activity_horizontal_margin</item>
         <item name="android:layout_marginStart">@dimen/activity_horizontal_margin</item>
         <item name="android:orientation">vertical</item>
-        <item name="android:background">@android:color/white</item>
-        <item name="android:elevation">@dimen/elevation</item>
     </style>
 
     <style name="scoring_buttons" parent="textViewsStyle">
@@ -156,8 +154,6 @@
         <item name="android:gravity">start|center_vertical</item>
         <item name="android:background">@android:color/white</item>
         <item name="android:button">@android:color/transparent</item>
-        <item name="android:focusableInTouchMode">true</item>
-        <item name="android:onClick">@{() -> presenter.onScoringButtonClick}</item>
     </style>
 
     <style name="dateOfBirth_spinner" parent="EditText_enter_code">

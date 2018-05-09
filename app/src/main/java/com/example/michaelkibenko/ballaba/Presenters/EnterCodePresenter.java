@@ -322,6 +322,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
         new CountDownTimer(sendAgainDelay * 1000, 1000) { //60000 milli seconds is total time, 1000 milli seconds is time interval
             public void onTick(long millisUntilFinished) {
                 binder.enterCodeSendAgainButton.setText(String.format("0%d:00", millisUntilFinished/1000));
+
             }
             public void onFinish() {
                 UiUtils.instance(true, context).buttonChanger(binder.enterCodeSendAgainButton, true);
