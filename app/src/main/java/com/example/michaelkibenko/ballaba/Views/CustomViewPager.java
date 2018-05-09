@@ -35,7 +35,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-
+// this class is taken from: https://drive.google.com/file/d/0B3utJsLFk7yKOS1vclV0YTR1NTA/view
+//it contains non-swiping viewPager and non-preload viewPager.
+//if something goes wrong check it in the link above
 public class CustomViewPager extends ViewGroup {
     private static final String TAG = CustomViewPager.class.getSimpleName();
     private static final boolean DEBUG = false;

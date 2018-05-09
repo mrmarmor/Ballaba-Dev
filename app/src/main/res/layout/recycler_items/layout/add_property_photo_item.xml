@@ -16,7 +16,7 @@
             android:layout_height="@dimen/addProp_takePhoto_photo_height"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:scaleType="fitXY"
+            android:scaleType="centerInside"
             android:background="@color/black" />
         <Button
             android:id="@+id/addProp_editPhoto_button_close"

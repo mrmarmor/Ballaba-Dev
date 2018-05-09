@@ -2,8 +2,10 @@ package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -69,19 +71,12 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
         //        .onActivityResult(requestCode, resultCode, imageIntent);
         if (resultCode == RESULT_OK && imageIntent != null){
             if (requestCode == REQUEST_CODE_CAMERA) {
+                String[] orientationColumn = {MediaStore.Images.Media.ORIENTATION};
                 AddPropertyPresenter.getInstance((AppCompatActivity) getActivity(), binderMain).onNextViewPagerItem(4);
-                AddPropEditPhotoFrag.newInstance(binderMain).addPhoto(getActivity(), imageIntent.getData());
+                AddPropEditPhotoFrag.newInstance(binderMain).addPhoto(
+                        getActivity(), imageIntent.getData(), orientationColumn);
             }
         }
     }
 
-  /*  @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        //if (isVisibleToUser) {
-            Log.d(TAG, "visible");
-            binderMain.addPropertyViewPager.setOffscreenPageLimit(1);
-        //}
-            // execute your data loading logic.
-    }*/
 }

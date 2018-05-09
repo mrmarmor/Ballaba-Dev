@@ -2,8 +2,10 @@ package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -43,6 +45,7 @@ public class AddPropEditPhotoFrag extends Fragment {
     private static FragmentAddPropEditPhotoBinding binderEditPhoto;
     private AddPropertyPhotoRecyclerAdapter adapter;
     private List<Uri> photos = new ArrayList<>();
+    private String[] orientations;
 
     public AddPropEditPhotoFrag() {}
     public static AddPropEditPhotoFrag newInstance(ActivityAddPropertyBinding binding) {
@@ -78,7 +81,7 @@ public class AddPropEditPhotoFrag extends Fragment {
         super.onActivityResult(requestCode, resultCode, imageIntent);
 
         if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK && imageIntent != null){
-            addPhoto(context, imageIntent.getData());
+            addPhoto(context, imageIntent.getData(), orientations);
         }
     }
 
@@ -103,15 +106,16 @@ public class AddPropEditPhotoFrag extends Fragment {
                 binderEditPhoto.addPropNoPhotosDescription.setVisibility(isHide ? View.VISIBLE : View.GONE);
             }
         });
+        adapter.setImageOrientation(orientations);
 
         binderEditPhoto.addPropPhotosRV.setLayoutManager(linearLayoutManager);
         //binderEditPhoto.addPropPhotosRV.setHasFixedSize(true);
         binderEditPhoto.addPropPhotosRV.setAdapter(adapter);
     }
 
-    public void addPhoto(Context context, Uri photo) {
+    public void addPhoto(Context context, Uri photo, String[] orientations) {
         photos.add(photo);
-
+        this.orientations = orientations;
         //if (adapter == null)
             initRecyclerView(context);
 

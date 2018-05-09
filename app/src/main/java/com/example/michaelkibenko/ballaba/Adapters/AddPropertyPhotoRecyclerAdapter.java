@@ -2,8 +2,12 @@ package com.example.michaelkibenko.ballaba.Adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,6 +25,8 @@ import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.AddPropertyPhotoItemBinding;
 import com.nex3z.flowlayout.FlowLayout;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +41,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
     private LayoutInflater mInflater;
     private List<Uri> photos = new ArrayList<>();
     private List<PropertyAttachmentAddonEntity> attachments = new ArrayList<>();
+    private String[] orientations;
     private AddPropPhotoRecyclerListener onClickListener;
 
     public AddPropertyPhotoRecyclerAdapter(Context mContext, List<Uri> photos, List<PropertyAttachmentAddonEntity> attachments
@@ -57,11 +64,28 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        Log.d(TAG, photos.size() + ":" + position);
+        Log.d(TAG, photos.size() + ":" + position+":"+orientations[0]);
 
         if (photos.size() > 0) {
             //TODO what if user photos are too large image (>40960px*4096px)??
-            holder.binder.addPropEditPhotoImageView.setImageURI(photos.get(position));
+            Cursor cur = context.getContentResolver().query(photos.get(position), orientations, null, null, null);
+            int orientation = -1;
+            if (cur != null && cur.moveToFirst()) {
+                orientation = cur.getInt(cur.getColumnIndex(orientations[0]));
+            }
+            cur.close();
+
+            Matrix matrix = new Matrix();
+            matrix.postRotate(orientation);
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(
+                        context.getContentResolver(), photos.get(position));
+                Bitmap bmp = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                holder.binder.addPropEditPhotoImageView.setImageBitmap(bmp);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         initTags(holder.binder.addPropEditPhotoRoomsFlowLayout, attachments, position);
@@ -132,9 +156,6 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
                     }
                 });
                 areUSureDialog.setContent("הסרת תמונה", "האם להסיר תמונה זו?", null).show();
-
-
-
             }
         });
 
@@ -157,6 +178,10 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
                         onClickListener.closeButtonOnClick(false);
                     }
                 });
+    }
+
+    public void setImageOrientation(String[] orientations){
+        this.orientations = orientations;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
