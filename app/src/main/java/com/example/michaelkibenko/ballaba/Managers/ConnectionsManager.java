@@ -101,6 +101,7 @@ public class ConnectionsManager{
         Map<String, String> params = new HashMap<String, String>();
         params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
         params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
+        Log.d(TAG, "device id: "+params.get(GlobalValues.deviceId)+"\nsession token: "+params.get(GlobalValues.sessionToken));
         return params;
     }
 

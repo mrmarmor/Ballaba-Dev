@@ -256,6 +256,7 @@
     <string name="addProperty_takePhoto_button_takePhoto">צילום תמונות</string>
     <string name="addProperty_editPhoto_button_takePhoto">יש לי עוד תמונות</string>
     <string name="addProperty_editPhoto_title">לאיזה חדר שייכת התמונה?</string>
+    <string name="addProperty_editPhoto_error_message">*נא לבחור חדר אחד לפחות</string>
 
     <string name="takePicSwitch_camera">צילום תמונה</string>
     <string name="takePicSwitch_gallery">תמונה מהגלריה</string>

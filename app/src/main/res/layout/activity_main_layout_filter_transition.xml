@@ -114,7 +114,7 @@
 
             </LinearLayout>
 
-            <com.example.michaelkibenko.ballaba.Views.NonSwipeableViewPager
+            <com.example.michaelkibenko.ballaba.Views.CustomViewPager
                 android:id="@+id/mainActivity_properties_viewPager"
                 android:layout_width="0dp"
                 android:layout_height="0dp"

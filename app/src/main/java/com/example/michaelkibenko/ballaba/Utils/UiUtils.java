@@ -3,7 +3,10 @@ package com.example.michaelkibenko.ballaba.Utils;
 import android.app.Activity;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringDef;
@@ -21,6 +24,8 @@ import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.zip.Inflater;
 
 import static android.content.ContentValues.TAG;
@@ -84,11 +89,13 @@ public class UiUtils {
             btn.setBackgroundColor(ctx.getResources().getColor(R.color.colorPrimary, ctx.getTheme()));
             btn.setAlpha(1f);
             btn.setClickable(true);
+            btn.setEnabled(true);
             btn.setTextColor(Color.WHITE);
         }else {
             btn.setBackgroundColor(ctx.getResources().getColor(R.color.gray_button_color, ctx.getTheme()));
             btn.setAlpha(0.50f);
             btn.setClickable(false);
+            btn.setEnabled(false);
             btn.setTextColor(Color.BLACK);
         }
     }
@@ -131,6 +138,16 @@ public class UiUtils {
         }
 
         return button;
+    }
+
+    public Bitmap uriToBitmap(Uri uri){
+        try {
+            InputStream stream = ctx.getContentResolver().openInputStream(uri);
+            return BitmapFactory.decodeStream(stream);
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
 }

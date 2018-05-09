@@ -220,12 +220,13 @@
     <dimen name="addProperty_editText_height">35dp</dimen>
     <dimen name="addProperty_editText_short_width">104dp</dimen>
     <dimen name="addProperty_aboutYourself_editText_height">70dp</dimen>
+    <dimen name="addProperty_landlordProfileImage_dimens">88dp</dimen>
 
     <dimen name="addProperty_asset_maxFloor_marginStart">120dp</dimen>
     <dimen name="addProperty_asset_maxFloor_marginVertical">-79dp</dimen>
     <dimen name="addProp_asset_rentalPeriod_datePicker">12dp</dimen>
 
-    <dimen name="addProp_takePhoto_description_margin_end">39dp</dimen>
+    <dimen name="addProp_takePhoto_description_margin_end">31dp</dimen>
     <dimen name="addProp_takePhoto_imageView_width">168dp</dimen>
     <dimen name="addProp_takePhoto_imageView_height">164dp</dimen>
     <dimen name="addProp_takePhoto_imageView_title_height">35dp</dimen>

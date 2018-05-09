@@ -65,6 +65,11 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@color/colorPrimary</item>
     </style>
+    <style name="AppButtonInactive" parent="Base.Widget.AppCompat.Button.Borderless">
+        <item name="android:background">@color/gray_button_color</item>
+        <item name="android:alpha">0.50</item>
+        <item name="android:clickable">false</item>
+    </style>
 
     <style name="textViewsStyle">
         <item name="android:fontFamily">@font/rubik_regular</item>

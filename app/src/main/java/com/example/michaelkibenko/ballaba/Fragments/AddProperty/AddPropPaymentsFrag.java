@@ -1,5 +1,6 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
@@ -106,26 +107,12 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     }
 
     private void initButtons(FlowLayout flowLayout, ArrayList<PropertyAttachmentAddonEntity> items){
-        /*TypedArray ids = context.getResources().obtainTypedArray(R.array.buttons_ids);
-        int[] resIds = new int[ids.length()];
-        for (int i = 0; i < ids.length(); i++)
-            resIds[i] = ids.getResourceId(i, 0);
-        ids.recycle();*/
-
         for (PropertyAttachmentAddonEntity attachment : items) {
             Button chipsItem = (Button)getLayoutInflater().inflate(R.layout.chip_regular, null);
             initAttachment(chipsItem, attachment);
+            highlightChipsUserSelectedLastTime(property, chipsItem, attachment);
 
             //TODO set 1 payment_method chip to be selected at initialization
-
-            //these 2 loops highlight chips that were selected last upload
-            for (HashMap<String, String> map : property.payments)
-                if (attachment.id.equals(map.get("payment_types")))
-                    chipsItem = UiUtils.instance(false, context).onChipsButtonClick(chipsItem, (String)chipsItem.getTag());
-
-            for (HashMap<String, String> map : property.paymentMethods)
-                if (attachment.id.equals(map.get("payment_methods")))
-                    chipsItem = UiUtils.instance(false, context).onChipsButtonClick(chipsItem, (String)chipsItem.getTag());
 
             flowLayout.addView(chipsItem);
         }
@@ -145,6 +132,19 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         chipsItem.setOnClickListener(this);
 
         return chipsItem;
+    }
+
+    private void highlightChipsUserSelectedLastTime(BallabaPropertyFull property, Button chipsItem, PropertyAttachmentAddonEntity attachment) {
+        //these 2 loops highlight chips that were selected last upload
+        if (property != null) {
+            for (HashMap<String, String> map : property.payments)
+                if (attachment.id.equals(map.get("payment_types")))
+                    chipsItem = UiUtils.instance(false, context).onChipsButtonClick(chipsItem, (String) chipsItem.getTag());
+
+            for (HashMap<String, String> map : property.paymentMethods)
+                if (attachment.id.equals(map.get("payment_methods")))
+                    chipsItem = UiUtils.instance(false, context).onChipsButtonClick(chipsItem, (String) chipsItem.getTag());
+        }
     }
 
     //TODO on viewPager state of screen kept only for current screen and next screen. so if i scroll 2 screens state will not be kept. maybe i shall saveInstance
@@ -468,6 +468,12 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         Snackbar snackBar = Snackbar.make(snackBarView, "השמירה נכשלה נסה שנית מאוחר יותר", Snackbar.LENGTH_LONG);
         snackBar.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary, context.getTheme()));
         snackBar.show();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        context = activity;
     }
 
     public class Data {

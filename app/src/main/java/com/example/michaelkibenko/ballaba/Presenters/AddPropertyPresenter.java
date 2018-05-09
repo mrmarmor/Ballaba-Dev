@@ -37,6 +37,7 @@ public class AddPropertyPresenter {
 
         addPropertyPagerAdapter = new AddPropertyPagerAdapter(binder, activity.getSupportFragmentManager());
         binder.addPropertyViewPager.setAdapter(addPropertyPagerAdapter);
+        binder.addPropertyViewPager.setOffscreenPageLimit(0);
     }
 
     public static AddPropertyPresenter getInstance(AppCompatActivity activity, ActivityAddPropertyBinding binding){

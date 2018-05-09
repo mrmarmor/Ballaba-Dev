@@ -3,6 +3,7 @@ package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -21,6 +23,7 @@ import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropAssetBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropEditPhotoBinding;
@@ -64,23 +67,35 @@ public class AddPropEditPhotoFrag extends Fragment {
         return binderEditPhoto.getRoot();
     }
 
+    /*public void setCameraResult(Context context, int requestCode, int resultCode, Intent imageIntent){
+        this.context = context;
+        onActivityResult(requestCode, resultCode, imageIntent);
+    }*/
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent imageIntent) {
         super.onActivityResult(requestCode, resultCode, imageIntent);
 
         if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK && imageIntent != null){
-            addPhoto(getActivity(), imageIntent.getData());
+            addPhoto(context, imageIntent.getData());
         }
     }
 
-    public void initRecyclerView(Context context) {
+    public void initRecyclerView(final Context context) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         //linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         List<PropertyAttachmentAddonEntity> attachments = new ArrayList<>();
         attachments.add(new PropertyAttachmentAddonEntity("4", "hall", "סלון"));
+        attachments.add(new PropertyAttachmentAddonEntity("5", "toilets", "שירותים"));
 
-        adapter =  new AddPropertyPhotoRecyclerAdapter(context, photos, attachments);
+        adapter =  new AddPropertyPhotoRecyclerAdapter(context, photos, attachments, new AddPropertyPhotoRecyclerAdapter.AddPropPhotoRecyclerListener() {
+            @Override
+            public void chipOnClick(String id, String state, int position) {
+                Button btn = binderEditPhoto.addPropPhotosButtonUpload;
+                UiUtils.instance(true, context).buttonChanger(btn, state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED));
+            }
+        });
         binderEditPhoto.addPropPhotosRV.setLayoutManager(linearLayoutManager);
         //binderEditPhoto.addPropPhotosRV.setHasFixedSize(true);
         binderEditPhoto.addPropPhotosRV.setAdapter(adapter);
@@ -89,12 +104,10 @@ public class AddPropEditPhotoFrag extends Fragment {
     public void addPhoto(Context context, Uri photo) {
         photos.add(photo);
 
-        if (adapter == null){
+        //if (adapter == null)
             initRecyclerView(context);
-            adapter.updateList(photos);
-        } else {
-            adapter.notifyDataSetChanged();
-        }
+
+        adapter.notifyItemInserted(photos.size() - 1);
     }
 
     @Override

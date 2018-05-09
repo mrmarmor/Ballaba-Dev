@@ -8,8 +8,9 @@
     </data>
 
 <android.support.constraint.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/allMatchParent"
+    android:layout_marginStart="@dimen/small_margin"
+    android:layout_marginEnd="@dimen/small_margin"
     android:layoutDirection="rtl"
     tools:context="com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropTakePhotoFrag">
 
@@ -21,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="@dimen/large_margin"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/small_margin"
         android:textColor="@color/colorAccent"
         android:text="@string/addProperty_takePhoto_title" />
 
@@ -31,28 +32,31 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/addProp_takePhoto_title"
         app:layout_constraintTop_toBottomOf="@id/addProp_takePhoto_title"
-        android:layout_marginEnd="@dimen/addProp_takePhoto_description_margin_end"
-        android:layout_marginBottom="@dimen/large_margin"
+        android:layout_marginRight="@dimen/small_margin"
+        android:layout_marginLeft="@dimen/addProp_takePhoto_description_margin_end"
+        android:paddingBottom="@dimen/large_margin"
         android:text="@string/addProperty_takePhoto_description" />
     
     <ImageView
         android:id="@+id/addProp_takePhoto_imageView_bad"
-        android:layout_width="@dimen/addProp_takePhoto_imageView_width"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/addProp_takePhoto_imageView_height"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/addProp_takePhoto_imageView_good"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/addProp_takePhoto_imageView_good"
         app:layout_constraintTop_toBottomOf="@id/addProp_takePhoto_description"
-        android:layout_marginStart="@dimen/small_margin"
-        android:src="@drawable/question_mark_blue_160" />
+        android:layout_marginLeft="@dimen/small_margin"
+        android:layout_marginRight="@dimen/small_margin"
+        android:src="@drawable/add_property_bad_photo" />
     <ImageView
         android:id="@+id/addProp_takePhoto_imageView_good"
-        android:layout_width="@dimen/addProp_takePhoto_imageView_width"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/addProp_takePhoto_imageView_height"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/addProp_takePhoto_imageView_bad"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/addProp_takePhoto_imageView_bad"
         app:layout_constraintTop_toBottomOf="@id/addProp_takePhoto_description"
-        android:layout_marginEnd="@dimen/small_margin"
-        android:src="@drawable/question_mark_blue_160" />
+        android:layout_marginRight="@dimen/small_margin"
+        android:layout_marginLeft="@dimen/small_margin"
+        android:src="@drawable/add_property_good_photo" />
 
     <TextView
         android:id="@+id/addProp_takePhoto_bad_title"
@@ -61,7 +65,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/addProp_takePhoto_good_title"
         app:layout_constraintTop_toBottomOf="@id/addProp_takePhoto_imageView_bad"
-        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/small_margin"
         android:gravity="center"
         android:fontFamily="@font/rubik_bold"
         android:textColor="@android:color/white"
@@ -74,7 +78,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/addProp_takePhoto_bad_title"
         app:layout_constraintTop_toBottomOf="@id/addProp_takePhoto_imageView_good"
-        android:layout_marginEnd="@dimen/small_margin"
+        android:layout_marginStart="@dimen/small_margin"
         android:gravity="center"
         android:fontFamily="@font/rubik_bold"
         android:textColor="@android:color/white"
@@ -88,8 +92,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/addProp_takePhoto_good_description"
         app:layout_constraintTop_toBottomOf="@id/addProp_takePhoto_bad_title"
-        android:layout_marginTop="@dimen/small_margin"
-        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/small_margin"
+        android:paddingStart="@dimen/small_margin"
+        android:layout_marginTop="@dimen/small_margin" android:textAlignment="textStart"
         android:text="@string/addProperty_takePhoto_bad_description" />
     <TextView
         android:id="@+id/addProp_takePhoto_good_description"
@@ -98,16 +103,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/addProp_takePhoto_bad_description"
         app:layout_constraintTop_toBottomOf="@id/addProp_takePhoto_good_title"
-        android:layout_marginTop="@dimen/small_margin"
-        android:layout_marginEnd="@dimen/small_margin"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginTop="@dimen/small_margin" android:textAlignment="textStart"
         android:text="@string/addProperty_takePhoto_good_description" />
 
     <Button
         android:id="@+id/addProp_takePhoto_button_professionalPhotographer"
         style="@style/AppButtonAnother"
         app:layout_constraintTop_toBottomOf="@id/addProp_takePhoto_bad_description"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/small_margin"
         android:gravity="center"
         android:text="@string/addProperty_takePhoto_button_professionalPhotographer"/>
     <TextView

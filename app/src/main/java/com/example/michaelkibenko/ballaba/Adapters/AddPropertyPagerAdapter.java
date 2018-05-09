@@ -40,8 +40,8 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (position){
-            case 0: default:
-                return AddPropLandlordFrag.newInstance(binder);
+            //case 0:
+            //    return AddPropLandlordFrag.newInstance(binder);
 
             case 1:
                 return AddPropAssetFrag.newInstance(binder);
@@ -49,14 +49,13 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
             case 2:
                 return AddPropAddonsFrag.newInstance(binder);
 
-            case 3:
+            case 3:default:
                 return AddPropPaymentsFrag.newInstance(binder);
 
             case 4:
                 return AddPropTakePhotoFrag.newInstance(binder);
 
             case 5: case 6: case 7:
-                binder.addPropertyViewPager.setOffscreenPageLimit(1);
                 return AddPropEditPhotoFrag.newInstance(binder);
         }
     }

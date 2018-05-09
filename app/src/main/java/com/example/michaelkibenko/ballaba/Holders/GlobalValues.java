@@ -11,5 +11,4 @@ public @interface GlobalValues {
     String deviceId = "device_id";
     String sessionToken = "session_token";
     String globalToken = "global_token";
-
 }

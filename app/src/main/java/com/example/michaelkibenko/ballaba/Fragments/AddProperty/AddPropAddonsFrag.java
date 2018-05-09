@@ -16,6 +16,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
+import com.example.michaelkibenko.ballaba.Holders.GlobalValues;
 import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
@@ -142,19 +143,11 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
     private void initButtons(FlowLayout flowLayout, ArrayList<PropertyAttachmentAddonEntity> items){
         BallabaPropertyFull propertyFull = BallabaSearchPropertiesManager.getInstance(context).getPropertyFull();
 
+        //TODO if user selected a property in propertyDescription, maybe propertyFull is not null although it should be!!
         for (PropertyAttachmentAddonEntity attachment : items) {
             Button chipsItem = (Button)getLayoutInflater().inflate(R.layout.chip_regular, null);
             initAttachment(chipsItem, attachment);
-
-            for (HashMap<String, String> map : propertyFull.addons)
-                if (attachment.id.equals(map.get("addon_type")))
-                    chipsItem = UiUtils.instance(false, context).onChipsButtonClick(chipsItem, (String)chipsItem.getTag());
-
-            for (String string : propertyFull.attachments)
-                if (attachment.id.equals(string))
-                    chipsItem = UiUtils.instance(false, context).onChipsButtonClick(chipsItem, (String)chipsItem.getTag());
-
-            //highlightSavedButtons(flowLayout, attachment);
+            highlightChipsUserSelectedLastTime(propertyFull, chipsItem, attachment);
 
             flowLayout.addView(chipsItem);
         }
@@ -176,6 +169,20 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         return chipsItem;
     }
 
+    private void highlightChipsUserSelectedLastTime(BallabaPropertyFull property, Button chipsItem, PropertyAttachmentAddonEntity attachment){
+        //these loops highlight chips that user had selected last time
+        if (property != null) {
+            for (HashMap<String, String> map : property.addons)
+                if (attachment.id.equals(map.get("addon_type")))
+                    chipsItem = UiUtils.instance(false, context)
+                            .onChipsButtonClick(chipsItem, (String) chipsItem.getTag());
+
+            for (String string : property.attachments)
+                if (attachment.id.equals(string))
+                    chipsItem = UiUtils.instance(false, context)
+                            .onChipsButtonClick(chipsItem, (String) chipsItem.getTag());
+        }
+    }
 
     @Override
     public void onAttach(Context context) {
