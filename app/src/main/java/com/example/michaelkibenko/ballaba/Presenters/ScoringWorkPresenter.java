@@ -1,14 +1,9 @@
 package com.example.michaelkibenko.ballaba.Presenters;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.util.Patterns;
@@ -23,6 +18,7 @@ import com.example.michaelkibenko.ballaba.Common.FinishActivityReceiver;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityScoringWorkBinding;
+
 
 /**
  * Created by User on 18/04/2018.
@@ -44,6 +40,7 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
 
         initButtons();
 
+        Intent intent = activity.getIntent();
         binder.scoringSiteEditText.setOnFocusChangeListener(this);
         binder.scoringEmailEditText.setOnFocusChangeListener(this);
     }

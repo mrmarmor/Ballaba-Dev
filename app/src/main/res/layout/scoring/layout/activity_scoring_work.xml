@@ -42,7 +42,7 @@
                 android:text="@string/scoring_work_title" />
 
             <TextView style="@style/scoring_title_textViews" android:text="@string/scoring_employmentStatus_title" />
-            <RadioGroup android:tag="employmentStatus" style="@style/scoring_buttons_container" android:checkedButton="@id/scoringButtonSelfEmployed" >
+            <RadioGroup android:tag="employmentStatus" style="@style/scoring_buttons_container" >
                 <RadioButton android:text="@string/scoring_employmentStatus_selfEmployed_button" style="@style/scoring_buttons" android:id="@+id/scoringButtonSelfEmployed" />
                 <RadioButton android:text="@string/scoring_employmentStatus_employee_button" style="@style/scoring_buttons" android:id="@+id/scoring"/>
                 <RadioButton android:text="@string/scoring_employmentStatus_both_button" style="@style/scoring_buttons" />
@@ -50,13 +50,13 @@
             </RadioGroup>
 
             <TextView style="@style/scoring_title_textViews" android:text="@string/scoring_seniority_title"/>
-            <RadioGroup android:tag="seniority" style="@style/scoring_buttons_container" android:checkedButton="@id/scoringButtonSeniority" >
+            <RadioGroup android:tag="seniority" style="@style/scoring_buttons_container">
                 <RadioButton android:text="@string/scoring_seniority_lessThanYear_button" style="@style/scoring_buttons" android:id="@+id/scoringButtonSeniority" />
                 <RadioButton android:text="@string/scoring_seniority_moreThanYear_button" style="@style/scoring_buttons" />
             </RadioGroup>
 
             <TextView style="@style/scoring_title_textViews" android:text="@string/scoring_income_title" />
-            <RadioGroup android:tag="income" style="@style/scoring_buttons_container" android:checkedButton="@id/scoringButtonIncome" >
+            <RadioGroup android:tag="income" style="@style/scoring_buttons_container">
                 <RadioButton android:text="@string/scoring_income_moreThan5k_button" style="@style/scoring_buttons" android:id="@+id/scoringButtonIncome" />
                 <RadioButton android:text="@string/scoring_income_lessThan5k_button" style="@style/scoring_buttons" />
             </RadioGroup>
