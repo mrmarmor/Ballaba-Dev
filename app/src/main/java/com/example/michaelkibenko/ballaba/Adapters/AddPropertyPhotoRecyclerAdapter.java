@@ -1,8 +1,10 @@
 package com.example.michaelkibenko.ballaba.Adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +13,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.example.michaelkibenko.ballaba.Activities.MainActivity;
+import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
@@ -48,10 +52,6 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
         AddPropertyPhotoItemBinding binder = DataBindingUtil.inflate(
                 mInflater, R.layout.add_property_photo_item, parent, false);
 
-        //List<PropertyAttachmentAddonEntity> attachments = new ArrayList<>();
-        //attachments.add(new PropertyAttachmentAddonEntity("4", "hall", "סלון"));
-        //initTags(binder.addPropEditPhotoRoomsFlowLayout, attachments, 0);
-
         return new ViewHolder(binder, binder.addPropEditPhotoImageView);
     }
 
@@ -65,13 +65,12 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
         }
 
         initTags(holder.binder.addPropEditPhotoRoomsFlowLayout, attachments, position);
+        initButtonRemovePhoto(holder, position);
     }
 
     @Override
     public int getItemCount() {
         Log.d(TAG, "property photos: " + photos.size());
-        //TODO
-        //return 1;
         return (photos == null || photos.size() == 0) ? 0 : photos.size();
     }
 
@@ -93,7 +92,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
                     String state = (String) v.getTag();
                     if (state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED) || !allChipsUnselected(flowLayout, (Button)v)){
                         UiUtils.instance(true, context).onChipsButtonClick((Button) v, state);
-                        onClickListener.chipOnClick(attachment.id, state, position);
+                        onClickListener.chipOnClick(attachment.id, position);
                     }
                 }
             });
@@ -105,7 +104,6 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
     }
 
     private boolean allChipsUnselected(FlowLayout flowLayout, Button currentButton){
-        //if (state.equals(UiUtils.ChipsButtonStates.PRESSED)){
             for (int i = 0; i < flowLayout.getChildCount(); i++){
                 Log.d(TAG, flowLayout.getChildAt(i)+":"+currentButton);
                 if (!flowLayout.getChildAt(i).equals(currentButton))
@@ -114,7 +112,51 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
             }
 
             return true;
-        //}
+    }
+
+    private void initButtonRemovePhoto(final ViewHolder holder, final int position){
+        holder.binder.addPropEditPhotoButtonClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BallabaDialogBuilder areUSureDialog = new BallabaDialogBuilder(context);
+
+                areUSureDialog.setButtons("הסרה", "ביטול", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        removePhoto(holder, position);
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                areUSureDialog.setContent("הסרת תמונה", "האם להסיר תמונה זו?", null).show();
+
+
+
+            }
+        });
+
+    }
+
+    private void removePhoto(final ViewHolder holder, final int position){
+        final Uri photoToRemove = photos.get(position);
+        photos.remove(position);
+        notifyDataSetChanged();
+        onClickListener.closeButtonOnClick(true);
+
+        Snackbar snackbar = UiUtils.instance(true, context)
+                .showSnackBar(holder.binder.getRoot(), "התמונה הוסרה")
+                .setDuration(Snackbar.LENGTH_INDEFINITE)
+                .setAction("ביטול", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        photos.add(position, photoToRemove);
+                        notifyDataSetChanged();
+                        onClickListener.closeButtonOnClick(false);
+                    }
+                });
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -131,6 +173,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
     }
 
     public interface AddPropPhotoRecyclerListener {
-        void chipOnClick(String id, String state, int position);
+        void chipOnClick(String id, int position);
+        void closeButtonOnClick(boolean isHide);
     }
 }

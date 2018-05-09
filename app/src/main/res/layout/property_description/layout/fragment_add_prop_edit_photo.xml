@@ -5,12 +5,37 @@
     <android.support.constraint.ConstraintLayout
         style="@style/allMatchParent"
         android:orientation="vertical"
+        android:layoutDirection="rtl"
         tools:context="com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropEditPhotoFrag">
+
+        <TextView
+            android:id="@+id/addProp_no_photos_title"
+            style="@style/allWrapContent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/large_margin"
+            android:textSize="@dimen/textSize_big"
+            android:textColor="@color/black"
+            android:visibility="gone"
+            android:text="@string/addProperty_editPhoto_noPhotos_title"
+            />
+        <TextView
+            android:id="@+id/addProp_no_photos_description"
+            style="@style/allWrapContent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/addProp_no_photos_title"
+            app:layout_constraintBottom_toTopOf="@id/addProp_photos_button_upload"
+            android:layout_marginBottom="92dp"
+            android:textColor="@color/gray_text_color"
+            android:visibility="gone"
+            android:text="@string/addProperty_editPhoto_noPhotos_description"
+            />
 
         <android.support.v4.widget.SwipeRefreshLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/properties_recycler_swipeToRefresh"
-            style="@style/allWrapContent"
+            style="@style/allWrapContent" android:minHeight="200dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/addProp_photos_button_upload" >
@@ -28,7 +53,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/properties_recycler_swipeToRefresh"
-            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_gravity="center"
             android:padding="@dimen/addProp_takePhoto_button_takePhoto_padding"
             android:layout_marginTop="@dimen/button_next_offset"

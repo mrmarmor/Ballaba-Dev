@@ -13,10 +13,12 @@ import android.support.annotation.StringDef;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.constraint.Guideline;
+import android.support.design.widget.Snackbar;
 import android.support.transition.TransitionManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 
@@ -148,6 +150,13 @@ public class UiUtils {
             ex.printStackTrace();
             return null;
         }
+    }
+
+    public Snackbar showSnackBar(View snackBarView, String message){
+        Snackbar snackBar = Snackbar.make(snackBarView, message, Snackbar.LENGTH_LONG);
+        snackBar.getView().setBackgroundColor(ctx.getResources().getColor(R.color.colorPrimary, ctx.getTheme()));
+        snackBar.show();
+        return snackBar;
     }
 
 }

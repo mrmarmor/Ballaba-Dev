@@ -290,7 +290,8 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
 
                 @Override
                 public void reject(BallabaBaseEntity entity) {
-                    showSnackBar();
+                    UiUtils.instance(true, context).showSnackBar(
+                            binderPay.addPropertyPaymentsRoot, "השמירה נכשלה נסה שנית מאוחר יותר");
 
                     //TODO NEXT LINE IS ONLY FOR TESTING:
                     AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(3);
@@ -463,12 +464,12 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
             UiUtils.instance(false, context).onChipsButtonClick(allIncludedBTN, UiUtils.ChipsButtonStates.PRESSED);
     }
 
-    private void showSnackBar(){
+    /*private void showSnackBar(){
         final View snackBarView = binderPay.addPropertyPaymentsRoot;
         Snackbar snackBar = Snackbar.make(snackBarView, "השמירה נכשלה נסה שנית מאוחר יותר", Snackbar.LENGTH_LONG);
         snackBar.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary, context.getTheme()));
         snackBar.show();
-    }
+    }*/
 
     @Override
     public void onAttach(Activity activity) {

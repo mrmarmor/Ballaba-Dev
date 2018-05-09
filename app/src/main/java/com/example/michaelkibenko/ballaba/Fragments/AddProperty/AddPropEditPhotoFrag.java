@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.transition.Visibility;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -91,11 +92,18 @@ public class AddPropEditPhotoFrag extends Fragment {
 
         adapter =  new AddPropertyPhotoRecyclerAdapter(context, photos, attachments, new AddPropertyPhotoRecyclerAdapter.AddPropPhotoRecyclerListener() {
             @Override
-            public void chipOnClick(String id, String state, int position) {
+            public void chipOnClick(String id, int position) {
                 Button btn = binderEditPhoto.addPropPhotosButtonUpload;
-                UiUtils.instance(true, context).buttonChanger(btn, state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED));
+                UiUtils.instance(true, context).buttonChanger(btn, true);
+            }
+
+            @Override
+            public void closeButtonOnClick(boolean isHide) {
+                binderEditPhoto.addPropNoPhotosTitle.setVisibility(isHide ? View.VISIBLE : View.GONE);
+                binderEditPhoto.addPropNoPhotosDescription.setVisibility(isHide ? View.VISIBLE : View.GONE);
             }
         });
+
         binderEditPhoto.addPropPhotosRV.setLayoutManager(linearLayoutManager);
         //binderEditPhoto.addPropPhotosRV.setHasFixedSize(true);
         binderEditPhoto.addPropPhotosRV.setAdapter(adapter);
