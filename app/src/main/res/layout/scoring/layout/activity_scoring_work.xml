@@ -44,7 +44,7 @@
             <TextView style="@style/scoring_title_textViews" android:text="@string/scoring_employmentStatus_title" />
             <RadioGroup android:tag="employmentStatus" style="@style/scoring_buttons_container" android:checkedButton="@id/scoringButtonSelfEmployed" >
                 <RadioButton android:text="@string/scoring_employmentStatus_selfEmployed_button" style="@style/scoring_buttons" android:id="@+id/scoringButtonSelfEmployed" />
-                <RadioButton android:text="@string/scoring_employmentStatus_employee_button" style="@style/scoring_buttons" />
+                <RadioButton android:text="@string/scoring_employmentStatus_employee_button" style="@style/scoring_buttons" android:id="@+id/scoring"/>
                 <RadioButton android:text="@string/scoring_employmentStatus_both_button" style="@style/scoring_buttons" />
                 <RadioButton android:text="@string/scoring_employmentStatus_unemployed_button" style="@style/scoring_buttons" />
             </RadioGroup>

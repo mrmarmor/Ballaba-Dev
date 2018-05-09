@@ -1,16 +1,8 @@
 package com.example.michaelkibenko.ballaba.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
-import android.provider.MediaStore;
-import android.support.transition.Visibility;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,31 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
-import com.example.michaelkibenko.ballaba.Common.BallabaPropertyListener;
-import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
-import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
-import com.example.michaelkibenko.ballaba.Fragments.PropertyImageFragment;
-import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
-import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
-import com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter;
-import com.example.michaelkibenko.ballaba.Presenters.PropertyItemPresenter;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.AddPropertyPhotoItemBinding;
-import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropEditPhotoBinding;
-import com.example.michaelkibenko.ballaba.databinding.PropertyItemBinding;
 import com.nex3z.flowlayout.FlowLayout;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
