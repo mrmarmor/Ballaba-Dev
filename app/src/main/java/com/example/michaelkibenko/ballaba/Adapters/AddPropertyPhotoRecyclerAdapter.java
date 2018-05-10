@@ -68,24 +68,8 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
         if (photos.size() > 0) {
             //TODO what if user photos are too large image (>40960px*4096px)??
-            Cursor cur = context.getContentResolver().query(photos.get(position), orientations, null, null, null);
-            int orientation = -1;
-            if (cur != null && cur.moveToFirst()) {
-                orientation = cur.getInt(cur.getColumnIndex(orientations[0]));
-            }
-            cur.close();
+            adjustPhotoOrientation(holder.binder.addPropEditPhotoImageView, photos.get(position));
 
-            Matrix matrix = new Matrix();
-            matrix.postRotate(orientation);
-
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(
-                        context.getContentResolver(), photos.get(position));
-                Bitmap bmp = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-                holder.binder.addPropEditPhotoImageView.setImageBitmap(bmp);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
 
         initTags(holder.binder.addPropEditPhotoRoomsFlowLayout, attachments, position);
@@ -118,11 +102,11 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
                     String state = (String) v.getTag();
                     if (state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED) || !allChipsUnselected(flowLayout, (Button)v)){
                         UiUtils.instance(true, context).onChipsButtonClick((Button) v, state);
-                        onClickListener.chipOnClick(attachment.id, position);
+                        if (allChipsUnselected(flowLayout, (Button)v))//set button "upload photo" active only if chip of current photo selected
+                            onClickListener.chipOnClick(attachment.id, position);
                     }
                 }
             });
-            //highlightSavedButtons(flowLayout, attachment);
 
             flowLayout.addView(chipsItem);
         }
@@ -170,17 +154,37 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
         notifyDataSetChanged();
         onClickListener.closeButtonOnClick(true);
 
-        Snackbar snackbar = UiUtils.instance(true, context)
-                .showSnackBar(holder.binder.getRoot(), "התמונה הוסרה")
-                .setDuration(SNACK_BAR_DURATION)
-                .setAction("ביטול", new View.OnClickListener() {
+        UiUtils.instance(true, context)
+               .showSnackBar(holder.binder.getRoot(), context.getString(R.string.addProperty_editPhoto_removePhoto_message))
+               .setDuration(SNACK_BAR_DURATION)
+               .setAction(context.getString(R.string.addProperty_editPhoto_removePhoto_undo), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        photos.add(position, photoToRemove);
-                        notifyDataSetChanged();
-                        onClickListener.closeButtonOnClick(false);
-                    }
+                       photos.add(/*position, */photoToRemove);//TODO photo returned to end of list. if we want to return it to its original position, set the index here
+                       notifyDataSetChanged();
+                       onClickListener.closeButtonOnClick(false);
+                   }
                 });
+    }
+
+    private void adjustPhotoOrientation(ImageView imageView, Uri photo){
+        Cursor cur = context.getContentResolver().query(photo, orientations, null, null, null);
+        int orientation = -1;
+        if (cur != null && cur.moveToFirst()) {
+            orientation = cur.getInt(cur.getColumnIndex(orientations[0]));
+        }
+        cur.close();
+
+        Matrix matrix = new Matrix();
+        matrix.postRotate(orientation);
+
+        try {
+            Bitmap bmp = MediaStore.Images.Media.getBitmap(context.getContentResolver(), photo);
+            Bitmap bitmap = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+            imageView.setImageBitmap(bitmap);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void setImageOrientation(String[] orientations){

@@ -32,7 +32,6 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
     //private Context context;
     private ActivityAddPropertyBinding binder;
     private FragmentManager fm;
-    private Uri photo;
     private AddPropEditPhotoFrag addPropEditPhotoFrag;
 
     public AddPropertyPagerAdapter(ActivityAddPropertyBinding binder, FragmentManager fm) {
@@ -41,18 +40,12 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
         this.binder = binder;
     }
 
-    public AddPropertyPagerAdapter(ActivityAddPropertyBinding binder, FragmentManager fm, Uri photo) {
-        super(fm);
-        addPropEditPhotoFrag = AddPropEditPhotoFrag.newInstance(binder/*, photo*/);
-        this.binder = binder;
-        this.photo = photo;
-    }
-
+    //AddPropEditPhotoFrag needs also a photo, so i need to return it with a bundle.
     public void setData(Uri photo, String[] orientations){
         Bundle bundle = new Bundle();
-        bundle.putString("PHOTO" , photo.toString());
-        bundle.putStringArray("ORIENTATIONS", orientations);
-        addPropEditPhotoFrag = new AddPropEditPhotoFrag();//AddPropEditPhotoFrag.newInstance(binder, photo);
+        bundle.putString(AddPropEditPhotoFrag.PHOTO , photo.toString());
+        bundle.putStringArray(AddPropEditPhotoFrag.ORIENTATIONS, orientations);
+        addPropEditPhotoFrag = new AddPropEditPhotoFrag();
         addPropEditPhotoFrag.setArguments(bundle);
     }
 
@@ -75,9 +68,7 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
             case 4:
                 return AddPropTakePhotoFrag.newInstance(binder);
 
-            case 5:
-            case 6:
-            case 7:
+            case 5: case 6: case 7:
                 return addPropEditPhotoFrag;
         }
     }

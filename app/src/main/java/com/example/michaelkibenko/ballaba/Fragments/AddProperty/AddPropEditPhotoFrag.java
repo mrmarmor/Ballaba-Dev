@@ -39,6 +39,7 @@ import static com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropTa
 
 public class AddPropEditPhotoFrag extends Fragment {
     private final String TAG = AddPropEditPhotoFrag.class.getSimpleName();
+    public static String PHOTO = "photo", ORIENTATIONS = "orientations";
 
     private Context context;
     private static ActivityAddPropertyBinding binderMain;
@@ -50,11 +51,7 @@ public class AddPropEditPhotoFrag extends Fragment {
     public AddPropEditPhotoFrag() {}
     public static AddPropEditPhotoFrag newInstance(ActivityAddPropertyBinding binding/*, String photo*/) {
         AddPropEditPhotoFrag fragment = new AddPropEditPhotoFrag();
-        /*Bundle args = new Bundle();
-        args.putString("b", photo);//ARG_PARAM1, param1);
-        fragment.setArguments(args);*/
         binderMain = binding;
-        //photo = photo;
 
         return fragment;
     }
@@ -63,20 +60,14 @@ public class AddPropEditPhotoFrag extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binderEditPhoto = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_add_prop_edit_photo, container, false);
-        binderEditPhoto.addPropPhotosButtonUpload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CODE_CAMERA);
-            }
-        });
 
-        //photos = new ArrayList<>();
-        Bundle b = getArguments();
-        Object o = b.get("PHOTO");
-        photos.add(Uri.parse(getArguments().get("PHOTO").toString()));
-        this.orientations = getArguments().getStringArray("ORIENTATIONS");
+        if (getArguments() != null) {
+            photos.add(Uri.parse(getArguments().get(PHOTO) + ""));
+            this.orientations = getArguments().getStringArray(ORIENTATIONS);
+        }
 
         initRecyclerView(getActivity());
+        initButtons();
 
         return binderEditPhoto.getRoot();
     }
@@ -92,7 +83,11 @@ public class AddPropEditPhotoFrag extends Fragment {
 
         if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK && imageIntent != null){
             String[] orientationColumn = {MediaStore.Images.Media.ORIENTATION};
-            addPhoto(context, imageIntent.getData(), orientationColumn);
+            photos.add(imageIntent.getData());
+            this.orientations = orientationColumn;
+            UiUtils.instance(true, context).buttonChanger(binderEditPhoto.addPropPhotosButtonUpload, false);
+
+            adapter.notifyItemInserted(photos.size() - 1);
         }
     }
 
@@ -124,13 +119,13 @@ public class AddPropEditPhotoFrag extends Fragment {
         binderEditPhoto.addPropPhotosRV.setAdapter(adapter);
     }
 
-    public void addPhoto(Context context, Uri photo, String[] orientations) {
-        photos.add(photo);
-        this.orientations = orientations;
-        //if (adapter == null)
-            //initRecyclerView(context);
-
-        adapter.notifyItemInserted(photos.size() - 1);
+    private void initButtons(){
+        binderEditPhoto.addPropPhotosButtonUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CODE_CAMERA);
+            }
+        });
     }
 
     @Override
