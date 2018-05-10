@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Adapters.AddPropertyPagerAdapter;
 import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
@@ -69,12 +70,15 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
         //        getActivity(), requestCode, resultCode, imageIntent);
        // AddPropEditPhotoFrag.newInstance(binderMain)
         //        .onActivityResult(requestCode, resultCode, imageIntent);
-        if (resultCode == RESULT_OK && imageIntent != null){
+        if (resultCode == RESULT_OK && imageIntent != null && imageIntent.getData() != null){
             if (requestCode == REQUEST_CODE_CAMERA) {
                 String[] orientationColumn = {MediaStore.Images.Media.ORIENTATION};
-                AddPropertyPresenter.getInstance((AppCompatActivity) getActivity(), binderMain).onNextViewPagerItem(4);
-                AddPropEditPhotoFrag.newInstance(binderMain).addPhoto(
-                        getActivity(), imageIntent.getData(), orientationColumn);
+
+                ((AddPropertyPagerAdapter)binderMain.addPropertyViewPager.getAdapter())
+                        .setData(imageIntent.getData(), orientationColumn);
+                AddPropertyPresenter.getInstance((AppCompatActivity)getActivity(), binderMain).onNextViewPagerItem(4);
+                //AddPropEditPhotoFrag.newInstance(binderMain).addPhoto(
+                //        getActivity(), imageIntent.getData(), orientationColumn);
             }
         }
     }

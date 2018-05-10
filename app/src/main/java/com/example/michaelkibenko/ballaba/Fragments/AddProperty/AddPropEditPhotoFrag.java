@@ -48,9 +48,13 @@ public class AddPropEditPhotoFrag extends Fragment {
     private String[] orientations;
 
     public AddPropEditPhotoFrag() {}
-    public static AddPropEditPhotoFrag newInstance(ActivityAddPropertyBinding binding) {
+    public static AddPropEditPhotoFrag newInstance(ActivityAddPropertyBinding binding/*, String photo*/) {
         AddPropEditPhotoFrag fragment = new AddPropEditPhotoFrag();
+        /*Bundle args = new Bundle();
+        args.putString("b", photo);//ARG_PARAM1, param1);
+        fragment.setArguments(args);*/
         binderMain = binding;
+        //photo = photo;
 
         return fragment;
     }
@@ -65,6 +69,12 @@ public class AddPropEditPhotoFrag extends Fragment {
                 startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CODE_CAMERA);
             }
         });
+
+        //photos = new ArrayList<>();
+        Bundle b = getArguments();
+        Object o = b.get("PHOTO");
+        photos.add(Uri.parse(getArguments().get("PHOTO").toString()));
+        this.orientations = getArguments().getStringArray("ORIENTATIONS");
 
         initRecyclerView(getActivity());
 
@@ -81,7 +91,8 @@ public class AddPropEditPhotoFrag extends Fragment {
         super.onActivityResult(requestCode, resultCode, imageIntent);
 
         if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK && imageIntent != null){
-            addPhoto(context, imageIntent.getData(), orientations);
+            String[] orientationColumn = {MediaStore.Images.Media.ORIENTATION};
+            addPhoto(context, imageIntent.getData(), orientationColumn);
         }
     }
 
@@ -117,7 +128,7 @@ public class AddPropEditPhotoFrag extends Fragment {
         photos.add(photo);
         this.orientations = orientations;
         //if (adapter == null)
-            initRecyclerView(context);
+            //initRecyclerView(context);
 
         adapter.notifyItemInserted(photos.size() - 1);
     }

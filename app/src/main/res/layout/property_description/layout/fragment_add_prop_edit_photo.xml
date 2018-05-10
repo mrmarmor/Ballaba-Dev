@@ -2,6 +2,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <android.support.constraint.ConstraintLayout
         style="@style/allMatchParent"
         android:orientation="vertical"
@@ -26,7 +29,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/addProp_no_photos_title"
             app:layout_constraintBottom_toTopOf="@id/addProp_photos_button_upload"
-            android:layout_marginBottom="92dp"
+            android:paddingBottom="132dp"
             android:textColor="@color/gray_text_color"
             android:visibility="gone"
             android:text="@string/addProperty_editPhoto_noPhotos_description"
@@ -35,7 +38,7 @@
         <android.support.v4.widget.SwipeRefreshLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/properties_recycler_swipeToRefresh"
-            style="@style/allWrapContent" android:minHeight="200dp"
+            style="@style/allWrapContent" android:minHeight="400dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/addProp_photos_button_upload" >
@@ -62,4 +65,5 @@
             android:text="@string/addProperty_editPhoto_button_takePhoto" />
 
     </android.support.constraint.ConstraintLayout>
+    </ScrollView>
 </layout>

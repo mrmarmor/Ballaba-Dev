@@ -94,18 +94,20 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
     @Override
     public int getItemCount() {
-        Log.d(TAG, "property photos: " + photos.size());
+        Log.d(TAG, "property photos: " + photos.size()+" attachs: "+attachments.size());
         return (photos == null || photos.size() == 0) ? 0 : photos.size();
     }
 
     private void initTags(final FlowLayout flowLayout, List<PropertyAttachmentAddonEntity> items, final int position){
+        //flowLayout.removeAllViewsInLayout();
+
         for (final PropertyAttachmentAddonEntity attachment : items) {
             Button chipsItem = (Button)mInflater.inflate(R.layout.chip_regular, null);
-            if(chipsItem.getTag() != null) {
+            if (chipsItem.getTag() != null) {
                 if (!chipsItem.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
                     chipsItem.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
                 }
-            }else{
+            } else {
                 chipsItem.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
             }
 
@@ -160,8 +162,9 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
         });
 
     }
-
+    //properties_recycler_swipeToRefresh
     private void removePhoto(final ViewHolder holder, final int position){
+        final int SNACK_BAR_DURATION = 5000;//ms
         final Uri photoToRemove = photos.get(position);
         photos.remove(position);
         notifyDataSetChanged();
@@ -169,7 +172,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
         Snackbar snackbar = UiUtils.instance(true, context)
                 .showSnackBar(holder.binder.getRoot(), "התמונה הוסרה")
-                .setDuration(Snackbar.LENGTH_INDEFINITE)
+                .setDuration(SNACK_BAR_DURATION)
                 .setAction("ביטול", new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

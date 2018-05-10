@@ -1,6 +1,8 @@
 package com.example.michaelkibenko.ballaba.Adapters;
 
 import android.content.Context;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -30,6 +32,8 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
     //private Context context;
     private ActivityAddPropertyBinding binder;
     private FragmentManager fm;
+    private Uri photo;
+    private AddPropEditPhotoFrag addPropEditPhotoFrag;
 
     public AddPropertyPagerAdapter(ActivityAddPropertyBinding binder, FragmentManager fm) {
         super(fm);
@@ -37,9 +41,24 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
         this.binder = binder;
     }
 
+    public AddPropertyPagerAdapter(ActivityAddPropertyBinding binder, FragmentManager fm, Uri photo) {
+        super(fm);
+        addPropEditPhotoFrag = AddPropEditPhotoFrag.newInstance(binder/*, photo*/);
+        this.binder = binder;
+        this.photo = photo;
+    }
+
+    public void setData(Uri photo, String[] orientations){
+        Bundle bundle = new Bundle();
+        bundle.putString("PHOTO" , photo.toString());
+        bundle.putStringArray("ORIENTATIONS", orientations);
+        addPropEditPhotoFrag = new AddPropEditPhotoFrag();//AddPropEditPhotoFrag.newInstance(binder, photo);
+        addPropEditPhotoFrag.setArguments(bundle);
+    }
+
     @Override
     public Fragment getItem(int position) {
-        switch (position){
+        switch (position) {
             //case 0:
             //    return AddPropLandlordFrag.newInstance(binder);
 
@@ -49,14 +68,17 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
             case 2:
                 return AddPropAddonsFrag.newInstance(binder);
 
-            case 3:default:
+            case 3:
+            default:
                 return AddPropPaymentsFrag.newInstance(binder);
 
             case 4:
                 return AddPropTakePhotoFrag.newInstance(binder);
 
-            case 5: case 6: case 7:
-                return AddPropEditPhotoFrag.newInstance(binder);
+            case 5:
+            case 6:
+            case 7:
+                return addPropEditPhotoFrag;
         }
     }
 
