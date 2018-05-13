@@ -27,7 +27,9 @@ import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.zip.Inflater;
 
@@ -151,6 +153,28 @@ public class UiUtils {
             ex.printStackTrace();
             return null;
         }
+    }
+
+    public byte[] uriToBytes(Uri uri) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        try {
+            InputStream inputStream = ctx.getContentResolver().openInputStream(uri);
+
+            baos = new ByteArrayOutputStream();
+            int bufferSize = 1024;
+            byte[] buffer = new byte[bufferSize];
+
+            int len = 0;
+            while ((len = inputStream.read(buffer)) != -1) {
+                baos.write(buffer, 0, len);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return baos.toByteArray();
     }
 
     public Snackbar showSnackBar(View snackBarView, String message){

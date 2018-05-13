@@ -59,7 +59,7 @@
                 <EditText
                     android:id="@+id/addProp_aptNo_editText"
                     android:layout_width="@dimen/addProperty_editText_short_width"
-                    android:tag="apartment"
+                    android:tag="appartment"
                     style="@style/add_property_editTexts_with_number"
                     android:hint="@string/addProperty_asset_hint" />
 

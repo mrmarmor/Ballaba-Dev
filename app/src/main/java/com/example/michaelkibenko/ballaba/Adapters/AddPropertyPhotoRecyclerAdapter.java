@@ -8,9 +8,11 @@ import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +30,7 @@ import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropEditPhoto
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.AddPropertyPhotoItemBinding;
@@ -56,14 +59,27 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
     private List<PropertyAttachmentAddonEntity> attachments = new ArrayList<>();
     private String[] orientations;
     private AddPropPhotoRecyclerListener onClickListener;
+    private AddPropPhotoFinishListener onFinishListener;
 
     public AddPropertyPhotoRecyclerAdapter(){}
+    /*public AddPropertyPhotoRecyclerAdapter(Context context, AddPropPhotoFinishListener listener){
+        this.context = context;
+        this.onFinishListener = listener;
+    }*/
+
     public AddPropertyPhotoRecyclerAdapter(Context mContext, List<Uri> photos, List<PropertyAttachmentAddonEntity> attachments
             , AddPropPhotoRecyclerListener listener) {
         this.context = mContext;
         this.photos = photos;
         this.attachments = attachments;
         this.onClickListener = listener;
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+
+        this.onFinishListener = (AddPropPhotoFinishListener)recyclerView.getContext();
     }
 
     @Override
@@ -109,10 +125,9 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
     }
 
     private void initTags(final FlowLayout flowLayout, List<PropertyAttachmentAddonEntity> items, final int position){
-        Log.d(TAG, flowLayout.getChildCount()+"");
         flowLayout.removeAllViewsInLayout();
         flowLayout.invalidate();
-        Log.d(TAG, flowLayout.getChildCount()+"");
+        Log.d(TAG, "tags number: " + flowLayout.getChildCount());
 
         for (final PropertyAttachmentAddonEntity attachment : items) {
             Button chipsItem = (Button)mInflater.inflate(R.layout.chip_regular, null);
@@ -141,6 +156,8 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
                             }
                         }
                     }
+
+                    onFinishListener.onFinish(getData(context, new JSONObject()));
                 }
             });
 
@@ -150,14 +167,14 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
     }
 
     private boolean allChipsUnselected(FlowLayout flowLayout, Button currentButton){
-            for (int i = 0; i < flowLayout.getChildCount(); i++){
-                Log.d(TAG, flowLayout.getChildAt(i)+":"+currentButton);
-                if (!flowLayout.getChildAt(i).equals(currentButton))
-                    if (flowLayout.getChildAt(i).getTag().equals(UiUtils.ChipsButtonStates.PRESSED))
-                        return false;
-            }
+        for (int i = 0; i < flowLayout.getChildCount(); i++){
+            Log.d(TAG, flowLayout.getChildAt(i)+":"+currentButton);
+            if (!flowLayout.getChildAt(i).equals(currentButton))
+                if (flowLayout.getChildAt(i).getTag().equals(UiUtils.ChipsButtonStates.PRESSED))
+                    return false;
+        }
 
-            return true;
+        return true;
     }
 
     private void initButtonRemovePhoto(final ViewHolder holder, final int position){
@@ -191,15 +208,15 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
         onClickListener.onClickRemovePhoto(true);
 
         UiUtils.instance(true, context)
-               .showSnackBar(holder.binder.getRoot(), context.getString(R.string.addProperty_editPhoto_removePhoto_message))
-               .setDuration(SNACK_BAR_DURATION)
-               .setAction(context.getString(R.string.addProperty_editPhoto_removePhoto_undo), new View.OnClickListener() {
+                .showSnackBar(holder.binder.getRoot(), context.getString(R.string.addProperty_editPhoto_removePhoto_message))
+                .setDuration(SNACK_BAR_DURATION)
+                .setAction(context.getString(R.string.addProperty_editPhoto_removePhoto_undo), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       photos.add(/*position, */photoToRemove);//TODO photo returned to end of list. if we want to return it to its original position, set the index here
-                       notifyDataSetChanged();
-                       onClickListener.onClickRemovePhoto(false);
-                   }
+                        photos.add(/*position, */photoToRemove);//TODO photo returned to end of list. if we want to return it to its original position, set the index here
+                        notifyDataSetChanged();
+                        onClickListener.onClickRemovePhoto(false);
+                    }
                 });
     }
 
@@ -225,25 +242,24 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
         }
     }
 
-    public JSONObject getData(JSONObject jsonObject){
+    public JSONObject getData(Context context, JSONObject jsonObject){
+        byte[] photo = UiUtils.instance(true, context).uriToBytes(photos.get(photos.size() - 1));
         try {
             JSONObject innerObject = new JSONObject();
             JSONArray innerArrayTags = new JSONArray();
-            String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, "502");//"-1");
+            String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, "-1");
 
             jsonObject.put("step", "photos");
             jsonObject.put("property_id", Integer.parseInt(propertyId));
 
-            //for (Uri photo : photos) {
-            //ArrayList<String> tags = new ArrayList<>();
-                FlowLayout tagsParent = holder.binder.addPropEditPhotoRoomsFlowLayout;
-                for (int i = 0; i < tagsParent.getChildCount(); i++){
-                    if (tagsParent.getChildAt(i).getTag().equals(UiUtils.ChipsButtonStates.PRESSED))
-                        innerArrayTags.put(((Button)tagsParent.getChildAt(i)).getText().toString());
-                        //tags.add(((Button)tagsParent.getChildAt(i)).getText().toString());
-                }
+            FlowLayout tagsParent = holder.binder.addPropEditPhotoRoomsFlowLayout;
+            for (int i = 0; i < tagsParent.getChildCount(); i++){
+                if (tagsParent.getChildAt(i).getTag().equals(UiUtils.ChipsButtonStates.PRESSED))
+                    innerArrayTags.put(((Button)tagsParent.getChildAt(i)).getText().toString());
+            }
+
             innerObject.put("tags", innerArrayTags);
-            innerObject.put("image", photos.get(photos.size() - 1).toString());
+            innerObject.put("image", Base64.encodeToString(photo, Base64.DEFAULT));
             jsonObject.put("data", innerObject);
             //}
             return jsonObject;
@@ -274,6 +290,10 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
     public interface AddPropPhotoRecyclerListener {
         void onClickChip(String id, int position);
         void onClickRemovePhoto(boolean isHide);
+    }
+
+    public interface AddPropPhotoFinishListener {
+        void onFinish(JSONObject jsonObject);
     }
 
 }

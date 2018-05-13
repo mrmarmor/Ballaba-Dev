@@ -5,10 +5,12 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginStart="@dimen/small_margin"
-        android:layout_marginEnd="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/small_margin" >
+<!--
         android:layout_marginTop="?attr/actionBarSize"
-        android:layoutDirection="rtl">
+-->
 
         <ImageView
             android:id="@+id/addProp_editPhoto_imageView"
@@ -50,6 +52,7 @@
             app:layout_constraintStart_toStartOf="parent"
             android:paddingStart="@dimen/small_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/small_margin"
             android:textSize="@dimen/textSize_tiny"
             android:textColor="@color/red_error_phone"
             android:text="@string/addProperty_editPhoto_error_message" />

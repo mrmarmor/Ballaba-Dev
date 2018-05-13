@@ -752,21 +752,27 @@ public class ConnectionsManager{
 
     }
 
-    public void uploadProperty(JSONObject propertyData, final BallabaResponseListener callback) {
-
+    public void uploadProperty(final JSONObject propertyData, final BallabaResponseListener callback) {
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(POST, EndpointsHolder.PROPERTY, propertyData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
                     if (response.has("id")) {
-                        Date now = new Date(Calendar.getInstance().getTimeInMillis());
-                        String nowStr = StringUtils.getInstance(true, context).dateToString(now);
-
                         SharedPreferencesManager.getInstance(context).putString(
                                 SharedPreferencesKeysHolder.PROPERTY_ID, response.get("id").toString());
-                        SharedPreferencesManager.getInstance(context).putString(
-                                SharedPreferencesKeysHolder.PROPERTY_UPLOAD_DATE, nowStr);
                     }
+
+                    ///// TODO in step "photos", response has photo_id with key "id" instead of "photo_id"
+                    //TODO and property_id with key "property_id" instead of "id". after first version it will be fixed
+                    if (response.has("property_id"))
+                        SharedPreferencesManager.getInstance(context).putString(
+                                SharedPreferencesKeysHolder.PROPERTY_ID, response.get("property_id").toString());
+                    /////
+
+                    Date now = new Date(Calendar.getInstance().getTimeInMillis());
+                    String nowStr = StringUtils.getInstance(true, context).dateToString(now);
+                    SharedPreferencesManager.getInstance(context).putString(
+                            SharedPreferencesKeysHolder.PROPERTY_UPLOAD_DATE, nowStr);
 
                     callback.resolve(new BallabaBaseEntity());
                 } catch (JSONException e) {

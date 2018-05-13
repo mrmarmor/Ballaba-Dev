@@ -4,6 +4,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,12 +19,15 @@ import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 
 import org.json.JSONObject;
 
-public class AddPropertyActivity extends AppCompatActivity {
+public class AddPropertyActivity extends AppCompatActivity
+        implements AddPropertyPhotoRecyclerAdapter.AddPropPhotoFinishListener {
+
     private final static String TAG = AddPropertyActivity.class.getSimpleName();
 
     //private AddPropertyPresenter presenter;
@@ -97,14 +101,14 @@ public class AddPropertyActivity extends AppCompatActivity {
                         conn.uploadProperty(photosJson, new BallabaResponseListener() {
                             @Override
                             public void resolve(BallabaBaseEntity entity) {
-                                Log.d(TAG, "success");
+                                Log.d(TAG, "upload property photo: success");
                                 AddPropertyPresenter.getInstance(AddPropertyActivity.this, binder)
                                         .onNextViewPagerItem(5);
                             }
 
                             @Override
                             public void reject(BallabaBaseEntity entity) {
-                                Log.e(TAG, "failure");
+                                Log.e(TAG, "upload property photo: failure");
                             }
                         });
 
@@ -114,7 +118,8 @@ public class AddPropertyActivity extends AppCompatActivity {
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
 
-    public void updatePhotoData(JSONObject jsonObject) {
+    @Override
+    public void onFinish(JSONObject jsonObject) {
         this.photosJson = jsonObject;
     }
 

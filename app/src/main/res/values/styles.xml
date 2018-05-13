@@ -216,6 +216,11 @@
         <item name="android:calendarTextColor">@android:color/white</item>
     </style>
 
+    <style name="MyCalendarViewTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+    </style>
+
     <style name="subTextView" parent="allWrapContent">
         <item name="android:text">@string/addProperty_payments_sub</item>
         <item name="android:textSize">@dimen/textSize_small</item>

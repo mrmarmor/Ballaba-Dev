@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import com.example.michaelkibenko.ballaba.Adapters.AddPropertyPhotoRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
+import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
@@ -53,7 +54,7 @@ public class AddPropEditPhotoFrag extends Fragment {
     private AddPropertyPhotoRecyclerAdapter adapter;
     private List<Uri> photos = new ArrayList<>();
     private String[] orientations;
-    private JSONObject photosJson;
+    //private JSONObject photosJson;
     private ButtonUploadPhotoListener onClickListener;
 
     public AddPropEditPhotoFrag() {}
@@ -104,9 +105,7 @@ public class AddPropEditPhotoFrag extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         //linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        List<PropertyAttachmentAddonEntity> attachments = new ArrayList<>();
-        attachments.add(new PropertyAttachmentAddonEntity("4", "hall", "סלון"));
-        attachments.add(new PropertyAttachmentAddonEntity("5", "toilets", "שירותים"));
+        List<PropertyAttachmentAddonEntity> attachments = PropertyAttachmentsAddonsHolder.getInstance().getPhotoTags();
 
         adapter =  new AddPropertyPhotoRecyclerAdapter(context, photos, attachments, new AddPropertyPhotoRecyclerAdapter.AddPropPhotoRecyclerListener() {
             @Override
@@ -138,8 +137,7 @@ public class AddPropEditPhotoFrag extends Fragment {
             @Override
             public void onClick(View v) {
                 if (!photos.isEmpty())
-                    sendPhotoToServer(adapter.getData(new JSONObject()));
-                    //sendPhotoToServer(photosJson);
+                    sendPhotoToServer(adapter.getData(context, new JSONObject()));
 
                 startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CODE_CAMERA);
             }
@@ -154,7 +152,7 @@ public class AddPropEditPhotoFrag extends Fragment {
         if (photoJson == null)
             return;
 
-        ConnectionsManager.getInstance(context).uploadProperty(photosJson, new BallabaResponseListener() {
+        ConnectionsManager.getInstance(context).uploadProperty(photoJson, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 //TODO update property updating date on SharedPrefs??
@@ -167,6 +165,8 @@ public class AddPropEditPhotoFrag extends Fragment {
             public void reject(BallabaBaseEntity entity) {
                 UiUtils.instance(true, context).showSnackBar(
                         binderEditPhoto.getRoot(), "השמירה נכשלה נסה שנית מאוחר יותר");
+
+                //TODO draw x on photo
 
                 //TODO NEXT LINE IS ONLY FOR TESTING:
                 //AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(5);

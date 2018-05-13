@@ -30,15 +30,20 @@ import java.util.HashMap;
 
 public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
     private final String TAG = FilterPagerAdapter.class.getSimpleName();
-    //private Context context;
-    private ActivityAddPropertyBinding binder;
+
     private FragmentManager fm;
+    private Fragment[] fragments;
     private AddPropEditPhotoFrag addPropEditPhotoFrag;
 
     public AddPropertyPagerAdapter(ActivityAddPropertyBinding binder, FragmentManager fm) {
         super(fm);
 
-        this.binder = binder;
+        fragments = new Fragment[]{
+                  AddPropLandlordFrag.newInstance(binder), AddPropAssetFrag.newInstance(binder)
+                , AddPropAddonsFrag.newInstance(binder), AddPropPaymentsFrag.newInstance(binder)
+                , AddPropTakePhotoFrag.newInstance(binder), addPropEditPhotoFrag
+                , AddPropMeetingsFrag.newInstance(binder)};
+//        this.binder = binder;
     }
 
     //AddPropEditPhotoFrag needs also a photo, so i need to return it with a bundle.
@@ -48,21 +53,24 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
         bundle.putStringArray(AddPropEditPhotoFrag.ORIENTATIONS, orientations);
         addPropEditPhotoFrag = new AddPropEditPhotoFrag();
         addPropEditPhotoFrag.setArguments(bundle);
+        fragments[5] = addPropEditPhotoFrag;
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch (position) {
+        return fragments[position];
+
+        //switch (position) {
             //case 0:
             //    return AddPropLandlordFrag.newInstance(binder);
 
-            case 1:
-                return AddPropAssetFrag.newInstance(binder);
+            //case 1:
+                //return AddPropAssetFrag.newInstance(binder);
 
-            case 2:
+           /* case 2:
                 return AddPropAddonsFrag.newInstance(binder);
 
-            case 3:
+            case 3: default: //TODO
                 return AddPropPaymentsFrag.newInstance(binder);
 
             case 4:
@@ -71,9 +79,9 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
             case 5:
                 return addPropEditPhotoFrag;
 
-            case 6: default: //TODO
+            case 6:
                 return AddPropMeetingsFrag.newInstance(binder);
-        }
+        }*/
     }
 
     @Override

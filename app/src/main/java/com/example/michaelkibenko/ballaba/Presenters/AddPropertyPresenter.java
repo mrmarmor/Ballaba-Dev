@@ -25,10 +25,10 @@ public class AddPropertyPresenter {
     private AppCompatActivity activity;
     private static AddPropertyPresenter instance;
     private ActivityAddPropertyBinding binder;
-    private ViewGroup root;
-    private BottomSheetDialog bottomSheetDialog;
+    //private ViewGroup root;
+    //private BottomSheetDialog bottomSheetDialog;
     private AddPropertyPagerAdapter addPropertyPagerAdapter;
-    private HashMap<String, String> data = new HashMap<>();
+    //private HashMap<String, String> data = new HashMap<>();
 
     public AddPropertyPresenter(){}
     public AddPropertyPresenter(AppCompatActivity activity, ActivityAddPropertyBinding binding) {
@@ -37,6 +37,11 @@ public class AddPropertyPresenter {
 
         addPropertyPagerAdapter = new AddPropertyPagerAdapter(binder, activity.getSupportFragmentManager());
         binder.addPropertyViewPager.setAdapter(addPropertyPagerAdapter);
+
+        //TODO testing
+        binding.addPropertyViewPager.setCurrentItem(3);
+        //TODO end of testing
+
         binder.addPropertyViewPager.setOffscreenPageLimit(0);
     }
 

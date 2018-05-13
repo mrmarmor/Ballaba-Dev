@@ -148,7 +148,7 @@ public class AddPropAssetFrag extends Fragment {
         map.put("is_extendable", binderAsset.addPropertyRentalPeriodOptionTextView.isChecked()+"");
 
         //TODO maybe marik needs a dummy zip code
-        // map.put("zip_code", "00000");
+        map.put("zip_code", "8060000");
 
         return map;
     }
@@ -164,7 +164,7 @@ public class AddPropAssetFrag extends Fragment {
         return (property != null &&
                 map.get("city").equals(property.city) &&
                 map.get("street").equals(property.street) &&
-                map.get("apartment").equals(property.street_number) &&//TODO marik wrote "appartment" which is typo error
+                map.get("appartment").equals(property.street_number) &&//TODO marik wrote "appartment" which is typo error
                 map.get("floor").equals(property.floor) &&
                 map.get("max_floor").equals(property.max_floor) &&
                 map.get("rooms").equals(property.roomsNumber) &&
