@@ -49,6 +49,7 @@ public class AddPropAssetFrag extends Fragment {
     private Context context;
     private static ActivityAddPropertyBinding binderMain;
     private FragmentAddPropAssetBinding binderAsset;
+    private boolean areAllDataFieldsFilledUp = true;
     //private TextView yearTextView;
 
     public AddPropAssetFrag() {}
@@ -69,7 +70,7 @@ public class AddPropAssetFrag extends Fragment {
             @Override
             public void onClick(View v) {
                 final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
-                if (!isDataEqual(data))
+                if (areAllDataFieldsFilledUp && !isDataEqual(data))
 
                     ConnectionsManager.getInstance(context).uploadProperty(jsonParse(data, "create"), new BallabaResponseListener() {
                         @Override
@@ -123,13 +124,18 @@ public class AddPropAssetFrag extends Fragment {
     }
 
     private HashMap<String, String> getDataFromEditTexts(HashMap<String, String> map){
+        areAllDataFieldsFilledUp = true;
         LinearLayout root = binderAsset.addPropertyLocationRoot;
         for (int i = 0; i < root.getChildCount(); i++) {
             try {
                 for (int j = 0; j < ((ViewGroup)root.getChildAt(i)).getChildCount(); j++) {
                     View v = ((ViewGroup)root.getChildAt(i)).getChildAt(j);
                     if (v instanceof EditText) {
-                        map.put(v.getTag() + "", ((EditText) v).getText() + "");
+                        String input = ((EditText) v).getText().toString();
+                        if (input.equals(""))
+                            areAllDataFieldsFilledUp = false;
+                        else
+                            map.put(v.getTag() + "", input);
                     }
                 }
             } catch (ClassCastException e){
@@ -175,8 +181,17 @@ public class AddPropAssetFrag extends Fragment {
         try {
             jsonObject.put("step", step);
             JSONObject innerObject = new JSONObject();
+
+            //TODO here is a loop. if it is too complicated for you, use a simple:
+            // innerObject.put(specificKey, (casting)propertyData.get(specificKey));
+            // on each 13 data rows
             for (String key : propertyData.keySet()) {
-                innerObject.put(key, propertyData.get(key));
+                if (key.equals("city") || key.equals("street") || key.equals("appartment") || key.equals("entry_date"))
+                    innerObject.put(key, propertyData.get(key));
+                else if (key.equals("is_extendable"))
+                    innerObject.put(key, Boolean.valueOf(propertyData.get(key)));
+                else
+                    innerObject.put(key, Integer.valueOf(propertyData.get(key)));
             }
             jsonObject.put("data", innerObject);
         } catch (JSONException e) {

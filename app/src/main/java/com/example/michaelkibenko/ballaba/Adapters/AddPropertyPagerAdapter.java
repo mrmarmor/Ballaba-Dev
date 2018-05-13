@@ -15,6 +15,7 @@ import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropAddonsFra
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropAssetFrag;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropEditPhotoFrag;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropLandlordFrag;
+import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropMeetingsFrag;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropPaymentsFrag;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropTakePhotoFrag;
 import com.example.michaelkibenko.ballaba.R;
@@ -62,14 +63,16 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
                 return AddPropAddonsFrag.newInstance(binder);
 
             case 3:
-            default:
                 return AddPropPaymentsFrag.newInstance(binder);
 
             case 4:
                 return AddPropTakePhotoFrag.newInstance(binder);
 
-            case 5: case 6: case 7:
+            case 5:
                 return addPropEditPhotoFrag;
+
+            case 6: default: //TODO
+                return AddPropMeetingsFrag.newInstance(binder);
         }
     }
 

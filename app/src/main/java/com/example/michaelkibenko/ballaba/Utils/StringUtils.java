@@ -39,6 +39,9 @@ public class StringUtils {
     }
 
     public String formattedNumberWithComma(String number){
+        if (number == null)
+            return "";//TODO maybe return "missing price" instead
+
         if (number.length() > 3) {
             for (int i = number.length() % 3; i < number.length() - 2; i += 3) {
                 number = new StringBuilder(number).insert(i, ",").toString();

@@ -54,7 +54,7 @@ public class AddPropertyPresenter {
     }*/
 
     public void onNextViewPagerItem(int position){
-        binder.addPropertyViewPager.setCurrentItem(position + 1);
+        binder.addPropertyViewPager.setCurrentItem(position + 1, false);
         activity.invalidateOptionsMenu();
     }
    /* public void getChipsFromFragment(@Nullable HashMap<String, ArrayList<String>> fragmentData, int position){

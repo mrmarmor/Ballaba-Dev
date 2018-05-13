@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.R;

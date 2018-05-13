@@ -22,14 +22,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.michaelkibenko.ballaba.Adapters.AddPropertyPhotoRecyclerAdapter;
+import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
+import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
+import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
+import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropAssetBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropEditPhotoBinding;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +53,8 @@ public class AddPropEditPhotoFrag extends Fragment {
     private AddPropertyPhotoRecyclerAdapter adapter;
     private List<Uri> photos = new ArrayList<>();
     private String[] orientations;
+    private JSONObject photosJson;
+    private ButtonUploadPhotoListener onClickListener;
 
     public AddPropEditPhotoFrag() {}
     public static AddPropEditPhotoFrag newInstance(ActivityAddPropertyBinding binding/*, String photo*/) {
@@ -82,10 +90,11 @@ public class AddPropEditPhotoFrag extends Fragment {
         super.onActivityResult(requestCode, resultCode, imageIntent);
 
         if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK && imageIntent != null){
-            String[] orientationColumn = {MediaStore.Images.Media.ORIENTATION};
             photos.add(imageIntent.getData());
-            this.orientations = orientationColumn;
+            this.orientations = new String[]{MediaStore.Images.Media.ORIENTATION};
             UiUtils.instance(true, context).buttonChanger(binderEditPhoto.addPropPhotosButtonUpload, false);
+            binderEditPhoto.addPropNoPhotosTitle.setVisibility(View.GONE);
+            binderEditPhoto.addPropNoPhotosDescription.setVisibility(View.GONE);
 
             adapter.notifyItemInserted(photos.size() - 1);
         }
@@ -101,15 +110,20 @@ public class AddPropEditPhotoFrag extends Fragment {
 
         adapter =  new AddPropertyPhotoRecyclerAdapter(context, photos, attachments, new AddPropertyPhotoRecyclerAdapter.AddPropPhotoRecyclerListener() {
             @Override
-            public void chipOnClick(String id, int position) {
+            public void onClickChip(String id, int position) {
                 Button btn = binderEditPhoto.addPropPhotosButtonUpload;
                 UiUtils.instance(true, context).buttonChanger(btn, true);
             }
 
             @Override
-            public void closeButtonOnClick(boolean isHide) {
-                binderEditPhoto.addPropNoPhotosTitle.setVisibility(isHide ? View.VISIBLE : View.GONE);
-                binderEditPhoto.addPropNoPhotosDescription.setVisibility(isHide ? View.VISIBLE : View.GONE);
+            public void onClickRemovePhoto(boolean isHide) {
+                //when user removes all photos, "noPhoto" should be appear, and button should be active
+                //when he returns the photo(isHide==false), "noPhoto" should be hide, and button should be inactive until he chooses a tag chip
+                binderEditPhoto.addPropNoPhotosTitle.setVisibility(
+                        (isHide && adapter.getItemCount() > 0) ? View.GONE : View.VISIBLE);
+                binderEditPhoto.addPropNoPhotosDescription.setVisibility(
+                        (isHide && adapter.getItemCount() > 0) ? View.GONE : View.VISIBLE);
+                UiUtils.instance(true, context).buttonChanger(binderEditPhoto.addPropPhotosButtonUpload, isHide);
             }
         });
         adapter.setImageOrientation(orientations);
@@ -123,7 +137,40 @@ public class AddPropEditPhotoFrag extends Fragment {
         binderEditPhoto.addPropPhotosButtonUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!photos.isEmpty())
+                    sendPhotoToServer(adapter.getData(new JSONObject()));
+                    //sendPhotoToServer(photosJson);
+
                 startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CODE_CAMERA);
+            }
+        });
+    }
+
+   /* public void setPhotoJson(JSONObject photoJson){
+        this.photosJson = photoJson;
+    }*/
+
+    private void sendPhotoToServer(JSONObject photoJson){
+        if (photoJson == null)
+            return;
+
+        ConnectionsManager.getInstance(context).uploadProperty(photosJson, new BallabaResponseListener() {
+            @Override
+            public void resolve(BallabaBaseEntity entity) {
+                //TODO update property updating date on SharedPrefs??
+                //SharedPreferencesManager.getInstance(context).removeString(SharedPreferencesKeysHolder.PROPERTY_ID);
+                SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "5");
+                AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(5);
+            }
+
+            @Override
+            public void reject(BallabaBaseEntity entity) {
+                UiUtils.instance(true, context).showSnackBar(
+                        binderEditPhoto.getRoot(), "השמירה נכשלה נסה שנית מאוחר יותר");
+
+                //TODO NEXT LINE IS ONLY FOR TESTING:
+                //AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(5);
+                //new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(2);
             }
         });
     }
@@ -132,5 +179,15 @@ public class AddPropEditPhotoFrag extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
+
+        /*try {
+            onClickListener = (ButtonUploadPhotoListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString() + " must implement RegWizardCallback ");
+        }*/
+    }
+
+    public interface ButtonUploadPhotoListener {
+        void onClick(JSONObject jsonObject);
     }
 }

@@ -5,7 +5,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         style="@style/allMatchParent"
         android:orientation="vertical"
         android:layoutDirection="rtl"
@@ -18,9 +18,9 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/large_margin"
+            android:visibility="gone"
             android:textSize="@dimen/textSize_big"
             android:textColor="@color/black"
-            android:visibility="gone"
             android:text="@string/addProperty_editPhoto_noPhotos_title"
             />
         <TextView
@@ -29,25 +29,28 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/addProp_no_photos_title"
             app:layout_constraintBottom_toTopOf="@id/addProp_photos_button_upload"
-            android:paddingBottom="132dp"
-            android:textColor="@color/gray_text_color"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:paddingBottom="92dp"
             android:visibility="gone"
+            android:textColor="@color/gray_text_color"
             android:text="@string/addProperty_editPhoto_noPhotos_description"
             />
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <!--<android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/properties_recycler_swipeToRefresh"
-            style="@style/allWrapContent" android:minHeight="400dp"
+            style="@style/allWrapContent" android:minHeight="200dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/addProp_photos_button_upload" >
+           >-->
+            <!--app:layout_constraintBottom_toTopOf="@id/addProp_photos_button_upload"-->
             <!-- android:minHeight="429dp" -->
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/addProp_photos_RV"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+<!--
         </android.support.v4.widget.SwipeRefreshLayout>
+-->
 
         <Button
             android:id="@+id/addProp_photos_button_upload"
@@ -55,7 +58,7 @@
             android:layout_height="@dimen/button_height"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/properties_recycler_swipeToRefresh"
+            app:layout_constraintTop_toBottomOf="@id/addProp_no_photos_description"
             android:layout_gravity="center"
             android:padding="@dimen/addProp_takePhoto_button_takePhoto_padding"
             android:layout_marginTop="@dimen/button_next_offset"
@@ -64,6 +67,6 @@
             android:enabled="false"
             android:text="@string/addProperty_editPhoto_button_takePhoto" />
 
-    </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
     </ScrollView>
 </layout>
