@@ -36,6 +36,7 @@
     <Button
         android:layout_width="wrap_content"
         style="@style/AppButtonAnother"
+        android:layout_gravity="center_horizontal"
         android:text="@string/button_next" />
 
 </LinearLayout>

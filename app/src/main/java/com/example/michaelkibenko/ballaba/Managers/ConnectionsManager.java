@@ -26,6 +26,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyPhoto;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
@@ -774,7 +775,12 @@ public class ConnectionsManager{
                     SharedPreferencesManager.getInstance(context).putString(
                             SharedPreferencesKeysHolder.PROPERTY_UPLOAD_DATE, nowStr);
 
-                    callback.resolve(new BallabaBaseEntity());
+                    if (response.has("photo_url"))
+                        callback.resolve(new BallabaPropertyPhoto(
+                            Integer.parseInt(response.get("id")+""),null,null));
+                    else
+                        callback.resolve(new BallabaBaseEntity());
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }

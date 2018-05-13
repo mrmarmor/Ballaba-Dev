@@ -23,6 +23,8 @@ import android.widget.LinearLayout;
 
 import com.example.michaelkibenko.ballaba.Adapters.AddPropertyPhotoRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyPhoto;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
@@ -43,6 +45,7 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropTakePhotoFrag.REQUEST_CODE_CAMERA;
+import static java.sql.Types.NULL;
 
 public class AddPropEditPhotoFrag extends Fragment {
     private final String TAG = AddPropEditPhotoFrag.class.getSimpleName();
@@ -52,7 +55,7 @@ public class AddPropEditPhotoFrag extends Fragment {
     private static ActivityAddPropertyBinding binderMain;
     private static FragmentAddPropEditPhotoBinding binderEditPhoto;
     private AddPropertyPhotoRecyclerAdapter adapter;
-    private List<Uri> photos = new ArrayList<>();
+    private ArrayList<BallabaPropertyPhoto> photos = new ArrayList<>();
     private String[] orientations;
     //private JSONObject photosJson;
     private ButtonUploadPhotoListener onClickListener;
@@ -71,7 +74,7 @@ public class AddPropEditPhotoFrag extends Fragment {
                 inflater, R.layout.fragment_add_prop_edit_photo, container, false);
 
         if (getArguments() != null) {
-            photos.add(Uri.parse(getArguments().get(PHOTO) + ""));
+            photos.add(new BallabaPropertyPhoto(NULL, Uri.parse(getArguments().get(PHOTO) + ""), null));
             this.orientations = getArguments().getStringArray(ORIENTATIONS);
         }
 
@@ -91,7 +94,7 @@ public class AddPropEditPhotoFrag extends Fragment {
         super.onActivityResult(requestCode, resultCode, imageIntent);
 
         if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK && imageIntent != null){
-            photos.add(imageIntent.getData());
+            photos.add(new BallabaPropertyPhoto(NULL, imageIntent.getData(), null));
             this.orientations = new String[]{MediaStore.Images.Media.ORIENTATION};
             UiUtils.instance(true, context).buttonChanger(binderEditPhoto.addPropPhotosButtonUpload, false);
             binderEditPhoto.addPropNoPhotosTitle.setVisibility(View.GONE);
@@ -116,6 +119,8 @@ public class AddPropEditPhotoFrag extends Fragment {
 
             @Override
             public void onClickRemovePhoto(boolean isHide) {
+                //TODO send request to server to delete photo id from server if id exist
+
                 //when user removes all photos, "noPhoto" should be appear, and button should be active
                 //when he returns the photo(isHide==false), "noPhoto" should be hide, and button should be inactive until he chooses a tag chip
                 binderEditPhoto.addPropNoPhotosTitle.setVisibility(
@@ -148,7 +153,7 @@ public class AddPropEditPhotoFrag extends Fragment {
         this.photosJson = photoJson;
     }*/
 
-    private void sendPhotoToServer(JSONObject photoJson){
+    private void sendPhotoToServer(final JSONObject photoJson){
         if (photoJson == null)
             return;
 
@@ -156,9 +161,8 @@ public class AddPropEditPhotoFrag extends Fragment {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 //TODO update property updating date on SharedPrefs??
-                //SharedPreferencesManager.getInstance(context).removeString(SharedPreferencesKeysHolder.PROPERTY_ID);
                 SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "5");
-                AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(5);
+                photos.get(photos.size() - 1).setId(((BallabaPropertyPhoto)entity).getId());//set id to photo
             }
 
             @Override

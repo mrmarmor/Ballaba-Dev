@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyPhoto;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropEditPhotoFrag;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
@@ -55,7 +56,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
     private Context context;
     private LayoutInflater mInflater;
     private ViewHolder holder;
-    private List<Uri> photos = new ArrayList<>();
+    private List<BallabaPropertyPhoto> photos = new ArrayList<>();
     private List<PropertyAttachmentAddonEntity> attachments = new ArrayList<>();
     private String[] orientations;
     private AddPropPhotoRecyclerListener onClickListener;
@@ -67,7 +68,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
         this.onFinishListener = listener;
     }*/
 
-    public AddPropertyPhotoRecyclerAdapter(Context mContext, List<Uri> photos, List<PropertyAttachmentAddonEntity> attachments
+    public AddPropertyPhotoRecyclerAdapter(Context mContext, List<BallabaPropertyPhoto> photos, List<PropertyAttachmentAddonEntity> attachments
             , AddPropPhotoRecyclerListener listener) {
         this.context = mContext;
         this.photos = photos;
@@ -99,7 +100,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
         if (photos.size() > 0) {
             //TODO what if user photos are too large image (>40960px*4096px)??
-            Bitmap bitmap = adjustPhotoOrientation(photos.get(position));
+            Bitmap bitmap = adjustPhotoOrientation(photos.get(position).getPhoto());
             if (bitmap != null) {
                 holder.binder.addPropEditPhotoImageView.setImageBitmap(bitmap);
                 holder.binder.addPropEditPhotoImageView.setTag(position);
@@ -202,7 +203,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
     private void removePhoto(final ViewHolder holder, final int position){
         final int SNACK_BAR_DURATION = 5000;//ms
-        final Uri photoToRemove = photos.get(position);
+        final BallabaPropertyPhoto photoToRemove = photos.get(position);
         photos.remove(position);
         notifyDataSetChanged();
         onClickListener.onClickRemovePhoto(true);
@@ -243,7 +244,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
     }
 
     public JSONObject getData(Context context, JSONObject jsonObject){
-        byte[] photo = UiUtils.instance(true, context).uriToBytes(photos.get(photos.size() - 1));
+        byte[] photo = UiUtils.instance(true, context).uriToBytes(photos.get(photos.size() - 1).getPhoto());
         try {
             JSONObject innerObject = new JSONObject();
             JSONArray innerArrayTags = new JSONArray();

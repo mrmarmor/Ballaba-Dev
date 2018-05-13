@@ -34,6 +34,7 @@ public class AddPropertyActivity extends AppCompatActivity
     private ActivityAddPropertyBinding binder;
     public BallabaUser user;
     private JSONObject photosJson;
+    private boolean isSelectedTagForPhoto = false;
     //private AddPropFinishListener listener;
 
     /*public AddPropertyActivity(AddPropFinishListener listener){
@@ -94,23 +95,28 @@ public class AddPropertyActivity extends AppCompatActivity
     //when user clicks finish button on actionbar, last photo that hasn't sent yet, is sent now to server
     private void setButtonFinishUploadProperty(Menu menu){
         final ConnectionsManager conn = ConnectionsManager.getInstance(this);
+        final AddPropertyActivity activity = AddPropertyActivity.this;
+
         menu.add(0, 1, 1, getString(R.string.addProperty_editPhoto_finish))
-                .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        conn.uploadProperty(photosJson, new BallabaResponseListener() {
-                            @Override
-                            public void resolve(BallabaBaseEntity entity) {
-                                Log.d(TAG, "upload property photo: success");
-                                AddPropertyPresenter.getInstance(AddPropertyActivity.this, binder)
-                                        .onNextViewPagerItem(5);
-                            }
+                        if (photosJson == null) {//user has not switched tag for his photo
+                            UiUtils.instance(true, activity).showSnackBar(binder.getRoot(), "לא נבחר חדר");
+                        } else {
+                            conn.uploadProperty(photosJson, new BallabaResponseListener() {
+                                @Override
+                                public void resolve(BallabaBaseEntity entity) {
+                                    Log.d(TAG, "upload property photo: success");
+                                    AddPropertyPresenter.getInstance(activity, binder).onNextViewPagerItem(5);
+                                }
 
-                            @Override
-                            public void reject(BallabaBaseEntity entity) {
-                                Log.e(TAG, "upload property photo: failure");
-                            }
-                        });
+                                @Override
+                                public void reject(BallabaBaseEntity entity) {
+                                    Log.e(TAG, "upload property photo: failure");
+                                }
+                            });
+                        }
 
                         return false;
                     }
@@ -121,6 +127,7 @@ public class AddPropertyActivity extends AppCompatActivity
     @Override
     public void onFinish(JSONObject jsonObject) {
         this.photosJson = jsonObject;
+        isSelectedTagForPhoto = true;
     }
 
   /*  public interface AddPropFinishListener {
