@@ -1,182 +1,188 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
             name="presenter"
-            type="com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPresenter"/>
+            type="com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPresenter" />
     </data>
 
-    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/enter_phone_number_root_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:layoutDirection="rtl">
 
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/enter_phone_number_root_layout"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/enter_phone_number_top_question"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/enter_phone_number_top_text_height"
+            android:layout_marginStart="@dimen/enter_phone_number_top_text_start_offset"
+            android:layout_marginTop="@dimen/enter_phone_number_top_text_top_offset"
+            android:gravity="start"
+            android:text="@string/enter_phone_number_top_question_text"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/enter_phone_number_top_text_size"
+            android:typeface="sans"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/enter_phone_number_top_text_answer"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layoutDirection="rtl"
-            android:clickable="true"
-            android:focusable="true"
-            android:focusableInTouchMode="true" >
+            android:layout_marginStart="@dimen/enter_phone_number_top_text_answer_start_margin"
+            android:layout_marginTop="@dimen/enter_phone_number_top_text_answer_top_offset"
+            android:gravity="start"
+            android:letterSpacing="@dimen/enter_phone_number_letter_spacing_small"
+            android:text="@string/enter_phone_number_top_question_answer_text"
+            android:textColor="@color/gray_text_color"
+            android:textSize="@dimen/enter_phone_number_top_text_answer_text_size"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enter_phone_number_top_question" />
 
-            <TextView
-                android:id="@+id/enter_phone_number_top_question"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/enter_phone_number_top_text_height"
-                android:text="@string/enter_phone_number_top_question_text"
-                android:textColor="@android:color/black"
-                android:typeface="sans"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginTop="@dimen/enter_phone_number_top_text_top_offset"
-                android:layout_marginStart="@dimen/enter_phone_number_top_text_start_offset"
-                android:textSize="@dimen/enter_phone_number_top_text_size"
-                android:gravity="start"/>
+        <!--<Spinner
+            android:id="@+id/countryCodesSpinner"
+            android:layout_width="@dimen/enter_phone_number_country_codes_spinner_width"
+            android:layout_height="@dimen/enter_phone_number_country_codes_spinner_height"
+            android:textSize="@dimen/enter_phone_number_country_codes_spinner_text_size"
+            app:layout_constraintTop_toBottomOf="@id/enter_phone_number_top_text_answer"
+            app:layout_constraintEnd_toEndOf="@+id/enter_phone_number_country_codes_bottom_divider"
+            android:layout_marginTop="@dimen/enter_phone_number_country_codes_spinner_top_offset"
+            android:entries="@array/country_codes"
+            android:background="@android:color/transparent"
+            />-->
+        <com.hbb20.CountryCodePicker
+            android:id="@+id/country_code_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="@dimen/enter_phone_number_country_codes_spinner_top_offset"
+            app:ccp_defaultNameCode="ISRAEL"
+            app:layout_constraintEnd_toEndOf="@+id/enter_phone_number_country_codes_bottom_divider"
+            app:layout_constraintTop_toBottomOf="@id/enter_phone_number_top_text_answer">
 
-            <TextView
-                android:id="@+id/enter_phone_number_top_text_answer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/enter_phone_number_top_text_answer_text_size"
-                android:textColor="@color/gray_text_color"
-                android:letterSpacing="@dimen/enter_phone_number_letter_spacing_small"
-                android:gravity="start"
-                android:text="@string/enter_phone_number_top_question_answer_text"
-                android:layout_marginStart="@dimen/enter_phone_number_top_text_answer_start_margin"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/enter_phone_number_top_question"
-                android:layout_marginTop="@dimen/enter_phone_number_top_text_answer_top_offset"
-                />
+        </com.hbb20.CountryCodePicker>
 
-            <Spinner
-                android:id="@+id/countryCodesSpinner"
-                android:layout_width="@dimen/enter_phone_number_country_codes_spinner_width"
-                android:layout_height="@dimen/enter_phone_number_country_codes_spinner_height"
-                android:textSize="@dimen/enter_phone_number_country_codes_spinner_text_size"
-                android:letterSpacing="@dimen/enter_phone_number_letter_spacing_large"
-                app:layout_constraintTop_toBottomOf="@id/enter_phone_number_top_text_answer"
-                app:layout_constraintEnd_toEndOf="@+id/enter_phone_number_country_codes_bottom_divider"
-                android:layout_marginTop="@dimen/enter_phone_number_country_codes_spinner_top_offset"
-                android:entries="@array/country_codes"
-                android:background="@android:color/transparent"
-                />
+        <EditText
+            android:id="@+id/enter_phone_number_ET"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginLeft="@dimen/enter_phone_number_country_codes_side_divider_offset"
+            android:background="@android:color/transparent"
+            android:inputType="phone"
+            android:layoutDirection="ltr"
+            android:textCursorDrawable="@color/colorPrimary"
+            android:typeface="sans"
+            app:layout_constraintBottom_toBottomOf="@+id/enter_phone_number_country_codes_bottom_divider"
+            app:layout_constraintLeft_toRightOf="@+id/country_code_picker"
+            app:layout_constraintRight_toRightOf="@+id/enter_phone_number_country_codes_bottom_divider"
+            app:layout_constraintTop_toTopOf="@+id/country_code_picker" />
 
-            <View
-                android:id="@+id/enter_phone_number_country_codes_bottom_divider"
-                android:layout_width="@dimen/enter_phone_number_country_codes_bottom_divider_width"
-                android:layout_height="@dimen/enter_phone_number_country_codes_bottom_divider_height"
-                android:background="@color/colorPrimary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/countryCodesSpinner"
-                />
+        <View
+            android:id="@+id/enter_phone_number_country_codes_bottom_divider"
+            android:layout_width="@dimen/enter_phone_number_country_codes_bottom_divider_width"
+            android:layout_height="@dimen/enter_phone_number_country_codes_bottom_divider_height"
+            android:background="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/country_code_picker" />
 
-            <!--<View
-                android:id="@+id/enter_phone_number_country_codes_side_divider"
-                android:layout_width="@dimen/enter_phone_number_country_codes_side_divider_width"
-                android:layout_height="@dimen/enter_phone_number_country_codes_side_divider_height"
-                android:background="@color/colorPrimary"
-                app:layout_constraintTop_toTopOf="@+id/countryCodesSpinner"
-                app:layout_constraintStart_toStartOf="@+id/countryCodesSpinner"
-                />-->
+        <!--<View
+            android:id="@+id/enter_phone_number_country_codes_side_divider"
+            android:layout_width="@dimen/enter_phone_number_country_codes_side_divider_width"
+            android:layout_height="@dimen/enter_phone_number_country_codes_side_divider_height"
+            android:background="@color/colorPrimary"
+            app:layout_constraintTop_toTopOf="@+id/countryCodesSpinner"
+            app:layout_constraintStart_toStartOf="@+id/countryCodesSpinner"
+            />-->
 
-            <EditText
-                android:id="@+id/enter_phone_number_ET"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="@+id/countryCodesSpinner"
-                app:layout_constraintRight_toRightOf="@+id/enter_phone_number_country_codes_bottom_divider"
-                app:layout_constraintBottom_toBottomOf="@+id/enter_phone_number_country_codes_bottom_divider"
-                app:layout_constraintLeft_toRightOf="@+id/countryCodesSpinner"
-                android:layout_marginLeft="@dimen/enter_phone_number_country_codes_side_divider_offset"
-                android:typeface="sans"
-                android:inputType="phone"
-                android:background="@android:color/transparent"
-                android:layoutDirection="ltr"
-                android:textCursorDrawable="@color/colorPrimary"
-                />
 
-            <TextView
-                android:id="@+id/enter_phone_number_text_error_answer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/enter_phone_number_top_text_answer_text_size"
-                android:textColor="@color/red_error_phone"
-                android:gravity="start"
-                android:visibility="invisible"
-                android:text="@string/splash_middle_text"
-                android:layout_marginStart="@dimen/enter_phone_number_text_error_offset"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/enter_phone_number_ET"
-                android:layout_marginTop="@dimen/enter_phone_number_top_text_answer_top_offset"
-                />
+        <TextView
+            android:id="@+id/enter_phone_number_text_error_answer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/enter_phone_number_text_error_offset"
+            android:layout_marginTop="10dp"
+            android:gravity="start"
+            android:text="@string/splash_middle_text"
+            android:textColor="@color/red_error_phone"
+            android:textSize="@dimen/enter_phone_number_top_text_answer_text_size"
+            android:visibility="invisible"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enter_phone_number_ET" />
 
-            <Button
-                android:id="@+id/enter_phone_number_next_button"
-                android:layout_width="@dimen/enter_phone_number_next_button_width"
-                android:layout_height="@dimen/enter_phone_number_next_button_height"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/enter_phone_number_text_error_answer"
-                android:text="@string/enter_phone_number_next_button_text"
-                android:layout_marginTop="@dimen/enter_phone_number_country_codes_next_button_top_offset"
-                style="@style/AppButtonInactive"
-                android:onClick="getPermissionsToReadSms"
-                />
+        <Button
+            android:id="@+id/enter_phone_number_next_button"
+            style="@style/AppButtonInactive"
+            android:layout_width="@dimen/enter_phone_number_next_button_width"
+            android:layout_height="@dimen/enter_phone_number_next_button_height"
+            android:layout_marginTop="@dimen/enter_phone_number_country_codes_next_button_top_offset"
+            android:onClick="getPermissionsToReadSms"
+            android:text="@string/enter_phone_number_next_button_text"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enter_phone_number_text_error_answer" />
 
-            <ProgressBar
-                android:id="@+id/enter_phone_number_next_button_progress"
-                android:layout_width="@dimen/enter_phone_number_next_button_animation_dimen"
-                android:layout_height="@dimen/enter_phone_number_next_button_animation_dimen"
-                app:layout_constraintEnd_toEndOf="@+id/enter_phone_number_next_button"
-                app:layout_constraintTop_toTopOf="@+id/enter_phone_number_next_button"
-                android:layout_marginTop="@dimen/enter_phone_number_next_button_animation_offset"
-                android:layout_marginEnd="@dimen/enter_phone_number_next_button_animation_offset"
-                android:clickable="false"
-                android:visibility="gone"
-                />
+        <ProgressBar
+            android:id="@+id/enter_phone_number_next_button_progress"
+            android:layout_width="@dimen/enter_phone_number_next_button_animation_dimen"
+            android:layout_height="@dimen/enter_phone_number_next_button_animation_dimen"
+            android:layout_marginEnd="@dimen/enter_phone_number_next_button_animation_offset"
+            android:layout_marginTop="@dimen/enter_phone_number_next_button_animation_offset"
+            android:clickable="false"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/enter_phone_number_next_button"
+            app:layout_constraintTop_toTopOf="@+id/enter_phone_number_next_button" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/enter_phone_number_next_button">
 
             <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/enter_phone_number_checkbox"
                 android:layout_width="@dimen/enter_phone_number_checkbox_size"
                 android:layout_height="@dimen/enter_phone_number_checkbox_size"
-                app:layout_constraintTop_toBottomOf="@+id/enter_phone_number_next_button"
-                android:layout_marginTop="@dimen/enter_phone_number_checkbox_top_offset"
-                app:layout_constraintEnd_toStartOf="@+id/enter_phone_number_next_button"
                 android:layout_marginEnd="15dp"
-                android:buttonTint="@color/colorPrimary"
-                />
+                android:buttonTint="@color/colorPrimary" />
 
             <TextView
                 android:id="@+id/enter_phone_number_bottom_TV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="#282828"
+                android:layout_marginStart="8dp"
                 android:letterSpacing="@dimen/enter_phone_number_letter_spacing_small"
                 android:text="@string/enter_phone_number_checkbox_text"
-                app:layout_constraintStart_toEndOf="@+id/enter_phone_number_checkbox"
-                app:layout_constraintTop_toTopOf="@+id/enter_phone_number_checkbox"
+                android:textColor="#282828"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="@+id/enter_phone_number_checkbox"
-                android:layout_marginStart="8dp"
-                />
+                app:layout_constraintStart_toEndOf="@+id/enter_phone_number_checkbox"
+                app:layout_constraintTop_toTopOf="@+id/enter_phone_number_checkbox" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:textColor="@android:color/holo_orange_light"
-                android:letterSpacing="@dimen/enter_phone_number_letter_spacing_small"
-                android:gravity="center_horizontal"
-                android:text="@string/enter_phone_number_checkbox_text_link"
-                app:layout_constraintStart_toEndOf="@+id/enter_phone_number_bottom_TV"
-                app:layout_constraintTop_toTopOf="@+id/enter_phone_number_bottom_TV"
-                app:layout_constraintBottom_toBottomOf="@+id/enter_phone_number_bottom_TV"
                 android:layout_marginStart="5dp"
+                android:gravity="center_horizontal"
+                android:letterSpacing="@dimen/enter_phone_number_letter_spacing_small"
                 android:onClick="@{() -> presenter.onTermsOfUseClick()}"
-                />
+                android:text="@string/enter_phone_number_checkbox_text_link"
+                android:textColor="@android:color/holo_orange_light"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="@+id/enter_phone_number_bottom_TV"
+                app:layout_constraintStart_toEndOf="@+id/enter_phone_number_bottom_TV"
+                app:layout_constraintTop_toTopOf="@+id/enter_phone_number_bottom_TV" />
 
-        </android.support.constraint.ConstraintLayout>
-    </ScrollView>
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 </layout>

@@ -2,4 +2,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="confirm_id_title">צילום ת.ז / רשיון נהיגה</string>
+    <string name="confirm_id_explantion">טקסט שיסביר למה אנחנו רוצים צילום של הת.ז. / רשיון נהיגה.</string>
+    <string name="confirm_id_continue_btn">המשך</string>
+
 </resources>
