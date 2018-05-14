@@ -1,10 +1,8 @@
 package com.example.michaelkibenko.ballaba.Presenters;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.IntDef;
@@ -15,13 +13,11 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
-import com.example.michaelkibenko.ballaba.Activities.SplashActivity;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
@@ -32,7 +28,6 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
-import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
@@ -41,7 +36,6 @@ import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.EnterCodeLayoutBinding;
-
 
 import java.util.ArrayList;
 
@@ -319,7 +313,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
     }
 
     private void show1MinuteClock(){
-        new CountDownTimer(sendAgainDelay * 1000, 1000) { //60000 milli seconds is total time, 1000 milli seconds is time interval
+        new CountDownTimer(sendAgainDelay * 1000 , 1000) { //60000 milli seconds is total time, 1000 milli seconds is time interval
             public void onTick(long millisUntilFinished) {
                 binder.enterCodeSendAgainButton.setText(String.format("0%d:00", millisUntilFinished/1000));
 

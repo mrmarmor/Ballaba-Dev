@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="scoring_date_of_birth_error">#e03f3f</color>
+    <color name="comparion_activity_background">#eee</color>
 </resources>

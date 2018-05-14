@@ -141,7 +141,7 @@ public class ScoringPersonalPresenter implements RadioButton.OnClickListener {
 
         };
         new DatePickerDialog(activity, date,
-                myCalendar.get(Calendar.YEAR),
+                1995,
                 myCalendar.get(Calendar.MONTH),
                 myCalendar.get(Calendar.DAY_OF_MONTH))
                 .show();
