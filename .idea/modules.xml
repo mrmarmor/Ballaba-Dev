@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/../../../../User/StudioProjects/Dev-Android-First/Ballaba_Android.iml" filepath="$PROJECT_DIR$/../../../../User/StudioProjects/Dev-Android-First/Ballaba_Android.iml" />
+      <module fileurl="file://C:/User/StudioProjects/Dev-Android-First/Ballaba_Android.iml" filepath="C:/User/StudioProjects/Dev-Android-First/Ballaba_Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/Dev-Android-First.iml" filepath="$PROJECT_DIR$/Dev-Android-First.iml" />
       <module fileurl="file://$PROJECT_DIR$/android_dev.iml" filepath="$PROJECT_DIR$/android_dev.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../../../User/StudioProjects/Dev-Android-First/android_dev.iml" filepath="$PROJECT_DIR$/../../../../User/StudioProjects/Dev-Android-First/android_dev.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

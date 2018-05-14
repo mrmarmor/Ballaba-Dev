@@ -13,9 +13,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
+        android:layoutDirection="rtl"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:layoutDirection="rtl">
+        >
 
         <TextView
             android:id="@+id/enter_phone_number_top_question"

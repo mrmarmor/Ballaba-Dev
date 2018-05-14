@@ -2,8 +2,10 @@ package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -15,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Adapters.AddPropertyPagerAdapter;
 import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
@@ -67,21 +70,17 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
         //        getActivity(), requestCode, resultCode, imageIntent);
        // AddPropEditPhotoFrag.newInstance(binderMain)
         //        .onActivityResult(requestCode, resultCode, imageIntent);
-        if (resultCode == RESULT_OK && imageIntent != null){
+        if (resultCode == RESULT_OK && imageIntent != null && imageIntent.getData() != null){
             if (requestCode == REQUEST_CODE_CAMERA) {
-                AddPropertyPresenter.getInstance((AppCompatActivity) getActivity(), binderMain).onNextViewPagerItem(4);
-                AddPropEditPhotoFrag.newInstance(binderMain).addPhoto(getActivity(), imageIntent.getData());
+                String[] orientationColumn = {MediaStore.Images.Media.ORIENTATION};
+
+                ((AddPropertyPagerAdapter)binderMain.addPropertyViewPager.getAdapter())
+                        .setData(imageIntent.getData(), orientationColumn);
+                AddPropertyPresenter.getInstance((AppCompatActivity)getActivity(), binderMain).onNextViewPagerItem(4);
+                //AddPropEditPhotoFrag.newInstance(binderMain).addPhoto(
+                //        getActivity(), imageIntent.getData(), orientationColumn);
             }
         }
     }
 
-  /*  @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        //if (isVisibleToUser) {
-            Log.d(TAG, "visible");
-            binderMain.addPropertyViewPager.setOffscreenPageLimit(1);
-        //}
-            // execute your data loading logic.
-    }*/
 }

@@ -3,6 +3,7 @@ package com.example.michaelkibenko.ballaba.Holders;
 import android.util.Log;
 
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
+import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -13,12 +14,13 @@ import java.util.ArrayList;
 public class PropertyAttachmentsAddonsHolder {
     public static final String TAG = PropertyAttachmentsAddonsHolder.class.getSimpleName();
     private final String FURNITURE = "furniture", ELECTRONICS = "electronics", ATTACHMENTS = "attachments"
-            , PAYMENT_TYPES = "payment_types", PAYMENT_METHODS = "payment_methods";
+            , PAYMENT_TYPES = "payment_types", PAYMENT_METHODS = "payment_methods"
+            , PROPERTY_PHOTO_TAGS = "property_photo_tags";
 
     private static PropertyAttachmentsAddonsHolder instance;
 
     private ArrayList<PropertyAttachmentAddonEntity> furniture, electronics, attachments
-            , paymentTypes, paymentMethods;
+            , paymentTypes, paymentMethods, photoTags;
 
     public static PropertyAttachmentsAddonsHolder getInstance() {
         if(instance == null){
@@ -33,6 +35,7 @@ public class PropertyAttachmentsAddonsHolder {
         attachments = new ArrayList<>();
         paymentTypes = new ArrayList<>();
         paymentMethods = new ArrayList<>();
+        photoTags = new ArrayList<>();
     }
 
     public ArrayList<PropertyAttachmentAddonEntity> getFurniture() {
@@ -55,6 +58,10 @@ public class PropertyAttachmentsAddonsHolder {
         return paymentMethods;
     }
 
+    public ArrayList<PropertyAttachmentAddonEntity> getPhotoTags() {
+        return photoTags;
+    }
+
     public void parseAttachmentsAddonsResponse(String response){
         try {
             this.furniture.clear();
@@ -62,6 +69,7 @@ public class PropertyAttachmentsAddonsHolder {
             this.electronics.clear();
             this.paymentTypes.clear();
             this.paymentMethods.clear();
+            this.photoTags.clear();
 
             JSONObject jsonObject = new JSONObject(response);
             JSONArray furniture = jsonObject.getJSONArray(FURNITURE);
@@ -69,6 +77,7 @@ public class PropertyAttachmentsAddonsHolder {
             JSONArray attachments = jsonObject.getJSONArray(ATTACHMENTS);
             JSONArray paymentTypes = jsonObject.getJSONArray(PAYMENT_TYPES);
             JSONArray paymentMethods = jsonObject.getJSONArray(PAYMENT_METHODS);
+            JSONArray photoTags = jsonObject.getJSONArray(PROPERTY_PHOTO_TAGS);
 
             //TODO delete it
             //WARNING! there is already an attachment: {"id":11,"title":"service_balcony"}
@@ -91,6 +100,7 @@ public class PropertyAttachmentsAddonsHolder {
             addAttachments(this.attachments, attachments, ATTACHMENTS);
             addAttachments(this.paymentTypes, paymentTypes, PAYMENT_TYPES);
             addAttachments(this.paymentMethods, paymentMethods, PAYMENT_METHODS);
+            addTags(this.photoTags, photoTags, PROPERTY_PHOTO_TAGS);
 
             /*for (int i = 0; i < electronics.length(); i++) {
                 JSONObject currentObject = electronics.getJSONObject(i);
@@ -113,6 +123,18 @@ public class PropertyAttachmentsAddonsHolder {
         }
     }
 
+    private void addTags(ArrayList<PropertyAttachmentAddonEntity> entities, JSONArray attachment
+            , final String ATTACHMENT_TYPE) throws JSONException {
+        for (int i = 0; i < attachment.length(); i++) {
+            JSONObject currentObject = attachment.getJSONObject(i);
+            String id = currentObject.getString("id");
+            String title = StringUtils.getInstance(true, null)
+                    .formattedHebrew(currentObject.getString("tag"));//TODO receiving tag in hebrew from server. consider replace it with english version
+            String formattedTitle = title;//getFormattedTitle(ATTACHMENT_TYPE, title);
+            entities.add(new PropertyAttachmentAddonEntity(id, title, formattedTitle));
+        }
+    }
+
     private void addAttachments(ArrayList<PropertyAttachmentAddonEntity> entities, JSONArray attachment
             , final String ATTACHMENT_TYPE) throws JSONException {
         for (int i = 0; i < attachment.length(); i++) {
@@ -127,15 +149,15 @@ public class PropertyAttachmentsAddonsHolder {
 
     private String getFormattedTitle(final String ATTACHMENT_TYPE, final String TITLE){
         switch (ATTACHMENT_TYPE) {
-            case "furniture":
+            case FURNITURE: default:
                 return getFormattedFurnitureTitle(TITLE);
-            case "electronics":
+            case ELECTRONICS:
                 return getFormattedElectronicsTitle(TITLE);
-            case "attachments":
+            case ATTACHMENTS:
                 return getFormattedAttachmentsTitle(TITLE);
-            case "payment_types":
+            case PAYMENT_TYPES:
                 return getFormattedPaymentTypesTitle(TITLE);
-            case "payment_methods": default:
+            case PAYMENT_METHODS:
                 return getFormattedPaymentMethodsTitle(TITLE);
         }
     }

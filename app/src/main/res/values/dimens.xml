@@ -233,6 +233,13 @@
     <dimen name="addProp_takePhoto_button_takePhoto_padding">10dp</dimen>
     <dimen name="addProp_takePhoto_photo_height">194dp</dimen>
 
+    <!--<dimen name="addProp_meetings_">dp</dimen>
+    <dimen name="addProp_meetings_">dp</dimen>
+    <dimen name="addProp_meetings_">dp</dimen>
+    <dimen name="addProp_meetings_">dp</dimen>
+    <dimen name="addProp_meetings_">dp</dimen>
+    <dimen name="addProp_meetings_">dp</dimen>-->
+
     <dimen name="takePicSwitch_height">56dp</dimen>
 
 </resources>

@@ -55,7 +55,8 @@
                     android:layout_height="@dimen/addProperty_landlordProfileImage_dimens"
                     android:layout_margin="@dimen/activity_vertical_margin"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/home_blue_160"
+                    android:src="@drawable/add_user_b_lue_60"
+                    android:scaleType="centerInside"
                     android:elevation="@dimen/elevation" />
                 <!--                android:onClick="@{() -> presenter.onClickProfileImage() }"-->
 

@@ -258,6 +258,19 @@
     <string name="addProperty_editPhoto_button_takePhoto">יש לי עוד תמונות</string>
     <string name="addProperty_editPhoto_title">לאיזה חדר שייכת התמונה?</string>
     <string name="addProperty_editPhoto_error_message">*נא לבחור חדר אחד לפחות</string>
+    <string name="addProperty_editPhoto_removePhoto_message">התמונה הוסרה</string>
+    <string name="addProperty_editPhoto_removePhoto_undo">ביטול</string>
+    <string name="addProperty_editPhoto_removePhoto_snackBar_remove">הסרה</string>
+    <string name="addProperty_editPhoto_removePhoto_snackBar_title">הסרת תמונה</string>
+    <string name="addProperty_editPhoto_removePhoto_snackBar_message">האם להסיר תמונה זו?</string>
+    <string name="addProperty_editPhoto_finish">סיום</string>
+    <string name="addProperty_editPhoto_noPhotos_title">אין תמונות לתצוגה</string>
+    <string name="addProperty_editPhoto_noPhotos_description">    העלאת תמונות הכרחית על מנת לקבל חשיפה
+גבוהה, התעניינות ולהגדיל את סיכויי ההשכרה</string>
+    <string name="addProperty_meetings_title">באלו תאריכים ברצונך להראות את הנכס?</string>
+    <string name="addProperty_meetings_between">בין השעות</string>
+    <string name="addProperty_meetings_privateMeetings">פגישות אישיות</string>
+    <string name="addProperty_meetings_auto">חזרה אוטומטית</string>
 
     <string name="takePicSwitch_camera">צילום תמונה</string>
     <string name="takePicSwitch_gallery">תמונה מהגלריה</string>

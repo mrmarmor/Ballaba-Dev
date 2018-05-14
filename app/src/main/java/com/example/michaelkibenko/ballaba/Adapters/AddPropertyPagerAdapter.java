@@ -1,6 +1,8 @@
 package com.example.michaelkibenko.ballaba.Adapters;
 
 import android.content.Context;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +15,7 @@ import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropAddonsFra
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropAssetFrag;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropEditPhotoFrag;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropLandlordFrag;
+import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropMeetingsFrag;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropPaymentsFrag;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropTakePhotoFrag;
 import com.example.michaelkibenko.ballaba.R;
@@ -27,37 +30,58 @@ import java.util.HashMap;
 
 public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
     private final String TAG = FilterPagerAdapter.class.getSimpleName();
-    //private Context context;
-    private ActivityAddPropertyBinding binder;
+
     private FragmentManager fm;
+    private Fragment[] fragments;
+    private AddPropEditPhotoFrag addPropEditPhotoFrag;
 
     public AddPropertyPagerAdapter(ActivityAddPropertyBinding binder, FragmentManager fm) {
         super(fm);
 
-        this.binder = binder;
+        fragments = new Fragment[]{
+                  AddPropLandlordFrag.newInstance(binder), AddPropAssetFrag.newInstance(binder)
+                , AddPropAddonsFrag.newInstance(binder), AddPropPaymentsFrag.newInstance(binder)
+                , AddPropTakePhotoFrag.newInstance(binder), addPropEditPhotoFrag
+                , AddPropMeetingsFrag.newInstance(binder)};
+//        this.binder = binder;
+    }
+
+    //AddPropEditPhotoFrag needs also a photo, so i need to return it with a bundle.
+    public void setData(Uri photo, String[] orientations){
+        Bundle bundle = new Bundle();
+        bundle.putString(AddPropEditPhotoFrag.PHOTO , photo.toString());
+        bundle.putStringArray(AddPropEditPhotoFrag.ORIENTATIONS, orientations);
+        addPropEditPhotoFrag = new AddPropEditPhotoFrag();
+        addPropEditPhotoFrag.setArguments(bundle);
+        fragments[5] = addPropEditPhotoFrag;
     }
 
     @Override
     public Fragment getItem(int position) {
-        switch (position){
+        return fragments[position];
+
+        //switch (position) {
             //case 0:
             //    return AddPropLandlordFrag.newInstance(binder);
 
-            case 1:
-                return AddPropAssetFrag.newInstance(binder);
+            //case 1:
+                //return AddPropAssetFrag.newInstance(binder);
 
-            case 2:
+           /* case 2:
                 return AddPropAddonsFrag.newInstance(binder);
 
-            case 3:default:
+            case 3: default: //TODO
                 return AddPropPaymentsFrag.newInstance(binder);
 
             case 4:
                 return AddPropTakePhotoFrag.newInstance(binder);
 
-            case 5: case 6: case 7:
-                return AddPropEditPhotoFrag.newInstance(binder);
-        }
+            case 5:
+                return addPropEditPhotoFrag;
+
+            case 6:
+                return AddPropMeetingsFrag.newInstance(binder);
+        }*/
     }
 
     @Override

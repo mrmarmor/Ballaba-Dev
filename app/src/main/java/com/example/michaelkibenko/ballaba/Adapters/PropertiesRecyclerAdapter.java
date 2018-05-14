@@ -137,8 +137,10 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     private void showFullProperty(BallabaPropertyResult property){
         Intent intent = new Intent(mContext, PropertyDescriptionActivity.class);
         intent.putExtra(PropertyDescriptionActivity.PROPERTY, property.id);
-        intent.putExtra(PropertyDescriptionPresenter.PROPERTY_IMAGE
-                , property.photos.get(property.photos.size()/2));
+        if (property.photos.size() > 0)
+            intent.putExtra(PropertyDescriptionPresenter.PROPERTY_IMAGE
+                    , property.photos.get(property.photos.size()/2));
+
         mContext.startActivity(intent);
     }
 

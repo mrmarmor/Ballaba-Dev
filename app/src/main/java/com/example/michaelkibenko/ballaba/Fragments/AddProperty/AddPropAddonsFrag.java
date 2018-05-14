@@ -242,7 +242,7 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
                     showSnackBar(((BallabaErrorResponse) entity).message);
 
                     //TODO NEXT LINE IS ONLY FOR TESTING:
-                    //new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(2);
+                    AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(2);
                 }
             });
         } else {
