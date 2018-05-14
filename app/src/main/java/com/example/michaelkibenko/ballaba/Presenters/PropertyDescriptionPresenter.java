@@ -13,13 +13,13 @@ import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyGalleryActivity;
+import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringWelcomeActivity;
 import com.example.michaelkibenko.ballaba.Activities.StreetAndMapBoard;
 import com.example.michaelkibenko.ballaba.Activities.VirtualTourActivity;
 import com.example.michaelkibenko.ballaba.Adapters.DescCommentAdapter;
@@ -27,11 +27,9 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachment;
-import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
 import com.example.michaelkibenko.ballaba.Fragments.BallabaStreetViewFragment;
 import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
-import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
@@ -45,9 +43,8 @@ import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionImageBi
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPaymentMethodsBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPaymentsBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPriceBinding;
-import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
-import com.google.android.gms.maps.StreetViewPanorama;
 import com.google.android.gms.maps.model.LatLng;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 /**
@@ -301,7 +298,8 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
     }
 
     public void onClickContinue(){
-        Toast.makeText(activity, "continue", Toast.LENGTH_SHORT).show();
+        activity.startActivity(new Intent(activity , ScoringWelcomeActivity.class));
+        //Toast.makeText(activity, "continue", Toast.LENGTH_SHORT).show();
     }
 
     public void onClickToGallery() {

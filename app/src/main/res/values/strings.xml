@@ -97,6 +97,7 @@
     <string name="attach_gym">חדר כושר</string>
     <string name="attach_disabled_access">גישה חסומה</string>
     <string name="attach_aps">APS</string>
+    <string name="income">6000 ש\'\'ח</string>
 
     <string name="scoring_welcome_title">שאלון חיתום</string>
     <string name="scoring_welcome_description">הסבר למשתמש מה זה חיתום ולמה צריך\n
@@ -126,16 +127,16 @@
     <string name="scoring_car_has_not_button">אין</string>
 
     <string name="scoring_employmentStatus_title">מצב תעסוקתי</string>
-    <string name="scoring_employmentStatus_selfEmployed_button">עצמאי</string>
-    <string name="scoring_employmentStatus_employee_button">שכיר</string>
-    <string name="scoring_employmentStatus_both_button">משולב</string>
+    <string name="scoring_employmentStatus_selfEmployed_button">עצמאי/ת</string>
+    <string name="scoring_employmentStatus_employee_button">שכיר/ה</string>
+    <string name="scoring_employmentStatus_both_button">גם וגם</string>
     <string name="scoring_employmentStatus_unemployed_button">בין עבודות</string>
 
-    <string name="scoring_seniority_title">וותק</string>
+    <string name="scoring_seniority_title">וותק בעבודה</string>
     <string name="scoring_seniority_lessThanYear_button">פחות משנה</string>
     <string name="scoring_seniority_moreThanYear_button">יותר משנה</string>
 
-    <string name="scoring_income_title">הכנסה של יותר מ ₪5,000 בחודש?</string>
+    <string name="scoring_income_title">הכנסה למשפחה</string>
     <string name="scoring_income_moreThan5k_button">כן</string>
     <string name="scoring_income_lessThan5k_button">לא</string>
 
