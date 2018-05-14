@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -144,20 +145,13 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
             chipsItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    String state = (String) v.getTag();
-                    if (state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED) || !allChipsUnselected(flowLayout, (Button)v)){
-                        UiUtils.instance(true, context).onChipsButtonClick((Button) v, state);
-                        if (allChipsUnselected(flowLayout, (Button)v)) {//set button "upload photo" active only if chip of current photo selected
-                            onClickListener.onClickChip(attachment.id, position);
-                            if (photos.size() > 0) { // "finish" button is active only if there is at least 1 photo + room tag(=chip) selected
-                                ((AddPropertyActivity)context).invalidateOptionsMenu();
-                                //JSONObject jsonObject = getData(new JSONObject());
-                                //AddPropEditPhotoFrag.newInstance(null).setPhotoJson(jsonObject);
+                    onTagClick(flowLayout, (Button)v, attachment, position);
 
-                            }
-                        }
-                    }
+                    //ArrayList<String> tags =  photos.get(position).getTags();
+                    //tags.add(attachment.title);
+                    //photos.get(position).setTags(tags);
 
+                    //updates json with the new tag state and send it to parent activity(AddPropertyActivity)
                     onFinishListener.onFinish(getData(context, new JSONObject()));
                 }
             });
@@ -167,11 +161,32 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
     }
 
+    private void onTagClick(FlowLayout flowLayout, Button btn, PropertyAttachmentAddonEntity attachment, int position){
+        String state = (String) btn.getTag();
+        if (state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED) || !allChipsUnselected(flowLayout, btn)){//user selected a tag
+            UiUtils.instance(true, context).onChipsButtonClick(btn, state);
+            if (allChipsUnselected(flowLayout, btn)) {//set button "upload photo" active only if at least 1 tag of current photo selected
+                onClickListener.onClickChip(attachment.id, position);
+                if (photos.size() > 0) { // "finish" button is active only if there is at least 1 photo + room tag(=chip) selected
+                    ((AddPropertyActivity)context).invalidateOptionsMenu();
+                    //JSONObject jsonObject = getData(new JSONObject());
+                    //AddPropEditPhotoFrag.newInstance(null).setPhotoJson(jsonObject);
+
+                }
+            }
+        }
+
+        if (state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED))
+            photos.get(position).addTag(attachment);
+        else
+            photos.get(position).removeTag(attachment);
+
+    }
+
     private boolean allChipsUnselected(FlowLayout flowLayout, Button currentButton){
         for (int i = 0; i < flowLayout.getChildCount(); i++){
-            Log.d(TAG, flowLayout.getChildAt(i)+":"+currentButton);
-            if (!flowLayout.getChildAt(i).equals(currentButton))
-                if (flowLayout.getChildAt(i).getTag().equals(UiUtils.ChipsButtonStates.PRESSED))
+            if (!flowLayout.getChildAt(i).equals(currentButton)
+              && flowLayout.getChildAt(i).getTag().equals(UiUtils.ChipsButtonStates.PRESSED))
                     return false;
         }
 
@@ -203,7 +218,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
     private void removePhoto(final ViewHolder holder, final int position){
         final int SNACK_BAR_DURATION = 5000;//ms
-        final BallabaPropertyPhoto photoToRemove = photos.get(position);
+        final BallabaPropertyPhoto photo = photos.get(position);
         photos.remove(position);
         notifyDataSetChanged();
         onClickListener.onClickRemovePhoto(true);
@@ -214,11 +229,30 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
                 .setAction(context.getString(R.string.addProperty_editPhoto_removePhoto_undo), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        photos.add(/*position, */photoToRemove);//TODO photo returned to end of list. if we want to return it to its original position, set the index here
-                        notifyDataSetChanged();
-                        onClickListener.onClickRemovePhoto(false);
+                        returnPhoto(photo, position);
                     }
                 });
+    }
+
+    private void returnPhoto(BallabaPropertyPhoto photoToReturn, int position){
+        photos.add(/*position, */photoToReturn);//TODO photo returned to end of list. if we want to return it to its original position, set the index here
+        ArrayList<PropertyAttachmentAddonEntity> tags = photoToReturn.getTags();
+        for (PropertyAttachmentAddonEntity tag : tags) {
+            int positionOfTag = Integer.parseInt(tag.id) - 1;//position is actually the same as its id - 1
+            Button btn = (Button)holder.binder.addPropEditPhotoRoomsFlowLayout.getChildAt(positionOfTag);
+            btn.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
+            onTagClick(holder.binder.addPropEditPhotoRoomsFlowLayout, btn, tag, position);
+            //holder.binder.addPropEditPhotoRoomsFlowLayout.getChildAt(position).setTag(UiUtils.ChipsButtonStates.PRESSED);
+        }
+
+        /*for (int i = 0; i < holder.binder.addPropEditPhotoRoomsFlowLayout.getChildCount(); i++){
+            if ()
+        }*/
+        //initTags(holder.binder.addPropEditPhotoRoomsFlowLayout, tags, position);
+        //holder.binder.addPropEditPhotoRoomsFlowLayout.invalidate();
+        notifyDataSetChanged();
+
+        onClickListener.onClickRemovePhoto(false);
     }
 
     //portrait/landscape

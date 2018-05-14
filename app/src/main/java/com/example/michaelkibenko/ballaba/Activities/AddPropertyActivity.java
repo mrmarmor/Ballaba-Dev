@@ -2,6 +2,7 @@ package com.example.michaelkibenko.ballaba.Activities;
 
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
@@ -13,7 +14,9 @@ import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Adapters.AddPropertyPhotoRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyPhoto;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropEditPhotoFrag;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
@@ -25,10 +28,15 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
+import static java.sql.Types.NULL;
+
 public class AddPropertyActivity extends AppCompatActivity
         implements AddPropertyPhotoRecyclerAdapter.AddPropPhotoFinishListener {
 
     private final static String TAG = AddPropertyActivity.class.getSimpleName();
+    private final int PHOTO_HAS_NOT_BEEN_SENT = 0;
 
     //private AddPropertyPresenter presenter;
     private ActivityAddPropertyBinding binder;
@@ -101,21 +109,28 @@ public class AddPropertyActivity extends AppCompatActivity
             .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
+                        Fragment frag = getSupportFragmentManager().getFragments().get(0);
+                        Bundle b = frag.getArguments();
+                        ArrayList<BallabaPropertyPhoto> photos = (ArrayList<BallabaPropertyPhoto>)b.getSerializable("photos");
+
                         if (photosJson == null) {//user has not switched tag for his photo
                             UiUtils.instance(true, activity).showSnackBar(binder.getRoot(), "לא נבחר חדר");
                         } else {
-                            conn.uploadProperty(photosJson, new BallabaResponseListener() {
-                                @Override
-                                public void resolve(BallabaBaseEntity entity) {
-                                    Log.d(TAG, "upload property photo: success");
-                                    AddPropertyPresenter.getInstance(activity, binder).onNextViewPagerItem(5);
-                                }
+                            for (BallabaPropertyPhoto photo : photos) {
+                                if (photo.getId() == PHOTO_HAS_NOT_BEEN_SENT)
+                                    conn.uploadProperty(photosJson, new BallabaResponseListener() {
+                                        @Override
+                                        public void resolve(BallabaBaseEntity entity) {
+                                            Log.d(TAG, "upload property photo: success");
+                                            AddPropertyPresenter.getInstance(activity, binder).onNextViewPagerItem(5);
+                                        }
 
-                                @Override
-                                public void reject(BallabaBaseEntity entity) {
-                                    Log.e(TAG, "upload property photo: failure");
-                                }
-                            });
+                                        @Override
+                                        public void reject(BallabaBaseEntity entity) {
+                                            Log.e(TAG, "upload property photo: failure");
+                                        }
+                                    });
+                            }
                         }
 
                         return false;

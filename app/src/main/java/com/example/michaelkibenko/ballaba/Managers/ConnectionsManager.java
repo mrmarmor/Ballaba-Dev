@@ -776,8 +776,7 @@ public class ConnectionsManager{
                             SharedPreferencesKeysHolder.PROPERTY_UPLOAD_DATE, nowStr);
 
                     if (response.has("photo_url"))
-                        callback.resolve(new BallabaPropertyPhoto(
-                            Integer.parseInt(response.get("id")+""),null,null));
+                        callback.resolve(new BallabaPropertyPhoto(Integer.parseInt(response.get("id")+"")));
                     else
                         callback.resolve(new BallabaBaseEntity());
 

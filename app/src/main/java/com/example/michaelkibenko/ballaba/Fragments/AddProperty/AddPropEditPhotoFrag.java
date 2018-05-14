@@ -58,7 +58,7 @@ public class AddPropEditPhotoFrag extends Fragment {
     private ArrayList<BallabaPropertyPhoto> photos = new ArrayList<>();
     private String[] orientations;
     //private JSONObject photosJson;
-    private ButtonUploadPhotoListener onClickListener;
+    //private ButtonUploadPhotoListener onClickListener;
 
     public AddPropEditPhotoFrag() {}
     public static AddPropEditPhotoFrag newInstance(ActivityAddPropertyBinding binding/*, String photo*/) {
@@ -74,7 +74,7 @@ public class AddPropEditPhotoFrag extends Fragment {
                 inflater, R.layout.fragment_add_prop_edit_photo, container, false);
 
         if (getArguments() != null) {
-            photos.add(new BallabaPropertyPhoto(NULL, Uri.parse(getArguments().get(PHOTO) + ""), null));
+            photos.add(new BallabaPropertyPhoto(Uri.parse(getArguments().get(PHOTO) + "")));
             this.orientations = getArguments().getStringArray(ORIENTATIONS);
         }
 
@@ -94,13 +94,17 @@ public class AddPropEditPhotoFrag extends Fragment {
         super.onActivityResult(requestCode, resultCode, imageIntent);
 
         if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK && imageIntent != null){
-            photos.add(new BallabaPropertyPhoto(NULL, imageIntent.getData(), null));
+            photos.add(new BallabaPropertyPhoto(imageIntent.getData()));
             this.orientations = new String[]{MediaStore.Images.Media.ORIENTATION};
             UiUtils.instance(true, context).buttonChanger(binderEditPhoto.addPropPhotosButtonUpload, false);
             binderEditPhoto.addPropNoPhotosTitle.setVisibility(View.GONE);
             binderEditPhoto.addPropNoPhotosDescription.setVisibility(View.GONE);
 
             adapter.notifyItemInserted(photos.size() - 1);
+
+            //if (!photos.isEmpty())// && photos.get(photos.size() - 1).getId() != NULL)
+                sendPhotoToServer(adapter.getData(context, new JSONObject()));
+
         }
     }
 
@@ -141,9 +145,6 @@ public class AddPropEditPhotoFrag extends Fragment {
         binderEditPhoto.addPropPhotosButtonUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!photos.isEmpty())
-                    sendPhotoToServer(adapter.getData(context, new JSONObject()));
-
                 startActivityForResult(new Intent(MediaStore.ACTION_IMAGE_CAPTURE), REQUEST_CODE_CAMERA);
             }
         });
@@ -162,7 +163,9 @@ public class AddPropEditPhotoFrag extends Fragment {
             public void resolve(BallabaBaseEntity entity) {
                 //TODO update property updating date on SharedPrefs??
                 SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "5");
-                photos.get(photos.size() - 1).setId(((BallabaPropertyPhoto)entity).getId());//set id to photo
+                //set id to photo. id is received from server.
+                photos.get(photos.size() - 1).setId(((BallabaPropertyPhoto)entity).getId());
+                getArguments().putSerializable("photos", photos);
             }
 
             @Override
@@ -171,12 +174,17 @@ public class AddPropEditPhotoFrag extends Fragment {
                         binderEditPhoto.getRoot(), "השמירה נכשלה נסה שנית מאוחר יותר");
 
                 //TODO draw x on photo
+                drawXonPhoto();
 
                 //TODO NEXT LINE IS ONLY FOR TESTING:
                 //AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(5);
                 //new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(2);
             }
         });
+    }
+
+    private void drawXonPhoto(){
+
     }
 
     @Override
@@ -190,8 +198,8 @@ public class AddPropEditPhotoFrag extends Fragment {
             throw new ClassCastException(context.toString() + " must implement RegWizardCallback ");
         }*/
     }
-
+/*
     public interface ButtonUploadPhotoListener {
         void onClick(JSONObject jsonObject);
-    }
+    }*/
 }
