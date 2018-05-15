@@ -40,6 +40,17 @@
         app:layout_constraintStart_toStartOf="@+id/meetings_picker_formatted_date_textView"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        />
+
+    <ImageButton
+        android:id="@+id/meetings_picker_inside_add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/plus_coral_48"
+        app:layout_constraintTop_toBottomOf="@+id/meetings_picker_inside_recyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="10dp"
         />
 
     <CheckBox
