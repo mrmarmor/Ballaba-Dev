@@ -187,7 +187,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements  TextWat
 
 
             String tempNumber = binder.enterPhoneNumberET.getText().toString().trim();
-            fullNumber = tempNumber.startsWith("0")? tempNumber.substring(1).trim() : tempNumber.trim();;
+            fullNumber = tempNumber.startsWith("0")? tempNumber.substring(1).trim() : tempNumber.trim();
             countryCode = binder.countryCodePicker.getSelectedCountryCodeWithPlus();
 
             ConnectionsManager.getInstance(context).loginWithPhoneNumber(countryCode + fullNumber, new BallabaResponseListener() {

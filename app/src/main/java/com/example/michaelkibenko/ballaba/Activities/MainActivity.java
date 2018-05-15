@@ -5,16 +5,12 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
 
-import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
-import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
+import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
 import com.example.michaelkibenko.ballaba.Presenters.SelectCityPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
@@ -85,6 +81,8 @@ public class MainActivity extends BaseActivity {
         //filterResults.put(res[1].toString(), results.get(res[1]));
         Log.d(TAG, filterResults.get(resultsKeys[0])+":"+resultsKeys[0]+":"+filterResults.size());
     }*/
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -17,7 +17,6 @@ import com.example.michaelkibenko.ballaba.Adapters.MeetingsPickerRecyclerViewAda
 import com.example.michaelkibenko.ballaba.Entities.BallabaMeetingsPickerDateEntity;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
-import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropEditPhotoBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropMeetingsBinding;
 
 import java.util.ArrayList;

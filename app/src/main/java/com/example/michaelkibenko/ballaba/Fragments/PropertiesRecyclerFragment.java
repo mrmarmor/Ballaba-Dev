@@ -11,7 +11,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +18,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
@@ -39,7 +37,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class PropertiesRecyclerFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
+public class PropertiesRecyclerFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     private final String TAG = PropertiesRecyclerFragment.class.getSimpleName();
     private final int SWIPE_TO_REFRESH_DISPLAY_DURATION = 1000;//1 second
     private static final String PROPERTIES_KEY = "properties key";
@@ -53,7 +51,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     private Context context;
     private View view;
     private BallabaResponseListener listener;
-    private boolean isGPSPermissionGranted;
+    private boolean isGPSPermissionGranted, isLocationApproved;
     //private SwipeRefreshLayout swipeRefreshLayout;
     private PropertiesRecyclerAdapter rvAdapter;
     //private RecyclerView rvProperties;
@@ -64,8 +62,10 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     //private LayoutInflater inflater;
 
     private OnFragmentInteractionListener mListener;
+    private LatLng latLng;
 
-    public PropertiesRecyclerFragment() {}
+    public PropertiesRecyclerFragment() {
+    }
 
     // TODO: Rename and change types and number of parameters
     public static PropertiesRecyclerFragment newInstance() {
@@ -85,14 +85,48 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binder = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_properties_recycler, null, false);
+        binder = DataBindingUtil.inflate(inflater, R.layout.fragment_properties_recycler, null, false);
         initRecycler(view);
+        checkForLocation();
         getProperties();
+
         return binder.getRoot();
     }
 
-    public void refreshPropertiesRecycler(){
+    private void checkForLocation() {
+        if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            BallabaLocationManager.getInstance(context).getLocation(new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    Log.d(TAG, "Location: " + location);
+                    if (location != null) {
+                        latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                        isLocationApproved = true;
+
+                    }
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+                }
+            });
+
+        } else {
+            requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}
+                    , REO_CODE_LOCATION_PERMISSION);
+        }
+    }
+
+    public void refreshPropertiesRecycler() {
         properties = BallabaSearchPropertiesManager.getInstance(context).getResults();
         rvAdapter.updateList(properties);
     }
@@ -109,7 +143,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
         //rvProperties = (RecyclerView)view.findViewById(R.id.properties_recycler_RV);
         //GridLayoutManager manager = new GridLayoutManager(getContext(), 2);//TODO to display 2 properties in a row
         LinearLayoutManager manager = new LinearLayoutManager(context);
-        rvAdapter = new PropertiesRecyclerAdapter(context,getFragmentManager(), properties, false);
+        rvAdapter = new PropertiesRecyclerAdapter(context, getFragmentManager(), properties, false);
         binder.propertiesRecyclerRV.setLayoutManager(manager);
         binder.propertiesRecyclerRV.setAdapter(rvAdapter);
 
@@ -119,8 +153,8 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
         binder.propertiesRecyclerRV.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                if(((MainActivity)context).presenter.filterState != MainPresenter.FilterState.NO_FILTER){
-                    ((MainActivity)context).presenter.filterStateUIChanger(MainPresenter.FilterState.NO_FILTER);
+                if (((MainActivity) context).presenter.filterState != MainPresenter.FilterState.NO_FILTER) {
+                    ((MainActivity) context).presenter.filterStateUIChanger(MainPresenter.FilterState.NO_FILTER);
                 }
                 super.onScrollStateChanged(recyclerView, newState);
             }
@@ -133,15 +167,14 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     }
 
 
-
-    private void getProperties(){
+    private void getProperties() {
         listener = new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 properties = BallabaSearchPropertiesManager.getInstance(context)
-                        .parsePropertyResults(((BallabaOkResponse)entity).body);
+                        .parsePropertyResults(((BallabaOkResponse) entity).body);
 
-                Log.d(TAG, "properties: " + properties.get(0).formattedAddress+":"+properties.get(1).formattedAddress);
+                Log.d(TAG, "properties: " + properties.get(0).formattedAddress + ":" + properties.get(1).formattedAddress);
                 BallabaSearchPropertiesManager.getInstance(context).appendProperties(
                         properties, false);
 
@@ -151,33 +184,12 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
 
             @Override
             public void reject(BallabaBaseEntity entity) {
-                ((BaseActivity)getActivity()).getDefaultSnackBar(binder.getRoot(), getResources().getString(R.string.error_network_internal), true);
+                ((BaseActivity) getActivity()).getDefaultSnackBar(binder.getRoot(), getResources().getString(R.string.error_network_internal), true);
             }
         };
 
-        if(ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED){
-            BallabaLocationManager.getInstance(context).getLocation(new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-                    Log.d(TAG, "Location: " + location);
-                    if (location != null) {
-                        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                        BallabaSearchPropertiesManager.getInstance(context).getPropertiesByLatLng(
-                            latLng, listener);
-                    }
-                }
-                @Override
-                public void onStatusChanged(String provider, int status, Bundle extras) {}
-                @Override
-                public void onProviderEnabled(String provider) {}
-                @Override
-                public void onProviderDisabled(String provider) {}
-            });
-
-        }else {
-            requestPermissions(new String[] { android.Manifest.permission.ACCESS_COARSE_LOCATION }
-                , REO_CODE_LOCATION_PERMISSION);
+        if (isLocationApproved){
+            BallabaSearchPropertiesManager.getInstance(context).getPropertiesByLatLng(latLng, listener);
         }
     }
 
@@ -190,17 +202,17 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
             isGPSPermissionGranted = true;
             getProperties();//to show properties by latLng
 
-        } else if (requestCode == REO_CODE_LOCATION_PERMISSION){
+        } else if (requestCode == REO_CODE_LOCATION_PERMISSION) {
             Log.d(TAG, "GPS not granted");
             BallabaSearchPropertiesManager.getInstance(context).getRandomProperties(listener);
         }
     }
 
-    public void sortProperties(@MainPresenter.SORT_TYPE final int type){
+    public void sortProperties(@MainPresenter.SORT_TYPE final int type) {
         Collections.sort(properties, new Comparator<BallabaPropertyResult>() {
             @Override
             public int compare(final BallabaPropertyResult FIRST, final BallabaPropertyResult NEXT) {
-                switch (type){
+                switch (type) {
                     case MainPresenter.SORT_TYPE.RELEVANT:
                         //TODO what is relevant??? maybe distance?
                         firstProperty = Integer.parseInt(FIRST.price);
@@ -218,7 +230,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
                         break;
 
                     case MainPresenter.SORT_TYPE.NUMBER_OF_ROOMS://rooms can be a fraction
-                        return Double.parseDouble(FIRST.roomsNumber) > Double.parseDouble(NEXT.roomsNumber)? -1 : 1;
+                        return Double.parseDouble(FIRST.roomsNumber) > Double.parseDouble(NEXT.roomsNumber) ? -1 : 1;
                 }
 
                 //TODO here we can add option to reverse sort by switching numbers
@@ -240,7 +252,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
         }, SWIPE_TO_REFRESH_DISPLAY_DURATION);
     }
 
-    public void onRefreshAnimation(boolean is){
+    public void onRefreshAnimation(boolean is) {
         binder.propertiesRecyclerSwipeToRefresh.setRefreshing(is);
     }
 

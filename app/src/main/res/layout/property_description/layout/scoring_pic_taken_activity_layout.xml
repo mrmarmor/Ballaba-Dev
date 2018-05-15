@@ -60,7 +60,7 @@
         android:id="@+id/confrim_explantion_text"
         style="@style/scoring_buttons_container"
         android:layout_width="match_parent"
-        android:layout_height="326dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_below="@+id/confirm_toolbar"
         android:layout_centerHorizontal="true"
@@ -90,27 +90,31 @@
 
 
             <EditText
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="שם פרטי:"
+                android:textSize="10sp"
                 android:textColor="@color/gray_text_color" />
 
             <EditText
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="שם משפחה:"
+                android:textSize="10sp"
                 android:textColor="@color/gray_text_color" />
 
             <EditText
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="מספר זהות:"
+                android:textSize="10sp"
                 android:textColor="@color/gray_text_color" />
 
             <EditText
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="תאריך לידה:"
+                android:textSize="10sp"
                 android:textColor="@color/gray_text_color" />
 
         </LinearLayout>

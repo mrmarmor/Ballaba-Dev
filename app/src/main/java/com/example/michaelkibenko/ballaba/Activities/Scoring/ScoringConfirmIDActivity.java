@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
@@ -48,8 +47,11 @@ public class ScoringConfirmIDActivity extends BaseActivity implements View.OnCli
             public void onClick(View v) {
 
                 //Intent intent = new Intent(ScoringConfirmIDActivity.this , ScoringCameraActivity.class);
-                Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, REQUEST_TAKE_PIC);
+                //Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                //startActivityForResult(intent, REQUEST_TAKE_PIC);
+
+                Intent intent = new Intent(ScoringConfirmIDActivity.this , ScoringCameraActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -61,7 +63,6 @@ public class ScoringConfirmIDActivity extends BaseActivity implements View.OnCli
                     @Override
                     public void resolve(BallabaBaseEntity entity) {
                         progressBar.setVisibility(View.GONE);
-                        Log.d("WOW", "resolve: " + entity.toString());
                         Intent intent = new Intent(ScoringConfirmIDActivity.this, ScoringPicTakenActivity.class);
                         intent.putExtra("USER_IMAGE", byteArray);
                         startActivity(intent);
@@ -70,8 +71,7 @@ public class ScoringConfirmIDActivity extends BaseActivity implements View.OnCli
                     @Override
                     public void reject(BallabaBaseEntity entity) {
                         progressBar.setVisibility(View.GONE);
-                        Log.d("WOW", "reject: " + entity.toString());
-                        Toast.makeText(ScoringConfirmIDActivity.this, "We couldn't manage to detect an id in this picture..\nplease try again", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ScoringConfirmIDActivity.this, "We couldn't manage to detect an id in this picture..\nplease try again", Toast.LENGTH_LONG).show();
                     }
                 });
                 /*Intent intent = new Intent(ScoringConfirmIDActivity.this, ScoringPicTakenActivity.class);

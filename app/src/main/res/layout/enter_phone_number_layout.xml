@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="presenter"
             type="com.example.michaelkibenko.ballaba.Presenters.EnterPhoneNumberPresenter" />
@@ -63,20 +64,18 @@
             android:layout_marginTop="@dimen/enter_phone_number_country_codes_spinner_top_offset"
             app:ccp_defaultNameCode="ISRAEL"
             app:layout_constraintEnd_toEndOf="@+id/enter_phone_number_country_codes_bottom_divider"
-            app:layout_constraintTop_toBottomOf="@id/enter_phone_number_top_text_answer">
-
-        </com.hbb20.CountryCodePicker>
+            app:layout_constraintTop_toBottomOf="@id/enter_phone_number_top_text_answer"/>
 
         <EditText
             android:id="@+id/enter_phone_number_ET"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginLeft="@dimen/enter_phone_number_country_codes_side_divider_offset"
+            android:layout_marginStart="@dimen/enter_phone_number_country_codes_side_divider_offset"
             android:background="@android:color/transparent"
+            android:cursorVisible="true"
             android:inputType="phone"
+            android:hint=""
             android:layoutDirection="ltr"
-            android:textCursorDrawable="@color/colorPrimary"
-            android:typeface="sans"
             app:layout_constraintBottom_toBottomOf="@+id/enter_phone_number_country_codes_bottom_divider"
             app:layout_constraintLeft_toRightOf="@+id/country_code_picker"
             app:layout_constraintRight_toRightOf="@+id/enter_phone_number_country_codes_bottom_divider"
@@ -112,8 +111,8 @@
             android:textColor="@color/red_error_phone"
             android:textSize="@dimen/enter_phone_number_top_text_answer_text_size"
             android:visibility="invisible"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/enter_phone_number_ET" />
 
         <Button
@@ -143,10 +142,10 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginTop="24dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/enter_phone_number_next_button">
 
             <android.support.v7.widget.AppCompatCheckBox
