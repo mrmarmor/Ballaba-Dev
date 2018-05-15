@@ -88,6 +88,7 @@
         <activity android:name=".Activities.Scoring.ScoringImageComparionActivity" />
         <activity android:name=".Activities.Scoring.ScoringCameraActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.CalendarTestActivity"/>
     </application>
 
 </manifest>

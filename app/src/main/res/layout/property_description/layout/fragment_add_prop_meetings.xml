@@ -2,42 +2,71 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-<LinearLayout
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/propertyRecyclerView_background_white">
+
+<android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropMeetingsFrag">
+    android:layout_height="wrap_content"
+    tools:context="com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropMeetingsFrag"
+    android:background="@color/propertyRecyclerView_background_white"
+    android:layoutDirection="rtl">
 
     <TextView
-        android:layout_width="match_parent"
+        android:id="@+id/meetingsPickerTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/large_margin"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:text="@string/addProperty_meetings_title" />
+        android:text="@string/addProperty_meetings_title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
     <CalendarView
         android:id="@+id/addProp_meetings_calendarView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/MyCalendarViewTheme"
-        android:background="@android:color/white" />
-
-    <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </android.support.constraint.ConstraintLayout>
-
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/meetingsPickerTitle"
+        android:layout_marginTop="@dimen/large_margin"
+        android:background="@color/propertyRecyclerView_background_white"
+        />
+    
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/addProp_meetings_dates_Recycler_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addProp_meetings_calendarView"
+        app:layout_constraintBottom_toTopOf="@+id/addProp_meetings_next_button"
+        android:layout_marginBottom="40dp"
+        android:background="@color/propertyRecyclerView_background_white"
+        />
+    
     <Button
-        android:layout_width="wrap_content"
-        style="@style/AppButtonAnother"
-        android:layout_gravity="center_horizontal"
-        android:text="@string/button_next" />
+        android:id="@+id/addProp_meetings_next_button"
+        android:layout_width="110dp"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="40dp"
+        android:text="המשך"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
+    </ScrollView>
 </layout>

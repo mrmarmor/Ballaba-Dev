@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivity;
+import com.example.michaelkibenko.ballaba.Activities.CalendarTestActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterPhoneNumberActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
@@ -48,5 +49,9 @@ public class TestingPresenter extends BasePresenter {
 
     public void onAddPropertyClicked(){
         context.startActivity(new Intent(context, AddPropertyActivity.class));
+    }
+
+    public void goToCalendar(){
+        context.startActivity(new Intent(context, CalendarTestActivity.class));
     }
 }

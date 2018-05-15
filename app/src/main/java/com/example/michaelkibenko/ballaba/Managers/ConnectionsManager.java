@@ -17,12 +17,9 @@ import com.example.michaelkibenko.ballaba.Config;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
-<<<<<<< HEAD
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyPhoto;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
-=======
->>>>>>> Dev-312-addPropertyScreen7
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;

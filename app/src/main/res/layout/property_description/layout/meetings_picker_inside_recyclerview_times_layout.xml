@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/transparent"
+    android:layoutDirection="rtl">
+    
+    <Spinner
+        android:id="@+id/meetings_picker_inside_from_time"
+        android:layout_width="104dp"
+        android:layout_height="35dp"
+        android:background="@android:drawable/editbox_dropdown_light_frame"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/meetings_picker_inside_betweenText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ל"
+        app:layout_constraintTop_toTopOf="@+id/meetings_picker_inside_from_time"
+        app:layout_constraintBottom_toBottomOf="@+id/meetings_picker_inside_from_time"
+        app:layout_constraintStart_toEndOf="@+id/meetings_picker_inside_from_time"
+        android:layout_marginStart="16dp"
+        />
+
+    <Spinner
+        android:id="@+id/meetings_picker_inside_to_time"
+        android:layout_width="104dp"
+        android:layout_height="35dp"
+        android:background="@android:drawable/editbox_dropdown_light_frame"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/meetings_picker_inside_betweenText"
+        android:layout_marginStart="16dp"
+        />
+    
+    <ImageButton
+        android:id="@+id/meetings_picker_inside_add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/plus_coral_48"
+        app:layout_constraintStart_toEndOf="@+id/meetings_picker_inside_delete_button"
+        app:layout_constraintTop_toTopOf="@+id/meetings_picker_inside_to_time"
+        app:layout_constraintBottom_toBottomOf="@+id/meetings_picker_inside_to_time"
+        android:layout_marginStart="30dp"
+        />
+
+    <TextView
+        android:id="@+id/meetings_picker_inside_delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="-"
+        android:textColor="@android:color/black"
+        app:layout_constraintStart_toEndOf="@+id/meetings_picker_inside_to_time"
+        app:layout_constraintTop_toTopOf="@+id/meetings_picker_inside_to_time"
+        app:layout_constraintBottom_toBottomOf="@+id/meetings_picker_inside_to_time"
+        android:layout_marginStart="30dp"
+        android:background="@android:color/transparent"
+        />
+
+</android.support.constraint.ConstraintLayout>
