@@ -12,7 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature
@@ -22,7 +22,7 @@
         android:name="android.hardware.location.gps"
         android:required="false" />
 
-    <uses-permission android:name="android.hardware.camera2.full"/>
+    <uses-permission android:name="android.hardware.camera2.full" />
 
     <application
         android:allowBackup="true"
@@ -78,15 +78,16 @@
         <activity android:name=".Activities.Scoring.ScoringPersonalActivity" />
         <activity android:name=".Activities.Scoring.ScoringWorkActivity" />
         <activity android:name=".Activities.ContinueAddPropertyActivity" />
-        <activity android:name=".Activities.AddPropertyActivity"
-            android:label="@string/addProperty_landlord_title" android:theme="@style/ActionBarStyle" />
-        <activity android:name=".Activities.SavedPropertiesActivity"/>
+        <activity
+            android:name=".Activities.AddPropertyActivity"
+            android:label="@string/addProperty_landlord_title"
+            android:theme="@style/ActionBarStyle" />
+        <activity android:name=".Activities.SavedPropertiesActivity" />
         <activity android:name=".Activities.Scoring.ScoringConfirmIDActivity" />
         <activity android:name=".Activities.Scoring.ScoringPicTakenActivity" />
         <activity android:name=".Activities.Scoring.ScoringSelfieActivity" />
         <activity android:name=".Activities.Scoring.ScoringImageComparionActivity" />
-        <activity android:name=".Activities.Scoring.ScoringCameraActivity"
-            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.Scoring.ScoringCameraActivity" />
     </application>
 
 </manifest>

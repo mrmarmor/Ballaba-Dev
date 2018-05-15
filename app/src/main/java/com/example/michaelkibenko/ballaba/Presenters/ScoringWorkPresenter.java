@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.view.ViewGroup;
@@ -188,9 +189,6 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
         } else {
             Toast.makeText(activity, "Error: No data exists", Toast.LENGTH_LONG).show();
         }
-        Intent intent = new Intent(activity, ScoringConfirmIDActivity.class);
-        activity.startActivity(intent);
-
         //activity.finish();
         //activity.sendBroadcast(new Intent(FinishActivityReceiver.ACTION_FINISH_ACTIVITY));
     }
@@ -231,6 +229,7 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 //hide progressbar
+                Log.d(TAG, "resolve: " + "WOW");
                 Intent intent = new Intent(activity, ScoringConfirmIDActivity.class);
                 activity.startActivity(intent);
             }

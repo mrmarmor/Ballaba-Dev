@@ -51,7 +51,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     private Context context;
     private View view;
     private BallabaResponseListener listener;
-    private boolean isGPSPermissionGranted , isLocationApproved;
+    private boolean isGPSPermissionGranted, isLocationApproved;
     //private SwipeRefreshLayout swipeRefreshLayout;
     private PropertiesRecyclerAdapter rvAdapter;
     //private RecyclerView rvProperties;
@@ -62,6 +62,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     //private LayoutInflater inflater;
 
     private OnFragmentInteractionListener mListener;
+    private LatLng latLng;
 
     public PropertiesRecyclerFragment() {
     }
@@ -84,11 +85,45 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binder = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_properties_recycler, null, false);
+        binder = DataBindingUtil.inflate(inflater, R.layout.fragment_properties_recycler, null, false);
         initRecycler(view);
+        checkForLocation();
         getProperties();
+
         return binder.getRoot();
+    }
+
+    private void checkForLocation() {
+        if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            BallabaLocationManager.getInstance(context).getLocation(new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    Log.d(TAG, "Location: " + location);
+                    if (location != null) {
+                        latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                        isLocationApproved = true;
+
+                    }
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+                }
+            });
+
+        } else {
+            requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}
+                    , REO_CODE_LOCATION_PERMISSION);
+        }
     }
 
     public void refreshPropertiesRecycler() {
@@ -153,35 +188,8 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
             }
         };
 
-        if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            BallabaLocationManager.getInstance(context).getLocation(new LocationListener() {
-                @Override
-                public void onLocationChanged(Location location) {
-                    Log.d(TAG, "Location: " + location);
-                    if (location != null) {
-                        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-                        BallabaSearchPropertiesManager.getInstance(context).getPropertiesByLatLng(latLng, listener);
-
-                    }
-                }
-
-                @Override
-                public void onStatusChanged(String provider, int status, Bundle extras) {
-                }
-
-                @Override
-                public void onProviderEnabled(String provider) {
-                }
-
-                @Override
-                public void onProviderDisabled(String provider) {
-                }
-            });
-
-        } else {
-            requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}
-                    , REO_CODE_LOCATION_PERMISSION);
+        if (isLocationApproved){
+            BallabaSearchPropertiesManager.getInstance(context).getPropertiesByLatLng(latLng, listener);
         }
     }
 

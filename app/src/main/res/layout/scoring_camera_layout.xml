@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/activity_scoring_camera"
-    android:orientation="vertical">
+    android:background="@color/black">
 
     <!--<TextView
         android:layout_width="48dp"
@@ -14,16 +14,19 @@
     <FrameLayout
         android:layout_centerInParent="true"
         android:id="@+id/scoring_camera_frame_layout"
-        android:layout_width="282dp"
-        android:layout_height="468dp">
+        android:layout_width="468dp"
+        android:layout_height="282dp">
     </FrameLayout>
 
     <TextView
         android:layout_below="@+id/scoring_camera_frame_layout"
-        android:id="@+id/texture_view"
-        android:layout_centerHorizontal="true"
-        android:text="יש ללחוץ על המסך לצילום"
+        android:id="@+id/text_view"
+        android:textColor="@android:color/white"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:text="יש ללחוץ על המסך לצילום" />
+
 
 </RelativeLayout>
