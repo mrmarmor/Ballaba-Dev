@@ -7,6 +7,6 @@ public class BallabaMeetingDate extends BallabaBaseEntity {
     public boolean edited;
     public int fromEditCounter, toEditCounter;
     public boolean isRepeat;
-    public int numberOfRepeats;
+    public String numberOfRepeats;
     public boolean isPrivate;
 }

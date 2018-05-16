@@ -112,7 +112,7 @@ public class MeetingsPickerInsideTimesRecyclerViewAdapter extends RecyclerView.A
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int timePosition, long id) {
                 item.fromEditCounter++;
-                item.from = updateTime(timePosition);
+                item.from = updateTime(timePosition, holder.fromSpinner);
                 holder.toSpinner.setAdapter(configureToTimeArrayAdapter(timesItems[timePosition]));
                 if(item.fromEditCounter>2) {
                     data.edited = true;
@@ -130,7 +130,7 @@ public class MeetingsPickerInsideTimesRecyclerViewAdapter extends RecyclerView.A
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int timePosition, long id) {
                 item.toEditCounter++;
-                item.to = updateTime(timePosition);
+                item.to = updateTime(timePosition, holder.toSpinner);
                 if(item.toEditCounter>2) {
                     item.edited = true;
                     data.edited = true;
@@ -144,11 +144,10 @@ public class MeetingsPickerInsideTimesRecyclerViewAdapter extends RecyclerView.A
         });
 
         holder.repeatsNumber.setAdapter(repeatsNumArrayAdapter);
-        holder.repeatsNumber.setSelection(0);
         holder.repeatsNumber.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                item.numberOfRepeats = repeats[position];
             }
 
             @Override
@@ -156,6 +155,21 @@ public class MeetingsPickerInsideTimesRecyclerViewAdapter extends RecyclerView.A
 
             }
         });
+        holder.repeatsNumber.setSelection(getRepeatsPosition(item.numberOfRepeats));
+    }
+
+    private int getRepeatsPosition(String current){
+        if(current == null){
+            return 0;
+        }
+
+        for (int i = 0; i < repeats.length; i++) {
+            if(repeats[i].equals(current)){
+                return i;
+            }
+        }
+
+        return 0;
     }
 
     private ArrayAdapter<String> configureToTimeArrayAdapter(String fromTime){
@@ -216,10 +230,10 @@ public class MeetingsPickerInsideTimesRecyclerViewAdapter extends RecyclerView.A
         }
     }
 
-    private Date updateTime(int position){
+    private Date updateTime(int position, Spinner spinner){
         Calendar cal = Calendar.getInstance();
         cal.setTime(currentDate);
-        String time = timesItems[position];
+        String time = (String)spinner.getAdapter().getItem(position);
         int hours = Integer.parseInt(time.charAt(0)+"");
         if(time.length() == 5){
             int nextTime = Integer.parseInt(time.charAt(1)+"");
