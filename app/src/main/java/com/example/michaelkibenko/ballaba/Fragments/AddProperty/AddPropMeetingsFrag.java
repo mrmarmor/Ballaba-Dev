@@ -59,9 +59,9 @@ public class AddPropMeetingsFrag extends Fragment {
         fullDates = new ArrayList<>();
 
         final MeetingsPickerRecyclerViewAdapter adapter = new MeetingsPickerRecyclerViewAdapter(context, fullDates);
-        binder.addPropMeetingsDatesRecyclerView.setNestedScrollingEnabled(false);
         binder.addPropMeetingsDatesRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         binder.addPropMeetingsDatesRecyclerView.setAdapter(adapter);
+        binder.addPropMeetingsDatesRecyclerView.setNestedScrollingEnabled(false);
 
         binder.addPropMeetingsCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
