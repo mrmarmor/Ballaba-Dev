@@ -177,6 +177,7 @@ public class UiUtils {
         return baos.toByteArray();
     }
 
+    //TODO this function has a very similar function in BaseActivity class...
     public Snackbar showSnackBar(View snackBarView, String message){
         Snackbar snackBar = Snackbar.make(snackBarView, message, Snackbar.LENGTH_LONG);
         snackBar.getView().setBackgroundColor(ctx.getResources().getColor(R.color.colorPrimary, ctx.getTheme()));

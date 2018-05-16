@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature
@@ -80,7 +81,7 @@
         <activity android:name=".Activities.Scoring.ScoringWorkActivity" />
         <activity android:name=".Activities.ContinueAddPropertyActivity" />
         <activity android:name=".Activities.AddPropertyActivity"
-            android:label="@string/addProperty_landlord_title" android:theme="@style/ActionBarStyle" />
+            android:label="@string/addProperty_landlord_title" />
         <activity android:name=".Activities.SavedPropertiesActivity"/>
         <activity android:name=".Activities.Scoring.ScoringConfirmIDActivity" />
         <activity android:name=".Activities.Scoring.ScoringPicTakenActivity" />
@@ -88,6 +89,9 @@
         <activity android:name=".Activities.Scoring.ScoringImageComparionActivity" />
         <activity android:name=".Activities.Scoring.ScoringCameraActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.SavedAreaActivity"
+            android:label="@string/savedAreas_label" />
+        <activity android:name=".Activities.EditViewportSubActivity" />
     </application>
 
 </manifest>

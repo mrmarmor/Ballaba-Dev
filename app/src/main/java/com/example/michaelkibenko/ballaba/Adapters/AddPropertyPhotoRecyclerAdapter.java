@@ -101,7 +101,10 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
         if (photos.size() > 0) {
             //TODO what if user photos are too large image (>40960px*4096px)??
-            Bitmap bitmap = adjustPhotoOrientation(photos.get(position).getPhoto());
+            Uri photoUri = photos.get(position).getPhoto();
+            Matrix matrix = adjustPhotoOrientation(photoUri);
+            Bitmap bitmap = createBitmapFromUri(photoUri, matrix);
+
             if (bitmap != null) {
                 holder.binder.addPropEditPhotoImageView.setImageBitmap(bitmap);
                 holder.binder.addPropEditPhotoImageView.setTag(position);
@@ -210,7 +213,8 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
                         dialog.dismiss();
                     }
                 });
-                areUSureDialog.setContent(context.getString(R.string.addProperty_editPhoto_removePhoto_snackBar_title), context.getString(R.string.addProperty_editPhoto_removePhoto_snackBar_message), null).show();
+                areUSureDialog.setContent(context.getString(R.string.addProperty_editPhoto_removePhoto_snackBar_title), context.getString(R.string.addProperty_editPhoto_removePhoto_snackBar_message), null);
+                areUSureDialog.show();
             }
         });
 
@@ -256,7 +260,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
     }
 
     //portrait/landscape
-    private Bitmap adjustPhotoOrientation(Uri photo){
+    private Matrix adjustPhotoOrientation(Uri photo){
         Cursor cur = context.getContentResolver().query(photo, orientations, null, null, null);
         int orientation = -1;
         if (cur != null && cur.moveToFirst()) {
@@ -267,6 +271,10 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
         Matrix matrix = new Matrix();
         matrix.postRotate(orientation);
 
+        return matrix;
+    }
+
+    private Bitmap createBitmapFromUri(Uri photo, Matrix matrix){
         try {
             Bitmap bmp = MediaStore.Images.Media.getBitmap(context.getContentResolver(), photo);
             Bitmap bitmap = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);

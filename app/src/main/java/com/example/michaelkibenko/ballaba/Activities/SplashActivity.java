@@ -17,6 +17,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Entities.Viewport;
 import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
@@ -24,6 +25,7 @@ import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManage
 import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
+import com.example.michaelkibenko.ballaba.Managers.ViewportsManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.SplashLayoutBinding;
 
@@ -48,9 +50,12 @@ public class SplashActivity extends BaseActivity {
     private BallabaConnectivityListener connectivityListener;
     private static final long MIN_SPLASH_DELAY = 4000;
     private SplashLayoutBinding binder;
-    private long startTime,endTime;
+    private long startTime, endTime;
+    //TODO these boolean below are always false:
     boolean isGetConfig, isLoggedIn,isGetProperty, wasConnectivityProblem;
+
     @FLOW_TYPES private int logInStatus = NEED_AUTHENTICATION;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

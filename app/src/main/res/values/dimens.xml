@@ -9,6 +9,7 @@
     <dimen name="textSize_small">14sp</dimen>
     <dimen name="textSize_regular">16sp</dimen>
     <dimen name="textSize_title">20sp</dimen>
+    <dimen name="textSize_title_big">40sp</dimen>
     <dimen name="textSize_big">22sp</dimen>
     <dimen name="icon_regular">24dp</dimen>
     <dimen name="icon_big">36dp</dimen>
@@ -201,7 +202,6 @@
     <dimen name="property_gallery_item_size_grid">100dp</dimen>
 
     <dimen name="scoring_welcome_margin_big">72dp</dimen>
-    <dimen name="scoring_welcome_title_textSize">40sp</dimen>
     <dimen name="scoring_welcome_questionMark_width">100dp</dimen>
     <dimen name="scoring_welcome_questionMark_height">162dp</dimen>
     <dimen name="scoring_welcome_cancel_button_width">64dp</dimen>
@@ -233,13 +233,12 @@
     <dimen name="addProp_takePhoto_button_takePhoto_padding">10dp</dimen>
     <dimen name="addProp_takePhoto_photo_height">194dp</dimen>
 
-    <!--<dimen name="addProp_meetings_">dp</dimen>
-    <dimen name="addProp_meetings_">dp</dimen>
-    <dimen name="addProp_meetings_">dp</dimen>
-    <dimen name="addProp_meetings_">dp</dimen>
-    <dimen name="addProp_meetings_">dp</dimen>
-    <dimen name="addProp_meetings_">dp</dimen>-->
-
     <dimen name="takePicSwitch_height">56dp</dimen>
+
+    <dimen name="dialog_regular_minHeight">160dp</dimen>
+
+    <dimen name="savedAreas_button_width">66dp</dimen>
+    <dimen name="savedAreas_button_height">37dp</dimen>
+    <dimen name="savedAreas_button_marginStart">9dp</dimen>
 
 </resources>

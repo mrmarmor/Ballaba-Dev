@@ -2,6 +2,7 @@ package com.example.michaelkibenko.ballaba.Managers;
 
 import android.content.Context;
 import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -17,12 +18,7 @@ import com.example.michaelkibenko.ballaba.Config;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
-<<<<<<< HEAD
-import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyPhoto;
-import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
-=======
->>>>>>> Dev-312-addPropertyScreen7
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
@@ -34,6 +30,7 @@ import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
@@ -55,6 +52,7 @@ import static com.android.volley.Request.Method.DELETE;
 import static com.android.volley.Request.Method.GET;
 import static com.android.volley.Request.Method.POST;
 import static com.android.volley.Request.Method.PUT;
+import static com.example.michaelkibenko.ballaba.Holders.EndpointsHolder.VIEWPORT;
 
 /**
  * Created by michaelkibenko on 19/02/2018.
@@ -595,14 +593,46 @@ public class ConnectionsManager {
         }
     }
 
-    public void saveViewPort(String name, LatLngBounds bounds, final BallabaResponseListener callback) {
+    public void getViewports(final BallabaResponseListener callback){
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, VIEWPORT, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                BallabaOkResponse okResponse = new BallabaOkResponse();
+                okResponse.setBody(response);
+                callback.resolve(okResponse);            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error.networkResponse != null) {
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                } else {
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return getHeadersWithSessionToken();
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(stringRequest);
+    }
+
+    public void saveViewPort(String name, LatLngBounds bounds, float zoom, final BallabaResponseListener callback) {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("NE", bounds.northeast.latitude + "," + bounds.northeast.longitude);
             jsonObject.put("SW", bounds.southwest.latitude + "," + bounds.southwest.longitude);
             jsonObject.put("name", name);
+            jsonObject.put("zoom_level", zoom);
 
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, EndpointsHolder.SAVE_VIEW_PORT, jsonObject, new Response.Listener<JSONObject>() {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, VIEWPORT, jsonObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     callback.resolve(new BallabaOkResponse());
@@ -635,8 +665,43 @@ public class ConnectionsManager {
         }
     }
 
-    //TODO I think function name getting me a little bit confused. maybe "propertySetSaved" is better(Moshe)
-    public void saveProperty(String propertyId) {
+    public void removeViewport(String propertyId, final BallabaResponseListener callback) {
+        String query = VIEWPORT + propertyId;
+        StringRequest stringRequest = new StringRequest(DELETE, query, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Log.e(TAG, response);
+                callback.resolve(new BallabaOkResponse());
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, error.getMessage());
+                if (error.networkResponse != null) {
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                } else {
+                    Log.e(TAG, error + "\n" + error.getMessage());
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return getHeadersWithSessionToken();
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(stringRequest);
+    }
+
+
+    public void addToFavoritesProperty(String propertyId) {
         String query = EndpointsHolder.PROPERTY + propertyId + "/save";
         StringRequest stringRequest = new StringRequest(POST, query, new Response.Listener<String>() {
             @Override
@@ -668,7 +733,7 @@ public class ConnectionsManager {
         queue.add(stringRequest);
     }
 
-    public void unSaveProperty(String propertyId) {
+    public void removeFromFavoritesProperty(String propertyId) {
         String query = EndpointsHolder.PROPERTY + propertyId + "/save";
         StringRequest stringRequest = new StringRequest(DELETE, query, new Response.Listener<String>() {
             @Override
@@ -875,13 +940,13 @@ public class ConnectionsManager {
                 firstImg ? EndpointsHolder.SCORING_FIRST_IMAGE_ID : EndpointsHolder.SCORING_SECOND_IMAGE_ID,
                 object,
                 new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                BallabaOkResponse callbackResponce = new BallabaOkResponse();
-                callbackResponce.setBody(response.toString());
-                callback.resolve(callbackResponce);
-            }
-        }, new Response.ErrorListener() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        BallabaOkResponse callbackResponce = new BallabaOkResponse();
+                        callbackResponce.setBody(response.toString());
+                        callback.resolve(callbackResponce);
+                    }
+                }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (error.networkResponse != null) {
@@ -890,10 +955,10 @@ public class ConnectionsManager {
                     callback.reject(new BallabaErrorResponse(500, error.getMessage()));
                 }
             }
-         }) {
+        }) {
             @Override
             public Map<String, String> getHeaders() {
-               return getHeadersWithSessionToken();
+                return getHeadersWithSessionToken();
             }
         };
 

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="presenter"
+            type="com.example.michaelkibenko.ballaba.Presenters.SavedAreaPresenter"/>
+    </data>
+
+    <FrameLayout
+        android:id="@+id/savedAreas_root"
+        style="@style/allMatchParent">
+
+        <LinearLayout
+            android:id="@+id/savedAreas_placeHolder"
+            style="@style/allMatchParent"
+            android:orientation="vertical"
+            android:layoutDirection="rtl"
+            android:background="@android:color/white"
+            android:visibility="gone" >
+
+            <TextView
+                android:id="@+id/savedAreas_noItems_title"
+                style="@style/allWrapContent"
+                android:layout_marginTop="48dp"
+                android:fontFamily="@font/rubik_medium"
+                android:layout_gravity="center"
+                android:text="@string/savedAreas_title"
+                android:textSize="@dimen/textSize_title_big" />
+
+            <ImageView
+                android:id="@+id/savedAreas_noItems_imageView"
+                style="@style/allWrapContent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/large_margin"
+                android:src="@drawable/position_blue_160" />
+
+            <TextView
+                android:id="@+id/savedAreas_noItems_description"
+                style="@style/allWrapContent"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:text="@string/savedAreas_description" />
+
+            <Button
+                android:id="@+id/savedAreas_button_search"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/savedAreas_button_height"
+                style="@style/AppButtonAnother"
+                android:padding="@dimen/savedAreas_button_marginStart"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/savedAreas_button_search" />
+
+        </LinearLayout>
+
+        <android.support.constraint.ConstraintLayout
+            style="@style/allMatchParent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/savedAreas_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/small_margin" />
+
+        </android.support.constraint.ConstraintLayout>
+    </FrameLayout>
+</layout>

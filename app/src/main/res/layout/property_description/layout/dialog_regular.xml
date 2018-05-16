@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+    style="@style/allMatchParent"
+    android:minHeight="@dimen/dialog_regular_minHeight"
+    android:layout_marginTop="@dimen/large_margin"
+    android:layout_marginStart="@dimen/large_margin"
+    android:layout_marginEnd="@dimen/small_margin"
+    android:layout_marginBottom="@dimen/small_margin"
+    android:layoutDirection="rtl">
+
+    <TextView
+        android:id="@+id/dialog_regular_title"
+        style="@style/allWrapContent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:fontFamily="@font/rubik_bold" android:text="title"
+        android:textSize="@dimen/textSize_title" />
+
+    <TextView
+        android:id="@+id/dialog_regular_message"
+        style="@style/allWrapContent"
+        app:layout_constraintTop_toBottomOf="@id/dialog_regular_title"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="10dp" android:text="message"
+        android:textColor="@color/dialog_regular_message" />
+
+    <Button
+        android:id="@+id/dialog_regular_button_positive"
+        style="@style/allWrapContent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="@dimen/small_margin"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/rubik_medium" android:text="delete" />
+
+    <Button
+        android:id="@+id/dialog_regular_button_negative"
+        style="@style/allWrapContent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/dialog_regular_button_positive"
+        android:layout_marginEnd="@dimen/small_margin"
+        android:padding="@dimen/small_margin"
+        android:background="@android:color/transparent"
+        android:fontFamily="@font/rubik_medium" android:text="cancel" />
+
+</android.support.constraint.ConstraintLayout>
+</layout>

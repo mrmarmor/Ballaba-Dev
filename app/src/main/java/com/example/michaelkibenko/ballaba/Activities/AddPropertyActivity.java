@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Activities.Scoring.BaseActivityWithActionBar;
 import com.example.michaelkibenko.ballaba.Adapters.AddPropertyPhotoRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyPhoto;
@@ -32,7 +33,7 @@ import java.util.ArrayList;
 
 import static java.sql.Types.NULL;
 
-public class AddPropertyActivity extends AppCompatActivity
+public class AddPropertyActivity extends BaseActivityWithActionBar
         implements AddPropertyPhotoRecyclerAdapter.AddPropPhotoFinishListener {
 
     private final static String TAG = AddPropertyActivity.class.getSimpleName();
@@ -56,10 +57,10 @@ public class AddPropertyActivity extends AppCompatActivity
         binder.setPresenter(new AddPropertyPresenter(this, binder));
         user = BallabaUserManager.getInstance().getUser();
 
-        UiUtils.instance(true, this).hideSoftKeyboard(binder.getRoot());
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setBackgroundDrawable(
-                new ColorDrawable(getResources().getColor(R.color.colorPrimary, getTheme())));
+        //UiUtils.instance(true, this).hideSoftKeyboard(binder.getRoot());
+        //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setBackgroundDrawable(
+        //        new ColorDrawable(getResources().getColor(R.color.colorPrimary, getTheme())));
 
     }
 

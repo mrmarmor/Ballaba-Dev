@@ -93,10 +93,10 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
                 Drawable d;
                 if (property.isSaved){
                     d = res.getDrawable(R.drawable.heart_white_24, mContext.getTheme());
-                    ConnectionsManager.getInstance(mContext).unSaveProperty(property.id);
+                    ConnectionsManager.getInstance(mContext).removeFromFavoritesProperty(property.id);
                 }else{
                     d = res.getDrawable(R.drawable.heart_blue_24, mContext.getTheme());
-                    ConnectionsManager.getInstance(mContext).saveProperty(property.id);
+                    ConnectionsManager.getInstance(mContext).addToFavoritesProperty(property.id);
                 }
                 holder.binder.propertyItemIsSavedPropertyImageView.setImageDrawable(d);
                 property.isSaved = !property.isSaved;

@@ -33,6 +33,7 @@ import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivity;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.ContinueAddPropertyActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
+import com.example.michaelkibenko.ballaba.Activities.SavedAreaActivity;
 import com.example.michaelkibenko.ballaba.Activities.SavedPropertiesActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
@@ -86,7 +87,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     }
 
     private final String TAG = MainPresenter.class.getSimpleName();
-    public static final int REQ_CODE_GPS_PERMISSION = 1, REQ_CODE_SELECT_CITY = 2;
+    public static final int REQ_CODE_SAVED_AREA = 1, REQ_CODE_SELECT_CITY = 2;
 
     @IntDef({NO_FILTER, MIDDLE_FILTER, FULL_FILTER})
     public @interface FilterState { int NO_FILTER = 1; int MIDDLE_FILTER = 2; int FULL_FILTER = 3; }
@@ -94,7 +95,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     @IntDef({BEFORE_SEARCH, AFTER_SEARCH, MAP})
     public @interface ScreenState {int BEFORE_SEARCH = 555; int AFTER_SEARCH = 666; int MAP = 888;}
 
-    private Context context;
+    private Activity context;
     private FragmentManager fm;
     private ViewPager filterViewPager;
     private PropertiesPagerAdapter propertiesPagerAdapter;
@@ -114,16 +115,17 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     private @ScreenState int screenState = ScreenState.BEFORE_SEARCH;
     private @ScreenState int beforeScreenState;
 
-    public MainPresenter(Context context, ActivityMainLayoutBinding binder, FragmentManager fm){
+    public MainPresenter(){}
+    public MainPresenter(Activity context, ActivityMainLayoutBinding binder, FragmentManager fm){
         this.binder = binder;
         this.context = context;
         this.fm = fm;
         this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        ViewGroup parent = ((MainActivity)context).getWindow().getDecorView().findViewById(android.R.id.content);
-        this.noFilterTransition = (ConstraintLayout) inflater.inflate(R.layout.activity_main_layout, parent, false).findViewById(R.id.mainActivity_rootLayout);
-        this.filterTransition = (ConstraintLayout) inflater.inflate(R.layout.activity_main_layout_filter_transition, parent, false).findViewById(R.id.mainActivity_rootLayout);
-        this.searchStateTransition = (ConstraintLayout) inflater.inflate(R.layout.activity_main_layout_search_state_layout, parent, false).findViewById(R.id.mainActivity_rootLayout);
-        this.maplayoutTransition = (ConstraintLayout) inflater.inflate(R.layout.activity_main_map_state_layout, parent, false).findViewById(R.id.mainActivity_rootLayout);
+        ViewGroup parent = context.getWindow().getDecorView().findViewById(android.R.id.content);
+        this.noFilterTransition = inflater.inflate(R.layout.activity_main_layout, parent, false).findViewById(R.id.mainActivity_rootLayout);
+        this.filterTransition = inflater.inflate(R.layout.activity_main_layout_filter_transition, parent, false).findViewById(R.id.mainActivity_rootLayout);
+        this.searchStateTransition = inflater.inflate(R.layout.activity_main_layout_search_state_layout, parent, false).findViewById(R.id.mainActivity_rootLayout);
+        this.maplayoutTransition = inflater.inflate(R.layout.activity_main_map_state_layout, parent, false).findViewById(R.id.mainActivity_rootLayout);
         propertiesFragment = PropertiesRecyclerFragment.newInstance();
         middleFilterHeight = context.getResources().getDimension(R.dimen.mainScreen_filter_middle_height);
         this.filterState = NO_FILTER;
@@ -258,7 +260,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
 
     public void onClickToSelectCity(){
         Intent intentSelectCity = new Intent(context, SelectCitySubActivity.class);
-        ((Activity)context).startActivityForResult(intentSelectCity, REQ_CODE_SELECT_CITY);
+        context.startActivityForResult(intentSelectCity, REQ_CODE_SELECT_CITY);
     }
 
     public void onClickDrawer(){
@@ -354,7 +356,8 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                 break;
 
             case R.id.nav_savedAreas:
-
+                Intent goSavedAreas = new Intent(context, SavedAreaActivity.class);
+                context.startActivityForResult(goSavedAreas, REQ_CODE_SAVED_AREA);
                 break;
 
             case R.id.nav_changeName:

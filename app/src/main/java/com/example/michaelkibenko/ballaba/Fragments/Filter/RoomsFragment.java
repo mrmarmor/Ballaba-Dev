@@ -46,7 +46,9 @@ public class RoomsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        filterResults = ((MainActivity)context).presenter.filterResult;
+
+        if (context != null && ((MainActivity)context).presenter != null)
+            filterResults = ((MainActivity)context).presenter.filterResult;
     }
 
     @Override

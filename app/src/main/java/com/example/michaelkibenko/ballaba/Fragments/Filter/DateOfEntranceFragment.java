@@ -42,7 +42,8 @@ public class DateOfEntranceFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        filterResult = ((MainActivity)context).presenter.filterResult;
+        if (context != null && ((MainActivity)context).presenter != null)
+            filterResult = ((MainActivity)context).presenter.filterResult;
     }
 
     @Override
