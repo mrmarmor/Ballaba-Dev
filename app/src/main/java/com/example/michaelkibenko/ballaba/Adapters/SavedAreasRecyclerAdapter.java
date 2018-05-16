@@ -8,9 +8,12 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,13 +52,13 @@ import static com.example.michaelkibenko.ballaba.Presenters.SavedAreaPresenter.R
  * Created by User on 15/05/2018.
  */
 
-public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter implements View.OnClickListener{
+public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter {
     private Context context;
     private SavedAreaItemBinding binder;
     private ActivitySavedAreaBinding binderParent;
     private LayoutInflater mInflater;
+    private AlertDialog areUSureDialog;
     private ArrayList<Viewport> viewports;
-    private int position;
 
     public SavedAreasRecyclerAdapter(Context context, ActivitySavedAreaBinding binding, ArrayList<Viewport> viewports) {
         this.context = context;
@@ -75,17 +78,30 @@ public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter implements V
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        this.position = position;
-
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         binder.savedAreasItemTitle.setText(viewports.get(position).title);
-        binder.savedAreasItemEdit.setOnClickListener(this);
-        binder.savedAreasItemDelete.setOnClickListener(this);
+        binder.savedAreasItemEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (viewports != null && viewports.size() > position) {
+                    Intent intent = new Intent(context, EditViewportSubActivity.class);
+                    ((Activity) context).startActivityForResult(intent, REQ_CODE_EDIT_VIEWPORT);
 
-        //binder.savedAreasItemImageView.setAdjustViewBounds(false);
-        Bitmap bitmap = BitmapFactory.decodeByteArray(viewports.get(position).mapImage
-                , 0, viewports.get(position).mapImage.length);
+                    BallabaMapFragment mapFragment = BallabaMapFragment.newInstance();
+                    mapFragment.setLocation(viewports.get(position).bounds.getCenter());
+                }
+            }
+        });
 
+        binder.savedAreasItemDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDeleteItemDialog(position);
+            }
+        });
+
+        byte[] mapImage = viewports.get(position).mapImage;
+        Bitmap bitmap = BitmapFactory.decodeByteArray(mapImage, 0, mapImage.length);
         binder.savedAreasItemImageView.setImageBitmap(bitmap);
     }
 
@@ -94,80 +110,51 @@ public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter implements V
         return viewports.size();
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.savedAreas_item_edit: default:
+    private void showDeleteItemDialog(final int position){
+        final BallabaDialogBuilder areUSureBuilder = new BallabaDialogBuilder(context, R.layout.dialog_regular);
+        areUSureDialog = areUSureBuilder.create();
 
-                if (viewports != null && viewports.size() > position) {
-                    Intent intent = new Intent(context, EditViewportSubActivity.class);
-                    ((Activity) context).startActivityForResult(intent, REQ_CODE_EDIT_VIEWPORT);
-
-                    BallabaMapFragment mapFragment = BallabaMapFragment.newInstance();
-                    mapFragment.setLocation(viewports.get(position).bounds.getCenter());
-                }
-                //fragment.focusAt(viewports.get(position).bounds);
-
-                /*((SavedAreaActivity)context).setActivityState(SavedAreaActivity.MAP_STATES.ON);
-
-                Fragment mapFragment = BallabaMapFragment.newInstance();
-                ((SavedAreaActivity)context).getSupportFragmentManager()
-                        .beginTransaction().replace(R.id.savedAreas_root, mapFragment)
-                        .commit();*/
-                break;
-
-            case R.id.savedAreas_item_delete:
-                showDeleteItemDialog();
-        }
-    }
-
-    private void showDeleteItemDialog(){
-        final BallabaDialogBuilder areUSureDialog = new BallabaDialogBuilder(context, R.layout.dialog_regular);
-        areUSureDialog.setContentInView(context.getString(R.string.savedAreas_item_deleteDialog_title)
+        areUSureBuilder.setContentInView(context.getString(R.string.savedAreas_item_deleteDialog_title)
                 , context.getString(R.string.savedAreas_item_deleteDialog_message), null);
-        areUSureDialog.setButtonsInView(context.getString(R.string.savedAreas_item_deleteDialog_button_positive)
-                                      , context.getString(R.string.savedAreas_item_deleteDialog_button_negative)
-                                      , R.color.red_error_phone
-                                      , new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                ConnectionsManager.getInstance(context).removeViewport(viewports.get(position).id, new BallabaResponseListener() {
-                    @Override
-                    public void resolve(BallabaBaseEntity entity) {
-                        deleteItem();
-                    }
-
-                    @Override
-                    public void reject(BallabaBaseEntity entity) {
-                        ((BaseActivity)context).getDefaultSnackBar(binderParent.getRoot()
-                                     , context.getString(R.string.savedAreas_item_deleteDialog_response_failure), false).show();
-                    }
-                });
-
-                areUSureDialog.create().dismiss();
-            }
-
-        }, new View.OnClickListener() {
+        areUSureBuilder.setButtonsInView(context.getString(R.string.savedAreas_item_deleteDialog_button_positive)
+                , context.getString(R.string.savedAreas_item_deleteDialog_button_negative)
+                , R.color.red_error_phone, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        areUSureDialog.create().dismiss();
+                        deleteItem(position);
+                        areUSureDialog.dismiss();
                     }
-        });
+                }, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        areUSureDialog.dismiss();
+                    }
+                });
 
         areUSureDialog.show();
     }
 
-    private void deleteItem(){
+    private void deleteItem(final int position){
         if (viewports.size() > 0) {
-            viewports.remove(position);
-            notifyItemRemoved(position);
-            ((BaseActivity)context).getDefaultSnackBar(binderParent.getRoot()
-                    , context.getString(R.string.savedAreas_item_deleteDialog_response_success), false).show();
-        }
+            ConnectionsManager.getInstance(context).removeViewport(viewports.get(position).id, new BallabaResponseListener() {
+                @Override
+                public void resolve(BallabaBaseEntity entity) {
+                    viewports.remove(position);
+                    notifyItemRemoved(position);
+                    if (viewports.size() == 0)//if there are no viewports show a placeholder
+                        binderParent.getPresenter().showPlaceHolder();
+                    ((BaseActivity)context).getDefaultSnackBar(binderParent.getRoot()
+                            , context.getString(R.string.savedAreas_item_deleteDialog_response_success), false).show();
+                }
 
-        if (viewports.size() == 0)
-            binderParent.getPresenter().showPlaceHolder();
+                @Override
+                public void reject(BallabaBaseEntity entity) {
+                    ((BaseActivity)context).getDefaultSnackBar(binderParent.getRoot()
+                            , context.getString(R.string.savedAreas_item_deleteDialog_response_failure), false).show();
+
+                }
+            });
+        }
     }
 
     private class ViewHolder extends RecyclerView.ViewHolder{

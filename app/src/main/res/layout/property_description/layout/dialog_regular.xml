@@ -16,7 +16,9 @@
         style="@style/allWrapContent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:fontFamily="@font/rubik_bold" android:text="title"
+        android:layout_marginTop="21dp"
+        android:layout_marginStart="@dimen/large_margin"
+        android:fontFamily="@font/rubik_bold"
         android:textSize="@dimen/textSize_title" />
 
     <TextView
@@ -24,7 +26,8 @@
         style="@style/allWrapContent"
         app:layout_constraintTop_toBottomOf="@id/dialog_regular_title"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="10dp" android:text="message"
+        android:layout_marginStart="@dimen/large_margin"
+        android:layout_marginTop="10dp"
         android:textColor="@color/dialog_regular_message" />
 
     <Button
@@ -34,7 +37,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:padding="@dimen/small_margin"
         android:background="@android:color/transparent"
-        android:fontFamily="@font/rubik_medium" android:text="delete" />
+        android:fontFamily="@font/rubik_medium" />
 
     <Button
         android:id="@+id/dialog_regular_button_negative"
@@ -44,7 +47,7 @@
         android:layout_marginEnd="@dimen/small_margin"
         android:padding="@dimen/small_margin"
         android:background="@android:color/transparent"
-        android:fontFamily="@font/rubik_medium" android:text="cancel" />
+        android:fontFamily="@font/rubik_medium" />
 
 </android.support.constraint.ConstraintLayout>
 </layout>

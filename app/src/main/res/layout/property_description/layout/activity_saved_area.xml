@@ -54,13 +54,13 @@
         </LinearLayout>
 
         <android.support.constraint.ConstraintLayout
+            android:layout_margin="@dimen/small_margin"
             style="@style/allMatchParent">
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/savedAreas_recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="@dimen/small_margin" />
+                android:layout_height="wrap_content" />
 
         </android.support.constraint.ConstraintLayout>
     </FrameLayout>

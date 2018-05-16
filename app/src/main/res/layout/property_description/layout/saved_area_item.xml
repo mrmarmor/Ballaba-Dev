@@ -26,8 +26,9 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="@dimen/small_margin"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:textAlignment="viewStart"
         android:fontFamily="@font/rubik_medium"
-        android:background="@android:color/transparent"
+        android:background="@android:color/transparent" android:text="asdg"
         android:hint="@string/savedAreas_item_title_hint" />
 
     <Button
