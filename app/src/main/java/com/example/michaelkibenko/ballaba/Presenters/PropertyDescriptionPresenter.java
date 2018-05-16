@@ -67,7 +67,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
     private PropertyDescriptionCommentsBinding binderComment;
     private Intent propertyIntent;
     private BallabaPropertyFull propertyFull;
-    private BallabaMapFragment mapFragment;
+    //private BallabaMapFragment mapFragment;
     private LatLng propertyLatLng;
 
     public PropertyDescriptionPresenter(final Context context, ActivityPropertyDescriptionBinding binding){
@@ -120,7 +120,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
 
                     displayDataOnScreen(propertyFull);
 
-                    initMapFragment();
+                    initPropertyMap();
                     //initStreetView();
 
                     //callback.resolve(entity);
@@ -277,9 +277,10 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         recyclerView.setAdapter(adapter);
     }
 
-    private void initMapFragment(){
-        mapFragment = BallabaMapFragment.newInstance();
+    private void initPropertyMap(){
+        //mapFragment = BallabaMapFragment.newInstance();
 
+        Log.d(TAG, "activity is: " + activity);
         String latLngStr = propertyLatLng.latitude + "," + propertyLatLng.longitude;
         String url = String.format("%s%s%s|%s", EndpointsHolder.GOOGLE_MAP_API, latLngStr, EndpointsHolder.GOOGLE_MAP_API_SETTINGS, latLngStr);
         Glide.with(activity).load(url).into(new SimpleTarget<Drawable>() {

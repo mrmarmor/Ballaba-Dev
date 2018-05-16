@@ -44,8 +44,10 @@ import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
+import com.example.michaelkibenko.ballaba.Managers.ViewportsManager;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
 import com.example.michaelkibenko.ballaba.R;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -53,6 +55,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -98,7 +101,7 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
     private static GoogleMap googleMap;
     private MapView mMapView;
     private BallabaLocationManager locationManager;
-    private boolean changed;
+    private boolean changed, disableUpdating;
     private LatLngBounds bounds;
     private BallabaLocationManager.OnGoogleMapListener mListener;
     private ConstraintLayout saveContainer;
@@ -247,7 +250,7 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
     //location
     @Override
     public void onLocationChanged(Location location) {
-        if(!changed) {
+        if(!changed && !disableUpdating) {
             changed = true;
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -486,11 +489,14 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
     }
 
     public void setLocation(LatLng latLng){
+        //locationManager.getLocation(null);
+        //this.mListener = null;
+        disableUpdating = true;
         this.location = latLng;
         if(googleMap != null){
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
             googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-        }else {
+        } else {
             Log.e(TAG, "google map is null");
         }
     }
@@ -510,7 +516,10 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
                 if(name.isEmpty()){
                     name = "No Name";
                 }
-                ConnectionsManager.getInstance(context).saveViewPort(name, googleMap.getProjection().getVisibleRegion().latLngBounds, new BallabaResponseListener() {
+                ConnectionsManager.getInstance(context).saveViewPort(name
+                        , googleMap.getProjection().getVisibleRegion().latLngBounds
+                        , googleMap.getCameraPosition().zoom
+                        , new BallabaResponseListener() {
                     @Override
                     public void resolve(BallabaBaseEntity entity) {
                         ((BaseActivity)context).getDefaultSnackBar(getView(), "אזור זה נשמר בהצלחה", false).show();

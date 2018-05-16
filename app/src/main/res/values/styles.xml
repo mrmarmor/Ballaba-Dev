@@ -20,8 +20,6 @@
     </style>
 
     <style name="ActionBarStyle" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:layout_gravity">start</item>
-        <item name="android:layoutDirection">rtl</item>
         <item name="android:elevation">@dimen/elevation</item>
         <item name="android:fontFamily">@font/rubik_regular</item>
         <item name="android:screenOrientation">portrait</item>

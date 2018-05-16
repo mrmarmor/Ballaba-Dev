@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
+    android:layout_marginBottom="@dimen/small_margin"
+    android:paddingBottom="@dimen/small_margin"
+    android:background="@android:color/white" >
+
+    <ImageView
+        android:id="@+id/savedAreas_item_imageView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/addProp_takePhoto_photo_height"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/position_blue_160"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/savedAreas_item_title"
+        style="@style/allWrapContent"
+        app:layout_constraintTop_toBottomOf="@+id/savedAreas_item_imageView"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:textAlignment="viewStart"
+        android:fontFamily="@font/rubik_medium"
+        android:background="@android:color/transparent" android:text="asdg"
+        android:hint="@string/savedAreas_item_title_hint" />
+
+    <Button
+        android:id="@+id/savedAreas_item_edit"
+        android:layout_width="@dimen/savedAreas_button_width"
+        android:layout_height="@dimen/savedAreas_button_height"
+        app:layout_constraintTop_toBottomOf="@+id/savedAreas_item_title"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginStart="@dimen/small_margin"
+        android:fontFamily="@font/rubik_medium"
+        android:textSize="@dimen/textSize_small"
+        android:gravity="center"
+        android:background="@android:color/transparent"
+        android:text="@string/savedAreas_item_button_edit" />
+
+    <Button
+        android:id="@+id/savedAreas_item_delete"
+        android:layout_width="@dimen/savedAreas_button_width"
+        android:layout_height="@dimen/savedAreas_button_height"
+        app:layout_constraintTop_toBottomOf="@+id/savedAreas_item_title"
+        app:layout_constraintStart_toEndOf="@id/savedAreas_item_edit"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginStart="@dimen/savedAreas_button_marginStart"
+        android:fontFamily="@font/rubik_medium"
+        android:textSize="@dimen/textSize_small"
+        android:textColor="@color/red_error_phone"
+        android:gravity="center"
+        android:background="@android:color/transparent"
+        android:text="@string/savedAreas_item_button_delete" />
+
+</android.support.constraint.ConstraintLayout>
+</layout>

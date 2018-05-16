@@ -56,7 +56,8 @@ public class MainActivity extends BaseActivity {
                 }
             });
             areUSureDialog.setIcon(R.drawable.check_blue_24);
-            areUSureDialog.setContent("Exit", "Are You sure you want to exit?", null).show();
+            areUSureDialog.setContent("Exit", "Are You sure you want to exit?", null);
+            areUSureDialog.show();
 
         } else {
             presenter.onClickToGoogleMap();
@@ -87,8 +88,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //TODO add result to board
-        if (requestCode == MainPresenter.REQ_CODE_SELECT_CITY) {
-            if (resultCode == RESULT_OK && data != null) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == MainPresenter.REQ_CODE_SELECT_CITY && data != null) {
                 ArrayList<String> cities = data.getStringArrayListExtra(SelectCityPresenter.SELECTED_CITIES_KEY);
 //                ArrayList<String> allPropertiesLocations =
 ////                        BallabaSearchPropertiesManager.getInstance(this).getResultsByLocation();
@@ -103,6 +104,9 @@ public class MainActivity extends BaseActivity {
 ////                    }
 ////                }
                 presenter.onSearchFlowComplete(cities);
+
+            } else if (requestCode == MainPresenter.REQ_CODE_SAVED_AREA) {
+                presenter.onClickToGoogleMap();
             }
         }
     }

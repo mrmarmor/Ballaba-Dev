@@ -275,6 +275,22 @@
     <string name="takePicSwitch_camera">צילום תמונה</string>
     <string name="takePicSwitch_gallery">תמונה מהגלריה</string>
 
+    <string name="savedAreas_label">אזורים שמורים</string>
+    <string name="savedAreas_title">עוד לא שמרתם?</string>
+    <string name="savedAreas_description">יש לכם אזור מסוים שבו אתם מעוניינים לקבל
+התראות? סמנו אותו במפה ובכל הוספה של נכס\n
+תהיו הראשונים לדעת על זה.</string>
+    <string name="savedAreas_button_search">חיפוש דירות</string>
+    <string name="savedAreas_item_title_hint">שם האיזור</string>
+    <string name="savedAreas_item_button_edit">עריכה</string>
+    <string name="savedAreas_item_button_delete">מחיקה</string>
+    <string name="savedAreas_item_deleteDialog_title"> למחוק אזור שמור?</string>
+    <string name="savedAreas_item_deleteDialog_message">לא תקבלו התראות על דירות שהתווספו</string>
+    <string name="savedAreas_item_deleteDialog_button_positive">מחק</string>
+    <string name="savedAreas_item_deleteDialog_button_negative">ביטול</string>
+    <string name="savedAreas_item_deleteDialog_response_success">אזור נמחק בהצלחה</string>
+    <string name="savedAreas_item_deleteDialog_response_failure">שגיאה במחיקת אזור</string>
+
     <string name="terms_of_use_label">תקנון</string>
     <string name="terms_of_use_text">לורם איפסום דולור סיט אמט, קונסקטורר אדיפיסינג
 אלית נולום ארווס סאפיאן - פוסיליס קוויס, אקווזמן קוואזי

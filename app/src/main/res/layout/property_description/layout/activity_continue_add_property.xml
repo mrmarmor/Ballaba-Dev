@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/scoring_welcome_margin_big"
-        android:textSize="@dimen/scoring_welcome_title_textSize"
+        android:textSize="@dimen/textSize_title_big"
         android:textColor="@color/brownish_gray"
         android:fontFamily="@font/rubik_medium"
         android:gravity="center"
