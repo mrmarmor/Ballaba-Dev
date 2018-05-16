@@ -66,6 +66,7 @@ public class AddPropMeetingsFrag extends Fragment {
         binder.addPropMeetingsCalendarView.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+                deleteNotEditedItems();
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(year, month, dayOfMonth);
                 BallabaMeetingsPickerDateEntity ballabaDate = new BallabaMeetingsPickerDateEntity();
@@ -77,6 +78,19 @@ public class AddPropMeetingsFrag extends Fragment {
         });
 
         return binder.getRoot();
+    }
+
+    private void deleteNotEditedItems(){
+        ArrayList<BallabaMeetingsPickerDateEntity> objectsToDelete = new ArrayList<>();
+        for (BallabaMeetingsPickerDateEntity entity : fullDates) {
+            if(!entity.edited){
+                objectsToDelete.add(entity);
+            }
+        }
+
+        for (BallabaMeetingsPickerDateEntity deleteble : objectsToDelete) {
+            fullDates.remove(deleteble);
+        }
     }
 
     private void initCalendar(String locale){

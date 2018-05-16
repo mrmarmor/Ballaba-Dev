@@ -17,6 +17,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.michaelkibenko.ballaba.Entities.BallabaMeetingDate;
+import com.example.michaelkibenko.ballaba.Entities.BallabaMeetingsPickerDateEntity;
 import com.example.michaelkibenko.ballaba.R;
 
 import java.util.ArrayList;
@@ -27,18 +28,20 @@ import java.util.zip.Inflater;
 public class MeetingsPickerInsideTimesRecyclerViewAdapter extends RecyclerView.Adapter<MeetingsPickerInsideTimesRecyclerViewAdapter.InsideTimeViewHolder> {
 
     private static int fromDefaultSelection = 5,
-            toDefaultSelection = 7;
+            toDefaultSelection = 0;
     private final Context context;
     private final Date currentDate;
+    private final BallabaMeetingsPickerDateEntity data;
     private ArrayList<BallabaMeetingDate> items;
     private Calendar fromCalendar, toCalendar;
     private ArrayAdapter<String> fromArrayAdapter, toArrayAdapter;
     private String[] timesItems;
     private int[] times;
+    private int fromEditCounter, toEditCounter;
 
-    public MeetingsPickerInsideTimesRecyclerViewAdapter(Context context, ArrayList<BallabaMeetingDate> items, Date currentDate) {
+    public MeetingsPickerInsideTimesRecyclerViewAdapter(Context context, BallabaMeetingsPickerDateEntity data, Date currentDate) {
         this.context = context;
-        this.items = items;
+        this.items = data.dates;
         this.currentDate = currentDate;
         this.fromCalendar = Calendar.getInstance();
         fromCalendar.setTime(currentDate);
@@ -47,6 +50,7 @@ public class MeetingsPickerInsideTimesRecyclerViewAdapter extends RecyclerView.A
         timesItems = context.getResources().getStringArray(R.array.timesSpinnerArray);
         fromArrayAdapter = new ArrayAdapter<String>(context,
                 android.R.layout.simple_list_item_1, timesItems);
+        this.data = data;
     }
 
     @NonNull
@@ -84,8 +88,12 @@ public class MeetingsPickerInsideTimesRecyclerViewAdapter extends RecyclerView.A
         holder.fromSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int timePosition, long id) {
+                fromEditCounter++;
                 items.get(holder.getAdapterPosition()).from = updateTime(timePosition);
                 holder.toSpinner.setAdapter(configureToTimeArrayAdapter(timesItems[timePosition]));
+                if(fromEditCounter>2) {
+                    data.edited = true;
+                }
             }
 
             @Override
@@ -97,7 +105,11 @@ public class MeetingsPickerInsideTimesRecyclerViewAdapter extends RecyclerView.A
         holder.toSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int timePosition, long id) {
+                toEditCounter++;
                 items.get(holder.getAdapterPosition()).to = updateTime(timePosition);
+                if(toEditCounter>2) {
+                    data.edited = true;
+                }
             }
 
             @Override
@@ -182,7 +194,6 @@ public class MeetingsPickerInsideTimesRecyclerViewAdapter extends RecyclerView.A
                 return i;
             }
         }
-
         return 0;
     }
 }
