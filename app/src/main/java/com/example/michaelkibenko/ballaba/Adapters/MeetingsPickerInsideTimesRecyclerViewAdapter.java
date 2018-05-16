@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
@@ -34,11 +36,9 @@ public class MeetingsPickerInsideTimesRecyclerViewAdapter extends RecyclerView.A
     private final BallabaMeetingsPickerDateEntity data;
     private ArrayList<BallabaMeetingDate> items;
     private Calendar fromCalendar, toCalendar;
-    private ArrayAdapter<String> fromArrayAdapter, toArrayAdapter;
-    private String[] timesItems;
+    private ArrayAdapter<String> fromArrayAdapter, toArrayAdapter, repeatsNumArrayAdapter;
+    private String[] timesItems, repeats;
     private int[] times;
-    private int fromEditCounter, toEditCounter;
-
     public MeetingsPickerInsideTimesRecyclerViewAdapter(Context context, BallabaMeetingsPickerDateEntity data, Date currentDate) {
         this.context = context;
         this.items = data.dates;
@@ -48,8 +48,11 @@ public class MeetingsPickerInsideTimesRecyclerViewAdapter extends RecyclerView.A
         this.toCalendar = Calendar.getInstance();
         toCalendar.setTime(currentDate);
         timesItems = context.getResources().getStringArray(R.array.timesSpinnerArray);
+        repeats = context.getResources().getStringArray(R.array.repeats_number_array_items);
         fromArrayAdapter = new ArrayAdapter<String>(context,
                 android.R.layout.simple_list_item_1, timesItems);
+        repeatsNumArrayAdapter = new ArrayAdapter<String>(context,
+                android.R.layout.simple_list_item_1, repeats);
         this.data = data;
     }
 
@@ -62,7 +65,9 @@ public class MeetingsPickerInsideTimesRecyclerViewAdapter extends RecyclerView.A
 
     @Override
     public void onBindViewHolder(@NonNull final InsideTimeViewHolder holder, final int position) {
-        BallabaMeetingDate item = items.get(position);
+        final BallabaMeetingDate item = items.get(position);
+        item.fromEditCounter = 0;
+        item.toEditCounter = 0;
         holder.parent.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         holder.toSpinner.setAdapter(configureToTimeArrayAdapter(timesItems[fromDefaultSelection]));
         holder.fromSpinner.setAdapter(fromArrayAdapter);
@@ -85,14 +90,33 @@ public class MeetingsPickerInsideTimesRecyclerViewAdapter extends RecyclerView.A
             }
         });
 
+        holder.isPrivateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                item.isPrivate = isChecked;
+                item.edited = true;
+            }
+        });
+
+        holder.isRepeatCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                item.isRepeat = isChecked;
+                item.edited = true;
+                holder.repeatsNumberTitle.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+                holder.repeatsNumber.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            }
+        });
+
         holder.fromSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int timePosition, long id) {
-                fromEditCounter++;
-                items.get(holder.getAdapterPosition()).from = updateTime(timePosition);
+                item.fromEditCounter++;
+                item.from = updateTime(timePosition);
                 holder.toSpinner.setAdapter(configureToTimeArrayAdapter(timesItems[timePosition]));
-                if(fromEditCounter>2) {
+                if(item.fromEditCounter>2) {
                     data.edited = true;
+                    item.edited = true;
                 }
             }
 
@@ -105,11 +129,26 @@ public class MeetingsPickerInsideTimesRecyclerViewAdapter extends RecyclerView.A
         holder.toSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int timePosition, long id) {
-                toEditCounter++;
-                items.get(holder.getAdapterPosition()).to = updateTime(timePosition);
-                if(toEditCounter>2) {
+                item.toEditCounter++;
+                item.to = updateTime(timePosition);
+                if(item.toEditCounter>2) {
+                    item.edited = true;
                     data.edited = true;
                 }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        holder.repeatsNumber.setAdapter(repeatsNumArrayAdapter);
+        holder.repeatsNumber.setSelection(0);
+        holder.repeatsNumber.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
             }
 
             @Override
@@ -157,14 +196,22 @@ public class MeetingsPickerInsideTimesRecyclerViewAdapter extends RecyclerView.A
     }
 
     public class InsideTimeViewHolder extends RecyclerView.ViewHolder{
-        public Spinner fromSpinner, toSpinner;
-        public TextView deleteBTN;
+        public Spinner fromSpinner, toSpinner, repeatsNumber;
+        public TextView deleteBTN, repeatsNumberTitle;
         public ConstraintLayout parent;
+        public CheckBox isPrivateCheckBox, isRepeatCheckBox;
+        public ImageButton isPrivateinfoBTN, isRepeatinfoBTN;
         public InsideTimeViewHolder(View itemView) {
             super(itemView);
             fromSpinner = (Spinner) itemView.findViewById(R.id.meetings_picker_inside_from_time);
             toSpinner = (Spinner) itemView.findViewById(R.id.meetings_picker_inside_to_time);
             deleteBTN = (TextView)itemView.findViewById(R.id.meetings_picker_inside_delete_button);
+            isPrivateCheckBox = (CheckBox)itemView.findViewById(R.id.meetings_picker_isPrivate_CheckBox);
+            isRepeatCheckBox = (CheckBox)itemView.findViewById(R.id.meetings_picker_isRepeat_CheckBox);
+            isPrivateinfoBTN = (ImageButton)itemView.findViewById(R.id.meetings_picker_isPrivateImageButton);
+            isRepeatinfoBTN = (ImageButton)itemView.findViewById(R.id.meetings_picker_isRepeatImageButton);
+            repeatsNumber = (Spinner) itemView.findViewById(R.id.meetings_picker_repeatsNumberSpinner);
+            repeatsNumberTitle = (TextView)itemView.findViewById(R.id.meetings_picker_repeatsNumberTitle);
             parent = (ConstraintLayout)itemView;
         }
     }
@@ -174,24 +221,39 @@ public class MeetingsPickerInsideTimesRecyclerViewAdapter extends RecyclerView.A
         cal.setTime(currentDate);
         String time = timesItems[position];
         int hours = Integer.parseInt(time.charAt(0)+"");
-        cal.set(Calendar.HOUR_OF_DAY, hours);
-        if(time.charAt(2) == '3'){
-            int minutes = 30;
-            cal.set(Calendar.MINUTE, minutes);
+        if(time.length() == 5){
+            int nextTime = Integer.parseInt(time.charAt(1)+"");
+            String realHoursString = hours+""+nextTime+"";
+            hours = Integer.parseInt(realHoursString);
         }
+        cal.set(Calendar.HOUR_OF_DAY, hours);
+        int minutes = 0;
+        if(time.charAt(time.length() == 4 ? 2 : 3) == '3'){
+            minutes = 30;
+        }
+        cal.set(Calendar.MINUTE, minutes);
+        cal.set(Calendar.SECOND, 0);
         return cal.getTime();
     }
 
     private int getNeededTimeItemPosition(Date date){
         Calendar toCal = Calendar.getInstance();
         toCal.setTime(date);
-        char minutes = (char)toCal.get(Calendar.MINUTE);
-        char hours = (char)toCal.get(Calendar.HOUR_OF_DAY);
+        String minutes = toCal.get(Calendar.MINUTE)+"";
+        String hours = toCal.get(Calendar.HOUR_OF_DAY)+"";
 
         for (int i = 0; i<timesItems.length; i++) {
             String time = timesItems[i];
-            if(time.charAt(0) == hours && time.charAt(2) == minutes){
-                return i;
+            if(time.length() == 5){
+                String inHours = new StringBuilder().append(time.charAt(0)).append(time.charAt(1)).toString();
+                if(inHours.equals(hours) && time.charAt(3) == minutes.charAt(0)){
+                    return i;
+                }
+            }
+            else{
+                if(time.charAt(0) == hours.charAt(0) && time.charAt(2) == minutes.charAt(0)){
+                    return i;
+                }
             }
         }
         return 0;

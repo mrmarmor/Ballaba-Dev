@@ -7,9 +7,7 @@ import java.util.Date;
 public class BallabaMeetingsPickerDateEntity extends BallabaBaseEntity {
     public String formattedDate;
     public ArrayList<BallabaMeetingDate> dates;
-    public boolean isRepeat;
-    public int numberOfRepeats;
-    public boolean isPrivate, edited;
+    public boolean edited;
     public Date currentDate;
     public Calendar calendar;
 }

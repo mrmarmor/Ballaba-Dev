@@ -63,22 +63,6 @@ public class MeetingsPickerRecyclerViewAdapter extends RecyclerView.Adapter<Meet
                 adapter.addItem(new BallabaMeetingDate());
             }
         });
-
-        holder.isPrivateCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                item.isPrivate = isChecked;
-                item.edited = true;
-            }
-        });
-
-        holder.isRepeatCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                item.isRepeat = isChecked;
-                item.edited = true;
-            }
-        });
     }
 
     @Override
@@ -89,17 +73,12 @@ public class MeetingsPickerRecyclerViewAdapter extends RecyclerView.Adapter<Meet
     public class TimesPickerViewHolder extends RecyclerView.ViewHolder{
         public TextView formattedTime;
         public RecyclerView timesRV;
-        public CheckBox isPrivateCheckBox, isRepeatCheckBox;
-        public ImageButton isPrivateinfoBTN, isRepeatinfoBTN, addTimeItemBTN;
+        public ImageButton addTimeItemBTN;
         public ConstraintLayout parent;
         public TimesPickerViewHolder(View itemView) {
             super(itemView);
             formattedTime = (TextView)itemView.findViewById(R.id.meetings_picker_formatted_date_textView);
             timesRV = (RecyclerView)itemView.findViewById(R.id.meetings_picker_inside_recyclerView);
-            isPrivateCheckBox = (CheckBox)itemView.findViewById(R.id.meetings_picker_isPrivate_CheckBox);
-            isRepeatCheckBox = (CheckBox)itemView.findViewById(R.id.meetings_picker_isRepeat_CheckBox);
-            isPrivateinfoBTN = (ImageButton)itemView.findViewById(R.id.meetings_picker_isPrivateImageButton);
-            isRepeatinfoBTN = (ImageButton)itemView.findViewById(R.id.meetings_picker_isRepeatImageButton);
             addTimeItemBTN = (ImageButton)itemView.findViewById(R.id.meetings_picker_inside_add_button);
             parent = (ConstraintLayout)itemView;
         }
