@@ -107,8 +107,7 @@ public class AddPropEditPhotoFrag extends Fragment {
 
             adapter.notifyItemInserted(photos.size() - 1);
 
-            //if (!photos.isEmpty())// && photos.get(photos.size() - 1).getId() != NULL)
-                sendPhotoToServer(adapter.getData(context, new JSONObject()));
+            sendPhotoToServer(adapter.getData(context, new JSONObject()));
 
         }
     }
@@ -170,9 +169,12 @@ public class AddPropEditPhotoFrag extends Fragment {
             public void resolve(BallabaBaseEntity entity) {
                 //TODO update property updating date on SharedPrefs??
                 SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "5");
+
                 //set id to photo. id is received from server.
-                photos.get(photos.size() - 1).setId(((BallabaPropertyPhoto)entity).getId());
-                getArguments().putSerializable(LAST_PHOTO, photos.get(photos.size() - 1));
+                BallabaPropertyPhoto sentPhoto = photos.get(photos.size() - 1);
+                sentPhoto.setId(((BallabaPropertyPhoto)entity).getId());
+                sentPhoto.setHasSent(true);
+                getArguments().putSerializable(LAST_PHOTO, sentPhoto);
             }
 
             @Override

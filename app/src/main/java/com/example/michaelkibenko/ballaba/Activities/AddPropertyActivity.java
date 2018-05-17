@@ -133,7 +133,8 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
             b.remove(AddPropEditPhotoFrag.LAST_PHOTO);
         }
 
-        if (photosJson == USER_HAS_NOT_SWITCHED_TAG_FOR_HIS_PHOTO || photo == null) {
+        //if (photosJson == USER_HAS_NOT_SWITCHED_TAG_FOR_HIS_PHOTO || photo == null) {
+        if (photo.getTags().isEmpty()) {
             UiUtils.instance(true, activity).showSnackBar(binder.getRoot(), "לא נבחר חדר");
         } else {
             //if (photo.getId() == PHOTO_HAS_NOT_BEEN_SENT) {
@@ -145,6 +146,8 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
                 public void resolve(BallabaBaseEntity entity) {
                     pd.dismiss();
                     Log.d(TAG, "upload property photo: success");
+                    photo.setId(((BallabaPropertyPhoto)entity).getId());
+                    photo.setHasSent(true);
                     AddPropertyPresenter.getInstance(activity, binder).onNextViewPagerItem(5);
                 }
 
