@@ -50,7 +50,6 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
     //AddPropEditPhotoFrag needs also a photo, so i need to return it with a bundle.
     public void setData(Uri photo, String[] orientations){
         Bundle bundle = new Bundle();
-        //bundle.putSerializable(AddPropEditPhotoFrag.FIRST_PHOTO, new BallabaPropertyPhoto(photo));
         bundle.putString(AddPropEditPhotoFrag.FIRST_PHOTO , photo.toString());
         bundle.putStringArray(AddPropEditPhotoFrag.ORIENTATIONS, orientations);
         addPropEditPhotoFrag = new AddPropEditPhotoFrag();

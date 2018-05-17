@@ -1,7 +1,9 @@
 package com.example.michaelkibenko.ballaba.Entities;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
+import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.google.gson.Gson;
 
 /**
@@ -11,7 +13,14 @@ import com.google.gson.Gson;
 public class BallabaUser extends BallabaBaseEntity {
     private String id, phone, email, first_name, last_name, city, address, apt_no, gender, tenant_score, landlord_score, guarantor_score, date_created, date_updated, session_token
             , device_id, global_token, profile_image;
-    //private Bitmap profile_image;
+
+    private static StringUtils instance;
+    private static StringUtils stringInstance(Context context){
+        if (instance == null)
+            instance = StringUtils.getInstance(true, context);
+
+        return instance;
+    }
 
     public BallabaUser(){}
 
@@ -79,22 +88,22 @@ public class BallabaUser extends BallabaBaseEntity {
 
     public String getEmail() {
         return trimNull(email);
-    }
+    }//TODO could be an email in hebrew?
 
     public String getFirst_name() {
-        return trimNull(first_name);
+        return stringInstance(null).formattedHebrew(trimNull(first_name));
     }
 
     public String getLast_name() {
-        return trimNull(last_name);
+        return stringInstance(null).formattedHebrew(trimNull(last_name));
     }
 
     public String getCity() {
-        return trimNull(city);
+        return stringInstance(null).formattedHebrew(trimNull(city));
     }
 
     public String getAddress() {
-        return trimNull(address);
+        return stringInstance(null).formattedHebrew(trimNull(address));
     }
 
     public String getApt_no() {

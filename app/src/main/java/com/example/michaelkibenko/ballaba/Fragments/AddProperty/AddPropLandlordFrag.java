@@ -93,9 +93,9 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             binderLandLord.addPropCityEditText.setText(user.getCity());
             binderLandLord.addPropAddressEditText.setText(user.getAddress());
             binderLandLord.addPropAptNoEditText.setText(user.getApt_no());
-            //Glide.with(context).load(user.getProfile_image()).into(binderLandLord.addPropProfileImageButton);
+            Glide.with(context).load(user.getProfile_image()).into(binderLandLord.addPropProfileImageButton);
 
-            //TODO aboutYourself field is missing. i do not receive it from server and it is not is class BallabaUser
+            //TODO aboutYourself field is missing. i do not receive it from server and it is not in class BallabaUser
         }
     }
 
