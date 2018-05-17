@@ -72,7 +72,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        binderLandLord = FragmentAddPropLandlordBinding.inflate(getLayoutInflater());
+        binderLandLord = DataBindingUtil.inflate(inflater,R.layout.fragment_add_prop_landlord, container, false);
         View view = binderLandLord.getRoot();
 
         //TODO i tried to setText automatically from layout by dataBinding. for some reason it is not working.

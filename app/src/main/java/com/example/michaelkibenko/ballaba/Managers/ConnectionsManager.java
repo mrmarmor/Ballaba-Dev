@@ -744,14 +744,11 @@ public class ConnectionsManager {
         StringRequest stringRequest = new StringRequest(DELETE, query, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                Log.e(TAG, response);
 //                callback.resolve(new BallabaOkResponse());
-
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, error.getMessage());
 //                if (error.networkResponse != null) {
 //                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
 //                } else {
@@ -839,7 +836,7 @@ public class ConnectionsManager {
                     if (response.has("photo_url"))
                         callback.resolve(new BallabaPropertyPhoto(Integer.parseInt(response.get("id")+"")));
                     else
-                        callback.resolve(new BallabaBaseEntity());
+                        callback.resolve(new BallabaOkResponse());
 
                 } catch (JSONException e) {
                     e.printStackTrace();
