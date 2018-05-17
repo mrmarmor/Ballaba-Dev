@@ -11,12 +11,15 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.michaelkibenko.ballaba.Config;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
+import com.example.michaelkibenko.ballaba.Entities.BallabaMeetingDate;
+import com.example.michaelkibenko.ballaba.Entities.BallabaMeetingsPickerDateEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyPhoto;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
@@ -33,7 +36,9 @@ import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -42,6 +47,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -1019,6 +1025,81 @@ public class ConnectionsManager {
 
         queue.add(jsonObjectRequest);
 
+    }
+
+    public void uploadPropertyMeetingsDates(ArrayList<BallabaMeetingsPickerDateEntity> data, final BallabaResponseListener callback){
+        try{
+            JSONArray jsonArray = parseOpenDoorDatesToJsonArray(data);
+            //TODO chnage the property id
+            JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(POST, EndpointsHolder.UPLOAD_METTINGS_DATES+"1/"+"opendoor", jsonArray, new Response.Listener<JSONArray>() {
+                @Override
+                public void onResponse(JSONArray response) {
+                    BallabaOkResponse ok = new BallabaOkResponse();
+                    callback.resolve(ok);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (error.networkResponse != null) {
+                        callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                    } else {
+                        callback.reject(new BallabaErrorResponse(500, null));
+                    }
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    return getHeadersWithSessionToken();
+                }
+            };
+
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    0,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+            queue.add(jsonObjectRequest);
+        }catch (JSONException ex){
+            ex.printStackTrace();
+        }
+    }
+
+    private JSONArray parseOpenDoorDatesToJsonArray(ArrayList<BallabaMeetingsPickerDateEntity> data) throws JSONException{
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        JSONArray returnable = new JSONArray();
+
+        for (BallabaMeetingsPickerDateEntity item : data) {
+            for (BallabaMeetingDate meeting : item.dates) {
+                JSONObject object = new JSONObject();
+                object.put("start_time", dateFormat.format(meeting.from));
+                object.put("end_time", dateFormat.format(meeting.to));
+                object.put("is_personal", meeting.isPrivate);
+                if(meeting.isRepeat && meeting.numberOfRepeats.equals("ללא הגבלה")){
+                    object.put("repeat", true);
+                }else{
+                    object.put("repeat", false);
+                    returnable.put(object);
+                    int repeats = Integer.parseInt(meeting.numberOfRepeats);
+                    int daysTimeValue = 7;
+                    for (int i = 0; i <= repeats; i++) {
+                        JSONObject repeatObject = new JSONObject();
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(meeting.from);
+                        cal.add(Calendar.DAY_OF_MONTH, daysTimeValue);
+                        repeatObject.put("start_time", dateFormat.format(cal.getTime()));
+                        cal.setTime(meeting.to);
+                        cal.add(Calendar.DAY_OF_MONTH, daysTimeValue);
+                        repeatObject.put("end_time", dateFormat.format(cal.getTime()));
+                        repeatObject.put("is_personal", meeting.isPrivate);
+                        repeatObject.put("repeat", false);
+                        daysTimeValue +=7;
+                        returnable.put(repeatObject);
+                    }
+                }
+            }
+        }
+
+        return returnable;
     }
 
     private boolean isQueryAdded(String url) {

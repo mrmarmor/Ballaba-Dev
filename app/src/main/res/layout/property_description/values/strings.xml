@@ -43,7 +43,7 @@
 
 
     <string-array name="repeats_number_array_items">
-        <item>ללא חזרות</item>
+        <item>ללא הגבלה</item>
         <item>1</item>
         <item>2</item>
         <item>2</item>

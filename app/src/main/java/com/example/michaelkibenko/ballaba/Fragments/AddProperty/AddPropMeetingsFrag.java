@@ -8,13 +8,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
 
 import com.example.michaelkibenko.ballaba.Adapters.MeetingsPickerRecyclerViewAdapter;
+import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaMeetingsPickerDateEntity;
+import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
+import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropMeetingsBinding;
@@ -25,6 +29,7 @@ import java.util.Locale;
 
 public class AddPropMeetingsFrag extends Fragment {
 
+    private static final String TAG = AddPropMeetingsFrag.class.getSimpleName();
     private FragmentAddPropMeetingsBinding binder;
     private Context context;
     private ArrayList<BallabaMeetingsPickerDateEntity> fullDates;
@@ -74,6 +79,23 @@ public class AddPropMeetingsFrag extends Fragment {
                 ballabaDate.calendar = calendar;
                 fullDates.add(ballabaDate);
                 adapter.updateItems();
+            }
+        });
+
+        binder.addPropMeetingsNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ConnectionsManager.getInstance(context).uploadPropertyMeetingsDates(fullDates, new BallabaResponseListener() {
+                    @Override
+                    public void resolve(BallabaBaseEntity entity) {
+                        Log.e(TAG, entity.toString());
+                    }
+
+                    @Override
+                    public void reject(BallabaBaseEntity entity) {
+                        Log.e(TAG, entity.toString());
+                    }
+                });
             }
         });
 
