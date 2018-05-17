@@ -814,16 +814,10 @@ public class ConnectionsManager {
             public void onResponse(JSONObject response) {
                 try {
                     if (response.has("id")) {
-                        SharedPreferencesManager.getInstance(context).putString(
-                                SharedPreferencesKeysHolder.PROPERTY_ID, response.get("id").toString());
+                        //next line is due to a server bug: when user uploads photo it returns id that represent the photo, not the property
+                        String id = response.has("property_id")? response.get("property_id")+"":response.get("id")+"";
+                        SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_ID, id);
                     }
-
-                    ///// TODO in step "photos", response has photo_id with key "id" instead of "photo_id"
-                    //TODO and property_id with key "property_id" instead of "id". after first version it will be fixed
-                    if (response.has("property_id"))
-                        SharedPreferencesManager.getInstance(context).putString(
-                                SharedPreferencesKeysHolder.PROPERTY_ID, response.get("property_id").toString());
-                    /////
 
                     Date now = new Date(Calendar.getInstance().getTimeInMillis());
                     String nowStr = StringUtils.getInstance(true, context).dateToString(now);

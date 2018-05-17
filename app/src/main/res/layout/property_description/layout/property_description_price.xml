@@ -103,13 +103,14 @@
         android:textColor="@color/colorPrimary"
         android:background="@drawable/blue_border" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <com.zuowei.circleimageview.CircleImageView
         android:id="@+id/propertyDescriptionPrice_landlordProfileImage"
         android:layout_width="@dimen/propertyDescription_price_landlordProfileImage_dimens"
         android:layout_height="@dimen/propertyDescription_price_landlordProfileImage_dimens"
         app:layout_constraintStart_toStartOf="@id/propertyDescriptionPrice_price_textView"
         app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPrice_rentalPeriodTitle_textView"
-        android:layout_marginTop="@dimen/activity_vertical_margin" />
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:src="@drawable/user_blue_24" />
 
     <TextView
         android:id="@+id/propertyDescriptionPrice_landlordName_textView"

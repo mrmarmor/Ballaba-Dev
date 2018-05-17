@@ -1,6 +1,7 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
@@ -20,6 +21,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
@@ -279,9 +281,12 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         data.property_id = Integer.parseInt(propertyId);
 
         if (wasPaymentsChanged || !areEditTextsEqual(data)) {
+            final ProgressDialog pd = ((BaseActivity)context).getDefaultProgressDialog(context, "Uploading...");
+            pd.show();
             ConnectionsManager.getInstance(context).uploadProperty(jsonParse(data, "payments"), new BallabaResponseListener() {
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
+                    pd.dismiss();
                     //TODO update property updating date on SharedPrefs??
                     //SharedPreferencesManager.getInstance(context).removeString(SharedPreferencesKeysHolder.PROPERTY_ID);
                     SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "4");
@@ -290,6 +295,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
 
                 @Override
                 public void reject(BallabaBaseEntity entity) {
+                    pd.dismiss();
                     UiUtils.instance(true, context).showSnackBar(
                             binderPay.addPropertyPaymentsRoot, "השמירה נכשלה נסה שנית מאוחר יותר");
 

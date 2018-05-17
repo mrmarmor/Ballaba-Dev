@@ -49,7 +49,7 @@ import static java.sql.Types.NULL;
 
 public class AddPropEditPhotoFrag extends Fragment {
     private final String TAG = AddPropEditPhotoFrag.class.getSimpleName();
-    public static String PHOTO = "photo", ORIENTATIONS = "orientations";
+    public static String FIRST_PHOTO = "first_photo", ORIENTATIONS = "orientations", LAST_PHOTO = "last_photo";
 
     private Context context;
     private static ActivityAddPropertyBinding binderMain;
@@ -73,15 +73,20 @@ public class AddPropEditPhotoFrag extends Fragment {
         binderEditPhoto = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_add_prop_edit_photo, container, false);
 
-        if (getArguments() != null) {
-            photos.add(new BallabaPropertyPhoto(Uri.parse(getArguments().get(PHOTO) + "")));
-            this.orientations = getArguments().getStringArray(ORIENTATIONS);
-        }
-
+        getPhotoFromTakePhotoFragment();
         initRecyclerView(getActivity());
         initButtons();
 
         return binderEditPhoto.getRoot();
+    }
+
+    private void getPhotoFromTakePhotoFragment(){
+        if (photos.isEmpty()) {//detect that i came here from TakePhotoFragment(=photos is empty), not from another fragment => what causes duplicating photos
+            if (getArguments() != null && getArguments().containsKey(FIRST_PHOTO)) {
+                photos.add(new BallabaPropertyPhoto(Uri.parse(getArguments().get(FIRST_PHOTO) + "")));
+                this.orientations = getArguments().getStringArray(ORIENTATIONS);
+            }
+        }
     }
 
     /*public void setCameraResult(Context context, int requestCode, int resultCode, Intent imageIntent){
@@ -122,16 +127,18 @@ public class AddPropEditPhotoFrag extends Fragment {
             }
 
             @Override
-            public void onClickRemovePhoto(boolean isHide) {
+            public void onClickRemovePhoto(boolean isPlaceHolderDisplayed) {
                 //TODO send request to server to delete photo id from server if id exist
 
                 //when user removes all photos, "noPhoto" should be appear, and button should be active
                 //when he returns the photo(isHide==false), "noPhoto" should be hide, and button should be inactive until he chooses a tag chip
+                Log.d(TAG, "items left: " + adapter.getItemCount()+"");
                 binderEditPhoto.addPropNoPhotosTitle.setVisibility(
-                        (isHide && adapter.getItemCount() > 0) ? View.GONE : View.VISIBLE);
+                        (isPlaceHolderDisplayed && adapter.getItemCount()==0) ? View.VISIBLE : View.GONE);
                 binderEditPhoto.addPropNoPhotosDescription.setVisibility(
-                        (isHide && adapter.getItemCount() > 0) ? View.GONE : View.VISIBLE);
-                UiUtils.instance(true, context).buttonChanger(binderEditPhoto.addPropPhotosButtonUpload, isHide);
+                        (isPlaceHolderDisplayed && adapter.getItemCount()==0) ? View.VISIBLE : View.GONE);
+                UiUtils.instance(true, context)
+                        .buttonChanger(binderEditPhoto.addPropPhotosButtonUpload, isPlaceHolderDisplayed);
             }
         });
         adapter.setImageOrientation(orientations);
@@ -165,7 +172,7 @@ public class AddPropEditPhotoFrag extends Fragment {
                 SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "5");
                 //set id to photo. id is received from server.
                 photos.get(photos.size() - 1).setId(((BallabaPropertyPhoto)entity).getId());
-                getArguments().putSerializable("photos", photos);
+                getArguments().putSerializable(LAST_PHOTO, photos.get(photos.size() - 1));
             }
 
             @Override

@@ -45,6 +45,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -73,6 +74,9 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
             , AddPropPhotoRecyclerListener listener) {
         this.context = mContext;
         this.photos = photos;
+        //TESTING
+        //this.photos.get(0).addTag(new PropertyAttachmentAddonEntity("1", "hall", "סלון"));
+        //END OF TESTING
         this.attachments = attachments;
         this.onClickListener = listener;
     }
@@ -136,15 +140,8 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
         for (final PropertyAttachmentAddonEntity attachment : items) {
             Button chipsItem = (Button)mInflater.inflate(R.layout.chip_regular, null);
-            if (chipsItem.getTag() != null) {
-                if (!chipsItem.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
-                    chipsItem.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
-                }
-            } else {
-                chipsItem.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
-            }
-
             chipsItem.setText(attachment.formattedTitle);
+
             chipsItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -159,9 +156,24 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
                 }
             });
 
+            if (chipsItem.getTag() != null) {
+                if (!chipsItem.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
+                    chipsItem.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
+                }
+            } else {
+                chipsItem.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
+            }
+
+            //this loop set chip/tag press state, according to last uploading time
+            for (PropertyAttachmentAddonEntity photoTag : photos.get(position).getTags()) {
+                if (photoTag.id.equals(attachment.id)) {
+                    photos.get(position).setTags(new HashSet<PropertyAttachmentAddonEntity>());
+                    onTagClick(flowLayout, chipsItem, attachment, position);
+                }
+            }
+
             flowLayout.addView(chipsItem);
         }
-
     }
 
     private void onTagClick(FlowLayout flowLayout, Button btn, PropertyAttachmentAddonEntity attachment, int position){
@@ -240,7 +252,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
     private void returnPhoto(BallabaPropertyPhoto photoToReturn, int position){
         photos.add(/*position, */photoToReturn);//TODO photo returned to end of list. if we want to return it to its original position, set the index here
-        ArrayList<PropertyAttachmentAddonEntity> tags = photoToReturn.getTags();
+        HashSet<PropertyAttachmentAddonEntity> tags = photoToReturn.getTags();
         for (PropertyAttachmentAddonEntity tag : tags) {
             int positionOfTag = Integer.parseInt(tag.id) - 1;//position is actually the same as its id - 1
             Button btn = (Button)holder.binder.addPropEditPhotoRoomsFlowLayout.getChildAt(positionOfTag);
@@ -265,8 +277,8 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
         int orientation = -1;
         if (cur != null && cur.moveToFirst()) {
             orientation = cur.getInt(cur.getColumnIndex(orientations[0]));
+            cur.close();
         }
-        cur.close();
 
         Matrix matrix = new Matrix();
         matrix.postRotate(orientation);
@@ -279,8 +291,9 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
             Bitmap bmp = MediaStore.Images.Media.getBitmap(context.getContentResolver(), photo);
             Bitmap bitmap = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
             return bitmap;
-        } catch (IOException e) {
+        } catch (IOException | OutOfMemoryError e) {
             e.printStackTrace();
+            Log.e(TAG, "error: " + e.getMessage());
             return null;
         }
     }
@@ -332,7 +345,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
     public interface AddPropPhotoRecyclerListener {
         void onClickChip(String id, int position);
-        void onClickRemovePhoto(boolean isHide);
+        void onClickRemovePhoto(boolean isPlaceHolderDisplayed);
     }
 
     public interface AddPropPhotoFinishListener {

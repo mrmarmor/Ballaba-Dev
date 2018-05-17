@@ -1,7 +1,11 @@
 package com.example.michaelkibenko.ballaba.Activities;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -37,12 +41,13 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
         implements AddPropertyPhotoRecyclerAdapter.AddPropPhotoFinishListener {
 
     private final static String TAG = AddPropertyActivity.class.getSimpleName();
-    private final int PHOTO_HAS_NOT_BEEN_SENT = 0;
 
     //private AddPropertyPresenter presenter;
     private ActivityAddPropertyBinding binder;
+    private ProgressDialog pd;
     public BallabaUser user;
     private JSONObject photosJson;
+    private BallabaPropertyPhoto photo;
     private boolean isSelectedTagForPhoto = false;
     //private AddPropFinishListener listener;
 
@@ -72,7 +77,7 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
         pagesCounterTv.setPadding(16, 0, 16, 0);
         if (pageNumber < 4)//page counter should be displayed only in first 4 screens
             menu.add(0, 1, 1, (pageNumber+1)+"/4")
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         else if (pageNumber == 5)
             setButtonFinishUploadProperty(menu);
 
@@ -101,43 +106,57 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
         }
     }
 
+    private final JSONObject USER_HAS_NOT_SWITCHED_TAG_FOR_HIS_PHOTO = null;
     //when user clicks finish button on actionbar, last photo that hasn't sent yet, is sent now to server
-    private void setButtonFinishUploadProperty(Menu menu){
-        final ConnectionsManager conn = ConnectionsManager.getInstance(this);
-        final AddPropertyActivity activity = AddPropertyActivity.this;
+    private void setButtonFinishUploadProperty(Menu menu) {
+        final AddPropertyActivity activity = this;
 
         menu.add(0, 1, 1, getString(R.string.addProperty_editPhoto_finish))
-            .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        Fragment frag = getSupportFragmentManager().getFragments().get(0);
-                        Bundle b = frag.getArguments();
-                        ArrayList<BallabaPropertyPhoto> photos = (ArrayList<BallabaPropertyPhoto>)b.getSerializable("photos");
-
-                        if (photosJson == null) {//user has not switched tag for his photo
-                            UiUtils.instance(true, activity).showSnackBar(binder.getRoot(), "לא נבחר חדר");
-                        } else {
-                            for (BallabaPropertyPhoto photo : photos) {
-                                if (photo.getId() == PHOTO_HAS_NOT_BEEN_SENT)
-                                    conn.uploadProperty(photosJson, new BallabaResponseListener() {
-                                        @Override
-                                        public void resolve(BallabaBaseEntity entity) {
-                                            Log.d(TAG, "upload property photo: success");
-                                            AddPropertyPresenter.getInstance(activity, binder).onNextViewPagerItem(5);
-                                        }
-
-                                        @Override
-                                        public void reject(BallabaBaseEntity entity) {
-                                            Log.e(TAG, "upload property photo: failure");
-                                        }
-                                    });
-                            }
-                        }
-
+                        uploadPhoto(activity, ConnectionsManager.getInstance(activity));
                         return false;
                     }
                 })
                 .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    }
+
+    private void uploadPhoto(final AddPropertyActivity activity, final ConnectionsManager conn){
+        Fragment editPhotoFragment = getSupportFragmentManager().getFragments().get(0);
+        Bundle b = editPhotoFragment.getArguments();
+        if (b != null && b.containsKey(AddPropEditPhotoFrag.FIRST_PHOTO)) {
+            photo = new BallabaPropertyPhoto(Uri.parse(b.getString(AddPropEditPhotoFrag.FIRST_PHOTO)));
+            b.remove(AddPropEditPhotoFrag.FIRST_PHOTO);
+        } else if (b != null && b.containsKey(AddPropEditPhotoFrag.LAST_PHOTO)) {
+            photo = (BallabaPropertyPhoto) b.getSerializable(AddPropEditPhotoFrag.LAST_PHOTO);
+            b.remove(AddPropEditPhotoFrag.LAST_PHOTO);
+        }
+
+        if (photosJson == USER_HAS_NOT_SWITCHED_TAG_FOR_HIS_PHOTO || photo == null) {
+            UiUtils.instance(true, activity).showSnackBar(binder.getRoot(), "לא נבחר חדר");
+        } else {
+            //if (photo.getId() == PHOTO_HAS_NOT_BEEN_SENT) {
+            pd = activity.getDefaultProgressDialog(activity, "Uploading...");
+            pd.show();
+
+            conn.uploadProperty(photosJson, new BallabaResponseListener() {
+                @Override
+                public void resolve(BallabaBaseEntity entity) {
+                    pd.dismiss();
+                    Log.d(TAG, "upload property photo: success");
+                    AddPropertyPresenter.getInstance(activity, binder).onNextViewPagerItem(5);
+                }
+
+                @Override
+                public void reject(BallabaBaseEntity entity) {
+                    pd.dismiss();
+                    Log.e(TAG, "upload property photo: failure");
+                }
+            });
+            //}
+
+        }
     }
 
     @Override

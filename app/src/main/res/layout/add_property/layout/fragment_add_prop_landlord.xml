@@ -49,7 +49,7 @@
                     android:textColor="@color/gray_text_color"
                     android:text="@string/addProperty_landlord_profileImage_description" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
+                <com.zuowei.circleimageview.CircleImageView
                     android:id="@+id/addProp_profile_imageButton"
                     android:layout_width="@dimen/addProperty_landlordProfileImage_dimens"
                     android:layout_height="@dimen/addProperty_landlordProfileImage_dimens"
@@ -58,7 +58,6 @@
                     android:src="@drawable/add_user_b_lue_60"
                     android:scaleType="centerInside"
                     android:elevation="@dimen/elevation" />
-                <!--                android:onClick="@{() -> presenter.onClickProfileImage() }"-->
 
             </LinearLayout>
 

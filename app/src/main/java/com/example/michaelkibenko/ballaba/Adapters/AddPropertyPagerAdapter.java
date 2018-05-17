@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyPhoto;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropAddonsFrag;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropAssetFrag;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropEditPhotoFrag;
@@ -49,7 +50,8 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
     //AddPropEditPhotoFrag needs also a photo, so i need to return it with a bundle.
     public void setData(Uri photo, String[] orientations){
         Bundle bundle = new Bundle();
-        bundle.putString(AddPropEditPhotoFrag.PHOTO , photo.toString());
+        //bundle.putSerializable(AddPropEditPhotoFrag.FIRST_PHOTO, new BallabaPropertyPhoto(photo));
+        bundle.putString(AddPropEditPhotoFrag.FIRST_PHOTO , photo.toString());
         bundle.putStringArray(AddPropEditPhotoFrag.ORIENTATIONS, orientations);
         addPropEditPhotoFrag = new AddPropEditPhotoFrag();
         addPropEditPhotoFrag.setArguments(bundle);
@@ -59,29 +61,6 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         return fragments[position];
-
-        //switch (position) {
-            //case 0:
-            //    return AddPropLandlordFrag.newInstance(binder);
-
-            //case 1:
-                //return AddPropAssetFrag.newInstance(binder);
-
-           /* case 2:
-                return AddPropAddonsFrag.newInstance(binder);
-
-            case 3: default: //TODO
-                return AddPropPaymentsFrag.newInstance(binder);
-
-            case 4:
-                return AddPropTakePhotoFrag.newInstance(binder);
-
-            case 5:
-                return addPropEditPhotoFrag;
-
-            case 6:
-                return AddPropMeetingsFrag.newInstance(binder);
-        }*/
     }
 
     @Override
