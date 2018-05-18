@@ -32,14 +32,17 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
     private final String TAG = AddPropTakePhotoFrag.class.getSimpleName();
     public static final int REQUEST_CODE_CAMERA = 1;
 
-    private static ActivityAddPropertyBinding binderMain;
+    private ActivityAddPropertyBinding binderMain;
 
     public AddPropTakePhotoFrag() {}
-    public static AddPropTakePhotoFrag newInstance(ActivityAddPropertyBinding binding) {
+    public static AddPropTakePhotoFrag newInstance() {
         AddPropTakePhotoFrag fragment = new AddPropTakePhotoFrag();
-        binderMain = binding;
-
         return fragment;
+    }
+
+    public AddPropTakePhotoFrag setMainBinder(ActivityAddPropertyBinding binder){
+        this.binderMain = binder;
+        return this;
     }
 
     @Override

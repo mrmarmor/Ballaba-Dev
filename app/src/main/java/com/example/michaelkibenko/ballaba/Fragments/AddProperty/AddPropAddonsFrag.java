@@ -43,7 +43,7 @@ import static com.google.android.gms.internal.zzbgp.NULL;
 public class AddPropAddonsFrag extends Fragment implements Button.OnClickListener{
     private final String TAG = AddPropAddonsFrag.class.getSimpleName(), NOT_FURNISHED_TAG = "not_furnished_tag";
     private Context context;
-    private static ActivityAddPropertyBinding binderMain;
+    private ActivityAddPropertyBinding binderMain;
     private FragmentAddPropAddonsBinding binderAddons;
     //public ChipsButtonsRecyclerViewAdapter adapter;
     //private ArrayList<PropertyAttachmentAddonEntity> items;
@@ -54,9 +54,12 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
     public AddPropAddonsFrag() {}
     public static AddPropAddonsFrag newInstance(ActivityAddPropertyBinding binding) {
         AddPropAddonsFrag fragment = new AddPropAddonsFrag();
-        binderMain = binding;
-
         return fragment;
+    }
+
+    public AddPropAddonsFrag setMainBinder(ActivityAddPropertyBinding binder){
+        this.binderMain = binder;
+        return this;
     }
 
     @Override

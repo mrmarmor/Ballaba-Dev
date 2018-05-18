@@ -53,7 +53,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     private static final String TAG = AddPropLandlordFrag.class.getSimpleName();
 
     private Context context;
-    private static ActivityAddPropertyBinding binderMain;
+    private ActivityAddPropertyBinding binderMain;
     private FragmentAddPropLandlordBinding binderLandLord;
     private BottomSheetDialog bottomSheetDialog;
     public BallabaUser user = BallabaUserManager.getInstance().getUser();
@@ -61,11 +61,14 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
 
     public AddPropLandlordFrag() {}
 
-    public static AddPropLandlordFrag newInstance(ActivityAddPropertyBinding binding) {
+    public static AddPropLandlordFrag newInstance() {
         AddPropLandlordFrag fragment = new AddPropLandlordFrag();
-        binderMain = binding;
-
         return fragment;
+    }
+
+    public AddPropLandlordFrag setMainBinder(ActivityAddPropertyBinding binder){
+        this.binderMain = binder;
+        return this;
     }
 
     @Override

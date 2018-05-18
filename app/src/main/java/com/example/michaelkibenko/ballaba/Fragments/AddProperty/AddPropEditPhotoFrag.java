@@ -52,7 +52,7 @@ public class AddPropEditPhotoFrag extends Fragment {
     public static String PHOTO = "photo", ORIENTATIONS = "orientations";
 
     private Context context;
-    private static ActivityAddPropertyBinding binderMain;
+    private ActivityAddPropertyBinding binderMain;
     private static FragmentAddPropEditPhotoBinding binderEditPhoto;
     private AddPropertyPhotoRecyclerAdapter adapter;
     private ArrayList<BallabaPropertyPhoto> photos = new ArrayList<>();
@@ -61,22 +61,25 @@ public class AddPropEditPhotoFrag extends Fragment {
     //private ButtonUploadPhotoListener onClickListener;
 
     public AddPropEditPhotoFrag() {}
-    public static AddPropEditPhotoFrag newInstance(ActivityAddPropertyBinding binding/*, String photo*/) {
+    public static AddPropEditPhotoFrag newInstance() {
         AddPropEditPhotoFrag fragment = new AddPropEditPhotoFrag();
-        binderMain = binding;
-
         return fragment;
+    }
+
+    public AddPropEditPhotoFrag setMainBinder(ActivityAddPropertyBinding binder){
+        this.binderMain = binder;
+        return this;
+    }
+
+    public void setData(String photo, String[] orientations){
+        photos.add(new BallabaPropertyPhoto(Uri.parse(photo)));
+        this.orientations = orientations;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binderEditPhoto = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_add_prop_edit_photo, container, false);
-
-        if (getArguments() != null) {
-            photos.add(new BallabaPropertyPhoto(Uri.parse(getArguments().get(PHOTO) + "")));
-            this.orientations = getArguments().getStringArray(ORIENTATIONS);
-        }
 
         initRecyclerView(getActivity());
         initButtons();

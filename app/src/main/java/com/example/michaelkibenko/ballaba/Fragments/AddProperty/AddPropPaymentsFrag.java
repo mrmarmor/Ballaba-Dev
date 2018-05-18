@@ -53,7 +53,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     private final String TAG = AddPropPaymentsFrag.class.getSimpleName(), ALL_INCLUDED = "all_included";
 
     private Context context;
-    private static ActivityAddPropertyBinding binderMain;
+    private ActivityAddPropertyBinding binderMain;
     private FragmentAddPropPaymentsBinding binderPay;
     private ArrayList<PropertyAttachmentAddonEntity> items;
     private FlowLayout paymentsRoot, paymentMethodsRoot;
@@ -63,11 +63,15 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     private boolean wasPaymentsChanged = false;
 
     public AddPropPaymentsFrag() {}
-    public static AddPropPaymentsFrag newInstance(ActivityAddPropertyBinding binding) {
+    public static AddPropPaymentsFrag newInstance() {
         AddPropPaymentsFrag fragment = new AddPropPaymentsFrag();
-        binderMain = binding;
 
         return fragment;
+    }
+
+    public AddPropPaymentsFrag setMainBinder(ActivityAddPropertyBinding binder){
+        this.binderMain = binder;
+        return this;
     }
 
     @Override

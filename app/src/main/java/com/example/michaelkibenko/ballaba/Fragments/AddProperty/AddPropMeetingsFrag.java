@@ -39,7 +39,7 @@ public class AddPropMeetingsFrag extends Fragment {
     }
 
     // TODO: Rename and change types and number of parameters
-    public static AddPropMeetingsFrag newInstance(ActivityAddPropertyBinding binding) {
+    public static AddPropMeetingsFrag newInstance() {
         AddPropMeetingsFrag fragment = new AddPropMeetingsFrag();
         Bundle args = new Bundle();
         fragment.setArguments(args);

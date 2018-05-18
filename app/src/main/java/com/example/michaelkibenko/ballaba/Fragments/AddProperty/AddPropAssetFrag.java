@@ -47,17 +47,20 @@ public class AddPropAssetFrag extends Fragment {
     private static final String TAG = AddPropAssetFrag.class.getSimpleName();
 
     private Context context;
-    private static ActivityAddPropertyBinding binderMain;
+    private ActivityAddPropertyBinding binderMain;
     private FragmentAddPropAssetBinding binderAsset;
     private boolean areAllDataFieldsFilledUp = true;
-    //private TextView yearTextView;
 
     public AddPropAssetFrag() {}
-    public static AddPropAssetFrag newInstance(ActivityAddPropertyBinding binding) {
+    public static AddPropAssetFrag newInstance() {
         AddPropAssetFrag fragment = new AddPropAssetFrag();
-        binderMain = binding;
 
         return fragment;
+    }
+
+    public AddPropAssetFrag setMainBinder(ActivityAddPropertyBinding binder){
+        this.binderMain = binder;
+        return this;
     }
 
     @Override

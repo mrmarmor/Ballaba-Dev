@@ -37,11 +37,7 @@ public class AddPropertyPresenter {
 
         addPropertyPagerAdapter = new AddPropertyPagerAdapter(binder, activity.getSupportFragmentManager());
         binder.addPropertyViewPager.setAdapter(addPropertyPagerAdapter);
-
-        //TODO testing
         binding.addPropertyViewPager.setCurrentItem(0);
-        //TODO end of testing
-
         binder.addPropertyViewPager.setOffscreenPageLimit(0);
     }
 

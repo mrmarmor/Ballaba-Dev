@@ -31,57 +31,29 @@ import java.util.HashMap;
 public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
     private final String TAG = FilterPagerAdapter.class.getSimpleName();
 
-    private FragmentManager fm;
     private Fragment[] fragments;
-    private AddPropEditPhotoFrag addPropEditPhotoFrag;
 
     public AddPropertyPagerAdapter(ActivityAddPropertyBinding binder, FragmentManager fm) {
         super(fm);
 
         fragments = new Fragment[]{
-                  AddPropLandlordFrag.newInstance(binder), AddPropAssetFrag.newInstance(binder)
-                , AddPropAddonsFrag.newInstance(binder), AddPropPaymentsFrag.newInstance(binder)
-                , AddPropTakePhotoFrag.newInstance(binder), addPropEditPhotoFrag
-                , AddPropMeetingsFrag.newInstance(binder)};
-//        this.binder = binder;
+                  AddPropLandlordFrag.newInstance().setMainBinder(binder), AddPropAssetFrag.newInstance().setMainBinder(binder)
+                , AddPropAddonsFrag.newInstance(binder).setMainBinder(binder), AddPropPaymentsFrag.newInstance().setMainBinder(binder)
+                , AddPropTakePhotoFrag.newInstance().setMainBinder(binder), AddPropEditPhotoFrag.newInstance().setMainBinder(binder)
+                , AddPropMeetingsFrag.newInstance()};
     }
 
     //AddPropEditPhotoFrag needs also a photo, so i need to return it with a bundle.
     public void setData(Uri photo, String[] orientations){
-        Bundle bundle = new Bundle();
-        bundle.putString(AddPropEditPhotoFrag.PHOTO , photo.toString());
-        bundle.putStringArray(AddPropEditPhotoFrag.ORIENTATIONS, orientations);
-        addPropEditPhotoFrag = new AddPropEditPhotoFrag();
-        addPropEditPhotoFrag.setArguments(bundle);
-        fragments[5] = addPropEditPhotoFrag;
+        ((AddPropEditPhotoFrag)fragments[5]).setData(photo.toString(), orientations);
     }
 
     @Override
     public Fragment getItem(int position) {
-        return fragments[position];
-
-        //switch (position) {
-            //case 0:
-            //    return AddPropLandlordFrag.newInstance(binder);
-
-            //case 1:
-                //return AddPropAssetFrag.newInstance(binder);
-
-           /* case 2:
-                return AddPropAddonsFrag.newInstance(binder);
-
-            case 3: default: //TODO
-                return AddPropPaymentsFrag.newInstance(binder);
-
-            case 4:
-                return AddPropTakePhotoFrag.newInstance(binder);
-
-            case 5:
-                return addPropEditPhotoFrag;
-
-            case 6:
-                return AddPropMeetingsFrag.newInstance(binder);
-        }*/
+        if(fragments[position] != null)
+            return fragments[position];
+        else
+            return fragments[0];
     }
 
     @Override
