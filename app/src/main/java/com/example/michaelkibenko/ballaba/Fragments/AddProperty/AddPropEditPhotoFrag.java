@@ -40,6 +40,7 @@ import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropEditPhotoBi
 
 import org.json.JSONObject;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -44,6 +44,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -223,12 +224,12 @@ public class ConnectionsManager {
                 , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
-                if (user == null) {
-                    callback.reject(new BallabaErrorResponse(500, null));
-                } else {
-                    callback.resolve(user);
-                }
+                    BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
+                    if (user == null) {
+                        callback.reject(new BallabaErrorResponse(500, null));
+                    } else {
+                        callback.resolve(user);
+                    }
             }
         }, new Response.ErrorListener() {
             @Override

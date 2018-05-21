@@ -78,10 +78,6 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         binderLandLord = DataBindingUtil.inflate(inflater,R.layout.fragment_add_prop_landlord, container, false);
         View view = binderLandLord.getRoot();
 
-        //TODO i tried to setText automatically from layout by dataBinding. for some reason it is not working.
-        //TODO we need to fill all editTexts in this way and not programmatically as below:
-        //binderLandLord.addPropPhoneEditText.setText(user.getPhone());
-
         initEditTexts();
         initButtons(view);
         return view;
@@ -96,9 +92,8 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             binderLandLord.addPropCityEditText.setText(user.getCity());
             binderLandLord.addPropAddressEditText.setText(user.getAddress());
             binderLandLord.addPropAptNoEditText.setText(user.getApt_no());
-            //Glide.with(context).load(user.getProfile_image()).into(binderLandLord.addPropProfileImageButton);
-
-            //TODO aboutYourself field is missing. i do not receive it from server and it is not is class BallabaUser
+            if(user.getProfile_image() != null && !user.getProfile_image().equals("null"))
+                Glide.with(context).load(user.getProfile_image()).into(binderLandLord.addPropProfileImageButton);
         }
     }
 
