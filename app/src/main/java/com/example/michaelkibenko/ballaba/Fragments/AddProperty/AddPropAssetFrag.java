@@ -18,9 +18,12 @@ import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
@@ -43,7 +46,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class AddPropAssetFrag extends Fragment {
+public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChangeListener{
     private static final String TAG = AddPropAssetFrag.class.getSimpleName();
 
     private Context context;
@@ -65,14 +68,15 @@ public class AddPropAssetFrag extends Fragment {
                              Bundle savedInstanceState) {
         binderAsset = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_add_prop_asset, container, false);
-        View view = binderAsset.getRoot();
+
+        final ConnectionsManager conn = ConnectionsManager.newInstance(context);
         binderAsset.addPropertyAssetButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
                 if (areAllDataFieldsFilledUp && !isDataEqual(data))
 
-                    ConnectionsManager.getInstance(context).uploadProperty(jsonParse(data, "create"), new BallabaResponseListener() {
+                    conn.uploadProperty(jsonParse(data, "create"), new BallabaResponseListener() {
                         @Override
                         public void resolve(BallabaBaseEntity entity) {
                             SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "2");
@@ -87,16 +91,34 @@ public class AddPropAssetFrag extends Fragment {
                             new AddPropertyPresenter((AppCompatActivity)context, binderMain).onNextViewPagerItem(1);
                         }
                     });
+                else {
+                    //TODO continue to next page without sending data to server
+                }
             }
         });
 
-        initEditTexts(BallabaSearchPropertiesManager.getInstance(context).getPropertyFull());
+        //String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, null);
+        BallabaPropertyFull propertyFull = BallabaSearchPropertiesManager.getInstance(context).getPropertyFull();
+        initEditTexts(propertyFull);
+
+        /*conn.getPropertyById(propertyId, new BallabaResponseListener() {
+            @Override
+            public void resolve(BallabaBaseEntity entity) {
+                Log.d(TAG, ((BallabaOkResponse)entity).body);
+                initEditTexts((BallabaPropertyFull)entity);
+            }
+
+            @Override
+            public void reject(BallabaBaseEntity entity) {
+                Log.e(TAG, entity.toString());
+            }
+        });*/
 
         binderAsset.addPropAssetRentalPeriodDatePicker
                 .setTitle(getString(R.string.addProperty_asset_dateOfEntrance))
                 .setTextSize(14);
 
-        return view;
+        return binderAsset.getRoot();
     }
 
     private void initEditTexts(BallabaPropertyFull property){
@@ -112,6 +134,15 @@ public class AddPropAssetFrag extends Fragment {
             binderAsset.addPropSizeEditText.setText(property.size);
             binderAsset.addPropertyRentalPeriodMonthsEditText.setText(property.rentPeriod);
         }
+
+        validateFloors();
+    }
+
+    private void validateFloors(){
+        binderAsset.addPropFloorEditText.setOnFocusChangeListener(this);
+        binderAsset.addPropMaxFloorEditText.setOnFocusChangeListener(this);
+        //binderAsset.addPropMaxFloorEditText.addTextChangedListener(this);
+        //binderAsset.addPropFloorEditText.addTextChangedListener(this);
     }
 
     private void showSnackBar(){
@@ -201,4 +232,19 @@ public class AddPropAssetFrag extends Fragment {
         return jsonObject;
     }
 
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        String maxFloorsStr = binderAsset.addPropMaxFloorEditText.getText()+"";
+        String floorStr = binderAsset.addPropFloorEditText.getText()+"";
+        if (!maxFloorsStr.equals("") && !floorStr.equals("")) {
+            int maxFloors = Integer.parseInt(maxFloorsStr);
+            int floors = Integer.parseInt(floorStr);
+            if (floors > maxFloors){
+                ((BaseActivity)context).getDefaultSnackBar(binderAsset.getRoot(), "Floor is greater than the max floor",false);
+                v.requestFocus();
+                binderAsset.addPropFloorEditText.setTextColor(context.getResources().getColor(R.color.red_error_phone));
+                binderAsset.addPropFloorEditText.setText("Floor is greater than the max floor");
+            }
+        }
+    }
 }

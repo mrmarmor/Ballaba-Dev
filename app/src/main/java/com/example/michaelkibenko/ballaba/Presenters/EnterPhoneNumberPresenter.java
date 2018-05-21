@@ -24,6 +24,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaPhoneNumber;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.GeneralUtils;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.EnterPhoneNumberLayoutBinding;
 import com.google.i18n.phonenumbers.NumberParseException;
@@ -100,19 +101,6 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements  TextWat
         return phoneNumber;
     }
 
-    private boolean validatePhoneNumber(BallabaPhoneNumber phoneNumber) {
-        if (phoneNumber.getFullPhoneNumber().length() > 12) {
-            try {
-                Phonenumber.PhoneNumber targetPN = phoneUtil.parse(phoneNumber.getFullPhoneNumber(), "IL");
-                return phoneUtil.isValidNumber(targetPN);
-            } catch (NumberParseException ex) {
-                return false;
-            }
-        } else {
-            return false;
-        }
-    }
-
     //spinner item listener
     /*@Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -135,7 +123,8 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements  TextWat
     @Override
     public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
         getPhoneNumber().setPhoneNumber(charSequence.toString());
-        boolean canGoOn = validatePhoneNumber(phoneNumber) && binder.enterPhoneNumberCheckbox.isChecked();
+        boolean canGoOn = GeneralUtils.instance(true, context).validatePhoneNumber(phoneNumber, phoneUtil)
+                && binder.enterPhoneNumberCheckbox.isChecked();
         UiUtils.instance(true, context).buttonChanger(binder.enterPhoneNumberNextButton, canGoOn);
 
     }
@@ -151,7 +140,8 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements  TextWat
     //Terms of using checked change listener
     @Override
     public void onCheckedChanged(CompoundButton compoundButton, boolean isButtonChecked) {
-        boolean canGoOn = validatePhoneNumber(phoneNumber) && isButtonChecked;
+        boolean canGoOn = GeneralUtils.instance(true, context).validatePhoneNumber(phoneNumber, phoneUtil)
+                && isButtonChecked;
         UiUtils.instance(true, context).buttonChanger(binder.enterPhoneNumberNextButton, canGoOn);
     }
 

@@ -434,6 +434,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     private Intent getIntent_addProperty(){
         final int TWO_WEEKS = 14 * 24 * 60 * 60 * 1000;//TODO decide what will be expire date
 
+        //TODO remove propertyId from sharedPrefs after user finished uploading property
         String propertyId = SharedPreferencesManager.getInstance(context).getString(
                 SharedPreferencesKeysHolder.PROPERTY_ID, null);
         String uploadDateStr = SharedPreferencesManager.getInstance(context).getString(
@@ -445,7 +446,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
 
         /*TODO TESTING*///propertyId = "1";/*TODO END OF TESTING*/
         if (propertyId == null //=> user had finished upload his property or had never uploaded any
-                || (expireDate != null && expireDate.after(now))){ //=> or user had not finished upload, but 14 days had passed
+                || (now.after(expireDate))){ //=> or user had not finished upload, but 14 days had passed
             return new Intent(context, AddPropertyActivity.class);
         } else {// => user had started upload + had not finished yet + 14 days had not passed yet from starting uploading
             Intent intent = new Intent(context, ContinueAddPropertyActivity.class);

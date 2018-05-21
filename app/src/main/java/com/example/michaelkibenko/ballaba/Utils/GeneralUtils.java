@@ -6,6 +6,11 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.example.michaelkibenko.ballaba.Entities.BallabaPhoneNumber;
+import com.google.i18n.phonenumbers.NumberParseException;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
+import com.google.i18n.phonenumbers.Phonenumber;
+
 import org.json.JSONArray;
 
 import java.util.ArrayList;
@@ -18,6 +23,23 @@ import java.util.Map;
 
 public class GeneralUtils {
     private final static String TAG = GeneralUtils.class.getSimpleName();
+
+    private static GeneralUtils instance;
+    private Context ctx;
+
+    public static GeneralUtils instance(boolean isOnce, Context context){
+        if(!isOnce) {
+            if (instance == null) {
+                instance = new GeneralUtils(context);
+            }
+            return instance;
+        }
+        return new GeneralUtils(context);
+    }
+
+    private GeneralUtils(Context context){
+        this.ctx = context;
+    }
 
     public static Map<String, String> getParams(final String[] KEYS, final String[] VALUES) {
         Map<String, String> params = new HashMap<>();
@@ -40,5 +62,18 @@ public class GeneralUtils {
         }
 
         return mApiKey;
+    }
+
+    public boolean validatePhoneNumber(BallabaPhoneNumber phoneNumber, PhoneNumberUtil phoneUtil) {
+        if (phoneNumber.getFullPhoneNumber().length() > 12) {
+            try {
+                Phonenumber.PhoneNumber targetPN = phoneUtil.parse(phoneNumber.getFullPhoneNumber(), "IL");
+                return phoneUtil.isValidNumber(targetPN);
+            } catch (NumberParseException ex) {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 }
