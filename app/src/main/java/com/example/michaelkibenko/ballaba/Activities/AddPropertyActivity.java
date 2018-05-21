@@ -126,11 +126,19 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
         Fragment editPhotoFragment = getSupportFragmentManager().getFragments().get(0);
         Bundle b = editPhotoFragment.getArguments();
         if (b != null && b.containsKey(AddPropEditPhotoFrag.FIRST_PHOTO)) {
+            Log.d(TAG, "only first photo");
             photo = new BallabaPropertyPhoto(Uri.parse(b.getString(AddPropEditPhotoFrag.FIRST_PHOTO)));
             b.remove(AddPropEditPhotoFrag.FIRST_PHOTO);
         } else if (b != null && b.containsKey(AddPropEditPhotoFrag.LAST_PHOTO)) {
+            Log.d(TAG, "last photo");
             photo = (BallabaPropertyPhoto) b.getSerializable(AddPropEditPhotoFrag.LAST_PHOTO);
             b.remove(AddPropEditPhotoFrag.LAST_PHOTO);
+        }
+
+        if (photo == null){
+            //TODO receive photo from fragment when he clicked "end" with only first photo
+            Log.d(TAG, "photo is null");
+            return;
         }
 
         //if (photosJson == USER_HAS_NOT_SWITCHED_TAG_FOR_HIS_PHOTO || photo == null) {
