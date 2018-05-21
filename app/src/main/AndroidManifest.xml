@@ -74,6 +74,8 @@
         <activity android:name=".Activities.PropertyGalleryActivity" />
         <activity android:name=".Activities.VirtualTourActivity" />
 
+        <activity android:name=".Activities.MyPropertiesBaseActivity"/>
+
         <!-- RECEIVERS -->
         <receiver
             android:name=".Activities.EnterCodeActivity$BallabaSMSReceiver"
