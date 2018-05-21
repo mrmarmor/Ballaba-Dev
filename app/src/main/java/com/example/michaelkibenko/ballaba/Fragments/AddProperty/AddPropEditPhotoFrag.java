@@ -170,9 +170,11 @@ public class AddPropEditPhotoFrag extends Fragment {
                 //TODO update property updating date on SharedPrefs??
                 SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "5");
 
+                //TODO sentPhoto vars are wrong!!
                 //set id to photo. id is received from server.
-                BallabaPropertyPhoto sentPhoto = photos.get(photos.size() - 1);
+                BallabaPropertyPhoto sentPhoto = photos.get(photos.size() - 2);
                 sentPhoto.setId(((BallabaPropertyPhoto)entity).getId());
+                //sentPhoto.setTags(((BallabaPropertyPhoto)entity).getTags());
                 sentPhoto.setHasSent(true);
                 getArguments().putSerializable(LAST_PHOTO, sentPhoto);
             }

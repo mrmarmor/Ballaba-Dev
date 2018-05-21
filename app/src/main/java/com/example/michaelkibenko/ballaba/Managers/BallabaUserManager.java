@@ -35,15 +35,16 @@ public class BallabaUserManager {
     }
 
     public BallabaUser generateUserFromJsonResponse(String response){
+        //StringUtils stringUtils = StringUtils.getInstance(true, null);
         try{
             JSONObject jsonObject = new JSONObject(response);
             String id = jsonObject.getString("id");
             String phone = jsonObject.getString("phone");
             String email = jsonObject.getString("email");
-            String name = jsonObject.getString("first_name");
-            String lastName = jsonObject.getString("last_name");
-            String city = jsonObject.getString("city");
-            String address = jsonObject.getString("address");
+            String name = jsonObject.getString("first_name");//stringUtils.formattedHebrew(jsonObject.getString("first_name"));
+            String lastName = jsonObject.getString("last_name");//stringUtils.formattedHebrew(jsonObject.getString("last_name"));
+            String city = jsonObject.getString("city");//stringUtils.formattedHebrew(jsonObject.getString("city"));
+            String address = jsonObject.getString("address");//stringUtils.formattedHebrew(jsonObject.getString("address"));
             String aptNo = jsonObject.getString("apt_no");
             String gender = jsonObject.getString("gender");
             String tenantScore = jsonObject.getString("tenant_score");

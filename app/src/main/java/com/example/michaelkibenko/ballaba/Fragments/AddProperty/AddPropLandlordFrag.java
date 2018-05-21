@@ -202,6 +202,8 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     }
 
     private void onFinish(){
+        ConnectionsManager conn = ConnectionsManager.newInstance(context);
+
         final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
         data.put("profile_image", getProfileImage());
 
@@ -210,7 +212,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 return;
 
             if (user != null && !isDataEqual(data, user)) {
-                ConnectionsManager.getInstance(context).uploadUser(user.getId(), jsonParse(data), new BallabaResponseListener() {
+                conn.uploadUser(user.getId(), jsonParse(data), new BallabaResponseListener() {
                     @Override
                     public void resolve(BallabaBaseEntity entity) {
                         SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.USER_ID, user.getId());

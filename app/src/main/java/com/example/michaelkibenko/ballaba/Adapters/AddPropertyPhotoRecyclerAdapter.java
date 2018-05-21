@@ -24,12 +24,19 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivity;
+import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
+import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyPhoto;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropEditPhotoFrag;
+import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
+import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
+import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
+import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
@@ -217,7 +224,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
                 areUSureDialog.setButtons(context.getString(R.string.addProperty_editPhoto_removePhoto_snackBar_remove), context.getString(R.string.addProperty_editPhoto_removePhoto_undo), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        removePhoto(holder, position);
+                        removePhoto(position);
                     }
                 }, new DialogInterface.OnClickListener() {
                     @Override
@@ -232,26 +239,50 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
     }
 
-    private void removePhoto(final ViewHolder holder, final int position){
-        final int SNACK_BAR_DURATION = 5000;//ms
-        final BallabaPropertyPhoto photo = photos.get(position);
+    private void removePhoto(final int position){
+        showSnackbar(photos. get(position), position);
+
         photos.remove(position);
         notifyDataSetChanged();
         onClickListener.onClickRemovePhoto(true);
+    }
 
-        UiUtils.instance(true, context)
-                .showSnackBar(holder.binder.getRoot(), context.getString(R.string.addProperty_editPhoto_removePhoto_message))
+    private boolean wasPhotoDeleted = true;
+    private void showSnackbar(final BallabaPropertyPhoto photoToDelete, final int position){
+        final int SNACK_BAR_DURATION = 5000;//ms
+        //final BallabaPropertyPhoto photo = photos.get(position);
+
+        Snackbar snackbar = ((BaseActivity)context).getDefaultSnackBar
+                (holder.binder.getRoot(), context.getString(R.string.addProperty_editPhoto_removePhoto_message), false)
+
                 .setDuration(SNACK_BAR_DURATION)
                 .setAction(context.getString(R.string.addProperty_editPhoto_removePhoto_undo), new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        returnPhoto(photo, position);
+                        returnPhoto(photoToDelete, photos.size() - 1);//TODO photo returned to end of list. if we want to return it to its original position, set the index here
+                        wasPhotoDeleted = false;
                     }
+                })
+                .addCallback(new Snackbar.Callback(){
+                    @Override
+                    public void onDismissed(Snackbar snackbar, int event) {
+                        Log.d(TAG, "wasPhotoDeleted: " + wasPhotoDeleted);
+                        if (wasPhotoDeleted && photoToDelete.getId() >= 0) {
+                            final String propertyId = BallabaSearchPropertiesManager
+                                    .getInstance(context).getPropertyFull().getInstance(context).id;
+                            deletePhotoFromServer(propertyId, photoToDelete, position);
+                        }
+                    }
+
+                    @Override
+                    public void onShown(Snackbar snackbar) {}
                 });
+
+        snackbar.show();
     }
 
     private void returnPhoto(BallabaPropertyPhoto photoToReturn, int position){
-        photos.add(/*position, */photoToReturn);//TODO photo returned to end of list. if we want to return it to its original position, set the index here
+        photos.add(position, photoToReturn);
         HashSet<PropertyAttachmentAddonEntity> tags = photoToReturn.getTags();
         for (PropertyAttachmentAddonEntity tag : tags) {
             int positionOfTag = Integer.parseInt(tag.id) - 1;//position is actually the same as its id - 1
@@ -269,6 +300,23 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
         notifyDataSetChanged();
 
         onClickListener.onClickRemovePhoto(false);
+    }
+
+    private void deletePhotoFromServer(final String propertyId, final BallabaPropertyPhoto photo, final int position){
+        ConnectionsManager.getInstance(context).deletePropertyPhoto(propertyId, photo.getId(), new BallabaResponseListener() {
+            @Override
+            public void resolve(BallabaBaseEntity entity) {
+
+            }
+
+            @Override
+            public void reject(BallabaBaseEntity entity) {
+                ((BaseActivity)context).getDefaultSnackBar(holder.binder.getRoot(), "יש לנו שגיאה בשרת. התמונה לא נמחקה.", false);
+                returnPhoto(photo, position);
+                wasPhotoDeleted = false;
+            }
+        });
+
     }
 
     //portrait/landscape

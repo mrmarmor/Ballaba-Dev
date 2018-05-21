@@ -69,7 +69,7 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
         binderAsset = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_add_prop_asset, container, false);
 
-        final ConnectionsManager conn = ConnectionsManager.newInstance(context);
+        final ConnectionsManager conn = ConnectionsManager.getInstance(context);
         binderAsset.addPropertyAssetButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,8 +98,7 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
         });
 
         //String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, null);
-        BallabaPropertyFull propertyFull = BallabaSearchPropertiesManager.getInstance(context).getPropertyFull();
-        initEditTexts(propertyFull);
+        initEditTexts(BallabaSearchPropertiesManager.getInstance(context).getPropertyFull());
 
         /*conn.getPropertyById(propertyId, new BallabaResponseListener() {
             @Override
