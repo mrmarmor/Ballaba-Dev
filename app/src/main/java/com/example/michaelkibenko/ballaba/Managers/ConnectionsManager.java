@@ -1,5 +1,6 @@
 package com.example.michaelkibenko.ballaba.Managers;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Config;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
@@ -72,11 +74,15 @@ public class ConnectionsManager {
     private Context context;
     private RequestQueue queue;
 
-
     public static ConnectionsManager getInstance(Context context) {
         if (instance == null) {
             instance = new ConnectionsManager(context);
         }
+        return instance;
+    }
+
+    public static ConnectionsManager newInstance(Context context) {
+        instance = new ConnectionsManager(context);
         return instance;
     }
 
@@ -813,21 +819,19 @@ public class ConnectionsManager {
     }
 
     public void uploadProperty(final JSONObject propertyData, final BallabaResponseListener callback) {
+        final ProgressDialog pd = ((BaseActivity)context).getDefaultProgressDialog(context, "Uploading...");
+        pd.show();
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(POST, EndpointsHolder.PROPERTY, propertyData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                pd.dismiss();
                 try {
                     if (response.has("id")) {
-                        SharedPreferencesManager.getInstance(context).putString(
-                                SharedPreferencesKeysHolder.PROPERTY_ID, response.get("id").toString());
+                        //next line is due to a server bug: when user uploads photo it returns id that represent the photo, not the property
+                        String id = response.has("property_id")? response.get("property_id")+"":response.get("id")+"";
+                        SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_ID, id);
                     }
-
-                    ///// TODO in step "photos", response has photo_id with key "id" instead of "photo_id"
-                    //TODO and property_id with key "property_id" instead of "id". after first version it will be fixed
-                    if (response.has("property_id"))
-                        SharedPreferencesManager.getInstance(context).putString(
-                                SharedPreferencesKeysHolder.PROPERTY_ID, response.get("property_id").toString());
-                    /////
 
                     Date now = new Date(Calendar.getInstance().getTimeInMillis());
                     String nowStr = StringUtils.getInstance(true, context).dateToString(now);
@@ -846,6 +850,7 @@ public class ConnectionsManager {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                pd.dismiss();
                 @StringRes String message = context.getString(R.string.error_property_upload);
                 if (error.networkResponse != null) {
                     callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, message));

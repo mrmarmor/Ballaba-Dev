@@ -268,7 +268,7 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
 
         for (int i = 0; i < layout.getChildCount(); i++){
             if (layout.getChildAt(i).getTag().equals(UiUtils.ChipsButtonStates.PRESSED)){
-                chipsIds.add(Integer.parseInt(chips.get(i).id));
+                chipsIds.add(Integer.parseInt(chips.get(i).id));//TODO may invoke array out of bounds!
             }
         }
 
@@ -319,6 +319,7 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         return allButtonsUnselected;
     }
 
+    //TODO replace this method with a similar method in BaseActivity
     private void showSnackBar(final String message){
         final View snackBarView = binderAddons.addPropertyAddonsRoot;
         Snackbar snackBar = Snackbar.make(snackBarView, message, Snackbar.LENGTH_LONG);

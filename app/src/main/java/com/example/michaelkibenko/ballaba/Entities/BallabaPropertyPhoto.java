@@ -6,6 +6,7 @@ import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by User on 13/05/2018.
@@ -15,7 +16,7 @@ public class BallabaPropertyPhoto extends BallabaBaseEntity implements Serializa
     private int id;
     private boolean hasSent;
     private Uri photo;
-    private ArrayList<PropertyAttachmentAddonEntity> tags = new ArrayList<>();
+    private HashSet<PropertyAttachmentAddonEntity> tags = new HashSet<>();
 
     public BallabaPropertyPhoto(int id){
         this.id = id;
@@ -54,11 +55,11 @@ public class BallabaPropertyPhoto extends BallabaBaseEntity implements Serializa
         this.photo = photo;
     }
 
-    public ArrayList<PropertyAttachmentAddonEntity> getTags() {
+    public HashSet<PropertyAttachmentAddonEntity> getTags() {
         return tags;
     }
 
-    public void setTags(ArrayList<PropertyAttachmentAddonEntity> tags) {
+    public void setTags(HashSet<PropertyAttachmentAddonEntity> tags) {
         this.tags = tags;
     }
 

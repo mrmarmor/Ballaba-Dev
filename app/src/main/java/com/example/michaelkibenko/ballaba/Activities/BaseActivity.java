@@ -1,5 +1,7 @@
 package com.example.michaelkibenko.ballaba.Activities;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -41,6 +43,12 @@ public class BaseActivity extends AppCompatActivity{
         }else {
             Log.e(TAG, "The network error SnackBar is null and you want to dismiss it");
         }
+    }
+
+    public ProgressDialog getDefaultProgressDialog(Context context, String text){
+        ProgressDialog pd = new ProgressDialog(context);
+        pd.setTitle(text);
+        return pd;
     }
 
     public Snackbar getDefaultSnackBar(View parentView, String text, boolean isShowAlways){
