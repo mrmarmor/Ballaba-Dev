@@ -491,7 +491,6 @@ public class BallabaSearchPropertiesManager {
     }
 
     private PropertyDescriptionComment.User parseUser(JSONObject userJson) throws JSONException {
-        //TODO encode hebrew to utf-8
         String userId = heb.trimNull(userJson.getString("id"));
         String userProfileImage = heb.trimNull(userJson.getString("profile_image"));
 

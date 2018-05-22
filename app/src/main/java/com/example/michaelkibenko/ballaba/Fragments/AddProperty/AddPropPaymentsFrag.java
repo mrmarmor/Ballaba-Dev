@@ -489,16 +489,11 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         context = activity;
     }
 
+    //adds NIS sign to fields that represents money
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-    }
-
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-    }
-
+    public void onTextChanged(CharSequence s, int start, int before, int count) {}
     @Override
     public void afterTextChanged(Editable s) {
         if (s.length() == 1 && s.toString().contains("₪"))
@@ -507,11 +502,11 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
             s.insert(0, "₪");
     }
 
-    public class Data {
-        public Integer property_id;
-        public ArrayList<Payment> payments;
-        public ArrayList<Integer> payment_methods;
-        public HashMap<String, Object> details;
+    private class Data {
+        private Integer property_id;
+        private ArrayList<Payment> payments;
+        private ArrayList<Integer> payment_methods;
+        private HashMap<String, Object> details;
 
         private Data(){
             payments = new ArrayList<>();
@@ -523,12 +518,6 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     public class Payment {
         public int type;// = new HashMap<>();
         public /*HashMap<String, Integer>*/int price;// = new HashMap<>();
-
-        //private Payment(){}
-        /*private Payment(HashMap<String, Integer> type, HashMap<String, Integer> price) {
-            this.type = new HashMap<>();
-            this.price = new HashMap<>();
-        }*/
     }
 
 }
