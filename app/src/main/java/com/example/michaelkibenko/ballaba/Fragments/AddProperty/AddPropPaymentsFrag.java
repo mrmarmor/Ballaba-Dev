@@ -11,6 +11,8 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +53,7 @@ import java.util.HashMap;
 
 import static com.google.android.gms.internal.zzbgp.NULL;
 
-public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListener{
+public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListener, TextWatcher{
     private final String TAG = AddPropPaymentsFrag.class.getSimpleName(), ALL_INCLUDED = "all_included";
 
     private Context context;
@@ -169,6 +171,10 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
             binderPay.addPropPaymentsRentalFeeEditText.setText(StringUtils.getInstance(true, context)
                     .formattedNumberWithComma(property.price)+"₪");
             binderPay.addPropPaymentsFreeTextEditText.setText(property.description);
+
+            binderPay.addPropPaymentsMunicipalityEditText.addTextChangedListener(this);
+            binderPay.addPropPaymentsHouseCommitteeEditText.addTextChangedListener(this);
+            binderPay.addPropPaymentsManagementEditText.addTextChangedListener(this);
         }
     }
 
@@ -481,6 +487,24 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         context = activity;
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        if (s.length() == 1 && s.toString().contains("₪"))
+            s.clear();
+        else if (s.length() == 1)
+            s.insert(0, "₪");
     }
 
     public class Data {

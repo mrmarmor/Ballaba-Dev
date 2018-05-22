@@ -109,6 +109,7 @@
                     android:layout_width="@dimen/addProperty_editText_short_width"
                     android:tag="arnona"
                     style="@style/add_property_editTexts_with_number"
+                    android:digits="0123456789₪"
                     android:hint="@string/addProperty_payments_municipality_hint" />
 
                 <LinearLayout
@@ -131,6 +132,7 @@
                     android:layout_width="@dimen/addProperty_editText_short_width"
                     android:tag="house_committee"
                     style="@style/add_property_editTexts_with_number"
+                    android:digits="0123456789₪"
                     android:hint="@string/addProperty_payments_hint" />
 
                 <LinearLayout
@@ -154,6 +156,7 @@
                     android:layout_width="@dimen/addProperty_editText_short_width"
                     android:tag="managment"
                     style="@style/add_property_editTexts_with_number"
+                    android:digits="0123456789₪"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:hint="@string/addProperty_payments_hint" />
 

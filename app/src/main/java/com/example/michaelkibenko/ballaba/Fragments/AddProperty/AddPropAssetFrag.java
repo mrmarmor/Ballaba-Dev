@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
@@ -86,6 +87,7 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
                         @Override
                         public void reject(BallabaBaseEntity entity) {
                             showSnackBar();
+                            Log.e(TAG, ((BallabaErrorResponse)entity).message);
 
                             //TODO NEXT LINE IS ONLY FOR TESTING:
                             new AddPropertyPresenter((AppCompatActivity)context, binderMain).onNextViewPagerItem(1);
