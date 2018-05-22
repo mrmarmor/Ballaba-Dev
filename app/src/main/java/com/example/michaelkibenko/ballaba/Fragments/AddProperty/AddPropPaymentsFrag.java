@@ -171,11 +171,13 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
             binderPay.addPropPaymentsRentalFeeEditText.setText(StringUtils.getInstance(true, context)
                     .formattedNumberWithComma(property.price)+"₪");
             binderPay.addPropPaymentsFreeTextEditText.setText(property.description);
-
-            binderPay.addPropPaymentsMunicipalityEditText.addTextChangedListener(this);
-            binderPay.addPropPaymentsHouseCommitteeEditText.addTextChangedListener(this);
-            binderPay.addPropPaymentsManagementEditText.addTextChangedListener(this);
         }
+
+        binderPay.addPropPaymentsMunicipalityEditText.addTextChangedListener(this);
+        binderPay.addPropPaymentsHouseCommitteeEditText.addTextChangedListener(this);
+        binderPay.addPropPaymentsManagementEditText.addTextChangedListener(this);
+        binderPay.addPropertyPaymentsParkingPriceEditText.addTextChangedListener(this);
+        binderPay.addPropPaymentsRentalFeeEditText.addTextChangedListener(this);
     }
 
     private void initSpinner(Spinner spinner){
@@ -355,7 +357,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         if (paymentEditText.isEnabled() && !paymentEditText.getText().toString().equals("")) {
             Payment payment = new Payment();
             payment.type = typeNumber;
-            payment.price = Integer.parseInt(price.replace("₪,.", ""));
+            payment.price = Integer.parseInt(price.replaceAll("\u20AA", ""));//removes "₪"
             data.payments.add(payment);
         }
         //return payment;

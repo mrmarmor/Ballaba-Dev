@@ -47,6 +47,7 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_add_prop_take_photo, container, false);
 
+        UiUtils.instance(true, getActivity()).hideSoftKeyboard(v);
         v.findViewById(R.id.addProp_takePhoto_button_professionalPhotographer).setOnClickListener(this);
         v.findViewById(R.id.addProp_takePhoto_button_takePhoto).setOnClickListener(this);
 

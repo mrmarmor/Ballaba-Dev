@@ -72,38 +72,12 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
         binderAsset = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_add_prop_asset, container, false);
 
-        final ConnectionsManager conn = ConnectionsManager.getInstance(context);
-
         UiUtils.instance(true, context).initAutoCompleteCity(binderAsset.addPropCityActv);
 
         binderAsset.addPropertyAssetButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
-                if (areAllDataFieldsFilledUp && !isDataEqual(data))
-
-                    conn.uploadProperty(jsonParse(data, "create"), new BallabaResponseListener() {
-                        @Override
-                        public void resolve(BallabaBaseEntity entity) {
-                            SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "2");
-                            new AddPropertyPresenter((AppCompatActivity)context, binderMain).onNextViewPagerItem(1);
-                        }
-
-                        @Override
-                        public void reject(BallabaBaseEntity entity) {
-                            ((BaseActivity)context).getDefaultSnackBar(binderAsset.addPropertyLocationRoot
-                                    , "השמירה נכשלה נסה שנית מאוחר יותר", false);
-                            Log.e(TAG, ((BallabaErrorResponse)entity).message);
-
-                            //TODO NEXT LINE IS ONLY FOR TESTING:
-                            new AddPropertyPresenter((AppCompatActivity)context, binderMain).onNextViewPagerItem(1);
-                        }
-                    });
-                else {
-                    //TODO continue to next page without sending data to server
-                    ((BaseActivity)context).getDefaultSnackBar(binderAsset.addPropertyLocationRoot
-                            , "שדות חסרים", false);
-                }
+                onFinish(ConnectionsManager.getInstance(context));
             }
         });
 
@@ -160,6 +134,35 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
         snackBar.show();
         //snackBarView.findViewById(android.support.design.R.id.snackbar_text).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
     }*/
+
+    private void onFinish(ConnectionsManager conn){
+        final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
+
+        if (!areAllDataFieldsFilledUp) return;
+
+        if (!isDataEqual(data)) {
+            conn.uploadProperty(jsonParse(data, "create"), new BallabaResponseListener() {
+                @Override
+                public void resolve(BallabaBaseEntity entity) {
+                    SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "2");
+                    new AddPropertyPresenter((AppCompatActivity) context, binderMain).onNextViewPagerItem(1);
+                }
+
+                @Override
+                public void reject(BallabaBaseEntity entity) {
+                    ((BaseActivity) context).getDefaultSnackBar(binderAsset.addPropertyLocationRoot
+                            , "השמירה נכשלה נסה שנית מאוחר יותר", false);
+                    Log.e(TAG, ((BallabaErrorResponse) entity).message);
+
+                    //TODO NEXT LINE IS ONLY FOR TESTING:
+                    //new AddPropertyPresenter((AppCompatActivity)context, binderMain).onNextViewPagerItem(1);
+                }
+            });
+        } else {
+            //TODO continue to next page without sending data to server
+            AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).onNextViewPagerItem(1);
+        }
+    }
 
     private HashMap<String, String> getDataFromEditTexts(HashMap<String, String> map){
         areAllDataFieldsFilledUp = true;

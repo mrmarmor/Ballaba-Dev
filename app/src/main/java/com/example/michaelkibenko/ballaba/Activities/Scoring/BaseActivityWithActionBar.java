@@ -21,7 +21,7 @@ public class BaseActivityWithActionBar extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setTheme(R.style.ActionBarStyle);
-        UiUtils.instance(true, this).hideSoftKeyboard(getWindow().getDecorView());
+        //UiUtils.instance(true, this).hideSoftKeyboard(getWindow().getDecorView());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setBackgroundDrawable(

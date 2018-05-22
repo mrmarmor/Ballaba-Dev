@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
@@ -244,10 +245,11 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
 
                 @Override
                 public void reject(BallabaBaseEntity entity) {
-                    showSnackBar(((BallabaErrorResponse) entity).message);
+                    ((BaseActivity)context).getDefaultSnackBar(binderAddons.addPropertyAddonsRoot
+                            , ((BallabaErrorResponse) entity).message, false);
 
                     //TODO NEXT LINE IS ONLY FOR TESTING:
-                    AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(2);
+                    //AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(2);
                 }
             });
         } else {

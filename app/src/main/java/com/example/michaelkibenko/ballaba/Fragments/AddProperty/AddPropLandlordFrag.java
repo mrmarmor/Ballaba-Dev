@@ -216,14 +216,12 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.addProperty_landlord_button_next:
-                onFinish();
+                onFinish(ConnectionsManager.newInstance(context));
 
         }
     }
 
-    private void onFinish(){
-        ConnectionsManager conn = ConnectionsManager.newInstance(context);
-
+    private void onFinish(ConnectionsManager conn){
         final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
         data.put("profile_image", getProfileImage());
 
@@ -250,7 +248,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                     }
                 });
             } else {
-                AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).onNextViewPagerItem(0);
+                AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(0);
             }
         } catch (JSONException e) {
             e.printStackTrace();
