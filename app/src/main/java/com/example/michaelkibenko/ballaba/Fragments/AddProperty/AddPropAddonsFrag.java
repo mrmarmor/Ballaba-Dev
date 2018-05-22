@@ -121,7 +121,8 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
 
         //removes furnished+not+electronics+not attachments. these attachments are used in filter search module.
         for (int i = 0; i < 4; i++)
-            extras.remove(0);
+            if (!extras.isEmpty())
+                extras.remove(0);
 
         furnitureRoot = view.findViewById(R.id.addProperty_addons_furniture_flowLayout);
         electronicsRoot = view.findViewById(R.id.addProperty_addons_electronics_flowLayout);

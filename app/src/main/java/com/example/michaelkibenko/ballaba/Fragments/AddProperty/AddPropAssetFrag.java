@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -34,6 +35,7 @@ import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropAssetBinding;
 
@@ -71,6 +73,9 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
                 inflater, R.layout.fragment_add_prop_asset, container, false);
 
         final ConnectionsManager conn = ConnectionsManager.getInstance(context);
+
+        UiUtils.instance(true, context).initAutoCompleteCity(binderAsset.addPropCityActv);
+
         binderAsset.addPropertyAssetButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +91,8 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
 
                         @Override
                         public void reject(BallabaBaseEntity entity) {
-                            showSnackBar();
+                            ((BaseActivity)context).getDefaultSnackBar(binderAsset.addPropertyLocationRoot
+                                    , "השמירה נכשלה נסה שנית מאוחר יותר", false);
                             Log.e(TAG, ((BallabaErrorResponse)entity).message);
 
                             //TODO NEXT LINE IS ONLY FOR TESTING:
@@ -95,6 +101,8 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
                     });
                 else {
                     //TODO continue to next page without sending data to server
+                    ((BaseActivity)context).getDefaultSnackBar(binderAsset.addPropertyLocationRoot
+                            , "שדות חסרים", false);
                 }
             }
         });
@@ -124,7 +132,7 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
 
     private void initEditTexts(BallabaPropertyFull property){
         if (property != null) {
-            binderAsset.addPropCityEditText.setText(property.city);
+            binderAsset.addPropCityActv.setText(property.city);
             binderAsset.addPropAddressEditText.setText(property.formattedAddress);
             binderAsset.addPropAptNoEditText.setText(property.street_number);
             binderAsset.addPropFloorEditText.setText(property.floor);
@@ -142,18 +150,16 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
     private void validateFloors(){
         binderAsset.addPropFloorEditText.setOnFocusChangeListener(this);
         binderAsset.addPropMaxFloorEditText.setOnFocusChangeListener(this);
-        //binderAsset.addPropMaxFloorEditText.addTextChangedListener(this);
-        //binderAsset.addPropFloorEditText.addTextChangedListener(this);
     }
 
-    private void showSnackBar(){
+    /*private void showSnackBar(){
         final View snackBarView = binderAsset.addPropertyLocationRoot;
         Snackbar snackBar = Snackbar.make(snackBarView, "השמירה נכשלה נסה שנית מאוחר יותר", Snackbar.LENGTH_LONG);
         snackBar.getView().setBackgroundColor(
                 context.getResources().getColor(R.color.colorPrimary, context.getTheme()));
         snackBar.show();
         //snackBarView.findViewById(android.support.design.R.id.snackbar_text).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-    }
+    }*/
 
     private HashMap<String, String> getDataFromEditTexts(HashMap<String, String> map){
         areAllDataFieldsFilledUp = true;
@@ -162,7 +168,7 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
             try {
                 for (int j = 0; j < ((ViewGroup)root.getChildAt(i)).getChildCount(); j++) {
                     View v = ((ViewGroup)root.getChildAt(i)).getChildAt(j);
-                    if (v instanceof EditText) {
+                    if (v instanceof EditText | v instanceof AutoCompleteTextView) {
                         String input = ((EditText) v).getText().toString();
                         if (input.equals(""))
                             areAllDataFieldsFilledUp = false;
@@ -235,17 +241,23 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
 
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
-        String maxFloorsStr = binderAsset.addPropMaxFloorEditText.getText()+"";
-        String floorStr = binderAsset.addPropFloorEditText.getText()+"";
-        if (!maxFloorsStr.equals("") && !floorStr.equals("")) {
-            int maxFloors = Integer.parseInt(maxFloorsStr);
-            int floors = Integer.parseInt(floorStr);
-            if (floors > maxFloors){
-                ((BaseActivity)context).getDefaultSnackBar(binderAsset.getRoot(), "Floor is greater than the max floor",false);
-                v.requestFocus();
-                binderAsset.addPropFloorEditText.setTextColor(context.getResources().getColor(R.color.red_error_phone));
-                binderAsset.addPropFloorEditText.setText("Floor is greater than the max floor");
+        try {
+            String maxFloorsStr = binderAsset.addPropMaxFloorEditText.getText()+"";
+            String floorStr = binderAsset.addPropFloorEditText.getText()+"";
+            if (!maxFloorsStr.equals("") && !floorStr.equals("")) {
+                int maxFloors = Integer.parseInt(maxFloorsStr);
+                int floors = Integer.parseInt(floorStr);
+
+                if (floors > maxFloors){
+                    ((BaseActivity)context).getDefaultSnackBar(binderAsset.getRoot(), "Floor is greater than the max floor",false);
+                    v.requestFocus();
+                    binderAsset.addPropFloorEditText.setTextColor(context.getResources().getColor(R.color.red_error_phone));
+                    binderAsset.addPropFloorEditText.setText("Floor is greater than the max floor");
+                }
             }
+
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
     }
 }

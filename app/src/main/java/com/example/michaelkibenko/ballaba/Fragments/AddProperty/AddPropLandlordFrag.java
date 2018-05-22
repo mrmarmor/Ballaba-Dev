@@ -12,27 +12,34 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
+import com.example.michaelkibenko.ballaba.Adapters.GooglePlacesAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPhoneNumber;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
+import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
@@ -42,21 +49,25 @@ import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.GeneralUtils;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropLandlordBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropPaymentsBinding;
+import com.google.android.gms.maps.GoogleMap;
 import com.google.i18n.phonenumbers.PhoneNumberUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.regex.Matcher;
 
 import static android.app.Activity.RESULT_OK;
 
-public class AddPropLandlordFrag extends Fragment implements View.OnClickListener/*, BallabaFragmentListener*/ {
+public class AddPropLandlordFrag extends Fragment implements View.OnClickListener/*, EditText.OnFocusChangeListener*/ {
+
     public final static int REQUEST_CODE_CAMERA = 1, REQUEST_CODE_GALLERY = 2;
     private static final String TAG = AddPropLandlordFrag.class.getSimpleName();
 
@@ -66,6 +77,8 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     private BottomSheetDialog bottomSheetDialog;
     public BallabaUser user = BallabaUserManager.getInstance().getUser();
     private boolean isProfileImageChanged = false;
+
+    private ArrayList<String> cities;
 
     public AddPropLandlordFrag() {}
 
@@ -89,6 +102,8 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
 
         initEditTexts();
         initButtons(view);
+        UiUtils.instance(true, context).initAutoCompleteCity(binderLandLord.addPropCityActv);
+
         return view;
     }
 
@@ -98,7 +113,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             binderLandLord.addPropLastNameEditText.setText(user.getLast_name());
             binderLandLord.addPropEmailEditText.setText(user.getEmail());
             binderLandLord.addPropPhoneEditText.setText(user.getPhone());
-            binderLandLord.addPropCityEditText.setText(user.getCity());
+            binderLandLord.addPropCityActv.setText(user.getCity());
             binderLandLord.addPropAddressEditText.setText(user.getAddress());
             binderLandLord.addPropAptNoEditText.setText(user.getApt_no());
             Glide.with(context).load(user.getProfile_image()).into(binderLandLord.addPropProfileImageButton);
@@ -122,6 +137,8 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         bottomSheetDialog.show();
     }
 
+
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent imageIntent) {
         super.onActivityResult(requestCode, resultCode, imageIntent);
@@ -142,12 +159,8 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
        // boolean isUserChangedData = false;
         for (int i = 0; i < binderLandLord.addPropertyEditTextsRoot.getChildCount(); i++){//root.getChildCount(); i++) {
             View v = binderLandLord.addPropertyEditTextsRoot.getChildAt(i);
-            if (v instanceof EditText) {
-        //        if (!map.containsValue(((EditText)v).getText()+"")){
+            if (v instanceof EditText | v instanceof AutoCompleteTextView) {
                     map.put(v.getTag()+"", ((EditText)v).getText()+"");
-         //           isUserChangedData = true;
-      //          }
-
             }
         }
 
@@ -158,8 +171,8 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
 
         return map;
     }
-    private String getProfileImage(){
 
+    private String getProfileImage(){
         if (isProfileImageChanged) {
             Drawable d = binderLandLord.addPropProfileImageButton.getDrawable();
             byte[] bytes = StringUtils.getInstance(true, context).DrawableToBytes(d);
@@ -208,7 +221,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         data.put("profile_image", getProfileImage());
 
         try {
-            if (!isPhoneValid(data.get("phone")) || !isEmailValid(data.get("email")))
+            if (/*!isPhoneValid(data.get("phone")) ||*/ !isEmailValid(data.get("email")))
                 return;
 
             if (user != null && !isDataEqual(data, user)) {
@@ -246,7 +259,8 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         return jsonObject;
     }
 
-    private boolean isPhoneValid(String phone){
+    //TODO phone field is inactive, and user cannot change it. so, i don't need to check it. if it will be active, use this method to check value
+    /*private boolean isPhoneValid(String phone){
         PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
         boolean isValid = GeneralUtils.instance(true, context).validatePhoneNumber(
                 new BallabaPhoneNumber(phone, null), phoneUtil);
@@ -258,7 +272,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         }
 
         return isValid;
-    }
+    }*/
     private boolean isEmailValid(String email){
         boolean isValid = !TextUtils.isEmpty(email)
                 && (Patterns.EMAIL_ADDRESS.matcher(email).matches());
@@ -283,5 +297,13 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 //TODO map.get("description").equals(user.getDescription()) &&
                 !isProfileImageChanged);
     }
+
+    //when editText lose his focus he loses his GooglePlaces adapter. so i need to give him it back
+    /*@Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (hasFocus){
+            initAutoCompleteCity();
+        }
+    }*/
 
 }

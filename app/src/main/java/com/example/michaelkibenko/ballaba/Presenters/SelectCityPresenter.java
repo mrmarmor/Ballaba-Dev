@@ -46,20 +46,20 @@ import static com.example.michaelkibenko.ballaba.Adapters.GooglePlacesAdapter.Go
  * Created by User on 20/03/2018.
  */
 
-public class SelectCityPresenter extends BasePresenter implements
-        BallabaLocationManager.OnGoogleMapListener, ListView.OnItemClickListener,
-        EditText.OnFocusChangeListener{
+public class SelectCityPresenter extends BasePresenter implements ListView.OnItemClickListener
+            , EditText.OnFocusChangeListener{
+
     public final static String TAG = SelectCityPresenter.class.getSimpleName(),
                 SELECTED_CITIES_KEY = "selected_city";
 
     private Activity activity;
     private ActivitySelectCityBinding binder;
 
-    private AutoCompleteTextView actvSelectCity;
+    //private AutoCompleteTextView actvSelectCity;
     private ArrayList<String> cities;
 
-    private BallabaLocationManager.OnGoogleMapListener mListener;
-    private GoogleMap googleMap;
+    //private BallabaLocationManager.OnGoogleMapListener mListener;
+    //private GoogleMap googleMap;
 
     //public SelectCityPresenter(){}
     public SelectCityPresenter(Context context, ActivitySelectCityBinding binder){
@@ -133,10 +133,10 @@ public class SelectCityPresenter extends BasePresenter implements
         activity.finish();
     }
 
-    @Override
+    /*@Override
     public void OnGoogleMap(GoogleMap googleMap) {
         this.googleMap = googleMap;
-    }
+    }*/
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -160,8 +160,4 @@ public class SelectCityPresenter extends BasePresenter implements
         }
     }
 
-  /*  @Override
-    public void onItemSelected(GoogleMap googleMap) {
-        this.googleMap = googleMap;
-    }*/
 }

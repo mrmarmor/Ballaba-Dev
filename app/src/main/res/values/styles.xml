@@ -202,7 +202,7 @@
     </style>
     <style name="add_property_editTexts_with_number" parent="addProperty_editTexts">
         <item name="android:gravity">center</item>
-        <item name="android:inputType">numberDecimal</item>
+        <item name="android:inputType">number</item>
     </style>
     <style name="addProperty_titles" parent="addProperty_textViews">
         <item name="android:layout_marginBottom">-8dp</item>

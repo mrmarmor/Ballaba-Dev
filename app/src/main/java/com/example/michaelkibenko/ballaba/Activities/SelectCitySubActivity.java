@@ -13,7 +13,7 @@ import com.example.michaelkibenko.ballaba.databinding.ActivitySelectCityBinding;
 import com.google.android.gms.maps.GoogleMap;
 
 public class SelectCitySubActivity extends BaseActivity
-        implements BallabaLocationManager.OnGoogleMapListener{
+        /*implements BallabaLocationManager.OnGoogleMapListener*/{
 
     private final String TAG = SelectCitySubActivity.class.getSimpleName();
 
@@ -28,9 +28,9 @@ public class SelectCitySubActivity extends BaseActivity
         binder.setPresenter(presenter);
     }
 
-    @Override
+    /*@Override
     public void OnGoogleMap(GoogleMap googleMap) {
         Log.d(TAG, "data from fragment: "+googleMap);
         presenter.OnGoogleMap(googleMap);
-    }
+    }*/
 }

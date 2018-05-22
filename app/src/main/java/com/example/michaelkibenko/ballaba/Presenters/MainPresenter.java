@@ -304,8 +304,10 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
 
     public void onSearchFlowComplete(ArrayList<String> cities){
         citiesResults = cities;
-        binder.mainActivitySearchButton.setText(cities.get(0));
-        getPropertiesByAddressAndFilter(cities);
+        if (!cities.isEmpty()) {
+            binder.mainActivitySearchButton.setText(cities.get(0));
+            getPropertiesByAddressAndFilter(cities);
+        }
     }
 
     private void changeScreenState(@ScreenState int screenState){

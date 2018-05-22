@@ -15,15 +15,19 @@ import android.support.constraint.ConstraintSet;
 import android.support.constraint.Guideline;
 import android.support.design.widget.Snackbar;
 import android.support.transition.TransitionManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
+import com.example.michaelkibenko.ballaba.Adapters.GooglePlacesAdapter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
@@ -175,6 +179,24 @@ public class UiUtils {
         }
 
         return baos.toByteArray();
+    }
+
+    public void initAutoCompleteCity(final AutoCompleteTextView autoCompleteTextView){
+        final GooglePlacesAdapter dataAdapter = new GooglePlacesAdapter(ctx
+                , android.R.layout.simple_list_item_1, GooglePlacesAdapter.GooglePlacesFilter.CITIES);
+
+        autoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+               autoCompleteTextView.setAdapter(dataAdapter);
+                dataAdapter.notifyDataSetChanged();
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                dataAdapter.getFilter().filter(s.toString());
+                dataAdapter.remove("Israel");
+            }
+        });
+        // binderLandLord.addPropCityActv.setOnFocusChangeListener(this);
     }
 
     //TODO this function has a very similar function in BaseActivity class...
