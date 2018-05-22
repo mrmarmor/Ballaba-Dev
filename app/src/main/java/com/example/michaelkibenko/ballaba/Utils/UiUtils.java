@@ -187,13 +187,18 @@ public class UiUtils {
 
         autoCompleteTextView.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
-               autoCompleteTextView.setAdapter(dataAdapter);
-                dataAdapter.notifyDataSetChanged();
+                autoCompleteTextView.setAdapter(dataAdapter);
+                dataAdapter.notifyDataSetInvalidated();
+                autoCompleteTextView.requestLayout();
             }
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                dataAdapter.notifyDataSetInvalidated();
+                autoCompleteTextView.requestLayout();
                 dataAdapter.getFilter().filter(s.toString());
-                dataAdapter.remove("Israel");
+                dataAdapter.notifyDataSetInvalidated();
+                autoCompleteTextView.requestLayout();
+                //dataAdapter.remove("Israel");
             }
         });
         // binderLandLord.addPropCityActv.setOnFocusChangeListener(this);

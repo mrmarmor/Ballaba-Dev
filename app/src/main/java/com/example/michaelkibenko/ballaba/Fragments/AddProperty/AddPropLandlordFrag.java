@@ -77,6 +77,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     private BottomSheetDialog bottomSheetDialog;
     public BallabaUser user = BallabaUserManager.getInstance().getUser();
     private boolean isProfileImageChanged = false;
+    private boolean areAllDataFieldsFilledUp = true;
 
     private ArrayList<String> cities;
 
@@ -156,11 +157,17 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     }
 
     private HashMap<String, String> getDataFromEditTexts(HashMap<String, String> map){
-       // boolean isUserChangedData = false;
-        for (int i = 0; i < binderLandLord.addPropertyEditTextsRoot.getChildCount(); i++){//root.getChildCount(); i++) {
+        areAllDataFieldsFilledUp = true;
+        for (int i = binderLandLord.addPropertyEditTextsRoot.getChildCount() - 1; i >= 0 ; i--){//root.getChildCount(); i++) {
             View v = binderLandLord.addPropertyEditTextsRoot.getChildAt(i);
             if (v instanceof EditText | v instanceof AutoCompleteTextView) {
-                    map.put(v.getTag()+"", ((EditText)v).getText()+"");
+                String input = ((EditText)v).getText()+"";
+                if (input.equals("") && !v.getTag().equals("phone")) {
+                    areAllDataFieldsFilledUp = false;
+                    v.requestFocus();//move focus to empty field
+                } else {
+                    map.put(v.getTag() + "", input);
+                }
             }
         }
 
@@ -221,7 +228,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         data.put("profile_image", getProfileImage());
 
         try {
-            if (/*!isPhoneValid(data.get("phone")) ||*/ !isEmailValid(data.get("email")))
+            if (!areAllDataFieldsFilledUp ||/*!isPhoneValid(data.get("phone")) ||*/ !isEmailValid(data.get("email")))
                 return;
 
             if (user != null && !isDataEqual(data, user)) {

@@ -164,16 +164,18 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
     private HashMap<String, String> getDataFromEditTexts(HashMap<String, String> map){
         areAllDataFieldsFilledUp = true;
         LinearLayout root = binderAsset.addPropertyLocationRoot;
-        for (int i = 0; i < root.getChildCount(); i++) {
+        for (int i = root.getChildCount() - 1; i >= 0 ; i--) {
             try {
-                for (int j = 0; j < ((ViewGroup)root.getChildAt(i)).getChildCount(); j++) {
+                for (int j = ((ViewGroup)root.getChildAt(i)).getChildCount() - 1; j >= 0; j--) {
                     View v = ((ViewGroup)root.getChildAt(i)).getChildAt(j);
                     if (v instanceof EditText | v instanceof AutoCompleteTextView) {
                         String input = ((EditText) v).getText().toString();
-                        if (input.equals(""))
+                        if (input.equals("")) {
                             areAllDataFieldsFilledUp = false;
-                        else
+                            v.requestFocus();
+                        } else {
                             map.put(v.getTag() + "", input);
+                        }
                     }
                 }
             } catch (ClassCastException e){
