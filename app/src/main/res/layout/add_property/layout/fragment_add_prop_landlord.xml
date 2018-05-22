@@ -106,7 +106,10 @@
                     android:id="@+id/addProp_phone_editText"
                     android:tag="phone"
                     style="@style/addProperty_editTexts"
-                    android:inputType="phone"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
                     android:hint="@string/addProperty_landlord_phone_hint" />
                 <!--   android:text="@{presenter.user.phone}"-->
 

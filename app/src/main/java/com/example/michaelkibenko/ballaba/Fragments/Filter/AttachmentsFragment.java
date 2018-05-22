@@ -66,7 +66,7 @@ public class AttachmentsFragment extends Fragment implements Button.OnClickListe
     }
 
     private Button initAttachment(Button chipsItem, PropertyAttachmentAddonEntity attachment){
-        ////chipsItem.setId(Integer.parseInt(attachment.id));
+        chipsItem.setId(Integer.parseInt(attachment.id));
         chipsItem.setText(attachment.formattedTitle);
         chipsItem.setOnClickListener(this);
 
@@ -74,7 +74,7 @@ public class AttachmentsFragment extends Fragment implements Button.OnClickListe
             if (!chipsItem.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
                 chipsItem.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
             }
-        }else{
+        } else {
             chipsItem.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
         }
 
@@ -133,28 +133,28 @@ public class AttachmentsFragment extends Fragment implements Button.OnClickListe
     @Override
     public void onClick(View v) {
         String state = (String)v.getTag();
-        if(getOriginalTitleByFormatted(((Button)v).getText()+"").equals("furnished")) {
+        String text = ((Button) v).getText()+"";
+        if(getOriginalTitleByFormatted(text).equals("furnished")) {
                 //switch between furnished and not furnished where furnished is checked
             filterResult.setFurnished(!v.getTag().equals(UiUtils.ChipsButtonStates.PRESSED));
             tweenButtonStatesChanger((Button)v, NOT_FURNISHED, FURNISHED);
 
-        } else if(getOriginalTitleByFormatted(((Button)v).getText()+"").equals("not_furnished")){
+        } else if(getOriginalTitleByFormatted(text).equals("not_furnished")){
                 //switch between furnished and not furnished where not_furnished is checked
             filterResult.setFurnished(v.getTag().equals(UiUtils.ChipsButtonStates.PRESSED));
             tweenButtonStatesChanger((Button)v, FURNISHED, FURNISHED);
 
-        } else if(getOriginalTitleByFormatted(((Button)v).getText()+"").equals("electronics")) {
+        } else if(getOriginalTitleByFormatted(text).equals("electronics")) {
                 //switch between electronics and not no_electronics where electronics is checked
             filterResult.setElectronics(!v.getTag().equals(UiUtils.ChipsButtonStates.PRESSED));
             tweenButtonStatesChanger((Button)v, NO_ELECTRONICS, ELECTRONICS);
 
-        } else if(getOriginalTitleByFormatted(((Button)v).getText()+"").equals("no_electronics")){
+        } else if(getOriginalTitleByFormatted(text).equals("no_electronics")){
                 //switch between electronics and not no_electronics where no_electronics is checked
             filterResult.setElectronics(v.getTag().equals(UiUtils.ChipsButtonStates.PRESSED));
             tweenButtonStatesChanger((Button)v, ELECTRONICS, ELECTRONICS);
         }
 
-        String text = ((Button) v).getText()+"";
         if (state.equals(UiUtils.ChipsButtonStates.PRESSED)){
             filterResult.deleteAttachmentId(getHolderByFormattedTitle(text).id);
         } else if(state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED)){

@@ -2,6 +2,7 @@ package com.example.michaelkibenko.ballaba.Managers;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.net.Uri;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -23,6 +24,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaMeetingDate;
 import com.example.michaelkibenko.ballaba.Entities.BallabaMeetingsPickerDateEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyPhoto;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
@@ -55,6 +57,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 import static com.android.volley.Request.Method.DELETE;
@@ -781,10 +784,14 @@ public class ConnectionsManager {
     public void uploadUser(final String userId, JSONObject userData
             , final BallabaResponseListener callback) throws JSONException {
 
+        final ProgressDialog pd = ((BaseActivity)context).getDefaultProgressDialog(context, "Uploading...");
+        pd.show();
+
         String url = EndpointsHolder.USER + userId;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(PUT, url, userData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                pd.dismiss();
                 BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
                 if (user == null) {
                     callback.reject(new BallabaErrorResponse(500, null));
@@ -795,6 +802,7 @@ public class ConnectionsManager {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                pd.dismiss();
                 @StringRes String message = context.getString(R.string.error_property_upload);
                 if (error.networkResponse != null) {
                     callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, message));
@@ -822,7 +830,8 @@ public class ConnectionsManager {
         final ProgressDialog pd = ((BaseActivity)context).getDefaultProgressDialog(context, "Uploading...");
         pd.show();
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(POST, EndpointsHolder.PROPERTY, propertyData, new Response.Listener<JSONObject>() {
+        String url = getUrl(propertyData);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(POST, url, propertyData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 pd.dismiss();
@@ -837,12 +846,13 @@ public class ConnectionsManager {
                     String nowStr = StringUtils.getInstance(true, context).dateToString(now);
                     SharedPreferencesManager.getInstance(context).putString(
                             SharedPreferencesKeysHolder.PROPERTY_UPLOAD_DATE, nowStr);
-
-                    if (response.has("photo_url"))
-                        callback.resolve(new BallabaPropertyPhoto(Integer.parseInt(response.get("id")+"")));
-                    else
-                        callback.resolve(new BallabaOkResponse());
-
+                    if (response.has("photo_url")) {
+                        //BallabaPropertyPhoto photo = parsePhotoResponse(response);
+                        //callback.resolve(photo);
+                        callback.resolve(new BallabaPropertyPhoto(Integer.parseInt(response.getString("id"))));
+                    } else {
+                        callback.resolve(new BallabaBaseEntity());
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -871,6 +881,37 @@ public class ConnectionsManager {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         queue.add(jsonObjectRequest);
+    }
+
+    public void deletePropertyPhoto(final String propertyId, final int photoId, final BallabaResponseListener callback){
+        final String url = String.format("%s%s/photos/%s", EndpointsHolder.PROPERTY, propertyId, photoId);
+        Log.d(TAG, "delete url: " + url);
+
+        StringRequest stringRequest = new StringRequest(DELETE, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                callback.resolve(new BallabaOkResponse());
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, error.getMessage()));
+            }
+        })
+
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return getHeadersWithSessionToken();
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(stringRequest);
     }
 
     public void getSavedProperties(final BallabaResponseListener callback) {
@@ -1143,4 +1184,26 @@ public class ConnectionsManager {
         }
         return jsonResults;
     }
+
+    //this method changes url for step "uploading photos" in add property, from "https://api.ballaba-it.com/dev/property/"
+    // to "https://api.ballaba-it.com/v1/property/{property_id}/photos"
+    private String getUrl(JSONObject propertyData){
+        String url = EndpointsHolder.PROPERTY;
+        try {
+            if (propertyData.has("step") && propertyData.get("step").equals("photos"))
+                url = "https://api.ballaba-it.com/Dev/property/" + propertyData.get("property_id") + "/photos";
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+
+    /*private BallabaPropertyPhoto parsePhotoResponse(JSONObject jsonObject) throws JSONException{
+        final int id = Integer.parseInt(jsonObject.get("id") + "");
+        final Uri photo = Uri.parse(jsonObject.get("photo_url")+"");
+        final HashSet<PropertyAttachmentAddonEntity> tags = null;//TODO parse tags!!!
+
+        return new BallabaPropertyPhoto(id, true, photo, tags);
+    }*/
 }

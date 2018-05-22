@@ -12,20 +12,24 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPhoneNumber;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
@@ -36,15 +40,19 @@ import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.GeneralUtils;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropLandlordBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropPaymentsBinding;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.regex.Matcher;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -66,21 +74,25 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         return fragment;
     }
 
-    public AddPropLandlordFrag setMainBinder(ActivityAddPropertyBinding binder){
-        this.binderMain = binder;
-        return this;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        binderLandLord = DataBindingUtil.inflate(inflater,R.layout.fragment_add_prop_landlord, container, false);
+        binderLandLord = FragmentAddPropLandlordBinding.inflate(getLayoutInflater());
         View view = binderLandLord.getRoot();
+
+        //TODO i tried to setText automatically from layout by dataBinding. for some reason it is not working.
+        //TODO we need to fill all editTexts in this way and not programmatically as below:
+        //binderLandLord.addPropPhoneEditText.setText(user.getPhone());
 
         initEditTexts();
         initButtons(view);
         return view;
+    }
+
+    public AddPropLandlordFrag setMainBinder(ActivityAddPropertyBinding binder){
+        this.binderMain = binder;
+        return this;
     }
 
     private void initEditTexts(){
@@ -92,8 +104,9 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             binderLandLord.addPropCityEditText.setText(user.getCity());
             binderLandLord.addPropAddressEditText.setText(user.getAddress());
             binderLandLord.addPropAptNoEditText.setText(user.getApt_no());
-            if(user.getProfile_image() != null && !user.getProfile_image().equals("null"))
-                Glide.with(context).load(user.getProfile_image()).into(binderLandLord.addPropProfileImageButton);
+            Glide.with(context).load(user.getProfile_image()).into(binderLandLord.addPropProfileImageButton);
+
+            //TODO aboutYourself field is missing. i do not receive it from server and it is not in class BallabaUser
         }
     }
 
@@ -192,14 +205,17 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     }
 
     private void onFinish(){
+        ConnectionsManager conn = ConnectionsManager.newInstance(context);
+
         final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
         data.put("profile_image", getProfileImage());
 
         try {
-            if (user != null && !isDataEqual(data, user)) {
-                ProgressDialog a = new ProgressDialog(context);
+            if (!isPhoneValid(data.get("phone")) || !isEmailValid(data.get("email")))
+                return;
 
-                ConnectionsManager.getInstance(context).uploadUser(user.getId(), jsonParse(data), new BallabaResponseListener() {
+            if (user != null && !isDataEqual(data, user)) {
+                conn.uploadUser(user.getId(), jsonParse(data), new BallabaResponseListener() {
                     @Override
                     public void resolve(BallabaBaseEntity entity) {
                         SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.USER_ID, user.getId());
@@ -209,7 +225,8 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
 
                     @Override
                     public void reject(BallabaBaseEntity entity) {
-                        showSnackBar(((BallabaErrorResponse) entity).message);
+                        ((BaseActivity)context).getDefaultSnackBar(binderLandLord.getRoot()
+                                , ((BallabaErrorResponse) entity).message, false);
 
                         //TODO NEXT LINE IS ONLY FOR TESTING:
                         //new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(0);
@@ -232,12 +249,30 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         return jsonObject;
     }
 
-    private void showSnackBar(String message){
-        final View snackBarView = binderLandLord.addPropertyRoot;
-        Snackbar snackBar = Snackbar.make(snackBarView, message, Snackbar.LENGTH_LONG);
-        snackBar.getView().setBackgroundColor(context.getResources().getColor(R.color.colorPrimary, context.getTheme()));
-        snackBar.show();
-        //snackBarView.findViewById(android.support.design.R.id.snackbar_text).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+    private boolean isPhoneValid(String phone){
+        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+        boolean isValid = GeneralUtils.instance(true, context).validatePhoneNumber(
+                new BallabaPhoneNumber(phone, null), phoneUtil);
+        if (!isValid){
+            binderLandLord.addPropPhoneEditText.setTextColor(context.getResources().getColor(R.color.red_error_phone));
+            binderLandLord.addPropPhoneEditText.setText("invalid phone number");
+            ((ScrollView)binderLandLord.getRoot()).smoothScrollTo(0, binderLandLord.addPropPhoneEditText.getTop() - 30);
+            binderLandLord.addPropPhoneEditText.requestFocus();
+        }
+
+        return isValid;
+    }
+    private boolean isEmailValid(String email){
+        boolean isValid = !TextUtils.isEmpty(email)
+                && (Patterns.EMAIL_ADDRESS.matcher(email).matches());
+        if (!isValid){
+            binderLandLord.addPropEmailEditText.setTextColor(context.getResources().getColor(R.color.red_error_phone));
+            binderLandLord.addPropEmailEditText.setText("invalid email address");
+            ((ScrollView)binderLandLord.getRoot()).smoothScrollTo(0, binderLandLord.addPropEmailEditText.getTop() - 30);
+            binderLandLord.addPropEmailEditText.requestFocus();
+        }
+
+        return isValid;
     }
 
     private boolean isDataEqual(HashMap<String, String> map, BallabaUser user){

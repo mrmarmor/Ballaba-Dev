@@ -79,7 +79,7 @@ public class PropertyAttachmentsAddonsHolder {
             JSONArray paymentMethods = jsonObject.getJSONArray(PAYMENT_METHODS);
             JSONArray photoTags = jsonObject.getJSONArray(PROPERTY_PHOTO_TAGS);
 
-            //TODO delete it
+            //TODO this adds 2 chips to attachments: furnished+electronics
             //WARNING! there is already an attachment: {"id":11,"title":"service_balcony"}
             JSONObject not_furnished = new JSONObject();
             not_furnished.put("id" , "11");

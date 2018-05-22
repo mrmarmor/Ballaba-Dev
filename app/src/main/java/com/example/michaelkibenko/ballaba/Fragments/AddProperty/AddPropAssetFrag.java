@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
@@ -72,7 +73,7 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
         binderAsset = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_add_prop_asset, container, false);
 
-        final ConnectionsManager conn = ConnectionsManager.newInstance(context);
+        final ConnectionsManager conn = ConnectionsManager.getInstance(context);
         binderAsset.addPropertyAssetButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -89,6 +90,7 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
                         @Override
                         public void reject(BallabaBaseEntity entity) {
                             showSnackBar();
+                            Log.e(TAG, ((BallabaErrorResponse)entity).message);
 
                             //TODO NEXT LINE IS ONLY FOR TESTING:
                             new AddPropertyPresenter((AppCompatActivity)context, binderMain).onNextViewPagerItem(1);
@@ -101,8 +103,7 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
         });
 
         //String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, null);
-        BallabaPropertyFull propertyFull = BallabaSearchPropertiesManager.getInstance(context).getPropertyFull();
-        initEditTexts(propertyFull);
+        initEditTexts(BallabaSearchPropertiesManager.getInstance(context).getPropertyFull());
 
         /*conn.getPropertyById(propertyId, new BallabaResponseListener() {
             @Override

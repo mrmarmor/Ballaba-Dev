@@ -50,7 +50,7 @@ import static java.sql.Types.NULL;
 
 public class AddPropEditPhotoFrag extends Fragment {
     private final String TAG = AddPropEditPhotoFrag.class.getSimpleName();
-    public static String PHOTO = "photo", ORIENTATIONS = "orientations";
+    public static String PHOTO = "photo", ORIENTATIONS = "orientations", LAST_PHOTO = "lastPhoto";
 
     private Context context;
     private ActivityAddPropertyBinding binderMain;
@@ -105,9 +105,7 @@ public class AddPropEditPhotoFrag extends Fragment {
             binderEditPhoto.addPropNoPhotosDescription.setVisibility(View.GONE);
 
             adapter.notifyItemInserted(photos.size() - 1);
-
-            //if (!photos.isEmpty())// && photos.get(photos.size() - 1).getId() != NULL)
-                sendPhotoToServer(adapter.getData(context, new JSONObject()));
+            sendPhotoToServer(adapter.getData(context, new JSONObject()));
 
         }
     }
@@ -168,8 +166,10 @@ public class AddPropEditPhotoFrag extends Fragment {
                 //TODO update property updating date on SharedPrefs??
                 SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "5");
                 //set id to photo. id is received from server.
-                photos.get(photos.size() - 1).setId(((BallabaPropertyPhoto)entity).getId());
-                getArguments().putSerializable("photos", photos);
+                BallabaPropertyPhoto sentPhoto = photos.get(photos.size() - 2);
+                sentPhoto.setId(((BallabaPropertyPhoto)entity).getId());
+                sentPhoto.setHasSent(true);
+                getArguments().putSerializable(LAST_PHOTO, sentPhoto);
             }
 
             @Override

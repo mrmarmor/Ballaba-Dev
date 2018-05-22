@@ -1,8 +1,6 @@
 package com.example.michaelkibenko.ballaba;
 
 import android.app.Application;
-import android.content.Context;
-import android.provider.Settings;
 
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
