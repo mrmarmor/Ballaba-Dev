@@ -1,6 +1,5 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;

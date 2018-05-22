@@ -438,14 +438,30 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         if (entity == null)
             return;
 
-        if (entity.title.equals("arnona"))
-            binderPay.addPropPaymentsMunicipalityEditText.setEnabled(!state.equals(UiUtils.ChipsButtonStates.PRESSED));
-        else if (entity.title.equals("house_committee"))
-            binderPay.addPropPaymentsHouseCommitteeEditText.setEnabled(!state.equals(UiUtils.ChipsButtonStates.PRESSED));
-        else if (entity.title.equals("managment_fee"))
-            binderPay.addPropPaymentsManagementEditText.setEnabled(!state.equals(UiUtils.ChipsButtonStates.PRESSED));
-        else if (entity.title.equals("parking"))
-            binderPay.addPropertyPaymentsParkingPriceEditText.setEnabled(!state.equals(UiUtils.ChipsButtonStates.PRESSED));
+        switch (entity.title) {
+            case "arnona":
+                //binderPay.addPropPaymentsMunicipalityEditText.setEnabled(!state.equals(UiUtils.ChipsButtonStates.PRESSED));
+                taxesEditTextsStateChanger(binderPay.addPropPaymentsMunicipalityEditText, state);
+                taxesEditTextsStateChanger(binderPay.addPropPaymentsMunicipalityTitle, state);
+                break;
+
+            case "house_committee":
+                taxesEditTextsStateChanger(binderPay.addPropPaymentsHouseCommitteeEditText, state);
+                taxesEditTextsStateChanger(binderPay.addPropPaymentsHouseCommitteeRoot, state);
+                break;
+
+            case "managment_fee":
+                taxesEditTextsStateChanger(binderPay.addPropPaymentsManagementEditText, state);
+                taxesEditTextsStateChanger(binderPay.addPropPaymentsManagementRoot, state);
+                break;
+
+            case "parking":
+                taxesEditTextsStateChanger(binderPay.addPropertyPaymentsParkingLayout, state);
+        }
+    }
+
+    private void taxesEditTextsStateChanger(View view, String state){
+        view.setVisibility(state.equals(UiUtils.ChipsButtonStates.PRESSED)? View.GONE : View.VISIBLE);
     }
 
     private void onAllIncludedButtonClick(FlowLayout flowLayout, Button btn, String state){

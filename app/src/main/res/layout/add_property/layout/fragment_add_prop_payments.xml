@@ -101,6 +101,7 @@
                     android:hint="@string/addProperty_payments_time_title" />
 
                 <TextView
+                    android:id="@+id/addProp_payments_municipality_title"
                     style="@style/addProperty_titles"
                     android:layout_marginBottom="@dimen/small_margin"
                     android:text="@string/addProperty_payments_municipality_title" />
@@ -112,6 +113,7 @@
                     android:hint="@string/addProperty_payments_municipality_hint" />
 
                 <LinearLayout
+                    android:id="@+id/addProp_payments_houseCommittee_root"
                     style="@style/allWrapContent"
                     android:orientation="horizontal">
                     <TextView
@@ -130,6 +132,7 @@
                     android:hint="@string/addProperty_payments_hint" />
 
                 <LinearLayout
+                    android:id="@+id/addProp_payments_management_root"
                     style="@style/allWrapContent"
                     android:orientation="horizontal">
                     <TextView

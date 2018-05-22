@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivity;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
@@ -127,8 +128,8 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
         initButtonRemovePhoto(holder, position);
     }
 
-    private final int FADE_DURATION = 1000;
     private void setFadeAnimation(View view) {
+        final int FADE_DURATION = 1000;
         AlphaAnimation anim = new AlphaAnimation(0f, 1f);
         anim.setDuration(FADE_DURATION);
         view.startAnimation(anim);

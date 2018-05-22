@@ -188,16 +188,16 @@ public class UiUtils {
         autoCompleteTextView.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
                 autoCompleteTextView.setAdapter(dataAdapter);
-                dataAdapter.notifyDataSetInvalidated();
-                autoCompleteTextView.requestLayout();
+                //dataAdapter.notifyDataSetInvalidated();
+                //autoCompleteTextView.requestLayout();
             }
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                dataAdapter.notifyDataSetInvalidated();
-                autoCompleteTextView.requestLayout();
+                dataAdapter.notifyDataSetInvalidated();//this is against a strange crash and against bad-eye
+                autoCompleteTextView.requestLayout();//this is against a strange crash and against bad-eye
                 dataAdapter.getFilter().filter(s.toString());
-                dataAdapter.notifyDataSetInvalidated();
-                autoCompleteTextView.requestLayout();
+                //dataAdapter.notifyDataSetInvalidated();
+                //autoCompleteTextView.requestLayout();
                 //dataAdapter.remove("Israel");
             }
         });
