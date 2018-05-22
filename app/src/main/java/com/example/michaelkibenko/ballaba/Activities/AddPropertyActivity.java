@@ -72,7 +72,8 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
     }
 
     //Here we add in the left corner of the actionbar a counter of pages
-    private final int PROPERTY_DATA = 0, PROPERTY_TAKE_PHOTO = 4, PROPERTY_EDIT_PHOTO = 5;
+    private final int PROPERTY_DATA = 0, PROPERTY_TAKE_PHOTO = 4
+            , PROPERTY_EDIT_PHOTO = 5, PROPERTY_MEETINGS = 6;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         TextView pagesCounterTv = new TextView(this);
@@ -87,6 +88,10 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         } else if (pageNumber == 5) {
             menu.add(0, PROPERTY_EDIT_PHOTO, 1, getString(R.string.addProperty_editPhoto_finish))
+                    .setOnMenuItemClickListener(this)
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        } else if (pageNumber == 6) {
+            menu.add(0, PROPERTY_MEETINGS, 1, getString(R.string.addProperty_editPhoto_finish))
                     .setOnMenuItemClickListener(this)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         }
@@ -110,6 +115,7 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
                     invalidateOptionsMenu();
                 }
                 return true;
+
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -185,6 +191,10 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
 
             case PROPERTY_EDIT_PHOTO:
                 uploadPhoto(activity, ConnectionsManager.getInstance(activity));
+                break;
+
+            case PROPERTY_MEETINGS:
+                Toast.makeText(activity, "finish", Toast.LENGTH_LONG).show();
         }
 
         return false;
