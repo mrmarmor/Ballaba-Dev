@@ -38,7 +38,8 @@ import java.util.ArrayList;
 import static java.sql.Types.NULL;
 
 public class AddPropertyActivity extends BaseActivityWithActionBar
-        implements AddPropertyPhotoRecyclerAdapter.AddPropPhotoFinishListener {
+        implements AddPropertyPhotoRecyclerAdapter.AddPropPhotoFinishListener
+                 , MenuItem.OnMenuItemClickListener {
 
     private final static String TAG = AddPropertyActivity.class.getSimpleName();
 
@@ -48,6 +49,7 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
     public BallabaUser user;
     private JSONObject photosJson;
     private BallabaPropertyPhoto photo;
+    private final AddPropertyActivity activity = this;
     private boolean isSelectedTagForPhoto = false;
     //private AddPropFinishListener listener;
 
@@ -70,16 +72,24 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
     }
 
     //Here we add in the left corner of the actionbar a counter of pages
+    private final int PROPERTY_DATA = 0, PROPERTY_TAKE_PHOTO = 4, PROPERTY_EDIT_PHOTO = 5;
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         TextView pagesCounterTv = new TextView(this);
         int pageNumber = binder.addPropertyViewPager.getCurrentItem();
         pagesCounterTv.setPadding(16, 0, 16, 0);
-        if (pageNumber < 4)//page counter should be displayed only in first 4 screens
-            menu.add(0, 1, 1, (pageNumber+1)+"/4")
+        if (pageNumber < 4) {//page counter should be displayed only in first 4 screens
+            menu.add(0, PROPERTY_DATA, 1, (pageNumber + 1) + "/4")
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        else if (pageNumber == 5)
-            setButtonFinishUploadProperty(menu);
+        } else if (pageNumber == 4) {
+            menu.add(0, PROPERTY_TAKE_PHOTO, 1, "דילוג")
+                    .setOnMenuItemClickListener(this)
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        } else if (pageNumber == 5) {
+            menu.add(0, PROPERTY_EDIT_PHOTO, 1, getString(R.string.addProperty_editPhoto_finish))
+                    .setOnMenuItemClickListener(this)
+                    .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        }
 
         String label = getResources().getStringArray(R.array.addProperty_titles)[pageNumber];
         getSupportActionBar().setTitle(label);
@@ -109,17 +119,7 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
     private final JSONObject USER_HAS_NOT_SWITCHED_TAG_FOR_HIS_PHOTO = null;
     //when user clicks finish button on actionbar, last photo that hasn't sent yet, is sent now to server
     private void setButtonFinishUploadProperty(Menu menu) {
-        final AddPropertyActivity activity = this;
 
-        menu.add(0, 1, 1, getString(R.string.addProperty_editPhoto_finish))
-                .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        uploadPhoto(activity, ConnectionsManager.getInstance(activity));
-                        return false;
-                    }
-                })
-                .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
     }
 
     private void uploadPhoto(final AddPropertyActivity activity, final ConnectionsManager conn){
@@ -174,6 +174,20 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
     public void onFinish(JSONObject jsonObject) {
         this.photosJson = jsonObject;
         isSelectedTagForPhoto = true;
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()){
+            case PROPERTY_TAKE_PHOTO:
+                AddPropertyPresenter.getInstance(activity, binder).onNextViewPagerItem(4);
+                break;
+
+            case PROPERTY_EDIT_PHOTO:
+                uploadPhoto(activity, ConnectionsManager.getInstance(activity));
+        }
+
+        return false;
     }
 
   /*  public interface AddPropFinishListener {
