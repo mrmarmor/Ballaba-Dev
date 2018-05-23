@@ -68,6 +68,11 @@ public class AddPropEditPhotoFrag extends Fragment {
         return fragment;
     }
 
+    public AddPropEditPhotoFrag setMainBinder(ActivityAddPropertyBinding binder){
+        this.binderMain = binder;
+        return this;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binderEditPhoto = DataBindingUtil.inflate(

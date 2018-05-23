@@ -32,6 +32,7 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
     private final String TAG = AddPropertyPagerAdapter.class.getSimpleName();
 
     private Fragment[] fragments;
+    private AddPropEditPhotoFrag addPropEditPhotoFrag = new AddPropEditPhotoFrag();
 
     public AddPropertyPagerAdapter(ActivityAddPropertyBinding binder, FragmentManager fm) {
         super(fm);
@@ -39,13 +40,17 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
         fragments = new Fragment[]{
                   AddPropLandlordFrag.newInstance().setMainBinder(binder), AddPropAssetFrag.newInstance().setMainBinder(binder)
                 , AddPropAddonsFrag.newInstance(binder).setMainBinder(binder), AddPropPaymentsFrag.newInstance().setMainBinder(binder)
-                , AddPropTakePhotoFrag.newInstance().setMainBinder(binder), AddPropEditPhotoFrag.newInstance().setMainBinder(binder)
+                , AddPropTakePhotoFrag.newInstance().setMainBinder(binder), addPropEditPhotoFrag.setMainBinder(binder)
                 , AddPropMeetingsFrag.newInstance()};
     }
 
     //AddPropEditPhotoFrag needs also a photo, so i need to return it with a bundle.
     public void setData(Uri photo, String[] orientations){
-        ((AddPropEditPhotoFrag)fragments[5]).setData(photo.toString(), orientations);
+        Bundle bundle = new Bundle();
+        bundle.putString(AddPropEditPhotoFrag.FIRST_PHOTO , photo.toString());
+        bundle.putStringArray(AddPropEditPhotoFrag.ORIENTATIONS, orientations);
+        addPropEditPhotoFrag.setArguments(bundle);
+        fragments[5] = addPropEditPhotoFrag;
     }
 
     @Override
