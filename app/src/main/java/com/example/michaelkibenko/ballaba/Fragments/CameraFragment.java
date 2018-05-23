@@ -1,11 +1,10 @@
 package com.example.michaelkibenko.ballaba.Fragments;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
@@ -27,6 +26,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.util.Base64;
+import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
@@ -34,9 +34,9 @@ import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringCameraActivity;
 import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringPicTakenActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
@@ -46,7 +46,6 @@ import com.example.michaelkibenko.ballaba.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -56,56 +55,35 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 public class CameraFragment extends android.app.Fragment {
 
+    private String TAG = "WOW";
     private TextureView textureView;
     private Context context;
     private static final SparseIntArray ORIENTATION = new SparseIntArray();
 
     static {
-        ORIENTATION.append(Surface.ROTATION_0, 90);
-        ORIENTATION.append(Surface.ROTATION_90, 0);
-        ORIENTATION.append(Surface.ROTATION_180, 270);
+        ORIENTATION.append(Surface.ROTATION_0, 180);
+        ORIENTATION.append(Surface.ROTATION_90, 180);
+        ORIENTATION.append(Surface.ROTATION_180, 180);
         ORIENTATION.append(Surface.ROTATION_270, 180);
     }
 
     private String cameraID;
     private CameraDevice cameraDevice;
-    private CameraCaptureSession cameraCaptureSession;
+    private CameraCaptureSession cameraCaptureSessions;
     private CaptureRequest.Builder captureRequestBuilder;
     private Size imageDimension;
-    private ImageReader imageReader;
-
+    private ImageReader reader;
 
     private File file;
     public static final int REQUEST_CAMERA_PERMISSION = 200;
-    private boolean mFlashSupported;
     private Handler mBackgroundHandler;
     private HandlerThread mBackgroundThread;
-
+    private ProgressBar progressBar;
     private byte[] byteArray;
 
-
-    private CameraDevice.StateCallback stateCallBack = new CameraDevice.StateCallback() {
-        @Override
-        public void onOpened(@NonNull CameraDevice camera) {
-            cameraDevice = camera;
-            createCameraPreview();
-        }
-
-        @Override
-        public void onDisconnected(@NonNull CameraDevice camera) {
-            cameraDevice.close();
-        }
-
-        @Override
-        public void onError(@NonNull CameraDevice camera, int error) {
-            cameraDevice.close();
-            cameraDevice = null;
-        }
-    };
 
     public TextureView.SurfaceTextureListener textureListener = new TextureView.SurfaceTextureListener() {
         @Override
@@ -129,45 +107,73 @@ public class CameraFragment extends android.app.Fragment {
         }
     };
 
+    private CameraDevice.StateCallback stateCallback = new CameraDevice.StateCallback() {
+        @Override
+        public void onOpened(@NonNull CameraDevice camera) {
+            cameraDevice = camera;
+            createCameraPreview();
+        }
+
+        @Override
+        public void onDisconnected(@NonNull CameraDevice camera) {
+            cameraDevice.close();
+        }
+
+        @Override
+        public void onError(@NonNull CameraDevice camera, int error) {
+            cameraDevice.close();
+            cameraDevice = null;
+        }
+    };
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.scoring_camera_fragment, container, false);
 
+
         textureView = v.findViewById(R.id.texture_view);
         assert textureView != null;
-        textureView.setSurfaceTextureListener(textureListener);
+        textureViewTransform();
+        progressBar = v.findViewById(R.id.fragment_camera_progress_bar);
         startBackgroundThread();
+        textureView.setSurfaceTextureListener(textureListener);
         v.findViewById(R.id.scoring_camera_fragment_layout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 takePicture();
             }
         });
-        //textureView.setSurfaceTextureListener(((ScoringCameraActivity)context).textureListener);
         return v;
+    }
+
+    private void textureViewTransform() {
+        if (textureView == null) {
+            return;
+        }
+        textureView.setRotation(270);
     }
 
     private void openCamera() {
         CameraManager manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
+        Log.e(TAG, "is camera open");
         try {
             cameraID = manager.getCameraIdList()[0];
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraID);
             StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
             assert map != null;
             imageDimension = map.getOutputSizes(SurfaceTexture.class)[0];
-            if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions((ScoringCameraActivity) context, new String[]{
-                        android.Manifest.permission.CAMERA,
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-                }, REQUEST_CAMERA_PERMISSION);
+            // Add permission for camera and let user grant the permission
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CAMERA_PERMISSION);
                 return;
             }
-            manager.openCamera(cameraID, stateCallBack, null);
+            manager.openCamera(cameraID, stateCallback, null);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
+        Log.e(TAG, "openCamera X");
     }
 
     private void takePicture() {
@@ -187,30 +193,50 @@ public class CameraFragment extends android.app.Fragment {
                     height = jpegSizes[0].getHeight();
                 }
 
-                ImageReader reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
+                reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
                 List<Surface> outputSurface = new ArrayList<>();
                 outputSurface.add(reader.getSurface());
                 outputSurface.add(new Surface(textureView.getSurfaceTexture()));
 
-                CaptureRequest.Builder request = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
-                request.addTarget(reader.getSurface());
-                request.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
-                int rotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
-                captureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATION.get(rotation));
+                final CaptureRequest.Builder captureBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+                captureBuilder.addTarget(reader.getSurface());
+                captureBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
 
-                file = new File(Environment.getExternalStorageDirectory() + "/" + UUID.randomUUID().toString());
+                // orientation
+                int rotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
+                captureBuilder.set(CaptureRequest.COLOR_CORRECTION_ABERRATION_MODE, ORIENTATION.get(rotation));
+
+                file = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
 
                 ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                     @Override
                     public void onImageAvailable(ImageReader reader) {
+                        Log.d(TAG, "onImageAvailable: ");
                         Image image = null;
                         try {
-                            image = imageReader.acquireLatestImage();
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressBar.setVisibility(View.VISIBLE);
+                                }
+                            });
+                            image = reader.acquireLatestImage();
                             ByteBuffer buffer = image.getPlanes()[0].getBuffer();
                             byte[] bytes = new byte[buffer.capacity()];
+                            byteArray = bytes;
                             buffer.get(bytes);
                             save(bytes);
 
+                            String encoded = Base64.encodeToString(bytes, Base64.DEFAULT);
+
+                            JSONObject object = new JSONObject();
+                            try {
+                                object.put("image", encoded);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                            sendScoringID(object);
                         } catch (FileNotFoundException ex) {
                             ex.printStackTrace();
                         } catch (IOException io) {
@@ -234,28 +260,13 @@ public class CameraFragment extends android.app.Fragment {
                         }
                     }
                 };
+
                 reader.setOnImageAvailableListener(readerListener, mBackgroundHandler);
                 final CameraCaptureSession.CaptureCallback captureListener = new CameraCaptureSession.CaptureCallback() {
                     @Override
                     public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
                         super.onCaptureCompleted(session, request, result);
-                        Toast.makeText(context, file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
-                        Bitmap photo;
-                        photo = BitmapFactory.decodeFile(file.getAbsolutePath());
-                        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                        photo.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                        byteArray = stream.toByteArray();
-                        String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
-
-                        JSONObject object = new JSONObject();
-                        try {
-                            object.put("image", encoded);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        sendScoringID(object);
-                        createCameraPreview();
+                        Log.d(TAG, "onCaptureCompleted: Saved" + file.getAbsolutePath());
                     }
                 };
                 cameraDevice.createCaptureSession(outputSurface, new CameraCaptureSession.StateCallback() {
@@ -263,7 +274,7 @@ public class CameraFragment extends android.app.Fragment {
                     public void onConfigured(@NonNull CameraCaptureSession session) {
 
                         try {
-                            session.capture(captureRequestBuilder.build(), captureListener, mBackgroundHandler);
+                            session.capture(captureBuilder.build(), captureListener, mBackgroundHandler);
 
                         } catch (CameraAccessException e) {
                             e.printStackTrace();
@@ -285,6 +296,12 @@ public class CameraFragment extends android.app.Fragment {
         ConnectionsManager.getInstance(getActivity()).uploadScoringID(object, true, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
                 Intent intent = new Intent(getActivity(), ScoringPicTakenActivity.class);
                 intent.putExtra("USER_IMAGE", byteArray);
                 startActivity(intent);
@@ -292,6 +309,13 @@ public class CameraFragment extends android.app.Fragment {
 
             @Override
             public void reject(BallabaBaseEntity entity) {
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBar.setVisibility(View.GONE);
+                    }
+                });
+                openCamera();
                 Toast.makeText(getActivity(), "We couldn't manage to detect an id in this picture..\nplease try again", Toast.LENGTH_LONG).show();
             }
         });
@@ -309,7 +333,7 @@ public class CameraFragment extends android.app.Fragment {
                 @Override
                 public void onConfigured(@NonNull CameraCaptureSession session) {
                     if (cameraDevice == null) return;
-                    cameraCaptureSession = session;
+                    cameraCaptureSessions = session;
                     updatePreview();
                 }
 
@@ -330,7 +354,7 @@ public class CameraFragment extends android.app.Fragment {
         }
         captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO);
         try {
-            cameraCaptureSession.setRepeatingRequest(captureRequestBuilder.build(), null, mBackgroundHandler);
+            cameraCaptureSessions.setRepeatingRequest(captureRequestBuilder.build(), null, mBackgroundHandler);
         } catch (CameraAccessException e) {
             e.printStackTrace();
         }
@@ -365,5 +389,10 @@ public class CameraFragment extends android.app.Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         context = activity;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }

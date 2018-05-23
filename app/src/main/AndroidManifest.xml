@@ -21,12 +21,14 @@
     <uses-feature
         android:name="android.hardware.location.gps"
         android:required="false" />
+
    <!-- <uses-feature
         android:name="android.hardware.camera.any"
         android:required="true" />
     <uses-feature
         android:name="android.hardware.camera.autofocus"
         android:required="false" />-->
+    <uses-feature android:name="android.hardware.camera2.full" />
 
     <application
         android:allowBackup="true"

@@ -67,7 +67,7 @@ public class BallabaUser extends BallabaBaseEntity {
     }
 
     private String trimNull(String s){
-        if (s != null && s.equals("null"))
+        if (s == null || s.equals("null"))
             return "";
         else
             return s;

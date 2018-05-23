@@ -25,6 +25,7 @@ public class ScoringCameraActivity extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         cameraFragment = new CameraFragment();
+        cameraFragment.setRetainInstance(true);
         getFragmentManager().beginTransaction().replace(R.id.scoring_camera_frame_layout, cameraFragment).commit();
         /*findViewById(R.id.activity_scoring_camera).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,22 +44,5 @@ public class ScoringCameraActivity extends AppCompatActivity {
             }
         }
     }
-
-    /*@Override
-    protected void onResume() {
-        super.onResume();
-        cameraFragment.startBackgroundThread();
-        if (textureView.isAvailable()){
-            openCamera();
-        }else {
-            textureView.setSurfaceTextureListener(textureListener);
-        }
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        stopBackgourndThread();
-    }*/
 
 }
