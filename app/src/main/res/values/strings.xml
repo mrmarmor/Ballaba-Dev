@@ -191,7 +191,7 @@
     <string name="addProperty_asset_propertyPosition_title">היכן ממוקם הנכס?</string>
     <string name="addProperty_asset_city">עיר</string>
     <string name="addProperty_asset_city_hint">תל אביב</string>
-    <string name="addProperty_asset_address">כתובת: רחוב, בניין</string>
+    <string name="addProperty_asset_address">כתובת: רחוב, בניין ודירה</string>
     <string name="addProperty_asset_address_hint">ביאליק 8</string>
     <string name="addProperty_asset_aptNo">מספר דירה</string>
     <string name="addProperty_asset_hint">1</string>

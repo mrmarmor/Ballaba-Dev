@@ -115,8 +115,8 @@
 
                 <!-- TODO add city from BallabaUser -->
                 <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_city" />
-                <EditText
-                    android:id="@+id/addProp_city_editText"
+                <AutoCompleteTextView
+                    android:id="@+id/addProp_city_actv"
                     android:tag="city"
                     style="@style/addProperty_editTexts"
                     android:hint="@string/addProperty_landlord_city_hint" />

@@ -1,6 +1,5 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -50,6 +49,7 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_add_prop_take_photo, container, false);
 
+        UiUtils.instance(true, getActivity()).hideSoftKeyboard(v);
         v.findViewById(R.id.addProp_takePhoto_button_professionalPhotographer).setOnClickListener(this);
         v.findViewById(R.id.addProp_takePhoto_button_takePhoto).setOnClickListener(this);
 

@@ -225,6 +225,8 @@
     <dimen name="addProperty_asset_maxFloor_marginVertical">-79dp</dimen>
     <dimen name="addProp_asset_rentalPeriod_datePicker">12dp</dimen>
 
+    <dimen name="addProp_payments_subTextView_marginBottom">6dp</dimen>
+
     <dimen name="addProp_takePhoto_description_margin_end">31dp</dimen>
     <dimen name="addProp_takePhoto_imageView_width">168dp</dimen>
     <dimen name="addProp_takePhoto_imageView_height">164dp</dimen>

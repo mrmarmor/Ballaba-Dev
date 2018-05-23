@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
@@ -124,7 +125,8 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
 
         //removes furnished+not+electronics+not attachments. these attachments are used in filter search module.
         for (int i = 0; i < 4; i++)
-            extras.remove(0);
+            if (!extras.isEmpty())
+                extras.remove(0);
 
         furnitureRoot = view.findViewById(R.id.addProperty_addons_furniture_flowLayout);
         electronicsRoot = view.findViewById(R.id.addProperty_addons_electronics_flowLayout);
@@ -246,10 +248,11 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
 
                 @Override
                 public void reject(BallabaBaseEntity entity) {
-                    showSnackBar(((BallabaErrorResponse) entity).message);
+                    ((BaseActivity)context).getDefaultSnackBar(binderAddons.addPropertyAddonsRoot
+                            , ((BallabaErrorResponse) entity).message, false);
 
                     //TODO NEXT LINE IS ONLY FOR TESTING:
-                    AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(2);
+                    //AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(2);
                 }
             });
         } else {
