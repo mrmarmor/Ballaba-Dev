@@ -1,22 +1,16 @@
 package com.example.michaelkibenko.ballaba.Activities;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.michaelkibenko.ballaba.Activities.Scoring.BaseActivityWithActionBar;
 import com.example.michaelkibenko.ballaba.Adapters.AddPropertyPhotoRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyPhoto;
@@ -27,19 +21,13 @@ import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
-import static java.sql.Types.NULL;
-
 public class AddPropertyActivity extends BaseActivityWithActionBar
-        implements AddPropertyPhotoRecyclerAdapter.AddPropPhotoFinishListener
-                 , MenuItem.OnMenuItemClickListener {
+        implements AddPropertyPhotoRecyclerAdapter.AddPropPhotoFinishListener {
 
     private final static String TAG = AddPropertyActivity.class.getSimpleName();
 
@@ -77,26 +65,24 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         TextView pagesCounterTv = new TextView(this);
-        int pageNumber = binder.addPropertyViewPager.getCurrentItem();
         pagesCounterTv.setPadding(16, 0, 16, 0);
-        if (pageNumber < 4) {//page counter should be displayed only in first 4 screens
-            menu.add(0, PROPERTY_DATA, 1, (pageNumber + 1) + "/4")
+
+        final int PAGE_NUMBER = binder.addPropertyViewPager.getCurrentItem();
+        if (PAGE_NUMBER < 4) {//page counter should be displayed only in first 4 screens
+            menu.add(0, PROPERTY_DATA, 1, (PAGE_NUMBER + 1) + "/4")
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        } else if (pageNumber == 4) {
+        } else if (PAGE_NUMBER == 4) {
             menu.add(0, PROPERTY_TAKE_PHOTO, 1, "דילוג")
-                    .setOnMenuItemClickListener(this)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        } else if (pageNumber == 5) {
+        } else if (PAGE_NUMBER == 5) {
             menu.add(0, PROPERTY_EDIT_PHOTO, 1, getString(R.string.addProperty_editPhoto_finish))
-                    .setOnMenuItemClickListener(this)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        } else if (pageNumber == 6) {
+        } else if (PAGE_NUMBER == 6) {
             menu.add(0, PROPERTY_MEETINGS, 1, getString(R.string.addProperty_editPhoto_finish))
-                    .setOnMenuItemClickListener(this)
                     .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         }
 
-        String label = getResources().getStringArray(R.array.addProperty_titles)[pageNumber];
+        String label = getResources().getStringArray(R.array.addProperty_titles)[PAGE_NUMBER];
         getSupportActionBar().setTitle(label);
 
         return true;
@@ -116,18 +102,25 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
                 }
                 return true;
 
+            case PROPERTY_TAKE_PHOTO:
+                AddPropertyPresenter.getInstance(activity, binder).onNextViewPagerItem(4);
+                return true;
+
+            case PROPERTY_EDIT_PHOTO:
+                uploadPhoto(activity, ConnectionsManager.getInstance(activity));
+                AddPropertyPresenter.getInstance(activity, binder).onNextViewPagerItem(5);
+                return true;
+
+            case PROPERTY_MEETINGS:
+                Toast.makeText(activity, "finish", Toast.LENGTH_LONG).show();
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private final JSONObject USER_HAS_NOT_SWITCHED_TAG_FOR_HIS_PHOTO = null;
     //when user clicks finish button on actionbar, last photo that hasn't sent yet, is sent now to server
-    private void setButtonFinishUploadProperty(Menu menu) {
-
-    }
-
     private void uploadPhoto(final AddPropertyActivity activity, final ConnectionsManager conn){
         Fragment editPhotoFragment = getSupportFragmentManager().getFragments().get(0);
         Bundle b = editPhotoFragment.getArguments();
@@ -180,24 +173,6 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
     public void onFinish(JSONObject jsonObject) {
         this.photosJson = jsonObject;
         isSelectedTagForPhoto = true;
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()){
-            case PROPERTY_TAKE_PHOTO:
-                AddPropertyPresenter.getInstance(activity, binder).onNextViewPagerItem(4);
-                break;
-
-            case PROPERTY_EDIT_PHOTO:
-                uploadPhoto(activity, ConnectionsManager.getInstance(activity));
-                break;
-
-            case PROPERTY_MEETINGS:
-                Toast.makeText(activity, "finish", Toast.LENGTH_LONG).show();
-        }
-
-        return false;
     }
 
   /*  public interface AddPropFinishListener {

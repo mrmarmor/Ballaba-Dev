@@ -34,7 +34,7 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
 
     private FragmentManager fm;
     private Fragment[] fragments;
-    private AddPropEditPhotoFrag addPropEditPhotoFrag;
+    private AddPropEditPhotoFrag addPropEditPhotoFrag = new AddPropEditPhotoFrag();
 
     public AddPropertyPagerAdapter(ActivityAddPropertyBinding binder, FragmentManager fm) {
         super(fm);
@@ -52,7 +52,6 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
         Bundle bundle = new Bundle();
         bundle.putString(AddPropEditPhotoFrag.FIRST_PHOTO , photo.toString());
         bundle.putStringArray(AddPropEditPhotoFrag.ORIENTATIONS, orientations);
-        addPropEditPhotoFrag = new AddPropEditPhotoFrag();
         addPropEditPhotoFrag.setArguments(bundle);
         fragments[5] = addPropEditPhotoFrag;
     }

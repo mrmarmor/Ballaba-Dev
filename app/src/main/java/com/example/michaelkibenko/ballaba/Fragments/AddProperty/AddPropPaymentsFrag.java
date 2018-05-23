@@ -65,6 +65,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     private BallabaPropertyFull property;
     private String noOfPayments = "12";
     private boolean wasPaymentsChanged = false;
+    private boolean isPaymentMethodSelected = true;
 
     public AddPropPaymentsFrag() {}
     public static AddPropPaymentsFrag newInstance(ActivityAddPropertyBinding binding) {
@@ -286,6 +287,10 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
 
         data.payment_methods.addAll(getDataFromChipsSection(new ArrayList<Integer>()
                 , binderPay.addPropertyPaymentsMethodsFlowLayout, paymentMethods));
+
+        if (!isPaymentMethodSelected)
+            return;
+
         data.property_id = Integer.parseInt(propertyId);
 
         if (wasPaymentsChanged || !areEditTextsEqual(data)) {
@@ -379,6 +384,8 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
                 chipsIds.add(Integer.parseInt(chips.get(i).id));
             }
         }
+        if (chipsIds.isEmpty())
+            isPaymentMethodSelected = false;
 
         return chipsIds;
     }

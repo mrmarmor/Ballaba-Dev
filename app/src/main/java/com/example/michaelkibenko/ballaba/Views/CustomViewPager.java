@@ -1003,7 +1003,7 @@ public class CustomViewPager extends ViewGroup {
 
     boolean pageLeft() {
         if (mCurItem > 0) {
-            setCurrentItem(mCurItem - 1, true);
+            setCurrentItem(mCurItem - 1, false);
             return true;
         }
         return false;
@@ -1011,7 +1011,7 @@ public class CustomViewPager extends ViewGroup {
 
     boolean pageRight() {
         if (mAdapter != null && mCurItem < (mAdapter.getCount() - 1)) {
-            setCurrentItem(mCurItem + 1, true);
+            setCurrentItem(mCurItem + 1, false);
             return true;
         }
         return false;

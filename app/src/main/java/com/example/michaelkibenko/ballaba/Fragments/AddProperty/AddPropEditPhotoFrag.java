@@ -77,6 +77,10 @@ public class AddPropEditPhotoFrag extends Fragment {
         initRecyclerView(getActivity());
         initButtons();
 
+        if (photos.isEmpty()){
+            photosPlaceHolderChanger(true);
+        }
+
         return binderEditPhoto.getRoot();
     }
 
@@ -101,9 +105,7 @@ public class AddPropEditPhotoFrag extends Fragment {
         if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK && imageIntent != null){
             photos.add(new BallabaPropertyPhoto(imageIntent.getData()));
             this.orientations = new String[]{MediaStore.Images.Media.ORIENTATION};
-            UiUtils.instance(true, context).buttonChanger(binderEditPhoto.addPropPhotosButtonUpload, false);
-            binderEditPhoto.addPropNoPhotosTitle.setVisibility(View.GONE);
-            binderEditPhoto.addPropNoPhotosDescription.setVisibility(View.GONE);
+            photosPlaceHolderChanger(false);
 
             adapter.notifyItemInserted(photos.size() - 1);
 
@@ -131,12 +133,7 @@ public class AddPropEditPhotoFrag extends Fragment {
                 //when user removes all photos, "noPhoto" should be appear, and button should be active
                 //when he returns the photo(isHide==false), "noPhoto" should be hide, and button should be inactive until he chooses a tag chip
                 Log.d(TAG, "items left: " + adapter.getItemCount()+"");
-                binderEditPhoto.addPropNoPhotosTitle.setVisibility(
-                        (isPlaceHolderDisplayed && adapter.getItemCount()==0) ? View.VISIBLE : View.GONE);
-                binderEditPhoto.addPropNoPhotosDescription.setVisibility(
-                        (isPlaceHolderDisplayed && adapter.getItemCount()==0) ? View.VISIBLE : View.GONE);
-                UiUtils.instance(true, context)
-                        .buttonChanger(binderEditPhoto.addPropPhotosButtonUpload, isPlaceHolderDisplayed);
+                photosPlaceHolderChanger(isPlaceHolderDisplayed && adapter.getItemCount()==0);
             }
         });
         adapter.setImageOrientation(orientations);
@@ -192,6 +189,14 @@ public class AddPropEditPhotoFrag extends Fragment {
     }
 
     private void drawXonPhoto(){
+
+    }
+
+    private void photosPlaceHolderChanger(boolean show){
+        binderEditPhoto.addPropNoPhotosTitle.setVisibility(show? View.VISIBLE : View.GONE);
+        binderEditPhoto.addPropNoPhotosDescription.setVisibility(show? View.VISIBLE : View.GONE);
+        UiUtils.instance(true, context)
+                .buttonChanger(binderEditPhoto.addPropPhotosButtonUpload, show);
 
     }
 

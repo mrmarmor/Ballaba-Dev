@@ -34,48 +34,53 @@ public class BallabaUserManager {
         this.user = user;
     }
 
+    private String id, phone, email, name, lastName, city, address, aptNo
+            , birthDate, about, tenantScore, landlordScore , guarantorScore, dateCreated
+            , dateUpdated, sessionToken, fcmToken, globalToken, profileImage;
     public BallabaUser generateUserFromJsonResponse(String response){
-        //StringUtils stringUtils = StringUtils.getInstance(true, null);
-        try{
+        try {
             JSONObject jsonObject = new JSONObject(response);
-            String id = jsonObject.getString("id");
-            String phone = jsonObject.getString("phone");
-            String email = jsonObject.getString("email");
-            String name = jsonObject.getString("first_name");//stringUtils.formattedHebrew(jsonObject.getString("first_name"));
-            String lastName = jsonObject.getString("last_name");//stringUtils.formattedHebrew(jsonObject.getString("last_name"));
-            String city = jsonObject.getString("city");//stringUtils.formattedHebrew(jsonObject.getString("city"));
-            String address = jsonObject.getString("address");//stringUtils.formattedHebrew(jsonObject.getString("address"));
-            String aptNo = jsonObject.getString("apt_no");
-            String gender = jsonObject.getString("gender");
-            String tenantScore = jsonObject.getString("tenant_score");
-            String landlordScore = jsonObject.getString("landlord_score");
-            String guarantorScore = jsonObject.getString("guarantor_score");
-            String dateCreated = jsonObject.getString("date_created");
-            String dateUpdated = jsonObject.getString("date_updated");
             JSONObject auth = jsonObject.getJSONObject("auth");
-            String globalToken = auth.getString("global_token");
-            String sessionToken = auth.getString("session_token");
-            String deviceId = auth.getString("device_id");
-            //String fcmToken = auth.getString("fcm_token");
-            String profileImage = jsonObject.getString("profile_image");
+
+            sessionToken = auth.getString("session_token");
+            globalToken = auth.getString("global_token");
+            fcmToken = auth.getString("fcm_token");
+            id = jsonObject.getString("id");
+            phone = jsonObject.getString("phone");
+            email = jsonObject.getString("email");
+            name = jsonObject.getString("first_name");//stringUtils.formattedHebrew(jsonObject.getString("first_name"));
+            lastName = jsonObject.getString("last_name");//stringUtils.formattedHebrew(jsonObject.getString("last_name"));
+            city = jsonObject.getString("city");//stringUtils.formattedHebrew(jsonObject.getString("city"));
+            address = jsonObject.getString("address");//stringUtils.formattedHebrew(jsonObject.getString("address"));
+            aptNo = jsonObject.getString("apt_no");
+            profileImage = jsonObject.getString("profile_image");
+            birthDate = jsonObject.getString("birth_date");
+            about = jsonObject.getString("about");
+            tenantScore = jsonObject.getString("tenant_score");
+            landlordScore = jsonObject.getString("landlord_score");
+            guarantorScore = jsonObject.getString("guarantor_score");
+            dateCreated = jsonObject.getString("date_created");
+            dateUpdated = jsonObject.getString("date_updated");
+
             //Bitmap profileImage = StringUtils.getInstance(true, null)
             //        .stringToBitmap(jsonObject.getString("profile_image"));
 
-            BallabaUser user = new BallabaUser(id, phone, email, name, lastName, city, address, aptNo
-                    , gender, tenantScore, landlordScore , guarantorScore, dateCreated, dateUpdated
-                    , sessionToken, deviceId, globalToken, profileImage);
+            return new BallabaUser(id, phone, email, name, lastName, city, address, aptNo
+                    , birthDate, about, tenantScore, landlordScore , guarantorScore, dateCreated
+                    , dateUpdated, sessionToken, fcmToken, globalToken, profileImage);
 
-            return user;
-        }catch (JSONException ex){
+        }catch (JSONException ex) {
             Log.e(TAG, ex.getMessage());
-            return null;
+            return new BallabaUser(id, phone, email, name, lastName, city, address, aptNo
+                    , birthDate, about, tenantScore, landlordScore, guarantorScore, dateCreated
+                    , dateUpdated, sessionToken, fcmToken, globalToken, profileImage);
         }
     }
 
     //TODO we can merge "generateUserFromJsonResponse(JSONObject jsonObject)" and
     //TODO  "generateUserFromJsonResponse(String response)" (above) into one function.
     //TODO it is still duplicated, because we are afraid of incompatible parsing of data among different devices or different versions of java.
-    public BallabaUser generateUserFromJsonResponse(JSONObject jsonObject){
+   /* public BallabaUser generateUserFromJsonResponse(JSONObject jsonObject){
         try{
             String id = jsonObject.getString("id");
             String phone = jsonObject.getString("phone");
@@ -115,7 +120,7 @@ public class BallabaUserManager {
             Log.e(TAG, ex.getMessage());
             return null;
         }
-    }
+    }*/
 
     public String getUserSesionToken(){
         if (user != null)
