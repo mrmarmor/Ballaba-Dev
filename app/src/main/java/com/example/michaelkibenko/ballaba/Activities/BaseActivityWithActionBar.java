@@ -1,4 +1,4 @@
-package com.example.michaelkibenko.ballaba.Activities.Scoring;
+package com.example.michaelkibenko.ballaba.Activities;
 
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;

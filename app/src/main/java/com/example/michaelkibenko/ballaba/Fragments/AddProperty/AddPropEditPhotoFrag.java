@@ -40,7 +40,6 @@ import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropEditPhotoBi
 
 import org.json.JSONObject;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,10 +49,10 @@ import static java.sql.Types.NULL;
 
 public class AddPropEditPhotoFrag extends Fragment {
     private final String TAG = AddPropEditPhotoFrag.class.getSimpleName();
-    public static String PHOTO = "photo", ORIENTATIONS = "orientations", LAST_PHOTO = "lastPhoto";
+    public static String FIRST_PHOTO = "first_photo", ORIENTATIONS = "orientations", LAST_PHOTO = "last_photo";
 
     private Context context;
-    private ActivityAddPropertyBinding binderMain;
+    private static ActivityAddPropertyBinding binderMain;
     private static FragmentAddPropEditPhotoBinding binderEditPhoto;
     private AddPropertyPhotoRecyclerAdapter adapter;
     private ArrayList<BallabaPropertyPhoto> photos = new ArrayList<>();
@@ -62,19 +61,11 @@ public class AddPropEditPhotoFrag extends Fragment {
     //private ButtonUploadPhotoListener onClickListener;
 
     public AddPropEditPhotoFrag() {}
-    public static AddPropEditPhotoFrag newInstance() {
+    public static AddPropEditPhotoFrag newInstance(ActivityAddPropertyBinding binding/*, String photo*/) {
         AddPropEditPhotoFrag fragment = new AddPropEditPhotoFrag();
+        binderMain = binding;
+
         return fragment;
-    }
-
-    public AddPropEditPhotoFrag setMainBinder(ActivityAddPropertyBinding binder){
-        this.binderMain = binder;
-        return this;
-    }
-
-    public void setData(String photo, String[] orientations){
-        photos.add(new BallabaPropertyPhoto(Uri.parse(photo)));
-        this.orientations = orientations;
     }
 
     @Override
@@ -82,10 +73,24 @@ public class AddPropEditPhotoFrag extends Fragment {
         binderEditPhoto = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_add_prop_edit_photo, container, false);
 
+        getPhotoFromTakePhotoFragment();
         initRecyclerView(getActivity());
         initButtons();
 
+        if (photos.isEmpty()){
+            photosPlaceHolderChanger(true);
+        }
+
         return binderEditPhoto.getRoot();
+    }
+
+    private void getPhotoFromTakePhotoFragment(){
+        if (photos.isEmpty()) {//detect that i came here from TakePhotoFragment(=photos is empty), not from another fragment => what causes duplicating photos
+            if (getArguments() != null && getArguments().containsKey(FIRST_PHOTO)) {
+                photos.add(new BallabaPropertyPhoto(Uri.parse(getArguments().get(FIRST_PHOTO) + "")));
+                this.orientations = getArguments().getStringArray(ORIENTATIONS);
+            }
+        }
     }
 
     /*public void setCameraResult(Context context, int requestCode, int resultCode, Intent imageIntent){
@@ -100,13 +105,11 @@ public class AddPropEditPhotoFrag extends Fragment {
         if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK && imageIntent != null){
             photos.add(new BallabaPropertyPhoto(imageIntent.getData()));
             this.orientations = new String[]{MediaStore.Images.Media.ORIENTATION};
-            UiUtils.instance(true, context).buttonChanger(binderEditPhoto.addPropPhotosButtonUpload, false);
-            binderEditPhoto.addPropNoPhotosTitle.setVisibility(View.GONE);
-            binderEditPhoto.addPropNoPhotosDescription.setVisibility(View.GONE);
+            photosPlaceHolderChanger(false);
 
             adapter.notifyItemInserted(photos.size() - 1);
-            sendPhotoToServer(adapter.getData(context, new JSONObject()));
 
+            sendPhotoToServer(adapter.getData(context, new JSONObject()));
         }
     }
 
@@ -124,16 +127,13 @@ public class AddPropEditPhotoFrag extends Fragment {
             }
 
             @Override
-            public void onClickRemovePhoto(boolean isHide) {
+            public void onClickRemovePhoto(boolean isPlaceHolderDisplayed) {
                 //TODO send request to server to delete photo id from server if id exist
 
                 //when user removes all photos, "noPhoto" should be appear, and button should be active
                 //when he returns the photo(isHide==false), "noPhoto" should be hide, and button should be inactive until he chooses a tag chip
-                binderEditPhoto.addPropNoPhotosTitle.setVisibility(
-                        (isHide && adapter.getItemCount() > 0) ? View.GONE : View.VISIBLE);
-                binderEditPhoto.addPropNoPhotosDescription.setVisibility(
-                        (isHide && adapter.getItemCount() > 0) ? View.GONE : View.VISIBLE);
-                UiUtils.instance(true, context).buttonChanger(binderEditPhoto.addPropPhotosButtonUpload, isHide);
+                Log.d(TAG, "items left: " + adapter.getItemCount()+"");
+                photosPlaceHolderChanger(isPlaceHolderDisplayed && adapter.getItemCount()==0);
             }
         });
         adapter.setImageOrientation(orientations);
@@ -165,6 +165,7 @@ public class AddPropEditPhotoFrag extends Fragment {
             public void resolve(BallabaBaseEntity entity) {
                 //TODO update property updating date on SharedPrefs??
                 SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "5");
+
                 //set id to photo. id is received from server.
                 BallabaPropertyPhoto sentPhoto = photos.get(photos.size() - 2);
                 sentPhoto.setId(((BallabaPropertyPhoto)entity).getId());
@@ -188,6 +189,14 @@ public class AddPropEditPhotoFrag extends Fragment {
     }
 
     private void drawXonPhoto(){
+
+    }
+
+    private void photosPlaceHolderChanger(boolean show){
+        binderEditPhoto.addPropNoPhotosTitle.setVisibility(show? View.VISIBLE : View.GONE);
+        binderEditPhoto.addPropNoPhotosDescription.setVisibility(show? View.VISIBLE : View.GONE);
+        UiUtils.instance(true, context)
+                .buttonChanger(binderEditPhoto.addPropPhotosButtonUpload, show);
 
     }
 

@@ -1,20 +1,13 @@
 package com.example.michaelkibenko.ballaba.Activities;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.graphics.PixelFormat;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 
-import com.example.michaelkibenko.ballaba.Activities.Scoring.BaseActivityWithActionBar;
 import com.example.michaelkibenko.ballaba.Adapters.SavedAreasRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
@@ -23,8 +16,6 @@ import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Managers.ViewportsManager;
-import com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter;
-import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
 import com.example.michaelkibenko.ballaba.Presenters.SavedAreaPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivitySavedAreaBinding;
