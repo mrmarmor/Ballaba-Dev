@@ -4,97 +4,105 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="presenter"
             type="com.example.michaelkibenko.ballaba.Presenters.TestingPresenter"></variable>
     </data>
-<android.support.constraint.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layoutDirection="rtl">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layoutDirection="rtl">
 
 
-    <TextView
-        android:layout_width="@dimen/pre_auth_text_width"
-        android:layout_height="@dimen/pre_auth_text_height"
-        android:text="Testing"
-        android:textAlignment="center"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/pre_auth_text_size"
-        android:textStyle="bold"
-        android:typeface="sans"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-    
-    <Button
-        android:layout_width="@dimen/pre_auth_first_time_button_width"
-        android:layout_height="@dimen/pre_auth_first_time_button_height"
-        android:background="@color/colorPrimary"
-        android:text="הכנסת מספר טלפון"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/preAuth_screen_has_account_BTN"
-        android:layout_marginBottom="@dimen/pre_auth_first_time_bottom_offset"
-        android:onClick="@{() -> presenter.gotoEnterPhoneNumberIntent()}"
-        />
-    
-    <Button
-        android:id="@+id/preAuth_screen_has_account_BTN"
-        android:layout_width="@dimen/pre_auth_has_account_button_width"
-        android:layout_height="@dimen/pre_auth_has_account_button_height"
-        android:background="@android:color/transparent"
-        android:text="הכנסת קוד"
-        android:textColor="@color/colorPrimary"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginBottom="@dimen/pre_auth_has_account_bottom_offset"
-        android:textAlignment="center"
-        android:onClick="@{() -> presenter.gotoEnterCodeIntent()}"/>
+        <TextView
+            android:layout_width="@dimen/pre_auth_text_width"
+            android:layout_height="@dimen/pre_auth_text_height"
+            android:text="Testing"
+            android:textAlignment="center"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/pre_auth_text_size"
+            android:textStyle="bold"
+            android:typeface="sans"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/startflowBTN"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Start Flow"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="50dp"
-        android:onClick="@{() -> presenter.onFlowStartedClicked()}"
-        />
+        <Button
+            android:layout_width="@dimen/pre_auth_first_time_button_width"
+            android:layout_height="@dimen/pre_auth_first_time_button_height"
+            android:layout_marginBottom="@dimen/pre_auth_first_time_bottom_offset"
+            android:background="@color/colorPrimary"
+            android:onClick="@{() -> presenter.gotoEnterPhoneNumberIntent()}"
+            android:text="הכנסת מספר טלפון"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/preAuth_screen_has_account_BTN"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/MapBTN"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="search screen"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="100dp"
-        android:onClick="@{() -> presenter.onSearchClicked()}"
-        />
+        <Button
+            android:id="@+id/preAuth_screen_has_account_BTN"
+            android:layout_width="@dimen/pre_auth_has_account_button_width"
+            android:layout_height="@dimen/pre_auth_has_account_button_height"
+            android:layout_marginBottom="@dimen/pre_auth_has_account_bottom_offset"
+            android:background="@android:color/transparent"
+            android:onClick="@{() -> presenter.gotoEnterCodeIntent()}"
+            android:text="הכנסת קוד"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/scoring_BTN"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="150dp"
-        android:onClick="@{() -> presenter.onScoringClicked()}"
-        android:text="scoring"
-        app:layout_constraintTop_toTopOf="parent" />
+        <Button
+            android:id="@+id/startflowBTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:onClick="@{() -> presenter.onFlowStartedClicked()}"
+            android:text="Start Flow"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/addProperty_BTN"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="add property"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="200dp"
-        android:onClick="@{() -> presenter.onAddPropertyClicked()}"
-        />
+        <Button
+            android:id="@+id/MapBTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            android:onClick="@{() -> presenter.onSearchClicked()}"
+            android:text="search screen"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+        <Button
+            android:id="@+id/scoring_BTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="150dp"
+            android:onClick="@{() -> presenter.onScoringClicked()}"
+            android:text="scoring"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/addProperty_BTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="200dp"
+            android:onClick="@{() -> presenter.onAddPropertyClicked()}"
+            android:text="add property"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/camera_activity_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="250dp"
+            android:text="Camera Activity"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </Button>
+
+    </android.support.constraint.ConstraintLayout>
 </layout>

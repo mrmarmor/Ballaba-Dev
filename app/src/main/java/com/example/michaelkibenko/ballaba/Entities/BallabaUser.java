@@ -1,7 +1,5 @@
 package com.example.michaelkibenko.ballaba.Entities;
 
-import android.graphics.Bitmap;
-
 import com.google.gson.Gson;
 
 /**
@@ -51,7 +49,7 @@ public class BallabaUser extends BallabaBaseEntity {
     }
 
     private String trimNull(String s){
-        if (s.equals("null"))
+        if (s == null || s.equals("null"))
             return "";
         else
             return s;
