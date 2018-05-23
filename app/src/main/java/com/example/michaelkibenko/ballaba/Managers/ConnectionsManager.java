@@ -777,13 +777,13 @@ public class ConnectionsManager {
         queue.add(stringRequest);
     }
 
-    public void uploadUser(final String userId, JSONObject userData
+    public void uploadUser(/*final String userId, */JSONObject userData
             , final BallabaResponseListener callback) throws JSONException {
 
         final ProgressDialog pd = ((BaseActivity)context).getDefaultProgressDialog(context, "Uploading...");
         pd.show();
 
-        String url = EndpointsHolder.USER + userId;
+        String url = EndpointsHolder.USER;//userId;
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(PUT, url, userData, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {

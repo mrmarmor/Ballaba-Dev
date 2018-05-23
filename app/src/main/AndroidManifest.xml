@@ -99,6 +99,8 @@
         <activity android:name=".Activities.SavedAreaActivity"
             android:label="@string/savedAreas_label" />
         <activity android:name=".Activities.EditViewportSubActivity" />
+        <activity android:name=".Activities.PropertyManagementActivity"
+            android:label="הנכסים שלי" />
     </application>
 
 </manifest>

@@ -8,6 +8,7 @@ import com.example.michaelkibenko.ballaba.Activities.CalendarTestActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterPhoneNumberActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
+import com.example.michaelkibenko.ballaba.Activities.PropertyManagementActivity;
 import com.example.michaelkibenko.ballaba.Activities.SplashActivity;
 import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringWelcomeActivity;
 
@@ -48,7 +49,7 @@ public class TestingPresenter extends BasePresenter {
     }
 
     public void onAddPropertyClicked(){
-        context.startActivity(new Intent(context, AddPropertyActivity.class));
+        context.startActivity(new Intent(context, PropertyManagementActivity.class));
     }
 
     public void goToCalendar(){

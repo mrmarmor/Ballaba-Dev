@@ -117,9 +117,8 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             binderLandLord.addPropCityActv.setText(user.getCity());
             binderLandLord.addPropAddressEditText.setText(user.getAddress());
             binderLandLord.addPropAptNoEditText.setText(user.getApt_no());
+            binderLandLord.addPropAboutEditText.setText(user.getAbout());
             Glide.with(context).load(user.getProfile_image()).into(binderLandLord.addPropProfileImageButton);
-
-            //TODO aboutYourself field is missing. i do not receive it from server and it is not in class BallabaUser
         }
     }
 
@@ -230,7 +229,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 return;
 
             if (user != null && !isDataEqual(data, user)) {
-                conn.uploadUser(user.getId(), jsonParse(data), new BallabaResponseListener() {
+                conn.uploadUser(/*user.getId(), */jsonParse(data), new BallabaResponseListener() {
                     @Override
                     public void resolve(BallabaBaseEntity entity) {
                         SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.USER_ID, user.getId());
@@ -299,7 +298,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 map.get("city").equals(user.getCity()) &&
                 map.get("address").equals(user.getAddress()) &&
                 map.get("apt_no").equals(user.getApt_no()) &&
-                //TODO map.get("description").equals(user.getDescription()) &&
+                map.get("about").equals(user.getAbout()) &&
                 !isProfileImageChanged);
     }
 

@@ -28,6 +28,7 @@ android {
                             'src/main/res/layout/property_description',
                             'src/main/res/layout/recycler_items',
                             'src/main/res/layout/add_property',
+                            'src/main/res/layout/my_property',
                             'src/main/res/layout/sub_layouts',
                             'src/main/res/layout/scoring',
                             'src/main/res/layout/filter',

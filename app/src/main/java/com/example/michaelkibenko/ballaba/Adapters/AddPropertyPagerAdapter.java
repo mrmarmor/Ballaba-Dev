@@ -30,7 +30,7 @@ import java.util.HashMap;
  */
 
 public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
-    private final String TAG = FilterPagerAdapter.class.getSimpleName();
+    private final String TAG = AddPropertyPagerAdapter.class.getSimpleName();
 
     private FragmentManager fm;
     private Fragment[] fragments;

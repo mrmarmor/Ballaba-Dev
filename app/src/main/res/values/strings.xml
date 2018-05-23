@@ -272,6 +272,31 @@
     <string name="addProperty_meetings_privateMeetings">פגישות אישיות</string>
     <string name="addProperty_meetings_auto">חזרה אוטומטית</string>
 
+    <string name="myProperty_manage_viewPager_tab_info">מידע</string>
+    <string name="myProperty_manage_viewPager_tab_manage">ניהול נכס</string>
+    <string name="myProperty_manage_viewPager_tab_interested">מתעניינים</string>
+    <string name="myProperty_manage_viewPager_tab_meetings">פגישות</string>
+
+    <string name="myProperty_manage_info_views">צפיות</string>
+    <string name="myProperty_manage_info_interested">מתעניינים</string>
+    <string name="myProperty_manage_info_meetings">פגישות</string>
+    <string name="myProperty_manage_info_howToIncreaseChance">איך להגדיל את הסיכויים להשכיר את הנכס?</string>
+    <string name="myProperty_manage_info_pics_title">תמונות</string>
+    <string name="myProperty_manage_info_pics_text">הפנים של הנכס שלך.\n
+תמונות באיכות גבוהה ישפרו פלאים את ההתעניינות
+של שוכרים פוטנציאליים ויגדילו את הסיכויים לסגירת
+עסקה מהירה.</string>
+    <string name="myProperty_manage_info_description_title">תיאור הנכס</string>
+    <string name="myProperty_manage_info_description_text">כאן זה המקום שלך לתאר במילים שלך מה טוב
+בנכס ובסביבתו - משופץ, קרוב לתחבורה ציבורית,
+שירותי בריאות באזור, פארקים, גני ילדים.
+תיאור זה ייתן ערך מוסף לנכס.</string>
+    <string name="myProperty_manage_info_transparency_title">שקיפות</string>
+    <string name="myProperty_manage_info_transparency_text">להנגיש את כל המידע הרלוונטי על הנכס על מנת
+לתת לשוכרים פוטנציאליים להגיע להחלטה מודעת
+ומובנת של מה הם מקבלים. שקיפות תייצר גם אמון
+בינך לבין השוכר. </string>
+
     <string name="takePicSwitch_camera">צילום תמונה</string>
     <string name="takePicSwitch_gallery">תמונה מהגלריה</string>
 

@@ -93,7 +93,9 @@
     </style>
 
     <style name="mainActivity_button_filter" parent="mainActivity_button">
+        <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/textSize_regular</item>
+        <item name="android:fontFamily">@font/rubik_medium</item>
         <item name="android:textColor">@color/filter_textColor_aquaBlue</item>
         <item name="android:background">@color/colorPrimaryDark</item>
     </style>
@@ -183,7 +185,6 @@
         <item name="android:text">@string/propertyDescription_root_button_text</item>
     </style>
 
-
     <style name="addProperty_textViews">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -209,6 +210,12 @@
         <item name="android:layout_marginBottom">-8dp</item>
         <item name="android:textSize">@dimen/textSize_big</item>
         <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="myProperty_titles" parent="allWrapContent">
+        <item name="android:textSize">@dimen/myProp_info_textSize_title</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/rubik_medium</item>
     </style>
 
     <style name="MyDatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog">
