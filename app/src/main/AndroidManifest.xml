@@ -101,9 +101,13 @@
         <activity android:name=".Activities.SavedAreaActivity"
             android:label="@string/savedAreas_label" />
         <activity android:name=".Activities.EditViewportSubActivity" />
+        <activity android:name=".Activities.PropertyManagementActivity"
+            android:label="הנכסים שלי" />
+
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="7594bc2ab19b861f621aef3d9db083a17fe0dfe0" />
+
     </application>
 
 </manifest>

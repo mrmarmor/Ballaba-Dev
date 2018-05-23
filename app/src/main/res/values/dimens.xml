@@ -233,6 +233,12 @@
     <dimen name="addProp_takePhoto_imageView_title_height">35dp</dimen>
     <dimen name="addProp_takePhoto_button_takePhoto_padding">10dp</dimen>
     <dimen name="addProp_takePhoto_photo_height">194dp</dimen>
+    
+    <dimen name="myProp_info_textSize_title">32sp</dimen>
+    <dimen name="myProp_info_margin_top">44dp</dimen>
+    <dimen name="myProp_info_increaseChance_vertical_offset">30dp</dimen>
+    <dimen name="myProp_info_increaseChance_textSize">18sp</dimen>
+    <dimen name="myProp_info_titles_marginTop">20dp</dimen>
 
     <dimen name="takePicSwitch_height">56dp</dimen>
 
