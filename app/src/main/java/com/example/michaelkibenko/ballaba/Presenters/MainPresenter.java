@@ -33,6 +33,8 @@ import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivity;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.ContinueAddPropertyActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
+import com.example.michaelkibenko.ballaba.Activities.MyPropertiesBaseActivity;
+import com.example.michaelkibenko.ballaba.Activities.PropertyManagementActivity;
 import com.example.michaelkibenko.ballaba.Activities.SavedAreaActivity;
 import com.example.michaelkibenko.ballaba.Activities.SavedPropertiesActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
@@ -349,7 +351,8 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                 break;
 
             case R.id.nav_myProperties:
-
+                Intent goMyProperties = new Intent(context, PropertyManagementActivity.class);
+                context.startActivity(goMyProperties);
                 break;
 
             case R.id.nav_favorites:

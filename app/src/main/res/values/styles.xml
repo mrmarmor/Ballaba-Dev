@@ -25,6 +25,7 @@
         <item name="android:screenOrientation">portrait</item>
         <item name="android:textColor">@color/black</item>
         <item name="android:textSize">@dimen/textSize_regular</item>
+        <item name="android:layoutDirection">rtl</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -114,6 +115,13 @@
         <item name="android:background">@color/gray_button_color</item>
         <item name="android:layout_marginStart">@dimen/propertyDescription_divider_horizontalOffset</item>
         <item name="android:layout_marginEnd">@dimen/propertyDescription_divider_horizontalOffset</item>
+    </style>
+
+    <style name="myProperty_tabs" parent="mainActivity_button_filter">
+        <item name="android:layout_height">@dimen/myProp_tabs_height</item>
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColor">@color/myProperty_tabs_textColor</item>
+
     </style>
 
     <style name="property_description_textViews">

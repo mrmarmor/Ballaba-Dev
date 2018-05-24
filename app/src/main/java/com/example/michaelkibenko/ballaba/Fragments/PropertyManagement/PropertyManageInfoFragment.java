@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.michaelkibenko.ballaba.Fragments.Filter.PriceFragment;
 import com.example.michaelkibenko.ballaba.R;
 
 public class PropertyManageInfoFragment extends Fragment {

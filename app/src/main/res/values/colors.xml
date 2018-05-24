@@ -16,4 +16,5 @@
     <color name="filter_textColor_aquaBlue">#00d5f0</color>
     <color name="addProperty_takePhoto_green">#36a74d</color>
     <color name="dialog_regular_message">#8a000000</color>
+    <color name="myProperty_tabs_textColor">#3fffff</color>
 </resources>

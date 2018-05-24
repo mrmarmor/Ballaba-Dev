@@ -58,7 +58,7 @@ public class BallabaUserManager {
             aptNo = jsonObject.getString("apt_no");
             profileImage = jsonObject.getString("profile_image");
             birthDate = jsonObject.getString("birth_date");
-            about = jsonObject.getString("about");
+            about = StringUtils.getInstance(true, null).trimNull(jsonObject.getString("about"));
             tenantScore = jsonObject.getString("tenant_score");
             landlordScore = jsonObject.getString("landlord_score");
             guarantorScore = jsonObject.getString("guarantor_score");

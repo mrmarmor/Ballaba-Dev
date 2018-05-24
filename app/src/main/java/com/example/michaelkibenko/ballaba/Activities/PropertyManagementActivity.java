@@ -6,6 +6,7 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.view.ViewCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,6 +41,8 @@ public class PropertyManagementActivity extends BaseActivityWithActionBar {
         binder = DataBindingUtil.setContentView(this, R.layout.activity_property_management);
         binder.setPresenter(new PropertyManagementPresenter(this, binder));
 
+        getSupportActionBar().setElevation(0);
+        //ViewCompat.setElevation(binder.propertyManagementTabsRoot, 8);
     }
 
     //Here we add a back button at the right corner of the actionbar
