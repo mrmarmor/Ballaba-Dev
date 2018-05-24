@@ -18,7 +18,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:orientation="horizontal"
-            app:tabTextColor="@color/myProperty_tabs_textColor"
+            app:tabTextColor="@color/my_properties_tab_item_unselected_color"
             app:tabSelectedTextColor="@android:color/white"
             app:tabIndicatorColor="@android:color/transparent"
             android:elevation="8dp"

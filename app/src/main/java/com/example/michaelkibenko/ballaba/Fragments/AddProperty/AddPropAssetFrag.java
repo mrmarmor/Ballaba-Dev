@@ -75,8 +75,6 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
         binderAsset = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_add_prop_asset, container, false);
 
-        UiUtils.instance(true, context).initAutoCompleteCity(binderAsset.addPropCityActv);
-
         binderAsset.addPropertyAssetButtonNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -121,8 +119,10 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
             binderAsset.addPropertyRentalPeriodMonthsEditText.setText(property.rentPeriod);
         }
 
-        //binderAsset.addPropAddressEditText.addTextChangedListener(this);
+        UiUtils.instance(true, context).initAutoCompleteCity(binderAsset.addPropCityActv);
         UiUtils.instance(true, context).initAutoCompleteAddressInCity(binderAsset.addPropAddressActv, binderAsset.addPropCityActv);
+
+        //binderAsset.addPropAddressEditText.addTextChangedListener(this);
 
         validateFloors();
     }

@@ -150,7 +150,7 @@ public class BallabaUser extends BallabaBaseEntity {
     }
 
     public String getAbout() {
-        return about;
+        return trimNull(about);
     }
 
     public String getFcm_token() {

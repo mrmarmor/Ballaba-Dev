@@ -101,7 +101,6 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
 
         initEditTexts();
         initButtons(view);
-        UiUtils.instance(true, context).initAutoCompleteCity(binderLandLord.addPropCityActv);
 
         return view;
     }
@@ -118,11 +117,14 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             binderLandLord.addPropEmailEditText.setText(user.getEmail());
             binderLandLord.addPropPhoneEditText.setText(user.getPhone());
             binderLandLord.addPropCityActv.setText(user.getCity());
-            binderLandLord.addPropAddressEditText.setText(user.getAddress());
+            binderLandLord.addPropAddressActv.setText(user.getAddress());
             binderLandLord.addPropAptNoEditText.setText(user.getApt_no());
             binderLandLord.addPropAboutEditText.setText(user.getAbout());
             Glide.with(context).load(user.getProfile_image()).into(binderLandLord.addPropProfileImageButton);
         }
+
+        UiUtils.instance(true, context).initAutoCompleteCity(binderLandLord.addPropCityActv);
+        UiUtils.instance(true, context).initAutoCompleteAddressInCity(binderLandLord.addPropAddressActv, binderLandLord.addPropCityActv);
     }
 
     private void initButtons(View view){
