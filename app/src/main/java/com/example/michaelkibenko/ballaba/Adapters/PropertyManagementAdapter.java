@@ -4,6 +4,9 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.TabItem;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -30,28 +33,28 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityPropertyManagement
  * Created by User on 23/05/2018.
  */
 
-public class PropertyManagementAdapter extends FragmentStatePagerAdapter implements Button.OnClickListener{
+public class PropertyManagementAdapter extends FragmentStatePagerAdapter implements TabLayout.OnTabSelectedListener{
     private final String TAG = PropertyManagementAdapter.class.getSimpleName();
 
     private Context context;
     private FragmentManager fm;
-    private Fragment[] fragments = new Fragment[]{PropertyManageInfoFragment.newInstance()
-        , PropertyManageFragment.newInstance(), PropertyManageInterestedFragment.newInstance()
-        , PropertyManageMeetingsFragment.newInstance()};
+    private Fragment[] fragments = {PropertyManageInfoFragment.newInstance()
+            , PropertyManageFragment.newInstance(), PropertyManageInterestedFragment.newInstance()
+            , PropertyManageMeetingsFragment.newInstance()};
     private ActivityPropertyManagementBinding binder;
 
-    final private @IdRes Integer[] TABS = {R.id.propertyManagement_tabs_info_button,
-            R.id.propertyManagement_tabs_manage_button, R.id.propertyManagement_tabs_interested_button,
-            R.id.propertyManagement_tabs_meetings_button};
+    final private @IdRes Integer[] TABS = {R.id.propertyManagement_tabs_info,
+            R.id.propertyManagement_tabs_manage, R.id.propertyManagement_tabs_interested,
+            R.id.propertyManagement_tabs_meetings};
 
     public PropertyManagementAdapter(Context context, ActivityPropertyManagementBinding binder, FragmentManager fm) {
         super(fm);
 
         this.context = context;
         this.binder = binder;
-        fragments = new Fragment[]{};
+        //fragments = new Fragment[4]
 
-        initButtonsClickListener();
+        initTabsClickListener();
     }
 
     @Override
@@ -64,33 +67,55 @@ public class PropertyManagementAdapter extends FragmentStatePagerAdapter impleme
         return 4; //NUM_PAGES
     }
 
-    public void onPropertyManagementButtonsStateChange(final int currentButtonPosition){
-        for (int button = 0; button < TABS.length; button++){
-            final Button currentButton = binder.propertyManagementRoot.findViewById(TABS[button]);
+    /*public void onPropertyManagementTabsStateChange(final int currentTabPosition){
+        for (int tab = 0; tab < TABS.length; tab++){
+            final TabItem currentTab = binder.propertyManagementRoot.findViewById(TABS[tab]);
 
-            if (button == currentButtonPosition){
-                currentButton.setTextColor(context.getResources().getColor(
+            if (tab == currentTabPosition){
+                currentTab.setTextColor(context.getResources().getColor(
                         android.R.color.white, context.getTheme()));
             } else {
-                currentButton.setTextColor(context.getResources().getColor(
-                        R.color.filter_textColor_aquaBlue, context.getTheme()));
+                //currentTab.setTextColor(context.getResources().getColor(
+                //        R.color.myProperty_tabs_textColor, context.getTheme()));
             }
         }
 
+    }*/
+
+    private void initTabsClickListener() {
+        TabLayout tabsRoot = binder.propertyManagementRoot.findViewById(R.id.propertyManagement_tabs_root);
+        tabsRoot.setOnTabSelectedListener(this);//getTabAt(0).setOnClickListener(this);
+        //tabsRoot.findViewById(R.id.propertyManagement_tabs_manage).setOnClickListener(this);
+        //tabsRoot.findViewById(R.id.propertyManagement_tabs_interested).setOnClickListener(this);
+        //tabsRoot.findViewById(R.id.propertyManagement_tabs_meetings).setOnClickListener(this);
+        /*for (@IdRes int tabId : TABS) {
+            final TabItem tab = tabsRoot.findViewById(tabId);
+            tab.setOnClickListener(this);
+        }*/
     }
 
-    private void initButtonsClickListener() {
-        for (@IdRes int buttonId : TABS) {
-            final Button button = binder.propertyManagementRoot.findViewById(buttonId);
-            button.setOnClickListener(this);
-        }
-    }
-
-    @Override
+    /*@Override
     public void onClick(View v) {
         int position = Integer.parseInt(v.getTag().toString());
         binder.propertyManagementViewPager.setCurrentItem(position);
-        onPropertyManagementButtonsStateChange(position);
+        //onPropertyManagementTabsStateChange(position);
+    }*/
+
+    @Override
+    public void onTabSelected(TabLayout.Tab tab) {
+        tab.select();
+        binder.propertyManagementViewPager.setCurrentItem(tab.getPosition());
+       /* int position = Integer.parseInt(tab.getTag().toString());
+        binder.propertyManagementViewPager.setCurrentItem(position);*/
     }
 
+    @Override
+    public void onTabUnselected(TabLayout.Tab tab) {
+
+    }
+
+    @Override
+    public void onTabReselected(TabLayout.Tab tab) {
+
+    }
 }

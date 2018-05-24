@@ -61,7 +61,6 @@
         android:layout_below="@+id/my_properties_landlord_item_text_container"
         android:layout_width="match_parent"
         android:orientation="horizontal"
-        android:background="button"
         android:layout_height="wrap_content">
 
 
