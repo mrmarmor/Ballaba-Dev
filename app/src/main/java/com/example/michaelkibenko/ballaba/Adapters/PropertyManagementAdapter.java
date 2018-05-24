@@ -10,6 +10,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.util.Property;
 import android.view.View;
 import android.widget.Button;
@@ -33,7 +34,8 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityPropertyManagement
  * Created by User on 23/05/2018.
  */
 
-public class PropertyManagementAdapter extends FragmentStatePagerAdapter implements TabLayout.OnTabSelectedListener{
+public class PropertyManagementAdapter extends FragmentStatePagerAdapter
+        implements TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener {
     private final String TAG = PropertyManagementAdapter.class.getSimpleName();
 
     private Context context;
@@ -43,16 +45,11 @@ public class PropertyManagementAdapter extends FragmentStatePagerAdapter impleme
             , PropertyManageMeetingsFragment.newInstance()};
     private ActivityPropertyManagementBinding binder;
 
-    final private @IdRes Integer[] TABS = {R.id.propertyManagement_tabs_info,
-            R.id.propertyManagement_tabs_manage, R.id.propertyManagement_tabs_interested,
-            R.id.propertyManagement_tabs_meetings};
-
     public PropertyManagementAdapter(Context context, ActivityPropertyManagementBinding binder, FragmentManager fm) {
         super(fm);
 
         this.context = context;
         this.binder = binder;
-        //fragments = new Fragment[4]
 
         initTabsClickListener();
     }
@@ -67,55 +64,30 @@ public class PropertyManagementAdapter extends FragmentStatePagerAdapter impleme
         return 4; //NUM_PAGES
     }
 
-    /*public void onPropertyManagementTabsStateChange(final int currentTabPosition){
-        for (int tab = 0; tab < TABS.length; tab++){
-            final TabItem currentTab = binder.propertyManagementRoot.findViewById(TABS[tab]);
-
-            if (tab == currentTabPosition){
-                currentTab.setTextColor(context.getResources().getColor(
-                        android.R.color.white, context.getTheme()));
-            } else {
-                //currentTab.setTextColor(context.getResources().getColor(
-                //        R.color.myProperty_tabs_textColor, context.getTheme()));
-            }
-        }
-
-    }*/
-
     private void initTabsClickListener() {
         TabLayout tabsRoot = binder.propertyManagementRoot.findViewById(R.id.propertyManagement_tabs_root);
-        tabsRoot.setOnTabSelectedListener(this);//getTabAt(0).setOnClickListener(this);
-        //tabsRoot.findViewById(R.id.propertyManagement_tabs_manage).setOnClickListener(this);
-        //tabsRoot.findViewById(R.id.propertyManagement_tabs_interested).setOnClickListener(this);
-        //tabsRoot.findViewById(R.id.propertyManagement_tabs_meetings).setOnClickListener(this);
-        /*for (@IdRes int tabId : TABS) {
-            final TabItem tab = tabsRoot.findViewById(tabId);
-            tab.setOnClickListener(this);
-        }*/
+        tabsRoot.setOnTabSelectedListener(this);
+        binder.propertyManagementViewPager.addOnPageChangeListener(this);
     }
 
-    /*@Override
-    public void onClick(View v) {
-        int position = Integer.parseInt(v.getTag().toString());
-        binder.propertyManagementViewPager.setCurrentItem(position);
-        //onPropertyManagementTabsStateChange(position);
-    }*/
-
+    // to update viewPager when user clicks a tab
     @Override
     public void onTabSelected(TabLayout.Tab tab) {
         tab.select();
         binder.propertyManagementViewPager.setCurrentItem(tab.getPosition());
-       /* int position = Integer.parseInt(tab.getTag().toString());
-        binder.propertyManagementViewPager.setCurrentItem(position);*/
     }
-
     @Override
-    public void onTabUnselected(TabLayout.Tab tab) {
-
-    }
-
+    public void onTabUnselected(TabLayout.Tab tab) {}
     @Override
-    public void onTabReselected(TabLayout.Tab tab) {
+    public void onTabReselected(TabLayout.Tab tab) {}
 
+    // to update tabs when user swipes the viewPager
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+        binder.propertyManagementTabsRoot.setScrollPosition(binder.propertyManagementViewPager.getCurrentItem(), 0, true);
     }
+    @Override
+    public void onPageSelected(int position) {}
+    @Override
+    public void onPageScrollStateChanged(int state) {}
 }

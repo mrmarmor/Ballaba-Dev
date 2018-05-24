@@ -36,6 +36,7 @@
                         android:textColor="@color/gray_text_color"
                         android:text="@string/myProperty_manage_info_views" />
                     <TextView
+                        android:id="@+id/property_info_views"
                         style="@style/allWrapContent"
                         android:layout_gravity="center_horizontal"
                         android:textColor="@color/colorAccent" android:text="173"
@@ -58,6 +59,7 @@
                         android:layout_gravity="center_horizontal"
                         android:text="@string/myProperty_manage_viewPager_tab_interested" />
                     <TextView
+                        android:id="@+id/property_info_interested"
                         style="@style/allWrapContent"
                         android:layout_gravity="center_horizontal"
                         android:textColor="@color/colorAccent" android:text="174"
@@ -80,6 +82,7 @@
                         android:textColor="@color/gray_text_color"
                         android:text="@string/myProperty_manage_viewPager_tab_meetings" />
                     <TextView
+                        android:id="@+id/property_info_meetings"
                         style="@style/allWrapContent"
                         android:layout_gravity="center_horizontal"
                         android:textColor="@color/colorAccent" android:text="175"
