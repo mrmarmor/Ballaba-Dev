@@ -1,78 +1,102 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layoutDirection="rtl"
+    android:layout_height="wrap_content"
+    android:elevation="@dimen/elevation"
     android:background="@android:color/white"
-    android:layout_height="match_parent">
+    android:layoutDirection="rtl"
+    android:paddingBottom="8dp"
+    android:layout_marginBottom="8dp">
 
     <ImageView
         android:id="@+id/my_properties_landlord_item_image_view"
-        android:layout_width="344dp"
+        android:layout_width="match_parent"
+        android:layout_height="164dp"
         android:layout_centerHorizontal="true"
-        android:layout_height="164dp" />
+        android:scaleType="centerCrop"
+        android:src="@drawable/dummy_property" />
 
 
     <LinearLayout
         android:id="@+id/my_properties_landlord_item_text_container"
-        android:layout_marginTop="16dp"
-        android:layout_below="@+id/my_properties_landlord_item_image_view"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/my_properties_landlord_item_image_view"
         android:layout_marginRight="16dp"
-        android:layout_height="wrap_content">
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
 
 
         <TextView
+            android:textSize="13sp"
+            android:maxEms="10"
             android:id="@+id/my_properties_landlord_item_address_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="asdsadsa"/>
+            android:text="אחד העם , תל אביב" />
 
         <TextView
-            android:text="U+2219"
-            android:layout_gravity="center"
-            android:layout_width="4dp"
-            android:layout_height="4dp" />
+            android:id="@+id/my_properties_landlord_item_first_bullet"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp" />
 
         <TextView
+            android:textSize="13sp"
             android:id="@+id/my_properties_landlord_item_rooms_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="asdsadsa"/>
+            android:text="2 חדרים" />
 
         <TextView
-            android:layout_gravity="center"
-            android:layout_width="4dp"
-            android:layout_height="4dp" />
+            android:id="@+id/my_properties_landlord_item_second_bullet"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp" />
 
         <TextView
+            android:textSize="13sp"
             android:id="@+id/my_properties_landlord_item_size_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="asdsadsa"/>
+            android:text="63 מטר" />
 
     </LinearLayout>
 
 
     <LinearLayout
-        android:layout_marginRight="13dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/my_properties_landlord_item_text_container"
-        android:layout_width="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
         android:orientation="horizontal"
-        android:layout_height="wrap_content">
-
+        android:layout_marginBottom="8dp">
 
         <Button
+            android:layout_width="149dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="4dp"
+            android:background="@drawable/my_properties_blue_border"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textStyle="bold"
             android:text="מימוש הסכם הבטחה"
-            android:layout_width="149dp"
-            android:layout_height="40dp" />
+            android:textColor="@color/colorPrimary" />
 
         <Button
-            android:text="ביטול הסכם הבטחה"
             android:layout_width="149dp"
-            android:layout_height="40dp" />
+            android:layout_height="40dp"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/my_properties_red_border"
+            android:gravity="center"
+            android:text="ביטול הסכם הבטחה"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/red_error_phone"
+            />
 
     </LinearLayout>
 

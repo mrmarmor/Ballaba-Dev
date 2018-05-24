@@ -886,6 +886,33 @@ public class ConnectionsManager {
         queue.add(jsonObjectRequest);
     }
 
+    public void getLandlordProperties(final BallabaResponseListener callback){
+        StringRequest stringRequest = new StringRequest(GET, EndpointsHolder.GET_LANDLORD_PROPERTY, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                BallabaOkResponse callbackResponce = new BallabaOkResponse();
+                callbackResponce.setBody(response.toString());
+                callback.resolve(callbackResponce);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error.networkResponse != null) {
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, error.getMessage()));
+                } else {
+                    Log.e(TAG, error + "\n" + error.getMessage());
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders()  {
+                return getHeadersWithSessionToken();
+            }
+        };
+        queue.add(stringRequest);
+    }
+
     public void deletePropertyPhoto(final String propertyId, final int photoId, final BallabaResponseListener callback){
         final String url = String.format("%s%s/photos/%s", EndpointsHolder.PROPERTY, propertyId, photoId);
         Log.d(TAG, "delete url: " + url);
@@ -952,7 +979,6 @@ public class ConnectionsManager {
 
         queue.add(stringRequest);
     }
-
 
     /*public void getScoringLabels(final BallabaResponseListener callback){
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(GET, EndpointsHolder.SCORING_LABELS, null, new Response.Listener<JSONObject>() {

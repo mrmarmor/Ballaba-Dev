@@ -32,5 +32,6 @@ public @interface EndpointsHolder {
     String SCORING_LABELS = "https://api.ballaba-it.com/v1/config/scoring";
 
     String UPLOAD_METTINGS_DATES = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/property/";
+    String GET_LANDLORD_PROPERTY = "https://api.ballaba-it.com/v1/user/me/properties/landlord";
 
 }
