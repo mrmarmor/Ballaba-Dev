@@ -239,6 +239,8 @@
     <dimen name="myProp_info_increaseChance_vertical_offset">30dp</dimen>
     <dimen name="myProp_info_increaseChance_textSize">18sp</dimen>
     <dimen name="myProp_info_titles_marginTop">20dp</dimen>
+    <dimen name="myProp_info_marginBottom">84dp</dimen>
+    <dimen name="myProp_tabs_height">49dp</dimen>
 
     <dimen name="takePicSwitch_height">56dp</dimen>
 

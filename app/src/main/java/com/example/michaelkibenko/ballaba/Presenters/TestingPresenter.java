@@ -49,6 +49,10 @@ public class TestingPresenter extends BasePresenter {
     }
 
     public void onAddPropertyClicked(){
+        context.startActivity(new Intent(context, AddPropertyActivity.class));
+    }
+
+    public void onMyPropertyClicked(){
         context.startActivity(new Intent(context, PropertyManagementActivity.class));
     }
 

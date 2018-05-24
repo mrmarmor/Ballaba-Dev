@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.michaelkibenko.ballaba.Fragments.Filter.PriceFragment;
 import com.example.michaelkibenko.ballaba.R;
 
 public class PropertyManageInfoFragment extends Fragment {
@@ -31,6 +30,8 @@ public class PropertyManageInfoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        fetchDataFromServer();
+
         //TODO make server request and get data + progress dialog
         /*if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
@@ -44,6 +45,10 @@ public class PropertyManageInfoFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_property_manage_info, container, false);
 
         return v;
+    }
+
+    private void fetchDataFromServer(){
+
     }
 
 }

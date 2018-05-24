@@ -830,6 +830,9 @@ public class ConnectionsManager {
         final ProgressDialog pd = ((BaseActivity)context).getDefaultProgressDialog(context, "Uploading...");
         pd.show();
 
+        //TODO IMPORTANT!!
+        //TODO if user fill invalid city or address server receive reject. so i need to tell user about it!!!
+
         String url = getUrl(propertyData);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(POST, url, propertyData, new Response.Listener<JSONObject>() {
             @Override
@@ -1019,8 +1022,6 @@ public class ConnectionsManager {
 
         queue.add(request);
     }
-
-
 
     public void sendScoringData(ScoringUserData userData, final BallabaResponseListener callback) {
         JSONObject jsonObject = new JSONObject();

@@ -24,6 +24,7 @@ public class BaseActivityWithActionBar extends BaseActivity {
         //UiUtils.instance(true, this).hideSoftKeyboard(getWindow().getDecorView());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         getSupportActionBar().setBackgroundDrawable(
                 new ColorDrawable(getResources().getColor(R.color.colorPrimary, getTheme())));
     }

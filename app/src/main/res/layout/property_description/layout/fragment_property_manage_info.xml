@@ -3,117 +3,125 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
-    style="@style/allMatchParent"
-    android:orientation="vertical"
-    android:layoutDirection="rtl"
-    tools:context="com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.PropertyManageInfoFragment">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="3" >
+    <ScrollView
+        style="@style/allMatchParent"
+        android:scrollbars="none"
+        android:orientation="vertical" >
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
+            style="@style/allMatchParent"
+            android:layout_marginTop="@dimen/myProp_info_margin_top"
             android:orientation="vertical"
-            android:layout_weight="1" >
-            <ImageView
-                style="@style/allWrapContent"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/watch_blue_24"/>
+            android:layoutDirection="rtl"
+            tools:context="com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.PropertyManageInfoFragment">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="3" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1" >
+                    <ImageView
+                        style="@style/allWrapContent"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/watch_blue_24"/>
+                    <TextView
+                        style="@style/allWrapContent"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/gray_text_color"
+                        android:text="@string/myProperty_manage_info_views" />
+                    <TextView
+                        style="@style/allWrapContent"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/colorAccent" android:text="173"
+                        android:textSize="@dimen/myProp_info_textSize_title"
+                        android:fontFamily="@font/rubik_medium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1" >
+                    <ImageView
+                        style="@style/allWrapContent"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/watch_blue_24"/>
+                    <TextView
+                        style="@style/allWrapContent"
+                        android:textColor="@color/gray_text_color"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/myProperty_manage_viewPager_tab_interested" />
+                    <TextView
+                        style="@style/allWrapContent"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/colorAccent" android:text="174"
+                        android:textSize="@dimen/myProp_info_textSize_title"
+                        android:fontFamily="@font/rubik_medium" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1" >
+                    <ImageView
+                        style="@style/allWrapContent"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/watch_blue_24"/>
+                    <TextView
+                        style="@style/allWrapContent"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/gray_text_color"
+                        android:text="@string/myProperty_manage_viewPager_tab_meetings" />
+                    <TextView
+                        style="@style/allWrapContent"
+                        android:layout_gravity="center_horizontal"
+                        android:textColor="@color/colorAccent" android:text="175"
+                        android:textSize="@dimen/myProp_info_textSize_title"
+                        android:fontFamily="@font/rubik_medium" />
+                </LinearLayout>
+
+            </LinearLayout>
+
             <TextView
                 style="@style/allWrapContent"
+                android:layout_marginTop="@dimen/myProp_info_increaseChance_vertical_offset"
+                android:layout_marginBottom="@dimen/myProp_info_increaseChance_vertical_offset"
                 android:layout_gravity="center_horizontal"
-                android:textColor="@color/gray_text_color"
-                android:text="@string/myProperty_manage_info_views" />
+                android:fontFamily="@font/rubik_medium"
+                android:textSize="@dimen/myProp_info_increaseChance_textSize"
+                android:text="@string/myProperty_manage_info_howToIncreaseChance" />
+
+            <TextView
+                style="@style/myProperty_titles"
+                android:text="@string/myProperty_manage_info_pics_title"/>
             <TextView
                 style="@style/allWrapContent"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/colorAccent" android:text="173"
-                android:textSize="@dimen/myProp_info_textSize_title"
-                android:fontFamily="@font/rubik_medium" />
+                android:text="@string/myProperty_manage_info_pics_text"/>
+
+            <TextView
+                style="@style/myProperty_titles"
+                android:layout_marginTop="@dimen/myProp_info_titles_marginTop"
+                android:text="@string/myProperty_manage_info_description_title"/>
+            <TextView
+                style="@style/allWrapContent"
+                android:text="@string/myProperty_manage_info_description_text"/>
+
+            <TextView
+                style="@style/myProperty_titles"
+                android:layout_marginTop="@dimen/myProp_info_titles_marginTop"
+                android:text="@string/myProperty_manage_info_transparency_title"/>
+            <TextView
+                style="@style/allWrapContent"
+                android:layout_marginBottom="@dimen/myProp_info_marginBottom"
+                android:text="@string/myProperty_manage_info_transparency_text"/>
+
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="1" >
-            <ImageView
-                style="@style/allWrapContent"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/watch_blue_24"/>
-            <TextView
-                style="@style/allWrapContent"
-                android:textColor="@color/gray_text_color"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/myProperty_manage_viewPager_tab_interested" />
-            <TextView
-                style="@style/allWrapContent"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/colorAccent" android:text="174"
-                android:textSize="@dimen/myProp_info_textSize_title"
-                android:fontFamily="@font/rubik_medium" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_weight="1" >
-            <ImageView
-                style="@style/allWrapContent"
-                android:layout_gravity="center_horizontal"
-                android:src="@drawable/watch_blue_24"/>
-            <TextView
-                style="@style/allWrapContent"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/gray_text_color"
-                android:text="@string/myProperty_manage_viewPager_tab_meetings" />
-            <TextView
-                style="@style/allWrapContent"
-                android:layout_gravity="center_horizontal"
-                android:textColor="@color/colorAccent" android:text="175"
-                android:textSize="@dimen/myProp_info_textSize_title"
-                android:fontFamily="@font/rubik_medium" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-        <TextView
-            style="@style/allWrapContent"
-            android:layout_marginTop="@dimen/myProp_info_increaseChance_vertical_offset"
-            android:layout_marginBottom="@dimen/myProp_info_increaseChance_vertical_offset"
-            android:layout_gravity="center_horizontal"
-            android:fontFamily="@font/rubik_medium"
-            android:textSize="@dimen/myProp_info_increaseChance_textSize"
-            android:text="@string/myProperty_manage_info_howToIncreaseChance" />
-        
-        <TextView
-            style="@style/myProperty_titles"
-            android:text="@string/myProperty_manage_info_pics_title"/>
-        <TextView
-            style="@style/allWrapContent"
-            android:text="@string/myProperty_manage_info_pics_text"/>
-
-        <TextView
-            style="@style/myProperty_titles"
-            android:layout_marginTop="@dimen/myProp_info_titles_marginTop"
-            android:text="@string/myProperty_manage_info_description_title"/>
-        <TextView
-            style="@style/allWrapContent"
-            android:text="@string/myProperty_manage_info_description_text"/>
-
-        <TextView
-            style="@style/myProperty_titles"
-            android:layout_marginTop="@dimen/myProp_info_titles_marginTop"
-            android:text="@string/myProperty_manage_info_transparency_title"/>
-        <TextView
-            style="@style/allWrapContent"
-            android:text="@string/myProperty_manage_info_transparency_text"/>
-
-</LinearLayout>
+    </ScrollView>
 </layout>

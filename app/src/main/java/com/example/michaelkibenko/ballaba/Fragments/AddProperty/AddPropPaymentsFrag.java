@@ -3,13 +3,9 @@ package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.res.TypedArray;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -20,13 +16,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
-import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
@@ -47,11 +41,8 @@ import com.nex3z.flowlayout.FlowLayout;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import static com.google.android.gms.internal.zzbgp.NULL;
 
 public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListener, TextWatcher{
     private final String TAG = AddPropPaymentsFrag.class.getSimpleName(), ALL_INCLUDED = "all_included";
@@ -453,17 +444,17 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
             case "arnona":
                 //binderPay.addPropPaymentsMunicipalityEditText.setEnabled(!state.equals(UiUtils.ChipsButtonStates.PRESSED));
                 taxesEditTextsStateChanger(binderPay.addPropPaymentsMunicipalityEditText, state);
-                taxesEditTextsStateChanger(binderPay.addPropPaymentsMunicipalityTitle, state);
+                //taxesEditTextsStateChanger(binderPay.addPropPaymentsMunicipalityTitle, state);
                 break;
 
             case "house_committee":
                 taxesEditTextsStateChanger(binderPay.addPropPaymentsHouseCommitteeEditText, state);
-                taxesEditTextsStateChanger(binderPay.addPropPaymentsHouseCommitteeRoot, state);
+                //taxesEditTextsStateChanger(binderPay.addPropPaymentsHouseCommitteeRoot, state);
                 break;
 
             case "managment_fee":
                 taxesEditTextsStateChanger(binderPay.addPropPaymentsManagementEditText, state);
-                taxesEditTextsStateChanger(binderPay.addPropPaymentsManagementRoot, state);
+                //taxesEditTextsStateChanger(binderPay.addPropPaymentsManagementRoot, state);
                 break;
 
             case "parking":
