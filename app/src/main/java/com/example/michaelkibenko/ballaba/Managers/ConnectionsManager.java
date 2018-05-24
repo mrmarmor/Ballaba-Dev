@@ -1023,8 +1023,6 @@ public class ConnectionsManager {
         queue.add(request);
     }
 
-
-
     public void sendScoringData(ScoringUserData userData, final BallabaResponseListener callback) {
         JSONObject jsonObject = new JSONObject();
         try {

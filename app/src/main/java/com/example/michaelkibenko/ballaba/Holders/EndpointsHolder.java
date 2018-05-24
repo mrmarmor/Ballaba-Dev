@@ -15,6 +15,7 @@ public @interface EndpointsHolder {
     String GOOGLE_PLACES_API = "https://maps.googleapis.com/maps/api/place";
     String USER = "https://api.ballaba-it.com/v1/user/me";
     String PROPERTY = "https://api.ballaba-it.com/v1/property/";
+    String MY_PROPERTIES = "https://api.ballaba-it.com/Dev/user/me/properties";
     String PROPERTY_ATTACHMENTS_ADDONS = "https://api.ballaba-it.com/v1/config/property";
     String GOOGLE_MAP_API = "http://maps.google.com/maps/api/staticmap?center=";
     String GOOGLE_MAP_API_SETTINGS = "&zoom=15&size=360x180&sensor=false&markers=color:0x00bfffff";
