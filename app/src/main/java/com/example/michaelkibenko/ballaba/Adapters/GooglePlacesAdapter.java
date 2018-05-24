@@ -45,6 +45,7 @@ public class GooglePlacesAdapter extends ArrayAdapter<String> implements Filtera
     @StringDef({CITIES, REGION})
     public @interface GooglePlacesFilter {
         String CITIES = "&types=(cities)";
+        String GEOCODE = "&&types=geocode";
         String REGION = "&components=locality:";
     }
 
@@ -65,6 +66,10 @@ public class GooglePlacesAdapter extends ArrayAdapter<String> implements Filtera
         this.gpFilter = filter;
 
         apiKey = GeneralUtils.getMatadataFromManifest(context, "com.google.android.geo.API_KEY");
+    }
+
+    public void setGpFilter(String gpFilter) {
+        this.gpFilter = gpFilter;
     }
 
     @Override
