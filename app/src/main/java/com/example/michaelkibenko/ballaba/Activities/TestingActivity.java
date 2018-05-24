@@ -31,5 +31,12 @@ public class TestingActivity extends BaseActivity {
                         this , ScoringCameraActivity.class));
             }
         });
+
+        findViewById(R.id.myProperty_BTN).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(TestingActivity.this , MyPropertiesBaseActivity.class));
+            }
+        });
     }
 }
