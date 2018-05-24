@@ -47,8 +47,8 @@
                 <TextView
                     style="@style/addProperty_textViews"
                     android:text="@string/addProperty_asset_address" />
-                <EditText
-                    android:id="@+id/addProp_address_editText"
+                <AutoCompleteTextView
+                    android:id="@+id/addProp_address_actv"
                     android:tag="street"
                     style="@style/addProperty_editTexts"
                     android:hint="@string/addProperty_asset_address_hint" />

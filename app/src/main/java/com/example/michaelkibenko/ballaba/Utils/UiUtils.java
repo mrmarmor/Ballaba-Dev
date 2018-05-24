@@ -181,6 +181,23 @@ public class UiUtils {
         return baos.toByteArray();
     }
 
+    private GooglePlacesAdapter dataAdapter;;
+    public void initAutoCompleteAddressInCity(final AutoCompleteTextView autoCompleteTextView, final AutoCompleteTextView viewCity){
+        autoCompleteTextView.addTextChangedListener(new TextWatcher() {
+            public void afterTextChanged(Editable s) {
+                autoCompleteTextView.setAdapter(dataAdapter);
+            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                dataAdapter = new GooglePlacesAdapter(ctx
+                        , android.R.layout.simple_list_item_1, null, viewCity.getText().toString());
+                dataAdapter.notifyDataSetInvalidated();//this is against a strange crash and against bad-eye
+                autoCompleteTextView.requestLayout();//this is against a strange crash and against bad-eye
+                String citySelected = viewCity.getText().toString();
+                dataAdapter.getFilter().filter(citySelected+" "+s.toString());
+            }
+        });
+    }
     public void initAutoCompleteCity(final AutoCompleteTextView autoCompleteTextView){
         final GooglePlacesAdapter dataAdapter = new GooglePlacesAdapter(ctx
                 , android.R.layout.simple_list_item_1, GooglePlacesAdapter.GooglePlacesFilter.CITIES);

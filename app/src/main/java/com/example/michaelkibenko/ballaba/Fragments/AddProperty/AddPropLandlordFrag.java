@@ -140,8 +140,6 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         bottomSheetDialog.show();
     }
 
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent imageIntent) {
         super.onActivityResult(requestCode, resultCode, imageIntent);

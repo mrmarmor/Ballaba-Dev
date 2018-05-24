@@ -72,7 +72,7 @@ public class BallabaUserManager {
                     , birthDate, about, tenantScore, landlordScore , guarantorScore, dateCreated
                     , dateUpdated, sessionToken, fcmToken, globalToken, profileImage);
 
-        }catch (JSONException ex) {
+        } catch (JSONException ex) {
             Log.e(TAG, ex.getMessage());
             return new BallabaUser(id, phone, email, name, lastName, city, address, aptNo
                     , birthDate, about, tenantScore, landlordScore, guarantorScore, dateCreated

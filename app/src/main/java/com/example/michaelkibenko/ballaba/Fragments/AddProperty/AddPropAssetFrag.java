@@ -49,7 +49,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChangeListener{
+public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChangeListener, TextWatcher{
     private static final String TAG = AddPropAssetFrag.class.getSimpleName();
 
     private Context context;
@@ -110,7 +110,7 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
     private void initEditTexts(BallabaPropertyFull property){
         if (property != null) {
             binderAsset.addPropCityActv.setText(property.city);
-            binderAsset.addPropAddressEditText.setText(property.formattedAddress);
+            binderAsset.addPropAddressActv.setText(property.formattedAddress);
             binderAsset.addPropAptNoEditText.setText(property.street_number);
             binderAsset.addPropFloorEditText.setText(property.floor);
             binderAsset.addPropMaxFloorEditText.setText(property.max_floor);
@@ -120,6 +120,9 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
             binderAsset.addPropSizeEditText.setText(property.size);
             binderAsset.addPropertyRentalPeriodMonthsEditText.setText(property.rentPeriod);
         }
+
+        //binderAsset.addPropAddressEditText.addTextChangedListener(this);
+        UiUtils.instance(true, context).initAutoCompleteAddressInCity(binderAsset.addPropAddressActv, binderAsset.addPropCityActv);
 
         validateFloors();
     }
@@ -267,5 +270,20 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+
     }
 }
