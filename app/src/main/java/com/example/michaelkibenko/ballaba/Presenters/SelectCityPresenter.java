@@ -2,45 +2,36 @@ package com.example.michaelkibenko.ballaba.Presenters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
-import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
 import com.example.michaelkibenko.ballaba.Adapters.GooglePlacesAdapter;
-import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
-import com.example.michaelkibenko.ballaba.Common.BallabaSelectedCityListener;
-import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
-import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
-import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
+import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
+import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
+import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
+import com.example.michaelkibenko.ballaba.Manifest;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivitySelectCityBinding;
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.nex3z.flowlayout.FlowLayout;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
-
-import static com.example.michaelkibenko.ballaba.Adapters.GooglePlacesAdapter.GooglePlacesFilter.CITIES;
 
 /**
  * Created by User on 20/03/2018.
@@ -69,6 +60,18 @@ public class SelectCityPresenter extends BasePresenter implements ListView.OnIte
         //initAutoCompleteTextView(binder.selectCityAutoCompleteTextView);//TODO with autoCompleteTextView
 
         initListView(binder.selectCityListView, binder.selectCityEditText);//TODO with listView
+
+        binder.inMyArea.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                searchByLocationFlow();
+            }
+        });
+    }
+
+    private void searchByLocationFlow() {
+        activity.setResult(MainActivity.SEARCH_BY_LOCATION_REQUEST_CODE);
+        activity.finish();
     }
 
     //private void initAutoCompleteTextView(AutoCompleteTextView autoComplete){//TODO with autoCompleteTextView
@@ -79,7 +82,7 @@ public class SelectCityPresenter extends BasePresenter implements ListView.OnIte
 
         dataAdapter = new GooglePlacesAdapter(
                 activity, android.R.layout.simple_list_item_1,
-                citySelected ? GooglePlacesAdapter.GooglePlacesFilter.REGION : GooglePlacesAdapter.GooglePlacesFilter.CITIES);
+                GooglePlacesAdapter.GooglePlacesFilter.CITIES);
         TextView textView = new TextView(activity);
         textView.setText(activity.getString(R.string.selectCity_autoCompleteTextView_hint_defaultItem));
         listView.setEmptyView(textView);//hint
@@ -91,6 +94,11 @@ public class SelectCityPresenter extends BasePresenter implements ListView.OnIte
             public void afterTextChanged(Editable s) {listView.setAdapter(dataAdapter); }
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.toString().length()>0){
+                    binder.inMyArea.setVisibility(View.GONE);
+                }else if(!citySelected && cities.size() == 0){
+                    binder.inMyArea.setVisibility(View.VISIBLE);
+                }
                 dataAdapter.getFilter().filter(citySelected ? selectedCity+" "+s.toString() : s.toString());
             }
         });
@@ -117,6 +125,10 @@ public class SelectCityPresenter extends BasePresenter implements ListView.OnIte
         binder.selectCityFlowLayout.removeView(view);
         String cityStr = textViewCity.getText().toString();
         cities.remove(cityStr);
+        if(cities.size() == 0){
+            dataAdapter.setGpFilter(GooglePlacesAdapter.GooglePlacesFilter.CITIES);
+            citySelected = false;
+        }
     }
 
     public void onBackPressed() {

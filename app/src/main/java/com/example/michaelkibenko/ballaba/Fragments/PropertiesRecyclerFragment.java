@@ -1,5 +1,6 @@
 package com.example.michaelkibenko.ballaba.Fragments;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
@@ -43,11 +44,9 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     private static final String PROPERTIES_KEY = "properties key";
     private final int REO_CODE_LOCATION_PERMISSION = 1;
 
-    // TODO: Rename and change types of parameters
-    private String mParam;
     private int firstProperty, nextProperty;
 
-    private static PropertiesRecyclerFragment fragment;
+    private PropertiesRecyclerFragment fragment;
     private Context context;
     private View view;
     private BallabaResponseListener listener;
@@ -58,7 +57,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     private ArrayList<BallabaPropertyResult> properties;
 
     //private PropertyItemPresenter presenter;
-    private static FragmentPropertiesRecyclerBinding binder;
+    private FragmentPropertiesRecyclerBinding binder;
     //private LayoutInflater inflater;
 
     private OnFragmentInteractionListener mListener;
@@ -70,7 +69,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     // TODO: Rename and change types and number of parameters
     public static PropertiesRecyclerFragment newInstance() {
         //binder = mBinder;
-        fragment = new PropertiesRecyclerFragment();
+        PropertiesRecyclerFragment fragment = new PropertiesRecyclerFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
@@ -103,7 +102,6 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
                     if (location != null) {
                         latLng = new LatLng(location.getLatitude(), location.getLongitude());
                         isLocationApproved = true;
-
                     }
                 }
 
@@ -121,7 +119,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
             });
 
         } else {
-            requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION}
+            requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}
                     , REO_CODE_LOCATION_PERMISSION);
         }
     }

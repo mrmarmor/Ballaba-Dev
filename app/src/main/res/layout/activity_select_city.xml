@@ -66,6 +66,7 @@
             android:hint="@string/selectCity_autoCompleteTextView_hint"
             android:singleLine="true"
             android:layout_margin="@dimen/small_margin"/>
+
         <ListView
             android:id="@+id/selectCity_listView"
             android:layout_width="match_parent"
@@ -73,6 +74,51 @@
             app:layout_constraintTop_toBottomOf="@+id/selectCity_editText"
             android:layout_margin="@dimen/small_margin"
             />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/inMyArea"
+            android:layout_width="328dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/selectCity_editText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            >
+
+            <ImageView
+                android:id="@+id/inMyArea_IMG"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:background="@drawable/location_blue_32"
+                android:layout_gravity="center_horizontal"
+                android:scaleType="fitXY"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_margin="10dp"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="באזור שלי"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toTopOf="@+id/inMyArea_IMG"
+                app:layout_constraintBottom_toBottomOf="@+id/inMyArea_IMG"
+                app:layout_constraintStart_toEndOf="@+id/inMyArea_IMG"
+                android:layout_marginStart="5dp"
+                />
+            
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:background="#979797"
+                />
+        </android.support.constraint.ConstraintLayout>
 
         <AutoCompleteTextView
             android:id="@+id/selectCity_autoCompleteTextView"

@@ -8,13 +8,16 @@ import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.support.annotation.IntDef;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.transition.TransitionManager;
 import android.transition.Visibility;
@@ -48,12 +51,14 @@ import com.example.michaelkibenko.ballaba.Entities.FilterDimensions;
 import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
+import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,6 +67,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import static com.example.michaelkibenko.ballaba.Activities.MainActivity.SEARCH_BY_LOCATION_REQUEST_CODE;
 import static com.example.michaelkibenko.ballaba.Presenters.MainPresenter.FilterState.FULL_FILTER;
 import static com.example.michaelkibenko.ballaba.Presenters.MainPresenter.FilterState.MIDDLE_FILTER;
 import static com.example.michaelkibenko.ballaba.Presenters.MainPresenter.FilterState.NO_FILTER;
@@ -88,6 +94,8 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         int NUMBER_OF_ROOMS = 4;
     }
 
+    public static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 2345;
+
     private final String TAG = MainPresenter.class.getSimpleName();
     public static final int REQ_CODE_SAVED_AREA = 1, REQ_CODE_SELECT_CITY = 2;
 
@@ -108,7 +116,6 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     private PropertiesRecyclerFragment propertiesFragment;
     private LayoutInflater inflater;
     private ConstraintLayout filterTransition, noFilterTransition, searchStateTransition, maplayoutTransition;
-    //private GoogleMap googleMap;
     private float middleFilterHeight;
     public @FilterState int filterState;
     public FilterResultEntity filterResult;
@@ -457,6 +464,52 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
             Intent intent = new Intent(context, ContinueAddPropertyActivity.class);
             intent.putExtra(PropertyDescriptionActivity.PROPERTY, propertyId);
             return intent;
+        }
+    }
+
+    public void searchByLocation(){
+        if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            propertiesPagerAdapter.getPropertiesRecyclerFragment().onRefreshAnimation(true);
+            BallabaLocationManager.getInstance(context).getLocation(new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                    BallabaSearchPropertiesManager.getInstance(context).getPropertiesByLatLng(latLng, new BallabaResponseListener() {
+                        @Override
+                        public void resolve(BallabaBaseEntity entity) {
+                            propertiesPagerAdapter.getPropertiesRecyclerFragment().refreshPropertiesRecycler();
+                            propertiesPagerAdapter.getPropertiesRecyclerFragment().onRefreshAnimation(false);
+
+                        }
+
+                        @Override
+                        public void reject(BallabaBaseEntity entity) {
+                            //TODO set error flow
+                            propertiesPagerAdapter.getPropertiesRecyclerFragment().onRefreshAnimation(false);
+                        }
+                    });
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+
+                }
+            });
+        }else {
+            ActivityCompat.requestPermissions(context,
+                    new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    SEARCH_BY_LOCATION_REQUEST_CODE);
         }
     }
     /*public Button.OnClickListener getClickListener(){

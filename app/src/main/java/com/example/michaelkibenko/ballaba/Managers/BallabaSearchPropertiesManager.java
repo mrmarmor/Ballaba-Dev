@@ -130,7 +130,7 @@ public class BallabaSearchPropertiesManager {
                     ArrayList<BallabaPropertyResult> results = parsePropertyResults(((BallabaOkResponse) entity).body);
 
                     if(results != null){
-                        appendProperties(results, true);
+                        appendProperties(results, false);
                     }else {
                         Log.e(TAG, "results is null, Json parse error");
                     }

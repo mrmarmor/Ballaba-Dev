@@ -2,8 +2,10 @@ package com.example.michaelkibenko.ballaba.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
@@ -23,6 +25,7 @@ public class MainActivity extends BaseActivity {
         //BallabaFragmentListener {
 
     private final String TAG = MainActivity.class.getSimpleName();
+    public static final int SEARCH_BY_LOCATION_REQUEST_CODE = 4444;
 
     private ActivityMainLayoutBinding binder;
     public MainPresenter presenter;
@@ -108,7 +111,19 @@ public class MainActivity extends BaseActivity {
             } else if (requestCode == MainPresenter.REQ_CODE_SAVED_AREA) {
                 presenter.onClickToGoogleMap();
             }
+        }else if(resultCode == SEARCH_BY_LOCATION_REQUEST_CODE){
+            presenter.searchByLocation();
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if(requestCode == SEARCH_BY_LOCATION_REQUEST_CODE){
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                presenter.searchByLocation();
+            }else{
+                //TODO set error step
+            }
+        }    }
 }
