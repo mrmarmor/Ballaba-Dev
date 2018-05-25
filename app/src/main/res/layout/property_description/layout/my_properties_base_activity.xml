@@ -11,6 +11,7 @@
         android:layout_height="56dp"
         android:background="@color/colorPrimary"
         app:layout_constraintEnd_toEndOf="parent"
+        android:elevation="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -50,6 +51,7 @@
         app:tabTextColor="@color/my_properties_tab_item_unselected_color"
         app:tabSelectedTextColor="@android:color/white"
         app:tabPaddingEnd="0dp"
+        android:elevation="8dp"
         android:layout_height="49dp">
 
         <android.support.design.widget.TabItem
@@ -66,9 +68,13 @@
     </android.support.design.widget.TabLayout>
 
     <FrameLayout
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="8dp"
         android:id="@+id/my_properties_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#f9f9f9"
         android:layout_below="@+id/my_properties_tab_layout">
 
     </FrameLayout>

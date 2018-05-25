@@ -59,11 +59,21 @@ public class GooglePlacesAdapter extends ArrayAdapter<String> implements Filtera
     private ArrayList<String> resultList;
     private Context context = null;
     private @GooglePlacesFilter String gpFilter;
+    private String customCity;
 
     public GooglePlacesAdapter(Context context, int textViewResourceId, @Nullable @GooglePlacesFilter String filter) {
         super(context, textViewResourceId);
         this.context = context;
         this.gpFilter = filter;
+
+        apiKey = GeneralUtils.getMatadataFromManifest(context, "com.google.android.geo.API_KEY");
+    }
+
+    public GooglePlacesAdapter(Context context, int textViewResourceId, @Nullable @GooglePlacesFilter String filter, String city) {
+        super(context, textViewResourceId);
+        this.context = context;
+        this.gpFilter = filter;
+        this.customCity = city;
 
         apiKey = GeneralUtils.getMatadataFromManifest(context, "com.google.android.geo.API_KEY");
     }
@@ -94,7 +104,7 @@ public class GooglePlacesAdapter extends ArrayAdapter<String> implements Filtera
 
             StringBuilder sb = new StringBuilder(PLACES_API_BASE + TYPE_AUTOCOMPLETE + OUT_JSON);
             sb.append("?key=" + apiKey);
-            sb.append(FILTER);
+            if (FILTER != null) sb.append(FILTER);//DO NOT CHANGE THIS LINE!
             sb.append("&components=country:IL");//TODO set locale for another countries
             try {
                 sb.append("&input=" + URLEncoder.encode(INPUT, "utf8"));
@@ -125,11 +135,15 @@ public class GooglePlacesAdapter extends ArrayAdapter<String> implements Filtera
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
-                if (constraint != null) {
+                if (customCity != null) {//for search address in a specific city
+                    resultList = autoComplete(constraint.toString(), null);
+                } else if (constraint != null) {//for search only cities
                     resultList = autoComplete(constraint.toString(), gpFilter);
-                    filterResults.values = resultList;
-                    filterResults.count = resultList.size();
                 }
+
+                filterResults.values = resultList;
+                filterResults.count = resultList.size();
+
                 return filterResults;
             }
 

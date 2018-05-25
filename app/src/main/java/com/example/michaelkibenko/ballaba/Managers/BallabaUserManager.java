@@ -58,7 +58,7 @@ public class BallabaUserManager {
             aptNo = jsonObject.getString("apt_no");
             profileImage = jsonObject.getString("profile_image");
             birthDate = jsonObject.getString("birth_date");
-            about = StringUtils.getInstance(true, null).trimNull(jsonObject.getString("about"));
+            about = jsonObject.getString("about");
             tenantScore = jsonObject.getString("tenant_score");
             landlordScore = jsonObject.getString("landlord_score");
             guarantorScore = jsonObject.getString("guarantor_score");
@@ -72,7 +72,7 @@ public class BallabaUserManager {
                     , birthDate, about, tenantScore, landlordScore , guarantorScore, dateCreated
                     , dateUpdated, sessionToken, fcmToken, globalToken, profileImage);
 
-        }catch (JSONException ex) {
+        } catch (JSONException ex) {
             Log.e(TAG, ex.getMessage());
             return new BallabaUser(id, phone, email, name, lastName, city, address, aptNo
                     , birthDate, about, tenantScore, landlordScore, guarantorScore, dateCreated

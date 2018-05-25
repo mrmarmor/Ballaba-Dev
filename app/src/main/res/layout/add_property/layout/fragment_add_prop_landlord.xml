@@ -122,8 +122,8 @@
                     android:hint="@string/addProperty_landlord_city_hint" />
 
                 <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_address" />
-                <EditText
-                    android:id="@+id/addProp_address_editText"
+                <AutoCompleteTextView
+                    android:id="@+id/addProp_address_actv"
                     android:tag="address"
                     style="@style/addProperty_editTexts"
                     android:hint="@string/addProperty_landlord_address_hint" />
