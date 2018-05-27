@@ -23,8 +23,7 @@ public class BallabaUserManager {
     private BallabaUser user;
 
 
-    private BallabaUserManager() {
-    }
+    private BallabaUserManager() {}
 
     public static BallabaUserManager getInstance() {
         if(instance == null) {

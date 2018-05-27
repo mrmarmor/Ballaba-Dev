@@ -59,7 +59,6 @@ public class ContinueAddPropertyActivity extends BaseActivity {
                     final Activity THIS = ContinueAddPropertyActivity.this;
                     BallabaPropertyFull propertyFull = BallabaSearchPropertiesManager.getInstance(THIS)
                             .parsePropertiesFull(((BallabaOkResponse)entity).body);
-
                     BallabaSearchPropertiesManager.getInstance(THIS).setPropertyFull(propertyFull);
 
                     Log.d(TAG, "properties: " + propertyFull.formattedAddress+":"+propertyFull.street);

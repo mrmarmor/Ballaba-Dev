@@ -99,23 +99,19 @@ public class BallabaUser extends BallabaBaseEntity {
     }//TODO could be an email in hebrew?
 
     public String getFirst_name() {
-        return /*(first_name.codePointAt(0) > 1487 && first_name.codePointAt(0) < 1515)? //==formatted hebrew
-                trimNull(first_name) : */heb.formattedHebrew(trimNull(first_name));
+        return heb.formattedHebrew(trimNull(first_name));
     }
 
     public String getLast_name() {
-        return /*(last_name.codePointAt(0) > 1487 && last_name.codePointAt(0) < 1515)? //==formatted hebrew
-                trimNull(last_name) : */heb.formattedHebrew(trimNull(last_name));
+        return heb.formattedHebrew(trimNull(last_name));
     }
 
     public String getCity() {
-        return /*(city.codePointAt(0) > 1487 && city.codePointAt(0) < 1515)? //==formatted hebrew
-                trimNull(city) : */heb.formattedHebrew(trimNull(city));
+        return heb.formattedHebrew(trimNull(city));
     }
 
     public String getAddress() {
-        return /*(address.codePointAt(0) > 1487 && address.codePointAt(0) < 1515)? //==formatted hebrew
-                trimNull(address) : */heb.formattedHebrew(trimNull(address));
+        return heb.formattedHebrew(trimNull(address));
     }
 
     public String getApt_no() {
@@ -155,8 +151,7 @@ public class BallabaUser extends BallabaBaseEntity {
     }
 
     public String getAbout() {
-        return /*(about.codePointAt(0) > 1487 && about.codePointAt(0) < 1515)? //==formatted hebrew
-                trimNull(about) : */heb.formattedHebrew(trimNull(about));
+        return heb.formattedHebrew(trimNull(about));
     }
 
     public String getFcm_token() {
