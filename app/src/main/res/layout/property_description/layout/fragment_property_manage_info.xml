@@ -39,7 +39,7 @@
                         android:id="@+id/property_info_views"
                         style="@style/allWrapContent"
                         android:layout_gravity="center_horizontal"
-                        android:textColor="@color/colorAccent" android:text="173"
+                        android:textColor="@color/colorAccent"
                         android:textSize="@dimen/myProp_info_textSize_title"
                         android:fontFamily="@font/rubik_medium" />
                 </LinearLayout>
@@ -62,7 +62,7 @@
                         android:id="@+id/property_info_interested"
                         style="@style/allWrapContent"
                         android:layout_gravity="center_horizontal"
-                        android:textColor="@color/colorAccent" android:text="174"
+                        android:textColor="@color/colorAccent"
                         android:textSize="@dimen/myProp_info_textSize_title"
                         android:fontFamily="@font/rubik_medium" />
                 </LinearLayout>
@@ -75,7 +75,7 @@
                     <ImageView
                         style="@style/allWrapContent"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/watch_blue_24"/>
+                        android:src="@drawable/calender_blue_24_copy"/>
                     <TextView
                         style="@style/allWrapContent"
                         android:layout_gravity="center_horizontal"
@@ -85,7 +85,7 @@
                         android:id="@+id/property_info_meetings"
                         style="@style/allWrapContent"
                         android:layout_gravity="center_horizontal"
-                        android:textColor="@color/colorAccent" android:text="175"
+                        android:textColor="@color/colorAccent"
                         android:textSize="@dimen/myProp_info_textSize_title"
                         android:fontFamily="@font/rubik_medium" />
                 </LinearLayout>

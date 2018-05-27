@@ -30,6 +30,11 @@ public class ContinueAddPropertyActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_continue_add_property);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         fetchPropertyDataFromServer();
     }

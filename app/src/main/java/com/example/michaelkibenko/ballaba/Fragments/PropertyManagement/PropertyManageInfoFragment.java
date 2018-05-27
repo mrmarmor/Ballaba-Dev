@@ -1,6 +1,7 @@
 package com.example.michaelkibenko.ballaba.Fragments.PropertyManagement;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,7 +32,6 @@ public class PropertyManageInfoFragment extends Fragment {
     private final String TAG = PropertyManageInfoFragment.class.getSimpleName();
 
     private FragmentPropertyManageInfoBinding binder;
-    private View v;
 
     public PropertyManageInfoFragment() {}
 
@@ -46,22 +46,15 @@ public class PropertyManageInfoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        //TODO make server request and get data + progress dialog
-        /*if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }*/
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        v = inflater.inflate(R.layout.fragment_property_manage_info, container, false);
+        binder = DataBindingUtil.inflate(inflater, R.layout.fragment_property_manage_info, container, false);
         fetchDataFromServer(getArguments().getInt(PROPERTY_ID));
 
-        return v;
+        return binder.getRoot();
     }
 
     private void fetchDataFromServer(int id){
@@ -72,9 +65,10 @@ public class PropertyManageInfoFragment extends Fragment {
                 final int NUM_OF_VIEWS = response.get("view_count");
                 final int NUM_OF_MEETINGS = response.get("meetings_count");
                 final int NUM_OF_INTERESTED = response.get("interested_count");
-                ((TextView)v.findViewById(R.id.property_info_views)).setText(NUM_OF_VIEWS+"");
-                ((TextView)v.findViewById(R.id.property_info_meetings)).setText(NUM_OF_MEETINGS+"");
-                ((TextView)v.findViewById(R.id.property_info_interested)).setText(NUM_OF_INTERESTED+"");
+
+                binder.propertyInfoViews.setText(NUM_OF_VIEWS+"");//TODO replace with string format
+                binder.propertyInfoMeetings.setText(NUM_OF_MEETINGS+"");
+                binder.propertyInfoInterested.setText(NUM_OF_INTERESTED+"");
             }
 
             @Override

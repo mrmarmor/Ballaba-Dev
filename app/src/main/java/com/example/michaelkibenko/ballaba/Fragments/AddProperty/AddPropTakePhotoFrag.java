@@ -79,7 +79,7 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
 
                 ((AddPropertyPagerAdapter)binderMain.addPropertyViewPager.getAdapter())
                         .setData(imageIntent.getData(), orientationColumn);
-                AddPropertyPresenter.getInstance((AppCompatActivity)getActivity(), binderMain).onNextViewPagerItem(4);
+                AddPropertyPresenter.getInstance((AppCompatActivity)getActivity(), binderMain).setViewPagerItem(5);
                 //AddPropEditPhotoFrag.newInstance(binderMain).addPhoto(
                 //        getActivity(), imageIntent.getData(), orientationColumn);
             }

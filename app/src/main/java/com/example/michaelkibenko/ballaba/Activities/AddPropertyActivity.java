@@ -103,12 +103,12 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
                 return true;
 
             case PROPERTY_TAKE_PHOTO:
-                AddPropertyPresenter.getInstance(activity, binder).onNextViewPagerItem(4);
+                AddPropertyPresenter.getInstance(activity, binder).setViewPagerItem(5);
                 return true;
 
             case PROPERTY_EDIT_PHOTO:
                 uploadPhoto(activity, ConnectionsManager.getInstance(activity));
-                AddPropertyPresenter.getInstance(activity, binder).onNextViewPagerItem(5);
+                AddPropertyPresenter.getInstance(activity, binder).setViewPagerItem(6);
                 return true;
 
             case PROPERTY_MEETINGS:
@@ -155,7 +155,7 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
                     Log.d(TAG, "upload property photo: success");
                     photo.setId(((BallabaPropertyPhoto)entity).getId());
                     photo.setHasSent(true);
-                    AddPropertyPresenter.getInstance(activity, binder).onNextViewPagerItem(5);
+                    AddPropertyPresenter.getInstance(activity, binder).setViewPagerItem(6);
                 }
 
                 @Override
