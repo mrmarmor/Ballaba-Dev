@@ -107,6 +107,9 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="7594bc2ab19b861f621aef3d9db083a17fe0dfe0" />
+        <activity android:name=".Activities.PromiseAgreementActivities.PromiseImplementationActivity"/>
+        <activity android:name=".Activities.PromiseAgreementActivities.PromiseCanceletionActivity"/>
+
 
     </application>
 

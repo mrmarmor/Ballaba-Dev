@@ -1,58 +1,55 @@
 package com.example.michaelkibenko.ballaba.Activities;
 
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.databinding.DataBindingUtil;
-import android.net.Uri;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.design.widget.TabLayout;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.michaelkibenko.ballaba.Adapters.AddPropertyPhotoRecyclerAdapter;
-import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
-import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyPhoto;
-import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
-import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropEditPhotoFrag;
-import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
-import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
-import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
-import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
-import com.example.michaelkibenko.ballaba.Presenters.PropertyManagementPresenter;
+import com.duolingo.open.rtlviewpager.RtlViewPager;
+import com.example.michaelkibenko.ballaba.Adapters.PropertyManagementAdapter;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.Utils.UiUtils;
-import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
-import com.example.michaelkibenko.ballaba.databinding.ActivityPropertyManagementBinding;
 
-import org.json.JSONObject;
-
-public class PropertyManagementActivity extends BaseActivityWithActionBar {
+public class PropertyManagementActivity extends BaseActivity {
     private final static String TAG = PropertyManagementActivity.class.getSimpleName();
 
-    private ActivityPropertyManagementBinding binder;
+    private RtlViewPager propertyManagementViewPager;
+    private TabLayout tabLayout;
+    private CheckBox toolbarCheckbox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binder = DataBindingUtil.setContentView(this, R.layout.activity_property_management);
-        binder.setPresenter(new PropertyManagementPresenter(this, binder));
+       /* binder = DataBindingUtil.setContentView(this, R.layout.activity_property_management);
+        binder.setPresenter(new PropertyManagementPresenter(this, binder));*/
+        setContentView(R.layout.activity_property_management);
 
-        getSupportActionBar().setElevation(0);
+        tabLayout = findViewById(R.id.propertyManagement_tabs_root);
+        toolbarCheckbox = findViewById(R.id.propertyManagement_toolbar_checkbox);
+
+        RtlViewPager propertyManagementViewPager = findViewById(R.id.propertyManagement_viewPager);
+
+        PropertyManagementAdapter adapter = new PropertyManagementAdapter(this , propertyManagementViewPager , getSupportFragmentManager() , tabLayout);
+        propertyManagementViewPager.setAdapter(adapter);
+
+
+        findViewById(R.id.propertyManagement_back_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        //getSupportActionBar().setElevation(0);
         //ViewCompat.setElevation(binder.propertyManagementTabsRoot, 8);
     }
 
-    //Here we add a back button at the right corner of the actionbar
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-                super.onBackPressed();
-        }
 
-        return true;
+    public void changeToolbarText(String txt){
+        ((TextView)findViewById(R.id.propertyManagement_title_text_view)).setText(txt);
     }
 
+
+    public void showInterestedToolbar(boolean show) {
+        toolbarCheckbox.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
 }
