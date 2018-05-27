@@ -53,7 +53,10 @@ public class StringUtils {
 
     public String formattedHebrew(@NonNull String s){
         try {
-            return new String(s.getBytes("ISO_8859_1"), "utf-8");
+            if (s.codePointAt(0) < 1488 || s.codePointAt(0) > 1514)//= non-hebrew
+                return new String(s.getBytes("ISO_8859_1"), "utf-8");
+            else
+                return s;
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
             return null;
