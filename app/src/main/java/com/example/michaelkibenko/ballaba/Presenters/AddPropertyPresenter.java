@@ -35,10 +35,7 @@ public class AddPropertyPresenter {
         this.activity = activity;
         this.binder = binding;
 
-        addPropertyPagerAdapter = new AddPropertyPagerAdapter(binder, activity.getSupportFragmentManager());
-        binder.addPropertyViewPager.setAdapter(addPropertyPagerAdapter);
-        binding.addPropertyViewPager.setCurrentItem(0);
-        binder.addPropertyViewPager.setOffscreenPageLimit(0);
+        initViewPager();
     }
 
     public static AddPropertyPresenter getInstance(AppCompatActivity activity, ActivityAddPropertyBinding binding){
@@ -48,14 +45,21 @@ public class AddPropertyPresenter {
         return instance;
     }
 
+    private void initViewPager(){
+        addPropertyPagerAdapter = new AddPropertyPagerAdapter(binder, activity.getSupportFragmentManager());
+        binder.addPropertyViewPager.setAdapter(addPropertyPagerAdapter);
+        binder.addPropertyViewPager.setCurrentItem(0);
+        binder.addPropertyViewPager.setOffscreenPageLimit(0);
+    }
+
     /*public void sendDataToActivity(String image, int position){
         //activity.getSupportFragmentManager().findFragmentById(R.id.b).getLayoutInflater().inflate();
         AddPropEditPhotoFrag.newInstance(binder).setImage(image);
         onNextViewPagerItem(position);
     }*/
 
-    public void onNextViewPagerItem(int position){
-        binder.addPropertyViewPager.setCurrentItem(position + 1, false);
+    public void setViewPagerItem(int position){
+        binder.addPropertyViewPager.setCurrentItem(position, false);
         activity.invalidateOptionsMenu();
     }
    /* public void getChipsFromFragment(@Nullable HashMap<String, ArrayList<String>> fragmentData, int position){

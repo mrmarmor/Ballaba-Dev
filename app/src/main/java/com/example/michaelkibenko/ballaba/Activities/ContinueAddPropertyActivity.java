@@ -30,6 +30,11 @@ public class ContinueAddPropertyActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_continue_add_property);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         fetchPropertyDataFromServer();
     }
@@ -54,7 +59,6 @@ public class ContinueAddPropertyActivity extends BaseActivity {
                     final Activity THIS = ContinueAddPropertyActivity.this;
                     BallabaPropertyFull propertyFull = BallabaSearchPropertiesManager.getInstance(THIS)
                             .parsePropertiesFull(((BallabaOkResponse)entity).body);
-
                     BallabaSearchPropertiesManager.getInstance(THIS).setPropertyFull(propertyFull);
 
                     Log.d(TAG, "properties: " + propertyFull.formattedAddress+":"+propertyFull.street);

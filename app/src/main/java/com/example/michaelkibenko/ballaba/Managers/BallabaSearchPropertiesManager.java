@@ -44,12 +44,12 @@ public class BallabaSearchPropertiesManager {
     private static final String TAG = BallabaSearchPropertiesManager.class.getSimpleName();
     private static BallabaSearchPropertiesManager instance;
     private Context context;
-    StringUtils heb = StringUtils.getInstance(true, context);
+    private StringUtils heb = StringUtils.getInstance(true, context);
     private ArrayList<BallabaPropertyResult> results;
     private FilterDimensions filterDimensions;
     private String currentSearchEndpoint;
-    private BallabaPropertyFull propertyFull;
-
+    private BallabaPropertyFull currentPropertyFull;
+    private ArrayList<BallabaPropertyFull> propertiesFull;
 
     public static BallabaSearchPropertiesManager getInstance(Context context) {
         if(instance == null){
@@ -62,6 +62,7 @@ public class BallabaSearchPropertiesManager {
     private BallabaSearchPropertiesManager(Context context) {
         this.context = context;
         results = new ArrayList<>();
+        propertiesFull = new ArrayList<>();
     }
 
     public ArrayList<BallabaPropertyResult> getResults() {
@@ -77,11 +78,17 @@ public class BallabaSearchPropertiesManager {
     }
 
     public BallabaPropertyFull getPropertyFull() {
-        return propertyFull;
+        return currentPropertyFull;
+    }
+    public void setPropertyFull(BallabaPropertyFull propertyFull) {
+        this.currentPropertyFull = propertyFull;
     }
 
-    public void setPropertyFull(BallabaPropertyFull propertyFull) {
-        this.propertyFull = propertyFull;
+    public ArrayList<BallabaPropertyFull> getPropertiesFull() {
+        return propertiesFull;
+    }
+    public void setPropertiesFull(ArrayList<BallabaPropertyFull> propertiesFull) {
+        this.propertiesFull = propertiesFull;
     }
 
     public int getResultsCount(){
@@ -184,12 +191,8 @@ public class BallabaSearchPropertiesManager {
         this.currentSearchEndpoint = currentSearchEndpoint;
     }
 
-    public BallabaPropertyResult getPropertyById(@Nullable ArrayList<BallabaPropertyResult> target, String id){
-        if(target == null){
-            target = getResults();
-        }
-
-        for (BallabaPropertyResult prop : target) {
+    public BallabaPropertyFull getPropertyById(String id){
+        for (BallabaPropertyFull prop : propertiesFull) {
             if(prop.id.equals(id)){
                 return prop;
             }

@@ -219,7 +219,7 @@ public class CustomViewPager extends ViewGroup {
         }
         if (!always && mCurItem == item && mItems.size() != 0) {
             setScrollingCacheEnabled(false);
-            return;
+            //return;
         }
         if (item < 0) {
             item = 0;

@@ -298,7 +298,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
                     //TODO update property updating date on SharedPrefs??
                     //SharedPreferencesManager.getInstance(context).removeString(SharedPreferencesKeysHolder.PROPERTY_ID);
                     SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "4");
-                    AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(3);
+                    AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).setViewPagerItem(4);
                 }
 
                 @Override
@@ -308,12 +308,12 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
                             binderPay.addPropertyPaymentsRoot, "השמירה נכשלה נסה שנית מאוחר יותר");
 
                     //TODO NEXT LINE IS ONLY FOR TESTING:
-                    AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(3);
+                    AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).setViewPagerItem(4);
                     //new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(2);
                 }
             });
         } else {
-            AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).onNextViewPagerItem(3);
+            AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(4);
         }
     }
 

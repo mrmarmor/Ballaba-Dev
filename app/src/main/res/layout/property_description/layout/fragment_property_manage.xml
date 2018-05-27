@@ -1,13 +1,85 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.PropertyManageFragment">
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="presenter"
+            type="com.example.michaelkibenko.ballaba.Presenters.PropertyManagementPresenter"/>
+    </data>
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <android.support.constraint.ConstraintLayout
+        style="@style/allMatchParent" android:layoutDirection="rtl" >
 
-</FrameLayout>
+        <ScrollView
+            style="@style/allMatchParent" android:orientation="vertical">
+
+            <android.support.constraint.ConstraintLayout
+                style="@style/allWrapContent"
+                android:orientation="vertical" >
+
+                <ImageView
+                    android:id="@+id/propertyManagement_mainImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"/>
+
+                <include
+                    android:id="@+id/propertyManagement_price"
+                    layout="@layout/property_description_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/propertyManagement_mainImage" />
+                <View style="@style/divider_gray"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/propertyManagement_price" />
+
+                <include
+                    android:id="@+id/propertyManagement_attachments"
+                    layout="@layout/property_description_attachments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/propertyManagement_price" />
+                <View style="@style/divider_gray"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/propertyManagement_attachments"/>
+
+                <include
+                    android:id="@+id/propertyManagement_attachments_extended"
+                    layout="@layout/property_description_attachments_extended"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/propertyManagement_attachments"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin" />
+                <View style="@style/divider_gray"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/propertyManagement_attachments_extended"/>
+
+                <include
+                    android:id="@+id/propertyManagement_payments"
+                    layout="@layout/property_description_payments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/propertyManagement_attachments_extended"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin" />
+                <View style="@style/divider_gray"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/propertyManagement_payments" />
+
+                <include
+                    android:id="@+id/propertyManagement_payment_methods"
+                    layout="@layout/property_description_payment_methods"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/propertyManagement_payments" />
+
+            </android.support.constraint.ConstraintLayout>
+        </ScrollView>
+    </android.support.constraint.ConstraintLayout>
+</layout>

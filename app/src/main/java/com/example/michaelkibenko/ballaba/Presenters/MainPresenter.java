@@ -358,7 +358,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                 break;
 
             case R.id.nav_myProperties:
-                Intent goMyProperties = new Intent(context, PropertyManagementActivity.class);
+                Intent goMyProperties = new Intent(context, MyPropertiesBaseActivity.class);
                 context.startActivity(goMyProperties);
                 break;
 

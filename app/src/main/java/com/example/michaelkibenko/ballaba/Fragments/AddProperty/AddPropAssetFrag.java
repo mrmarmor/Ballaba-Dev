@@ -151,7 +151,7 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
                     SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "2");
-                    new AddPropertyPresenter((AppCompatActivity) context, binderMain).onNextViewPagerItem(1);
+                    new AddPropertyPresenter((AppCompatActivity) context, binderMain).setViewPagerItem(2);
                 }
 
                 @Override
@@ -166,7 +166,7 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
             });
         } else {
             //TODO continue to next page without sending data to server
-            AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).onNextViewPagerItem(1);
+            AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(2);
         }
     }
 

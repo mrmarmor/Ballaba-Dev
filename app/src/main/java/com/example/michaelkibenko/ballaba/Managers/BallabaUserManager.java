@@ -23,8 +23,7 @@ public class BallabaUserManager {
     private BallabaUser user;
 
 
-    private BallabaUserManager() {
-    }
+    private BallabaUserManager() {}
 
     public static BallabaUserManager getInstance() {
         if(instance == null) {
@@ -37,17 +36,12 @@ public class BallabaUserManager {
         this.user = user;
     }
 
-    private String id, phone, email, name, lastName, city, address, aptNo
-            , birthDate, about, tenantScore, landlordScore , guarantorScore, dateCreated
-            , dateUpdated, sessionToken, fcmToken, globalToken, profileImage;
-    public BallabaUser generateUserFromJsonResponse(String response){
+    private String id, phone, email, name, lastName, city, address, aptNo, birthDate, about
+            , tenantScore, landlordScore , guarantorScore, dateCreated, dateUpdated
+            , sessionToken, fcmToken, globalToken, profileImage;
+    public BallabaUser generateUserFromResponse(String response){
         try {
             JSONObject jsonObject = new JSONObject(response);
-            JSONObject auth = jsonObject.getJSONObject("auth");
-
-            sessionToken = auth.getString("session_token");
-            globalToken = auth.getString("global_token");
-            fcmToken = auth.getString("fcm_token");
             id = jsonObject.getString("id");
             phone = jsonObject.getString("phone");
             email = jsonObject.getString("email");
@@ -59,11 +53,18 @@ public class BallabaUserManager {
             profileImage = jsonObject.getString("profile_image");
             birthDate = jsonObject.getString("birth_date");
             about = jsonObject.getString("about");
-            tenantScore = jsonObject.getString("tenant_score");
-            landlordScore = jsonObject.getString("landlord_score");
-            guarantorScore = jsonObject.getString("guarantor_score");
-            dateCreated = jsonObject.getString("date_created");
-            dateUpdated = jsonObject.getString("date_updated");
+            dateCreated = jsonObject.getString("created_at");
+            dateUpdated = jsonObject.getString("updated_at");
+
+            //TODO if i need score i can get it here, but yet it is not received from server and throwing JSONException
+            //tenantScore = jsonObject.getString("tenant_score");
+            //landlordScore = jsonObject.getString("landlord_score");
+            //guarantorScore = jsonObject.getString("guarantor_score");
+
+            JSONObject auth = jsonObject.getJSONObject("auth");
+            sessionToken = auth.getString("session_token");
+            globalToken = auth.getString("global_token");
+            fcmToken = auth.getString("fcm_token");
 
             //Bitmap profileImage = StringUtils.getInstance(true, null)
             //        .stringToBitmap(jsonObject.getString("profile_image"));

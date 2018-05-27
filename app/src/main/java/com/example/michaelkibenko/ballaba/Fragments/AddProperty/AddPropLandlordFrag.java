@@ -75,7 +75,8 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     private ActivityAddPropertyBinding binderMain;
     private FragmentAddPropLandlordBinding binderLandLord;
     private BottomSheetDialog bottomSheetDialog;
-    public BallabaUser user = BallabaUserManager.getInstance().getUser();
+    private BallabaUserManager userManager = BallabaUserManager.getInstance();
+    public BallabaUser user;
     private boolean isProfileImageChanged = false;
     private boolean areAllDataFieldsFilledUp = true;
 
@@ -95,10 +96,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         binderLandLord = FragmentAddPropLandlordBinding.inflate(getLayoutInflater());
         View view = binderLandLord.getRoot();
 
-        //TODO i tried to setText automatically from layout by dataBinding. for some reason it is not working.
-        //TODO we need to fill all editTexts in this way and not programmatically as below:
-        //binderLandLord.addPropPhoneEditText.setText(user.getPhone());
-
+        user = userManager.getUser();
         initEditTexts();
         initButtons(view);
 
@@ -112,6 +110,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
 
     private void initEditTexts(){
         if (user != null) {
+            Log.d(TAG, "last name received from server: "+user.getLast_name());
             binderLandLord.addPropFirstNameEditText.setText(user.getFirst_name());
             binderLandLord.addPropLastNameEditText.setText(user.getLast_name());
             binderLandLord.addPropEmailEditText.setText(user.getEmail());
@@ -226,6 +225,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     private void onFinish(ConnectionsManager conn){
         final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
         data.put("profile_image", getProfileImage());
+        Log.d(TAG, "last name sent to server: "+data.get("last_name"));
 
         try {
             if (!areAllDataFieldsFilledUp ||/*!isPhoneValid(data.get("phone")) ||*/ !isEmailValid(data.get("email")))
@@ -237,7 +237,9 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                     public void resolve(BallabaBaseEntity entity) {
                         SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.USER_ID, user.getId());
                         SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "1");
-                        AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).onNextViewPagerItem(0);
+                        userManager.setUser((BallabaUser)entity);
+                        Log.d(TAG, "last name received from server: "+userManager.getUser().getLast_name());
+                        AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(1);
                     }
 
                     @Override
@@ -250,7 +252,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                     }
                 });
             } else {
-                AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(0);
+                AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).setViewPagerItem(1);
             }
         } catch (JSONException e) {
             e.printStackTrace();

@@ -152,7 +152,7 @@ public class ConnectionsManager {
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, EndpointsHolder.AUTHENTICATE, jsonObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response.toString());
+                    BallabaUser user = BallabaUserManager.getInstance().generateUserFromResponse(response.toString());
                     if (user == null) {
                         callback.reject(new BallabaErrorResponse(500, null));
                     } else {
@@ -233,7 +233,7 @@ public class ConnectionsManager {
                 , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                    BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response);
+                    BallabaUser user = BallabaUserManager.getInstance().generateUserFromResponse(response);
                     if (user == null) {
                         callback.reject(new BallabaErrorResponse(500, null));
                     } else {
@@ -792,7 +792,7 @@ public class ConnectionsManager {
             @Override
             public void onResponse(JSONObject response) {
                 pd.dismiss();
-                BallabaUser user = BallabaUserManager.getInstance().generateUserFromJsonResponse(response.toString());
+                BallabaUser user = BallabaUserManager.getInstance().generateUserFromResponse(response.toString());
                 if (user == null) {
                     callback.reject(new BallabaErrorResponse(500, null));
                 } else {
@@ -1135,8 +1135,9 @@ public class ConnectionsManager {
         }
     }
 
-    public void getMyProperties(final BallabaResponseListener callback) {
-        StringRequest stringRequest = new StringRequest(GET, EndpointsHolder.MY_PROPERTIES, new Response.Listener<String>() {
+    public void getMyProperties(final int id, final BallabaResponseListener callback) {
+        String url = EndpointsHolder.PROPERTY + id + "/analytics";
+        StringRequest stringRequest = new StringRequest(GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 BallabaOkResponse ok = new BallabaOkResponse();
