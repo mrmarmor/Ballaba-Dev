@@ -40,17 +40,18 @@ public class PropertyManagementAdapter extends FragmentStatePagerAdapter
 
     private Context context;
     private FragmentManager fm;
-    private Fragment[] fragments = {PropertyManageInfoFragment.newInstance()
-            , PropertyManageFragment.newInstance(), PropertyManageInterestedFragment.newInstance()
-            , PropertyManageMeetingsFragment.newInstance()};
+    //private String id;
+    private Fragment[] fragments;
     private ActivityPropertyManagementBinding binder;
 
-    public PropertyManagementAdapter(Context context, ActivityPropertyManagementBinding binder, FragmentManager fm) {
+    public PropertyManagementAdapter(Context context, ActivityPropertyManagementBinding binder, FragmentManager fm, int id) {
         super(fm);
 
         this.context = context;
         this.binder = binder;
+        //this.id = id;
 
+        setFragments(id);
         initTabsClickListener();
     }
 
@@ -62,6 +63,12 @@ public class PropertyManagementAdapter extends FragmentStatePagerAdapter
     @Override
     public int getCount() {
         return 4; //NUM_PAGES
+    }
+
+    private void setFragments(int id){
+        fragments = new Fragment[]{PropertyManageInfoFragment.newInstance(id)
+                , PropertyManageFragment.newInstance(), PropertyManageInterestedFragment.newInstance()
+                , PropertyManageMeetingsFragment.newInstance()};
     }
 
     private void initTabsClickListener() {

@@ -20,7 +20,14 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding
 import com.example.michaelkibenko.ballaba.databinding.ActivityPropertyManagementBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentPropertyManageInfoBinding;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Iterator;
+
 public class PropertyManageInfoFragment extends Fragment {
+    private static final String PROPERTY_ID = "ID";
     private final String TAG = PropertyManageInfoFragment.class.getSimpleName();
 
     private FragmentPropertyManageInfoBinding binder;
@@ -28,12 +35,11 @@ public class PropertyManageInfoFragment extends Fragment {
 
     public PropertyManageInfoFragment() {}
 
-    public static PropertyManageInfoFragment newInstance(/*String min, String max*/) {
+    public static PropertyManageInfoFragment newInstance(int propertyId) {
         PropertyManageInfoFragment fragment = new PropertyManageInfoFragment();
-        /*Bundle args = new Bundle();
-        args.putString(FILTER_PRICE_MIN, min);
-        args.putString(FILTER_PRICE_MAX, max);
-        fragment.setArguments(args);*/
+        Bundle args = new Bundle();
+        args.putInt(PROPERTY_ID, propertyId);
+        fragment.setArguments(args);
         return fragment;
     }
 
@@ -53,16 +59,22 @@ public class PropertyManageInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         v = inflater.inflate(R.layout.fragment_property_manage_info, container, false);
-        fetchDataFromServer();
+        fetchDataFromServer(getArguments().getInt(PROPERTY_ID));
 
         return v;
     }
 
-    private void fetchDataFromServer(){
-        ConnectionsManager.getInstance(getActivity()).getMyProperties(new BallabaResponseListener() {
+    private void fetchDataFromServer(int id){
+        ConnectionsManager.getInstance(getActivity()).getMyProperties(id, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
-                ((TextView)v.findViewById(R.id.property_info_views)).setText(((BallabaOkResponse)entity).body);
+                HashMap<String, Integer> response = parseResponse(((BallabaOkResponse)entity).body);
+                final int NUM_OF_VIEWS = response.get("view_count");
+                final int NUM_OF_MEETINGS = response.get("meetings_count");
+                final int NUM_OF_INTERESTED = response.get("interested_count");
+                ((TextView)v.findViewById(R.id.property_info_views)).setText(NUM_OF_VIEWS+"");
+                ((TextView)v.findViewById(R.id.property_info_meetings)).setText(NUM_OF_MEETINGS+"");
+                ((TextView)v.findViewById(R.id.property_info_interested)).setText(NUM_OF_INTERESTED+"");
             }
 
             @Override
@@ -72,4 +84,23 @@ public class PropertyManageInfoFragment extends Fragment {
         });
     }
 
+    private HashMap<String, Integer> parseResponse(String data){
+        HashMap<String, Integer> map = new HashMap<>();
+        try {
+            JSONObject jsonObject = new JSONObject(data);
+            final Iterator<String> KEYS = jsonObject.keys();
+
+            while(KEYS.hasNext() ) {
+                final String KEY = KEYS.next();
+                //if (jsonObject.get(KEY) instanceof JSONObject ) {
+                    map.put(KEY, jsonObject.getInt(KEY));
+                //}
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return map;
+    }
 }

@@ -1,5 +1,6 @@
 package com.example.michaelkibenko.ballaba.Presenters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
@@ -22,8 +23,9 @@ public class PropertyManagementPresenter extends BasePresenter {
         this.context = context;
         this.binder = binder;
 
+        int id = ((Activity)context).getIntent().getIntExtra("ID", -1);
         PropertyManagementAdapter adapter = new PropertyManagementAdapter(context, binder
-                , ((AppCompatActivity)context).getSupportFragmentManager());
+                , ((AppCompatActivity)context).getSupportFragmentManager(), id);
         binder.propertyManagementViewPager.setAdapter(adapter);
     }
 
