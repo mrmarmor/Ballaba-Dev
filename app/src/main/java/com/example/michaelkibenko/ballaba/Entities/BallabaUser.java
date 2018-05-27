@@ -1,7 +1,6 @@
 package com.example.michaelkibenko.ballaba.Entities;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.google.gson.Gson;
@@ -21,6 +20,18 @@ public class BallabaUser extends BallabaBaseEntity {
             instance = StringUtils.getInstance(true, context);
 
         return instance;
+    }
+
+    public void setProfile_image(String profile_image) {
+        this.profile_image = profile_image;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
     }
 
     public BallabaUser(){}

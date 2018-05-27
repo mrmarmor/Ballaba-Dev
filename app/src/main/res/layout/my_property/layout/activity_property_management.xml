@@ -1,62 +1,100 @@
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android" >
-    <data>
-        <variable
-            name="presenter"
-            type="com.example.michaelkibenko.ballaba.Presenters.PropertyManagementPresenter"/>
-    </data>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/propertyManagement_root"
-        style="@style/allMatchParent"
+
+    <RelativeLayout
+        android:id="@+id/propertyManagement_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/colorPrimary"
+        android:elevation="8dp"
         android:layoutDirection="rtl">
 
+        <ImageButton
+            android:id="@+id/propertyManagement_back_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:background="@android:color/transparent"
+            android:padding="10dp"
+            android:rotation="180"
+            android:layout_centerVertical="true"
+            android:src="@drawable/left_back_white_24" />
+
+        <TextView
+            android:id="@+id/propertyManagement_title_text_view"
+            android:layout_toLeftOf="@+id/propertyManagement_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="הנכסים שלי"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:layout_centerVertical="true" />
+
+
+        <CheckBox
+            android:buttonTint="@android:color/white"
+            android:id="@+id/propertyManagement_toolbar_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:background="@android:color/transparent"
+            android:padding="10dp"
+            android:visibility="gone"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true" />
+
+    </RelativeLayout>
+
         <android.support.design.widget.TabLayout
+            android:layout_below="@+id/propertyManagement_toolbar"
             android:id="@+id/propertyManagement_tabs_root"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:elevation="8dp"
+            android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:orientation="horizontal"
-            app:tabTextColor="@color/my_properties_tab_item_unselected_color"
-            app:tabSelectedTextColor="@android:color/white"
             app:tabIndicatorColor="@android:color/transparent"
-            android:elevation="8dp"
-            android:background="@color/colorPrimary" >
+            app:tabSelectedTextColor="@android:color/white"
+            app:tabTextColor="@color/my_properties_tab_item_unselected_color">
 
             <android.support.design.widget.TabItem
                 android:id="@+id/propertyManagement_tabs_info"
-                android:tag="0"
                 style="@style/myProperty_tabs"
+                android:tag="0"
                 android:text="@string/myProperty_manage_viewPager_tab_info" />
+
             <android.support.design.widget.TabItem
                 android:id="@+id/propertyManagement_tabs_manage"
-                android:tag="1"
                 style="@style/myProperty_tabs"
+                android:tag="1"
                 android:text="@string/myProperty_manage_viewPager_tab_manage" />
+
             <android.support.design.widget.TabItem
                 android:id="@+id/propertyManagement_tabs_interested"
-                android:tag="2"
                 style="@style/myProperty_tabs"
+                android:tag="2"
                 android:text="@string/myProperty_manage_viewPager_tab_interested" />
+
             <android.support.design.widget.TabItem
                 android:id="@+id/propertyManagement_tabs_meetings"
-                android:tag="3"
                 style="@style/myProperty_tabs"
+                android:tag="3"
                 android:text="@string/myProperty_manage_viewPager_tab_meetings" />
 
         </android.support.design.widget.TabLayout>
 
         <com.duolingo.open.rtlviewpager.RtlViewPager
+            android:layout_below="@+id/propertyManagement_tabs_root"
             android:id="@+id/propertyManagement_viewPager"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/propertyManagement_tabs_root"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin" />
 
-    </android.support.constraint.ConstraintLayout>
-</layout>
+
+</RelativeLayout>

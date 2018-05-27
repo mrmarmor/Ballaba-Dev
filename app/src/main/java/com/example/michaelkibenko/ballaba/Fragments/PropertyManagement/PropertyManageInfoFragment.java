@@ -1,10 +1,7 @@
 package com.example.michaelkibenko.ballaba.Fragments.PropertyManagement;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +9,9 @@ import android.widget.TextView;
 
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
-import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropLandlordFrag;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
-import com.example.michaelkibenko.ballaba.databinding.ActivityPropertyManagementBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentPropertyManageInfoBinding;
 
 public class PropertyManageInfoFragment extends Fragment {

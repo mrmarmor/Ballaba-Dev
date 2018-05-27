@@ -8,11 +8,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.michaelkibenko.ballaba.Activities.PromiseAgreementActivities.PromiseCanceletionActivity;
+import com.example.michaelkibenko.ballaba.Activities.PromiseAgreementActivities.PromiseImplementationActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyManagementActivity;
 import com.example.michaelkibenko.ballaba.Entities.MyPropertiesLandlord;
 import com.example.michaelkibenko.ballaba.R;
@@ -35,6 +38,7 @@ public class MyPropertiesLandlordAdapter extends RecyclerView.Adapter<MyProperti
         private ImageView propertyIV;
         private TextView address , rooms , size , firstBullet , secondBullet;
         private LinearLayout textsContainer;
+        private Button implementBtn , cancelBtn;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -45,6 +49,8 @@ public class MyPropertiesLandlordAdapter extends RecyclerView.Adapter<MyProperti
             firstBullet = itemView.findViewById(R.id.my_properties_landlord_item_first_bullet);
             secondBullet = itemView.findViewById(R.id.my_properties_landlord_item_second_bullet);
             textsContainer = itemView.findViewById(R.id.my_properties_landlord_item_text_container);
+            implementBtn = itemView.findViewById(R.id.my_properties_landlord_item_implementation_btn);
+            cancelBtn = itemView.findViewById(R.id.my_properties_landlord_item_cancelation_btn);
         }
     }
 
@@ -81,6 +87,25 @@ public class MyPropertiesLandlordAdapter extends RecyclerView.Adapter<MyProperti
 
         holder.textsContainer.setOnClickListener(myClick);
         holder.propertyIV.setOnClickListener(myClick);
+
+        holder.implementBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PromiseImplementationActivity.class);
+                intent.putExtra("ID" , myPropertiesLandlord.getId());
+                context.startActivity(intent);
+            }
+        });
+
+
+        holder.cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PromiseCanceletionActivity.class);
+                intent.putExtra("ID" , myPropertiesLandlord.getId());
+                context.startActivity(intent);
+            }
+        });
 
     }
 
