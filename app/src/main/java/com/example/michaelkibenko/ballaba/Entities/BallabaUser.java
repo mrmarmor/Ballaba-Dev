@@ -14,13 +14,7 @@ public class BallabaUser extends BallabaBaseEntity {
             , tenant_score, landlord_score, guarantor_score, date_created, date_updated, session_token
             , device_id, global_token, fcm_token, profile_image;
 
-    private static StringUtils instance;
-    private static StringUtils stringInstance(Context context){
-        if (instance == null)
-            instance = StringUtils.getInstance(true, context);
-
-        return instance;
-    }
+    private StringUtils heb = StringUtils.getInstance(true, null);
 
     public void setProfile_image(String profile_image) {
         this.profile_image = profile_image;
@@ -109,19 +103,19 @@ public class BallabaUser extends BallabaBaseEntity {
     }//TODO could be an email in hebrew?
 
     public String getFirst_name() {
-        return stringInstance(null).formattedHebrew(trimNull(first_name));
+        return heb.formattedHebrew(trimNull(first_name));
     }
 
     public String getLast_name() {
-        return stringInstance(null).formattedHebrew(trimNull(last_name));
+        return heb.formattedHebrew(trimNull(last_name));
     }
 
     public String getCity() {
-        return stringInstance(null).formattedHebrew(trimNull(city));
+        return heb.formattedHebrew(trimNull(city));
     }
 
     public String getAddress() {
-        return stringInstance(null).formattedHebrew(trimNull(address));
+        return heb.formattedHebrew(trimNull(address));
     }
 
     public String getApt_no() {

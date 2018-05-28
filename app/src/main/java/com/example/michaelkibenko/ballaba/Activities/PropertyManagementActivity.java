@@ -29,7 +29,9 @@ public class PropertyManagementActivity extends BaseActivity {
 
         RtlViewPager propertyManagementViewPager = findViewById(R.id.propertyManagement_viewPager);
 
-        PropertyManagementAdapter adapter = new PropertyManagementAdapter(this , propertyManagementViewPager , getSupportFragmentManager() , tabLayout);
+        int propertyId = getIntent().getIntExtra("ID", -1);
+        PropertyManagementAdapter adapter = new PropertyManagementAdapter(
+                this , propertyManagementViewPager, getSupportFragmentManager() , tabLayout, propertyId);
         propertyManagementViewPager.setAdapter(adapter);
 
 

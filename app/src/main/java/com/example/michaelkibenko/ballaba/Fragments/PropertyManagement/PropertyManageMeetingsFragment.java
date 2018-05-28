@@ -2,7 +2,7 @@ package com.example.michaelkibenko.ballaba.Fragments.PropertyManagement;
 
 
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +17,8 @@ public class PropertyManageMeetingsFragment extends Fragment {
 
     public PropertyManageMeetingsFragment() {}
 
-    public static PropertyManageFragment newInstance() {
-        return new PropertyManageFragment();
+    public static PropertyManageMeetingsFragment newInstance() {
+        return new PropertyManageMeetingsFragment();
     }
 
     @Override

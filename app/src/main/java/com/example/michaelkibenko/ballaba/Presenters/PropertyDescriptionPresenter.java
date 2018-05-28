@@ -146,7 +146,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         String toilets = String.format("%s %s", propertyFull.toilets, activity.getString(R.string.propertyItem_toilets));
 
         binder.propertyDescriptionRootTextViewRentFee.setText(price);
-        binderPrice.propertyDescriptionPricePriceTextView.setText(String.format("%s%s", "ג‚×", price));
+        binderPrice.propertyDescriptionPricePriceTextView.setText(String.format("%s%s", "₪", price));
         binderPrice.propertyDescriptionPriceAddressTextView.setText(propertyFull.formattedAddress);
         binderPrice.propertyDescriptionPriceDateOfEntranceTextView.setText(propertyFull.entry_date);
         binderPrice.propertyDescriptionPriceRentalPeriodTextView.setText(propertyFull.rentPeriod);
@@ -220,7 +220,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                 binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i * 2);
 
                 String formattedPrice = propertyPayments.get(i).get("price");
-                tv = getTextView(String.format("%s%s", "ג‚×", formattedPrice),
+                tv = getTextView(String.format("%s%s", "₪", formattedPrice),
                         activity.getResources().getColor(R.color.colorAccent, activity.getTheme()));
                 binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i * 2);
 

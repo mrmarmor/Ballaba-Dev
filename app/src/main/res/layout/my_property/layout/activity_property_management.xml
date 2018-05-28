@@ -33,7 +33,6 @@
             android:textSize="20sp"
             android:layout_centerVertical="true" />
 
-
         <CheckBox
             android:buttonTint="@android:color/white"
             android:id="@+id/propertyManagement_toolbar_checkbox"
@@ -93,8 +92,6 @@
             android:id="@+id/propertyManagement_viewPager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_marginStart="@dimen/activity_horizontal_margin" />
-
+            android:layout_marginTop="@dimen/activity_vertical_margin" />
 
 </RelativeLayout>
