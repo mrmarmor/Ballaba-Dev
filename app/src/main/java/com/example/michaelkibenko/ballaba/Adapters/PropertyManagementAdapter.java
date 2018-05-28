@@ -23,7 +23,7 @@ public class PropertyManagementAdapter extends FragmentStatePagerAdapter
 
     private Context context;
     private FragmentManager fm;
-    private Fragment[] fragments = {PropertyManageInfoFragment.newInstance()
+    private Fragment[] fragments = {PropertyManageInfoFragment.newInstance(1)
             , PropertyManageFragment.newInstance(),new PropertyManageInterestedFragment()
             , PropertyManageMeetingsFragment.newInstance()};
     private RtlViewPager propertyManagementViewPager;

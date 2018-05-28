@@ -1,24 +1,17 @@
 package com.example.michaelkibenko.ballaba.Fragments.PropertyManagement;
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
-import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropLandlordFrag;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
-import com.example.michaelkibenko.ballaba.databinding.ActivityPropertyManagementBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentPropertyManageInfoBinding;
 
 import org.json.JSONException;
@@ -66,9 +59,9 @@ public class PropertyManageInfoFragment extends Fragment {
                 final int NUM_OF_MEETINGS = response.get("meetings_count");
                 final int NUM_OF_INTERESTED = response.get("interested_count");
 
-                binder.propertyInfoViews.setText(NUM_OF_VIEWS+"");//TODO replace with string format
+                /*binder.propertyInfoViews.setText(NUM_OF_VIEWS+"");//TODO replace with string format
                 binder.propertyInfoMeetings.setText(NUM_OF_MEETINGS+"");
-                binder.propertyInfoInterested.setText(NUM_OF_INTERESTED+"");
+                binder.propertyInfoInterested.setText(NUM_OF_INTERESTED+"");*/
             }
 
             @Override

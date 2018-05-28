@@ -2,11 +2,6 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <data>
-        <variable
-            name="presenter"
-            type="com.example.michaelkibenko.ballaba.Presenters.PropertyManagementPresenter"/>
-    </data>
 
     <android.support.constraint.ConstraintLayout
         style="@style/allMatchParent" android:layoutDirection="rtl" >
