@@ -30,6 +30,14 @@ public class SavedAreaActivity extends BaseActivityWithActionBar {
     private ActivitySavedAreaBinding binder;
     private SavedAreaPresenter presenter;
     private ProgressDialog pd;
+    private String selectedAreaId;
+
+    /*private SavedAreaListener savedAreaListener;
+
+    public SavedAreaActivity(){}
+    public SavedAreaActivity(SavedAreaListener listener){
+        savedAreaListener = listener;
+    }*/
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +58,9 @@ public class SavedAreaActivity extends BaseActivityWithActionBar {
                 ArrayList<Viewport> viewports = ViewportsManager.getInstance(
                         SavedAreaActivity.this).parseViewportsResults(
                         ((BallabaOkResponse)entity).body);
+
+                //if you want to store viewports on a singleton.
+                //ViewportsManager.getInstance(SavedAreaActivity.this).setViewports(viewports);
 
                 pd.dismiss();
 
@@ -96,6 +107,15 @@ public class SavedAreaActivity extends BaseActivityWithActionBar {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    /*public void onClickSearch(View view*//*SavedAreaListener savedAreaListener*//*){
+        finish();
+        savedAreaListener.onClickSavedArea(selectedAreaId);
+    }
+
+    public interface SavedAreaListener {
+        void onClickSavedArea(String selectedAreaId);
+    }*/
 
     @Override
     public void onBackPressed() {

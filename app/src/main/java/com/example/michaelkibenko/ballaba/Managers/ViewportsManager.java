@@ -84,7 +84,7 @@ public class ViewportsManager {
                 String sw_lat = res.getString("sw_lat");
                 String sw_lng = res.getString("sw_lng");
                 String name = StringUtils.getInstance(true, context).formattedHebrew(res.getString("name"));
-                byte[] map_image = Base64.decode(res.getString("image"), Base64.DEFAULT);
+                byte[] map_image = Base64.decode(res.getString("map_image"), Base64.DEFAULT);
 
                 LatLng ne = new LatLng(Double.parseDouble(ne_lat), Double.parseDouble(ne_lng));
                 LatLng sw = new LatLng(Double.parseDouble(sw_lat), Double.parseDouble(sw_lng));
