@@ -92,8 +92,8 @@ public class PropertyManageFragment extends Fragment {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 if(entity instanceof BallabaOkResponse){
-                    propertyFull = BallabaSearchPropertiesManager
-                            .getInstance(activity).parsePropertiesFull(((BallabaOkResponse)entity).body);
+                    propertyFull = BallabaSearchPropertiesManager.getInstance(activity)
+                            .parsePropertiesFull(((BallabaOkResponse)entity).body);
                     BallabaSearchPropertiesManager.getInstance(activity).setPropertyFull(propertyFull);
 
                     Log.d(TAG, "properties: " + propertyFull.formattedAddress+":"+propertyFull.street);
@@ -121,7 +121,7 @@ public class PropertyManageFragment extends Fragment {
 
         //binder.propertyManagementRootTextViewRentFee.setText(price);
         if (!propertyFull.photos.isEmpty())
-            Glide.with(activity).load(propertyFull.photos.get(0)).into(binder.propertyManagementMainImage);
+            Glide.with(activity).load(propertyFull.photos.get(0).get("photo_url")).into(binder.propertyManagementMainImage);
 
         binderPrice.propertyDescriptionPricePriceTextView.setText(String.format("%s%s", "₪", price));
         binderPrice.propertyDescriptionPriceAddressTextView.setText(propertyFull.formattedAddress);
