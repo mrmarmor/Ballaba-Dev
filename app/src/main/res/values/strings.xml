@@ -191,7 +191,7 @@
     <string name="addProperty_asset_propertyPosition_title">היכן ממוקם הנכס?</string>
     <string name="addProperty_asset_city">עיר</string>
     <string name="addProperty_asset_city_hint">תל אביב</string>
-    <string name="addProperty_asset_address">כתובת: רחוב, בניין ודירה</string>
+    <string name="addProperty_asset_address">כתובת: רחוב, בניין</string>
     <string name="addProperty_asset_address_hint">ביאליק 8</string>
     <string name="addProperty_asset_aptNo">מספר דירה</string>
     <string name="addProperty_asset_hint">1</string>
@@ -295,6 +295,9 @@
 לתת לשוכרים פוטנציאליים להגיע להחלטה מודעת
 ומובנת של מה הם מקבלים. שקיפות תייצר גם אמון
 בינך לבין השוכר. </string>
+
+    <string name="myProperty_manage_button_save">שמירת שינויים</string>
+    <string name="myProperty_manage_button_preview">צפייה מוקדמת</string>
 
     <string name="takePicSwitch_camera">צילום תמונה</string>
     <string name="takePicSwitch_gallery">תמונה מהגלריה</string>

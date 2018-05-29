@@ -118,6 +118,7 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
             binderAsset.addPropSizeEditText.setText(property.size);
             binderAsset.addPropertyRentalPeriodMonthsEditText.setText(property.rentPeriod);
         }
+        binderAsset.addPropCityActv.requestFocus();
 
         UiUtils.instance(true, context).initAutoCompleteCity(binderAsset.addPropCityActv);
         UiUtils.instance(true, context).initAutoCompleteAddressInCity(binderAsset.addPropAddressActv, binderAsset.addPropCityActv);

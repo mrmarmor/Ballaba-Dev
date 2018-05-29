@@ -13,14 +13,9 @@ public class BallabaUser extends BallabaBaseEntity {
     private String id, phone, email, first_name, last_name, city, address, apt_no, birth_date, about
             , tenant_score, landlord_score, guarantor_score, date_created, date_updated, session_token
             , device_id, global_token, fcm_token, profile_image;
+    private boolean isScored;
 
-    private static StringUtils instance;
-    private static StringUtils stringInstance(Context context){
-        if (instance == null)
-            instance = StringUtils.getInstance(true, context);
-
-        return instance;
-    }
+    private StringUtils heb = StringUtils.getInstance(true, null);
 
     public void setProfile_image(String profile_image) {
         this.profile_image = profile_image;
@@ -38,7 +33,7 @@ public class BallabaUser extends BallabaBaseEntity {
 
     //TODO MAKE THIS CLASS BECOME A SINGLETON
 
-    public BallabaUser(String id, String phone, String email, String first_name, String last_name, String city, String address, String apt_no, String birth_date, String about, String tenant_score, String landlord_score, String guarantor_score, String date_created, String date_updated, String session_token, String fcm_token, String global_token, String profile_image) {
+    public BallabaUser(String id, String phone, String email, String first_name, String last_name, String city, String address, String apt_no, String birth_date, String about,boolean isScored, String tenant_score, String landlord_score, String guarantor_score, String date_created, String date_updated, String session_token, String fcm_token, String global_token, String profile_image) {
         this.id = id;
         this.phone = phone;
         this.email = email;
@@ -49,6 +44,7 @@ public class BallabaUser extends BallabaBaseEntity {
         this.apt_no = apt_no;
         this.about = about;
         this.birth_date = birth_date;
+        this.isScored = isScored;
         this.tenant_score = tenant_score;
         this.landlord_score = landlord_score;
         this.guarantor_score = guarantor_score;
@@ -109,24 +105,26 @@ public class BallabaUser extends BallabaBaseEntity {
     }//TODO could be an email in hebrew?
 
     public String getFirst_name() {
-        return stringInstance(null).formattedHebrew(trimNull(first_name));
+        return heb.formattedHebrew(trimNull(first_name));
     }
 
     public String getLast_name() {
-        return stringInstance(null).formattedHebrew(trimNull(last_name));
+        return heb.formattedHebrew(trimNull(last_name));
     }
 
     public String getCity() {
-        return stringInstance(null).formattedHebrew(trimNull(city));
+        return heb.formattedHebrew(trimNull(city));
     }
 
     public String getAddress() {
-        return stringInstance(null).formattedHebrew(trimNull(address));
+        return heb.formattedHebrew(trimNull(address));
     }
 
     public String getApt_no() {
         return trimNull(apt_no);
     }
+
+    public boolean getIs_scored() { return isScored; }
 
     public String getTenant_score() {
         return trimNull(tenant_score);
@@ -161,7 +159,7 @@ public class BallabaUser extends BallabaBaseEntity {
     }
 
     public String getAbout() {
-        return trimNull(about);
+        return heb.formattedHebrew(trimNull(about));
     }
 
     public String getFcm_token() {

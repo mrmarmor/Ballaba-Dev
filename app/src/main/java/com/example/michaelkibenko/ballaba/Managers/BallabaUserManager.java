@@ -22,7 +22,6 @@ public class BallabaUserManager {
     private static BallabaUserManager instance;
     private BallabaUser user;
 
-
     private BallabaUserManager() {}
 
     public static BallabaUserManager getInstance() {
@@ -39,6 +38,7 @@ public class BallabaUserManager {
     private String id, phone, email, name, lastName, city, address, aptNo, birthDate, about
             , tenantScore, landlordScore , guarantorScore, dateCreated, dateUpdated
             , sessionToken, fcmToken, globalToken, profileImage;
+    private boolean isScored;
     public BallabaUser generateUserFromResponse(String response){
         try {
             JSONObject jsonObject = new JSONObject(response);
@@ -56,6 +56,7 @@ public class BallabaUserManager {
             dateCreated = jsonObject.getString("created_at");
             dateUpdated = jsonObject.getString("updated_at");
 
+            isScored = jsonObject.getBoolean("scoring_status");
             //TODO if i need score i can get it here, but yet it is not received from server and throwing JSONException
             //tenantScore = jsonObject.getString("tenant_score");
             //landlordScore = jsonObject.getString("landlord_score");
@@ -70,13 +71,13 @@ public class BallabaUserManager {
             //        .stringToBitmap(jsonObject.getString("profile_image"));
 
             return new BallabaUser(id, phone, email, name, lastName, city, address, aptNo
-                    , birthDate, about, tenantScore, landlordScore , guarantorScore, dateCreated
+                    , birthDate, about, isScored, tenantScore, landlordScore , guarantorScore, dateCreated
                     , dateUpdated, sessionToken, fcmToken, globalToken, profileImage);
 
         } catch (JSONException ex) {
             Log.e(TAG, ex.getMessage());
             return new BallabaUser(id, phone, email, name, lastName, city, address, aptNo
-                    , birthDate, about, tenantScore, landlordScore, guarantorScore, dateCreated
+                    , birthDate, about, isScored, tenantScore, landlordScore, guarantorScore, dateCreated
                     , dateUpdated, sessionToken, fcmToken, globalToken, profileImage);
         }
     }

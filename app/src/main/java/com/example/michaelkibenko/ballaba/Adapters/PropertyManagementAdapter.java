@@ -22,21 +22,34 @@ public class PropertyManagementAdapter extends FragmentStatePagerAdapter
     private final String TAG = PropertyManagementAdapter.class.getSimpleName();
 
     private Context context;
-    private FragmentManager fm;
-    private Fragment[] fragments = {PropertyManageInfoFragment.newInstance(1)
-            , PropertyManageFragment.newInstance(),new PropertyManageInterestedFragment()
-            , PropertyManageMeetingsFragment.newInstance()};
+    //private FragmentManager fm;
+    private Fragment[] fragments;
     private RtlViewPager propertyManagementViewPager;
+    private int propertyId;
     private TabLayout tabLayout;
 
-    public PropertyManagementAdapter(Context context, RtlViewPager propertyManagementViewPager, FragmentManager fm, TabLayout tabLayout) {
+    public PropertyManagementAdapter(Context context, RtlViewPager propertyManagementViewPager
+            , FragmentManager fm, TabLayout tabLayout, int propertyId) {
         super(fm);
-        this.fm = fm;
+        //this.fm = fm;
         this.context = context;
         this.propertyManagementViewPager = propertyManagementViewPager;
         this.tabLayout = tabLayout;
+        this.propertyId = propertyId;
 
+        setFragments(propertyId);
         initTabsClickListener();
+    }
+
+    private void setFragments(int id){
+        fragments = new Fragment[]{
+                PropertyManageInfoFragment.newInstance(id), PropertyManageFragment.newInstance(id)
+                , new PropertyManageInterestedFragment(), PropertyManageMeetingsFragment.newInstance()};
+    }
+
+    private void initTabsClickListener() {
+        tabLayout.addOnTabSelectedListener(this);
+        propertyManagementViewPager.addOnPageChangeListener(this);
     }
 
     @Override
@@ -47,11 +60,6 @@ public class PropertyManagementAdapter extends FragmentStatePagerAdapter
     @Override
     public int getCount() {
         return 4; //NUM_PAGES
-    }
-
-    private void initTabsClickListener() {
-        tabLayout.addOnTabSelectedListener(this);
-        propertyManagementViewPager.addOnPageChangeListener(this);
     }
 
     // to update viewPager when user clicks a tab

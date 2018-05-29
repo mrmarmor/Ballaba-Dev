@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -26,12 +27,16 @@ import com.example.michaelkibenko.ballaba.Adapters.DescCommentAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
+import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachment;
+import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
 import com.example.michaelkibenko.ballaba.Fragments.BallabaStreetViewFragment;
 import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
+import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
+import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
@@ -146,7 +151,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         String toilets = String.format("%s %s", propertyFull.toilets, activity.getString(R.string.propertyItem_toilets));
 
         binder.propertyDescriptionRootTextViewRentFee.setText(price);
-        binderPrice.propertyDescriptionPricePriceTextView.setText(String.format("%s%s", "ג‚×", price));
+        binderPrice.propertyDescriptionPricePriceTextView.setText(String.format("%s%s", "₪", price));
         binderPrice.propertyDescriptionPriceAddressTextView.setText(propertyFull.formattedAddress);
         binderPrice.propertyDescriptionPriceDateOfEntranceTextView.setText(propertyFull.entry_date);
         binderPrice.propertyDescriptionPriceRentalPeriodTextView.setText(propertyFull.rentPeriod);
@@ -215,12 +220,12 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
     private void displayPaymentsOnScreen(ArrayList<HashMap<String, String>> propertyPayments){
         if (propertyPayments != null) {
             for (int i = 0; i < propertyPayments.size(); i++) {
-                TextView tv = getTextView(propertyPayments.get(i).get("payment_type"),
+                TextView tv = getTextView(getFormattedTitleFromId(propertyPayments.get(i).get("payment_type")),
                         activity.getResources().getColor(R.color.black, activity.getTheme()));
                 binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i * 2);
 
                 String formattedPrice = propertyPayments.get(i).get("price");
-                tv = getTextView(String.format("%s%s", "ג‚×", formattedPrice),
+                tv = getTextView(String.format("%s%s", "₪", formattedPrice),
                         activity.getResources().getColor(R.color.colorAccent, activity.getTheme()));
                 binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i * 2);
 
@@ -241,12 +246,24 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
 
     private TextView getTextView(final String text, final @ColorInt int color) {
         TextView tv = new TextView(activity);
-        tv.setText(text);
-        tv.setTextAppearance(R.style.propertyDescriptionPayments_textView);
-        tv.setTextColor(color);
-        tv.setLayoutParams(new ViewGroup.LayoutParams(77, 35));
+
+        if (text != null) {
+            tv.setText(text);
+            tv.setTextAppearance(R.style.propertyDescriptionPayments_textView);
+            tv.setTextColor(color);
+            tv.setLayoutParams(new ViewGroup.LayoutParams(77, 35));
+        }
 
         return tv;
+    }
+
+    private String getFormattedTitleFromId(String paymentId){
+        ArrayList<PropertyAttachmentAddonEntity> payments = PropertyAttachmentsAddonsHolder.getInstance().getPaymentTypes();
+        for (PropertyAttachmentAddonEntity payment : payments)
+            if (paymentId.equals(payment.id))
+                return payment.formattedTitle;
+
+        return null;
     }
 
     private final String ONLY_CHEQUE = "1", ONLY_TRANSFER = "2", BOTH = "3";
@@ -298,7 +315,12 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
     }
 
     public void onClickContinue(){
-        activity.startActivity(new Intent(activity , ScoringWelcomeActivity.class));
+        //scoring_status
+        boolean isUserScored = BallabaUserManager.getInstance().getUser().getIs_scored();
+        if (isUserScored)
+            Toast.makeText(activity, "here we are applying a meeting to landlord", Toast.LENGTH_SHORT).show();
+        else
+            activity.startActivity(new Intent(activity , ScoringWelcomeActivity.class));
         //Toast.makeText(activity, "continue", Toast.LENGTH_SHORT).show();
     }
 

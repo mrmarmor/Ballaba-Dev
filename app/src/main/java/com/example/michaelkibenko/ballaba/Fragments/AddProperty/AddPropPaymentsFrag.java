@@ -164,8 +164,8 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
 
             binderPay.addPropertyPaymentsParkingNoEditText.setText(property.no_of_parking);
             binderPay.addPropertyPaymentsParkingPriceEditText.setText(property.parking_price);
-            binderPay.addPropPaymentsRentalFeeEditText.setText(StringUtils.getInstance(true, context)
-                    .formattedNumberWithComma(property.price)+"₪");
+            binderPay.addPropPaymentsRentalFeeEditText.setText(StringUtils.getInstance(true, context)//1. adds comma to 4+ digits number
+                    .formattedNumberWithComma(property.price)+(property.price != null? "₪":""));//2. adds ₪ if price have been set
             binderPay.addPropPaymentsFreeTextEditText.setText(property.description);
         }
 
@@ -443,22 +443,23 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         switch (entity.title) {
             case "arnona":
                 //binderPay.addPropPaymentsMunicipalityEditText.setEnabled(!state.equals(UiUtils.ChipsButtonStates.PRESSED));
+                taxesEditTextsStateChanger(binderPay.addPropPaymentsMunicipalityTitle, state);
                 taxesEditTextsStateChanger(binderPay.addPropPaymentsMunicipalityEditText, state);
-                //taxesEditTextsStateChanger(binderPay.addPropPaymentsMunicipalityTitle, state);
                 break;
 
             case "house_committee":
+                taxesEditTextsStateChanger(binderPay.addPropPaymentsHouseCommitteeRoot, state);
                 taxesEditTextsStateChanger(binderPay.addPropPaymentsHouseCommitteeEditText, state);
-                //taxesEditTextsStateChanger(binderPay.addPropPaymentsHouseCommitteeRoot, state);
                 break;
 
             case "managment_fee":
+                taxesEditTextsStateChanger(binderPay.addPropPaymentsManagementRoot, state);
                 taxesEditTextsStateChanger(binderPay.addPropPaymentsManagementEditText, state);
-                //taxesEditTextsStateChanger(binderPay.addPropPaymentsManagementRoot, state);
                 break;
 
             case "parking":
-                taxesEditTextsStateChanger(binderPay.addPropertyPaymentsParkingLayout, state);
+                taxesEditTextsStateChanger(binderPay.addPropertyPaymentsParkingPrice, state);
+                taxesEditTextsStateChanger(binderPay.addPropertyPaymentsParkingPriceEditText, state);
         }
     }
 

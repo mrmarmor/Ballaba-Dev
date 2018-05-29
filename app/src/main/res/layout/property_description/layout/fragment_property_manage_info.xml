@@ -4,13 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <ScrollView
-        style="@style/allMatchParent"
+        style="@style/allWrapContent"
         android:scrollbars="none"
         android:orientation="vertical" >
 
         <LinearLayout
             style="@style/allMatchParent"
             android:layout_marginTop="@dimen/myProp_info_margin_top"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/myProp_info_marginBottom"
             android:orientation="vertical"
             android:layoutDirection="rtl"
             tools:context="com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.PropertyManageInfoFragment">

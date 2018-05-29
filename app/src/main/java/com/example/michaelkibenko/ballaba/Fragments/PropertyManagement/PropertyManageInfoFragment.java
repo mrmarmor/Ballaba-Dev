@@ -59,9 +59,9 @@ public class PropertyManageInfoFragment extends Fragment {
                 final int NUM_OF_MEETINGS = response.get("meetings_count");
                 final int NUM_OF_INTERESTED = response.get("interested_count");
 
-                /*binder.propertyInfoViews.setText(NUM_OF_VIEWS+"");//TODO replace with string format
+                binder.propertyInfoViews.setText(NUM_OF_VIEWS+"");//TODO replace with string format
                 binder.propertyInfoMeetings.setText(NUM_OF_MEETINGS+"");
-                binder.propertyInfoInterested.setText(NUM_OF_INTERESTED+"");*/
+                binder.propertyInfoInterested.setText(NUM_OF_INTERESTED+"");
             }
 
             @Override

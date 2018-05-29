@@ -11,7 +11,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent"
+        android:background="@color/propertyRecyclerView_background_white"
         android:layoutDirection="rtl">
 
         <TextView
@@ -19,8 +19,7 @@
             style="@style/allWrapContent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/propertyDescriptionComments_recycler"
-            android:padding="@dimen/activity_vertical_margin"
+            android:padding="@dimen/activity_horizontal_margin"
             android:text="@string/propertyDescription_root_comments_title"
             android:textSize="@dimen/textSize_big"
             android:textColor="@color/black" />

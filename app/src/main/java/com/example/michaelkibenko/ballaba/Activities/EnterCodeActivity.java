@@ -34,7 +34,7 @@ public class EnterCodeActivity extends BaseActivity {
     private static String TAG = EnterCodeActivity.class.getSimpleName();
 
     private EnterCodePresenter presenter;
-    private BallabaSMSReceiver smsReceiver;
+    private static BallabaSMSReceiver smsReceiver;
     private boolean isReceiverRunning;
     private EnterCodeLayoutBinding binder;
 

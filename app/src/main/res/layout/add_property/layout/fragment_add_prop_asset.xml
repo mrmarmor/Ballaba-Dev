@@ -91,93 +91,92 @@
                     android:hint="@string/addProperty_asset_floor_hint" />
             </LinearLayout>
 
-            <android.support.constraint.ConstraintLayout
+            <RelativeLayout
                 android:id="@+id/addProperty_formation_Root"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/small_margin"
-                android:layoutDirection="rtl"
+                android:paddingBottom="@dimen/activity_vertical_margin"
                 android:elevation="@dimen/elevation"
                 android:background="@android:color/white" >
+
                 <TextView
                     android:id="@+id/addProperty_formation_title_textView"
                     style="@style/addProperty_titles"
-                    app:layout_constraintTop_toBottomOf="@id/addProperty_formation_Root"
-                    app:layout_constraintStart_toStartOf="parent"
                     android:text="@string/addProperty_asset_formation_title" />
 
                 <TextView
                     android:id="@+id/addProperty_formation_rooms_textView"
                     android:layout_width="@dimen/addProperty_editText_short_width"
                     style="@style/addProperty_textViews"
-                    app:layout_constraintTop_toBottomOf="@id/addProperty_formation_title_textView"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_below="@id/addProperty_formation_title_textView"
+                    android:layout_alignParentStart="true"
+                    android:paddingStart="@dimen/small_margin"
                     android:text="@string/addProperty_asset_formation_numberOfRooms" />
                 <EditText
                     android:id="@+id/addProp_rooms_editText"
                     android:layout_width="@dimen/addProperty_editText_short_width"
                     android:tag="rooms"
                     style="@style/add_property_editTexts_with_number"
-                    app:layout_constraintTop_toBottomOf="@id/addProperty_formation_rooms_textView"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:layout_marginTop="@dimen/small_margin"
+                    android:layout_below="@id/addProperty_formation_rooms_textView"
+                    android:layout_alignParentRight="true"
                     android:hint="@string/addProperty_asset_hint" />
 
                 <TextView
                     android:id="@+id/addProperty_formation_toilets_textView"
                     android:layout_width="@dimen/addProperty_editText_short_width"
                     style="@style/addProperty_textViews"
-                    app:layout_constraintTop_toBottomOf="@id/addProperty_formation_title_textView"
-                    app:layout_constraintStart_toEndOf="@id/addProperty_formation_rooms_textView"
+                    android:layout_below="@id/addProperty_formation_title_textView"
+                    android:layout_toEndOf="@id/addProp_rooms_editText"
                     android:text="@string/addProperty_asset_formation_toilets" />
                 <EditText
                     android:id="@+id/addProp_toilets_editText"
                     android:layout_width="@dimen/addProperty_editText_short_width"
                     android:tag="toilets"
                     style="@style/add_property_editTexts_with_number"
-                    app:layout_constraintTop_toTopOf="@id/addProp_rooms_editText"
-                    app:layout_constraintStart_toEndOf="@id/addProp_rooms_editText"
+                    android:layout_alignTop="@id/addProp_rooms_editText"
+                    android:layout_toEndOf="@id/addProp_rooms_editText"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="0dp"
                     android:hint="@string/addProperty_asset_hint" />
 
                 <TextView
                     android:id="@+id/addProperty_formation_bathrooms_textView"
                     android:layout_width="@dimen/addProperty_editText_short_width"
                     style="@style/addProperty_textViews"
-                    app:layout_constraintTop_toBottomOf="@id/addProperty_formation_title_textView"
-                    app:layout_constraintStart_toEndOf="@id/addProp_toilets_editText"
+                    android:layout_below="@id/addProperty_formation_title_textView"
+                    android:layout_toEndOf="@id/addProp_toilets_editText"
+                    android:paddingStart="@dimen/small_margin"
                     android:text="@string/addProperty_asset_formation_bathrooms" />
                 <EditText
                     android:id="@+id/addProp_bathrooms_editText"
                     android:layout_width="@dimen/addProperty_editText_short_width"
                     android:tag="bathrooms"
                     style="@style/add_property_editTexts_with_number"
-                    app:layout_constraintTop_toTopOf="@id/addProp_rooms_editText"
-                    app:layout_constraintStart_toEndOf="@id/addProp_toilets_editText"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginEnd="@dimen/small_margin"
+                    android:layout_alignTop="@id/addProp_rooms_editText"
+                    android:layout_toEndOf="@id/addProp_toilets_editText"
+                    android:layout_alignParentEnd="true"
                     android:hint="@string/addProperty_asset_hint" />
 
                 <TextView
                     android:id="@+id/addProperty_formation_size_textView"
                     style="@style/addProperty_textViews"
-                    app:layout_constraintTop_toBottomOf="@id/addProp_rooms_editText"
-                    app:layout_constraintStart_toStartOf="parent"
+                    android:layout_below="@id/addProp_rooms_editText"
+                    android:layout_alignParentStart="true"
+                    android:paddingStart="@dimen/small_margin"
                     android:text="@string/addProperty_asset_formation_size" />
                 <EditText
                     android:id="@+id/addProp_size_editText"
                     android:layout_width="@dimen/addProperty_editText_short_width"
                     android:tag="size"
                     style="@style/add_property_editTexts_with_number"
-                    app:layout_constraintTop_toBottomOf="@id/addProperty_formation_size_textView"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    android:layout_marginTop="@dimen/small_margin"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:layout_below="@id/addProperty_formation_size_textView"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
                     android:hint="@string/addProperty_asset_formation_size_hint" />
 
-            </android.support.constraint.ConstraintLayout>
+            </RelativeLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -204,8 +203,7 @@
                     android:theme="@style/MyDatePickerDialogTheme"
                     android:layout_marginStart="@dimen/addProp_asset_rentalPeriod_datePicker"
                     android:layout_marginEnd="@dimen/addProp_asset_rentalPeriod_datePicker"
-                    android:layout_marginBottom="@dimen/small_margin"
-                />
+                    android:layout_marginBottom="@dimen/small_margin" />
 
                 <TextView
                     android:id="@+id/addProperty_rentalPeriod_rentalLong_textView"
