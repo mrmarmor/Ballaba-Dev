@@ -128,7 +128,6 @@
                     style="@style/addProperty_textViews"
                     android:layout_below="@id/addProperty_formation_title_textView"
                     android:layout_toEndOf="@id/addProp_rooms_editText"
-                    android:paddingStart="@dimen/small_margin"
                     android:text="@string/addProperty_asset_formation_toilets" />
                 <EditText
                     android:id="@+id/addProp_toilets_editText"
@@ -137,6 +136,8 @@
                     style="@style/add_property_editTexts_with_number"
                     android:layout_alignTop="@id/addProp_rooms_editText"
                     android:layout_toEndOf="@id/addProp_rooms_editText"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginEnd="0dp"
                     android:hint="@string/addProperty_asset_hint" />
 
                 <TextView
@@ -155,7 +156,6 @@
                     android:layout_alignTop="@id/addProp_rooms_editText"
                     android:layout_toEndOf="@id/addProp_toilets_editText"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="@dimen/small_margin"
                     android:hint="@string/addProperty_asset_hint" />
 
                 <TextView
