@@ -21,6 +21,8 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachment;
+import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
+import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
@@ -40,6 +42,7 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+//TODO THIS CLASS IS ALMOST THE SAME AS PropertyDescriptionPresenter CLASS. SO PLEASE MAKE PropertyDescriptionPresenter A FRAGMENT AND RECYCLE IT!
 public class PropertyManageFragment extends Fragment {
     private final String TAG = PropertyManageFragment.class.getSimpleName();
     private static final String PROPERTY_ID = "ID";
@@ -188,38 +191,39 @@ public class PropertyManageFragment extends Fragment {
     private void displayPaymentsOnScreen(ArrayList<HashMap<String, String>> propertyPayments){
         if (propertyPayments != null) {
             for (int i = 0; i < propertyPayments.size(); i++) {
-                TextView tv = getTextView(propertyPayments.get(i).get("payment_type"),
+                TextView tv = getTextView(getFormattedTitleFromId(propertyPayments.get(i).get("payment_type")),
                         activity.getResources().getColor(R.color.black, activity.getTheme()));
                 binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i * 2);
+
 
                 String formattedPrice = propertyPayments.get(i).get("price");
                 tv = getTextView(String.format("%s%s", "₪", formattedPrice),
                         activity.getResources().getColor(R.color.colorAccent, activity.getTheme()));
                 binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i * 2);
-
-                //TODO TESTING
-                /*tv = getTextView(propertyPayments.get(i).get("payment_type"),
-                        activity.getResources().getColor(R.color.black, activity.getTheme()));
-                binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i * 2 + 1);
-
-                formattedPrice = propertyPayments.get(i).get("price");
-                tv = getTextView(String.format("%s%s", "ג‚×", formattedPrice),
-                        activity.getResources().getColor(R.color.colorAccent, activity.getTheme()));
-                binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i * 2 + 1);*/
-                //TODO END OF TESTING
-
             }
         }
     }
 
     private TextView getTextView(final String text, final @ColorInt int color) {
         TextView tv = new TextView(activity);
-        tv.setText(text);
-        tv.setTextAppearance(R.style.propertyDescriptionPayments_textView);
-        tv.setTextColor(color);
-        tv.setLayoutParams(new ViewGroup.LayoutParams(77, 35));
+
+        if (text != null) {
+            tv.setText(text);
+            tv.setTextAppearance(R.style.propertyDescriptionPayments_textView);
+            tv.setTextColor(color);
+            tv.setLayoutParams(new ViewGroup.LayoutParams(77, 35));
+        }
 
         return tv;
+    }
+
+    private String getFormattedTitleFromId(String paymentId){
+        ArrayList<PropertyAttachmentAddonEntity> payments = PropertyAttachmentsAddonsHolder.getInstance().getPaymentTypes();
+        for (PropertyAttachmentAddonEntity payment : payments)
+            if (paymentId.equals(payment.id))
+                return payment.formattedTitle;
+
+        return null;
     }
 
     private final String ONLY_CHEQUE = "1", ONLY_TRANSFER = "2", BOTH = "3";
