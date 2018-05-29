@@ -91,6 +91,9 @@
         android:textSize="@dimen/textSize_regular"
         android:textColor="@color/colorAccent"
         android:fontFamily="@font/rubik_regular"/>
+
+
+
     
     <Button
         android:id="@+id/propertyDescriptionPrice_toVirtualTour_button"
