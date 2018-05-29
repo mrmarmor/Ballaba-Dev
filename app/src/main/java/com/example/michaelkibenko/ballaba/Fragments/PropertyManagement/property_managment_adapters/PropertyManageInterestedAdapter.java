@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.michaelkibenko.ballaba.Activities.PropertyManagementActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.R;
 
@@ -22,7 +23,7 @@ class PropertyManageInterestedAdapter extends RecyclerView.Adapter<PropertyManag
     private Context context;
 
 
-    public PropertyManageInterestedAdapter(Context context , List<BallabaUser> userList) {
+    public PropertyManageInterestedAdapter(Context context, List<BallabaUser> userList) {
         this.context = context;
         this.userList = userList;
     }
@@ -52,15 +53,16 @@ class PropertyManageInterestedAdapter extends RecyclerView.Adapter<PropertyManag
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        BallabaUser user = userList.get(position);
+        final BallabaUser user = userList.get(position);
 
         Glide.with(context).load(user.getProfile_image()).into(holder.userImage);
         holder.userName.setText(user.getFirst_name() + " " + user.getLast_name());
+        holder.checkBox.setChecked(user.isInterested());
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*boolean checked = ((CheckBox) v).isChecked();
-                holder.checkBox.setChecked(checked);*/
+                user.setIsInterested(!user.isInterested());
+                ((PropertyManagementActivity) context).isChecked(!isAllUnChecked());
             }
         });
     }
@@ -68,5 +70,20 @@ class PropertyManageInterestedAdapter extends RecyclerView.Adapter<PropertyManag
     @Override
     public int getItemCount() {
         return userList.size();
+    }
+
+    public void checkAll(boolean isCheck) {
+        for (int i = 0; i < userList.size(); i++) {
+            userList.get(i).setIsInterested(isCheck);
+        }
+        notifyDataSetChanged();
+    }
+
+    public boolean isAllUnChecked() {
+        for (int i = 0; i < userList.size(); i++) {
+            boolean interested = userList.get(i).isInterested();
+            if (interested) return false;
+        }
+        return true;
     }
 }
