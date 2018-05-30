@@ -15,6 +15,8 @@ public class BallabaUser extends BallabaBaseEntity {
             , device_id, global_token, fcm_token, profile_image;
     private boolean isScored;
 
+    private boolean isInterested;
+
     private StringUtils heb = StringUtils.getInstance(true, null);
 
     public void setProfile_image(String profile_image) {
@@ -125,6 +127,14 @@ public class BallabaUser extends BallabaBaseEntity {
     }
 
     public boolean getIs_scored() { return isScored; }
+
+    public boolean isInterested() {
+        return isInterested;
+    }
+
+    public void setIsInterested(boolean interested) {
+        isInterested = interested;
+    }
 
     public String getTenant_score() {
         return trimNull(tenant_score);

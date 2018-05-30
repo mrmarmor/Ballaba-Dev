@@ -62,7 +62,7 @@ class PropertyManageInterestedAdapter extends RecyclerView.Adapter<PropertyManag
             @Override
             public void onClick(View v) {
                 user.setIsInterested(!user.isInterested());
-                ((PropertyManagementActivity) context).isChecked(!isAllUnChecked());
+                //((PropertyManagementActivity) context).isChecked(!isAllUnChecked());
             }
         });
     }
