@@ -14,6 +14,8 @@ public class BallabaUser extends BallabaBaseEntity {
             , tenant_score, landlord_score, guarantor_score, date_created, date_updated, session_token
             , device_id, global_token, fcm_token, profile_image;
 
+    private boolean isInterested;
+
     private static StringUtils instance;
     private static StringUtils stringInstance(Context context){
         if (instance == null)
@@ -170,5 +172,17 @@ public class BallabaUser extends BallabaBaseEntity {
 
     public String getProfile_image() {
         return profile_image;
+    }
+
+    public void setIsInterested(boolean interested) {
+        isInterested = interested;
+    }
+
+    public boolean isInterested() {
+        return isInterested;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

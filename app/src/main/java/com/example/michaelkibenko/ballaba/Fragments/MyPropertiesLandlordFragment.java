@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.michaelkibenko.ballaba.Adapters.MyPropertiesLandlordAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
@@ -31,6 +32,7 @@ public class MyPropertiesLandlordFragment extends Fragment {
     private MyPropertiesLandlordAdapter adapter;
     private List<MyPropertiesLandlord> myPropertiesLandlordsList;
     private View v;
+    private ProgressBar progressBar;
 
 
     @Nullable
@@ -38,16 +40,11 @@ public class MyPropertiesLandlordFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
 
         v = inflater.inflate(R.layout.my_properties_landlord_fragment, container, false);
+        progressBar = v.findViewById(R.id.my_properties_landlord_progress_bar);
 
         myPropertiesLandlordsList = new ArrayList<>();
-        /*myPropertiesLandlordsList.add(new MyPropertiesLandlord("אחד העם 1 , תל אביב", 1, 2, 65, new String[]{"https://37b3a77d7df28c23c767-53afc51582ca456b5a70c93dcc61a759.ssl.cf3.rackcdn.com/1024x768/54850_3971_001.jpg"}));
-        myPropertiesLandlordsList.add(new MyPropertiesLandlord("בן גוריון 12 , תל אביב", 2, 8, 200, new String[]{"https://2e04f91eb4f37516324c-f47ac95ea68e17b39c6e95ff0fa62fe6.ssl.cf3.rackcdn.com/1024x768/53527_2779_00.jpg"}));
-        myPropertiesLandlordsList.add(new MyPropertiesLandlord("בן יהודה 5 , יהוד", 3, 4, 120, new String[]{"https://37cbbe48430d59b57b0f-f8fba6cde51be10037079fdf735372bc.ssl.cf3.rackcdn.com/1024x768/55639_6068_02.jpg"}));
-        myPropertiesLandlordsList.add(new MyPropertiesLandlord("בן דוד 22 , פתח תקווה", 4, 2, 50, new String[]{"https://c50039.ssl.cf3.rackcdn.com/uploads/photo/file/42580235/default.jpg"}));
-        myPropertiesLandlordsList.add(new MyPropertiesLandlord("הנחל 7 , באר שבע", 5, 2, 90, new String[]{"http://www.nyhabitat.com/picture-ny-apt/12699/12699D62.jpg"}));
-        myPropertiesLandlordsList.add(new MyPropertiesLandlord("ז'בוטינסקי 2048 , אורנית", 6, 2, 130, new String[]{"http://www.nyhabitat.com/picture-ny-apt/16481/16481D10.jpg"}));
-        */
         getLandlordProperties();
+
         adapter = new MyPropertiesLandlordAdapter(getActivity(), myPropertiesLandlordsList);
         initRecyclerView();
 
@@ -56,15 +53,18 @@ public class MyPropertiesLandlordFragment extends Fragment {
     }
 
     private void getLandlordProperties() {
+        progressBar.setVisibility(View.VISIBLE);
         ConnectionsManager.getInstance(getActivity()).getLandlordProperties(new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
+                progressBar.setVisibility(View.GONE);
                 String response = ((BallabaOkResponse) entity).body.toString();
                 parseResponse(response);
             }
 
             @Override
             public void reject(BallabaBaseEntity entity) {
+                progressBar.setVisibility(View.GONE);
                 Log.d("WOW", "reject: " + entity);
             }
         });

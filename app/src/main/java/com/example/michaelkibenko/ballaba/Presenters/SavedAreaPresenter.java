@@ -1,35 +1,18 @@
 package com.example.michaelkibenko.ballaba.Presenters;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 
-import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.EditViewportSubActivity;
-import com.example.michaelkibenko.ballaba.Activities.SavedAreaActivity;
 import com.example.michaelkibenko.ballaba.Adapters.SavedAreasRecyclerAdapter;
-import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
-import com.example.michaelkibenko.ballaba.Entities.BallabaPhoneNumber;
 import com.example.michaelkibenko.ballaba.Entities.Viewport;
-import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
-import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
-import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
-import com.example.michaelkibenko.ballaba.Managers.ViewportsManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivitySavedAreaBinding;
-import com.example.michaelkibenko.ballaba.databinding.EnterCodeLayoutBinding;
 
 import java.util.ArrayList;
-import java.util.List;
-
-import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by User on 14/05/2018.
@@ -46,12 +29,12 @@ public class SavedAreaPresenter {
         this.activity = activity;
         this.binder = binding;
 
-        if (viewports == null || viewports.size() == 0)//{
+        if (viewports == null || viewports.size() == 0){
             showPlaceHolder();
-        //} else {
+        } else {
 
         initRecyclerView(viewports);
-        //}
+        }
 
         binder.savedAreasButtonSearch.setOnClickListener(new View.OnClickListener() {
             @Override

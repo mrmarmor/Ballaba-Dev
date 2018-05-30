@@ -1,16 +1,47 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.PropertyManageInterestedFragment">
 
     <android.support.v7.widget.RecyclerView
+        android:visibility="visible"
         android:id="@+id/property_manage_interested_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-
     </android.support.v7.widget.RecyclerView>
 
-</FrameLayout>
+
+    <LinearLayout
+        android:visibility="gone"
+        android:id="@+id/property_managment_interested_empty_state_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+        <ImageView
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/group"
+            android:layout_width="160dp"
+            android:layout_height="144dp"
+            android:layout_marginTop="40dp" />
+
+        <TextView
+            android:layout_marginTop="36dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:maxEms="6"
+            android:maxLines="2"
+            android:gravity="center_horizontal"
+            android:text="אין מתעניינים חדשים"
+            android:textColor="@color/gray_text_color"
+            android:textStyle="bold"
+            android:textSize="40sp" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

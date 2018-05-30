@@ -1135,6 +1135,74 @@ public class ConnectionsManager {
         }
     }
 
+    public void getInterestedUsers(int id , final BallabaResponseListener callback){
+        StringRequest request = new StringRequest(GET,
+                EndpointsHolder.MY_PROPERTY_INTERESTED_USERS + id + "/interested",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        BallabaOkResponse callbackResponce = new BallabaOkResponse();
+                        callbackResponce.setBody(response.toString());
+                        callback.resolve(callbackResponce);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error.networkResponse != null) {
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, error.getMessage()));
+                } else {
+                    callback.reject(new BallabaErrorResponse(500, error.getMessage()));
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                return getHeadersWithSessionToken();
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(request);
+    }
+
+    public void deleteInterestedUser(int propertyID , int interestedUserID ,final BallabaResponseListener callback){
+        String url = EndpointsHolder.DELETE_INTEREST_USER + propertyID + "/interested/" + interestedUserID;
+        StringRequest stringRequest = new StringRequest(DELETE, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                BallabaOkResponse ok = new BallabaOkResponse();
+                ok.body = response;
+                callback.resolve(ok);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error.networkResponse != null) {
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                } else {
+                    Log.e(TAG, error + "\n" + error.getMessage());
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return getHeadersWithSessionToken();
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(stringRequest);
+    }
+
     public void getMyProperties(final int id, final BallabaResponseListener callback) {
         String url = EndpointsHolder.PROPERTY + id + "/analytics";
         StringRequest stringRequest = new StringRequest(GET, url, new Response.Listener<String>() {

@@ -33,7 +33,6 @@
             android:textSize="20sp"
             android:layout_centerVertical="true" />
 
-
         <CheckBox
             android:buttonTint="@android:color/white"
             android:id="@+id/propertyManagement_toolbar_checkbox"
@@ -45,6 +44,41 @@
             android:visibility="gone"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true" />
+
+
+        <ImageButton
+            android:id="@+id/propertyManagement_confirm_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="16dp"
+            android:visibility="gone"
+            android:background="@android:color/transparent"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/propertyManagement_toolbar_checkbox"
+            android:src="@drawable/check_white_24" />
+
+
+        <ImageButton
+            android:id="@+id/propertyManagement_delete_or_cancel_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="16dp"
+            android:visibility="gone"
+            android:background="@android:color/transparent"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/propertyManagement_confirm_btn"
+            android:src="@drawable/delete_white_24" />
+
+        <ImageButton
+            android:id="@+id/propertyManagement_edit_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_margin="16dp"
+            android:visibility="gone"
+            android:background="@android:color/transparent"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/edit_grey_24" />
 
     </RelativeLayout>
 
