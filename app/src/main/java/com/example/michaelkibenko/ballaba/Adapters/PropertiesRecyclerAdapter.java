@@ -181,12 +181,6 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         ViewHolder(PropertyItemBinding binder) {
             super(binder.getRoot());
             this.binder = binder;
-            binder.propertyItemIsSavedPropertyImageView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
 
             if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
                 setFontForDevicesUnderApi26(binder);

@@ -195,7 +195,6 @@ public class PropertyManageFragment extends Fragment {
                         activity.getResources().getColor(R.color.black, activity.getTheme()));
                 binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i * 2);
 
-
                 String formattedPrice = propertyPayments.get(i).get("price");
                 tv = getTextView(String.format("%s%s", "₪", formattedPrice),
                         activity.getResources().getColor(R.color.colorAccent, activity.getTheme()));

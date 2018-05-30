@@ -2,6 +2,7 @@ package com.example.michaelkibenko.ballaba.Presenters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
 import android.support.v4.app.FragmentActivity;
@@ -62,6 +63,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
             , PROPERTY_LATLNG_EXTRA = "property latLng extra";
 
     private FragmentActivity activity;
+    private Resources res;
     private ActivityPropertyDescriptionBinding binder;
     private PropertyDescriptionImageBinding binderImage;
     private PropertyDescriptionPriceBinding binderPrice;
@@ -80,6 +82,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         this.binder = binding;
 
         propertyIntent = activity.getIntent();
+        res = activity.getResources();
 
         initProperty();
     }
@@ -97,12 +100,6 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         fetchDataFromServer(propertyIntent.getStringExtra(PropertyDescriptionActivity.PROPERTY));
 //        ImageView imageFrame = binder.propertyDescriptionImage.propertyDescriptionMainImage;//findViewById(R.id.propertyDescription_mainImage);
         ImageView imageFrame = binderImage.propertyDescriptionMainImage;
-        binder.propertyDescriptionImage.goToGallery.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickToGallery();
-            }
-        });
 
         Glide.with(activity)
                 .load(propertyIntent.getStringExtra(PROPERTY_IMAGE))
@@ -221,12 +218,12 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         if (propertyPayments != null) {
             for (int i = 0; i < propertyPayments.size(); i++) {
                 TextView tv = getTextView(getFormattedTitleFromId(propertyPayments.get(i).get("payment_type")),
-                        activity.getResources().getColor(R.color.black, activity.getTheme()));
+                        res.getColor(R.color.black, activity.getTheme()));
                 binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i * 2);
 
                 String formattedPrice = propertyPayments.get(i).get("price");
                 tv = getTextView(String.format("%s%s", "₪", formattedPrice),
-                        activity.getResources().getColor(R.color.colorAccent, activity.getTheme()));
+                        res.getColor(R.color.colorAccent, activity.getTheme()));
                 binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i * 2);
 
                 //TODO TESTING
@@ -310,8 +307,12 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
     }
 
     private void buttons_setOnClickListeners(){
+        binderImage.propertyDescriptionMainImageIsSaved.setOnClickListener(this);
+        binderImage.propertyDescriptionMainImageShare.setOnClickListener(this);
+        binderImage.propertyDescriptionMainImageBack.setOnClickListener(this);
         binderPrice.propertyDescriptionPriceToVirtualTourButton.setOnClickListener(this);
         binder.propertyDescriptionRootToStreetViewButton.setOnClickListener(this);
+        binder.propertyDescriptionImage.goToGallery.setOnClickListener(this);
     }
 
     public void onClickContinue(){
@@ -324,19 +325,27 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         //Toast.makeText(activity, "continue", Toast.LENGTH_SHORT).show();
     }
 
-    public void onClickToGallery() {
-        Intent intent = new Intent(activity, PropertyGalleryActivity.class);
-        activity.startActivity(intent);
-    }
-
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(activity, StreetAndMapBoard.class);
-        intent.putExtra(PROPERTY_LATLNG_EXTRA, propertyLatLng.latitude+","+propertyLatLng.longitude);
-
         switch (v.getId()){
+            case R.id.goToGallery:
+                Intent intent = new Intent(activity, PropertyGalleryActivity.class);
+                activity.startActivity(intent);
+                break;
+
+            case R.id.propertyDescription_mainImage_isSaved:
+                setIsSaved();
+                break;
+
+            case R.id.propertyDescription_mainImage_back:
+                activity.finish();
+                break;
+
             case R.id.propertyDescription_root_toStreetView_button:
+                intent = new Intent(activity, StreetAndMapBoard.class);
+                intent.putExtra(PROPERTY_LATLNG_EXTRA, propertyLatLng.latitude+","+propertyLatLng.longitude);
                 intent.putExtra(FRAGMENT_NAME, BallabaStreetViewFragment.TAG);
+                activity.startActivity(intent);
 
                 //TODO states
                 //@Visibility.Mode int isStreetViewVisible = binderPrice.propertyDescriptionPriceStreetViewContainer.getVisibility();
@@ -346,14 +355,40 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                 break;
 
             case R.id.propertyDescription_mapFragment_container:
+                intent = new Intent(activity, StreetAndMapBoard.class);
+                intent.putExtra(PROPERTY_LATLNG_EXTRA, propertyLatLng.latitude+","+propertyLatLng.longitude);
                 intent.putExtra(FRAGMENT_NAME, BallabaMapFragment.TAG);
+                activity.startActivity(intent);
                 break;
 
             case R.id.propertyDescriptionPrice_toVirtualTour_button:
                 intent = new Intent(activity, VirtualTourActivity.class);
+                //intent.putExtra(PROPERTY_LATLNG_EXTRA, propertyLatLng.latitude+","+propertyLatLng.longitude);
+                activity.startActivity(intent);
         }
 
-        activity.startActivity(intent);
+    }
+
+    private void setIsSaved(){
+        Drawable d = propertyFull.is_saved? res.getDrawable(R.drawable.heart_blue_24, activity.getTheme())
+                :res.getDrawable(R.drawable.heart_white_24, activity.getTheme());
+        binderImage.propertyDescriptionMainImageIsSaved.setImageDrawable(d);
+
+        binderImage.propertyDescriptionMainImageIsSaved.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Drawable d;
+                if (propertyFull.is_saved){
+                    d = res.getDrawable(R.drawable.heart_white_24, activity.getTheme());
+                    ConnectionsManager.getInstance(activity).removeFromFavoritesProperty(propertyFull.id);
+                }else{
+                    d = res.getDrawable(R.drawable.heart_blue_24, activity.getTheme());
+                    ConnectionsManager.getInstance(activity).addToFavoritesProperty(propertyFull.id);
+                }
+                binderImage.propertyDescriptionMainImageIsSaved.setImageDrawable(d);
+                propertyFull.is_saved = !propertyFull.is_saved;
+            }
+        });
     }
 
 }

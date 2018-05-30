@@ -25,9 +25,6 @@
             android:textSize="@dimen/textSize_big"
             android:textColor="@color/black" />
 
-
-
-
         <!--    <ImageView
                 android:layout_width="@dimen/icon_attachment"
                 android:layout_height="@dimen/icon_attachment"

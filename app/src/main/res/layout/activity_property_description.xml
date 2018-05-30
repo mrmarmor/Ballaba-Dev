@@ -12,75 +12,62 @@
         style="@style/allMatchParent" android:layoutDirection="rtl">
 
         <ScrollView
-            style="@style/allMatchParent" android:orientation="vertical">
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/propertyDescription_root_bottom_container">
 
-            <android.support.constraint.ConstraintLayout
-                style="@style/allWrapContent"
+            <LinearLayout
+                style="@style/allMatchParent"
                 android:orientation="vertical"
-                android:background="@color/gray_button_color">
+                android:background="@color/propertyRecyclerView_background_white">
 
                 <include
                     android:id="@+id/property_description_image"
                     layout="@layout/property_description_image"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/propertyDescription_mainImage_height"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_height="@dimen/propertyDescription_mainImage_height" />
 
                 <include
                     android:id="@+id/property_description_price"
                     layout="@layout/property_description_price"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/property_description_image" />
-                <View style="@style/divider_gray"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/property_description_price" />
+                    android:layout_marginBottom="@dimen/activity_vertical_margin" />
+                <View style="@style/divider_gray" />
 
                 <include
                     android:id="@+id/property_description_attachments"
                     layout="@layout/property_description_attachments"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/property_description_price" />
-                <View style="@style/divider_gray"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/property_description_attachments"/>
+                    android:layout_height="wrap_content" />
+                <View style="@style/divider_gray" />
 
                 <include
                     android:id="@+id/property_description_attachments_extended"
                     layout="@layout/property_description_attachments_extended"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/property_description_attachments"
                     android:layout_marginBottom="@dimen/activity_vertical_margin" />
-                <View style="@style/divider_gray"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/property_description_attachments_extended"/>
+                <View style="@style/divider_gray" />
 
                 <include
                     android:id="@+id/property_description_payments"
                     layout="@layout/property_description_payments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/property_description_attachments_extended"
                     android:layout_marginBottom="@dimen/activity_vertical_margin" />
-                <View style="@style/divider_gray"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/property_description_payments" />
+                <View style="@style/divider_gray" />
 
                 <include
                     android:id="@+id/property_description_payment_methods"
                     layout="@layout/property_description_payment_methods"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/property_description_payments" />
+                    android:paddingBottom="@dimen/large_margin"/>
                <!-- <View style="@style/divider_gray"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/property_description_payment_methods" />
@@ -89,46 +76,37 @@
                     android:id="@+id/propertyDescription_mapFragment_container"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/propertyDescription_googleMap_height"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/property_description_payment_methods"
-                    android:layout_marginTop="@dimen/activity_vertical_margin" />
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:background="@color/propertyRecyclerView_background_white" />
 
                 <Button
                     android:id="@+id/propertyDescription_root_toStreetView_button"
                     android:layout_width="@dimen/propertyDescription_price_buttonToStreetView_width"
                     android:layout_height="@dimen/propertyDescription_price_buttonToStreetView_height"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/propertyDescription_mapFragment_container"
                     android:layout_marginTop="@dimen/large_margin"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:gravity="center_horizontal"
                     android:text="@string/propertyDescription_root_streetView_button"
                     android:textColor="@color/colorPrimary"
                     android:background="@drawable/blue_border"
                     />
 
                 <View style="@style/divider_gray"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/propertyDescription_root_toStreetView_button" />
+                    android:layout_marginTop="@dimen/activity_vertical_margin"  />
 
                 <include
                     android:id="@+id/property_description_comments"
                     layout="@layout/property_description_comments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/propertyDescription_root_toStreetView_button"
                     android:layout_marginTop="@dimen/activity_vertical_margin" />
 
                 <include
                     android:id="@+id/property_description_open_door_dates"
                     layout="@layout/property_description_open_door_dates"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/property_description_comments" />
-            </android.support.constraint.ConstraintLayout>
+                    android:layout_height="wrap_content"  />
+            </LinearLayout>
 
         </ScrollView>
 

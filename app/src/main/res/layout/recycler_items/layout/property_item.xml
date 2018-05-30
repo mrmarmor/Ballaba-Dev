@@ -33,7 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/propertyItem_imageView_height"
         app:layout_constraintTop_toTopOf="parent"
-        />
+        android:src="@drawable/photo_home_grey_24" />
 
     <View
         android:layout_width="match_parent"

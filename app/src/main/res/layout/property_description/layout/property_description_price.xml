@@ -11,7 +11,7 @@
 <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
+    android:background="@color/propertyRecyclerView_background_white"
     android:layoutDirection="rtl">
 
     <TextView
@@ -91,9 +91,6 @@
         android:textSize="@dimen/textSize_regular"
         android:textColor="@color/colorAccent"
         android:fontFamily="@font/rubik_regular"/>
-
-
-
     
     <Button
         android:id="@+id/propertyDescriptionPrice_toVirtualTour_button"
@@ -142,7 +139,7 @@
         app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPrice_landlordName_textView"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
-        android:layout_marginEnd="@dimen/propertyDescription_price_fullDescription_horizontalOffset"
+        android:paddingEnd="@dimen/propertyDescription_price_fullDescription_horizontalOffset"
         android:textSize="@dimen/textSize_regular"
         android:fontFamily="@font/rubik_regular"
         android:textColor="@color/black" />

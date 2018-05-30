@@ -16,7 +16,7 @@ import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
 import com.google.android.gms.maps.StreetViewPanorama;
 import com.google.android.gms.maps.model.LatLng;
 
-public class StreetAndMapBoard extends AppCompatActivity {
+public class StreetAndMapBoard extends BaseActivity {
     private final String TAG = StreetAndMapBoard.class.getSimpleName();
 
     private BallabaMapFragment mapFragment;
