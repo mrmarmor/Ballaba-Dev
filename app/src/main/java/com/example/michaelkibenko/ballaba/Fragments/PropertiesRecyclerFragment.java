@@ -1,7 +1,9 @@
 package com.example.michaelkibenko.ballaba.Fragments;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.location.Location;
@@ -22,14 +24,17 @@ import android.view.ViewGroup;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
+import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Adapters.PropertiesRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
+import com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.FragmentPropertiesRecyclerBinding;
 import com.google.android.gms.maps.model.LatLng;
@@ -79,6 +84,13 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        getProperties();
     }
 
     @Override

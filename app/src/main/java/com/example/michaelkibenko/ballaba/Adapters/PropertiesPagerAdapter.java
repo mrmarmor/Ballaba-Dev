@@ -55,4 +55,8 @@ public class PropertiesPagerAdapter extends FragmentStatePagerAdapter {
     public BallabaMapFragment getMapFragment() {
         return mapFragment;
     }
+
+    public PropertiesRecyclerFragment getFragment(){
+        return propertiesRecyclerFragment;
+    }
 }

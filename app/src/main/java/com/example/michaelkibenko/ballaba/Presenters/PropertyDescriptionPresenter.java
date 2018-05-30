@@ -1,5 +1,6 @@
 package com.example.michaelkibenko.ballaba.Presenters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -60,7 +61,7 @@ import java.util.HashMap;
 public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnStreetViewPanoramaReadyCallback*/ {
     private final String TAG = PropertyDescriptionPresenter.class.getSimpleName();
     public static final String PROPERTY_IMAGE = "Prop_image", FRAGMENT_NAME = "fragment name"
-            , PROPERTY_LATLNG_EXTRA = "property latLng extra";
+            , PROPERTY_LATLNG_EXTRA = "property latLng extra", PROPERTY_POSITION = "property position", PROPERTY_IS_SAVED = "property is saved";
 
     private FragmentActivity activity;
     private Resources res;
@@ -124,18 +125,14 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                     initPropertyMap();
                     //initStreetView();
 
-                    //callback.resolve(entity);
                 }else {
                     Log.d(TAG, "error: Response is not an instance of BallabaOkResponse");
-                    //callback.reject(new BallabaErrorResponse(500, null));
                 }
             }
 
             @Override
             public void reject(BallabaBaseEntity entity) {
                 Log.d(TAG, "properties: error" );
-
-                //callback.reject(entity);
             }
         });
     }
@@ -335,6 +332,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                 }
                 binderImage.propertyDescriptionMainImageIsSaved.setImageDrawable(d);
                 propertyFull.is_saved = !propertyFull.is_saved;
+                BallabaSearchPropertiesManager.getInstance(activity).setPropertyFull(propertyFull);
             }
         });
     }

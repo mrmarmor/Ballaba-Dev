@@ -7,11 +7,13 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
 import com.example.michaelkibenko.ballaba.Presenters.SelectCityPresenter;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Views.CustomViewPager;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
 import java.util.ArrayList;

@@ -1,5 +1,6 @@
 package com.example.michaelkibenko.ballaba.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -40,6 +41,7 @@ import java.util.List;
 
 public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRecyclerAdapter.ViewHolder>{
     private final String TAG = PropertiesRecyclerAdapter.class.getSimpleName();
+    public final static int REQ_CODE_SHOW_FULL_PROPERTY = 1;
 
     private List<BallabaPropertyResult> properties;
     final private Context mContext;
@@ -78,7 +80,8 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     public void onBindViewHolder(final PropertiesRecyclerAdapter.ViewHolder holder, final int position) {
         Log.d(TAG, properties.size()+":"+position);
         final BallabaPropertyResult property = properties.get(position);
-        PropertiesPhotosPagerAdapter propertiesPhotosViewPagerAdapter = new PropertiesPhotosPagerAdapter(fragmentManager, generateImageFragments(property.photos, property.id));
+        PropertiesPhotosPagerAdapter propertiesPhotosViewPagerAdapter = new PropertiesPhotosPagerAdapter(
+                fragmentManager, generateImageFragments(property.photos, property.id, position));
         holder.binder.propertyItemImageView.setId(position+propertiesPhotosViewPagerAdapter.hashCode());
         holder.binder.propertyItemImageView.setCurrentItem(property.photos.size()/2);
         holder.binder.propertyItemImageView.setOffscreenPageLimit(2);
@@ -126,28 +129,29 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
             }
         }
 
-        holder.binder.getRoot().setOnClickListener(new View.OnClickListener() {
+        /*holder.binder.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showFullProperty(property);
+                showFullProperty(property, position);
             }
-        });
+        });*/
     }
 
-    private void showFullProperty(BallabaPropertyResult property){
+    /*private void showFullProperty(final BallabaPropertyResult property, final int position){
         Intent intent = new Intent(mContext, PropertyDescriptionActivity.class);
+        intent.putExtra(PropertyDescriptionPresenter.PROPERTY_POSITION, position);
         intent.putExtra(PropertyDescriptionActivity.PROPERTY, property.id);
         if (property.photos.size() > 0)
             intent.putExtra(PropertyDescriptionPresenter.PROPERTY_IMAGE
                     , property.photos.get(property.photos.size()/2));
 
-        mContext.startActivity(intent);
-    }
+        ((Activity)mContext).startActivityForResult(intent, REQ_CODE_SHOW_FULL_PROPERTY);
+    }*/
 
-    private ArrayList<PropertyImageFragment> generateImageFragments(ArrayList<String> photos, String propertyId){
+    private ArrayList<PropertyImageFragment> generateImageFragments(ArrayList<String> photos, String propertyId, int position){
         ArrayList<PropertyImageFragment> items= new ArrayList<>();
         for (String photo : photos) {
-            items.add(PropertyImageFragment.newInstance(photo, propertyId));
+            items.add(PropertyImageFragment.newInstance(photo, propertyId, position));
         }
         return items;
     }
