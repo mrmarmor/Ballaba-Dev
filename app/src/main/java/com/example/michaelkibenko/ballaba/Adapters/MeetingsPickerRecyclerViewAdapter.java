@@ -1,7 +1,6 @@
 package com.example.michaelkibenko.ballaba.Adapters;
 
 import android.content.Context;
-import android.media.Image;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,16 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.michaelkibenko.ballaba.Entities.BallabaMeetingDate;
 import com.example.michaelkibenko.ballaba.Entities.BallabaMeetingsPickerDateEntity;
 import com.example.michaelkibenko.ballaba.R;
-
-import org.w3c.dom.Text;
+import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -94,54 +90,6 @@ public class MeetingsPickerRecyclerViewAdapter extends RecyclerView.Adapter<Meet
     }
 
     private String getFormattedDateString(Calendar calendar){
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        String weekDay = "יום ";
-        if (Calendar.MONDAY == dayOfWeek) {
-            weekDay += "שני";
-        } else if (Calendar.TUESDAY == dayOfWeek) {
-            weekDay += "שלישי";
-        } else if (Calendar.WEDNESDAY == dayOfWeek) {
-            weekDay += "רביעי";
-        } else if (Calendar.THURSDAY == dayOfWeek) {
-            weekDay += "חמישי";
-        } else if (Calendar.FRIDAY == dayOfWeek) {
-            weekDay += "שישי";
-        } else if (Calendar.SATURDAY == dayOfWeek) {
-            weekDay += "שבת";
-        } else if (Calendar.SUNDAY == dayOfWeek) {
-            weekDay += "ראשון";
-        }
-
-        weekDay +=", "+calendar.get(Calendar.DAY_OF_MONTH);
-
-        int month = calendar.get(Calendar.MONTH);
-
-        if(month == 0){
-            weekDay += " לינואר";
-        }else if(month == 1){
-            weekDay += " לפברואר";
-        } else if(month == 2){
-            weekDay += " למרץ";
-        }else if(month == 3){
-            weekDay += " לאפריל";
-        }else if(month == 4){
-            weekDay += " למאי";
-        }else if(month == 5){
-            weekDay += " ליוני";
-        }else if(month == 6){
-            weekDay += " ליולי";
-        }else if(month == 7){
-            weekDay += " לאוגוסט";
-        }else if(month == 8){
-            weekDay += " לספטמבר";
-        }else if(month == 9){
-            weekDay += " לאוקטובר";
-        }else if(month == 10){
-            weekDay += " לנובמבר";
-        }else if(month == 11){
-            weekDay += " לדצמבר";
-        }
-
-        return weekDay;
+        return StringUtils.getInstance(true).getFormattedDateString(calendar, false);
     }
 }

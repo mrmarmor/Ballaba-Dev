@@ -29,7 +29,6 @@ import com.example.michaelkibenko.ballaba.Adapters.DescCommentAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
-import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachment;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 import com.example.michaelkibenko.ballaba.Fragments.BallabaMapFragment;
@@ -138,7 +137,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
     }
 
     private void displayDataOnScreen(BallabaPropertyFull propertyFull){
-        String price = StringUtils.getInstance(true, activity).formattedNumberWithComma(propertyFull.price);
+        String price = StringUtils.getInstance(true).formattedNumberWithComma(propertyFull.price);
         String rooms = String.format("%s %s", propertyFull.roomsNumber, activity.getString(R.string.propertyItem_numberOfRooms));
         String size = String.format("%s %s", propertyFull.size, activity.getString(R.string.propertyItem_propertySize));
         String baths = String.format("%s %s", propertyFull.bathrooms, activity.getString(R.string.propertyItem_bathtub));

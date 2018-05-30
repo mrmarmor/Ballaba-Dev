@@ -81,6 +81,7 @@ public class MyPropertiesLandlordAdapter extends RecyclerView.Adapter<MyProperti
             public void onClick(View v) {
                 Intent intent = new Intent(context, PropertyManagementActivity.class);
                 intent.putExtra("ID" , myPropertiesLandlord.getId());
+                intent.putExtra("ADDRESS" , myPropertiesLandlord.getAddress());
                 context.startActivity(intent);
             }
         };

@@ -1,6 +1,5 @@
 package com.example.michaelkibenko.ballaba.Utils;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -8,12 +7,12 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Base64;
-import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -21,21 +20,19 @@ import java.util.Date;
  */
 
 public class StringUtils {
-    private Context context;
     private static StringUtils instance;
 
-    public static StringUtils getInstance(boolean isOnce, Context context){
+    public static StringUtils getInstance(boolean isOnce){
         if(!isOnce) {
             if (instance != null)
                 return instance;
         }
 
-        return new StringUtils(context);
+        return new StringUtils();
     }
 
-    private StringUtils(Context context){
-        if (context != null)
-            this.context = context.getApplicationContext();
+    private StringUtils(){
+
     }
 
     public String formattedNumberWithComma(String number){
@@ -49,6 +46,63 @@ public class StringUtils {
         }
 
         return number;
+    }
+
+    public String getFormattedDateString(Calendar calendar, boolean isTimeInculded){
+
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        String weekDay = "יום ";
+        if (Calendar.MONDAY == dayOfWeek) {
+            weekDay += "שני";
+        } else if (Calendar.TUESDAY == dayOfWeek) {
+            weekDay += "שלישי";
+        } else if (Calendar.WEDNESDAY == dayOfWeek) {
+            weekDay += "רביעי";
+        } else if (Calendar.THURSDAY == dayOfWeek) {
+            weekDay += "חמישי";
+        } else if (Calendar.FRIDAY == dayOfWeek) {
+            weekDay += "שישי";
+        } else if (Calendar.SATURDAY == dayOfWeek) {
+            weekDay += "שבת";
+        } else if (Calendar.SUNDAY == dayOfWeek) {
+            weekDay += "ראשון";
+        }
+
+        weekDay +=", "+calendar.get(Calendar.DAY_OF_MONTH);
+
+        int month = calendar.get(Calendar.MONTH);
+
+        if(month == 0){
+            weekDay += " לינואר";
+        }else if(month == 1){
+            weekDay += " לפברואר";
+        } else if(month == 2){
+            weekDay += " למרץ";
+        }else if(month == 3){
+            weekDay += " לאפריל";
+        }else if(month == 4){
+            weekDay += " למאי";
+        }else if(month == 5){
+            weekDay += " ליוני";
+        }else if(month == 6){
+            weekDay += " ליולי";
+        }else if(month == 7){
+            weekDay += " לאוגוסט";
+        }else if(month == 8){
+            weekDay += " לספטמבר";
+        }else if(month == 9){
+            weekDay += " לאוקטובר";
+        }else if(month == 10){
+            weekDay += " לנובמבר";
+        }else if(month == 11){
+            weekDay += " לדצמבר";
+        }
+        if (isTimeInculded){
+            int min = calendar.get(Calendar.MINUTE);
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            weekDay += " בשעה " + (hour == 0 ? hour+ "0" : hour) + ":" + (min == 0 ? min+ "0" : min);
+        }
+        return weekDay;
     }
 
     public String formattedHebrew(@NonNull String s){
@@ -109,4 +163,6 @@ public class StringUtils {
             //return bitmapString;
         }
     }
+
+
 }

@@ -1,17 +1,11 @@
 package com.example.michaelkibenko.ballaba.Managers;
 
-import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
-import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 
 /**
  * Created by User on 07/03/2018.
@@ -22,24 +16,24 @@ public class BallabaUserManager {
     private static BallabaUserManager instance;
     private BallabaUser user;
 
-    private BallabaUserManager() {}
+    private BallabaUserManager() {
+    }
 
     public static BallabaUserManager getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new BallabaUserManager();
         }
         return instance;
     }
 
-    public void setUser(BallabaUser user){
+    public void setUser(BallabaUser user) {
         this.user = user;
     }
 
-    private String id, phone, email, name, lastName, city, address, aptNo, birthDate, about
-            , tenantScore, landlordScore , guarantorScore, dateCreated, dateUpdated
-            , sessionToken, fcmToken, globalToken, profileImage;
+    private String id, phone, email, name, lastName, city, address, aptNo, birthDate, about, tenantScore, landlordScore, guarantorScore, dateCreated, dateUpdated, sessionToken, fcmToken, globalToken, profileImage;
     private boolean isScored;
-    public BallabaUser generateUserFromResponse(String response){
+
+    public BallabaUser generateUserFromResponse(String response) {
         try {
             JSONObject jsonObject = new JSONObject(response);
             id = jsonObject.getString("id");
@@ -71,7 +65,7 @@ public class BallabaUserManager {
             //        .stringToBitmap(jsonObject.getString("profile_image"));
 
             return new BallabaUser(id, phone, email, name, lastName, city, address, aptNo
-                    , birthDate, about, isScored, tenantScore, landlordScore , guarantorScore, dateCreated
+                    , birthDate, about, isScored, tenantScore, landlordScore, guarantorScore, dateCreated
                     , dateUpdated, sessionToken, fcmToken, globalToken, profileImage);
 
         } catch (JSONException ex) {
@@ -127,7 +121,7 @@ public class BallabaUserManager {
         }
     }*/
 
-    public String getUserSesionToken(){
+    public String getUserSesionToken() {
         if (user != null)
             return user.getSessionToken();
         else

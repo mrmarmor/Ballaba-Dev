@@ -5,7 +5,6 @@ import android.util.Base64;
 import android.util.Log;
 
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
-import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.Viewport;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.google.android.gms.maps.model.LatLng;
@@ -83,7 +82,7 @@ public class ViewportsManager {
                 String ne_lng = res.getString("ne_lng");
                 String sw_lat = res.getString("sw_lat");
                 String sw_lng = res.getString("sw_lng");
-                String name = StringUtils.getInstance(true, context).formattedHebrew(res.getString("name"));
+                String name = StringUtils.getInstance(true).formattedHebrew(res.getString("name"));
                 byte[] map_image = Base64.decode(res.getString("map_image"), Base64.DEFAULT);
 
                 LatLng ne = new LatLng(Double.parseDouble(ne_lat), Double.parseDouble(ne_lng));

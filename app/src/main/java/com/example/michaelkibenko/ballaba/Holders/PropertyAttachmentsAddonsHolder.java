@@ -1,7 +1,5 @@
 package com.example.michaelkibenko.ballaba.Holders;
 
-import android.util.Log;
-
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 
@@ -128,7 +126,7 @@ public class PropertyAttachmentsAddonsHolder {
         for (int i = 0; i < attachment.length(); i++) {
             JSONObject currentObject = attachment.getJSONObject(i);
             String id = currentObject.getString("id");
-            String title = StringUtils.getInstance(true, null)
+            String title = StringUtils.getInstance(true)
                     .formattedHebrew(currentObject.getString("tag"));//TODO receiving tag in hebrew from server. consider replace it with english version
             String formattedTitle = title;//getFormattedTitle(ATTACHMENT_TYPE, title);
             entities.add(new PropertyAttachmentAddonEntity(id, title, formattedTitle));

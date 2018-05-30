@@ -5,7 +5,7 @@
     android:layout_margin="16dp"
     android:layout_height="wrap_content">
 
-    <ImageButton
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/property_manage_interested_item_image_btn"
         android:layout_width="40dp"
         android:layout_height="40dp" />
@@ -22,6 +22,7 @@
 
 
     <CheckBox
+        android:layout_centerVertical="true"
         android:checked="false"
         android:id="@+id/property_manage_interested_item_check_box"
         android:layout_alignParentLeft="true"

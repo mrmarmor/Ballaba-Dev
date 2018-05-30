@@ -3,7 +3,6 @@ package com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.property
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,13 +11,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.michaelkibenko.ballaba.Activities.PropertyManagementActivity;
-import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
-import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
-import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
-import com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.PropertyManageInterestedFragment;
-import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
-import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
+import com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.PropertyManageMeetingsFragment;
 import com.example.michaelkibenko.ballaba.R;
 
 import java.util.ArrayList;
@@ -26,23 +20,22 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PropertyManageInterestedAdapter extends RecyclerView.Adapter<PropertyManageInterestedAdapter.ViewHolder> {
+public class PropertyManagePastMeetingAdapter extends RecyclerView.Adapter<PropertyManagePastMeetingAdapter.ViewHolder> {
 
     private List<BallabaUser> userList;
     private Context context;
-    private PropertyManageInterestedFragment propertyManageInterestedFragment;
+    private PropertyManageMeetingsFragment propertyManageMeetingsFragment;
 
-
-    public PropertyManageInterestedAdapter(Context context, PropertyManageInterestedFragment propertyManageInterestedFragment, List<BallabaUser> userList) {
+    public PropertyManagePastMeetingAdapter(Context context, PropertyManageMeetingsFragment propertyManageMeetingsFragment, List<BallabaUser> userList) {
         this.context = context;
         this.userList = userList;
-        this.propertyManageInterestedFragment = propertyManageInterestedFragment;
+        this.propertyManageMeetingsFragment = propertyManageMeetingsFragment;
     }
 
     public int getSelectedUserID() {
         int userID = 0;
         for (int i = 0; i < userList.size(); i++) {
-            if (userList.get(i).isInterested()) {
+            if (userList.get(i).isMeeting()) {
                 return Integer.parseInt(userList.get(i).getId());
             }
         }
@@ -53,7 +46,7 @@ public class PropertyManageInterestedAdapter extends RecyclerView.Adapter<Proper
         ArrayList<Integer> userDeletedIds = new ArrayList<>();
 
         for (int i = 0; i < userList.size(); i++) {
-            if (userList.get(i).isInterested()) {
+            if (userList.get(i).isMeeting()) {
                 userDeletedIds.add(i);
             }
         }
@@ -70,13 +63,13 @@ public class PropertyManageInterestedAdapter extends RecyclerView.Adapter<Proper
         }
         boolean isEmpty = userList.isEmpty();
         if (isEmpty){
-            propertyManageInterestedFragment.toggleEmptyStateVisibility(isEmpty);
+            propertyManageMeetingsFragment.toggleState(isEmpty);
         }
         notifyDataSetChanged();
     }
 
     private void deleteUserFromDataBase(int propertyID, int userDeleteID) {
-        ConnectionsManager.getInstance(context).deleteInterestedUser(propertyID, userDeleteID, new BallabaResponseListener() {
+        /*ConnectionsManager.getInstance(context).deleteMeetingUser(propertyID, userDeleteID, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 Log.d("RES", "resolve: " + ((BallabaOkResponse)entity).body);
@@ -86,28 +79,30 @@ public class PropertyManageInterestedAdapter extends RecyclerView.Adapter<Proper
             public void reject(BallabaBaseEntity entity) {
                 Log.d("RES", "reject: " + ((BallabaErrorResponse)entity).message);
             }
-        });
+        });*/
+        // TODO: 30/05/2018  ConnectionManagerMethod
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private CircleImageView userImage;
-        private TextView userName;
+        private TextView userNameTV, dateTV;
         private CheckBox checkBox;
 
         public ViewHolder(View view) {
             super(view);
 
-            userImage = view.findViewById(R.id.property_manage_interested_item_image_btn);
-            userName = view.findViewById(R.id.property_manage_interested_item_text_view);
-            checkBox = view.findViewById(R.id.property_manage_interested_item_check_box);
+            userImage = view.findViewById(R.id.property_manage_meetings_item_image_btn);
+            userNameTV = view.findViewById(R.id.property_manage_meetings_item_name_text_view);
+            dateTV = view.findViewById(R.id.property_manage_meetings_item_date_text_view);
+            checkBox = view.findViewById(R.id.property_manage_meetings_item_check_box);
         }
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.property_manage_interested_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.property_manage_meetings_item, parent, false);
 
         return new ViewHolder(view);
     }
@@ -122,13 +117,12 @@ public class PropertyManageInterestedAdapter extends RecyclerView.Adapter<Proper
         }else {
             holder.userImage.setImageDrawable(context.getDrawable(R.drawable.user_grey_36));
         }
-        holder.userName.setText(user.getFirst_name() + " " + user.getLast_name());
+        holder.userNameTV.setText(user.getFirst_name() + " " + user.getLast_name());
         holder.checkBox.setChecked(user.isInterested());
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                user.setIsInterested(!user.isInterested());
-                //((PropertyManagementActivity) context).isChecked(!isAllUnChecked());
+                user.setIsMeeting(!user.isMeeting());
                 boolean allUnChecked = isAllUnChecked();
                 boolean moreThanOneChecked = isMoreThanOneChecked();
                 ((PropertyManagementActivity) context).isChecked(!allUnChecked, moreThanOneChecked);
@@ -143,15 +137,15 @@ public class PropertyManageInterestedAdapter extends RecyclerView.Adapter<Proper
 
     public void checkAll(boolean isCheck) {
         for (int i = 0; i < userList.size(); i++) {
-            userList.get(i).setIsInterested(isCheck);
+            userList.get(i).setIsMeeting(isCheck);
         }
         notifyDataSetChanged();
     }
 
     public boolean isAllUnChecked() {
         for (int i = 0; i < userList.size(); i++) {
-            boolean interested = userList.get(i).isInterested();
-            if (interested) return false;
+            boolean meeting = userList.get(i).isMeeting();
+            if (meeting) return false;
         }
         return true;
     }
@@ -159,8 +153,8 @@ public class PropertyManageInterestedAdapter extends RecyclerView.Adapter<Proper
     public boolean isMoreThanOneChecked() {
         int counter = 0;
         for (int i = 0; i < userList.size(); i++) {
-            boolean interested = userList.get(i).isInterested();
-            if (interested) counter++;
+            boolean meeting = userList.get(i).isMeeting();
+            if (meeting) counter++;
             if (counter > 1) {
                 return true;
             }

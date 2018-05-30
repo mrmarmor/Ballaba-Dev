@@ -2,9 +2,7 @@ package com.example.michaelkibenko.ballaba.Managers;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.net.Uri;
 import android.support.annotation.StringRes;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -24,7 +22,6 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaMeetingDate;
 import com.example.michaelkibenko.ballaba.Entities.BallabaMeetingsPickerDateEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
-import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyPhoto;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
@@ -37,10 +34,8 @@ import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
-import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,7 +43,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -57,7 +51,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 import static com.android.volley.Request.Method.DELETE;
@@ -846,7 +839,7 @@ public class ConnectionsManager {
                     }
 
                     Date now = new Date(Calendar.getInstance().getTimeInMillis());
-                    String nowStr = StringUtils.getInstance(true, context).dateToString(now);
+                    String nowStr = StringUtils.getInstance(true).dateToString(now);
                     SharedPreferencesManager.getInstance(context).putString(
                             SharedPreferencesKeysHolder.PROPERTY_UPLOAD_DATE, nowStr);
                     if (response.has("photo_url")) {
@@ -1133,6 +1126,108 @@ public class ConnectionsManager {
         }catch (JSONException ex){
             ex.printStackTrace();
         }
+    }
+
+    public void getInterestedUsers(int id , final BallabaResponseListener callback){
+        StringRequest request = new StringRequest(GET,
+                EndpointsHolder.MY_PROPERTY_INTERESTED_USERS + id + "/interested",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        BallabaOkResponse callbackResponce = new BallabaOkResponse();
+                        callbackResponce.setBody(response.toString());
+                        callback.resolve(callbackResponce);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error.networkResponse != null) {
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, error.getMessage()));
+                } else {
+                    callback.reject(new BallabaErrorResponse(500, error.getMessage()));
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                return getHeadersWithSessionToken();
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(request);
+    }
+
+    public void getMeetingUsers(int id , final BallabaResponseListener callback){
+        StringRequest request = new StringRequest(GET,
+                EndpointsHolder.MY_PROPERTY_MEETING_USERS + id + "/meetings",
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        BallabaOkResponse callbackResponce = new BallabaOkResponse();
+                        callbackResponce.setBody(response.toString());
+                        callback.resolve(callbackResponce);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error.networkResponse != null) {
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, error.getMessage()));
+                } else {
+                    callback.reject(new BallabaErrorResponse(500, error.getMessage()));
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                return getHeadersWithSessionToken();
+            }
+        };
+
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(request);
+    }
+
+    public void deleteInterestedUser(int propertyID , int interestedUserID ,final BallabaResponseListener callback){
+        String url = EndpointsHolder.DELETE_INTEREST_USER + propertyID + "/interested/" + interestedUserID;
+        StringRequest stringRequest = new StringRequest(DELETE, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                BallabaOkResponse ok = new BallabaOkResponse();
+                ok.body = response;
+                callback.resolve(ok);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error.networkResponse != null) {
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                } else {
+                    Log.e(TAG, error + "\n" + error.getMessage());
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return getHeadersWithSessionToken();
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(stringRequest);
     }
 
     public void getMyProperties(final int id, final BallabaResponseListener callback) {

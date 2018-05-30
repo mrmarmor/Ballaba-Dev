@@ -6,17 +6,14 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
@@ -28,16 +25,12 @@ import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManage
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
-import com.example.michaelkibenko.ballaba.databinding.ActivityPropertyDescriptionBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentPropertyManageBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionAttachmentsBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionAttachmentsExtendedBinding;
-import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionCommentsBinding;
-import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionImageBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPaymentMethodsBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPaymentsBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPriceBinding;
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -116,7 +109,7 @@ public class PropertyManageFragment extends Fragment {
     }
 
     private void displayDataOnScreen(BallabaPropertyFull propertyFull){
-        String price = StringUtils.getInstance(true, null).formattedNumberWithComma(propertyFull.price);
+        String price = StringUtils.getInstance(true).formattedNumberWithComma(propertyFull.price);
         String rooms = String.format("%s %s", propertyFull.roomsNumber, activity.getString(R.string.propertyItem_numberOfRooms));
         String size = String.format("%s %s", propertyFull.size, activity.getString(R.string.propertyItem_propertySize));
         String baths = String.format("%s %s", propertyFull.bathrooms, activity.getString(R.string.propertyItem_bathtub));

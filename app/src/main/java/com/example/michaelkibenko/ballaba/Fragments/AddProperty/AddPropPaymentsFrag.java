@@ -164,7 +164,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
 
             binderPay.addPropertyPaymentsParkingNoEditText.setText(property.no_of_parking);
             binderPay.addPropertyPaymentsParkingPriceEditText.setText(property.parking_price);
-            binderPay.addPropPaymentsRentalFeeEditText.setText(StringUtils.getInstance(true, context)//1. adds comma to 4+ digits number
+            binderPay.addPropPaymentsRentalFeeEditText.setText(StringUtils.getInstance(true)//1. adds comma to 4+ digits number
                     .formattedNumberWithComma(property.price)+(property.price != null? "₪":""));//2. adds ₪ if price have been set
             binderPay.addPropPaymentsFreeTextEditText.setText(property.description);
         }
