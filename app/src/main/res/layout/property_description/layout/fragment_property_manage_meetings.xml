@@ -1,130 +1,139 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layoutDirection="rtl"
-    tools:context="com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.PropertyManageMeetingsFragment">
+    android:layout_height="wrap_content"
+    android:scrollbars="none">
 
-    <RelativeLayout
-        android:id="@+id/property_manage_meetings_container"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:contentDescription="meetings screen"
+        android:layoutDirection="rtl"
+        tools:context="com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.PropertyManageMeetingsFragment">
+
+        <RelativeLayout
+            android:id="@+id/property_manage_meetings_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="visible">
+
+            <LinearLayout
+                android:id="@+id/property_manage_meetings_text_container"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/property_manage_meetings_first_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="23dp"
+                    android:text="פגישות שנקבעו"
+                    android:textSize="16sp" />
+
+                <View
+                    android:id="@+id/property_manage_meetings_seperator_text_view"
+                    android:layout_width="1dp"
+                    android:layout_height="11dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="29dp"
+                    android:background="@color/gray_divider" />
+
+                <TextView
+                    android:id="@+id/property_manage_meetings_number_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="23dp"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/property_manage_meetings_appointed_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="288dp"
+                android:layout_below="@+id/property_manage_meetings_text_container">
+
+            </android.support.v7.widget.RecyclerView>
+
+
+            <LinearLayout
+                android:id="@+id/property_manage_meetings_second_text_container"
+                android:layout_width="match_parent"
+                android:layout_height="72dp"
+                android:layout_below="@+id/property_manage_meetings_appointed_recycler_view"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/property_manage_meetings_second_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="23dp"
+                    android:text="פגישות שנערכו"
+                    android:textSize="16sp" />
+
+                <View
+                    android:id="@+id/property_manage_meetings_second_seperator_text_view"
+                    android:layout_width="1dp"
+                    android:layout_height="11dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="29dp"
+                    android:background="@color/gray_divider" />
+
+                <TextView
+                    android:id="@+id/property_manage_meetings_second_number_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="23dp"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/property_manage_meetings_held_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="288dp"
+                android:layout_below="@+id/property_manage_meetings_second_text_container">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </RelativeLayout>
 
         <LinearLayout
-            android:id="@+id/property_manage_meetings_text_container"
+            android:id="@+id/property_manage_meetings_empty_state_layout"
             android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+
+            <ImageView
+                android:layout_width="160dp"
+                android:layout_height="160dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/calender_blue_24_copy" />
 
             <TextView
-                android:id="@+id/property_manage_meetings_first_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="23dp"
-                android:text="פגישות שנקבעו"
-                android:textSize="16sp" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="36dp"
+                android:gravity="center_horizontal"
+                android:maxEms="6"
+                android:maxLines="2"
+                android:text="אין בקשות חדשות"
+                android:textColor="@color/gray_text_color"
+                android:textSize="40sp"
+                android:textStyle="bold" />
 
-            <View
-                android:id="@+id/property_manage_meetings_seperator_text_view"
-                android:layout_width="3dp"
-                android:layout_height="11dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="23dp" />
-
-            <TextView
-                android:id="@+id/property_manage_meetings_number_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="23dp"
-                android:text="32 סה''כ"
-                android:textSize="12sp" />
 
         </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/property_manage_meetings_appointed_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="288dp"
-            android:layout_below="@+id/property_manage_meetings_text_container">
-
-        </android.support.v7.widget.RecyclerView>
-
-
-        <LinearLayout
-            android:id="@+id/property_manage_meetings_second_text_container"
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:layout_below="@+id/property_manage_meetings_appointed_recycler_view"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/property_manage_meetings_second_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="23dp"
-                android:text="פגישות שנקבעו"
-                android:textSize="16sp" />
-
-            <View
-                android:id="@+id/property_manage_meetings_second_seperator_text_view"
-                android:layout_width="3dp"
-                android:layout_height="11dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="23dp" />
-
-            <TextView
-                android:id="@+id/property_manage_meetings_second_number_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="23dp"
-                android:text="32 סה''כ"
-                android:textSize="12sp" />
-
-        </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/property_manage_meetings_held_recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="288dp"
-            android:layout_below="@+id/property_manage_meetings_second_text_container">
-
-        </android.support.v7.widget.RecyclerView>
 
     </RelativeLayout>
 
-    <LinearLayout
-        android:visibility="gone"
-        android:id="@+id/property_manage_meetings_empty_state_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-        <ImageView
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/calender_blue_24_copy"
-            android:layout_width="160dp"
-            android:layout_height="160dp"
-            android:layout_marginTop="40dp" />
-
-        <TextView
-            android:layout_marginTop="36dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:maxEms="6"
-            android:maxLines="2"
-            android:gravity="center_horizontal"
-            android:text="אין בקשות חדשות"
-            android:textColor="@color/gray_text_color"
-            android:textStyle="bold"
-            android:textSize="40sp" />
-
-
-    </LinearLayout>
-
-</RelativeLayout>
+</ScrollView>

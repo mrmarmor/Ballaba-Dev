@@ -139,7 +139,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
     }
 
     private void displayDataOnScreen(BallabaPropertyFull propertyFull){
-        String price = StringUtils.getInstance(true, activity).formattedNumberWithComma(propertyFull.price);
+        String price = StringUtils.getInstance(true).formattedNumberWithComma(propertyFull.price);
         String rooms = String.format("%s %s", propertyFull.roomsNumber, activity.getString(R.string.propertyItem_numberOfRooms));
         String size = String.format("%s %s", propertyFull.size, activity.getString(R.string.propertyItem_propertySize));
         String baths = String.format("%s %s", propertyFull.bathrooms, activity.getString(R.string.propertyItem_bathtub));

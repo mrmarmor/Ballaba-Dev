@@ -5,6 +5,11 @@ import android.content.Context;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.google.gson.Gson;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by User on 06/03/2018.
  */
@@ -12,14 +17,14 @@ import com.google.gson.Gson;
 public class BallabaUser extends BallabaBaseEntity {
     private String id, phone, email, first_name, last_name, city, address, apt_no, birth_date, about
             , tenant_score, landlord_score, guarantor_score, date_created, date_updated, session_token
-            , device_id, global_token, fcm_token, profile_image;
+            , device_id, global_token, fcm_token, profile_image , meeting_time;
 
-    private boolean isInterested;
+    private boolean isInterested , isMeeting;
 
     private static StringUtils instance;
     private static StringUtils stringInstance(Context context){
         if (instance == null)
-            instance = StringUtils.getInstance(true, context);
+            instance = StringUtils.getInstance(true);
 
         return instance;
     }
@@ -182,7 +187,38 @@ public class BallabaUser extends BallabaBaseEntity {
         return isInterested;
     }
 
+    public void setIsMeeting(boolean meeting) {
+        isMeeting = meeting;
+    }
+
+    public boolean isMeeting() {
+        return isMeeting;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
+
+    public String getMeeting_time() {
+        return meeting_time;
+    }
+
+    public void setMeeting_time(String meeting_time) {
+        // "2014-10-01T00:00:00.000Z"
+        String newDate = null;
+        SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        try {
+            Date date = parser.parse(meeting_time);
+            Calendar instance = Calendar.getInstance();
+            instance.setTime(date);
+
+            newDate = StringUtils.getInstance(true).getFormattedDateString(instance , true);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        this.meeting_time = newDate;
+    }
+
+
 }

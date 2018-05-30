@@ -170,12 +170,12 @@ public class PropertyManagementActivity extends BaseActivity implements View.OnC
     public void onClick(View v) {
         boolean isCheck = ((CheckBox) v).isChecked();
         boolean isInterestedTab = tabLayout.getSelectedTabPosition() == 2;
-        PropertyManageInterestedAdapter interestedAdapter = this.adapter.getPropertyManageInterestedFragment().getAdapter();
+        PropertyManageInterestedAdapter interestedAdapter = adapter.getPropertyManageInterestedFragment().getAdapter();
         moreThanOneChecked = interestedAdapter.isMoreThanOneChecked();
         isSomeOneChecked = !interestedAdapter.isAllUnChecked();
         isChecked(isCheck, !moreThanOneChecked);
         deleteBtn.setImageDrawable(getDrawable(isInterestedTab ? R.drawable.delete_white_24 : R.drawable.close_white_24));
-        this.adapter.checkAllInterested(isCheck, isInterestedTab);
+        adapter.checkAllInterested(isCheck, isInterestedTab);
     }
 
     public int getPropertyID() {

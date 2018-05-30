@@ -1,68 +1,47 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.BottomSheetDialog;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
-import com.example.michaelkibenko.ballaba.Adapters.GooglePlacesAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
-import com.example.michaelkibenko.ballaba.Entities.BallabaPhoneNumber;
-import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
-import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
-import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.Utils.GeneralUtils;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropLandlordBinding;
-import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropPaymentsBinding;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.regex.Matcher;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -183,7 +162,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     private String getProfileImage(){
         if (isProfileImageChanged) {
             Drawable d = binderLandLord.addPropProfileImageButton.getDrawable();
-            byte[] bytes = StringUtils.getInstance(true, context).DrawableToBytes(d);
+            byte[] bytes = StringUtils.getInstance(true).DrawableToBytes(d);
             return Base64.encodeToString(bytes, Base64.DEFAULT);
         }
 

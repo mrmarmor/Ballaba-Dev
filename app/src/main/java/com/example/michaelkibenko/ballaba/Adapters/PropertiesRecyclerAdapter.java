@@ -107,7 +107,7 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         holder.binder.propertyItemGuaranteeImageView.setVisibility(visibility);
 
         holder.binder.propertyItemAddressTextView.setText(property.formattedAddress);
-        holder.binder.propertyItemPriceTextView.setText(StringUtils.getInstance(true, null)
+        holder.binder.propertyItemPriceTextView.setText(StringUtils.getInstance(true)
                 .formattedNumberWithComma(property.price));
         holder.binder.propertyItemRoomsTextView.setText(String.format("%s %s", property.roomsNumber, mContext.getString(R.string.propertyItem_numberOfRooms)));
         holder.binder.propertyItemPropertySizeTextView.setText(String.format("%s %s", property.size, mContext.getString(R.string.propertyItem_propertySize)));

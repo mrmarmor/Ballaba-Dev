@@ -3,7 +3,6 @@ package com.example.michaelkibenko.ballaba.Managers;
 import android.content.Context;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
@@ -14,9 +13,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.FilterDimensions;
 import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.Entities.PropertyDescriptionComment;
-import com.example.michaelkibenko.ballaba.Fragments.Filter.AttachmentsFragment;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
-import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionAttachmentsBinding;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
@@ -44,7 +41,7 @@ public class BallabaSearchPropertiesManager {
     private static final String TAG = BallabaSearchPropertiesManager.class.getSimpleName();
     private static BallabaSearchPropertiesManager instance;
     private Context context;
-    private StringUtils heb = StringUtils.getInstance(true, context);
+    private StringUtils heb = StringUtils.getInstance(true);
     private ArrayList<BallabaPropertyResult> results;
     private FilterDimensions filterDimensions;
     private String currentSearchEndpoint;
