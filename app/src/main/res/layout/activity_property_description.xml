@@ -52,7 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/activity_vertical_margin" />
-                <View style="@style/divider_gray" />
+                <View android:id="@+id/property_description_attachments_extended_divider" style="@style/divider_gray" />
 
                 <include
                     android:id="@+id/property_description_payments"
@@ -60,7 +60,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/activity_vertical_margin" />
-                <View style="@style/divider_gray" />
+                <View android:id="@+id/property_description_payments_divider" style="@style/divider_gray" />
 
                 <include
                     android:id="@+id/property_description_payment_methods"

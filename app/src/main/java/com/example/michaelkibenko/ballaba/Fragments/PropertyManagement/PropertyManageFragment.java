@@ -166,7 +166,7 @@ public class PropertyManageFragment extends Fragment {
         //ArrayList<PropertyAttachmentAddonEntity> attachmentAddonEntities = PropertyAttachmentsAddonsHolder.getInstance().getAttachments();
         //attachmentAddonEntities.get(0).formattedTitle
 
-        if (propertyAttachments != null) {
+        if (propertyAttachments != null && propertyAttachments.size() > 0) {
             for (int i = 0; i < propertyAttachments.size(); i++) {
                 PropertyAttachment.Type propertyAttachment = PropertyAttachment.Type.getTypeById(
                         propertyAttachments.get(i));
@@ -185,11 +185,14 @@ public class PropertyManageFragment extends Fragment {
                 binderAttachExt.propertyDescriptionAttachmentsExtendedContainer.addView(tv);
                 //addView(binderAttachExt.propertyDescriptionAttachmentsExtendedContainer, tv, i);
             }
+        } else {
+            binderAttachExt.getRoot().setVisibility(View.GONE);
+            binder.propertyManagementAttachmentsExtendedDivider.setVisibility(View.GONE);
         }
     }
 
     private void displayPaymentsOnScreen(ArrayList<HashMap<String, String>> propertyPayments){
-        if (propertyPayments != null) {
+        if (propertyPayments != null && propertyPayments.size() > 0) {
             for (int i = 0; i < propertyPayments.size(); i++) {
                 TextView tv = getTextView(getFormattedTitleFromId(propertyPayments.get(i).get("payment_type")),
                         activity.getResources().getColor(R.color.black, activity.getTheme()));
@@ -200,6 +203,9 @@ public class PropertyManageFragment extends Fragment {
                         activity.getResources().getColor(R.color.colorAccent, activity.getTheme()));
                 binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i * 2);
             }
+        } else {
+            binderPay.getRoot().setVisibility(View.GONE);
+            binder.propertyManagementPaymentsDivider.setVisibility(View.GONE);
         }
     }
 

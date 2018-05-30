@@ -192,7 +192,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         //ArrayList<PropertyAttachmentAddonEntity> attachmentAddonEntities = PropertyAttachmentsAddonsHolder.getInstance().getAttachments();
         //attachmentAddonEntities.get(0).formattedTitle
 
-        if (propertyAttachments != null) {
+        if (propertyAttachments != null && propertyAttachments.size() > 0) {
             for (int i = 0; i < propertyAttachments.size(); i++) {
                 PropertyAttachment.Type propertyAttachment = PropertyAttachment.Type.getTypeById(
                         propertyAttachments.get(i));
@@ -211,11 +211,14 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                 binderAttachExt.propertyDescriptionAttachmentsExtendedContainer.addView(tv);
                 //addView(binderAttachExt.propertyDescriptionAttachmentsExtendedContainer, tv, i);
             }
+        } else {
+            binderAttachExt.getRoot().setVisibility(View.GONE);
+            binder.propertyDescriptionAttachmentsExtendedDivider.setVisibility(View.GONE);
         }
     }
 
     private void displayPaymentsOnScreen(ArrayList<HashMap<String, String>> propertyPayments){
-        if (propertyPayments != null) {
+        if (propertyPayments != null && propertyPayments.size() > 0) {
             for (int i = 0; i < propertyPayments.size(); i++) {
                 TextView tv = getTextView(getFormattedTitleFromId(propertyPayments.get(i).get("payment_type")),
                         res.getColor(R.color.black, activity.getTheme()));
@@ -238,6 +241,9 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                 //TODO END OF TESTING
 
             }
+        } else {
+            binderPay.getRoot().setVisibility(View.GONE);
+            binder.propertyDescriptionPaymentsDivider.setVisibility(View.GONE);
         }
     }
 
@@ -284,10 +290,14 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
     }
 
     private void initCommentsRecycler(RecyclerView recyclerView){
-        DescCommentAdapter adapter = new DescCommentAdapter(activity, propertyFull.comments);
-        LinearLayoutManager lManager = new LinearLayoutManager(activity);
-        recyclerView.setLayoutManager(lManager);
-        recyclerView.setAdapter(adapter);
+        if (propertyFull.comments != null && propertyFull.comments.size() > 0) {
+            DescCommentAdapter adapter = new DescCommentAdapter(activity, propertyFull.comments);
+            LinearLayoutManager lManager = new LinearLayoutManager(activity);
+            recyclerView.setLayoutManager(lManager);
+            recyclerView.setAdapter(adapter);
+        } else {
+            binderComment.propertyDescriptionCommentsRoot.setVisibility(View.GONE);
+        }
     }
 
     private void initPropertyMap(){
