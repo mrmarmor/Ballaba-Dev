@@ -168,12 +168,14 @@
                     android:layout_width="wrap_content"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    android:paddingStart="@dimen/small_margin"
                     android:layout_marginBottom="@dimen/small_margin"
                     android:text="@string/addProperty_payments_parking_title" />
                 <TextView style="@style/subTextView"
                     android:layout_marginBottom="@dimen/tiny_margin"
                     app:layout_constraintBottom_toBottomOf="@id/addProperty_payments_parking_title"
-                    app:layout_constraintRight_toLeftOf="@id/addProperty_payments_parking_title"/>
+                    app:layout_constraintRight_toLeftOf="@id/addProperty_payments_parking_title"
+                    android:paddingStart="@dimen/small_margin" />
 
                 <TextView
                     android:id="@+id/addProperty_payments_parking_no"

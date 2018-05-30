@@ -7,17 +7,26 @@
         style="@style/allMatchParent" android:layoutDirection="rtl" >
 
         <ScrollView
-            style="@style/allMatchParent" android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/myProp_landlord_manage_button_saveChanges"
+            android:scrollbarThumbVertical="@android:color/transparent"
+            android:orientation="vertical">
 
             <android.support.constraint.ConstraintLayout
                 style="@style/allWrapContent"
+                android:paddingBottom="@dimen/myProp_landlord_manage_margin_bottom"
                 android:orientation="vertical" >
 
                 <ImageView
                     android:id="@+id/propertyManagement_mainImage"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="fitXY"/>
+                    android:layout_height="@dimen/propertyDescription_mainImage_height"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/position_blue_160"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_margin="@dimen/small_margin" />
 
                 <include
                     android:id="@+id/propertyManagement_price"
@@ -76,5 +85,28 @@
 
             </android.support.constraint.ConstraintLayout>
         </ScrollView>
+
+        <Button
+            android:id="@+id/myProp_landlord_manage_button_saveChanges"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/myProp_landlord_manage_button_height"
+            style="@style/AppButtonAnother"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/myProp_landlord_manage_button_preview"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:text="@string/myProperty_manage_button_save"
+            android:textSize="@dimen/myProp_landlord_manage_button_textSize" />
+        <Button
+            android:id="@+id/myProp_landlord_manage_button_preview"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/myProp_landlord_manage_button_height"
+            style="@style/AppButton"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/myProp_landlord_manage_button_saveChanges"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="@string/myProperty_manage_button_preview"
+            android:textSize="@dimen/myProp_landlord_manage_button_textSize"
+            android:textColor="@color/black" />
+
     </android.support.constraint.ConstraintLayout>
 </layout>

@@ -15,14 +15,13 @@ import java.util.Date;
  */
 
 public class BallabaUser extends BallabaBaseEntity {
-    private String id, phone, email, first_name, last_name, city, address, apt_no, birth_date, about
-            , tenant_score, landlord_score, guarantor_score, date_created, date_updated, session_token
-            , device_id, global_token, fcm_token, profile_image , meeting_time;
+    private String id, phone, email, first_name, last_name, city, address, apt_no, birth_date, about, tenant_score, landlord_score, guarantor_score, date_created, date_updated, session_token, device_id, global_token, fcm_token, profile_image, meeting_time;
 
-    private boolean isInterested , isMeeting;
+    private boolean isInterested, isMeeting , isScored;
 
     private static StringUtils instance;
-    private static StringUtils stringInstance(Context context){
+
+    private static StringUtils stringInstance(Context context) {
         if (instance == null)
             instance = StringUtils.getInstance(true);
 
@@ -41,7 +40,8 @@ public class BallabaUser extends BallabaBaseEntity {
         this.last_name = last_name;
     }
 
-    public BallabaUser(){}
+    public BallabaUser() {
+    }
 
     //TODO MAKE THIS CLASS BECOME A SINGLETON
 
@@ -67,7 +67,7 @@ public class BallabaUser extends BallabaBaseEntity {
         this.profile_image = profile_image;
     }
 
-    public BallabaUser(String id, String phone, String email, String first_name, String last_name, String city, String address, String apt_no, String birth_date, String about, String session_token, String fcm_token, String global_token, String profile_image) {
+    public BallabaUser(String id1, String phone1, String s, String name, String lastName, String id, String phone, String email, String first_name, String last_name, boolean isScored, String city, String address, String apt_no, String birth_date, String about, String session_token, String fcm_token, String global_token, String profile_image) {
         this.id = id;
         this.phone = phone;
         this.email = email;
@@ -84,7 +84,7 @@ public class BallabaUser extends BallabaBaseEntity {
         this.fcm_token = fcm_token;
     }
 
-    private String trimNull(String s){
+    private String trimNull(String s) {
         if (s == null || s.equals("null"))
             return "";
         else
@@ -95,11 +95,11 @@ public class BallabaUser extends BallabaBaseEntity {
         return trimNull(global_token);
     }
 
-    public BallabaUser fromStringToBallabaUser(String userString){
+    public BallabaUser fromStringToBallabaUser(String userString) {
         return new Gson().fromJson(userString, BallabaUser.class);
     }
 
-    public String getSessionToken(){
+    public String getSessionToken() {
         return trimNull(this.session_token);
     }
 
@@ -212,7 +212,7 @@ public class BallabaUser extends BallabaBaseEntity {
             Calendar instance = Calendar.getInstance();
             instance.setTime(date);
 
-            newDate = StringUtils.getInstance(true).getFormattedDateString(instance , true);
+            newDate = StringUtils.getInstance(true).getFormattedDateString(instance, true);
 
         } catch (ParseException e) {
             e.printStackTrace();
@@ -221,4 +221,11 @@ public class BallabaUser extends BallabaBaseEntity {
     }
 
 
+    public boolean getIs_scored() {
+        return isScored;
+    }
+
+    public void setScored(boolean scored) {
+        isScored = scored;
+    }
 }

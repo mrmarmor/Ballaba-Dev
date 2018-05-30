@@ -4,7 +4,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
+import android.support.v4.app.FragmentActivity;
 
 import com.example.michaelkibenko.ballaba.Fragments.PropertyImageFragment;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
@@ -12,14 +12,12 @@ import com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresente
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityPropertyDescriptionBinding;
 
-import java.util.ArrayList;
-
-public class PropertyDescriptionActivity extends BaseActivity {
+public class PropertyDescriptionActivity extends FragmentActivity {
 
     public static final String PROPERTY = "Prop";
 
     private ActivityPropertyDescriptionBinding binder;
-    public PropertyDescriptionPresenter presenter;
+    private PropertyDescriptionPresenter presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -31,12 +29,5 @@ public class PropertyDescriptionActivity extends BaseActivity {
 
     }
 
-    /*@Override
-    public void onBackPressed() {
-        super.onBackPressed();
 
-        //TODO states
-        //binder.propertyDescriptionMapFragmentFullContainer.setVisibility(View.GONE);
-        //binder.propertyDescriptionMapFragmentContainer.setVisibility(View.VISIBLE);
-    }*/
 }

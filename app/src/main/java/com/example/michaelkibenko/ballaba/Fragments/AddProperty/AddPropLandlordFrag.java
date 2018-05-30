@@ -100,6 +100,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             binderLandLord.addPropAboutEditText.setText(user.getAbout());
             Glide.with(context).load(user.getProfile_image()).into(binderLandLord.addPropProfileImageButton);
         }
+        binderLandLord.addPropFirstNameEditText.requestFocus();
 
         UiUtils.instance(true, context).initAutoCompleteCity(binderLandLord.addPropCityActv);
         UiUtils.instance(true, context).initAutoCompleteAddressInCity(binderLandLord.addPropAddressActv, binderLandLord.addPropCityActv);
