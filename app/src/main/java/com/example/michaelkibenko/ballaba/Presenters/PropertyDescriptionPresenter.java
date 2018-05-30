@@ -166,6 +166,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         displayPaymentsOnScreen(propertyFull.payments);
         paymentMethodsStatesChanger(propertyFull.paymentMethods);
         initCommentsRecycler(binderComment.propertyDescriptionCommentsRecycler);
+        setIsSavedButton();
 
         propertyLatLng = new LatLng(Double.parseDouble(propertyFull.lat), Double.parseDouble(propertyFull.lng));
 
@@ -316,6 +317,28 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         binder.propertyDescriptionMapFragmentContainer.setOnClickListener(this);
     }
 
+    private void setIsSavedButton(){
+        Drawable d = propertyFull.is_saved? res.getDrawable(R.drawable.heart_blue_24, activity.getTheme())
+                :res.getDrawable(R.drawable.heart_white_24, activity.getTheme());
+        binderImage.propertyDescriptionMainImageIsSaved.setImageDrawable(d);
+
+        binderImage.propertyDescriptionMainImageIsSaved.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Drawable d;
+                if (propertyFull.is_saved){
+                    d = res.getDrawable(R.drawable.heart_white_24, activity.getTheme());
+                    ConnectionsManager.getInstance(activity).removeFromFavoritesProperty(propertyFull.id);
+                }else{
+                    d = res.getDrawable(R.drawable.heart_blue_24, activity.getTheme());
+                    ConnectionsManager.getInstance(activity).addToFavoritesProperty(propertyFull.id);
+                }
+                binderImage.propertyDescriptionMainImageIsSaved.setImageDrawable(d);
+                propertyFull.is_saved = !propertyFull.is_saved;
+            }
+        });
+    }
+
     private void buttons_setOnClickListeners(){
         binderImage.propertyDescriptionMainImageIsSaved.setOnClickListener(this);
         binderImage.propertyDescriptionMainImageShare.setOnClickListener(this);
@@ -343,8 +366,8 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                 activity.startActivity(intent);
                 break;
 
-            case R.id.propertyDescription_mainImage_isSaved:
-                setIsSaved();
+            case R.id.propertyDescription_mainImage_share:
+                shareProperty(new Intent(android.content.Intent.ACTION_SEND));
                 break;
 
             case R.id.propertyDescription_mainImage_back:
@@ -379,26 +402,12 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
 
     }
 
-    private void setIsSaved(){
-        Drawable d = propertyFull.is_saved? res.getDrawable(R.drawable.heart_blue_24, activity.getTheme())
-                :res.getDrawable(R.drawable.heart_white_24, activity.getTheme());
-        binderImage.propertyDescriptionMainImageIsSaved.setImageDrawable(d);
-
-        binderImage.propertyDescriptionMainImageIsSaved.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Drawable d;
-                if (propertyFull.is_saved){
-                    d = res.getDrawable(R.drawable.heart_white_24, activity.getTheme());
-                    ConnectionsManager.getInstance(activity).removeFromFavoritesProperty(propertyFull.id);
-                }else{
-                    d = res.getDrawable(R.drawable.heart_blue_24, activity.getTheme());
-                    ConnectionsManager.getInstance(activity).addToFavoritesProperty(propertyFull.id);
-                }
-                binderImage.propertyDescriptionMainImageIsSaved.setImageDrawable(d);
-                propertyFull.is_saved = !propertyFull.is_saved;
-            }
-        });
+    private void shareProperty(Intent shareIntent) {
+        shareIntent.setType("text/plain");
+        String shareBody = "הי. רציתי לשתף אותך בנכס זה שראיתי באפליקציית Ballaba-It.";
+        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Share property");
+        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+        activity.startActivity(Intent.createChooser(shareIntent, "שתף נכס"));
     }
 
 }
