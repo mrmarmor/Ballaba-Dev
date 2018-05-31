@@ -12,6 +12,7 @@
         style="@style/allMatchParent" android:layoutDirection="rtl">
 
         <ScrollView
+            android:contentDescription="תצוגת נכס"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:orientation="vertical"
@@ -76,6 +77,7 @@
                     android:id="@+id/propertyDescription_mapFragment_container"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/propertyDescription_googleMap_height"
+                    android:contentDescription="מפת אזור הנכס"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
                     android:background="@color/propertyRecyclerView_background_white" />
 
@@ -83,6 +85,7 @@
                     android:id="@+id/propertyDescription_root_toStreetView_button"
                     android:layout_width="@dimen/propertyDescription_price_buttonToStreetView_width"
                     android:layout_height="@dimen/propertyDescription_price_buttonToStreetView_height"
+                    android:contentDescription="google street view"
                     android:layout_marginTop="@dimen/large_margin"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:layout_gravity="center"
@@ -128,6 +131,7 @@
         <TextView
             android:id="@+id/propertyDescription_root_textView_rentTitle"
             style="@style/allWrapContent"
+            android:contentDescription="@string/propertyDescription_root_textView_rentTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/propertyDescription_root_bottom_container"
             android:layout_marginTop="@dimen/activity_vertical_margin"
@@ -160,6 +164,7 @@
         <Button
             android:id="@+id/propertyDescription_root_button_next"
             style="@style/AppButton"
+            android:contentDescription="המשך לקביעת פגישה"
             app:layout_constraintTop_toTopOf="@id/propertyDescription_root_bottom_container"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="@dimen/saveMapSearch_start_offset"

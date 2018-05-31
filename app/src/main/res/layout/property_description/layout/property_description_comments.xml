@@ -18,6 +18,7 @@
         <TextView
             android:id="@+id/propertyDescriptionComments_title_textView"
             style="@style/allWrapContent"
+            android:contentDescription="@string/propertyDescription_root_comments_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:padding="@dimen/activity_horizontal_margin"

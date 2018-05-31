@@ -352,7 +352,6 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
             Toast.makeText(activity, "here we are applying a meeting to landlord", Toast.LENGTH_SHORT).show();
         else
             activity.startActivity(new Intent(activity , ScoringWelcomeActivity.class));
-        //Toast.makeText(activity, "continue", Toast.LENGTH_SHORT).show();
     }
 
     @Override

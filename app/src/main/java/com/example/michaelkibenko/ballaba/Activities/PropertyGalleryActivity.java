@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -19,10 +20,12 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringWelcomeActivity;
 import com.example.michaelkibenko.ballaba.Adapters.PropertyGalleryRecyclerViewAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
+import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.PropertyGalleryActivityLayoutBinding;
@@ -134,6 +137,16 @@ public class PropertyGalleryActivity extends BaseActivity {
                 binding.fullPhotoContainer.setVisibility(View.GONE);
             }
         });
+    }
+
+    public void onClickContinue(){
+        //scoring_status
+        boolean isUserScored = BallabaUserManager.getInstance().getUser().getIs_scored();
+        if (isUserScored)
+            Toast.makeText(this, "here we are applying a meeting to landlord", Toast.LENGTH_SHORT).show();
+        else
+            startActivity(new Intent(this , ScoringWelcomeActivity.class));
+            //TODO should this activity be finished now??
     }
 
 }

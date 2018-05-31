@@ -19,15 +19,6 @@ public class BallabaUser extends BallabaBaseEntity {
 
     private boolean isInterested, isMeeting , isScored;
 
-    private static StringUtils instance;
-
-    private static StringUtils stringInstance(Context context) {
-        if (instance == null)
-            instance = StringUtils.getInstance(true);
-
-        return instance;
-    }
-
     public void setProfile_image(String profile_image) {
         this.profile_image = profile_image;
     }
@@ -116,19 +107,19 @@ public class BallabaUser extends BallabaBaseEntity {
     }//TODO could be an email in hebrew?
 
     public String getFirst_name() {
-        return stringInstance(null).formattedHebrew(trimNull(first_name));
+        return StringUtils.getInstance(true).formattedHebrew(trimNull(first_name));
     }
 
     public String getLast_name() {
-        return stringInstance(null).formattedHebrew(trimNull(last_name));
+        return StringUtils.getInstance(true).formattedHebrew(trimNull(last_name));
     }
 
     public String getCity() {
-        return stringInstance(null).formattedHebrew(trimNull(city));
+        return StringUtils.getInstance(true).formattedHebrew(trimNull(city));
     }
 
     public String getAddress() {
-        return stringInstance(null).formattedHebrew(trimNull(address));
+        return StringUtils.getInstance(true).formattedHebrew(trimNull(address));
     }
 
     public String getApt_no() {

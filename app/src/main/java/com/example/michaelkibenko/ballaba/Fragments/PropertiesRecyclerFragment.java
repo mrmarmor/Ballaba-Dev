@@ -99,7 +99,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
         binder = DataBindingUtil.inflate(inflater, R.layout.fragment_properties_recycler, null, false);
         initRecycler(view);
         checkForLocation();
-        getProperties();
+        //getProperties();
 
         return binder.getRoot();
     }

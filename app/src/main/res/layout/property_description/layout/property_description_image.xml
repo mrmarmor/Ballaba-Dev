@@ -15,6 +15,7 @@
 
     <ImageView
         android:id="@+id/propertyDescription_mainImage"
+        android:contentDescription="תמונת הנכס"
         style="@style/allMatchParent"
         android:scaleType="fitXY"/>
 
@@ -28,6 +29,7 @@
             android:id="@+id/propertyDescription_mainImage_isSaved"
             android:layout_width="@dimen/icon_regular"
             android:layout_height="@dimen/icon_regular"
+            android:contentDescription="הוספה או הסרה של הנכס במועדפים"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/propertyDescription_mainImage_topStrip_icon_verticalOffset"
@@ -39,6 +41,7 @@
             android:id="@+id/propertyDescription_mainImage_share"
             android:layout_width="@dimen/icon_regular"
             android:layout_height="@dimen/icon_regular"
+            android:contentDescription="שתף את הנכס"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@id/propertyDescription_mainImage_isSaved"
             android:layout_marginTop="@dimen/propertyDescription_mainImage_topStrip_icon_verticalOffset"
@@ -50,6 +53,7 @@
             android:id="@+id/propertyDescription_mainImage_back"
             android:layout_width="@dimen/icon_regular"
             android:layout_height="@dimen/icon_regular"
+            android:contentDescription="חזור אחורה"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/propertyDescription_mainImage_topStrip_icon_verticalOffset"
@@ -63,6 +67,7 @@
         android:id="@+id/goToGallery"
         android:layout_width="@dimen/propertyDescription_mainImage_buttonToGallery_width"
         android:layout_height="@dimen/propertyDescription_mainImage_buttonToGallery_height"
+        android:contentDescription="אל גלריית התמונות של הנכס"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="@dimen/activity_horizontal_margin"
