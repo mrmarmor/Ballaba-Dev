@@ -172,8 +172,8 @@
     <dimen name="propertyDescription_mainImage_topStrip_icon_verticalOffset">16dp</dimen>
     <dimen name="propertyDescription_mainImage_topStrip_icon_horizontalOffset">21dp</dimen>
     <dimen name="propertyDescription_mainImage_topStrip_icon_horizontalOffset_heart_share">11dp</dimen>
-    <dimen name="propertyDescription_mainImage_buttonToGallery_width">166dp</dimen>
-    <dimen name="propertyDescription_mainImage_buttonToGallery_height">38dp</dimen>
+    <dimen name="propertyDescription_mainImage_buttonToGallery_width">139dp</dimen>
+    <dimen name="propertyDescription_mainImage_buttonToGallery_height">40dp</dimen>
 
     <dimen name="propertyDescription_price_dateOfEntrance_marginStart">36dp</dimen>
     <dimen name="propertyDescription_price_buttonToStreetView_width">98dp</dimen>

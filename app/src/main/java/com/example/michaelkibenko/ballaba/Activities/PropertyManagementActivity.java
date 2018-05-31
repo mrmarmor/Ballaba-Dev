@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
@@ -214,6 +215,7 @@ public class PropertyManagementActivity extends BaseActivity implements View.OnC
     }
 
     public int getPropertyID() {
+        Log.d(TAG, "property id: "+propertyID);
         return propertyID;
     }
 }

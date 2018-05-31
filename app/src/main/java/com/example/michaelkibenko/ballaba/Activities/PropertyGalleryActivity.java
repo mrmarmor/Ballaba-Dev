@@ -2,6 +2,7 @@ package com.example.michaelkibenko.ballaba.Activities;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.databinding.generated.callback.OnClickListener;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -19,10 +21,12 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
+import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringWelcomeActivity;
 import com.example.michaelkibenko.ballaba.Adapters.PropertyGalleryRecyclerViewAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
+import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.PropertyGalleryActivityLayoutBinding;
@@ -32,7 +36,7 @@ import java.util.ArrayList;
 import static com.example.michaelkibenko.ballaba.Activities.PropertyGalleryActivity.VIEW_TYPES.GRID;
 import static com.example.michaelkibenko.ballaba.Activities.PropertyGalleryActivity.VIEW_TYPES.LINEAR;
 
-public class PropertyGalleryActivity extends BaseActivity {
+public class PropertyGalleryActivity extends BaseActivity implements View.OnClickListener{
 
     public @interface VIEW_TYPES{
         String GRID = "grid";
@@ -64,32 +68,10 @@ public class PropertyGalleryActivity extends BaseActivity {
         binding.propertyDescriptionGalleryRecyclerView.setAdapter(adapter);
         binding.propertyDescriptionGalleryRecyclerView.setHasFixedSize(true);
         virtualTour = (ConstraintLayout) findViewById(R.id.virtualTourLayout);
-        virtualTour.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PropertyGalleryActivity.this, VirtualTourActivity.class);
-                startActivity(intent);
-            }
-        });
 
-        binding.galleryChangeViewType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(currentViewType.equals(GRID)){
-                    changeViewType(LINEAR);
-                }else{
-                    changeViewType(GRID);
-                }
-            }
-        });
+        initButtonsOnClickListeners();
 
         binding.propertyPrice.setText(propertyFull.price);
-        binding.galleryXWhite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
     private void changeViewType(@VIEW_TYPES String viewType){
@@ -134,6 +116,53 @@ public class PropertyGalleryActivity extends BaseActivity {
                 binding.fullPhotoContainer.setVisibility(View.GONE);
             }
         });
+    }
+
+    private void initButtonsOnClickListeners() {
+        virtualTour.setOnClickListener(this);
+        binding.galleryChangeViewType.setOnClickListener(this);
+        binding.continueBTN.setOnClickListener(this);
+        binding.galleryXWhite.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.virtualTourLayout:
+                Intent intent = new Intent(PropertyGalleryActivity.this, VirtualTourActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.galleryXWhite:
+                finish();
+                break;
+
+            case R.id.galleryChangeViewType:
+                onClickChangeViewType();
+                break;
+
+            case R.id.continueBTN:
+                onClickContinue();
+                break;
+        }
+    }
+
+    private void onClickChangeViewType() {
+        if(currentViewType.equals(GRID)){
+            changeViewType(LINEAR);
+        }else{
+            changeViewType(GRID);
+        }
+    }
+
+    private void onClickContinue(){
+        //scoring_status
+        boolean isUserScored = BallabaUserManager.getInstance().getUser().getIs_scored();
+        if (isUserScored)
+            Toast.makeText(this, "here we are applying a meeting to landlord", Toast.LENGTH_SHORT).show();
+        else
+            startActivity(new Intent(this , ScoringWelcomeActivity.class));
+            //TODO should this activity be finished now??
     }
 
 }

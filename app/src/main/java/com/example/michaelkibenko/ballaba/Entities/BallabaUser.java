@@ -19,15 +19,6 @@ public class BallabaUser extends BallabaBaseEntity {
 
     private boolean isInterested, isMeeting , isScored;
 
-    private static StringUtils instance;
-
-    private static StringUtils stringInstance(Context context) {
-        if (instance == null)
-            instance = StringUtils.getInstance(true);
-
-        return instance;
-    }
-
     public void setProfile_image(String profile_image) {
         this.profile_image = profile_image;
     }
@@ -45,7 +36,7 @@ public class BallabaUser extends BallabaBaseEntity {
 
     //TODO MAKE THIS CLASS BECOME A SINGLETON
 
-    public BallabaUser(String id, String phone, String email, String first_name, String last_name, String city, String address, String apt_no, String birth_date, String about, String tenant_score, String landlord_score, String guarantor_score, String date_created, String date_updated, String session_token, String fcm_token, String global_token, String profile_image) {
+    public BallabaUser(String id, String phone, String email, String first_name, String last_name, String city, String address, String apt_no, String birth_date, String about, boolean isScored, String tenant_score, String landlord_score, String guarantor_score, String date_created, String date_updated, String session_token, String fcm_token, String global_token, String profile_image) {
         this.id = id;
         this.phone = phone;
         this.email = email;
@@ -55,6 +46,7 @@ public class BallabaUser extends BallabaBaseEntity {
         this.address = address;
         this.apt_no = apt_no;
         this.about = about;
+        this.isScored = isScored;
         this.birth_date = birth_date;
         this.tenant_score = tenant_score;
         this.landlord_score = landlord_score;
@@ -67,21 +59,21 @@ public class BallabaUser extends BallabaBaseEntity {
         this.profile_image = profile_image;
     }
 
-    public BallabaUser(String id1, String phone1, String s, String name, String lastName, String id, String phone, String email, String first_name, String last_name, boolean isScored, String city, String address, String apt_no, String birth_date, String about, String session_token, String fcm_token, String global_token, String profile_image) {
+    public BallabaUser(String id, String phone, String email, String first_name, String last_name, String city, String address, String apt_no, String birth_date, String about, String session_token, String fcm_token, String global_token, String profile_image) {
         this.id = id;
         this.phone = phone;
         this.email = email;
         this.first_name = first_name;
         this.last_name = last_name;
-        this.birth_date = birth_date;
-        this.about = about;
         this.city = city;
         this.address = address;
         this.apt_no = apt_no;
-        this.profile_image = profile_image;
-        this.global_token = global_token;
+        this.birth_date = birth_date;
+        this.about = about;
         this.session_token = session_token;
         this.fcm_token = fcm_token;
+        this.global_token = global_token;
+        this.profile_image = profile_image;
     }
 
     private String trimNull(String s) {
@@ -116,19 +108,19 @@ public class BallabaUser extends BallabaBaseEntity {
     }//TODO could be an email in hebrew?
 
     public String getFirst_name() {
-        return stringInstance(null).formattedHebrew(trimNull(first_name));
+        return StringUtils.getInstance(true).formattedHebrew(trimNull(first_name));
     }
 
     public String getLast_name() {
-        return stringInstance(null).formattedHebrew(trimNull(last_name));
+        return StringUtils.getInstance(true).formattedHebrew(trimNull(last_name));
     }
 
     public String getCity() {
-        return stringInstance(null).formattedHebrew(trimNull(city));
+        return StringUtils.getInstance(true).formattedHebrew(trimNull(city));
     }
 
     public String getAddress() {
-        return stringInstance(null).formattedHebrew(trimNull(address));
+        return StringUtils.getInstance(true).formattedHebrew(trimNull(address));
     }
 
     public String getApt_no() {

@@ -34,4 +34,5 @@ public class MyPropertiesLandlord {
     public String[] getPhotos() {
         return photos;
     }
+
 }

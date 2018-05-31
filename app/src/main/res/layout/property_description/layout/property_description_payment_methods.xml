@@ -17,6 +17,7 @@
 
         <TextView
             android:id="@+id/propertyDescriptionPaymentMethods_title_textView"
+            android:contentDescription="זמני תשלום שכר דירה"
             style="@style/allWrapContent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -40,9 +41,6 @@
             app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPaymentMethods_date_textView"
             android:drawableStart="@drawable/check_blue_36"
             android:text="@string/propertyDescriptionPaymentMethods_cheque_textView" />
-
-
-
 
         <TextView
             android:id="@+id/propertyDescriptionPaymentMethods_or_textView"

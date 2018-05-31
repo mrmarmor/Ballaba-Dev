@@ -55,7 +55,7 @@
                     <ImageView
                         style="@style/allWrapContent"
                         android:layout_gravity="center_horizontal"
-                        android:src="@drawable/watch_blue_24"/>
+                        android:src="@drawable/like_blue_24"/>
                     <TextView
                         style="@style/allWrapContent"
                         android:textColor="@color/gray_text_color"

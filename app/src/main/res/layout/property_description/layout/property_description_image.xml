@@ -9,12 +9,12 @@
     </data>
 
 <android.support.constraint.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/allMatchParent"
     android:layoutDirection="rtl">
 
     <ImageView
         android:id="@+id/propertyDescription_mainImage"
+        android:contentDescription="תמונת הנכס"
         style="@style/allMatchParent"
         android:scaleType="fitXY"/>
 
@@ -26,35 +26,32 @@
 
         <ImageView
             android:id="@+id/propertyDescription_mainImage_isSaved"
-            android:layout_width="@dimen/icon_regular"
-            android:layout_height="@dimen/icon_regular"
+            style="@style/icon_wide_click_area"
+            android:contentDescription="הוספה או הסרה של הנכס במועדפים"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="@dimen/propertyDescription_mainImage_topStrip_icon_verticalOffset"
             android:layout_marginEnd="@dimen/propertyDescription_mainImage_topStrip_icon_horizontalOffset"
-            android:background="@android:color/transparent"
             android:src="@drawable/heart_white_24"/>
 
         <ImageView
             android:id="@+id/propertyDescription_mainImage_share"
-            android:layout_width="@dimen/icon_regular"
-            android:layout_height="@dimen/icon_regular"
+            style="@style/icon_wide_click_area"
+            android:contentDescription="שתף את הנכס"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toStartOf="@id/propertyDescription_mainImage_isSaved"
             android:layout_marginTop="@dimen/propertyDescription_mainImage_topStrip_icon_verticalOffset"
             android:layout_marginEnd="@dimen/propertyDescription_mainImage_topStrip_icon_horizontalOffset_heart_share"
-            android:background="@android:color/transparent"
             android:src="@drawable/share_white_24"/>
 
         <ImageView
             android:id="@+id/propertyDescription_mainImage_back"
-            android:layout_width="@dimen/icon_regular"
-            android:layout_height="@dimen/icon_regular"
+            style="@style/icon_wide_click_area"
+            android:contentDescription="חזור אחורה"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/propertyDescription_mainImage_topStrip_icon_verticalOffset"
             android:layout_marginStart="@dimen/propertyDescription_mainImage_topStrip_icon_horizontalOffset"
-            android:background="@android:color/transparent"
             android:src="@drawable/back_arrow"/>
 
     </android.support.constraint.ConstraintLayout>
@@ -63,6 +60,7 @@
         android:id="@+id/goToGallery"
         android:layout_width="@dimen/propertyDescription_mainImage_buttonToGallery_width"
         android:layout_height="@dimen/propertyDescription_mainImage_buttonToGallery_height"
+        android:contentDescription="אל גלריית התמונות של הנכס"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_margin="@dimen/activity_horizontal_margin"

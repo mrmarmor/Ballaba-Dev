@@ -16,6 +16,7 @@
         <TextView
             android:id="@+id/propertyDescriptionOpenDoorDates_title_textView"
             style="@style/allWrapContent"
+            android:contentDescription="@string/propertyDescription_root_openDoorDates_title"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_margin="@dimen/activity_horizontal_margin"
