@@ -45,10 +45,6 @@ public class MyPropertiesLandlordFragment extends Fragment {
         myPropertiesLandlordsList = new ArrayList<>();
         getLandlordProperties();
 
-        adapter = new MyPropertiesLandlordAdapter(getActivity(), myPropertiesLandlordsList);
-        initRecyclerView();
-
-
         return v;
     }
 
@@ -60,6 +56,8 @@ public class MyPropertiesLandlordFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
                 String response = ((BallabaOkResponse) entity).body.toString();
                 parseResponse(response);
+                adapter = new MyPropertiesLandlordAdapter(getActivity(), myPropertiesLandlordsList);
+                initRecyclerView();
             }
 
             @Override
@@ -73,26 +71,25 @@ public class MyPropertiesLandlordFragment extends Fragment {
     private void parseResponse(String response) {
         int id = 0, rooms = 0, size = 0;
         String address = null;
-        String[] photos = new String[1];
+        MyPropertiesLandlord landlord = null;
 
         try {
             JSONArray array = new JSONArray(response);
             for (int i = 0; i < array.length(); i++) {
                 JSONObject obj = array.getJSONObject(i);
-                for (int j = 0; j < obj.length(); j++) {
-                    id = obj.getInt("id");
-                    address = obj.getString("formatted_address");
-                    rooms = obj.getInt("rooms");
-                    size = obj.getInt("size");
-                    JSONArray photosArr = obj.getJSONArray("photos");
-                    if (!photosArr.isNull(0))
-                        photos[0] = photosArr.getJSONObject(0).getString("photo_url");
-
-                }
-                MyPropertiesLandlord landlord = new MyPropertiesLandlord(address, id, rooms, size, photos);
+                String[] photos = new String[1];
+                id = obj.getInt("id");
+                address = obj.getString("formatted_address");
+                rooms = obj.getInt("rooms");
+                size = obj.getInt("size");
+                JSONArray photosArr = obj.getJSONArray("photos");
+                if (!photosArr.isNull(0))
+                    photos[0] = photosArr.getJSONObject(0).getString("photo_url");
+                landlord = new MyPropertiesLandlord(address, id, rooms, size, photos);
                 myPropertiesLandlordsList.add(landlord);
+                //Log.d("WOW", "parseResponse: " + photos[0]);
             }
-            adapter.notifyDataSetChanged();
+            //adapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
         }

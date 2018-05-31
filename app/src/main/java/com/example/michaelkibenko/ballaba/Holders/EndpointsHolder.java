@@ -13,7 +13,7 @@ public @interface EndpointsHolder {
     String CONFIG = "https://api.ballaba-it.com/v1/config";
     String TESTING = "https://api.ballaba-it.com/v1/";
     String GOOGLE_PLACES_API = "https://maps.googleapis.com/maps/api/place";
-    String USER = "https://api.ballaba-it.com/Dev/user/me";
+    String USER = "https://api.ballaba-it.com/v1/user/me";
     String PROPERTY = "https://api.ballaba-it.com/v1/property/";
     String MY_PROPERTIES = "https://api.ballaba-it.com/v1/user/me/properties";
     String PROPERTY_ATTACHMENTS_ADDONS = "https://api.ballaba-it.com/v1/config/property";

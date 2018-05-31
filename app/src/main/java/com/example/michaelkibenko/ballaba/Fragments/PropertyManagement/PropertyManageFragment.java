@@ -14,6 +14,7 @@ import android.widget.GridLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.michaelkibenko.ballaba.Activities.PropertyManagementActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
@@ -53,13 +54,13 @@ public class PropertyManageFragment extends Fragment {
 
     public PropertyManageFragment() {}
 
-    public static PropertyManageFragment newInstance(int propertyId) {
+    /*public static PropertyManageFragment newInstance(int propertyId) {
         PropertyManageFragment fragment = new PropertyManageFragment();
         Bundle args = new Bundle();
         args.putInt(PROPERTY_ID, propertyId);
         fragment.setArguments(args);
         return fragment;
-    }
+    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,7 +71,7 @@ public class PropertyManageFragment extends Fragment {
         binder.propertyManagementPrice.propertyDescriptionPriceToVirtualTourButton.setVisibility(View.GONE);
 
         initContainers();
-        fetchDataFromServer(getArguments().getInt(PROPERTY_ID)+"");
+        fetchDataFromServer(((PropertyManagementActivity)getActivity()).getPropertyID()+""/*getArguments().getInt(PROPERTY_ID)+""*/);
 
         return binder.getRoot();
     }

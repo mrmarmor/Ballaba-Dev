@@ -2,6 +2,7 @@ package com.example.michaelkibenko.ballaba.Activities;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.databinding.generated.callback.OnClickListener;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -35,7 +36,7 @@ import java.util.ArrayList;
 import static com.example.michaelkibenko.ballaba.Activities.PropertyGalleryActivity.VIEW_TYPES.GRID;
 import static com.example.michaelkibenko.ballaba.Activities.PropertyGalleryActivity.VIEW_TYPES.LINEAR;
 
-public class PropertyGalleryActivity extends BaseActivity {
+public class PropertyGalleryActivity extends BaseActivity implements View.OnClickListener{
 
     public @interface VIEW_TYPES{
         String GRID = "grid";
@@ -67,32 +68,10 @@ public class PropertyGalleryActivity extends BaseActivity {
         binding.propertyDescriptionGalleryRecyclerView.setAdapter(adapter);
         binding.propertyDescriptionGalleryRecyclerView.setHasFixedSize(true);
         virtualTour = (ConstraintLayout) findViewById(R.id.virtualTourLayout);
-        virtualTour.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(PropertyGalleryActivity.this, VirtualTourActivity.class);
-                startActivity(intent);
-            }
-        });
 
-        binding.galleryChangeViewType.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(currentViewType.equals(GRID)){
-                    changeViewType(LINEAR);
-                }else{
-                    changeViewType(GRID);
-                }
-            }
-        });
+        initButtonsOnClickListeners();
 
         binding.propertyPrice.setText(propertyFull.price);
-        binding.galleryXWhite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
     }
 
     private void changeViewType(@VIEW_TYPES String viewType){
@@ -139,7 +118,44 @@ public class PropertyGalleryActivity extends BaseActivity {
         });
     }
 
-    public void onClickContinue(){
+    private void initButtonsOnClickListeners() {
+        virtualTour.setOnClickListener(this);
+        binding.galleryChangeViewType.setOnClickListener(this);
+        binding.continueBTN.setOnClickListener(this);
+        binding.galleryXWhite.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.virtualTourLayout:
+                Intent intent = new Intent(PropertyGalleryActivity.this, VirtualTourActivity.class);
+                startActivity(intent);
+                break;
+
+            case R.id.galleryXWhite:
+                finish();
+                break;
+
+            case R.id.galleryChangeViewType:
+                onClickChangeViewType();
+                break;
+
+            case R.id.continueBTN:
+                onClickContinue();
+                break;
+        }
+    }
+
+    private void onClickChangeViewType() {
+        if(currentViewType.equals(GRID)){
+            changeViewType(LINEAR);
+        }else{
+            changeViewType(GRID);
+        }
+    }
+
+    private void onClickContinue(){
         //scoring_status
         boolean isUserScored = BallabaUserManager.getInstance().getUser().getIs_scored();
         if (isUserScored)

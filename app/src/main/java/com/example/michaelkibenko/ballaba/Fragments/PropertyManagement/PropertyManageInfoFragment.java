@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.michaelkibenko.ballaba.Activities.PropertyManagementActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.databinding.FragmentPropertyManageInfoBinding;
 
 import org.json.JSONException;
@@ -21,20 +23,20 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class PropertyManageInfoFragment extends Fragment {
-    private static final String PROPERTY_ID = "ID";
+    //private static final String PROPERTY_ID = "ID";
     private final String TAG = PropertyManageInfoFragment.class.getSimpleName();
 
     private FragmentPropertyManageInfoBinding binder;
 
     public PropertyManageInfoFragment() {}
 
-    public static PropertyManageInfoFragment newInstance(int propertyId) {
+   /* public static PropertyManageInfoFragment newInstance(int propertyId) {
         PropertyManageInfoFragment fragment = new PropertyManageInfoFragment();
         Bundle args = new Bundle();
         args.putInt(PROPERTY_ID, propertyId);
         fragment.setArguments(args);
         return fragment;
-    }
+    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,7 +47,10 @@ public class PropertyManageInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binder = DataBindingUtil.inflate(inflater, R.layout.fragment_property_manage_info, container, false);
-        fetchDataFromServer(getArguments().getInt(PROPERTY_ID));
+        //final int propertyId = new PropertyManagementActivity().getPropertyID();
+        fetchDataFromServer(((PropertyManagementActivity)getActivity()).getPropertyID()/*getArguments().getInt(PROPERTY_ID)*/);
+
+        //fetchDataFromServer(propertyId/*getArguments().getInt(PROPERTY_ID)*/);
 
         return binder.getRoot();
     }

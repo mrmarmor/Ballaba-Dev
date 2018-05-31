@@ -66,8 +66,12 @@ public class MyPropertiesLandlordAdapter extends RecyclerView.Adapter<MyProperti
     public void onBindViewHolder(@NonNull ViewHolder holder,final int position) {
         final MyPropertiesLandlord myPropertiesLandlord = myPropertiesLandlords.get(position);
 
-        Uri uri = Uri.parse(myPropertiesLandlord.getPhotos()[0].toString());
-        Glide.with(context).load(uri).into(holder.propertyIV);
+        String imageUrl = myPropertiesLandlord.getPhotos()[0];
+
+        if (imageUrl != null){
+            Uri uri = Uri.parse(imageUrl);
+            Glide.with(context).load(uri).into(holder.propertyIV);
+        }
 
         holder.address.setText(myPropertiesLandlord.getAddress() + "");
         holder.rooms.setText(myPropertiesLandlord.getRooms() + " חדרים");

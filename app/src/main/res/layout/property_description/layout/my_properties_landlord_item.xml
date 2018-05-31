@@ -14,7 +14,7 @@
         android:layout_height="164dp"
         android:layout_centerHorizontal="true"
         android:scaleType="centerCrop"
-        android:src="@drawable/dummy_property" />
+        android:src="@drawable/photo_home_grey_24" />
 
 
     <LinearLayout

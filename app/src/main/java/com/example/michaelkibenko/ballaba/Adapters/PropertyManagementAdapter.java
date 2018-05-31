@@ -23,14 +23,15 @@ public class PropertyManagementAdapter extends FragmentStatePagerAdapter
         implements TabLayout.OnTabSelectedListener, ViewPager.OnPageChangeListener {
 
     private final String TAG = PropertyManagementAdapter.class.getSimpleName();
+
+    private PropertyManageInfoFragment propertyManageInfoFragment = new PropertyManageInfoFragment();
+    private PropertyManageFragment propertyManageFragment = new PropertyManageFragment();
     private PropertyManageInterestedFragment propertyManageInterestedFragment = new PropertyManageInterestedFragment();
     private PropertyManageMeetingsFragment propertyManageMeetingsFragment = new PropertyManageMeetingsFragment();
 
     private Context context;
     private FragmentManager fm;
-    private Fragment[] fragments = {PropertyManageInfoFragment.newInstance(1)
-            , PropertyManageFragment.newInstance(1),propertyManageInterestedFragment
-            , propertyManageMeetingsFragment};
+    private Fragment[] fragments = {propertyManageInfoFragment, propertyManageFragment ,propertyManageInterestedFragment, propertyManageMeetingsFragment};
     private RtlViewPager propertyManagementViewPager;
     private TabLayout tabLayout;
 

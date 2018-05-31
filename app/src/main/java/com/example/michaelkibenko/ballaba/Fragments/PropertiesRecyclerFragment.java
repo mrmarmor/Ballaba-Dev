@@ -157,7 +157,6 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
         binder.propertiesRecyclerRV.setLayoutManager(manager);
         binder.propertiesRecyclerRV.setAdapter(rvAdapter);
 
-        //swipeRefreshLayout = view.findViewById(R.id.properties_recycler_swipeToRefresh);
         binder.propertiesRecyclerSwipeToRefresh.setOnRefreshListener(this);
 
         binder.propertiesRecyclerRV.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -175,7 +174,6 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
             }
         });
     }
-
 
     private void getProperties() {
         listener = new BallabaResponseListener() {
