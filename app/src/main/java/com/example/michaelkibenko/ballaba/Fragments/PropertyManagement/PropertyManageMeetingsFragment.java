@@ -57,6 +57,7 @@ public class PropertyManageMeetingsFragment extends Fragment {
         emptyStateContainer = v.findViewById(R.id.property_manage_meetings_empty_state_layout);
         layoutContainer = v.findViewById(R.id.property_manage_meetings_container);
         userRecyclerView = v.findViewById(R.id.property_manage_meetings_recycler_view);
+
         //pastMeetingsRV = v.findViewById(R.id.property_manage_meetings_held_recycler_view);
         //totalFutureCountTV = v.findViewById(R.id.property_manage_meetings_number_text_view);
         //totalPastCountTV = v.findViewById(R.id.property_manage_meetings_second_number_text_view);
@@ -218,5 +219,9 @@ public class PropertyManageMeetingsFragment extends Fragment {
 
     public void setAllCheck(boolean isCheck) {
         propertyManageMeetingAdapter.checkAll(isCheck);
+    }
+
+    public PropertyManageMeetingAdapter getAdapter() {
+        return propertyManageMeetingAdapter;
     }
 }

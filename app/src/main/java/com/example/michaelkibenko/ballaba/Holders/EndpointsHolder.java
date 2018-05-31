@@ -13,7 +13,7 @@ public @interface EndpointsHolder {
     String CONFIG = "https://api.ballaba-it.com/v1/config";
     String TESTING = "https://api.ballaba-it.com/v1/";
     String GOOGLE_PLACES_API = "https://maps.googleapis.com/maps/api/place";
-    String USER = "https://api.ballaba-it.com/Dev/user/me";
+    String USER = "https://api.ballaba-it.com/v1/user/me";
     String PROPERTY = "https://api.ballaba-it.com/v1/property/";
     String MY_PROPERTIES = "https://api.ballaba-it.com/v1/user/me/properties";
     String PROPERTY_ATTACHMENTS_ADDONS = "https://api.ballaba-it.com/v1/config/property";
@@ -31,10 +31,10 @@ public @interface EndpointsHolder {
 
     String SCORING_LABELS = "https://api.ballaba-it.com/v1/config/scoring";
 
-    String UPLOAD_METTINGS_DATES = "https://jiw9g3hymb.execute-api.eu-west-1.amazonaws.com/Dev/property/";
+    String UPLOAD_METTINGS_DATES = "https://api.ballaba-it.com/v1/property/";
     String GET_LANDLORD_PROPERTY = "https://api.ballaba-it.com/v1/user/me/properties/landlord";
 
-    String MY_PROPERTY_INTERESTED_USERS = "https://api.ballaba-it.com/Dev/property/";
-    String DELETE_INTEREST_USER = "https://api.ballaba-it.com/Dev/property/";
-    String MY_PROPERTY_MEETING_USERS = "https://api.ballaba-it.com/Dev/property/";
+    String MY_PROPERTY_INTERESTED_USERS = "https://api.ballaba-it.com/v1/property/";
+    String DELETE_INTEREST_USER = "https://api.ballaba-it.com/v1/property/";
+    String MY_PROPERTY_MEETING_USERS = "https://api.ballaba-it.com/v1/property/";
 }

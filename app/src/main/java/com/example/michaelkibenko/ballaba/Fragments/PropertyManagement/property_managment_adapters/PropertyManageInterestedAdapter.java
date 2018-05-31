@@ -1,7 +1,9 @@
 package com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.property_managment_adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,6 +13,10 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.michaelkibenko.ballaba.Activities.PropertyManagementActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
@@ -118,7 +124,19 @@ public class PropertyManageInterestedAdapter extends RecyclerView.Adapter<Proper
 
         String profile_image = user.getProfile_image();
         if (profile_image != null && !profile_image.equals("null")){
-            Glide.with(context).load(profile_image).into(holder.userImage);
+            Glide.with(context).load(profile_image).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    holder.userImage.setImageDrawable(context.getDrawable(R.drawable.user_grey_36));
+                    return true;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    holder.userImage.setImageDrawable(resource);
+                    return true;
+                }
+            }).into(holder.userImage);
         }else {
             holder.userImage.setImageDrawable(context.getDrawable(R.drawable.user_grey_36));
         }
@@ -128,10 +146,12 @@ public class PropertyManageInterestedAdapter extends RecyclerView.Adapter<Proper
             @Override
             public void onClick(View v) {
                 user.setIsInterested(!user.isInterested());
-                //((PropertyManagementActivity) context).isChecked(!isAllUnChecked());
-                boolean allUnChecked = isAllUnChecked();
-                boolean moreThanOneChecked = isMoreThanOneChecked();
-                ((PropertyManagementActivity) context).isChecked(!allUnChecked, moreThanOneChecked);
+                Log.d("CHECK", "isAllUnChecked: " + isAllUnChecked());
+                Log.d("CHECK", "isMoreThanOneChecked: " + isMoreThanOneChecked());
+                ((PropertyManagementActivity) context).toolbarImagesVisibility(false ,
+                        true ,
+                        !isAllUnChecked() && !isMoreThanOneChecked() ,
+                        !isAllUnChecked());
             }
         });
     }

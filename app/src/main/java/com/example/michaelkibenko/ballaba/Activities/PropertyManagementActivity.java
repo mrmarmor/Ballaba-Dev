@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.duolingo.open.rtlviewpager.RtlViewPager;
 import com.example.michaelkibenko.ballaba.Adapters.PropertyManagementAdapter;
 import com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.property_managment_adapters.PropertyManageInterestedAdapter;
+import com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.property_managment_adapters.PropertyManageMeetingAdapter;
 import com.example.michaelkibenko.ballaba.R;
 
 import java.util.ArrayList;
@@ -28,8 +29,12 @@ public class PropertyManagementActivity extends BaseActivity implements View.OnC
     private PropertyManagementAdapter adapter;
 
     private String propertyAddress;
-    private boolean moreThanOneChecked, isSomeOneChecked;
+    private boolean moreThanOneChecked, isAllUnChecked;
     private int propertyID;
+
+    private PropertyManageInterestedAdapter interestedAdapter;
+    private PropertyManageMeetingAdapter meetingsAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +43,7 @@ public class PropertyManagementActivity extends BaseActivity implements View.OnC
 
         // get Property Address - English... convert to hebrew is needed
         //propertyAddress = getIntent().getStringExtra("ADDRESS");
-        propertyID = getIntent().getIntExtra("ID" , -1);
+        propertyID = getIntent().getIntExtra("ID", -1);
         findViewsAndListeners();
 
         adapter = new PropertyManagementAdapter(this, propertyManagementViewPager, getSupportFragmentManager(), tabLayout);
@@ -82,7 +87,20 @@ public class PropertyManagementActivity extends BaseActivity implements View.OnC
 
     }
 
+    private void checkForCheckedStatus(){
+        interestedAdapter = adapter.getPropertyManageInterestedFragment().getAdapter();
+        meetingsAdapter = adapter.getPropertyManageMeetingsFragment().getAdapter();
+        if (interestedAdapter != null){
+            moreThanOneChecked = interestedAdapter.isMoreThanOneChecked();
+        }
+        if (meetingsAdapter != null){
+            moreThanOneChecked = meetingsAdapter.isMoreThanOneChecked();
+        }
+        isAllUnChecked = !interestedAdapter.isAllUnChecked();
+    }
+
     private void showDeleteDialog() {
+        checkForCheckedStatus();
         AlertDialog.Builder builder = new AlertDialog.Builder(PropertyManagementActivity.this);
         builder.setTitle("הסרה מהרשימה");
         builder.setMessage("האם ברצונך להסיר את המעוניינים");
@@ -91,6 +109,8 @@ public class PropertyManagementActivity extends BaseActivity implements View.OnC
             public void onClick(DialogInterface dialog, int which) {
                 ArrayList<Integer> userDeletedIds = adapter.getPropertyManageInterestedFragment().getSelectedUsersID();
                 adapter.getPropertyManageInterestedFragment().getAdapter().deleteSelectedItems(userDeletedIds);
+
+                toolbarImagesVisibility(false, true, !isAllUnChecked && !moreThanOneChecked, !moreThanOneChecked);
             }
         });
         builder.setNegativeButton("ביטול", new DialogInterface.OnClickListener() {
@@ -106,6 +126,7 @@ public class PropertyManagementActivity extends BaseActivity implements View.OnC
                 dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(getResources().getColor(R.color.colorPrimary));
             }
         });
+
 
         dialog.show();
     }
@@ -126,45 +147,59 @@ public class PropertyManagementActivity extends BaseActivity implements View.OnC
     public void onStateChange(int position) {
         switch (position) {
             case 0:
-                showCheckboxInToolbar(false);
-                showEditToolbar(false);
-                isChecked(false, false);
+                toolbarImagesVisibility(false, false, false, false);
                 changeToolbarText(null);
                 break;
             case 1:
-                showCheckboxInToolbar(false);
-                showEditToolbar(true);
-                isChecked(false, false);
+                toolbarImagesVisibility(true, false, false, false);
                 changeToolbarText(propertyAddress);
                 break;
             case 2:
-                showCheckboxInToolbar(true);
-                showEditToolbar(false);
+                isAllUnChecked = adapter.getPropertyManageInterestedFragment().getAdapter().isAllUnChecked();
+                toolbarImagesVisibility(false, true, false, false);
                 changeToolbarText(null);
-                isChecked(isSomeOneChecked, moreThanOneChecked);
+                //isChecked(isAllUnChecked);
                 break;
             case 3:
-                showCheckboxInToolbar(true);
-                showEditToolbar(false);
+                toolbarImagesVisibility(false, true, false, false);
+                //showCheckboxInToolbar(true);
                 changeToolbarText(null);
-                isChecked(false, false);
+
+                //isChecked(false);
                 selectAllCheckBox.setChecked(false);
                 break;
         }
+    }
+
+    public void toolbarImagesVisibility(boolean showEdit, boolean showCheckBox, boolean showConfirm, boolean showDelete) {
+        editIB.setVisibility(showEdit ? View.VISIBLE : View.GONE);
+        selectAllCheckBox.setVisibility(showCheckBox ? View.VISIBLE : View.GONE);
+        confirmBtn.setVisibility(showConfirm ? View.VISIBLE : View.GONE);
+        deleteBtn.setVisibility(showDelete ? View.VISIBLE : View.GONE);
+
+    }
+
+    /*private void showConfirmBtnInToolbar(boolean show) {
+        confirmBtn.setVisibility(show ? View.VISIBLE : View.GONE);
+    }
+
+    private void showDeletetnInToolbar(boolean show) {
+        deleteBtn.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     public void showCheckboxInToolbar(boolean show) {
         selectAllCheckBox.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
-    public void showEditToolbar(boolean show) {
+    public void showEditBtnInToolbar(boolean show) {
         editIB.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
-    public void isChecked(boolean checked, boolean moreThanOneChecked) {
-        confirmBtn.setVisibility(checked && !moreThanOneChecked ? View.VISIBLE : View.GONE);
+    public void isChecked(boolean checked) {
+        confirmBtn.setVisibility(checked ? View.VISIBLE : View.GONE);
         deleteBtn.setVisibility(checked ? View.VISIBLE : View.GONE);
-    }
+    }*/
+
 
     @Override
     public void onClick(View v) {
@@ -172,8 +207,8 @@ public class PropertyManagementActivity extends BaseActivity implements View.OnC
         boolean isInterestedTab = tabLayout.getSelectedTabPosition() == 2;
         PropertyManageInterestedAdapter interestedAdapter = adapter.getPropertyManageInterestedFragment().getAdapter();
         moreThanOneChecked = interestedAdapter.isMoreThanOneChecked();
-        isSomeOneChecked = !interestedAdapter.isAllUnChecked();
-        isChecked(isCheck, !moreThanOneChecked);
+        isAllUnChecked = !interestedAdapter.isAllUnChecked();
+        //isChecked(isCheck);
         deleteBtn.setImageDrawable(getDrawable(isInterestedTab ? R.drawable.delete_white_24 : R.drawable.close_white_24));
         adapter.checkAllInterested(isCheck, isInterestedTab);
     }

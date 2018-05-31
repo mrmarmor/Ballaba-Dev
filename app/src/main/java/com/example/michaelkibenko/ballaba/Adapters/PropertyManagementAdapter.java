@@ -107,4 +107,8 @@ public class PropertyManagementAdapter extends FragmentStatePagerAdapter
     public PropertyManageInterestedFragment getPropertyManageInterestedFragment() {
         return propertyManageInterestedFragment;
     }
+
+    public PropertyManageMeetingsFragment getPropertyManageMeetingsFragment() {
+        return propertyManageMeetingsFragment;
+    }
 }

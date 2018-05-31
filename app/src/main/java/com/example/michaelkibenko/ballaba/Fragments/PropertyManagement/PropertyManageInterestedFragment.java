@@ -39,7 +39,7 @@ public class PropertyManageInterestedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_property_manage_interested, container, false);
 
-        ((PropertyManagementActivity) getActivity()).showCheckboxInToolbar(true);
+        //((PropertyManagementActivity) getActivity()).showCheckboxInToolbar(true);
 
         users = new ArrayList<>();
         getUsers();

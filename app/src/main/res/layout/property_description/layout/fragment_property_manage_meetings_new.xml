@@ -19,6 +19,7 @@
             android:textColor="@android:color/white"
             android:id="@+id/property_manage_meetings_future_btn"
             android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:elevation="4dp"
@@ -31,6 +32,7 @@
             android:textColor="@color/gray_text_color"
             android:id="@+id/property_manage_meetings_past_btn"
             android:layout_marginRight="15dp"
+            android:layout_marginLeft="15dp"
             android:layout_width="150dp"
             android:layout_height="40dp"
             android:background="@drawable/chips_button_with_gray_border" />

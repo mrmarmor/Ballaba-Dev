@@ -1,7 +1,9 @@
 package com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.property_managment_adapters;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,10 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.michaelkibenko.ballaba.Activities.PropertyManagementActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.PropertyManageMeetingsFragment;
@@ -113,7 +119,19 @@ public class PropertyManageMeetingAdapter extends RecyclerView.Adapter<PropertyM
 
         String profile_image = user.getProfile_image();
         if (profile_image != null && !profile_image.equals("null")){
-            Glide.with(context).load(profile_image).into(holder.userImage);
+            Glide.with(context).load(profile_image).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    holder.userImage.setImageDrawable(context.getDrawable(R.drawable.user_grey_36));
+                    return true;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    holder.userImage.setImageDrawable(resource);
+                    return true;
+                }
+            }).into(holder.userImage);
         }else {
             holder.userImage.setImageDrawable(context.getDrawable(R.drawable.user_grey_36));
         }
@@ -126,7 +144,7 @@ public class PropertyManageMeetingAdapter extends RecyclerView.Adapter<PropertyM
                 user.setIsMeeting(!user.isMeeting());
                 boolean allUnChecked = isAllUnChecked();
                 boolean moreThanOneChecked = isMoreThanOneChecked();
-                ((PropertyManagementActivity) context).isChecked(!allUnChecked, moreThanOneChecked);
+                //((PropertyManagementActivity) context).isChecked(!allUnChecked);
             }
         });
 

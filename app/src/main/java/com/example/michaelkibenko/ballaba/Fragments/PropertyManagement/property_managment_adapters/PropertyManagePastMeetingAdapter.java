@@ -125,7 +125,7 @@ public class PropertyManagePastMeetingAdapter extends RecyclerView.Adapter<Prope
                 user.setIsMeeting(!user.isMeeting());
                 boolean allUnChecked = isAllUnChecked();
                 boolean moreThanOneChecked = isMoreThanOneChecked();
-                ((PropertyManagementActivity) context).isChecked(!allUnChecked, moreThanOneChecked);
+                //((PropertyManagementActivity) context).isChecked(!allUnChecked);
             }
         });
     }
