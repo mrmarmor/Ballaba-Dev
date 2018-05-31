@@ -13,14 +13,13 @@
         android:layoutDirection="rtl"
         tools:context="com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity">
 
-        <Button
+        <ImageButton
             android:id="@+id/selectCity_return_button"
-            android:layout_width="@dimen/icon_regular"
-            android:layout_height="@dimen/icon_regular"
+            style="@style/icon_wide_click_area"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            android:background="@drawable/right_back_black_24"
+            android:src="@drawable/right_back_black_24"
             android:onClick="@{() -> presenter.onBackPressed()}"
             />
         <TextView
@@ -38,13 +37,12 @@
             />
         <Button
             android:id="@+id/selectCity_OK_button"
-            android:layout_width="@dimen/icon_regular"
-            android:layout_height="@dimen/icon_regular"
+            style="@style/icon_wide_click_area"
             app:layout_constraintTop_toTopOf="@+id/selectCity_return_button"
             app:layout_constraintBottom_toBottomOf="@+id/selectCity_return_button"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            android:background="@drawable/check_blue_24"
+            android:src="@drawable/check_blue_24"
             android:onClick="@{() -> presenter.onOKButtonClick()}"
             />
 
