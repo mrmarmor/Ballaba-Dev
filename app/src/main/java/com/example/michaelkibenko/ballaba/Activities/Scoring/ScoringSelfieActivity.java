@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
+import com.example.michaelkibenko.ballaba.Activities.SelfCamActivity;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 
@@ -32,7 +33,9 @@ public class ScoringSelfieActivity extends BaseActivity implements View.OnClickL
         takePicBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+//                Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
+//                startActivityForResult(intent, REQUEST_TAKE_PIC);
+                Intent intent = new Intent(ScoringSelfieActivity.this, SelfCamActivity.class);
                 startActivityForResult(intent, REQUEST_TAKE_PIC);
             }
         });

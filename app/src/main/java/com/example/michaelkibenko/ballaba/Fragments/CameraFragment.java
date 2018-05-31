@@ -58,16 +58,21 @@ import java.util.List;
 
 public class CameraFragment extends android.app.Fragment {
 
+    public @interface CAMERA_TYPES{
+        int BACK = 1;
+        int FRONT = 2;
+    }
     private String TAG = "WOW";
     private TextureView textureView;
     private Context context;
     private static final SparseIntArray ORIENTATION = new SparseIntArray();
+    private @CAMERA_TYPES int currentType = CAMERA_TYPES.BACK;
 
     static {
-        ORIENTATION.append(Surface.ROTATION_0, 180);
-        ORIENTATION.append(Surface.ROTATION_90, 180);
+        ORIENTATION.append(Surface.ROTATION_0, 90);
+        ORIENTATION.append(Surface.ROTATION_90, 0);
         ORIENTATION.append(Surface.ROTATION_180, 180);
-        ORIENTATION.append(Surface.ROTATION_270, 180);
+        ORIENTATION.append(Surface.ROTATION_270, 270);
     }
 
     private String cameraID;
@@ -116,23 +121,32 @@ public class CameraFragment extends android.app.Fragment {
 
         @Override
         public void onDisconnected(@NonNull CameraDevice camera) {
-            cameraDevice.close();
+            if(cameraDevice != null){
+                cameraDevice.close();
+            }
         }
 
         @Override
         public void onError(@NonNull CameraDevice camera, int error) {
-            cameraDevice.close();
-            cameraDevice = null;
+            if(cameraDevice != null) {
+                cameraDevice.close();
+                cameraDevice = null;
+            }
         }
     };
 
+    public int getCurrentType() {
+        return currentType;
+    }
+
+    public void setCurrentType(@CAMERA_TYPES int currentType) {
+        this.currentType = currentType;
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.scoring_camera_fragment, container, false);
-
-
         textureView = v.findViewById(R.id.texture_view);
         assert textureView != null;
         textureViewTransform();
@@ -152,14 +166,26 @@ public class CameraFragment extends android.app.Fragment {
         if (textureView == null) {
             return;
         }
-        textureView.setRotation(270);
+//        if(currentType == CAMERA_TYPES.BACK) {
+//            textureView.setRotation(270);
+//        }
     }
 
     private void openCamera() {
         CameraManager manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         Log.e(TAG, "is camera open");
         try {
-            cameraID = manager.getCameraIdList()[0];
+            try {
+                String[] cameras = manager.getCameraIdList();
+                if (currentType == CAMERA_TYPES.BACK) {
+                    cameraID = cameras[0];
+                } else if (currentType == CAMERA_TYPES.FRONT) {
+                    cameraID = cameras[1];
+                }
+            }catch (NullPointerException ex){
+                ex.printStackTrace();
+                //TODO set empty state
+            }
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraID);
             StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
             assert map != null;
@@ -293,7 +319,7 @@ public class CameraFragment extends android.app.Fragment {
     }
 
     private void sendScoringID(JSONObject object) {
-        ConnectionsManager.getInstance(getActivity()).uploadScoringID(object, true, new BallabaResponseListener() {
+        ConnectionsManager.getInstance(getActivity()).uploadScoringID(object, currentType == CAMERA_TYPES.BACK, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 getActivity().runOnUiThread(new Runnable() {

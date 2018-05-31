@@ -13,6 +13,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.hardware.camera2.full"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature
@@ -109,6 +110,7 @@
             android:value="7594bc2ab19b861f621aef3d9db083a17fe0dfe0" />
         <activity android:name=".Activities.PromiseAgreementActivities.PromiseImplementationActivity"/>
         <activity android:name=".Activities.PromiseAgreementActivities.PromiseCanceletionActivity"/>
+        <activity android:name=".Activities.SelfCamActivity"/>
 
 
     </application>

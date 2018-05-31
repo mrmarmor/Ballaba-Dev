@@ -121,5 +121,15 @@
             android:onClick="@{() -> presenter.goToCalendar()}"
             />
 
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="selfi cam"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="parent"
+            android:onClick="@{() -> presenter.goToselfiCam()}"
+            android:layout_marginBottom="50dp"/>
+
     </android.support.constraint.ConstraintLayout>
 </layout>
