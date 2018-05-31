@@ -44,6 +44,8 @@ public class MyPropertiesLandlordFragment extends Fragment {
 
         myPropertiesLandlordsList = new ArrayList<>();
         getLandlordProperties();
+        adapter = new MyPropertiesLandlordAdapter(getActivity(), myPropertiesLandlordsList);
+        initRecyclerView();
 
         return v;
     }
@@ -56,8 +58,7 @@ public class MyPropertiesLandlordFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
                 String response = ((BallabaOkResponse) entity).body.toString();
                 parseResponse(response);
-                adapter = new MyPropertiesLandlordAdapter(getActivity(), myPropertiesLandlordsList);
-                initRecyclerView();
+                adapter.notifyDataSetChanged();
             }
 
             @Override

@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.michaelkibenko.ballaba.Activities.PromiseAgreementActivities.PromiseCanceletionActivity;
 import com.example.michaelkibenko.ballaba.Activities.PromiseAgreementActivities.PromiseImplementationActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyManagementActivity;
@@ -70,7 +71,10 @@ public class MyPropertiesLandlordAdapter extends RecyclerView.Adapter<MyProperti
 
         if (imageUrl != null){
             Uri uri = Uri.parse(imageUrl);
-            Glide.with(context).load(uri).into(holder.propertyIV);
+            Glide.with(context)
+                 .load(uri)
+                 .apply(new RequestOptions().placeholder(R.drawable.photo_home_grey_24).fitCenter())
+                 .into(holder.propertyIV);
         }
 
         holder.address.setText(myPropertiesLandlord.getAddress() + "");
