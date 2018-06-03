@@ -43,14 +43,7 @@ public class PropertyManageInterestedFragment extends Fragment {
 
         users = new ArrayList<>();
         getUsers();
-        /*for (int i = 0; i < 10; i++) {
-            BallabaUser user = new BallabaUser();
-            user.setId(String.valueOf(i));
-            user.setFirst_name("danny " + i);
-            user.setLast_name("cohen " + i);
-            user.setProfile_image("https://i1.wp.com/www.winhelponline.com/blog/wp-content/uploads/2017/12/user.png?fit=256%2C256&quality=100");
-            users.add(user);
-        }*/
+
         emptyStateContainer = view.findViewById(R.id.property_managment_interested_empty_state_layout);
 
         recyclerView = view.findViewById(R.id.property_manage_interested_recycler_view);

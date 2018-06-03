@@ -22,7 +22,7 @@
                     android:id="@+id/propertyManagement_mainImage"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/propertyDescription_mainImage_height"
-                    android:scaleType="fitCenter"
+                    android:scaleType="centerCrop"
                     android:layout_margin="@dimen/small_margin"
                     android:src="@drawable/photo_home_grey_24" />
 

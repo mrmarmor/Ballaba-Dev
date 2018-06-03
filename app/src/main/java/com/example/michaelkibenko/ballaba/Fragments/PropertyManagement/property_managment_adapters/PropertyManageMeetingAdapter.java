@@ -89,6 +89,24 @@ public class PropertyManageMeetingAdapter extends RecyclerView.Adapter<PropertyM
         // TODO: 30/05/2018  ConnectionManagerMethod
     }
 
+    public int checkHowMuchSelected() {
+        int meetingsUsers = 0;
+        for (int i = 0; i < userList.size(); i++) {
+            boolean meeting = userList.get(i).isMeeting();
+            if (meeting) meetingsUsers++;
+        }
+        return meetingsUsers;
+    }
+
+    public boolean isAllChecked() {
+        for (int i = 0; i < userList.size(); i++) {
+            if (!userList.get(i).isMeeting()){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private CircleImageView userImage;
@@ -142,9 +160,10 @@ public class PropertyManageMeetingAdapter extends RecyclerView.Adapter<PropertyM
             @Override
             public void onClick(View v) {
                 user.setIsMeeting(!user.isMeeting());
-                boolean allUnChecked = isAllUnChecked();
-                boolean moreThanOneChecked = isMoreThanOneChecked();
-                //((PropertyManagementActivity) context).isChecked(!allUnChecked);
+                ((PropertyManagementActivity) context).toolbarImagesVisibility(false ,
+                        true ,
+                        !isAllUnChecked() && !isMoreThanOneChecked() ,
+                        !isAllUnChecked());
             }
         });
 

@@ -34,7 +34,6 @@ public class MyPropertiesLandlordFragment extends Fragment {
     private View v;
     private ProgressBar progressBar;
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {

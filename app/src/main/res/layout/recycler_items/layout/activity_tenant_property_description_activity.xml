@@ -1,0 +1,625 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layoutDirection="rtl">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#f9f9f9">
+
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/my_properties_tenant_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@color/colorPrimary"
+            android:elevation="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/my_properties_tenant_back_btn"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginStart="8dp"
+                android:background="@android:color/transparent"
+                android:padding="10dp"
+                android:rotation="180"
+                android:src="@drawable/left_back_white_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/my_properties_tenant_toolbar_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="הנכסים שלי"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/my_properties_tenant_back_btn"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/my_properties_tenant_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="232dp"
+            android:layout_below="@+id/my_properties_tenant_toolbar"
+            android:scaleType="centerCrop"
+            android:src="@drawable/dummy_property" />
+
+        <RelativeLayout
+            android:id="@+id/my_properties_tenant_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/my_properties_tenant_image_view"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="20dp">
+
+            <LinearLayout
+                android:id="@+id/my_properties_tenant_price_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="₪4800 "
+                    android:textColor="@color/colorAccent"
+                    android:textSize="22sp" />
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_price_static"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_price"
+                    android:text="לחודש"
+                    android:textColor="@color/gray_text_color"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/my_properties_tenant_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/my_properties_tenant_price_container"
+                android:text="אחד העם 1 , תל אביב"
+                android:textColor="@color/gray_text_color"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:id="@+id/my_properties_tenant_entry_date_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/my_properties_tenant_address"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/my_properties_entry_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="תאריך כניסה"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_entry_date_static"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="18dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_price"
+                    android:text="לחודש"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/my_properties_tenant_exit_date_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/my_properties_tenant_entry_date_container"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/my_properties_exit_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="תאריך יציאה"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_exit_date_static"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="18dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_price"
+                    android:text="לחודש"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/my_properties_tenant_rent_period_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/my_properties_tenant_exit_date_container"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/my_properties_rent_period"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="תקופת השכרה"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_rent_period_static"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="18dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_price"
+                    android:text="לחודש"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/my_properties_tenant_contract_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/my_properties_tenant_rent_period_container"
+                android:layout_marginTop="17dp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/my_properties_contract"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/pdf_empty_blue_24" />
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_contract_static"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/my_properties_contract"
+                    android:text="החוזה שלי"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/my_properties_tenant_divider_one"
+                android:layout_width="280dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/my_properties_tenant_contract_container"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:background="@color/gray_button_color" />
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/my_properties_tenant_divider_one"
+                android:id="@+id/my_properties_tenant_first_text_view"
+                android:text="הנכס"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:id="@+id/my_properties_tenant_first_details_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/my_properties_tenant_first_text_view"
+                android:layout_marginTop="20dp">
+
+
+                <ImageView
+                    android:id="@+id/my_properties_tenant_room_image_view"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/door_blue_36_copy" />
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_room_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_room_image_view"
+                    android:text="2 חדרים" />
+
+                <ImageView
+                    android:id="@+id/my_properties_tenant_size_image_view"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginRight="76dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_room_text_view"
+                    android:src="@drawable/square_meter_blue_36" />
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_size_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_size_image_view"
+                    android:text="63 מ''ר" />
+
+                <ImageView
+                    android:id="@+id/my_properties_tenant_shower_image_view"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_below="@+id/my_properties_tenant_room_image_view"
+                    android:layout_marginTop="32dp"
+                    android:src="@drawable/bathtub_blue_36" />
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_shower_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/my_properties_tenant_room_image_view"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_shower_image_view"
+                    android:text="1 מקלחת" />
+
+                <ImageView
+                    android:id="@+id/my_properties_tenant_bathroom_image_view"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_below="@+id/my_properties_tenant_size_image_view"
+                    android:layout_marginRight="70dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_shower_text_view"
+                    android:src="@drawable/toilet_blue_36" />
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_bathroom_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/my_properties_tenant_size_image_view"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_bathroom_image_view"
+                    android:text="63 מ''ר" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/my_properties_tenant_divider_two"
+                android:layout_width="280dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/my_properties_tenant_first_details_container"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="24dp"
+                android:background="@color/gray_button_color" />
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/my_properties_tenant_divider_two"
+                android:id="@+id/my_properties_tenant_second_text_view"
+                android:text="על הנכס"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <RelativeLayout
+                android:id="@+id/my_properties_tenant_second_details_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/my_properties_tenant_second_text_view"
+                android:layout_marginTop="20dp">
+
+
+                <ImageView
+                    android:id="@+id/my_properties_tenant_building_image_view"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/building_blue_36" />
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_building_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_building_image_view"
+                    android:text="2 חדרים" />
+
+                <ImageView
+                    android:id="@+id/my_properties_tenant_furnished_image_view"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginRight="76dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_building_text_view"
+                    android:src="@drawable/bed_blue_36" />
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_furnished_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_furnished_image_view"
+                    android:text="63 מ''ר" />
+
+                <ImageView
+                    android:id="@+id/my_properties_tenant_parking_image_view"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_below="@+id/my_properties_tenant_building_image_view"
+                    android:layout_marginTop="32dp"
+                    android:src="@drawable/parking_blue_36" />
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_parking_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/my_properties_tenant_building_image_view"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_parking_image_view"
+                    android:text="1 מקלחת" />
+
+                <ImageView
+                    android:id="@+id/my_properties_tenant_smoking_image_view"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_below="@+id/my_properties_tenant_furnished_image_view"
+                    android:layout_marginRight="70dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_parking_text_view"
+                    android:src="@drawable/no_smoking_blue_36" />
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_smoking_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/my_properties_tenant_furnished_image_view"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_smoking_image_view"
+                    android:text="63 מ''ר" />
+
+
+                <ImageView
+                    android:id="@+id/my_properties_tenant_pool_image_view"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_below="@+id/my_properties_tenant_parking_image_view"
+                    android:layout_marginTop="32dp"
+                    android:src="@drawable/pool_blue_36" />
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_pool_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/my_properties_tenant_parking_image_view"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_pool_image_view"
+                    android:text="63 מ''ר" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/my_properties_tenant_divider_three"
+                android:layout_width="280dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/my_properties_tenant_second_details_container"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="24dp"
+                android:background="@color/gray_button_color" />
+
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/my_properties_tenant_divider_three"
+                android:id="@+id/my_properties_tenant_third_text_view"
+                android:text="תשלומים שוטפים"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <LinearLayout
+                android:id="@+id/my_properties_tenant_property_tax_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/my_properties_tenant_third_text_view"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/my_properties_property_tax"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ארנונה"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_property_tax_static"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="18dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_price"
+                    android:text="₪381"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/my_properties_tenant_house_committee_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/my_properties_tenant_property_tax_container"
+                android:layout_marginTop="15dp"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/my_properties_house_committee"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ועד בית"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_house_committee_static"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_price"
+                    android:text="₪150"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/my_properties_tenant_divider_four"
+                android:layout_width="280dp"
+                android:layout_height="1dp"
+                android:layout_below="@+id/my_properties_tenant_house_committee_container"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="24dp"
+                android:background="@color/gray_button_color" />
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:layout_below="@+id/my_properties_tenant_divider_four"
+                android:id="@+id/my_properties_tenant_four_text_view"
+                android:text="תשלום"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+            <RelativeLayout
+                android:id="@+id/my_properties_tenant_third_details_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/my_properties_tenant_four_text_view"
+                android:layout_marginTop="20dp">
+
+
+                <ImageView
+                    android:id="@+id/my_properties_tenant_date_image_view"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/date_blue_36" />
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_date_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_date_image_view"
+                    android:text="ב1 כל חודש" />
+
+
+                <ImageView
+                    android:id="@+id/my_properties_tenant_check_image_view"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_below="@+id/my_properties_tenant_date_image_view"
+                    android:layout_marginTop="28dp"
+                    android:src="@drawable/check_blue_36" />
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_check_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/my_properties_tenant_date_image_view"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_check_image_view"
+                    android:text="צ'ק" />
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_or_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/my_properties_tenant_date_image_view"
+                    android:layout_marginRight="49dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_check_text_view"
+                    android:text="או" />
+
+                <ImageView
+                    android:id="@+id/my_properties_tenant_transfer_image_view"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_below="@+id/my_properties_tenant_date_image_view"
+                    android:layout_marginRight="45dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_or_text_view"
+                    android:src="@drawable/transfer_blue_36" />
+
+                <TextView
+                    android:id="@+id/my_properties_tenant_transfer_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/my_properties_tenant_date_image_view"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="28dp"
+                    android:layout_toLeftOf="@+id/my_properties_tenant_transfer_image_view"
+                    android:text="63 מ''ר" />
+
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/my_properties_tenant_map_image_view"
+            android:layout_marginTop="51dp"
+            android:scaleType="centerCrop"
+            android:layout_below="@+id/my_properties_tenant_container"
+            android:layout_width="match_parent"
+            android:background="@mipmap/ic_launcher"
+            android:layout_height="180dp" />
+
+        <Button
+            android:background="@drawable/blue_border"
+            android:layout_marginTop="25dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/my_properties_tenant_map_image_view"
+            android:layout_width="98dp"
+            android:text="תצוגת רחוב"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginBottom="89dp"
+            android:layout_height="37dp" />
+
+    </RelativeLayout>
+
+</ScrollView>

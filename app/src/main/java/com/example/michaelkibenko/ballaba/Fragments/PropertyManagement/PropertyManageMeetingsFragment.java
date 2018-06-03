@@ -148,7 +148,7 @@ public class PropertyManageMeetingsFragment extends Fragment {
 
             JSONArray userArr = obj1.getJSONArray("user");
 
-            for (int i = 0; i < userArr.length() * 10; i++) {
+            for (int i = 0; i < userArr.length() * 2; i++) {
                 //totalFutureCountTV.setText(userArr.length() + " סה''כ");
                 JSONObject obj = userArr.getJSONObject(j);
 
@@ -184,7 +184,7 @@ public class PropertyManageMeetingsFragment extends Fragment {
 
             JSONArray userArr = obj1.getJSONArray("user");
 
-            for (int i = 0; i < userArr.length(); i++) {
+            for (int i = 0; i < userArr.length() * 4; i++) {
                 //totalPastCountTV.setText(userArr.length() + " סה''כ");
                 JSONObject obj = userArr.getJSONObject(j);
 

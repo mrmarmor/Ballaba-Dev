@@ -95,6 +95,15 @@ public class PropertyManageInterestedAdapter extends RecyclerView.Adapter<Proper
         });
     }
 
+    public boolean isAllChecked() {
+        for (int i = 0; i < userList.size(); i++) {
+            if (!userList.get(i).isInterested()){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private CircleImageView userImage;
@@ -146,8 +155,6 @@ public class PropertyManageInterestedAdapter extends RecyclerView.Adapter<Proper
             @Override
             public void onClick(View v) {
                 user.setIsInterested(!user.isInterested());
-                Log.d("CHECK", "isAllUnChecked: " + isAllUnChecked());
-                Log.d("CHECK", "isMoreThanOneChecked: " + isMoreThanOneChecked());
                 ((PropertyManagementActivity) context).toolbarImagesVisibility(false ,
                         true ,
                         !isAllUnChecked() && !isMoreThanOneChecked() ,
@@ -174,6 +181,15 @@ public class PropertyManageInterestedAdapter extends RecyclerView.Adapter<Proper
             if (interested) return false;
         }
         return true;
+    }
+
+    public int checkHowMuchSelected() {
+        int interestedUsers = 0;
+        for (int i = 0; i < userList.size(); i++) {
+            boolean interested = userList.get(i).isInterested();
+            if (interested) interestedUsers++;
+        }
+        return interestedUsers;
     }
 
     public boolean isMoreThanOneChecked() {
