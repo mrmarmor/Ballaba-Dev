@@ -75,7 +75,6 @@
                     android:paddingStart="@dimen/small_margin"
                     android:gravity="center_vertical"
                     android:background="@drawable/gray_border"
-                    android:cursorVisible="false"
                     android:inputType="number" android:drawablePadding="@dimen/activity_horizontal_margin"
                     android:hint="432-323-343-434" android:drawableEnd="@drawable/message_blue_24"
                     android:layout_alignParentStart="true" />
@@ -126,6 +125,7 @@
                         android:layout_width="0dp"
                         android:layout_height="@dimen/creditCard_editText_height"
                         android:layout_marginEnd="@dimen/small_margin"
+                        android:layout_gravity="center"
                         android:background="@drawable/spinner_with_gray_border"
                         android:entries="@array/years"
                         android:layout_weight="1" />
@@ -134,8 +134,9 @@
                         android:layout_width="0dp"
                         android:layout_height="@dimen/creditCard_editText_height"
                         android:layout_marginEnd="@dimen/small_margin"
+                        android:layout_gravity="center"
                         android:background="@drawable/spinner_with_gray_border"
-                        android:entries="@array/months"
+                        android:entries="@array/months_digits"
                         android:layout_weight="1" />
                     <EditText
                         android:id="@+id/creditCard_cardCVV"
