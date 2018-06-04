@@ -28,6 +28,7 @@ import android.widget.Button;
 import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivity;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.ContinueAddPropertyActivity;
+import com.example.michaelkibenko.ballaba.Activities.CreditCardActivity;
 import com.example.michaelkibenko.ballaba.Activities.MyPropertiesBaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Activities.SavedAreaActivity;
@@ -342,7 +343,8 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                 break;
 
             case R.id.nav_payments:
-
+                Intent goCreditCard = new Intent(context, CreditCardActivity.class);
+                context.startActivity(goCreditCard);
                 break;
 
             case R.id.nav_myProperties:

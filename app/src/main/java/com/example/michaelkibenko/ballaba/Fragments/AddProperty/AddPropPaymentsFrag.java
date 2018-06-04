@@ -243,7 +243,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     public void onClick(View v) {
         if (v.getId() == R.id.addProperty_payments_button_next)
             onFinish();
-        else {
+        else { //user pressed a chip/attachment
             wasPaymentsChanged = true;
             Button btn = (Button)v;
             PropertyAttachmentAddonEntity attachment = getHolderByFormattedTitle(btn.getText()+"");
