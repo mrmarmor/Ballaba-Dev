@@ -16,14 +16,25 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
+import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
+import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
+import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityCreditCardBinding;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import static com.example.michaelkibenko.ballaba.Activities.CreditCardActivity.CREDIT_CARD_ICON.AMERICAN_EXPRESS;
 import static com.example.michaelkibenko.ballaba.Activities.CreditCardActivity.CREDIT_CARD_ICON.DINERS;
@@ -51,7 +62,7 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
     }
 
     private ActivityCreditCardBinding binder;
-    private int cardType;
+    private @CREDIT_CARD_ICON int cardType;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -87,7 +98,7 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (!hasFocus) {
-            @CREDIT_CARD_ICON int cardType = getCardType(binder.creditCardCardNumber.getText().toString().trim());
+            cardType = getCardType(binder.creditCardCardNumber.getText().toString().trim());
 
             //TESTING:
             //Log.d(TAG, "credit number: " + s + " ,card type: " + cardType);
@@ -116,7 +127,18 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
 
     private void onFinish() {
         if (isValidCardType() && isValidCVV() && isValidUserName() && isValidIdNumber() && isValidEmail()){
-            Toast.makeText(this, "go to next page", Toast.LENGTH_SHORT).show();
+            JSONObject data = getCreditCardData(new JSONObject());
+            ConnectionsManager.newInstance(this).uploadCreditCard(data, new BallabaResponseListener() {
+                @Override
+                public void resolve(BallabaBaseEntity entity) {
+                    Toast.makeText(CreditCardActivity.this, "go to next page", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void reject(BallabaBaseEntity entity) {
+                    getDefaultSnackBar(binder.getRoot(), ((BallabaErrorResponse)entity).message, false).show();
+                }
+            });
         }
     }
 
@@ -173,4 +195,27 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
         ((ScrollView)binder.getRoot()).smoothScrollTo(0, editText.getTop() - 30);
         editText.requestFocus();
     }
+
+    private JSONObject getCreditCardData(JSONObject jsonObject) {
+        try {
+            for (int i = binder.creditCardEditTextsRoot.getChildCount() - 1; i >= 0; i--) {
+                View v = binder.creditCardEditTextsRoot.getChildAt(i);
+                if (v instanceof EditText) {
+                    jsonObject.put(v.getTag() + "", ((EditText) v).getText() + "");
+                }
+            }
+
+            Log.d(TAG, binder.creditCardCardYear.getSelectedItem()+"");
+            Log.d(TAG, binder.creditCardCardMonth.getSelectedItem()+"");
+            jsonObject.put("cvv", binder.creditCardCardCVV.getText());
+            jsonObject.put("expiration_year", binder.creditCardCardYear.getSelectedItem().toString().substring(2, 4));
+            jsonObject.put("expiration_month", binder.creditCardCardMonth.getSelectedItem().toString());
+
+        } catch (JSONException e) {
+            Log.e(TAG, e.getMessage());
+        }
+
+        return jsonObject;
+    }
+
 }

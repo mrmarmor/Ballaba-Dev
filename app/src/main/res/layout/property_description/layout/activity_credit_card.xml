@@ -33,6 +33,7 @@
                 />
 
             <LinearLayout
+                android:id="@+id/creditCard_editTexts_root"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/small_margin"
@@ -66,6 +67,7 @@
                      android:background="@android:color/white" >-->
                 <EditText
                     android:id="@+id/creditCard_cardNumber"
+                    android:tag="card_number"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/creditCard_editText_height"
                     android:layout_marginStart="@dimen/small_margin"
@@ -123,6 +125,7 @@
                     android:weightSum="3" >
                     <Spinner
                         android:id="@+id/creditCard_cardYear"
+                        android:tag="expiration_year"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/creditCard_editText_height"
                         android:layout_marginEnd="@dimen/small_margin"
@@ -132,6 +135,7 @@
                         android:layout_weight="1" />
                     <Spinner
                         android:id="@+id/creditCard_cardMonth"
+                        android:tag="expiration_month"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/creditCard_editText_height"
                         android:layout_marginEnd="@dimen/small_margin"
@@ -141,6 +145,7 @@
                         android:layout_weight="1" />
                     <EditText
                         android:id="@+id/creditCard_cardCVV"
+                        android:tag="cvv"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/creditCard_editText_height"
                         android:layout_marginEnd="@dimen/small_margin"
@@ -172,6 +177,7 @@
 
                 <EditText
                     android:id="@+id/creditCard_personName"
+                    android:tag="full_name"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/creditCard_editText_height"
                     android:inputType="textPersonName"
@@ -192,6 +198,7 @@
 
                 <EditText
                     android:id="@+id/creditCard_personID"
+                    android:tag="id_number"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/creditCard_editText_height"
                     android:inputType="number"
@@ -215,12 +222,14 @@
 
                 <EditText
                     android:id="@+id/creditCard_userMail"
+                    android:tag="email"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/creditCard_editText_height"
                     android:layout_margin="@dimen/small_margin"
                     android:layout_marginBottom="25dp"
                     android:paddingStart="@dimen/small_margin"
                     android:paddingEnd="@dimen/small_margin"
+                    android:inputType="textEmailAddress"
                     android:background="@drawable/gray_border"
                     android:hint="Israelisraeli@gmail.com" />
 

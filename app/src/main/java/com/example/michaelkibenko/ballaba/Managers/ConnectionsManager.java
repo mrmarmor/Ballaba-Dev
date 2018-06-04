@@ -1264,6 +1264,45 @@ public class ConnectionsManager {
         queue.add(stringRequest);
     }
 
+    public void uploadCreditCard(final JSONObject cardData, final BallabaResponseListener callback) {
+        final ProgressDialog pd = ((BaseActivity)context).getDefaultProgressDialog(context, "Uploading...");
+        pd.show();
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(POST, EndpointsHolder.CREDIT_CARD, cardData, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                pd.dismiss();
+
+                BallabaOkResponse okResponse = new BallabaOkResponse();
+                okResponse.setBody(response.toString());
+                callback.resolve(okResponse);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pd.dismiss();
+                @StringRes String message = context.getString(R.string.error_property_upload);
+                if (error.networkResponse != null) {
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, message));
+                } else {
+                    callback.reject(new BallabaErrorResponse(500, message));
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return getHeadersWithSessionToken();
+            }
+        };
+
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(jsonObjectRequest);
+    }
+
     private JSONArray parseOpenDoorDatesToJsonArray(ArrayList<BallabaMeetingsPickerDateEntity> data) throws JSONException{
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         JSONArray returnable = new JSONArray();
