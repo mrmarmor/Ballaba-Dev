@@ -441,9 +441,11 @@ public class ConnectionsManager {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("?address=");
         for (String address : addresses) {
-            String addressEncoded = URLEncoder.encode(address);
-            stringBuilder.append(addressEncoded);
-            stringBuilder.append("_");
+            if (address != null) {
+                String addressEncoded = URLEncoder.encode(address);
+                stringBuilder.append(addressEncoded);
+                stringBuilder.append("_");
+            }
         }
         stringBuilder.deleteCharAt(stringBuilder.toString().length() - 1);
 

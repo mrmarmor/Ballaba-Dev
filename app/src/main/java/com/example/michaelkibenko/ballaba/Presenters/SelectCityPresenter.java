@@ -137,7 +137,7 @@ public class SelectCityPresenter extends BasePresenter implements ListView.OnIte
     }
 
     public void onOKButtonClick(){
-        if(cities.size() == 0){
+        if(cities.size() == 0 && selectedCity != null){
             cities.add(selectedCity);
         }
         activity.getIntent().putExtra(SELECTED_CITIES_KEY, cities);
