@@ -31,7 +31,7 @@ public class BallabaUserManager {
     }
 
     private String id, phone, email, name, lastName, city, address, aptNo, birthDate, about, tenantScore, landlordScore, guarantorScore, dateCreated, dateUpdated, sessionToken, fcmToken, globalToken, profileImage;
-    private boolean isScored;
+    private boolean isScored, islandlord, isCreditAvailbable;
 
     public BallabaUser generateUserFromResponse(String response) {
         try {
@@ -68,9 +68,12 @@ public class BallabaUserManager {
                 fcmToken = auth.getString("fcm_token");
             }
 
+            islandlord = jsonObject.getBoolean("is_landlord");
+            isCreditAvailbable = jsonObject.getBoolean("is_credit_available");
+
             return new BallabaUser(id, phone, email, name, lastName, city, address, aptNo
                     , birthDate, about, isScored, tenantScore, landlordScore, guarantorScore, dateCreated
-                    , dateUpdated, sessionToken, fcmToken, globalToken, profileImage);
+                    , dateUpdated, sessionToken, fcmToken, globalToken, profileImage, islandlord, isCreditAvailbable);
 
         } catch (JSONException ex) {
             Log.e(TAG, ex.getMessage());
