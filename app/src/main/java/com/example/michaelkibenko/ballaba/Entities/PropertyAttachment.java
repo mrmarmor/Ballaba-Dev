@@ -26,9 +26,9 @@ public class PropertyAttachment {
     }
 
     public enum Type /*implements Serializable*/ {
-        /*TODO missing icon*/FURNISHED(1, R.string.attach_furnished, R.drawable.parking_blue_36),
+        /*TODO missing icon*/FURNISHED(1, R.string.attach_furnished, R.drawable.bed_blue_36),
         /*TODO missing icon*/ELECTRONICS(2, R.string.attach_electronics, R.drawable.parking_blue_36),
-        PARKING(3, R.string.attach_parking, R.drawable.parking_blue_36),
+        PARKING(3, R.string.attach_parking, R.drawable.combined_shape),
         /*TODO missing icon*/RENOVATED(4, R.string.attach_renovated, R.drawable.parking_blue_36),
         /*TODO missing icon*/SUN_BOILER(5, R.string.attach_sunboiler, R.drawable.parking_blue_36),
         /*TODO missing icon*/ELEVATOR(6, R.string.attach_elevator, R.drawable.parking_blue_36),
@@ -45,6 +45,7 @@ public class PropertyAttachment {
         /*TODO missing icon*/GYM(17, R.string.attach_gym, R.drawable.parking_blue_36),
         /*TODO missing icon*/DISABLED_ACCESS(18, R.string.attach_disabled_access, R.drawable.parking_blue_36),
         /*TODO missing icon*/APS(19, R.string.attach_aps, R.drawable.parking_blue_36);
+        //NO_SMOKING()
 
         int id, title, icon;
         Type(int resIntId, int resIntTitle, int resIntIcon) {

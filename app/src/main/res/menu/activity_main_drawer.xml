@@ -27,6 +27,7 @@
         <!--TODO icon is missing -->
         <item
             android:id="@+id/nav_changeName"
+            android:icon="@drawable/form_blue_24"
             android:title="@string/menuItem_changeName" />
         <item
             android:id="@+id/nav_conflicts"

@@ -253,4 +253,6 @@
     <dimen name="savedAreas_button_height">37dp</dimen>
     <dimen name="savedAreas_button_marginStart">9dp</dimen>
 
+    <dimen name="creditCard_editText_height">35dp</dimen>
+
 </resources>

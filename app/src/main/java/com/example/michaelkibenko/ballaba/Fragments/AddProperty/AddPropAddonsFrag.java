@@ -2,6 +2,7 @@ package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -140,13 +141,14 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
     }
 
     private void initButtonNotFurnished(Button chipsItem){
-        PropertyAttachmentAddonEntity entity = new PropertyAttachmentAddonEntity("not_furnished_id"
-                , "not_furnished", getString(R.string.attach_not_furnished));
-        chipsItem.setText(entity.formattedTitle);
+        //PropertyAttachmentAddonEntity entity = new PropertyAttachmentAddonEntity("not_furnished_id"
+        //        , "not_furnished", getString(R.string.attach_not_furnished));
+        chipsItem.setText(getString(R.string.attach_not_furnished));//entity.formattedTitle);
         chipsItem.setTag(NOT_FURNISHED_TAG);
         chipsItem.setOnClickListener(this);
         UiUtils.instance(false, context).onChipsButtonClick(chipsItem, NOT_FURNISHED_TAG);
         furnitureRoot.addView(chipsItem, 0);
+        //furniture.add(0, entity);
     }
 
     private void initButtons(FlowLayout flowLayout, ArrayList<PropertyAttachmentAddonEntity> items){
@@ -273,9 +275,9 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
     private ArrayList<Integer> getDataFromChipsSection(ArrayList<Integer> chipsIds, FlowLayout layout
             , ArrayList<PropertyAttachmentAddonEntity> chips){
 
-        for (int i = 0; i < layout.getChildCount(); i++){
+        for (int i = 1; i < layout.getChildCount(); i++){
             if (layout.getChildAt(i).getTag().equals(UiUtils.ChipsButtonStates.PRESSED)){
-                chipsIds.add(Integer.parseInt(chips.get(i).id));//TODO may invoke array out of bounds!
+                chipsIds.add(Integer.parseInt(chips.get(i - 1).id));//TODO may invoke array out of bounds!
             }
         }
 

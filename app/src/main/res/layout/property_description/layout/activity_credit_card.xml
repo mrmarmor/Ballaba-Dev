@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        <LinearLayout
+            style="@style/allMatchParent"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layoutDirection="rtl"
+            android:orientation="vertical" >
+
+            <TextView
+                style="@style/allWrapContent"
+                android:layout_marginTop="@dimen/large_margin"
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:textSize="@dimen/textSize_big"
+                android:textColor="@color/black"
+                android:text="אמצעי תשלום?"
+                android:fontFamily="@font/rubik_medium"
+                />
+
+            <TextView
+                style="@style/allWrapContent"
+                android:layout_marginStart="@dimen/small_margin"
+                android:textColor="@color/gray_text_color"
+                android:gravity="end"
+                android:text="אמצעי התשלום נועד…הסבר"
+                android:paddingBottom="76dp"
+                />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/small_margin"
+                android:elevation="@dimen/elevation"
+                android:orientation="vertical"
+                android:background="@android:color/white">
+
+                <TextView
+                    android:layout_width="wrap_content" android:layout_height="21dp"
+                    android:textColor="@color/colorPrimary"
+                    android:text="פרטים כרטיס אשראי"
+                    android:gravity="bottom"
+                    android:drawableStart="@drawable/credit_card_blue_24"
+                    android:drawablePadding="5dp"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+                <TextView
+                    style="@style/allWrapContent"
+                    android:textSize="@dimen/textSize_small"
+                    android:text="מספר כרטיס"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="@dimen/small_margin" />
+
+                <!-- <RelativeLayout
+                     android:layout_width="match_parent"
+                     android:layout_height="35dp"
+                     android:layout_marginStart="@dimen/small_margin"
+                     android:layout_marginEnd="@dimen/small_margin"
+                     android:layout_marginTop="6dp"
+                     android:background="@android:color/white" >-->
+                <EditText
+                    android:id="@+id/creditCard_cardNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/creditCard_editText_height"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    android:layout_marginTop="6dp"
+                    android:paddingEnd="@dimen/activity_horizontal_margin"
+                    android:paddingStart="@dimen/small_margin"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/gray_border"
+                    android:cursorVisible="false"
+                    android:inputType="number" android:drawablePadding="@dimen/activity_horizontal_margin"
+                    android:hint="432-323-343-434" android:drawableEnd="@drawable/message_blue_24"
+                    android:layout_alignParentStart="true" />
+                <!--<ImageView
+                    android:id="@+id/creditCard_cardIcon"
+                    android:layout_width="@dimen/icon_regular"
+                    android:layout_height="@dimen/icon_regular"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_alignParentEnd="true" />-->
+                <!--
+                                </RelativeLayout>
+                -->
+
+                <TextView
+                    style="@style/allWrapContent"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:textSize="@dimen/textSize_small"
+                    android:text="תוקף כרטיס" />
+
+                <TextView
+                    style="@style/allWrapContent"
+                    android:layout_marginTop="-16dp"
+                    android:layout_marginEnd="88dp"
+                    android:textSize="@dimen/textSize_small"
+                    android:layout_gravity="end"
+                    android:text="cvv" />
+
+                <ImageButton
+                    android:id="@+id/creditCard_cardCVV_instructions"
+                    style="@style/allWrapContent"
+                    android:layout_marginEnd="14dp"
+                    android:layout_marginTop="-16dp"
+                    android:layout_gravity="end"
+                    android:background="@android:color/transparent"
+                    android:src="@drawable/info_coral_grey"
+                    android:onClick="onClickInfo" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal"
+                    android:weightSum="3" >
+                    <Spinner
+                        android:id="@+id/creditCard_cardYear"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/creditCard_editText_height"
+                        android:layout_marginEnd="@dimen/small_margin"
+                        android:background="@drawable/spinner_with_gray_border"
+                        android:entries="@array/years"
+                        android:layout_weight="1" />
+                    <Spinner
+                        android:id="@+id/creditCard_cardMonth"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/creditCard_editText_height"
+                        android:layout_marginEnd="@dimen/small_margin"
+                        android:background="@drawable/spinner_with_gray_border"
+                        android:entries="@array/months"
+                        android:layout_weight="1" />
+                    <EditText
+                        android:id="@+id/creditCard_cardCVV"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/creditCard_editText_height"
+                        android:layout_marginEnd="@dimen/small_margin"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:inputType="number"
+                        android:background="@drawable/gray_border"
+                        android:cursorVisible="false"
+                        android:hint="546"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content" android:layout_height="22dp"
+                    android:textColor="@color/colorPrimary"
+                    android:text="פרטים אישיים"
+                    android:drawableStart="@drawable/user_blue_24"
+                    android:drawablePadding="5dp"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="34dp"/>
+
+                <TextView
+                    style="@style/allWrapContent"
+                    android:textSize="@dimen/textSize_small"
+                    android:textColor="@color/black"
+                    android:text="שם מלא"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="6dp"/>
+
+                <EditText
+                    android:id="@+id/creditCard_personName"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/creditCard_editText_height"
+                    android:inputType="textPersonName"
+                    android:background="@drawable/gray_border"
+                    android:cursorVisible="false"
+                    android:hint="ישראל ישראלי"
+                    android:paddingStart="@dimen/small_margin"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    android:layout_marginTop="6dp"/>
+
+                <TextView
+                    style="@style/allWrapContent"
+                    android:textSize="@dimen/textSize_small"
+                    android:text="מספר זהות"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="20dp" />
+
+                <EditText
+                    android:id="@+id/creditCard_personID"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/creditCard_editText_height"
+                    android:inputType="number"
+                    android:background="@drawable/gray_border"
+                    android:cursorVisible="false"
+                    android:hint="300454300"
+                    android:paddingStart="@dimen/small_margin"
+                    android:gravity="center_vertical"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginEnd="@dimen/small_margin"
+                    android:layout_marginTop="3dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:layout_marginTop="34dp"
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:textColor="@color/colorPrimary"
+                    android:text="קבלת חשבונית למייל"
+                    android:drawablePadding="5dp"
+                    android:drawableStart="@drawable/message_blue_24" />
+
+                <EditText
+                    android:id="@+id/creditCard_userMail"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/creditCard_editText_height"
+                    android:layout_margin="@dimen/small_margin"
+                    android:layout_marginBottom="25dp"
+                    android:paddingStart="@dimen/small_margin"
+                    android:paddingEnd="@dimen/small_margin"
+                    android:background="@drawable/gray_border"
+                    android:cursorVisible="false"
+                    android:hint="Israelisraeli@gmail.com" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/creditCard_button_next"
+                android:layout_width="@dimen/button_width"
+                android:layout_height="@dimen/button_height"
+                style="@style/AppButtonAnother"
+                android:layout_margin="30dp"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/button_next"
+                android:onClick="onClickNext"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</layout>
