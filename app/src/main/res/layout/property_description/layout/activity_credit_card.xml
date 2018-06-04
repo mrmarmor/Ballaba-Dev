@@ -75,8 +75,9 @@
                     android:paddingStart="@dimen/small_margin"
                     android:gravity="center_vertical"
                     android:background="@drawable/gray_border"
-                    android:inputType="number" android:drawablePadding="@dimen/activity_horizontal_margin"
-                    android:hint="432-323-343-434" android:drawableEnd="@drawable/message_blue_24"
+                    android:inputType="number"
+                    android:drawablePadding="@dimen/activity_horizontal_margin"
+                    android:hint="432-323-343-434"
                     android:layout_alignParentStart="true" />
                 <!--<ImageView
                     android:id="@+id/creditCard_cardIcon"
@@ -107,7 +108,8 @@
                     android:id="@+id/creditCard_cardCVV_instructions"
                     style="@style/allWrapContent"
                     android:layout_marginEnd="14dp"
-                    android:layout_marginTop="-16dp"
+                    android:layout_marginTop="-22dp"
+                    android:layout_marginBottom="6dp"
                     android:layout_gravity="end"
                     android:background="@android:color/transparent"
                     android:src="@drawable/info_coral_grey"
@@ -117,7 +119,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/small_margin"
-                    android:layout_marginTop="6dp"
                     android:orientation="horizontal"
                     android:weightSum="3" >
                     <Spinner
@@ -125,7 +126,7 @@
                         android:layout_width="0dp"
                         android:layout_height="@dimen/creditCard_editText_height"
                         android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_gravity="center"
+                        android:textAlignment="center"
                         android:background="@drawable/spinner_with_gray_border"
                         android:entries="@array/years"
                         android:layout_weight="1" />
@@ -134,7 +135,7 @@
                         android:layout_width="0dp"
                         android:layout_height="@dimen/creditCard_editText_height"
                         android:layout_marginEnd="@dimen/small_margin"
-                        android:layout_gravity="center"
+                        android:textAlignment="center"
                         android:background="@drawable/spinner_with_gray_border"
                         android:entries="@array/months_digits"
                         android:layout_weight="1" />
@@ -147,13 +148,13 @@
                         android:layout_gravity="center"
                         android:inputType="number"
                         android:background="@drawable/gray_border"
-                        android:cursorVisible="false"
                         android:hint="546"
                         android:layout_weight="1" />
                 </LinearLayout>
 
                 <TextView
-                    android:layout_width="wrap_content" android:layout_height="22dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
                     android:textColor="@color/colorPrimary"
                     android:text="פרטים אישיים"
                     android:drawableStart="@drawable/user_blue_24"
@@ -175,7 +176,6 @@
                     android:layout_height="@dimen/creditCard_editText_height"
                     android:inputType="textPersonName"
                     android:background="@drawable/gray_border"
-                    android:cursorVisible="false"
                     android:hint="ישראל ישראלי"
                     android:paddingStart="@dimen/small_margin"
                     android:gravity="center_vertical"
@@ -196,7 +196,6 @@
                     android:layout_height="@dimen/creditCard_editText_height"
                     android:inputType="number"
                     android:background="@drawable/gray_border"
-                    android:cursorVisible="false"
                     android:hint="300454300"
                     android:paddingStart="@dimen/small_margin"
                     android:gravity="center_vertical"
@@ -223,7 +222,6 @@
                     android:paddingStart="@dimen/small_margin"
                     android:paddingEnd="@dimen/small_margin"
                     android:background="@drawable/gray_border"
-                    android:cursorVisible="false"
                     android:hint="Israelisraeli@gmail.com" />
 
             </LinearLayout>
