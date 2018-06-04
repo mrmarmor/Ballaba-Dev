@@ -1,7 +1,5 @@
 package com.example.michaelkibenko.ballaba.Entities;
 
-import android.content.Context;
-
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.google.gson.Gson;
 
@@ -15,7 +13,7 @@ import java.util.Date;
  */
 
 public class BallabaUser extends BallabaBaseEntity {
-    private String id, phone, email, first_name, last_name, city, address, apt_no, birth_date, about, tenant_score, landlord_score, guarantor_score, date_created, date_updated, session_token, device_id, global_token, fcm_token, profile_image, meeting_time;
+    private String id, phone, email, first_name, last_name, city, address, apt_no, birth_date, about, tenant_score, landlord_score, guarantor_score, date_created, date_updated, session_token, device_id, global_token, fcm_token, profile_image, meeting_time , id_number;
 
     private boolean isInterested, isMeeting , isScored;
 
@@ -216,5 +214,13 @@ public class BallabaUser extends BallabaBaseEntity {
 
     public void setScored(boolean scored) {
         isScored = scored;
+    }
+
+    public String getId_number() {
+        return trimNull(id_number);
+    }
+
+    public void setId_number(String id_number) {
+        this.id_number = id_number;
     }
 }

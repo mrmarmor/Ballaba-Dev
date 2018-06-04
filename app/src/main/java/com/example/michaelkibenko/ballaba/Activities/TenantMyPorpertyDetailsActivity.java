@@ -23,7 +23,7 @@ public class TenantMyPorpertyDetailsActivity extends BaseActivity{
         exitDateTV = findViewById(R.id.my_properties_tenant_exit_date_static);
 
         myContractLayout = findViewById(R.id.my_properties_tenant_contract_container);
-        
+
 
 
     }

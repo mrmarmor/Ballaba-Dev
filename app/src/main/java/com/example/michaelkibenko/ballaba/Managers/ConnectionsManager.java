@@ -797,6 +797,7 @@ public class ConnectionsManager {
             public void onErrorResponse(VolleyError error) {
                 pd.dismiss();
                 @StringRes String message = context.getString(R.string.error_property_upload);
+                String errorSTR = new String(error.networkResponse.data);
                 if (error.networkResponse != null) {
                     callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, message));
                 } else {

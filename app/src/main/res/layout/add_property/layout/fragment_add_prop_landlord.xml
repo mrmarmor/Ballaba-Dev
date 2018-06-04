@@ -92,6 +92,31 @@
                     android:inputType="textPersonName"
                     android:hint="@string/addProperty_landlord_lastName_hint" />
 
+                <TextView style="@style/addProperty_textViews"
+                    android:text="@string/addProperty_landlord_id_number" />
+
+                <EditText
+                    android:id="@+id/addProp_idNumber_editText"
+                    android:tag="id_number"
+                    style="@style/addProperty_editTexts"
+                    android:inputType="numberDecimal"
+                    android:hint="@string/addProperty_landlord_id_number_hint" />
+
+                <TextView style="@style/addProperty_textViews"
+                    android:text="@string/addProperty_landlord_birthDate" />
+
+                <EditText
+                    android:id="@+id/addProp_birthDate_editText"
+                    android:tag="birth_date"
+                    style="@style/addProperty_editTexts"
+                    android:inputType="numberDecimal"
+                    android:layoutDirection="ltr"
+                    android:paddingRight="8dp"
+                    android:focusable="false"
+                    android:drawableLeft="@drawable/calender_blue_24_copy"
+                    android:hint="@string/addProperty_landlord_birthDate_hint" />
+
+
                 <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_email" />
                 <EditText
                     android:id="@+id/addProp_email_editText"

@@ -1,11 +1,13 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -17,10 +19,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ScrollView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
@@ -40,8 +47,12 @@ import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropLandlordBin
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -58,6 +69,9 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     public BallabaUser user;
     private boolean isProfileImageChanged = false;
     private boolean areAllDataFieldsFilledUp = true;
+
+    private Calendar myCalendar = Calendar.getInstance();
+    private SimpleDateFormat sdf;
 
     private ArrayList<String> cities;
 
@@ -79,12 +93,79 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         initEditTexts();
         initButtons(view);
 
+
+
+        binderLandLord.addPropBirthDateEditText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UiUtils.instance(true , context).hideSoftKeyboard(v);
+                showDatePicker();
+            }
+        });
+
         return view;
     }
 
     public AddPropLandlordFrag setMainBinder(ActivityAddPropertyBinding binder){
         this.binderMain = binder;
         return this;
+    }
+
+    private void showDatePicker() {
+
+        DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateDate();
+                Log.d(TAG, myCalendar.toString());
+            }
+
+        };
+        new DatePickerDialog(context, R.style.MyDatePickerDialogTheme , date,
+                1995,
+                myCalendar.get(Calendar.MONTH),
+                myCalendar.get(Calendar.DAY_OF_MONTH))
+                .show();
+    }
+
+    private void updateDate() {
+        String myFormat = "dd / MM / yyyy";
+        sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        String formattedDate = sdf.format(myCalendar.getTime());
+        String[] date = formattedDate.split(" / ");
+
+        String year = date[0];
+        String month = date[1];
+        String day = date[2];
+
+        Calendar minimumYearsCheckCalendar = Calendar.getInstance();
+        minimumYearsCheckCalendar.setTime(new Date());
+        minimumYearsCheckCalendar.add(Calendar.YEAR, -18);
+
+        if(myCalendar.before(minimumYearsCheckCalendar)){ // user above 18 years old
+
+            Log.d(TAG, "updateDate: " + year + " " + month + " " + day);
+            /*String[] monthArr = context.getResources().getStringArray(R.array.months);
+            for (int i = 0; i < monthArr.length; i++) {
+                if (Integer.parseInt(month) == i) {
+                    month = monthArr[i - 1];
+                    break;
+                }
+            }*/
+            //Toast.makeText(context, "" + day + " " + month + " " + year, Toast.LENGTH_SHORT).show();
+            binderLandLord.addPropBirthDateEditText.setText(year + " / " + month + " / " + day);
+        }else { // user under 18 years old
+
+        }
+
+        //binderLandLord.addPropBirthDateEditText.setText();
     }
 
     private void initEditTexts(){
@@ -98,7 +179,21 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             binderLandLord.addPropAddressActv.setText(user.getAddress());
             binderLandLord.addPropAptNoEditText.setText(user.getApt_no());
             binderLandLord.addPropAboutEditText.setText(user.getAbout());
-            Glide.with(context).load(user.getProfile_image()).into(binderLandLord.addPropProfileImageButton);
+            binderLandLord.addPropIdNumberEditText.setText(user.getId_number());
+            //binderLandLord.addPropBirthDateEditText.setText(user.getBirth_date());
+            Glide.with(context).load(user.getProfile_image()).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    binderLandLord.addPropProfileImageButton.setImageDrawable(context.getResources().getDrawable(R.drawable.add_user_b_lue_60));
+                    return true;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    binderLandLord.addPropProfileImageButton.setImageDrawable(resource);
+                    return true;
+                }
+            }).into(binderLandLord.addPropProfileImageButton);
         }
         binderLandLord.addPropFirstNameEditText.requestFocus();
 
@@ -154,6 +249,9 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
 
         map.put(binderLandLord.addPropAboutEditText.getTag()+""
                 , binderLandLord.addPropAboutEditText.getText()+"");
+
+        map.put(binderLandLord.addPropBirthDateEditText.getTag()+""
+                , binderLandLord.addPropBirthDateEditText.getText() + "");
 
         //Log.d(TAG, map.get("aboutYourself")+":"+map.get("firstName"));
 

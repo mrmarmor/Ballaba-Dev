@@ -62,7 +62,7 @@ public class ScoringPersonalPresenter implements RadioButton.OnClickListener {
 
         myCalendar = Calendar.getInstance();
         initButtons();
-        initEditTexts();
+        //initEditTexts();
 
         View.OnClickListener clickListener = new View.OnClickListener() {
             @SuppressLint("NewApi")
@@ -94,7 +94,7 @@ public class ScoringPersonalPresenter implements RadioButton.OnClickListener {
         binder.scoringPersonalOkButton.setOnClickListener(clickListener);
     }
 
-    private void initEditTexts() {
+    /*private void initEditTexts() {
         editTexts = new EditText[]{binder.scoringDateOfBirthYearEditText,
                 binder.scoringDateOfBirthMonthEditText,
                 binder.scoringDateOfBirthDayEditText};
@@ -108,7 +108,7 @@ public class ScoringPersonalPresenter implements RadioButton.OnClickListener {
                 }
             });
         }
-    }
+    }*/
 
     private void initButtons() {
         for (int i = 0; i < root.getChildCount(); i++) {
@@ -164,7 +164,7 @@ public class ScoringPersonalPresenter implements RadioButton.OnClickListener {
         minimumYearsCheckCalendar.add(Calendar.YEAR, -18);
 
         if(myCalendar.before(minimumYearsCheckCalendar)){ // user above 18 years old
-            binder.scoringDateOfBirthError.setVisibility(View.INVISIBLE);
+            //binder.scoringDateOfBirthError.setVisibility(View.INVISIBLE);
             Log.d(TAG, "updateDate: " + year + " " + month + " " + day);
             String[] monthArr = activity.getResources().getStringArray(R.array.months);
             for (int i = 0; i < monthArr.length; i++) {
@@ -181,18 +181,18 @@ public class ScoringPersonalPresenter implements RadioButton.OnClickListener {
             checkFieldsInserted();
         }else { // user under 18 years old
             validateDateEditTexts();
-            binder.scoringDateOfBirthError.setVisibility(View.VISIBLE);
+            //binder.scoringDateOfBirthError.setVisibility(View.VISIBLE);
         }
 
     }
 
     private void checkFieldsInserted(){
-        for (int i = 0; i < editTexts.length; i++) {
+        /*for (int i = 0; i < editTexts.length; i++) {
             if (!editTexts[i].getText().toString().isEmpty()){
                 isDateInserted = true;
                 break;
             }
-        }
+        }*/
         if (familyStatusChecked && carStatusChecked && isDateInserted){
             UiUtils.instance(true , activity).buttonChanger(binder.scoringPersonalOkButton , true);
         }
@@ -229,7 +229,7 @@ public class ScoringPersonalPresenter implements RadioButton.OnClickListener {
 
         Intent intent = new Intent(activity, ScoringWorkActivity.class);
 
-        validateDateEditTexts();
+        //validateDateEditTexts();
 
         if (familyStatusChecked && carStatusChecked && isDateInserted) {
             intent.putExtra(PERSONAL_CAR, carRBSelected.getText());

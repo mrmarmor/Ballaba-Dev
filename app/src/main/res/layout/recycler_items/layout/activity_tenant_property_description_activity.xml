@@ -151,7 +151,6 @@
 
             </LinearLayout>
 
-
             <LinearLayout
                 android:id="@+id/my_properties_tenant_rent_period_container"
                 android:layout_width="match_parent"
