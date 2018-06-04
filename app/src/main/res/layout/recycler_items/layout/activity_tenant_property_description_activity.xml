@@ -10,7 +10,6 @@
         android:layout_height="match_parent"
         android:background="#f9f9f9">
 
-
         <android.support.constraint.ConstraintLayout
             android:id="@+id/my_properties_tenant_toolbar"
             android:layout_width="match_parent"
@@ -106,7 +105,7 @@
                 android:gravity="center_vertical">
 
                 <TextView
-                    android:id="@+id/my_properties_entry_date"
+                    android:id="@+id/my_properties_tenant_entry_date_static"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="תאריך כניסה"
@@ -114,11 +113,10 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/my_properties_tenant_entry_date_static"
+                    android:id="@+id/my_properties_tenant_entry_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="18dp"
-                    android:layout_toLeftOf="@+id/my_properties_tenant_price"
                     android:text="לחודש"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp" />
@@ -135,7 +133,7 @@
                 android:gravity="center_vertical">
 
                 <TextView
-                    android:id="@+id/my_properties_exit_date"
+                    android:id="@+id/my_properties_tenant_exit_date_static"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="תאריך יציאה"
@@ -143,11 +141,10 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/my_properties_tenant_exit_date_static"
+                    android:id="@+id/my_properties_tenant_exit_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="18dp"
-                    android:layout_toLeftOf="@+id/my_properties_tenant_price"
                     android:text="לחודש"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp" />
@@ -164,7 +161,7 @@
                 android:gravity="center_vertical">
 
                 <TextView
-                    android:id="@+id/my_properties_rent_period"
+                    android:id="@+id/my_properties_tenant_rent_period_static"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="תקופת השכרה"
@@ -172,11 +169,10 @@
                     android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/my_properties_tenant_rent_period_static"
+                    android:id="@+id/my_properties_tenant_rent_period"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="18dp"
-                    android:layout_toLeftOf="@+id/my_properties_tenant_price"
                     android:text="לחודש"
                     android:textColor="@color/colorAccent"
                     android:textSize="16sp" />
@@ -192,7 +188,7 @@
                 android:gravity="center_vertical">
 
                 <ImageView
-                    android:id="@+id/my_properties_contract"
+                    android:id="@+id/my_properties_contract_image_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/pdf_empty_blue_24" />
