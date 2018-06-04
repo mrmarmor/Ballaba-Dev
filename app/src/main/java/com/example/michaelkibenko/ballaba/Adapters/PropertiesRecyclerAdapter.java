@@ -156,6 +156,8 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         return items;
     }
 
+
+
     @Override
     public int getItemCount() {return properties == null? 0 : properties.size();}
 
