@@ -434,6 +434,7 @@ public class BallabaSearchPropertiesManager {
         for (int i = 0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             HashMap<String, String> map = new HashMap<>();
+            map.put("id", heb.trimNull(jsonObject.getString("id")));
             map.put("start_time", heb.trimNull(jsonObject.getString("start_time")));
             map.put("end_time", heb.trimNull(jsonObject.getString("end_time")));
             openDoorDates.add(map);

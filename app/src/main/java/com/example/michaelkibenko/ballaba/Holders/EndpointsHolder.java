@@ -38,4 +38,5 @@ public @interface EndpointsHolder {
     String MY_PROPERTY_INTERESTED_USERS = "https://api.ballaba-it.com/v1/property/";
     String DELETE_INTEREST_USER = "https://api.ballaba-it.com/v1/property/";
     String MY_PROPERTY_MEETING_USERS = "https://api.ballaba-it.com/v1/property/";
+    String TENANT_APPROVE_MEETING = "https://api.ballaba-it.com/v1/properties/";
 }
