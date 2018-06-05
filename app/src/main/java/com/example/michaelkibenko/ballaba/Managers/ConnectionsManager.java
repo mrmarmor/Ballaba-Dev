@@ -300,7 +300,7 @@ public class ConnectionsManager {
     //TODO all these 3 method below could be easily replaced by one single generic method
     public void getPropertyById(final String PROPERTY_ID, final BallabaResponseListener callback) {
         StringRequest stringRequest = new StringRequest(Request.Method.GET
-                , EndpointsHolder.PROPERTY + PROPERTY_ID, new Response.Listener<String>() {
+                , EndpointsHolder.PROPERTY_BY_ID + PROPERTY_ID, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 BallabaOkResponse okResponse = new BallabaOkResponse();

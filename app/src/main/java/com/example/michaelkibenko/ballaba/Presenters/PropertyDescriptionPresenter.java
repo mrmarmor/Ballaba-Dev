@@ -123,7 +123,6 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
 
                     initPropertyMap();
 
-
                     //initStreetView();
 
                     initMeetings();
