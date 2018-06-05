@@ -162,6 +162,8 @@ public class SelectCityPresenter extends BasePresenter implements ListView.OnIte
             addCityToFlowLayout(selectedCity);//TODO do so for other countries
         }
 
+        binder.selectCityOKButton.setVisibility(View.VISIBLE);
+
     }
 
     //when editText lose his focus he loses his GooglePlaces adapter. so i need to give him it back

@@ -61,6 +61,7 @@
                     app:civ_fill_color="@android:color/white"
                     app:civ_border_color="@android:color/darker_gray"
                     app:civ_border_overlay="true"
+                    android:background="@drawable/add_user_b_lue_60"
                 />
 
             </LinearLayout>
@@ -152,6 +153,14 @@
                     android:tag="address"
                     style="@style/addProperty_editTexts"
                     android:hint="@string/addProperty_landlord_address_hint" />
+
+                <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_aptNo" />
+                <EditText
+                    android:id="@+id/addProp_houseNo_editText"
+                    android:layout_width="@dimen/addProperty_editText_short_width"
+                    android:tag="street_number"
+                    style="@style/add_property_editTexts_with_number"
+                    android:hint="@string/addProperty_landlord_aptNo_hint" />
 
                 <TextView style="@style/addProperty_textViews" android:text="@string/addProperty_landlord_aptNo" />
                 <EditText

@@ -24,7 +24,25 @@
             android:textSize="@dimen/textSize_big"
             android:textColor="@color/black" />
 
-        <GridLayout
+        <LinearLayout
+            android:id="@+id/propertyDescriptionAttachmentsExtended_container_right"
+            android:layout_width="170dp"
+            style="@style/allWrapContent"
+            android:minWidth="@dimen/propertyDescription_payments_textView_width"
+            app:layout_constraintStart_toStartOf="@id/propertyDescriptionAttachmentsExtended_title_textView"
+            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionAttachmentsExtended_title_textView"
+            android:orientation="vertical" />
+        <LinearLayout
+            android:id="@+id/propertyDescriptionAttachmentsExtended_container_left"
+            android:layout_width="170dp"
+            style="@style/allWrapContent"
+            android:minWidth="@dimen/propertyDescription_payments_textView_width"
+            app:layout_constraintStart_toEndOf="@id/propertyDescriptionAttachmentsExtended_container_right"
+            app:layout_constraintTop_toTopOf="@id/propertyDescriptionAttachmentsExtended_container_right"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:orientation="vertical" />
+
+        <!--<GridLayout
             android:id="@+id/propertyDescriptionAttachmentsExtended_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,7 +50,7 @@
             app:layout_constraintTop_toBottomOf="@id/propertyDescriptionAttachmentsExtended_title_textView"
             android:layout_gravity="fill"
             android:columnCount="2"
-            android:layout_columnWeight="1" />
+            android:layout_columnWeight="1" />-->
 
         <!--<android.support.v7.widget.RecyclerView
             android:id="@+id/propertyDescriptionAttachmentsExtended_recyclerView"

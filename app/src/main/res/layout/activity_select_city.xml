@@ -35,13 +35,19 @@
             android:textSize="@dimen/textSize_title"
             android:includeFontPadding="false"
             />
-        <ImageButton
+        <Button
             android:id="@+id/selectCity_OK_button"
-            style="@style/icon_wide_click_area"
+            style="@style/allWrapContent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            android:src="@drawable/check_blue_24"
+            android:text="@string/mainScreen_searchButton_text"
+            android:textColor="@color/colorPrimary"
+            android:fontFamily="@font/rubik_medium"
+            android:textStyle="bold"
+            android:drawableEnd="@drawable/confirmation_blue_24"
+            android:visibility="gone"
+            android:background="@android:color/transparent"
             android:onClick="@{() -> presenter.onOKButtonClick()}"
             />
 

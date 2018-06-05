@@ -169,14 +169,19 @@ public class PropertyManageFragment extends Fragment {
                 tv.setText(propertyAttachment.getTitle());
                 tv.setCompoundDrawablesRelativeWithIntrinsicBounds(propertyAttachment.getIcon(), 0, 0, 0);
                 tv.setTextAppearance(R.style.property_description_textViews);
-                tv.setPaddingRelative(16, 16, 8, 16);
+                tv.setCompoundDrawablePadding(15);
+                tv.setPaddingRelative(0, 16, 8, 16);
 
-                GridLayout.LayoutParams param = new GridLayout.LayoutParams(
+                /*GridLayout.LayoutParams param = new GridLayout.LayoutParams(
                         GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL,1f),
                         GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL,1f));
-                tv.setLayoutParams(param);
+                tv.setLayoutParams(param);*/
 
-                binderAttachExt.propertyDescriptionAttachmentsExtendedContainer.addView(tv);
+                if (i % 2 == 0)
+                    //binderAttachExt.propertyDescriptionAttachmentsExtendedContainer.addView(tv);
+                    binderAttachExt.propertyDescriptionAttachmentsExtendedContainerRight.addView(tv);
+                else
+                    binderAttachExt.propertyDescriptionAttachmentsExtendedContainerLeft.addView(tv);
                 //addView(binderAttachExt.propertyDescriptionAttachmentsExtendedContainer, tv, i);
             }
         } else {
