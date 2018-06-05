@@ -176,8 +176,8 @@ public class BallabaSearchPropertiesManager {
         ConnectionsManager.getInstance(context).getPropertyByAddress(cities, filterResult, callback);
     }
 
-    public void getLazyLoadingResults(BallabaResponseListener callback){
-        ConnectionsManager.getInstance(context).lazyLoading(callback);
+    public void getLazyLoadingResults(final boolean isRefresh, BallabaResponseListener callback){
+        ConnectionsManager.getInstance(context).lazyLoading(isRefresh, callback);
     }
 
     public String getCurrentSearchEndpoint() {

@@ -18,6 +18,7 @@
     <dimen name="button_height">39dp</dimen>
     <dimen name="button_next_offset">40dp</dimen>
     <dimen name="view_height_large">51dp</dimen>
+    <dimen name="attachment_drawable_padding_end">15dp</dimen>
     <dimen name="translationZ">3dp</dimen>
     <dimen name="elevation">2dp</dimen>
     <!-- End of Default app dimensions. -->
@@ -187,7 +188,7 @@
 
     <dimen name="propertyDescription_divider_horizontalOffset">40dp</dimen>
 
-    <dimen name="propertyDescription_attachments_leftAttachmentsOffset_start">125dp</dimen>
+    <dimen name="propertyDescription_attachments_leftAttachmentsOffset_start">108dp</dimen>
     <dimen name="propertyDescription_attachments_bottomAttachmentsOffset_top">20dp</dimen>
     <dimen name="propertyDescription_googleMap_height">180dp</dimen>
 

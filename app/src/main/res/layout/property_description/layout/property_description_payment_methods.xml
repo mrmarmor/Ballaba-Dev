@@ -31,6 +31,7 @@
             style="@style/property_description_textViews"
             app:layout_constraintStart_toStartOf="@id/propertyDescriptionPaymentMethods_title_textView"
             app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPaymentMethods_title_textView"
+            android:drawablePadding="@dimen/attachment_drawable_padding_end"
             android:drawableStart="@drawable/date_blue_36"
             android:text="@string/propertyDescriptionPaymentMethods_date_textView"/>
 
@@ -39,6 +40,7 @@
             style="@style/property_description_textViews"
             app:layout_constraintStart_toStartOf="@id/propertyDescriptionPaymentMethods_title_textView"
             app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPaymentMethods_date_textView"
+            android:drawablePadding="@dimen/attachment_drawable_padding_end"
             android:drawableStart="@drawable/check_blue_36"
             android:text="@string/propertyDescriptionPaymentMethods_cheque_textView" />
 
@@ -53,12 +55,13 @@
             android:text="@string/propertyDescriptionPaymentMethods_or_textView" />
 
         <TextView
-            android:id="@+id/propertyDescriptionPaymentMethods_transfer_textView"
-            style="@style/property_description_textViews"
-            app:layout_constraintStart_toEndOf="@id/propertyDescriptionPaymentMethods_or_textView"
-            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPaymentMethods_date_textView"
-            android:drawableStart="@drawable/transfer_blue_36"
-            android:text="@string/propertyDescriptionPaymentMethods_transfer_textView" />
+        android:id="@+id/propertyDescriptionPaymentMethods_transfer_textView"
+        style="@style/property_description_textViews"
+        app:layout_constraintStart_toEndOf="@id/propertyDescriptionPaymentMethods_or_textView"
+        app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPaymentMethods_date_textView"
+        android:drawablePadding="@dimen/attachment_drawable_padding_end"
+        android:drawableStart="@drawable/transfer_blue_36"
+        android:text="@string/propertyDescriptionPaymentMethods_transfer_textView" />
 
       <!--  <ImageView
             android:id="@+id/propertyDescriptionPaymentMethods_googleMap_imageView"

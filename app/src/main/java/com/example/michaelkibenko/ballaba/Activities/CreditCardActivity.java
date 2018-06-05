@@ -15,6 +15,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -152,7 +153,8 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
     }
 
     private boolean isValidCVV() {
-        if (binder.creditCardCardCVV.getText().toString().length() != 3) {
+        final int cvvLength = binder.creditCardCardCVV.getText().toString().length();
+        if (cvvLength < 3 || cvvLength > 4) {
             onError(binder.creditCardCardCVV, "מספר קוד אבטחה אינו תקין");
             return false;
         } else {
@@ -218,4 +220,11 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
         return jsonObject;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            finish();
+
+        return super.onOptionsItemSelected(item);
+    }
 }

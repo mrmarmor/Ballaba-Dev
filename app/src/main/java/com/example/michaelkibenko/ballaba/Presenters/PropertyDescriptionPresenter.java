@@ -171,8 +171,8 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         binderPrice.propertyDescriptionPriceLandlordNameTextView.setText(landlord.get("first_name")+" "+landlord.get("last_name"));
         binderPrice.propertyDescriptionPriceLandlordCityTextView.setText(landlord.get("city"));
         Glide.with(activity)
-                .load(landlord.get("profile_image"))
-                .into(binderPrice.propertyDescriptionPriceLandlordProfileImage);
+             .load(landlord.get("profile_image"))
+             .into(binderPrice.propertyDescriptionPriceLandlordProfileImage);
     }
 
    /* private void initAttachmentExtendedRecyclerView(BallabaPropertyFull propertyFull){
@@ -197,11 +197,14 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                 tv.setText(propertyAttachment.getTitle());
                 tv.setCompoundDrawablesRelativeWithIntrinsicBounds(propertyAttachment.getIcon(), 0, 0, 0);
                 tv.setTextAppearance(R.style.property_description_textViews);
+                tv.setCompoundDrawablePadding(15);
                 tv.setPaddingRelative(16, 16, 8, 16);
 
                 GridLayout.LayoutParams param = new GridLayout.LayoutParams(
-                        GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL,1f),
-                        GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL,1f));
+                        GridLayout.spec(GridLayout.UNDEFINED, 2),
+                        GridLayout.spec(GridLayout.UNDEFINED, 1))
+                        /*GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL,1f),
+                        GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL,1f))*/;
                 tv.setLayoutParams(param);
 
                 binderAttachExt.propertyDescriptionAttachmentsExtendedContainer.addView(tv);

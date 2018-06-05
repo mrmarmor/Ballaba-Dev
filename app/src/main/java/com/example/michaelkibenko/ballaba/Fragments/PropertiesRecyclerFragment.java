@@ -65,7 +65,6 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     private FragmentPropertiesRecyclerBinding binder;
     //private LayoutInflater inflater;
 
-    private OnFragmentInteractionListener mListener;
     private LatLng latLng;
 
     public PropertiesRecyclerFragment() {
@@ -89,8 +88,8 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     @Override
     public void onResume() {
         super.onResume();
-
-        getProperties();
+        refreshItems();
+        //getProperties();
     }
 
     @Override
@@ -217,35 +216,39 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     }
 
     public void sortProperties(@MainPresenter.SORT_TYPE final int type) {
-        Collections.sort(properties, new Comparator<BallabaPropertyResult>() {
-            @Override
-            public int compare(final BallabaPropertyResult FIRST, final BallabaPropertyResult NEXT) {
-                switch (type) {
-                    case MainPresenter.SORT_TYPE.RELEVANT:
-                        //TODO what is relevant??? maybe distance?
-                        firstProperty = Integer.parseInt(FIRST.price);
-                        nextProperty = Integer.parseInt(NEXT.price);
-                        break;
+        try {
+            Collections.sort(properties, new Comparator<BallabaPropertyResult>() {
+                @Override
+                public int compare(final BallabaPropertyResult FIRST, final BallabaPropertyResult NEXT) {
+                    switch (type) {
+                        case MainPresenter.SORT_TYPE.RELEVANT:
+                            //TODO what is relevant??? maybe distance?
+                            firstProperty = Integer.parseInt(FIRST.price);
+                            nextProperty = Integer.parseInt(NEXT.price);
+                            break;
 
-                    case MainPresenter.SORT_TYPE.PRICE:
-                        firstProperty = Integer.parseInt(FIRST.price);
-                        nextProperty = Integer.parseInt(NEXT.price);
-                        break;
+                        case MainPresenter.SORT_TYPE.PRICE:
+                            firstProperty = Integer.parseInt(FIRST.price);
+                            nextProperty = Integer.parseInt(NEXT.price);
+                            break;
 
-                    case MainPresenter.SORT_TYPE.SIZE:
-                        firstProperty = Integer.parseInt(FIRST.size);
-                        nextProperty = Integer.parseInt(NEXT.size);
-                        break;
+                        case MainPresenter.SORT_TYPE.SIZE:
+                            firstProperty = Integer.parseInt(FIRST.size);
+                            nextProperty = Integer.parseInt(NEXT.size);
+                            break;
 
-                    case MainPresenter.SORT_TYPE.NUMBER_OF_ROOMS://rooms can be a fraction
-                        return Double.parseDouble(FIRST.roomsNumber) > Double.parseDouble(NEXT.roomsNumber) ? -1 : 1;
+                        case MainPresenter.SORT_TYPE.NUMBER_OF_ROOMS://rooms can be a fraction
+                            return Double.parseDouble(FIRST.roomsNumber) > Double.parseDouble(NEXT.roomsNumber) ? -1 : 1;
+                    }
+
+                    //TODO here we can add option to reverse sort by switching numbers
+                    return firstProperty > nextProperty ? 1 : -1;
                 }
-
-                //TODO here we can add option to reverse sort by switching numbers
-                return firstProperty > nextProperty ? 1 : -1;
-            }
-        });
-        rvAdapter.updateList(properties);
+            });
+            rvAdapter.updateList(properties);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
     }
 
     //hide swipeToRefresh progressIcon after 1 second
@@ -258,6 +261,8 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
                     binder.propertiesRecyclerSwipeToRefresh.setRefreshing(false);
             }
         }, SWIPE_TO_REFRESH_DISPLAY_DURATION);
+
+        refreshItems();
     }
 
     public void onRefreshAnimation(boolean is) {
@@ -278,30 +283,46 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
         });
     }*/
 
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+    private void lazyLoading(){
+        final BallabaSearchPropertiesManager propertiesManager = BallabaSearchPropertiesManager.getInstance(context);
+
+        BallabaSearchPropertiesManager.getInstance(context).getLazyLoadingResults(false, new BallabaResponseListener() {
+            @Override
+            public void resolve(BallabaBaseEntity entity) {
+                ArrayList<BallabaPropertyResult> properties =
+                        propertiesManager.parsePropertyResults(((BallabaOkResponse)entity).body);
+                propertiesManager.appendProperties(properties, true);
+
+                rvAdapter.updateList(propertiesManager.getResults(), true);
+            }
+
+            @Override
+            public void reject(BallabaBaseEntity entity) {
+                Log.e(TAG, "error fetching offset properties");
+            }
+        });
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+    private void refreshItems(){
+        final BallabaSearchPropertiesManager propertiesManager = BallabaSearchPropertiesManager.getInstance(context);
+
+        BallabaSearchPropertiesManager.getInstance(context).getLazyLoadingResults(true, new BallabaResponseListener() {
+            @Override
+            public void resolve(BallabaBaseEntity entity) {
+                ArrayList<BallabaPropertyResult> properties =
+                        propertiesManager.parsePropertyResults(((BallabaOkResponse)entity).body);
+                propertiesManager.appendProperties(properties, false);
+
+                rvAdapter.updateList(propertiesManager.getResults(), false);
+            }
+
+            @Override
+            public void reject(BallabaBaseEntity entity) {
+                Log.e(TAG, "error fetching offset properties");
+            }
+        });
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+
+
 }

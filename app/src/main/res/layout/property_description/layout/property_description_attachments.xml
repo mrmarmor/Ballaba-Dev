@@ -37,6 +37,7 @@
             style="@style/property_description_textViews"
             app:layout_constraintStart_toStartOf="@id/propertyDescriptionAttachments_title_textView"
             app:layout_constraintTop_toBottomOf="@id/propertyDescriptionAttachments_title_textView"
+            android:drawablePadding="@dimen/attachment_drawable_padding_end"
             android:drawableStart="@drawable/door_blue_36_copy" />
 
         <TextView
@@ -45,6 +46,7 @@
             app:layout_constraintStart_toEndOf="@id/propertyDescriptionAttachments_title_textView"
             app:layout_constraintTop_toBottomOf="@id/propertyDescriptionAttachments_title_textView"
             android:layout_marginStart="@dimen/propertyDescription_attachments_leftAttachmentsOffset_start"
+            android:drawablePadding="@dimen/attachment_drawable_padding_end"
             android:drawableStart="@drawable/square_meter_blue_36" />
 
         <TextView
@@ -54,6 +56,7 @@
             app:layout_constraintTop_toBottomOf="@id/propertyDescriptionAttachments_numberOfRooms_textView"
             android:layout_marginTop="@dimen/propertyDescription_attachments_bottomAttachmentsOffset_top"
             android:paddingBottom="@dimen/activity_vertical_margin"
+            android:drawablePadding="@dimen/attachment_drawable_padding_end"
             android:drawableStart="@drawable/bathtub_blue_36" />
 
         <TextView
@@ -64,6 +67,7 @@
             android:layout_marginStart="@dimen/propertyDescription_attachments_leftAttachmentsOffset_start"
             android:layout_marginTop="@dimen/propertyDescription_attachments_bottomAttachmentsOffset_top"
             android:paddingBottom="@dimen/activity_vertical_margin"
+            android:drawablePadding="@dimen/attachment_drawable_padding_end"
             android:drawableStart="@drawable/toilet_blue_36" />
 
     </android.support.constraint.ConstraintLayout>
