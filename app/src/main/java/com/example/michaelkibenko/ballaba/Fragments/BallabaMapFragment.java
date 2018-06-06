@@ -13,6 +13,7 @@ import android.os.SystemClock;
 import android.support.annotation.IntDef;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.AlertDialog;
@@ -523,7 +524,20 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
                         , new BallabaResponseListener() {
                     @Override
                     public void resolve(BallabaBaseEntity entity) {
-                        ((BaseActivity)context).getDefaultSnackBar(getView(), "אזור זה נשמר בהצלחה", false).show();
+                        changeMapSaveState(MAP_SAVE_CONTAINER_STATES.OFF);
+                        ((BaseActivity)context).getDefaultSnackBar(getView(), "אזור זה נשמר בהצלחה", false)
+                                .addCallback(new Snackbar.Callback(){
+                            @Override
+                            public void onShown(Snackbar sb) {
+                                super.onShown(sb);
+                            }
+
+                            @Override
+                            public void onDismissed(Snackbar transientBottomBar, int event) {
+                                super.onDismissed(transientBottomBar, event);
+                                changeMapSaveState(MAP_SAVE_CONTAINER_STATES.ON);
+                            }
+                        }).show();
                     }
 
                     @Override

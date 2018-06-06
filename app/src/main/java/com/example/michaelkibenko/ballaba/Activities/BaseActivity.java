@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
@@ -56,7 +57,9 @@ public class BaseActivity extends AppCompatActivity{
             defaultSnackBar = Snackbar.make(parentView, text, isShowAlways?Snackbar.LENGTH_INDEFINITE:Snackbar.LENGTH_LONG);
             View snackBarView = defaultSnackBar.getView();
             snackBarView.setBackgroundColor(getResources().getColor(R.color.colorPrimary, this.getTheme()));
-            snackBarView.findViewById(android.support.design.R.id.snackbar_text).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            TextView snackBartext = (TextView)snackBarView.findViewById(android.support.design.R.id.snackbar_text);
+            snackBartext.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
+            snackBartext.setTextColor(getResources().getColor(android.R.color.white, getTheme()));
         }else {
             defaultSnackBar.setText(text);
         }
