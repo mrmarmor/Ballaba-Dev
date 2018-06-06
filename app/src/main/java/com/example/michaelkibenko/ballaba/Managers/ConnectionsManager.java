@@ -800,11 +800,13 @@ public class ConnectionsManager {
                 pd.dismiss();
                 @StringRes String message = context.getString(R.string.error_property_upload);
                 String errorSTR = new String(error.networkResponse.data);
-                if (error.networkResponse != null) {
+                /*if (error.networkResponse != null) {
                     callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, message));
                 } else {
                     callback.reject(new BallabaErrorResponse(500, message));
-                }
+                }*/
+                callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, errorSTR));
+
             }
         }) {
             @Override

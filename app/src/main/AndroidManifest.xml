@@ -112,6 +112,7 @@
         <activity android:name=".Activities.PromiseAgreementActivities.PromiseCanceletionActivity"/>
         <activity android:name=".Activities.SelfCamActivity"/>
         <activity android:name=".Activities.TenantMyPorpertyDetailsActivity"/>
+        <activity android:name=".Activities.Scoring.ScoringPersonalDetailsActivity"/>
         <activity android:name=".Activities.CreditCardActivity" android:label="אמצעי תשלום"/>
 
     </application>
