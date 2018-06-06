@@ -24,8 +24,8 @@ import static android.content.Context.LOCATION_SERVICE;
 
 public class BallabaLocationManager {
 
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; //10 meters
-    private static final long MIN_TIME_BW_UPDATES = 1; //one minute
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0; //10 meters
+    private static final long MIN_TIME_BW_UPDATES = 0; //one minute
     private static final String TAG = BallabaLocationManager.class.getSimpleName();
     private static BallabaLocationManager instance;
     private LocationManager locationManager;
@@ -45,10 +45,9 @@ public class BallabaLocationManager {
 
     public void getLocation(LocationListener locationListener) {
         try {
-//            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES,
-//                    MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
-
-           locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener, null);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES,
+                    MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
+//           locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener, null);
             //locationListener.onLocationChanged(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
         }catch (NullPointerException | SecurityException ex){
             ex.printStackTrace();
