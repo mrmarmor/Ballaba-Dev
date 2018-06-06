@@ -255,6 +255,7 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
             googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+            getPropertiesByViewPort();
         }
     }
 

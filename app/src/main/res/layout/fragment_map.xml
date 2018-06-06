@@ -41,22 +41,24 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/saveMapSearch_textSize"
             android:text="@string/saveMapSearch_topTxt"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/saveMapSearch_save_BTN"
+            app:layout_constraintBottom_toTopOf="@+id/saveMapSearch_bottom_TV"
             app:layout_constraintStart_toStartOf="parent"
             android:textColor="@color/propertyRecyclerView_background_white"
             android:textStyle="bold"
-            android:layout_marginTop="@dimen/saveMapSearch_top_offset"
             android:layout_marginStart="@dimen/saveMapSearch_start_offset"
             />
 
         <TextView
+            android:id="@+id/saveMapSearch_bottom_TV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/saveMapSearch_bottom_text_size"
             android:text="@string/saveMapSearch_bottomTxt"
-            app:layout_constraintTop_toBottomOf="@+id/saveMapSearch_top_TV"
+            app:layout_constraintBottom_toBottomOf="@+id/saveMapSearch_save_BTN"
             app:layout_constraintStart_toStartOf="@+id/saveMapSearch_top_TV"
             android:textColor="@color/propertyRecyclerView_background_white"
+            app:layout_constraintTop_toBottomOf="@+id/saveMapSearch_top_TV"
             />
         
         <Button
