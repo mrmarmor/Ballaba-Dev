@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.StringRes;
 
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
 import com.example.michaelkibenko.ballaba.R;
@@ -47,7 +48,7 @@ public class PropertyAttachment {
         /*TODO missing icon*/APS(19, R.string.attach_aps, R.drawable.bed_blue_24);
         //NO_SMOKING()
 
-        int id, title, icon;
+        @StringRes int id, title, icon;
         Type(int resIntId, int resIntTitle, int resIntIcon) {
             this.id = resIntId;
             this.title = resIntTitle;
@@ -61,7 +62,7 @@ public class PropertyAttachment {
         //private Type(){}
 
         public int getId() { return id; }
-        public int getTitle() { return title; }
+        public @StringRes int getTitle() { return title; }
         public int getIcon() { return icon; }
 
         public static Type getTypeById(String id){

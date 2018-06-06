@@ -47,6 +47,7 @@ import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropLandlordBin
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -127,11 +128,18 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             }
 
         };
-        new DatePickerDialog(context, R.style.MyDatePickerDialogTheme , date,
-                1995,
-                myCalendar.get(Calendar.MONTH),
-                myCalendar.get(Calendar.DAY_OF_MONTH))
-                .show();
+        if (user == null){//show default date
+            myCalendar.set(1995, Calendar.MONTH, Calendar.DAY_OF_MONTH);
+        } else {//show user date of birth
+            String birthDate = user.getBirth_date();
+            myCalendar.set(Integer.parseInt(birthDate.split("-")[0])//year
+                         , Integer.parseInt(birthDate.split("-")[2].substring(0, 2)) - 1//month
+                         , Integer.parseInt(birthDate.split("-")[1]));//day
+        }
+
+        new DatePickerDialog(context, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH))
+            .show();
+
     }
 
     private void updateDate() {
@@ -170,16 +178,18 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
 
     private void initEditTexts(){
         if (user != null) {
-            Log.d(TAG, "last name received from server: "+user.getLast_name());
+            Log.d(TAG, "User phone received from server: "+ user.getPhone());
             binderLandLord.addPropFirstNameEditText.setText(user.getFirst_name());
             binderLandLord.addPropLastNameEditText.setText(user.getLast_name());
+            binderLandLord.addPropIdNumberEditText.setText(user.getId_number());
+            binderLandLord.addPropBirthDateEditText.setText(user.getBirth_date().substring(0, 10));
             binderLandLord.addPropEmailEditText.setText(user.getEmail());
             binderLandLord.addPropPhoneEditText.setText(user.getPhone());
             binderLandLord.addPropCityActv.setText(user.getCity());
             binderLandLord.addPropAddressActv.setText(user.getAddress());
+            binderLandLord.addPropHouseNoEditText.setText(user.getStreet_number());
             binderLandLord.addPropAptNoEditText.setText(user.getApt_no());
             binderLandLord.addPropAboutEditText.setText(user.getAbout());
-            binderLandLord.addPropIdNumberEditText.setText(user.getId_number());
             //binderLandLord.addPropBirthDateEditText.setText(user.getBirth_date());
             Glide.with(context).load(user.getProfile_image()).listener(new RequestListener<Drawable>() {
                 @Override
@@ -247,11 +257,12 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             }
         }
 
+        map.put(binderLandLord.addPropHouseNoEditText.getTag()+""
+                , binderLandLord.addPropHouseNoEditText.getText()+"");
+        map.put(binderLandLord.addPropAptNoEditText.getTag()+""
+                , binderLandLord.addPropAptNoEditText.getText()+"");
         map.put(binderLandLord.addPropAboutEditText.getTag()+""
                 , binderLandLord.addPropAboutEditText.getText()+"");
-
-        map.put(binderLandLord.addPropBirthDateEditText.getTag()+""
-                , binderLandLord.addPropBirthDateEditText.getText() + "");
 
         //Log.d(TAG, map.get("aboutYourself")+":"+map.get("firstName"));
 
@@ -309,6 +320,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             if (!areAllDataFieldsFilledUp ||/*!isPhoneValid(data.get("phone")) ||*/ !isEmailValid(data.get("email")))
                 return;
 
+            Log.d(TAG, "is data equal: " + isDataEqual(data, user));
             if (user != null && !isDataEqual(data, user)) {
                 conn.uploadUser(/*user.getId(), */jsonParse(data), new BallabaResponseListener() {
                     @Override
@@ -381,6 +393,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 map.get("city").equals(user.getCity()) &&
                 map.get("address").equals(user.getAddress()) &&
                 map.get("apt_no").equals(user.getApt_no()) &&
+                map.get("street_number").equals(user.getStreet_number()) &&
                 map.get("about").equals(user.getAbout()) &&
                 !isProfileImageChanged);
     }

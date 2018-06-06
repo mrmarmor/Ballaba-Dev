@@ -7,9 +7,11 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntDef;
 import android.support.annotation.StringDef;
+import android.support.annotation.StringRes;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.constraint.Guideline;
@@ -225,6 +227,17 @@ public class UiUtils implements AdapterView.OnItemClickListener {
         });
 
         autoCompleteTextView.setOnItemClickListener(this);
+    }
+
+    public TextView generateCustomTextView(final String text, final @DrawableRes int icon) {
+        TextView tv = new TextView(ctx);
+        tv.setText(text);
+        tv.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, 0, 0, 0);
+        tv.setTextAppearance(R.style.property_description_textViews);
+        tv.setCompoundDrawablePadding(15);
+        tv.setPaddingRelative(0, 16, 8, 16);
+
+        return tv;
     }
 
     @Override
