@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 
 import com.example.michaelkibenko.ballaba.Activities.PropertyManagementActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
@@ -34,12 +35,13 @@ public class PropertyManageInterestedFragment extends Fragment {
     private List<BallabaUser> users;
     private PropertyManageInterestedAdapter adapter;
     private LinearLayout emptyStateContainer;
+    private ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_property_manage_interested, container, false);
 
-        //((PropertyManagementActivity) getActivity()).showCheckboxInToolbar(true);
+        progressBar = view.findViewById(R.id.property_manage_interested_progress_bar);
 
         users = new ArrayList<>();
         getUsers();
@@ -50,6 +52,7 @@ public class PropertyManageInterestedFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
         adapter = new PropertyManageInterestedAdapter(getActivity(), this, users);
         recyclerView.setAdapter(adapter);
+
         return view;
     }
 
@@ -60,6 +63,7 @@ public class PropertyManageInterestedFragment extends Fragment {
 
     private void getUsers() {
         int propertyID = ((PropertyManagementActivity) getActivity()).getPropertyID();
+        progressBar.setVisibility(View.VISIBLE);
         ConnectionsManager.getInstance(getActivity()).getInterestedUsers(propertyID, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
@@ -87,15 +91,17 @@ public class PropertyManageInterestedFragment extends Fragment {
                             users.add(user);
                         }
                     }
+                    progressBar.setVisibility(View.GONE);
                     adapter.notifyDataSetChanged();
                     toggleEmptyStateVisibility(users.isEmpty());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                progressBar.setVisibility(View.GONE);
             }
-
             @Override
             public void reject(BallabaBaseEntity entity) {
+                progressBar.setVisibility(View.GONE);
                 Log.d("RES", "reject: " + ((BallabaErrorResponse) entity).message);
             }
         });

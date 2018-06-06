@@ -108,10 +108,15 @@ public class PropertyManagementActivity extends BaseActivity implements View.OnC
         builder.setPositiveButton("הסרה", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                ArrayList<Integer> userDeletedIds = adapter.getPropertyManageInterestedFragment().getSelectedUsersID();
-                adapter.getPropertyManageInterestedFragment().getAdapter().deleteSelectedItems(userDeletedIds);
+                if (tabPosition == 2){
+                    ArrayList<Integer> userDeletedIds = interestedAdapter.getSelectedUsersID();
+                    interestedAdapter.deleteSelectedItems(userDeletedIds);
+                }else{
+                    ArrayList<Integer> userDeletedIds = meetingsAdapter.getSelectedUsersID();
+                    meetingsAdapter.deleteSelectedItems(userDeletedIds);
+                }
 
-                toolbarImagesVisibility(false, true, !isAllUnChecked && !moreThanOneChecked, !moreThanOneChecked);
+                toolbarImagesVisibility(false, true, false, false);
             }
         });
         builder.setNegativeButton("ביטול", new DialogInterface.OnClickListener() {
