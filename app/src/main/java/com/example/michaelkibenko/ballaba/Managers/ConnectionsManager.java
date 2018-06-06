@@ -36,6 +36,7 @@ import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -299,7 +300,7 @@ public class ConnectionsManager {
     //TODO all these 3 method below could be easily replaced by one single generic method
     public void getPropertyById(final String PROPERTY_ID, final BallabaResponseListener callback) {
         StringRequest stringRequest = new StringRequest(Request.Method.GET
-                , EndpointsHolder.PROPERTY + PROPERTY_ID, new Response.Listener<String>() {
+                , EndpointsHolder.PROPERTY_BY_ID + PROPERTY_ID, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 BallabaOkResponse okResponse = new BallabaOkResponse();
@@ -1307,6 +1308,45 @@ public class ConnectionsManager {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         queue.add(jsonObjectRequest);
+    }
+
+    public void tenantApproveMeeting(String propId,String meetingId, final BallabaResponseListener callback){
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("open_door_id", meetingId);
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(POST, EndpointsHolder.TENANT_APPROVE_MEETING+propId+"/meetings", jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    BallabaOkResponse okResponse = new BallabaOkResponse();
+                    okResponse.setBody(response.toString());
+                    callback.resolve(okResponse);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (error.networkResponse != null) {
+                        callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, error.getMessage()));
+                    } else {
+                        callback.reject(new BallabaErrorResponse(500, error.getMessage()));
+                    }
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    return getHeadersWithSessionToken();
+                }
+            };
+
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    0,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+            queue.add(jsonObjectRequest);
+        }catch (JSONException ex){
+            ex.printStackTrace();
+            //TODO set error
+        }
     }
 
     private JSONArray parseOpenDoorDatesToJsonArray(ArrayList<BallabaMeetingsPickerDateEntity> data) throws JSONException{

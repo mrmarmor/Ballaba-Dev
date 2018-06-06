@@ -164,5 +164,15 @@ public class StringUtils {
         }
     }
 
+    public String getFromAndToTimesString(Calendar from, Calendar to){
+        int min = from.get(Calendar.MINUTE);
+        int hour = from.get(Calendar.HOUR_OF_DAY);
+        String returnable = (hour == 0 ? hour+ "0" : hour) + ":" + (min == 0 ? min+ "0" : min) + " - ";
+        int toMin = to.get(Calendar.MINUTE);
+        int toHour = to.get(Calendar.HOUR_OF_DAY);
+        returnable += (toHour == 0 ? toHour+ "0" : toHour) + ":" + (toMin == 0 ? toMin+ "0" : toMin);
+        return returnable;
+    }
+
 
 }
