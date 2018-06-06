@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.example.michaelkibenko.ballaba.Activities.PropertyManagementActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
@@ -44,7 +43,6 @@ public class PropertyManageMeetingsFragment extends Fragment {
     private List<BallabaUser> users;
     private int propertyID;
     private PropertyManageMeetingAdapter propertyManageMeetingAdapter;
-    private TextView totalFutureCountTV , totalPastCountTV;
     private Button futureBtn , pastBtn;
 
 
@@ -57,10 +55,6 @@ public class PropertyManageMeetingsFragment extends Fragment {
         emptyStateContainer = v.findViewById(R.id.property_manage_meetings_empty_state_layout);
         layoutContainer = v.findViewById(R.id.property_manage_meetings_container);
         userRecyclerView = v.findViewById(R.id.property_manage_meetings_recycler_view);
-
-        //pastMeetingsRV = v.findViewById(R.id.property_manage_meetings_held_recycler_view);
-        //totalFutureCountTV = v.findViewById(R.id.property_manage_meetings_number_text_view);
-        //totalPastCountTV = v.findViewById(R.id.property_manage_meetings_second_number_text_view);
 
         futureBtn = v.findViewById(R.id.property_manage_meetings_future_btn);
         futureBtn.setOnClickListener(new View.OnClickListener() {
@@ -88,14 +82,6 @@ public class PropertyManageMeetingsFragment extends Fragment {
         propertyManageMeetingAdapter = new PropertyManageMeetingAdapter(getActivity(), this, users);
         userRecyclerView.setAdapter(propertyManageMeetingAdapter);
         userRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity() , LinearLayoutManager.VERTICAL , false));
-
-        /*propertyManagePastMeetingAdapter = new PropertyManagePastMeetingAdapter(getActivity() , this , pastUsers);
-        pastMeetingsRV.setAdapter(propertyManageFutureMeetingAdapter);
-        pastMeetingsRV.setLayoutManager(new LinearLayoutManager(getActivity() , LinearLayoutManager.VERTICAL , false));
-        pastMeetingsRV.setNestedScrollingEnabled(true);*/
-
-
-        //boolean show = users.isEmpty() && pastUsers.isEmpty();
 
         return v;
     }
@@ -139,18 +125,18 @@ public class PropertyManageMeetingsFragment extends Fragment {
         });
     }
 
-    private void parseUsers(JSONArray futureMeetingsArr) throws JSONException {
-        for (int j = 0; j < futureMeetingsArr.length(); j++) {
+    private void parseUsers(JSONArray array) throws JSONException {
+        for (int j = 0; j < array.length(); j++) {
 
-            JSONObject obj1 = futureMeetingsArr.getJSONObject(j);
+            JSONObject obj1 = array.getJSONObject(j);
             String userID = obj1.getString("id");
             String meetingTime = obj1.getString("meeting_time");
 
             JSONArray userArr = obj1.getJSONArray("user");
 
-            for (int i = 0; i < userArr.length() * 2; i++) {
+            for (int i = 0; i < userArr.length(); i++) {
                 //totalFutureCountTV.setText(userArr.length() + " סה''כ");
-                JSONObject obj = userArr.getJSONObject(j);
+                JSONObject obj = userArr.getJSONObject(i);
 
 
                 String firstName = obj.getString("first_name");
@@ -166,13 +152,12 @@ public class PropertyManageMeetingsFragment extends Fragment {
 
                 users.add(user);
             }
-            propertyManageMeetingAdapter = new PropertyManageMeetingAdapter(getActivity(), this, users);
-            userRecyclerView.setAdapter(propertyManageMeetingAdapter);
-            userRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity() , LinearLayoutManager.VERTICAL , false));
-            //propertyManageMeetingAdapter.notifyDataSetChanged();
-            toggleState(users.isEmpty());
-
         }
+        propertyManageMeetingAdapter = new PropertyManageMeetingAdapter(getActivity(), this, users);
+        userRecyclerView.setAdapter(propertyManageMeetingAdapter);
+        userRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity() , LinearLayoutManager.VERTICAL , false));
+        //propertyManageMeetingAdapter.notifyDataSetChanged();
+        toggleState(users.isEmpty());
     }
 
     private void parsePastUsers(JSONArray futureMeetingsArr) throws JSONException {
@@ -184,7 +169,7 @@ public class PropertyManageMeetingsFragment extends Fragment {
 
             JSONArray userArr = obj1.getJSONArray("user");
 
-            for (int i = 0; i < userArr.length() * 4; i++) {
+            for (int i = 0; i < userArr.length(); i++) {
                 //totalPastCountTV.setText(userArr.length() + " סה''כ");
                 JSONObject obj = userArr.getJSONObject(j);
 

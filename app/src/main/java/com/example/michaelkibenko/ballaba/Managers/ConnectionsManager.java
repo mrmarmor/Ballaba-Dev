@@ -36,7 +36,6 @@ import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
-import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -804,11 +803,13 @@ public class ConnectionsManager {
                 pd.dismiss();
                 @StringRes String message = context.getString(R.string.error_property_upload);
                 String errorSTR = new String(error.networkResponse.data);
-                if (error.networkResponse != null) {
+                /*if (error.networkResponse != null) {
                     callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, message));
                 } else {
                     callback.reject(new BallabaErrorResponse(500, message));
-                }
+                }*/
+                callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, errorSTR));
+
             }
         }) {
             @Override
@@ -888,6 +889,33 @@ public class ConnectionsManager {
 
     public void getLandlordProperties(final BallabaResponseListener callback){
         StringRequest stringRequest = new StringRequest(GET, EndpointsHolder.GET_LANDLORD_PROPERTY, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                BallabaOkResponse callbackResponce = new BallabaOkResponse();
+                callbackResponce.setBody(response.toString());
+                callback.resolve(callbackResponce);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error.networkResponse != null) {
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, error.getMessage()));
+                } else {
+                    Log.e(TAG, error + "\n" + error.getMessage());
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }
+            }
+        }){
+            @Override
+            public Map<String, String> getHeaders()  {
+                return getHeadersWithSessionToken();
+            }
+        };
+        queue.add(stringRequest);
+    }
+
+    public void getTenantProperties(final BallabaResponseListener callback){
+        StringRequest stringRequest = new StringRequest(GET, EndpointsHolder.GET_TENANT_PROPERTY, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 BallabaOkResponse callbackResponce = new BallabaOkResponse();
@@ -1205,6 +1233,39 @@ public class ConnectionsManager {
 
     public void deleteInterestedUser(int propertyID , int interestedUserID ,final BallabaResponseListener callback){
         String url = EndpointsHolder.DELETE_INTEREST_USER + propertyID + "/interested/" + interestedUserID;
+        StringRequest stringRequest = new StringRequest(DELETE, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                BallabaOkResponse ok = new BallabaOkResponse();
+                ok.body = response;
+                callback.resolve(ok);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error.networkResponse != null) {
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                } else {
+                    Log.e(TAG, error + "\n" + error.getMessage());
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return getHeadersWithSessionToken();
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(stringRequest);
+    }
+    public void deleteMeetingUser(int propertyID , int meetingsUser ,final BallabaResponseListener callback){
+        String url = EndpointsHolder.DELETE_MEETING_USER + propertyID + "/meetings/" + meetingsUser;
         StringRequest stringRequest = new StringRequest(DELETE, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

@@ -24,7 +24,28 @@
             android:rotation="180"
             android:src="@drawable/left_back_white_24" />
 
+        <TextView
+            android:layout_centerVertical="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="32dp"
+            android:textSize="20sp"
+            android:layout_toLeftOf="@+id/scoring_personal_details_toolbar_back_image_view"
+            android:textColor="@android:color/white"
+            android:text="@string/scoring_personal_details_toolbar_text"
+            />
+
+
     </RelativeLayout>
+
+
+    <FrameLayout
+        android:id="@+id/scoring_personal_details_frame_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/scoring_personal_details_toolbar"/>
+
+
 
 
 </RelativeLayout>
