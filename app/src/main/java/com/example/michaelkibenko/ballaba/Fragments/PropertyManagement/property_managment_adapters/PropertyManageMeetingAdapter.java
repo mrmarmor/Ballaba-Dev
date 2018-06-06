@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +18,13 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.michaelkibenko.ballaba.Activities.PropertyManagementActivity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
+import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.PropertyManageMeetingsFragment;
+import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
+import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
 
 import java.util.ArrayList;
@@ -75,7 +81,7 @@ public class PropertyManageMeetingAdapter extends RecyclerView.Adapter<PropertyM
     }
 
     private void deleteUserFromDataBase(int propertyID, int userDeleteID) {
-        /*ConnectionsManager.getInstance(context).deleteMeetingUser(propertyID, userDeleteID, new BallabaResponseListener() {
+        ConnectionsManager.getInstance(context).deleteMeetingUser(propertyID, userDeleteID, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 Log.d("RES", "resolve: " + ((BallabaOkResponse)entity).body);
@@ -85,8 +91,8 @@ public class PropertyManageMeetingAdapter extends RecyclerView.Adapter<PropertyM
             public void reject(BallabaBaseEntity entity) {
                 Log.d("RES", "reject: " + ((BallabaErrorResponse)entity).message);
             }
-        });*/
-        // TODO: 30/05/2018  ConnectionManagerMethod
+        });
+
     }
 
     public int checkHowMuchSelected() {

@@ -80,8 +80,6 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
 
     private ArrayList<String> cities;
 
-    public AddPropLandlordFrag() {
-    }
 
     public static AddPropLandlordFrag newInstance() {
         AddPropLandlordFrag fragment = new AddPropLandlordFrag();
