@@ -200,7 +200,7 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     }
 
     private void lazyLoading(){
-        BallabaSearchPropertiesManager.getInstance(mContext).getLazyLoadingResults(new BallabaResponseListener() {
+        BallabaSearchPropertiesManager.getInstance(mContext).getLazyLoadingResults(false, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 ArrayList<BallabaPropertyResult> properties =

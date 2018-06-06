@@ -109,7 +109,6 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     private FilterPagerAdapter filterPagerAdapter;
     private ActivityMainLayoutBinding binder;
     public Button.OnClickListener clickListener;
-    private PropertiesRecyclerFragment.OnFragmentInteractionListener mListener;
     private PropertiesRecyclerFragment propertiesFragment;
     private LayoutInflater inflater;
     private ConstraintLayout filterTransition, noFilterTransition, searchStateTransition, maplayoutTransition;
@@ -238,22 +237,13 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         filterViewPager.setCurrentItem(4);
     }
 
-    /*@Override
-    public void onFragmentInteraction(Uri uri) {
-        Log.d(TAG, "hiding: " + binder.mainActivityFilterIncluded.mainActivityFilterRoot.getVisibility() + "");
-        binder.mainActivityFilterIncluded.mainActivityFilterRoot.setVisibility(View.GONE);
-        Log.d(TAG, "hiding: " + binder.mainActivityFilterIncluded.mainActivityFilterRoot.getVisibility() + "");
-    }*/
-
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (v.getId() == R.id.mainActivity_filter_root) {
             if (hasFocus){
                 binder.mainActivityFilterIncluded.mainActivityFilterRoot.setVisibility(View.VISIBLE);
             } else {
-                Log.d(TAG, "hiding: " + binder.mainActivityFilterIncluded.mainActivityFilterRoot.getVisibility() + "");
                 binder.mainActivityFilterIncluded.mainActivityFilterRoot.setVisibility(View.GONE);
-                Log.d(TAG, "hiding: " + binder.mainActivityFilterIncluded.mainActivityFilterRoot.getVisibility() + "");
             }
         }
     }

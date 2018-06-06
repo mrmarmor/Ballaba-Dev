@@ -1,5 +1,6 @@
 package com.example.michaelkibenko.ballaba.Adapters;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
@@ -28,19 +30,19 @@ import java.util.HashMap;
 public class PropertyDescriptionOpenDoorDatesRecycerAdapter extends RecyclerView.Adapter<PropertyDescriptionOpenDoorDatesRecycerAdapter.OpenDoorDatesViewHolder> {
 
     private static final String TAG = PropertyDescriptionOpenDoorDatesRecycerAdapter.class.getSimpleName();
-    private final String propertyId;
+    private final BallabaPropertyFull propertyFull;
     private ArrayList<HashMap<String, String>> items;
     private Context context;
     private SimpleDateFormat parser;
     private StringUtils stringUtils;
+    private AlertDialog alertDialog;
 
-
-    public PropertyDescriptionOpenDoorDatesRecycerAdapter(Context context, ArrayList<HashMap<String, String>> items, String propertyId) {
+    public PropertyDescriptionOpenDoorDatesRecycerAdapter(Context context, ArrayList<HashMap<String, String>> items, BallabaPropertyFull propertyFull) {
         this.context = context;
         this.items = items;
         parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
         stringUtils = StringUtils.getInstance(true);
-        this.propertyId = propertyId;
+        this.propertyFull = propertyFull;
     }
 
     @NonNull
@@ -69,26 +71,52 @@ public class PropertyDescriptionOpenDoorDatesRecycerAdapter extends RecyclerView
             Calendar toCal = Calendar.getInstance();
             Date todate = parser.parse(item.get("end_time"));
             toCal.setTime(todate);
-            holder.timesTV.setText(stringUtils.getFromAndToTimesString(calendar, toCal));
+            final String timesText = stringUtils.getFromAndToTimesString(calendar, toCal);
+            holder.timesTV.setText(timesText);
             holder.parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    ConnectionsManager.getInstance(context).tenantApproveMeeting(propertyId, item.get("id"), new BallabaResponseListener() {
-                        @Override
-                        public void resolve(BallabaBaseEntity entity) {
-                            Log.e(TAG, "vbdfovfd");
-                        }
-
-                        @Override
-                        public void reject(BallabaBaseEntity entity) {
-                            Log.e(TAG, "vbdfovfd");
-                        }
-                    });
+                    showAlert(item.get("id"), timesText, propertyFull.formattedAddress);
                 }
             });
         }catch (ParseException ex){
             ex.printStackTrace();
         }
+    }
+
+    private void showAlert(final String meetingId, final String timesText, final String address){
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View v = LayoutInflater.from(context).inflate(R.layout.confirm_meetings_layout, null, false);
+        v.findViewById(R.id.meeting_confirmation_BTN).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ConnectionsManager.getInstance(context).tenantApproveMeeting(propertyFull.id, meetingId, new BallabaResponseListener() {
+                    @Override
+                    public void resolve(BallabaBaseEntity entity) {
+                        Log.e(TAG, "vbdfovfd");
+                    }
+
+                    @Override
+                    public void reject(BallabaBaseEntity entity) {
+                        Log.e(TAG, "vbdfovfd");
+                    }
+                });
+            }
+        });
+
+        v.findViewById(R.id.meeting_confirmation_cancel_BTN).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+            }
+        });
+
+        ((TextView)v.findViewById(R.id.meeting_confirmation_times_data_TV)).setText(timesText);
+        ((TextView)v.findViewById(R.id.meeting_confirmation_address_data_TV)).setText(address);
+
+        builder.setView(v);
+        alertDialog = builder.create();
+        alertDialog.show();
     }
 
     @Override
