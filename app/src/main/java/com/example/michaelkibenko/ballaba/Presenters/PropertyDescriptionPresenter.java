@@ -146,7 +146,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         }else{
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
             binder.propertyDescriptionOpenDoorDates.datesRecyclerView.setLayoutManager(linearLayoutManager);
-            PropertyDescriptionOpenDoorDatesRecycerAdapter adapter = new PropertyDescriptionOpenDoorDatesRecycerAdapter(activity, dates, propertyFull.id);
+            PropertyDescriptionOpenDoorDatesRecycerAdapter adapter = new PropertyDescriptionOpenDoorDatesRecycerAdapter(activity, dates, propertyFull);
             binder.propertyDescriptionOpenDoorDates.datesRecyclerView.setAdapter(adapter);
         }
     }
