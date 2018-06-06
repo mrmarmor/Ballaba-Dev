@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layoutDirection="rtl"
+    >
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <View
+        android:id="@+id/saveMapSearchContainerBottom_anchor"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    <View
+        android:id="@+id/saveMapSearchContainerTop_anchor"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/saveMapSearchContainer"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/saveMapSearch_container"
+        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toTopOf="@+id/saveMapSearchContainerBottom_anchor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        >
+
+        <TextView
+            android:id="@+id/saveMapSearch_top_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/saveMapSearch_textSize"
+            android:text="@string/saveMapSearch_topTxt"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/saveMapSearch_bottom_TV"
+            android:textColor="@color/propertyRecyclerView_background_white"
+            android:textStyle="bold"
+            android:layout_marginStart="@dimen/saveMapSearch_start_offset"
+            />
+
+        <TextView
+            android:id="@+id/saveMapSearch_bottom_TV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/saveMapSearch_bottom_text_size"
+            android:text="@string/saveMapSearch_bottomTxt"
+            app:layout_constraintStart_toStartOf="@+id/saveMapSearch_top_TV"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/saveMapSearch_top_TV"
+            android:textColor="@color/propertyRecyclerView_background_white"
+            />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <Button
+        android:id="@+id/map_fragment_getPropertiesBTN"
+        android:layout_width="121dp"
+        android:layout_height="39dp"
+        android:text="חפש באזור זה"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@android:color/white"
+        android:textColor="@color/colorPrimaryDark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="25dp"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mapFragment_properties_RV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toBottomOf="@+id/saveMapSearchContainerBottom_anchor"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+</android.support.constraint.ConstraintLayout>

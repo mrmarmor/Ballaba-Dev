@@ -20,7 +20,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.transition.TransitionManager;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +35,7 @@ import android.widget.Toast;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
+import com.example.michaelkibenko.ballaba.Activities.StreetAndMapBoardActivity;
 import com.example.michaelkibenko.ballaba.Adapters.MapPropertiesRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
@@ -45,10 +45,8 @@ import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
-import com.example.michaelkibenko.ballaba.Managers.ViewportsManager;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
 import com.example.michaelkibenko.ballaba.R;
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -56,7 +54,6 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -143,7 +140,11 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
         View v = inflater.inflate(R.layout.fragment_map, container, false);
         rootView = (ConstraintLayout) v;
         notChangeableRootView = (ConstraintLayout) inflater.inflate(R.layout.fragment_map, container, false);
-        searchBarTransition = (ConstraintLayout) inflater.inflate(R.layout.map_fragment_for_transitions, container, false);
+        if(context instanceof MainActivity) {
+            searchBarTransition = (ConstraintLayout) inflater.inflate(R.layout.map_fragment_for_transitions, container, false);
+        }else if(context instanceof StreetAndMapBoardActivity){
+            searchBarTransition = (ConstraintLayout) inflater.inflate(R.layout.map_fragment_for_transition_no_search, container, false);
+        }
         propertiesRecyclerViewTransition = (ConstraintLayout) inflater.inflate(R.layout.map_fragment_items_recycler_view_transition, container, false);
         mMapView = (MapView)v.findViewById(R.id.mapView);
         saveContainer = (ConstraintLayout) v.findViewById(R.id.saveMapSearchContainer);
@@ -211,7 +212,10 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
     @Override
     public void onMapReady(GoogleMap mMap) {
         googleMap = mMap;
-        locationManager.getLocation(this);
+        //we need context instance of to do not change the location on property description
+        if(context instanceof MainActivity) {
+            locationManager.getLocation(this);
+        }
         googleMap.setOnCameraMoveStartedListener(this);
         googleMap.setOnCameraMoveListener(this);
         googleMap.setOnCameraMoveCanceledListener(this);

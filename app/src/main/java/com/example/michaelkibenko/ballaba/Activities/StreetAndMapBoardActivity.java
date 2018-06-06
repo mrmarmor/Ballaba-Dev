@@ -1,7 +1,6 @@
 package com.example.michaelkibenko.ballaba.Activities;
 
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -12,12 +11,10 @@ import com.example.michaelkibenko.ballaba.Fragments.BallabaStreetViewFragment;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter;
 import com.example.michaelkibenko.ballaba.R;
-import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
-import com.google.android.gms.maps.StreetViewPanorama;
 import com.google.android.gms.maps.model.LatLng;
 
-public class StreetAndMapBoard extends BaseActivity {
-    private final String TAG = StreetAndMapBoard.class.getSimpleName();
+public class StreetAndMapBoardActivity extends BaseActivity {
+    private final String TAG = StreetAndMapBoardActivity.class.getSimpleName();
 
     private BallabaMapFragment mapFragment;
     private LatLng propertyLatLng;

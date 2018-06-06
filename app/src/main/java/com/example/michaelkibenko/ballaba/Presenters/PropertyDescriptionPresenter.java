@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,7 +21,7 @@ import com.bumptech.glide.request.transition.Transition;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyGalleryActivity;
 import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringWelcomeActivity;
-import com.example.michaelkibenko.ballaba.Activities.StreetAndMapBoard;
+import com.example.michaelkibenko.ballaba.Activities.StreetAndMapBoardActivity;
 import com.example.michaelkibenko.ballaba.Activities.VirtualTourActivity;
 import com.example.michaelkibenko.ballaba.Adapters.DescCommentAdapter;
 import com.example.michaelkibenko.ballaba.Adapters.PropertyDescriptionOpenDoorDatesRecycerAdapter;
@@ -394,7 +393,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                 break;
 
             case R.id.propertyDescription_root_toStreetView_button:
-                intent = new Intent(activity, StreetAndMapBoard.class);
+                intent = new Intent(activity, StreetAndMapBoardActivity.class);
                 intent.putExtra(PROPERTY_LATLNG_EXTRA, propertyLatLng.latitude+","+propertyLatLng.longitude);
                 intent.putExtra(FRAGMENT_NAME, BallabaStreetViewFragment.TAG);
                 activity.startActivity(intent);
@@ -407,7 +406,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                 break;
 
             case R.id.propertyDescription_mapFragment_container:
-                intent = new Intent(activity, StreetAndMapBoard.class);
+                intent = new Intent(activity, StreetAndMapBoardActivity.class);
                 intent.putExtra(PROPERTY_LATLNG_EXTRA, propertyLatLng.latitude+","+propertyLatLng.longitude);
                 intent.putExtra(FRAGMENT_NAME, BallabaMapFragment.TAG);
                 activity.startActivity(intent);
