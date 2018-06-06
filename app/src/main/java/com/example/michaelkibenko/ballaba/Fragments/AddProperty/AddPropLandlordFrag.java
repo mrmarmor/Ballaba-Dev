@@ -22,6 +22,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -321,7 +322,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
 
             Log.d(TAG, "is data equal: " + isDataEqual(data, user));
             if (user != null && !isDataEqual(data, user)) {
-                conn.uploadUser(/*user.getId(), */jsonParse(data), new BallabaResponseListener() {
+                conn.uploadUser(jsonParse(data), new BallabaResponseListener() {
                     @Override
                     public void resolve(BallabaBaseEntity entity) {
                         SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.USER_ID, user.getId());
@@ -333,6 +334,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
 
                     @Override
                     public void reject(BallabaBaseEntity entity) {
+                        Toast.makeText(context, ((BallabaErrorResponse) entity).message, Toast.LENGTH_LONG).show();
                         ((BaseActivity)context).getDefaultSnackBar(binderLandLord.getRoot()
                                 , ((BallabaErrorResponse) entity).message, false);
 

@@ -779,8 +779,7 @@ public class ConnectionsManager {
         queue.add(stringRequest);
     }
 
-    public void uploadUser(/*final String userId, */JSONObject userData
-            , final BallabaResponseListener callback) throws JSONException {
+    public void uploadUser(JSONObject userData, final BallabaResponseListener callback) throws JSONException {
 
         final ProgressDialog pd = ((BaseActivity)context).getDefaultProgressDialog(context, "Uploading...");
         pd.show();
@@ -801,8 +800,9 @@ public class ConnectionsManager {
             @Override
             public void onErrorResponse(VolleyError error) {
                 pd.dismiss();
-                @StringRes String message = context.getString(R.string.error_property_upload);
-                String errorSTR = new String(error.networkResponse.data);
+                //@StringRes String message = context.getString(R.string.error_property_upload);
+                String errorSTR = parseResponse(new String(error.networkResponse.data));
+
                 /*if (error.networkResponse != null) {
                     callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, message));
                 } else {
@@ -1499,6 +1499,16 @@ public class ConnectionsManager {
         }
 
         return url;
+    }
+
+    private String parseResponse(String jsonResponse) {
+        try {
+            JSONObject jsonObject = new JSONObject(jsonResponse);
+            return jsonObject.getString("errorMessage");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /*private BallabaPropertyPhoto parsePhotoResponse(JSONObject jsonObject) throws JSONException{
