@@ -40,6 +40,7 @@ import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
+import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityPropertyDescriptionBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionAttachmentsBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionAttachmentsExtendedBinding;
@@ -184,21 +185,23 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
     }*/
 
     private void displayAttachmentsOnScreen(ArrayList<String> propertyAttachments){
-        //TODO instead of fetching strings locally, we may fetch them from server. use next 2 lines:
-        //ArrayList<PropertyAttachmentAddonEntity> attachmentAddonEntities = PropertyAttachmentsAddonsHolder.getInstance().getAttachments();
-        //attachmentAddonEntities.get(0).formattedTitle
+        final UiUtils uiUtils = UiUtils.instance(true, activity);
+        TextView chipFloor = uiUtils.generateCustomTextView(propertyFull.floor + " מתוך " + propertyFull.max_floor, R.drawable.building_blue_24);
+        binderAttachExt.propertyDescriptionAttachmentsExtendedContainerRight.addView(chipFloor);
 
-        if (propertyAttachments != null && propertyAttachments.size() > 0) {
+        if (propertyAttachments != null){//TODO if we want to hide this section when it contains no attachment: && propertyAttachments.size() > 0) {
             for (int i = 0; i < propertyAttachments.size(); i++) {
                 PropertyAttachment.Type propertyAttachment = PropertyAttachment.Type.getTypeById(
                         propertyAttachments.get(i));
 
-                TextView tv = new TextView(activity);
-                tv.setText(propertyAttachment.getTitle());
+                TextView tv = uiUtils.generateCustomTextView(activity.getString(propertyAttachment.getTitle()), R.drawable.building_blue_24);
+
+               /* //TextView tv = new TextView(activity);
+                tv.setText();
                 tv.setCompoundDrawablesRelativeWithIntrinsicBounds(propertyAttachment.getIcon(), 0, 0, 0);
                 tv.setTextAppearance(R.style.property_description_textViews);
                 tv.setCompoundDrawablePadding(15);
-                tv.setPaddingRelative(0, 16, 8, 16);
+                tv.setPaddingRelative(0, 16, 8, 16);*/
 
                 /*GridLayout.LayoutParams param = new GridLayout.LayoutParams(
                         GridLayout.spec(GridLayout.UNDEFINED, GridLayout.FILL,1f),
@@ -206,16 +209,16 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                 tv.setLayoutParams(param);*/
 
                 if (i % 2 == 0)
-                    //binderAttachExt.propertyDescriptionAttachmentsExtendedContainer.addView(tv);
-                    binderAttachExt.propertyDescriptionAttachmentsExtendedContainerRight.addView(tv);
-                else
                     binderAttachExt.propertyDescriptionAttachmentsExtendedContainerLeft.addView(tv);
+                    //binderAttachExt.propertyDescriptionAttachmentsExtendedContainer.addView(tv);
+                else
+                binderAttachExt.propertyDescriptionAttachmentsExtendedContainerRight.addView(tv);
                 //addView(binderAttachExt.propertyDescriptionAttachmentsExtendedContainer, tv, i);
             }
-        } else {
+        } /*else {
             binderAttachExt.getRoot().setVisibility(View.GONE);
             binder.propertyDescriptionAttachmentsExtendedDivider.setVisibility(View.GONE);
-        }
+        }*/
     }
 
     private void displayPaymentsOnScreen(ArrayList<HashMap<String, String>> propertyPayments){

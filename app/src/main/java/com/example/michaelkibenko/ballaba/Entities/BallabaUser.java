@@ -1,5 +1,7 @@
 package com.example.michaelkibenko.ballaba.Entities;
 
+import android.support.annotation.StringRes;
+
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.google.gson.Gson;
 
@@ -13,7 +15,7 @@ import java.util.Date;
  */
 
 public class BallabaUser extends BallabaBaseEntity {
-    private String id, phone, email, first_name, last_name, city, address, apt_no, birth_date, about, tenant_score, landlord_score, guarantor_score, date_created, date_updated, session_token, device_id, global_token, fcm_token, profile_image, meeting_time , id_number;
+    private String id, phone, email, first_name, last_name, city, address, street_number, apt_no, id_number, birth_date, about, tenant_score, landlord_score, guarantor_score, date_created, date_updated, session_token, device_id, global_token, fcm_token, profile_image, meeting_time;
 
     private boolean isInterested, isMeeting , isScored, isLandlord, isCreditAvailable;
 
@@ -34,8 +36,9 @@ public class BallabaUser extends BallabaBaseEntity {
 
     //TODO MAKE THIS CLASS BECOME A SINGLETON
 
-    public BallabaUser(String id, String phone, String email, String first_name, String last_name, String city, String address, String apt_no, String birth_date, String about,
-                       boolean isScored, String tenant_score, String landlord_score, String guarantor_score, String date_created, String date_updated, String session_token,
+    public BallabaUser(String id, String phone, String email, String first_name, String last_name, String city, String address
+                     , String street_number, String apt_no, String id_number, String birth_date, String about, boolean isScored, String tenant_score
+                     , String landlord_score, String guarantor_score, String date_created, String date_updated, String session_token,
                        String fcm_token, String global_token, String profile_image, boolean isLandlord, boolean isCreditAvailable) {
         this.id = id;
         this.phone = phone;
@@ -45,8 +48,10 @@ public class BallabaUser extends BallabaBaseEntity {
         this.city = city;
         this.address = address;
         this.apt_no = apt_no;
+        this.street_number = street_number;
         this.about = about;
         this.isScored = isScored;
+        this.id_number = id_number;
         this.birth_date = birth_date;
         this.tenant_score = tenant_score;
         this.landlord_score = landlord_score;
@@ -124,6 +129,14 @@ public class BallabaUser extends BallabaBaseEntity {
 
     public String getAddress() {
         return StringUtils.getInstance(true).formattedHebrew(trimNull(address));
+    }
+
+    public String getStreet_number() {
+        return street_number;
+    }
+
+    public void setStreet_number(String street_number) {
+        this.street_number = street_number;
     }
 
     public String getApt_no() {

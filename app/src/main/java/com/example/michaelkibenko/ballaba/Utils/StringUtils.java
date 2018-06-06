@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Base64;
+import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
@@ -137,6 +138,16 @@ public class StringUtils {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         //Date newDate = new Date();
         return sdf.format(date);
+    }
+    public Date stringToDate(String dateStr) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy");
+        try {
+            Log.d("tag", sdf.parse(dateStr).getYear()+":"+sdf.parse(dateStr).getMonth());
+            return sdf.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public Bitmap stringToBitmap(@Nullable String bitmapStr){

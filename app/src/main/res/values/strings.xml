@@ -185,6 +185,7 @@
     <string name="addProperty_landlord_city_hint">תל אביב</string>
     <string name="addProperty_landlord_address">כתובת מגורים</string>
     <string name="addProperty_landlord_address_hint">שדרות ירושלים 15</string>
+    <string name="addProperty_landlord_street_number">מספר בית</string>
     <string name="addProperty_landlord_aptNo">מספר דירה</string>
     <string name="addProperty_landlord_aptNo_hint">1</string>
     <string name="addProperty_landlord_integrity_announcement">כתובת המגורים לא תפורסם בפומבי לעולם.</string>
