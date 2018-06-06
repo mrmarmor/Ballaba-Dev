@@ -30,7 +30,8 @@ public class BallabaUserManager {
         this.user = user;
     }
 
-    private String id, phone, email, name, lastName, city, address, aptNo, birthDate, about, tenantScore, landlordScore, guarantorScore, dateCreated, dateUpdated, sessionToken, fcmToken, globalToken, profileImage;
+    private String id, phone, email, name, lastName, city, address, streetNumber, aptNo, idNumber, birthDate, about, tenantScore
+            , landlordScore, guarantorScore, dateCreated, dateUpdated, sessionToken, fcmToken, globalToken, profileImage;
     private boolean isScored, islandlord, isCreditAvailbable;
 
     public BallabaUser generateUserFromResponse(String response) {
@@ -43,7 +44,13 @@ public class BallabaUserManager {
             lastName = jsonObject.getString("last_name");//stringUtils.formattedHebrew(jsonObject.getString("last_name"));
             city = jsonObject.getString("city");//stringUtils.formattedHebrew(jsonObject.getString("city"));
             address = jsonObject.getString("address");//stringUtils.formattedHebrew(jsonObject.getString("address"));
+
+            //TODO Marik should add data field named "street_number". Then, i will fetch this field from response:
+                //streetNumber = jsonObject.getString("street_number");
+            /*TODO for now it will be: */ streetNumber = "DUMMY UNTIL SERVER WILL RECEIVE";
+
             aptNo = jsonObject.getString("apt_no");
+            idNumber = jsonObject.getString("id_number");
             birthDate = jsonObject.getString("birth_date");
             about = jsonObject.getString("about");
             profileImage = jsonObject.getString("profile_image");
@@ -68,10 +75,13 @@ public class BallabaUserManager {
                 fcmToken = auth.getString("fcm_token");
             }
 
-            islandlord = jsonObject.getBoolean("is_landlord");
-            isCreditAvailbable = jsonObject.getBoolean("is_credit_available");
+            if (jsonObject.has("is_landlord"))
+                islandlord = jsonObject.getBoolean("is_landlord");
 
-            return new BallabaUser(id, phone, email, name, lastName, city, address, aptNo
+            if (jsonObject.has("is_credit_available"))
+                isCreditAvailbable = jsonObject.getBoolean("is_credit_available");
+
+            return new BallabaUser(id, phone, email, name, lastName, city, address, streetNumber, aptNo, idNumber
                     , birthDate, about, isScored, tenantScore, landlordScore, guarantorScore, dateCreated
                     , dateUpdated, sessionToken, fcmToken, globalToken, profileImage, islandlord, isCreditAvailbable);
 

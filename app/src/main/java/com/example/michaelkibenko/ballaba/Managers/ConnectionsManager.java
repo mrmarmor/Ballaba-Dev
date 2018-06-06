@@ -562,16 +562,19 @@ public class ConnectionsManager {
         queue.add(getByAddress);
     }
 
-    public void lazyLoading(final BallabaResponseListener callback) {
+    public void lazyLoading(final boolean isRefresh, final BallabaResponseListener callback) {
         int size = BallabaSearchPropertiesManager.getInstance(context).getResults().size();
         String queryUrl = BallabaSearchPropertiesManager.getInstance(context).getCurrentSearchEndpoint();
 
         if (queryUrl != null) {
-            if (isQueryAdded(queryUrl)) {
-                queryUrl += "&offset=" + size;
-            } else {
-                queryUrl += "?&offset=" + size;
+            if(!isRefresh) {
+                if (isQueryAdded(queryUrl)) {
+                    queryUrl += "&offset=" + size;
+                } else {
+                    queryUrl += "?&offset=" + size;
+                }
             }
+
             StringRequest lazyloading = new StringRequest(GET, queryUrl, new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
