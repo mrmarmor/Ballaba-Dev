@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.os.UserManager;
 import android.support.annotation.IntDef;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
@@ -24,7 +25,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivity;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.ContinueAddPropertyActivity;
@@ -39,6 +43,7 @@ import com.example.michaelkibenko.ballaba.Adapters.PropertiesPagerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
+import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Entities.FilterDimensions;
 import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
@@ -46,6 +51,7 @@ import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
+import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
@@ -55,6 +61,8 @@ import com.google.android.gms.maps.model.LatLng;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.example.michaelkibenko.ballaba.Activities.MainActivity.SEARCH_BY_LOCATION_REQUEST_CODE;
 import static com.example.michaelkibenko.ballaba.Presenters.MainPresenter.FilterState.FULL_FILTER;
@@ -134,6 +142,8 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         //TODO to be added only when after user selected city
         initFilter();
         changeScreenState(BEFORE_SEARCH);
+
+        initNavBar();
     }
 
     private void initDrawer(){
@@ -156,6 +166,20 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         propertiesPagerAdapter = new PropertiesPagerAdapter(context, binder, fm, propertiesFragment);
         binder.mainActivityPropertiesViewPager.setAdapter(propertiesPagerAdapter);
         binder.mainActivityPropertiesViewPager.setOffscreenPageLimit(2);
+    }
+
+    private void initNavBar(){
+        BallabaUser ballabaUser = BallabaUserManager.getInstance().getUser();
+        LinearLayout navBarHeader = (LinearLayout)binder.mainActivityNavigationView.getHeaderView(0);
+        if(ballabaUser.getProfile_image() != null && !ballabaUser.getProfile_image().equals("null")) {
+            CircleImageView circleImageView = navBarHeader.findViewById(R.id.imageAvatar_navigationView);
+            Glide.with(context).load(ballabaUser.getProfile_image()).into(circleImageView);
+        }
+        if(ballabaUser.getFirst_name() != null && !ballabaUser.getFirst_name().equals("null") &&
+                ballabaUser.getLast_name() != null && !ballabaUser.getLast_name().equals("null")) {
+            ((TextView)navBarHeader.findViewById(R.id.name_navigationView)).setText(ballabaUser.getFirst_name() + " " +ballabaUser.getLast_name());
+        }
+        ((TextView)navBarHeader.findViewById(R.id.phoneNumber_navigationView)).setText(ballabaUser.getPhone());
     }
 
     private void initFilter(){

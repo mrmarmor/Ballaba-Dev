@@ -15,6 +15,7 @@ public @interface EndpointsHolder {
     String GOOGLE_PLACES_API = "https://maps.googleapis.com/maps/api/place";
     String USER = "https://api.ballaba-it.com/v1/user/me";
     String PROPERTY = "https://api.ballaba-it.com/v1/property/";
+    String PROPERTY_BY_ID = "https://api.ballaba-it.com/v1/properties/";
     String CREDIT_CARD= "https://api.ballaba-it.com/v1/user/me/credit";
     String MY_PROPERTIES = "https://api.ballaba-it.com/v1/user/me/properties";
     String PROPERTY_ATTACHMENTS_ADDONS = "https://api.ballaba-it.com/v1/config/property";
@@ -38,4 +39,5 @@ public @interface EndpointsHolder {
     String MY_PROPERTY_INTERESTED_USERS = "https://api.ballaba-it.com/v1/property/";
     String DELETE_INTEREST_USER = "https://api.ballaba-it.com/v1/property/";
     String MY_PROPERTY_MEETING_USERS = "https://api.ballaba-it.com/v1/property/";
+    String TENANT_APPROVE_MEETING = "https://api.ballaba-it.com/v1/properties/";
 }

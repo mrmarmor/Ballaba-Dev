@@ -25,6 +25,7 @@ import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringWelcomeActiv
 import com.example.michaelkibenko.ballaba.Activities.StreetAndMapBoard;
 import com.example.michaelkibenko.ballaba.Activities.VirtualTourActivity;
 import com.example.michaelkibenko.ballaba.Adapters.DescCommentAdapter;
+import com.example.michaelkibenko.ballaba.Adapters.PropertyDescriptionOpenDoorDatesRecycerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
@@ -121,7 +122,10 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                     displayDataOnScreen(propertyFull);
 
                     initPropertyMap();
+
                     //initStreetView();
+
+                    initMeetings();
 
                 }else {
                     Log.d(TAG, "error: Response is not an instance of BallabaOkResponse");
@@ -133,6 +137,18 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                 Log.d(TAG, "properties: error" );
             }
         });
+    }
+
+    private void initMeetings(){
+        ArrayList<HashMap<String, String>> dates = propertyFull.openDoorDates;
+        if(dates.isEmpty()){
+            binder.propertyDescriptionOpenDoorDates.getRoot().setVisibility(View.GONE);
+        }else{
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
+            binder.propertyDescriptionOpenDoorDates.datesRecyclerView.setLayoutManager(linearLayoutManager);
+            PropertyDescriptionOpenDoorDatesRecycerAdapter adapter = new PropertyDescriptionOpenDoorDatesRecycerAdapter(activity, dates, propertyFull.id);
+            binder.propertyDescriptionOpenDoorDates.datesRecyclerView.setAdapter(adapter);
+        }
     }
 
     private void displayDataOnScreen(BallabaPropertyFull propertyFull){

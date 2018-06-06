@@ -255,4 +255,6 @@
 
     <dimen name="creditCard_editText_height">35dp</dimen>
 
+    <dimen name="meetings_recycler_view_item_top_margin">2dp</dimen>
+
 </resources>
