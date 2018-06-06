@@ -128,37 +128,18 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             }
 
         };
-        if (user == null) {
-            new DatePickerDialog(context, R.style.MyDatePickerDialogTheme, date,
-                    1995,
-                    myCalendar.get(Calendar.MONTH),
-                    myCalendar.get(Calendar.DAY_OF_MONTH))
-                    .show();
-        } else {
-            //long now = user.getBirth_date();
-
-            Date userBirthDate;
-            try {
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-dd-MM");
-                userBirthDate = sdf.parse(user.getBirth_date());
-                myCalendar.setTime(userBirthDate);
-
-                new DatePickerDialog(context, R.style.MyDatePickerDialogTheme, date,
-                        myCalendar.get(Calendar.YEAR),
-                        myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH))
-                        .show();
-
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-
-            //myCalendar.setTimeInMillis(now);
-
-            //Date birthDate = StringUtils.getInstance(true).stringToDate(user.getBirth_date());
-
+        if (user == null){//show default date
+            myCalendar.set(1995, Calendar.MONTH, Calendar.DAY_OF_MONTH);
+        } else {//show user date of birth
+            String birthDate = user.getBirth_date();
+            myCalendar.set(Integer.parseInt(birthDate.split("-")[0])//year
+                         , Integer.parseInt(birthDate.split("-")[2].substring(0, 2)) - 1//month
+                         , Integer.parseInt(birthDate.split("-")[1]));//day
         }
+
+        new DatePickerDialog(context, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH))
+            .show();
+
     }
 
     private void updateDate() {
