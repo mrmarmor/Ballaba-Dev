@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ScrollView;
@@ -29,6 +30,7 @@ import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
+import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringCameraActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
@@ -69,13 +71,17 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     public BallabaUser user;
     private boolean isProfileImageChanged = false;
     private boolean areAllDataFieldsFilledUp = true;
+    private boolean isTenant;
 
     private Calendar myCalendar = Calendar.getInstance();
     private SimpleDateFormat sdf;
 
     private ArrayList<String> cities;
+    private String day , month , year;
 
-    public AddPropLandlordFrag() {}
+
+    public AddPropLandlordFrag() {
+    }
 
     public static AddPropLandlordFrag newInstance() {
         AddPropLandlordFrag fragment = new AddPropLandlordFrag();
@@ -86,6 +92,10 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            isTenant = bundle.getBoolean("IS_TENANT");
+        }
         binderLandLord = FragmentAddPropLandlordBinding.inflate(getLayoutInflater());
         View view = binderLandLord.getRoot();
 
@@ -94,11 +104,10 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         initButtons(view);
 
 
-
         binderLandLord.addPropBirthDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                UiUtils.instance(true , context).hideSoftKeyboard(v);
+                UiUtils.instance(true, context).hideSoftKeyboard(v);
                 showDatePicker();
             }
         });
@@ -106,7 +115,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         return view;
     }
 
-    public AddPropLandlordFrag setMainBinder(ActivityAddPropertyBinding binder){
+    public AddPropLandlordFrag setMainBinder(ActivityAddPropertyBinding binder) {
         this.binderMain = binder;
         return this;
     }
@@ -127,36 +136,36 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             }
 
         };
-        if (user == null){//show default date
+        if (user == null) {//show default date
             myCalendar.set(1995, Calendar.MONTH, Calendar.DAY_OF_MONTH);
         } else {//show user date of birth
             String birthDate = user.getBirth_date();
             myCalendar.set(Integer.parseInt(birthDate.split("-")[0])//year
-                         , Integer.parseInt(birthDate.split("-")[2].substring(0, 2)) - 1//month
-                         , Integer.parseInt(birthDate.split("-")[1]));//day
+                    , Integer.parseInt(birthDate.split("-")[2].substring(0, 2)) - 1//month
+                    , Integer.parseInt(birthDate.split("-")[1]));//day
         }
 
         new DatePickerDialog(context, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH))
-            .show();
+                .show();
 
     }
 
     private void updateDate() {
-        String myFormat = "dd / MM / yyyy";
+        String myFormat = "dd - MM - yyyy";
         sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         String formattedDate = sdf.format(myCalendar.getTime());
-        String[] date = formattedDate.split(" / ");
+        String[] date = formattedDate.split(" - ");
 
-        String year = date[0];
-        String month = date[1];
-        String day = date[2];
+        year = date[0];
+        month = date[1];
+        day = date[2];
 
         Calendar minimumYearsCheckCalendar = Calendar.getInstance();
         minimumYearsCheckCalendar.setTime(new Date());
         minimumYearsCheckCalendar.add(Calendar.YEAR, -18);
 
-        if(myCalendar.before(minimumYearsCheckCalendar)){ // user above 18 years old
+        if (myCalendar.before(minimumYearsCheckCalendar)) { // user above 18 years old
 
             Log.d(TAG, "updateDate: " + year + " " + month + " " + day);
             /*String[] monthArr = context.getResources().getStringArray(R.array.months);
@@ -168,16 +177,16 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             }*/
             //Toast.makeText(context, "" + day + " " + month + " " + year, Toast.LENGTH_SHORT).show();
             binderLandLord.addPropBirthDateEditText.setText(year + " / " + month + " / " + day);
-        }else { // user under 18 years old
+        } else { // user under 18 years old
 
         }
 
         //binderLandLord.addPropBirthDateEditText.setText();
     }
 
-    private void initEditTexts(){
+    private void initEditTexts() {
         if (user != null) {
-            Log.d(TAG, "User phone received from server: "+ user.getPhone());
+            Log.d(TAG, "User phone received from server: " + user.getPhone());
             binderLandLord.addPropFirstNameEditText.setText(user.getFirst_name());
             binderLandLord.addPropLastNameEditText.setText(user.getLast_name());
             binderLandLord.addPropIdNumberEditText.setText(user.getId_number());
@@ -210,12 +219,14 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         UiUtils.instance(true, context).initAutoCompleteAddressInCity(binderLandLord.addPropAddressActv, binderLandLord.addPropCityActv);
     }
 
-    private void initButtons(View view){
-        view.findViewById(R.id.addProperty_landlord_button_next).setOnClickListener(this);
+    private void initButtons(View view) {
+        Button nextBtn = view.findViewById(R.id.addProperty_landlord_button_next);
+        nextBtn.setText(isTenant ? "המשך" : "בוא נתחיל");
+        nextBtn.setOnClickListener(this);
         view.findViewById(R.id.addProp_profile_imageButton).setOnClickListener(this);
     }
 
-    public void onClickProfileImage(){
+    public void onClickProfileImage() {
         View sheetView = getLayoutInflater().inflate(R.layout.take_pic_switch, null);
         sheetView.findViewById(R.id.takePic_button_camera).setOnClickListener(this);
         sheetView.findViewById(R.id.takePic_button_gallery).setOnClickListener(this);
@@ -229,11 +240,12 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     public void onActivityResult(int requestCode, int resultCode, Intent imageIntent) {
         super.onActivityResult(requestCode, resultCode, imageIntent);
 
-        if (resultCode == RESULT_OK && imageIntent != null){
+        if (resultCode == RESULT_OK && imageIntent != null) {
             Uri selectedImage = imageIntent.getData();
 
-            switch(requestCode) {
-                case REQUEST_CODE_CAMERA: case REQUEST_CODE_GALLERY:
+            switch (requestCode) {
+                case REQUEST_CODE_CAMERA:
+                case REQUEST_CODE_GALLERY:
                     binderLandLord.addPropProfileImageButton.setImageURI(selectedImage);
                     isProfileImageChanged = true;
                     break;
@@ -241,12 +253,13 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         }
     }
 
-    private HashMap<String, String> getDataFromEditTexts(HashMap<String, String> map){
+    private HashMap<String, String>
+    getDataFromEditTexts(HashMap<String, String> map) {
         areAllDataFieldsFilledUp = true;
-        for (int i = binderLandLord.addPropertyEditTextsRoot.getChildCount() - 1; i >= 0 ; i--){//root.getChildCount(); i++) {
+        for (int i = binderLandLord.addPropertyEditTextsRoot.getChildCount() - 1; i >= 0; i--) {//root.getChildCount(); i++) {
             View v = binderLandLord.addPropertyEditTextsRoot.getChildAt(i);
             if (v instanceof EditText | v instanceof AutoCompleteTextView) {
-                String input = ((EditText)v).getText()+"";
+                String input = ((EditText) v).getText() + "";
                 if (input.equals("") && !v.getTag().equals("phone")) {
                     areAllDataFieldsFilledUp = false;
                     v.requestFocus();//move focus to empty field
@@ -256,19 +269,22 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             }
         }
 
-        map.put(binderLandLord.addPropHouseNoEditText.getTag()+""
-                , binderLandLord.addPropHouseNoEditText.getText()+"");
-        map.put(binderLandLord.addPropAptNoEditText.getTag()+""
-                , binderLandLord.addPropAptNoEditText.getText()+"");
-        map.put(binderLandLord.addPropAboutEditText.getTag()+""
-                , binderLandLord.addPropAboutEditText.getText()+"");
+        map.put(binderLandLord.addPropHouseNoEditText.getTag() + ""
+                , binderLandLord.addPropHouseNoEditText.getText() + "");
+        map.put(binderLandLord.addPropAptNoEditText.getTag() + ""
+                , binderLandLord.addPropAptNoEditText.getText() + "");
+        map.put(binderLandLord.addPropAboutEditText.getTag() + ""
+                , binderLandLord.addPropAboutEditText.getText() + "");
+        String newDateFormat = day + "-" + month + "-" + year;
+        map.put(binderLandLord.addPropBirthDateEditText.getTag() + ""
+                , newDateFormat);
 
         //Log.d(TAG, map.get("aboutYourself")+":"+map.get("firstName"));
 
         return map;
     }
 
-    private String getProfileImage(){
+    private String getProfileImage() {
         if (isProfileImageChanged) {
             Drawable d = binderLandLord.addPropProfileImageButton.getDrawable();
             byte[] bytes = StringUtils.getInstance(true).DrawableToBytes(d);
@@ -310,10 +326,10 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         }
     }
 
-    private void onFinish(ConnectionsManager conn){
+    private void onFinish(ConnectionsManager conn) {
         final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
         data.put("profile_image", getProfileImage());
-        Log.d(TAG, "last name sent to server: "+data.get("last_name"));
+        Log.d(TAG, "last name sent to server: " + data.get("last_name"));
 
         try {
             if (!areAllDataFieldsFilledUp ||/*!isPhoneValid(data.get("phone")) ||*/ !isEmailValid(data.get("email")))
@@ -326,33 +342,40 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                     public void resolve(BallabaBaseEntity entity) {
                         SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.USER_ID, user.getId());
                         SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "1");
-                        userManager.setUser((BallabaUser)entity);
-                        Log.d(TAG, "last name received from server: "+userManager.getUser().getLast_name());
-                        AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(1);
+                        userManager.setUser((BallabaUser) entity);
+                        Log.d(TAG, "last name received from server: " + userManager.getUser().getLast_name());
+                        if (isTenant) {
+                            //startActivity(new Intent(getActivity(), ScoringPersonalActivity.class));
+                            startActivity(new Intent(getActivity(), ScoringCameraActivity.class));
+                        } else {
+                            AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(1);
+                        }
                     }
 
                     @Override
                     public void reject(BallabaBaseEntity entity) {
-                        ((BaseActivity)context).getDefaultSnackBar(binderLandLord.getRoot()
+                        ((BaseActivity) context).getDefaultSnackBar(binderLandLord.getRoot()
                                 , ((BallabaErrorResponse) entity).message, false);
 
                         //TODO NEXT LINE IS ONLY FOR TESTING:
                         //new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(0);
                     }
                 });
+            } else if (isTenant) {
+                startActivity(new Intent(getActivity(), ScoringCameraActivity.class));
             } else {
-                AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).setViewPagerItem(1);
+                AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(1);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private JSONObject jsonParse(HashMap<String, String> userData) throws JSONException{
+    private JSONObject jsonParse(HashMap<String, String> userData) throws JSONException {
         JSONObject jsonObject = new JSONObject();
-            for (String key : userData.keySet()) {
-                jsonObject.put(key, userData.get(key));
-            }
+        for (String key : userData.keySet()) {
+            jsonObject.put(key, userData.get(key));
+        }
 
         return jsonObject;
     }
@@ -371,20 +394,20 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
 
         return isValid;
     }*/
-    private boolean isEmailValid(String email){
+    private boolean isEmailValid(String email) {
         boolean isValid = !TextUtils.isEmpty(email)
                 && (Patterns.EMAIL_ADDRESS.matcher(email).matches());
-        if (!isValid){
+        if (!isValid) {
             binderLandLord.addPropEmailEditText.setTextColor(context.getResources().getColor(R.color.red_error_phone));
             binderLandLord.addPropEmailEditText.setText("invalid email address");
-            ((ScrollView)binderLandLord.getRoot()).smoothScrollTo(0, binderLandLord.addPropEmailEditText.getTop() - 30);
+            ((ScrollView) binderLandLord.getRoot()).smoothScrollTo(0, binderLandLord.addPropEmailEditText.getTop() - 30);
             binderLandLord.addPropEmailEditText.requestFocus();
         }
 
         return isValid;
     }
 
-    private boolean isDataEqual(HashMap<String, String> map, BallabaUser user){
+    private boolean isDataEqual(HashMap<String, String> map, BallabaUser user) {
         return (map.get("first_name").equals(user.getFirst_name()) &&
                 map.get("last_name").equals(user.getLast_name()) &&
                 map.get("email").equals(user.getEmail()) &&
