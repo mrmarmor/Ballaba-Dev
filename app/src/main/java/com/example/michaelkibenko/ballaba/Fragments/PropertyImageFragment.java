@@ -1,9 +1,7 @@
 package com.example.michaelkibenko.ballaba.Fragments;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,17 +12,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
-import com.example.michaelkibenko.ballaba.Adapters.PropertiesRecyclerAdapter;
-import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
+import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringWelcomeActivity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
+import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
+import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
+import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter;
 import com.example.michaelkibenko.ballaba.R;
-
-import static com.example.michaelkibenko.ballaba.Adapters.PropertiesRecyclerAdapter.REQ_CODE_SHOW_FULL_PROPERTY;
 
 public class PropertyImageFragment extends Fragment {
     public static String PHOTO_URL_KEY = "PROPERTY_URL_KEY";
@@ -70,13 +67,37 @@ public class PropertyImageFragment extends Fragment {
     }
 
     private void showFullProperty(final String propertyId, final int position){
-        Intent intent = new Intent(context, PropertyDescriptionActivity.class);
+        BallabaUser user = BallabaUserManager.getInstance().getUser();
 
-        intent.putExtra(PropertyDescriptionPresenter.PROPERTY_POSITION, position);
-        intent.putExtra(PropertyDescriptionActivity.PROPERTY, propertyId);
-        intent.putExtra(PropertyDescriptionPresenter.PROPERTY_IMAGE, photoUrl);
+        user.userCurrentPropertyObservedID = propertyId;
+        boolean isScored = user.getIs_scored();
 
-        context.startActivity(intent);
+        if (isScored) {
+            ConnectionsManager.getInstance(getActivity()).getPropertyPermission(propertyId, new BallabaResponseListener() {
+                @Override
+                public void resolve(BallabaBaseEntity entity) {
+                    Intent intent = new Intent(context, PropertyDescriptionActivity.class);
+
+                    intent.putExtra(PropertyDescriptionPresenter.PROPERTY_POSITION, position);
+                    intent.putExtra(PropertyDescriptionActivity.PROPERTY, propertyId);
+                    intent.putExtra(PropertyDescriptionPresenter.PROPERTY_IMAGE, photoUrl);
+
+                    context.startActivity(intent);
+                }
+
+                @Override
+                public void reject(BallabaBaseEntity entity) {
+                    if (((BallabaErrorResponse)entity).statusCode == 403){
+                        // TODO: 07/06/2018 INSERT X and get guarantor
+                    }else {
+                        // TODO: 07/06/2018 ERROR FLOW
+                    }
+                }
+            });
+
+        }else {
+            startActivity(new Intent(getActivity() , ScoringWelcomeActivity.class));
+        }
     }
 
 }

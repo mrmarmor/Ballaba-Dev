@@ -17,7 +17,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.bumptech.glide.Glide;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Common.BallabaPropertyListener;
@@ -133,15 +132,15 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
             }
         }
 
-        /*holder.binder.getRoot().setOnClickListener(new View.OnClickListener() {
+        holder.binder.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showFullProperty(property, position);
             }
-        });*/
+        });
     }
 
-    /*private void showFullProperty(final BallabaPropertyResult property, final int position){
+    private void showFullProperty(final BallabaPropertyResult property, final int position){
         Intent intent = new Intent(mContext, PropertyDescriptionActivity.class);
         intent.putExtra(PropertyDescriptionPresenter.PROPERTY_POSITION, position);
         intent.putExtra(PropertyDescriptionActivity.PROPERTY, property.id);
@@ -150,7 +149,7 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
                     , property.photos.get(property.photos.size()/2));
 
         ((Activity)mContext).startActivityForResult(intent, REQ_CODE_SHOW_FULL_PROPERTY);
-    }*/
+    }
 
     private ArrayList<PropertyImageFragment> generateImageFragments(ArrayList<String> photos, String propertyId, int position){
         ArrayList<PropertyImageFragment> items= new ArrayList<>();

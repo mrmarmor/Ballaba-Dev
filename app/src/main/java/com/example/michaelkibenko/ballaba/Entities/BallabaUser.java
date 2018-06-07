@@ -1,7 +1,5 @@
 package com.example.michaelkibenko.ballaba.Entities;
 
-import android.support.annotation.StringRes;
-
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.google.gson.Gson;
 
@@ -15,6 +13,9 @@ import java.util.Date;
  */
 
 public class BallabaUser extends BallabaBaseEntity {
+
+    public String userCurrentPropertyObservedID; // testing
+
     private String id, phone, email, first_name, last_name, city, address, street_number, apt_no, id_number, birth_date, about, tenant_score, landlord_score, guarantor_score, date_created, date_updated, session_token, device_id, global_token, fcm_token, profile_image, meeting_time;
 
     private boolean isInterested, isMeeting , isScored, isLandlord, isCreditAvailable;

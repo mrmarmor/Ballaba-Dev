@@ -117,7 +117,8 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                             .getInstance(activity).parsePropertiesFull(((BallabaOkResponse)entity).body);
                     BallabaSearchPropertiesManager.getInstance(activity).setPropertyFull(propertyFull);
 
-                    Log.d(TAG, "properties: " + propertyFull.formattedAddress+":"+propertyFull.street);
+                    String formattedAddress = propertyFull.formattedAddress;
+                    Log.d(TAG, "properties: " + formattedAddress != null ? formattedAddress : "null" + " : " +propertyFull.street);
 
                     displayDataOnScreen(propertyFull);
 

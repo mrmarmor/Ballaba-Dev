@@ -14,10 +14,11 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import com.example.michaelkibenko.ballaba.Activities.MainActivity;
+import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.ScoringUserData;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
+import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
@@ -175,7 +176,7 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
             convertUserDataToEnglish(personalFamilyStatus, personalWorkStatus);
             ScoringUserData userData = new ScoringUserData();
 
-            userData.setBirthDate(personalDate);
+            userData.setBirthDate(BallabaUserManager.getInstance().getUser().getBirth_date());
             userData.setHasCar(personalCar.equals("יש") ? true : false);
             userData.setFamilyStatus(personalFamilyStatus);
             userData.setWorkStatus(personalWorkStatus);
@@ -183,6 +184,7 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
             userData.setUserIncome(Integer.parseInt(binder.scoringWorkIncomeEditText.getText().toString().trim()));
             userData.setWorkEmail(binder.scoringSiteEditText.getText().toString().trim());
             userData.setUserEmail(binder.scoringEmailEditText.getText().toString().trim());
+            userData.setBirthDate(BallabaUserManager.getInstance().getUser().getBirth_date());
 
             sendScoringData(userData);
 
@@ -204,7 +206,7 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
             case "גרוש/ה":
                 personalFamilyStatus = "divorced";
                 break;
-            case "אלמו/ה":
+            case "אלמן/ה":
                 personalFamilyStatus = "widowed";
                 break;
         }
@@ -230,8 +232,9 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
             public void resolve(BallabaBaseEntity entity) {
                 //hide progressbar
                 Log.d(TAG, "resolve: " + "WOW");
-                //Intent intent = new Intent(activity, ScoringConfirmIDActivity.class);
-                //activity.startActivity(intent);
+                Intent intent = new Intent(activity, PropertyDescriptionActivity.class);
+                intent.putExtra("Prop" , BallabaUserManager.getInstance().getUser().userCurrentPropertyObservedID);
+                activity.startActivity(intent);
             }
 
             @Override
@@ -242,7 +245,8 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
                 Toast.makeText(activity, "REJECT", Toast.LENGTH_SHORT).show();
 
                 // TODO: 06/06/2018 DELETE ->> TESTING
-                Intent intent = new Intent(activity, MainActivity.class);
+                Intent intent = new Intent(activity, PropertyDescriptionActivity.class);
+                intent.putExtra("Prop" , BallabaUserManager.getInstance().getUser().userCurrentPropertyObservedID);
                 activity.startActivity(intent);
             }
         });

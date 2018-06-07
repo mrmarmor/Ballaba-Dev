@@ -1,14 +1,11 @@
 package com.example.michaelkibenko.ballaba.Fragments;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.location.Location;
 import android.location.LocationListener;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -24,17 +21,14 @@ import android.view.ViewGroup;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
-import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Adapters.PropertiesRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
-import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
-import com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.FragmentPropertiesRecyclerBinding;
 import com.google.android.gms.maps.model.LatLng;
@@ -182,8 +176,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
                         .parsePropertyResults(((BallabaOkResponse) entity).body);
 
                 Log.d(TAG, "properties: " + properties.get(0).formattedAddress + ":" + properties.get(1).formattedAddress);
-                BallabaSearchPropertiesManager.getInstance(context).appendProperties(
-                        properties, false);
+                BallabaSearchPropertiesManager.getInstance(context).appendProperties(properties, false);
 
                 rvAdapter.updateList(properties);
 
@@ -195,7 +188,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
             }
         };
 
-        if (isLocationApproved){
+        if (isLocationApproved) {
             BallabaSearchPropertiesManager.getInstance(context).getPropertiesByLatLng(latLng, listener);
         }
     }
@@ -283,14 +276,14 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
         });
     }*/
 
-    private void lazyLoading(){
+    private void lazyLoading() {
         final BallabaSearchPropertiesManager propertiesManager = BallabaSearchPropertiesManager.getInstance(context);
 
         BallabaSearchPropertiesManager.getInstance(context).getLazyLoadingResults(false, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 ArrayList<BallabaPropertyResult> properties =
-                        propertiesManager.parsePropertyResults(((BallabaOkResponse)entity).body);
+                        propertiesManager.parsePropertyResults(((BallabaOkResponse) entity).body);
                 propertiesManager.appendProperties(properties, true);
 
                 rvAdapter.updateList(propertiesManager.getResults(), true);
@@ -303,14 +296,14 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
         });
     }
 
-    private void refreshItems(){
+    private void refreshItems() {
         final BallabaSearchPropertiesManager propertiesManager = BallabaSearchPropertiesManager.getInstance(context);
 
         BallabaSearchPropertiesManager.getInstance(context).getLazyLoadingResults(true, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 ArrayList<BallabaPropertyResult> properties =
-                        propertiesManager.parsePropertyResults(((BallabaOkResponse)entity).body);
+                        propertiesManager.parsePropertyResults(((BallabaOkResponse) entity).body);
                 propertiesManager.appendProperties(properties, false);
 
                 rvAdapter.updateList(propertiesManager.getResults(), false);
@@ -322,7 +315,6 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
             }
         });
     }
-
 
 
 }

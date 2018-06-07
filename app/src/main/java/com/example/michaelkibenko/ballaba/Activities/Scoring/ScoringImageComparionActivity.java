@@ -3,6 +3,7 @@ package com.example.michaelkibenko.ballaba.Activities.Scoring;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -112,8 +113,13 @@ public class ScoringImageComparionActivity extends BaseActivity {
                 progressBar.setVisibility(View.GONE);
                 relativeLayout.setVisibility(View.VISIBLE);
                 if (good){
-                    startActivity(new Intent(ScoringImageComparionActivity.this, ScoringPersonalActivity.class));
-                    finish();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            startActivity(new Intent(ScoringImageComparionActivity.this, ScoringPersonalActivity.class));
+                            finish();
+                        }
+                    } , 3000);
                 }
 
             }

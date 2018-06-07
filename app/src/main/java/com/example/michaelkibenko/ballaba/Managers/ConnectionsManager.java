@@ -1098,6 +1098,7 @@ public class ConnectionsManager {
             jsonObject.put("income" , userData.getUserIncome());
             jsonObject.put("work_website" , userData.getWorkEmail().trim().toString());
             jsonObject.put("work_contact" , userData.getUserEmail().trim().toString());
+            jsonObject.put("birth_date" , userData.getBirthDate().trim().toString());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -1519,6 +1520,40 @@ public class ConnectionsManager {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public void getPropertyPermission(String id , final BallabaResponseListener callback) {
+        String URL = EndpointsHolder.PROPERTY_BY_ID + id + "/permission";
+        StringRequest stringRequest = new StringRequest(GET, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                BallabaOkResponse ok = new BallabaOkResponse();
+                ok.body = response;
+                callback.resolve(ok);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error.networkResponse != null) {
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                } else {
+                    Log.e(TAG, error + "\n" + error.getMessage());
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return getHeadersWithSessionToken();
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(stringRequest);
     }
 
     /*private BallabaPropertyPhoto parsePhotoResponse(JSONObject jsonObject) throws JSONException{
