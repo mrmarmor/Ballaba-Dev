@@ -41,7 +41,7 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
                   AddPropLandlordFrag.newInstance().setMainBinder(binder), AddPropAssetFrag.newInstance().setMainBinder(binder)
                 , AddPropAddonsFrag.newInstance(binder).setMainBinder(binder), AddPropPaymentsFrag.newInstance().setMainBinder(binder)
                 , AddPropTakePhotoFrag.newInstance().setMainBinder(binder), addPropEditPhotoFrag.setMainBinder(binder)
-                , AddPropMeetingsFrag.newInstance()};
+                , AddPropMeetingsFrag.newInstance() /*AddPropPreviewFrag may be added here. we can take it from PropertyDescription*/};
     }
 
     //AddPropEditPhotoFrag needs also a photo, so i need to return it with a bundle.
@@ -63,7 +63,7 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public int getCount() {
-        return 8; //NUM_PAGES
+        return 7; //NUM_PAGES
     }
 
 }
