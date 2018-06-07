@@ -16,7 +16,6 @@ import java.io.ByteArrayOutputStream;
 
 public class ScoringSelfieActivity extends BaseActivity implements View.OnClickListener {
 
-
     private static final int REQUEST_TAKE_PIC = 45243;
     private Bitmap photo;
     private byte[] byteArray;
@@ -57,7 +56,8 @@ public class ScoringSelfieActivity extends BaseActivity implements View.OnClickL
             encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
             Intent intent = new Intent(this, ScoringImageComparionActivity.class);
             String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
-            intent.putExtra("IMAGE" , byteArray);
+            //intent.putExtra("IMAGE" , byteArray);
+            intent.putExtra("IMAGE" , encoded);
             startActivity(intent);
         }
     }

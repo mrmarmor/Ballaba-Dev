@@ -32,7 +32,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class PropertyManageMeetingsFragment extends Fragment {
 
     private final String TAG = PropertyManageMeetingsFragment.class.getSimpleName();
