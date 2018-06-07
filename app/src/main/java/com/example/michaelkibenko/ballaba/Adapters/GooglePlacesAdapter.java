@@ -14,10 +14,12 @@ import android.widget.Filterable;
 import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Utils.GeneralUtils;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.GeoDataClient;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceDetectionClient;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
@@ -35,6 +37,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import static com.example.michaelkibenko.ballaba.Adapters.GooglePlacesAdapter.GooglePlacesFilter.CITIES;
+import static com.example.michaelkibenko.ballaba.Adapters.GooglePlacesAdapter.GooglePlacesFilter.GEOCODE;
 import static com.example.michaelkibenko.ballaba.Adapters.GooglePlacesAdapter.GooglePlacesFilter.REGION;
 
 /**
@@ -42,7 +45,7 @@ import static com.example.michaelkibenko.ballaba.Adapters.GooglePlacesAdapter.Go
  */
 
 public class GooglePlacesAdapter extends ArrayAdapter<String> implements Filterable {
-    @StringDef({CITIES, REGION})
+    @StringDef({CITIES, GEOCODE, REGION})
     public @interface GooglePlacesFilter {
         String CITIES = "&types=(cities)";
         String GEOCODE = "&&types=geocode";
@@ -121,7 +124,9 @@ public class GooglePlacesAdapter extends ArrayAdapter<String> implements Filtera
                 descriptionList = new ArrayList(jsonArray.length());
                 for (int i = 0; i < jsonArray.length(); i++) {
                     resultList.add(jsonArray.getJSONObject(i).toString());
-                    descriptionList.add(jsonArray.getJSONObject(i).getString("description"));
+                    descriptionList.add(jsonArray.getJSONObject(i).getString("description")
+                            .replace(", Israel", "")
+                            .replace(", " + customCity, ""));
                 }
             } catch (JSONException e) {
                 Log.e(TAG, "Cannot process JSON results", e);
@@ -135,12 +140,7 @@ public class GooglePlacesAdapter extends ArrayAdapter<String> implements Filtera
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 FilterResults filterResults = new FilterResults();
-                if (customCity != null) {//for search address in a specific city
-                    resultList = autoComplete(constraint.toString(), null);
-                } else if (constraint != null) {//for search only cities
-                    resultList = autoComplete(constraint.toString(), gpFilter);
-                }
-
+                resultList = autoComplete(constraint.toString(), gpFilter);
                 filterResults.values = resultList;
                 filterResults.count = resultList.size();
 

@@ -17,6 +17,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
+import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Common.BallabaPropertyListener;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
@@ -97,9 +99,11 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
                 if (property.isSaved){
                     d = res.getDrawable(R.drawable.heart_white_24, mContext.getTheme());
                     ConnectionsManager.getInstance(mContext).removeFromFavoritesProperty(property.id);
+                    ((BaseActivity)mContext).getDefaultSnackBar(holder.binder.getRoot(), "נכס הוסר ממועדפים", false);
                 }else{
                     d = res.getDrawable(R.drawable.heart_blue_24, mContext.getTheme());
                     ConnectionsManager.getInstance(mContext).addToFavoritesProperty(property.id);
+                    ((BaseActivity)mContext).getDefaultSnackBar(holder.binder.getRoot(), "נכס הוסף למועדפים", false);
                 }
                 holder.binder.propertyItemIsSavedPropertyImageView.setImageDrawable(d);
                 property.isSaved = !property.isSaved;

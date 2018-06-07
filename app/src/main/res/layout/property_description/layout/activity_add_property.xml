@@ -12,5 +12,8 @@
         <com.example.michaelkibenko.ballaba.Views.CustomViewPager
             android:id="@+id/addProperty_viewPager"
             style="@style/allWrapContent" />
+   <!-- <com.duolingo.open.rtlviewpager.RtlViewPager
+        android:id="@+id/addProperty_viewPager"
+        style="@style/allWrapContent" />-->
 
 </layout>

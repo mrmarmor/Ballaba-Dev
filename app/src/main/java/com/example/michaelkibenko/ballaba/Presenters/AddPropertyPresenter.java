@@ -58,9 +58,19 @@ public class AddPropertyPresenter {
         onNextViewPagerItem(position);
     }*/
 
-    public void setViewPagerItem(int position){
-        binder.addPropertyViewPager.setCurrentItem(position, false);
-        activity.invalidateOptionsMenu();
+    public void setViewPagerItem(final int position){
+        /*TODO if user go from first item to second item and returns to the first, the pagerAdapter method setCurrentItem does not move him
+          TODO to second. i think this is because he was already there and the adapter already set this item.
+          TODO the solution is: launching second item after a delay with a thread as below.*/
+        binder.addPropertyViewPager.setAdapter(addPropertyPagerAdapter);
+        binder.addPropertyViewPager.setOffscreenPageLimit(2);
+        binder.addPropertyViewPager.post(new Runnable() {
+            @Override
+            public void run() {
+                binder.addPropertyViewPager.setCurrentItem(position);
+                activity.invalidateOptionsMenu();
+            }
+        });
     }
    /* public void getChipsFromFragment(@Nullable HashMap<String, ArrayList<String>> fragmentData, int position){
         //TODO data.putAll(fragmentData);

@@ -19,6 +19,7 @@ import android.support.design.widget.Snackbar;
 import android.support.transition.TransitionManager;
 import android.support.v7.widget.AppCompatTextView;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -34,6 +35,7 @@ import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Adapters.GooglePlacesAdapter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
+import com.google.android.gms.location.places.AutocompleteFilter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -52,8 +54,8 @@ import static com.example.michaelkibenko.ballaba.Utils.UiUtils.ScreenStates.HIDE
  * Created by User on 11/03/2018.
  */
 
-public class UiUtils implements AdapterView.OnItemClickListener {
-    public @interface ScreenStates {
+public class UiUtils {
+   public @interface ScreenStates {
         float FULL = 0;
         float HALF = 0.5f;
         float HIDE = 1;
@@ -194,20 +196,18 @@ public class UiUtils implements AdapterView.OnItemClickListener {
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 String citySelected = viewCity.getText().toString();
-                dataAdapter = new GooglePlacesAdapter(ctx
-                        , android.R.layout.simple_list_item_1, null, citySelected);
+                dataAdapter = new GooglePlacesAdapter(ctx, android.R.layout.simple_list_item_1
+                        , GooglePlacesAdapter.GooglePlacesFilter.GEOCODE, citySelected);
                 dataAdapter.notifyDataSetInvalidated();//this is against a strange crash and against bad-eye
                 autoCompleteTextView.requestLayout();//this is against a strange crash and against bad-eye
                 dataAdapter.getFilter().filter(citySelected+" "+s.toString());
             }
         });
-
-        autoCompleteTextView.setOnItemClickListener(this);
     }
 
     public void initAutoCompleteCity(final AutoCompleteTextView autoCompleteTextView) {
-        final GooglePlacesAdapter dataAdapter = new GooglePlacesAdapter(ctx
-                , android.R.layout.simple_list_item_1, GooglePlacesAdapter.GooglePlacesFilter.CITIES);
+        final GooglePlacesAdapter dataAdapter = new GooglePlacesAdapter(ctx, android.R.layout.simple_list_item_1
+                , GooglePlacesAdapter.GooglePlacesFilter.CITIES);
 
         autoCompleteTextView.addTextChangedListener(new TextWatcher() {
             public void afterTextChanged(Editable s) {
@@ -220,13 +220,8 @@ public class UiUtils implements AdapterView.OnItemClickListener {
                 dataAdapter.notifyDataSetInvalidated();//this is against a strange crash and against bad-eye
                 autoCompleteTextView.requestLayout();//this is against a strange crash and against bad-eye
                 dataAdapter.getFilter().filter(s.toString());
-                //dataAdapter.notifyDataSetInvalidated();
-                //autoCompleteTextView.requestLayout();
-                //dataAdapter.remove("Israel");
             }
         });
-
-        autoCompleteTextView.setOnItemClickListener(this);
     }
 
     public TextView generateCustomTextView(final String text, final @DrawableRes int icon) {
@@ -238,11 +233,6 @@ public class UiUtils implements AdapterView.OnItemClickListener {
         tv.setPaddingRelative(0, 16, 8, 16);
 
         return tv;
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        ((AppCompatTextView)view).setText(((AppCompatTextView)view).getText().toString().replace(", Israel", ""));
     }
 
     //TODO this function has a very similar function in BaseActivity class...

@@ -22,6 +22,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -321,18 +322,19 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
 
             Log.d(TAG, "is data equal: " + isDataEqual(data, user));
             if (user != null && !isDataEqual(data, user)) {
-                conn.uploadUser(/*user.getId(), */jsonParse(data), new BallabaResponseListener() {
+                conn.uploadUser(binderMain, jsonParse(data), new BallabaResponseListener() {
                     @Override
                     public void resolve(BallabaBaseEntity entity) {
-                        SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.USER_ID, user.getId());
+                     /*   SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.USER_ID, user.getId());
                         SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "1");
                         userManager.setUser((BallabaUser)entity);
                         Log.d(TAG, "last name received from server: "+userManager.getUser().getLast_name());
-                        AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(1);
+                        AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(1);*/
                     }
 
                     @Override
                     public void reject(BallabaBaseEntity entity) {
+                        Toast.makeText(context, ((BallabaErrorResponse) entity).message, Toast.LENGTH_LONG);
                         ((BaseActivity)context).getDefaultSnackBar(binderLandLord.getRoot()
                                 , ((BallabaErrorResponse) entity).message, false);
 

@@ -15,6 +15,7 @@ import android.support.v4.os.ParcelableCompatCreatorCallbacks;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewConfigurationCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.EdgeEffectCompat;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -30,6 +31,8 @@ import android.view.ViewParent;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
+
+import com.duolingo.open.rtlviewpager.RtlViewPager;
 
 import java.util.ArrayList;
 import java.util.Collections;
