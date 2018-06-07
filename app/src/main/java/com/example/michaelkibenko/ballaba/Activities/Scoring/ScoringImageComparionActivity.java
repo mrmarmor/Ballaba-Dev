@@ -1,6 +1,8 @@
 package com.example.michaelkibenko.ballaba.Activities.Scoring;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +22,12 @@ import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class ScoringImageComparionActivity extends BaseActivity {
 
     private ProgressBar progressBar;
@@ -27,6 +35,8 @@ public class ScoringImageComparionActivity extends BaseActivity {
     private RelativeLayout relativeLayout;
     private ImageView imageView;
     private Button tryAgainBtn;
+    private byte[] bytes;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,17 +54,31 @@ public class ScoringImageComparionActivity extends BaseActivity {
                 finish();
             }
         });
-        UiUtils.instance(true , this).buttonChanger(tryAgainBtn , true);
+        UiUtils.instance(true, this).buttonChanger(tryAgainBtn, true);
 
+        File file = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
+        int size = (int) file.length();
+        bytes = new byte[size];
+        try {
+            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+            buf.read(bytes, 0, bytes.length);
+            buf.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         uploadSelfieForComaprison();
 
     }
 
     private void uploadSelfieForComaprison() {
         JSONObject object = new JSONObject();
-        String encoded = Base64.encodeToString(getIntent().getByteArrayExtra("IMAGE"), Base64.DEFAULT);
+        String encoded = Base64.encodeToString(bytes, Base64.DEFAULT);
         try {
-            object.put("image" , encoded);
+            object.put("image", encoded);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -79,7 +103,7 @@ public class ScoringImageComparionActivity extends BaseActivity {
         textView.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(!good){
+                if (!good) {
                     relativeLayout.setBackground(getResources().getDrawable(R.drawable.red_circular_border));
                     imageView.setImageResource(R.drawable.close_red_36);
                     tryAgainBtn.setVisibility(View.VISIBLE);
@@ -87,6 +111,11 @@ public class ScoringImageComparionActivity extends BaseActivity {
                 textView.setVisibility(View.GONE);
                 progressBar.setVisibility(View.GONE);
                 relativeLayout.setVisibility(View.VISIBLE);
+                if (good){
+                    startActivity(new Intent(ScoringImageComparionActivity.this, ScoringPersonalActivity.class));
+                    finish();
+                }
+
             }
         }, 1500);
     }

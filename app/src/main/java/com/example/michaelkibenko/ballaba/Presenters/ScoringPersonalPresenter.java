@@ -193,7 +193,7 @@ public class ScoringPersonalPresenter implements RadioButton.OnClickListener {
                 break;
             }
         }*/
-        if (familyStatusChecked && carStatusChecked && isDateInserted){
+        if (familyStatusChecked && carStatusChecked){
             UiUtils.instance(true , activity).buttonChanger(binder.scoringPersonalOkButton , true);
         }
     }
@@ -231,13 +231,13 @@ public class ScoringPersonalPresenter implements RadioButton.OnClickListener {
 
         //validateDateEditTexts();
 
-        if (familyStatusChecked && carStatusChecked && isDateInserted) {
+        //if (familyStatusChecked && carStatusChecked && isDateInserted) {
             intent.putExtra(PERSONAL_CAR, carRBSelected.getText());
             intent.putExtra(PERSONAL_FAMILY_STATUS, familyRBSelected.getText());
             intent.putExtra(PERSONAL_DATE, sdf != null ? sdf.format(myCalendar.getTime()) : null);
             intent.putExtra(PERSOANL_CHILDS, binder.scoringNumberOfChildrenEditText.getText().toString().trim());
             activity.startActivity(intent);
-        }
+        //}
     }
 
     private void validateDateEditTexts() {

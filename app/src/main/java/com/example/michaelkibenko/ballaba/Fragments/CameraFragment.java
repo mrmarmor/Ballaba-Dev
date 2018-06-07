@@ -37,7 +37,8 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringPicTakenActivity;
+import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringImageComparionActivity;
+import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringSelfieActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
@@ -261,8 +262,19 @@ public class CameraFragment extends android.app.Fragment {
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
-
-                            sendScoringID(object);
+                            if (currentType == CAMERA_TYPES.BACK){
+                                sendScoringID(object);
+                            }else {
+                                getActivity().runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progressBar.setVisibility(View.GONE);
+                                    }
+                                });
+                                Intent intent = new Intent(context , ScoringImageComparionActivity.class);
+                                //intent.putExtra("IMAGE" , encoded);
+                                startActivity(intent);
+                            }
                         } catch (FileNotFoundException ex) {
                             ex.printStackTrace();
                         } catch (IOException io) {
@@ -328,8 +340,8 @@ public class CameraFragment extends android.app.Fragment {
                         progressBar.setVisibility(View.GONE);
                     }
                 });
-                Intent intent = new Intent(getActivity(), ScoringPicTakenActivity.class);
-                intent.putExtra("USER_IMAGE", byteArray);
+                Intent intent = new Intent(getActivity(), ScoringSelfieActivity.class);
+                //intent.putExtra("USER_IMAGE", byteArray);
                 startActivity(intent);
             }
 

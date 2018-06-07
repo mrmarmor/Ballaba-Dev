@@ -1064,6 +1064,7 @@ public class ConnectionsManager {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                String err = new String(error.networkResponse.data);
                 if (error.networkResponse != null) {
                     callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, error.getMessage()));
                 } else {
@@ -1088,7 +1089,7 @@ public class ConnectionsManager {
     public void sendScoringData(ScoringUserData userData, final BallabaResponseListener callback) {
         JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("birth_date" , userData.getBirthDate().trim().toString());
+            //jsonObject.put("birth_date" , userData.getBirthDate().trim().toString());
             jsonObject.put("car_owner" , userData.isHasCar());
             jsonObject.put("marital_status" , userData.getFamilyStatus().trim().toString());
             jsonObject.put("no_of_kids" , userData.getNumOfChilds());
@@ -1112,6 +1113,7 @@ public class ConnectionsManager {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                String errorSTR = new String(error.networkResponse.data);
                 if (error.networkResponse != null) {
                     callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
                 } else {
