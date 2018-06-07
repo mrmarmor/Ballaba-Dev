@@ -216,6 +216,11 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
         if(context instanceof MainActivity) {
             locationManager.getLocation(this);
         }
+
+        LatLng latLng = new LatLng(31.425155, 35.1929755);
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(7));
+
         googleMap.setOnCameraMoveStartedListener(this);
         googleMap.setOnCameraMoveListener(this);
         googleMap.setOnCameraMoveCanceledListener(this);
@@ -233,6 +238,7 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
         if(responseListener != null){
             responseListener.resolve(new BallabaOkResponse());
         }
+
     }
 
     public void setResponseListener(BallabaResponseListener responseListener){
