@@ -56,13 +56,12 @@
         />
     <ImageView
         android:id="@+id/propertyItem_isSavedProperty_ImageView"
-        android:layout_width="@dimen/icon_regular"
-        android:layout_height="@dimen/icon_regular"
+        style="@style/icon_wide_click_area"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="@dimen/propertyItem_topStrip_imageView_verticalOffset"
+        android:layout_marginTop="@dimen/propertyItem_topStrip_isSaved_imageView_verticalOffset"
         android:layout_marginEnd="@dimen/propertyItem_topStrip_imageView_verticalOffset"
-        android:background="@android:color/transparent"
+        android:src="@android:color/transparent"
         />
 
     <android.support.constraint.ConstraintLayout

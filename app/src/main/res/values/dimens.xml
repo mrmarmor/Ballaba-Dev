@@ -107,6 +107,7 @@
     <dimen name="propertyItem_topStrip_imageView_dimens">24dp</dimen>
     <dimen name="propertyItem_topStrip_imageView_horizontalOffset">16dp</dimen>
     <dimen name="propertyItem_topStrip_imageView_verticalOffset">10dp</dimen>
+    <dimen name="propertyItem_topStrip_isSaved_imageView_verticalOffset">5dp</dimen>
     <dimen name="propertyItem_topStrip_height">44dp</dimen>
     <dimen name="propertyItem_bottomStrip_height">66dp</dimen>
     <dimen name="propertyItem_bottomStrip_price_top_offset">12dp</dimen>
