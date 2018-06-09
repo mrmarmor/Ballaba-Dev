@@ -61,7 +61,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="@dimen/propertyItem_topStrip_isSaved_imageView_verticalOffset"
         android:layout_marginEnd="@dimen/propertyItem_topStrip_imageView_verticalOffset"
-        android:src="@android:color/transparent"
         />
 
     <android.support.constraint.ConstraintLayout
