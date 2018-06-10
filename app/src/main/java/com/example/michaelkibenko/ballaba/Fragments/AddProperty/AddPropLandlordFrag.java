@@ -141,9 +141,9 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             myCalendar.set(1995, Calendar.MONTH, Calendar.DAY_OF_MONTH);
         } else {//show user date of birth
             String birthDate = user.getBirth_date();
-            myCalendar.set(Integer.parseInt(birthDate.split("-")[0])//year
-                    , Integer.parseInt(birthDate.split("-")[2].substring(0, 2)) - 1//month
-                    , Integer.parseInt(birthDate.split("-")[1]));//day
+            myCalendar.set(Integer.parseInt(birthDate.split("/")[0])//year
+                    , Integer.parseInt(birthDate.split("/")[2].substring(0, 2)) - 1//month
+                    , Integer.parseInt(birthDate.split("/")[1]));//day
         }
 
         new DatePickerDialog(context, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH))
@@ -152,11 +152,11 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     }
 
     private void updateDate() {
-        String myFormat = "dd - MM - yyyy";
+        String myFormat = "dd / MM / yyyy";
         sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         String formattedDate = sdf.format(myCalendar.getTime());
-        String[] date = formattedDate.split(" - ");
+        String[] date = formattedDate.split(" / ");
 
         year = date[0];
         month = date[1];
@@ -360,7 +360,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                     public void reject(BallabaBaseEntity entity) {
                         Toast.makeText(context, ((BallabaErrorResponse) entity).message, Toast.LENGTH_LONG);
                         ((BaseActivity) context).getDefaultSnackBar(binderLandLord.getRoot()
-                                , ((BallabaErrorResponse) entity).message, false);
+                                , ((BallabaErrorResponse) entity).message, false).show();
 
                         //TODO NEXT LINE IS ONLY FOR TESTING:
                         //new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(0);

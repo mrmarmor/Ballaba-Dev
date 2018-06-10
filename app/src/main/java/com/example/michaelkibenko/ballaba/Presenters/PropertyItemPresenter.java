@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Common.BallabaPropertyListener;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;

@@ -51,7 +51,7 @@ public class BallabaUserManager {
 
             aptNo = jsonObject.getString("apt_no");
             idNumber = jsonObject.getString("id_number");
-            birthDate = jsonObject.getString("birth_date");
+            birthDate = jsonObject.getString("birth_date").replace("-", "/");
             about = jsonObject.getString("about");
             profileImage = jsonObject.getString("profile_image");
 
@@ -61,8 +61,8 @@ public class BallabaUserManager {
             //guarantorScore = jsonObject.getString("guarantor_score");
 
             if (jsonObject.has("created_at") && jsonObject.has("updated_at")) {
-                dateCreated = jsonObject.getString("created_at");
-                dateUpdated = jsonObject.getString("updated_at");
+                dateCreated = jsonObject.getString("created_at").replace("-", "/");
+                dateUpdated = jsonObject.getString("updated_at").replace("-", "/");
             }
 
             if (jsonObject.has("scoring_status"))

@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
@@ -98,11 +99,11 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
                 if (property.isSaved){
                     d = res.getDrawable(R.drawable.heart_white_24, mContext.getTheme());
                     ConnectionsManager.getInstance(mContext).removeFromFavoritesProperty(property.id);
-                    ((BaseActivity)mContext).getDefaultSnackBar(holder.binder.getRoot(), "נכס הוסר ממועדפים", false);
+                    ((BaseActivity)mContext).getDefaultSnackBar(v, "נכס הוסר ממועדפים", false).show();
                 }else{
                     d = res.getDrawable(R.drawable.heart_blue_24, mContext.getTheme());
                     ConnectionsManager.getInstance(mContext).addToFavoritesProperty(property.id);
-                    ((BaseActivity)mContext).getDefaultSnackBar(holder.binder.getRoot(), "נכס הוסף למועדפים", false);
+                    ((BaseActivity)mContext).getDefaultSnackBar(holder.binder.getRoot(), "נכס הוסף למועדפים", false).show();
                 }
                 holder.binder.propertyItemIsSavedPropertyImageView.setImageDrawable(d);
                 property.isSaved = !property.isSaved;

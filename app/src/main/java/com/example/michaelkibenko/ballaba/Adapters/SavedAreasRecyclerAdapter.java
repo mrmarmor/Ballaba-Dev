@@ -52,13 +52,14 @@ import static com.example.michaelkibenko.ballaba.Presenters.SavedAreaPresenter.R
  * Created by User on 15/05/2018.
  */
 
-public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter {
+public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter implements View.OnClickListener{
     private Context context;
     private SavedAreaItemBinding binder;
     private ActivitySavedAreaBinding binderParent;
     private LayoutInflater mInflater;
     private AlertDialog areUSureDialog;
     private ArrayList<Viewport> viewports;
+    private int position;
 
     public SavedAreasRecyclerAdapter(Context context, ActivitySavedAreaBinding binding, ArrayList<Viewport> viewports) {
         this.context = context;
@@ -70,9 +71,7 @@ public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mInflater = LayoutInflater.from(context);
-
-        binder = DataBindingUtil.inflate(
-                mInflater, R.layout.saved_area_item, parent, false);
+        binder = DataBindingUtil.inflate(mInflater, R.layout.saved_area_item, parent, false);
 
         return new SavedAreasRecyclerAdapter.ViewHolder(binder);
     }
@@ -80,34 +79,30 @@ public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         binder.savedAreasItemTitle.setText(viewports.get(position).title);
-        binder.savedAreasItemEdit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (viewports != null && viewports.size() > position) {
-                    Intent intent = new Intent(context, EditViewportSubActivity.class);
-                    ((Activity) context).startActivityForResult(intent, REQ_CODE_EDIT_VIEWPORT);
-
-                    BallabaMapFragment mapFragment = BallabaMapFragment.newInstance();
-                    mapFragment.setLocation(viewports.get(position).bounds.getCenter());
-                }
-            }
-        });
-
-        binder.savedAreasItemDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDeleteItemDialog(position);
-            }
-        });
+        binder.savedAreasItemEdit.setOnClickListener(this);
+        binder.savedAreasItemImageView.setOnClickListener(this);
+        binder.savedAreasItemDelete.setOnClickListener(this);
 
         byte[] mapImage = viewports.get(position).mapImage;
         Bitmap bitmap = BitmapFactory.decodeByteArray(mapImage, 0, mapImage.length);
         binder.savedAreasItemImageView.setImageBitmap(bitmap);
+
+        this.position = position;
     }
 
     @Override
     public int getItemCount() {
         return viewports.size();
+    }
+
+    private void editArea() {
+        if (viewports != null && viewports.size() > position) {
+            Intent intent = new Intent(context, EditViewportSubActivity.class);
+            ((Activity) context).startActivityForResult(intent, REQ_CODE_EDIT_VIEWPORT);
+
+            BallabaMapFragment mapFragment = BallabaMapFragment.newInstance();
+            mapFragment.setLocation(viewports.get(position).bounds.getCenter());
+        }
     }
 
     private void showDeleteItemDialog(final int position){
@@ -157,9 +152,24 @@ public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter {
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.savedAreas_item_edit:case R.id.savedAreas_item_imageView:
+                editArea();
+                break;
+
+            case R.id.savedAreas_item_delete:
+                showDeleteItemDialog(position);
+                break;
+        }
+    }
+
     private class ViewHolder extends RecyclerView.ViewHolder{
         private ViewHolder(SavedAreaItemBinding binding) {
             super(binding.getRoot());
         }
     }
+
+
 }

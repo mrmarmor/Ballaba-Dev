@@ -5,9 +5,9 @@
     <android.support.constraint.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layoutDirection="rtl"
     android:layout_marginBottom="@dimen/small_margin"
     android:paddingBottom="@dimen/small_margin"
+    android:layoutDirection="locale"
     android:background="@android:color/white" >
 
     <ImageView
@@ -17,16 +17,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:src="@drawable/position_blue_160"
-        android:scaleType="centerCrop" />
+        android:scaleType="fitXY" />
 
     <TextView
         android:id="@+id/savedAreas_item_title"
         style="@style/allWrapContent"
         app:layout_constraintTop_toBottomOf="@+id/savedAreas_item_imageView"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="@dimen/small_margin"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:textAlignment="viewStart"
         android:fontFamily="@font/rubik_medium"
         android:background="@android:color/transparent" android:text="asdg"
         android:hint="@string/savedAreas_item_title_hint" />
@@ -36,7 +35,7 @@
         android:layout_width="@dimen/savedAreas_button_width"
         android:layout_height="@dimen/savedAreas_button_height"
         app:layout_constraintTop_toBottomOf="@+id/savedAreas_item_title"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginStart="@dimen/small_margin"
         android:fontFamily="@font/rubik_medium"
@@ -50,7 +49,7 @@
         android:layout_width="@dimen/savedAreas_button_width"
         android:layout_height="@dimen/savedAreas_button_height"
         app:layout_constraintTop_toBottomOf="@+id/savedAreas_item_title"
-        app:layout_constraintStart_toEndOf="@id/savedAreas_item_edit"
+        app:layout_constraintRight_toLeftOf="@id/savedAreas_item_edit"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginStart="@dimen/savedAreas_button_marginStart"
         android:fontFamily="@font/rubik_medium"
