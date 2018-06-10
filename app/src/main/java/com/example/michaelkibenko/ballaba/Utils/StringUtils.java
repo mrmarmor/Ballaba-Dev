@@ -126,7 +126,7 @@ public class StringUtils {
         if (dateString == null)
             return 0L;
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         try {
             return sdf.parse(dateString).getTime();
         } catch (ParseException e ) {
@@ -134,10 +134,10 @@ public class StringUtils {
             return 0L;
         }
     }
-    public String dateToString(Date date){
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        //Date newDate = new Date();
-        return sdf.format(date);
+    public String formattedDateString(String dateStr){
+        dateStr = dateStr.replace("-", "/").substring(0, 10);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd / MM / yyyy");
+        return sdf.format(new Date(dateStr));
     }
     public Date stringToDate(String dateStr) {
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM d, yyyy");

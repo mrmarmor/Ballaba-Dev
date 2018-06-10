@@ -141,9 +141,9 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             myCalendar.set(1995, Calendar.MONTH, Calendar.DAY_OF_MONTH);
         } else {//show user date of birth
             String birthDate = user.getBirth_date();
-            myCalendar.set(Integer.parseInt(birthDate.split("/")[0])//year
-                    , Integer.parseInt(birthDate.split("/")[2].substring(0, 2)) - 1//month
-                    , Integer.parseInt(birthDate.split("/")[1]));//day
+            myCalendar.set(Integer.parseInt(birthDate.split(" / ")[2].substring(0, 4))//year
+                    , Integer.parseInt(birthDate.split(" / ")[1]) - 1//month
+                    , Integer.parseInt(birthDate.split(" / ")[0]));//day
         }
 
         new DatePickerDialog(context, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH))
@@ -191,7 +191,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             binderLandLord.addPropFirstNameEditText.setText(user.getFirst_name());
             binderLandLord.addPropLastNameEditText.setText(user.getLast_name());
             binderLandLord.addPropIdNumberEditText.setText(user.getId_number());
-            binderLandLord.addPropBirthDateEditText.setText(user.getBirth_date().substring(0, 10));
+            binderLandLord.addPropBirthDateEditText.setText(user.getBirth_date());
             binderLandLord.addPropEmailEditText.setText(user.getEmail());
             binderLandLord.addPropPhoneEditText.setText(user.getPhone());
             binderLandLord.addPropCityActv.setText(user.getCity());

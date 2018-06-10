@@ -848,8 +848,8 @@ public class ConnectionsManager {
                         SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_ID, id);
                     }
 
-                    Date now = new Date(Calendar.getInstance().getTimeInMillis());
-                    String nowStr = StringUtils.getInstance(true).dateToString(now);
+                    String now = Calendar.getInstance().getTimeInMillis()+"";
+                    String nowStr = StringUtils.getInstance(true).formattedDateString(now);
                     SharedPreferencesManager.getInstance(context).putString(
                             SharedPreferencesKeysHolder.PROPERTY_UPLOAD_DATE, nowStr);
                     if (response.has("photo_url")) {
