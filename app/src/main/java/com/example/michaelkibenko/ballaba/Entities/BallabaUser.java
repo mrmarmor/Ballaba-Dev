@@ -179,7 +179,7 @@ public class BallabaUser extends BallabaBaseEntity {
     }
 
     public String getAbout() {
-        return trimNull(about);
+        return StringUtils.getInstance(true).formattedHebrew(trimNull(about));
     }
 
     public String getFcm_token() {

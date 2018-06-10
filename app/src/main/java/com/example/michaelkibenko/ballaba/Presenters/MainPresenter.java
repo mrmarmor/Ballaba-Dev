@@ -193,9 +193,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         binder.mainActivityFilterIncluded.mainActivityFilterRoot.setFocusableInTouchMode(true);
         filterViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
             @Override
             public void onPageSelected(int position) {
@@ -212,9 +210,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
+            public void onPageScrollStateChanged(int state) {}
         });
 
         binder.mainActivityFilterIncluded.mainActivityFilterXButton.setOnClickListener(new View.OnClickListener() {
@@ -517,63 +513,5 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                     SEARCH_BY_LOCATION_REQUEST_CODE);
         }
     }
-    /*public Button.OnClickListener getClickListener(){
-        return clickListener;
-    }*/
-
-    /*public void setListAdapterToDeviceAddress(ListView listView){
-        ArrayAdapter myAddressAdapter = new ArrayAdapter(context, android.R.layout.simple_list_item_single_choice*//*R.layout.one_item*//**//*R.layout.fragment_publish_job_location*//*);
-        myAddressAdapter.add(getDeviceAddress(context));
-        listView.setAdapter(myAddressAdapter);
-    }
-
-    public String getDeviceAddress(Context context){
-        LocationManager lm;
-        Location location = null;
-        Geocoder geo = null;
-
-        List<Address> addresses = null;
-        lm = (LocationManager)context.getSystemService(Context.LOCATION_SERVICE);
-        getPermissionsToGps();
-        //TODO checkPermissions
-        location = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-        geo = new Geocoder(context.getApplicationContext(), Locale.getDefault());
-
-        try {
-            if (location != null && geo != null)
-                addresses = geo.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        return addresses.get(0).getAddressLine(0)+", "+addresses.get(0).getLocality();
-    }
-
-
-    public void getPermissionsToGps(){
-        Log.d(TAG, "registerReadSmsReceiver");
-        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions((MainActivity)context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, REQ_CODE_GPS_PERMISSION);
-        }else{
-            Log.d(TAG, "gps permission had already been given");
-        }
-    }*/
-
-
-    //TODO add onRequestPermissionsResult:
-    /*@Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case GPS_PERMISSION_REQ_CODE: {
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //do something with user device location
-                } else {
-                    //denied
-                }
-            }
-        }
-    }*/
 
 }

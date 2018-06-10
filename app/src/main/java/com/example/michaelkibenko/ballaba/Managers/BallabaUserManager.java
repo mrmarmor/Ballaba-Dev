@@ -3,9 +3,12 @@ package com.example.michaelkibenko.ballaba.Managers;
 import android.util.Log;
 
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 /**
  * Created by User on 07/03/2018.
@@ -47,11 +50,11 @@ public class BallabaUserManager {
 
             //TODO Marik should add data field named "street_number". Then, i will fetch this field from response:
                 //streetNumber = jsonObject.getString("street_number");
-            /*TODO for now it will be: */ streetNumber = "DUMMY UNTIL SERVER WILL RECEIVE";
+            /*TODO for now it will be: */ streetNumber = "DUMMY UNTIL SERVER WILL SEND";
 
             aptNo = jsonObject.getString("apt_no");
             idNumber = jsonObject.getString("id_number");
-            birthDate = jsonObject.getString("birth_date").replace("-", "/");
+            birthDate = StringUtils.getInstance(true).formattedDateString(jsonObject.getString("birth_date"));
             about = jsonObject.getString("about");
             profileImage = jsonObject.getString("profile_image");
 
@@ -61,8 +64,8 @@ public class BallabaUserManager {
             //guarantorScore = jsonObject.getString("guarantor_score");
 
             if (jsonObject.has("created_at") && jsonObject.has("updated_at")) {
-                dateCreated = jsonObject.getString("created_at").replace("-", "/");
-                dateUpdated = jsonObject.getString("updated_at").replace("-", "/");
+                dateCreated = StringUtils.getInstance(true).formattedDateString(jsonObject.getString("created_at"));
+                dateUpdated = StringUtils.getInstance(true).formattedDateString(jsonObject.getString("updated_at"));
             }
 
             if (jsonObject.has("scoring_status"))
