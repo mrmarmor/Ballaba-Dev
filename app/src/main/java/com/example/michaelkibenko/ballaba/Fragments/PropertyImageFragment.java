@@ -54,7 +54,7 @@ public class PropertyImageFragment extends Fragment {
         photoUrl = args.getString(PHOTO_URL_KEY);
         propertyId = args.getString(PROPERTY_ID_KEY);
         final int position = args.getInt(PropertyDescriptionPresenter.PROPERTY_POSITION);
-        ImageView photo = (ImageView)v.findViewById(R.id.property_photo_IV);
+        ImageView photo = v.findViewById(R.id.property_photo_IV);
         Glide.with(context).load(photoUrl).into(photo);
 
         photo.setOnClickListener(new View.OnClickListener() {

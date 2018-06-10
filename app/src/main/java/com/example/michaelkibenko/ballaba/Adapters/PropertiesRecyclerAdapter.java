@@ -1,6 +1,5 @@
 package com.example.michaelkibenko.ballaba.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -19,13 +18,17 @@ import android.view.ViewGroup;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
+import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringWelcomeActivity;
 import com.example.michaelkibenko.ballaba.Common.BallabaPropertyListener;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
+import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Fragments.PropertyImageFragment;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
+import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter;
 import com.example.michaelkibenko.ballaba.Presenters.PropertyItemPresenter;
@@ -141,14 +144,40 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     }
 
     private void showFullProperty(final BallabaPropertyResult property, final int position){
-        Intent intent = new Intent(mContext, PropertyDescriptionActivity.class);
-        intent.putExtra(PropertyDescriptionPresenter.PROPERTY_POSITION, position);
-        intent.putExtra(PropertyDescriptionActivity.PROPERTY, property.id);
-        if (property.photos.size() > 0)
-            intent.putExtra(PropertyDescriptionPresenter.PROPERTY_IMAGE
-                    , property.photos.get(property.photos.size()/2));
 
-        ((Activity)mContext).startActivityForResult(intent, REQ_CODE_SHOW_FULL_PROPERTY);
+        BallabaUser user = BallabaUserManager.getInstance().getUser();
+
+        user.userCurrentPropertyObservedID = property.id;
+        boolean isScored = user.getIs_scored();
+
+        if (isScored) {
+            ConnectionsManager.getInstance(mContext).getPropertyPermission(property.id, new BallabaResponseListener() {
+                @Override
+                public void resolve(BallabaBaseEntity entity) {
+                    Intent intent = new Intent(mContext, PropertyDescriptionActivity.class);
+
+                    intent.putExtra(PropertyDescriptionPresenter.PROPERTY_POSITION, position);
+                    intent.putExtra(PropertyDescriptionActivity.PROPERTY, property.id);
+                    if (property.photos.size() > 0)
+                        intent.putExtra(PropertyDescriptionPresenter.PROPERTY_IMAGE
+                                , property.photos.get(property.photos.size()/2));
+
+                    mContext.startActivity(intent);
+                }
+
+                @Override
+                public void reject(BallabaBaseEntity entity) {
+                    if (((BallabaErrorResponse)entity).statusCode == 403){
+                        // TODO: 07/06/2018 INSERT X and get guarantor
+                    }else {
+                        // TODO: 07/06/2018 ERROR FLOW
+                    }
+                }
+            });
+
+        }else {
+            mContext.startActivity(new Intent(mContext , ScoringWelcomeActivity.class));
+        }
     }
 
     private ArrayList<PropertyImageFragment> generateImageFragments(ArrayList<String> photos, String propertyId, int position){

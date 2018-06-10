@@ -34,7 +34,7 @@ public class MyPropertiesTenantAdapter extends RecyclerView.Adapter<MyProperties
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView propertyIV;
-        private TextView address , rooms , size , firstBullet , secondBullet;
+        private TextView address , rooms , size , price , firstBullet , secondBullet;
         private LinearLayout textsContainer;
 
         public ViewHolder(View itemView) {
@@ -43,6 +43,7 @@ public class MyPropertiesTenantAdapter extends RecyclerView.Adapter<MyProperties
             address = itemView.findViewById(R.id.my_properties_tenant_item_address_text);
             rooms = itemView.findViewById(R.id.my_properties_tenant_item_rooms_text);
             size = itemView.findViewById(R.id.my_properties_tenant_item_size_text);
+            price = itemView.findViewById(R.id.my_properties_tenant_item_price_text);
             firstBullet = itemView.findViewById(R.id.my_properties_tenant_item_first_bullet);
             secondBullet = itemView.findViewById(R.id.my_properties_tenant_item_second_bullet);
             textsContainer = itemView.findViewById(R.id.my_properties_tenant_item_text_container);
@@ -75,6 +76,7 @@ public class MyPropertiesTenantAdapter extends RecyclerView.Adapter<MyProperties
         holder.address.setText(myPropertiesLandlord.getAddress() + "");
         holder.rooms.setText(myPropertiesLandlord.getRooms() + " חדרים");
         holder.size.setText(myPropertiesLandlord.getSize() + " מ''ר");
+        holder.price.setText(myPropertiesLandlord.getPrice() + " ₪");
 
         holder.firstBullet.setText("\u2022");
         holder.secondBullet.setText("\u2022");
