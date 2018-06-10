@@ -75,9 +75,6 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     private boolean isTenant;
 
     private Calendar myCalendar = Calendar.getInstance();
-    private SimpleDateFormat sdf;
-
-    private ArrayList<String> cities;
     private String day , month , year;
 
 
@@ -103,7 +100,6 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         user = userManager.getUser();
         initEditTexts();
         initButtons(view);
-
 
         binderLandLord.addPropBirthDateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,7 +149,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
 
     private void updateDate() {
         String myFormat = "dd / MM / yyyy";
-        sdf = new SimpleDateFormat(myFormat, Locale.US);
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
 
         String formattedDate = sdf.format(myCalendar.getTime());
         String[] date = formattedDate.split(" / ");
@@ -254,8 +250,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         }
     }
 
-    private HashMap<String, String>
-    getDataFromEditTexts(HashMap<String, String> map) {
+    private HashMap<String, String> getDataFromEditTexts(HashMap<String, String> map) {
         areAllDataFieldsFilledUp = true;
         for (int i = binderLandLord.addPropertyEditTextsRoot.getChildCount() - 1; i >= 0; i--) {//root.getChildCount(); i++) {
             View v = binderLandLord.addPropertyEditTextsRoot.getChildAt(i);
