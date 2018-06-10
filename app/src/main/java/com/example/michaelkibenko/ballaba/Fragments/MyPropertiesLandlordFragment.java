@@ -85,7 +85,7 @@ public class MyPropertiesLandlordFragment extends Fragment {
                 JSONArray photosArr = obj.getJSONArray("photos");
                 if (!photosArr.isNull(0))
                     photos[0] = photosArr.getJSONObject(0).getString("photo_url");
-                landlord = new MyPropertiesLandlord(address, id, rooms, size, photos);
+                landlord = new MyPropertiesLandlord(address, id, rooms, size, photos , null);
                 myPropertiesLandlordsList.add(landlord);
                 //Log.d("WOW", "parseResponse: " + photos[0]);
             }

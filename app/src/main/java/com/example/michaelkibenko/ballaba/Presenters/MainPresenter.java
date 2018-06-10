@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
-import android.os.UserManager;
 import android.support.annotation.IntDef;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
@@ -170,15 +169,17 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     private void initNavBar(){
         BallabaUser ballabaUser = BallabaUserManager.getInstance().getUser();
         LinearLayout navBarHeader = (LinearLayout)binder.mainActivityNavigationView.getHeaderView(0);
-        if(ballabaUser.getProfile_image() != null && !ballabaUser.getProfile_image().equals("null")) {
-            CircleImageView circleImageView = navBarHeader.findViewById(R.id.imageAvatar_navigationView);
-            Glide.with(context).load(ballabaUser.getProfile_image()).into(circleImageView);
+        if (ballabaUser != null) {
+            if (ballabaUser.getProfile_image() != null && !ballabaUser.getProfile_image().equals("null")) {
+                CircleImageView circleImageView = navBarHeader.findViewById(R.id.imageAvatar_navigationView);
+                Glide.with(context).load(ballabaUser.getProfile_image()).into(circleImageView);
+            }
+            if (ballabaUser.getFirst_name() != null && !ballabaUser.getFirst_name().equals("null") &&
+                    ballabaUser.getLast_name() != null && !ballabaUser.getLast_name().equals("null")) {
+                ((TextView) navBarHeader.findViewById(R.id.name_navigationView)).setText(ballabaUser.getFirst_name() + " " + ballabaUser.getLast_name());
+            }
+            ((TextView) navBarHeader.findViewById(R.id.phoneNumber_navigationView)).setText(ballabaUser.getPhone());
         }
-        if(ballabaUser.getFirst_name() != null && !ballabaUser.getFirst_name().equals("null") &&
-                ballabaUser.getLast_name() != null && !ballabaUser.getLast_name().equals("null")) {
-            ((TextView)navBarHeader.findViewById(R.id.name_navigationView)).setText(ballabaUser.getFirst_name() + " " +ballabaUser.getLast_name());
-        }
-        ((TextView)navBarHeader.findViewById(R.id.phoneNumber_navigationView)).setText(ballabaUser.getPhone());
     }
 
     private void initFilter(){
