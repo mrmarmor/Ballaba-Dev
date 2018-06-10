@@ -297,11 +297,13 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     }
 
     private void refreshItems() {
+        onRefreshAnimation(true);
         final BallabaSearchPropertiesManager propertiesManager = BallabaSearchPropertiesManager.getInstance(context);
 
         BallabaSearchPropertiesManager.getInstance(context).getLazyLoadingResults(true, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
+                onRefreshAnimation(false);
                 ArrayList<BallabaPropertyResult> properties =
                         propertiesManager.parsePropertyResults(((BallabaOkResponse) entity).body);
                 propertiesManager.appendProperties(properties, false);
@@ -312,6 +314,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
             @Override
             public void reject(BallabaBaseEntity entity) {
                 Log.e(TAG, "error fetching offset properties");
+                onRefreshAnimation(false);
             }
         });
     }
