@@ -64,8 +64,8 @@ public class BallabaUserManager {
             //guarantorScore = jsonObject.getString("guarantor_score");
 
             if (jsonObject.has("created_at") && jsonObject.has("updated_at")) {
-                dateCreated = jsonObject.getString("created_at").replace("-", "/");
-                dateUpdated = jsonObject.getString("updated_at").replace("-", "/");
+                dateCreated = StringUtils.getInstance(true).formattedDateString(jsonObject.getString("created_at"));
+                dateUpdated = StringUtils.getInstance(true).formattedDateString(jsonObject.getString("updated_at"));
             }
 
             if (jsonObject.has("scoring_status"))

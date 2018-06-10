@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Gravity;
 
 import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
@@ -46,7 +47,10 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (binder.mainActivityPropertiesViewPager.getCurrentItem() == 0) {
+        if (binder.mainActivityDrawerLayout.isDrawerOpen(Gravity.START)) { //drawer is open
+            binder.mainActivityDrawerLayout.closeDrawers();
+
+        } else if (binder.mainActivityPropertiesViewPager.getCurrentItem() == 0) { //drawer is closed, properties screen
             BallabaDialogBuilder areUSureDialog = new BallabaDialogBuilder(this);
 
             areUSureDialog.setButtons("Exit", "Cancel", new DialogInterface.OnClickListener() {
@@ -64,7 +68,7 @@ public class MainActivity extends BaseActivity {
             areUSureDialog.setContent("Exit", "Are You sure you want to exit?", null);
             areUSureDialog.show();
 
-        } else {
+        } else { //google map fragment
             presenter.onClickToGoogleMap();
         }
     }
