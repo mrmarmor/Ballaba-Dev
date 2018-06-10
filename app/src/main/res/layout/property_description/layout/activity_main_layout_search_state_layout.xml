@@ -46,7 +46,7 @@
             <ImageButton
                 android:id="@+id/mainActivity_toGoogleMap_imageButton"
                 style="@style/icon_wide_click_area"
-                android:layout_marginEnd="@dimen/mainActivity_toMapIcon_margin_end"
+                android:paddingEnd="@dimen/mainActivity_toMapIcon_margin_end"
                 android:onClick="@{() -> presenter.onClickToGoogleMap()}"
                 android:src="@drawable/disabled"
                 android:translationZ="@dimen/translationZ"
@@ -60,7 +60,7 @@
                 app:layout_constraintStart_toStartOf="@id/mainActivity_search_button"
                 app:layout_constraintTop_toTopOf="@id/mainActivity_search_button"
                 app:layout_constraintBottom_toBottomOf="@id/mainActivity_search_button"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:paddingStart="@dimen/activity_horizontal_margin"
                 android:translationZ="@dimen/translationZ"
                 android:src="@drawable/menu_grey_24"
                 android:onClick="@{() -> presenter.onClickDrawer()}"

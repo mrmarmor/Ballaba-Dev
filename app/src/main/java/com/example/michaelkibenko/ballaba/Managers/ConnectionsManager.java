@@ -810,12 +810,6 @@ public class ConnectionsManager {
                 pd.dismiss();
                 //@StringRes String message = context.getString(R.string.error_property_upload);
                 String errorSTR = parseResponse(new String(error.networkResponse.data));
-
-                /*if (error.networkResponse != null) {
-                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, message));
-                } else {
-                    callback.reject(new BallabaErrorResponse(500, message));
-                }*/
                 callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, errorSTR));
 
             }
@@ -873,9 +867,10 @@ public class ConnectionsManager {
             @Override
             public void onErrorResponse(VolleyError error) {
                 pd.dismiss();
-                @StringRes String message = context.getString(R.string.error_property_upload);
+                final @StringRes String message = context.getString(R.string.error_property_upload);
+                final String errorSTR = parseResponse(new String(error.networkResponse.data));
                 if (error.networkResponse != null) {
-                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, message));
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, errorSTR));
                 } else {
                     callback.reject(new BallabaErrorResponse(500, message));
                 }

@@ -26,7 +26,7 @@
         style="@style/allWrapContent"
         app:layout_constraintTop_toBottomOf="@id/dialog_regular_title"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginRight="@dimen/large_margin"
+        android:paddingRight="@dimen/large_margin"
         android:layout_marginTop="10dp"
         android:textColor="@color/dialog_regular_message" />
 
