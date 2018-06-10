@@ -7,6 +7,7 @@ import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationListener;
+import android.media.MediaActionSound;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
@@ -479,25 +480,36 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
     private void snapShotAnimation(){
         pnlFlash.setVisibility(View.VISIBLE);
 
-        AlphaAnimation fade = new AlphaAnimation(0.5f, 0);
-        fade.setDuration(350);
-        fade.setAnimationListener(new Animation.AnimationListener() {
+        final AlphaAnimation fadeIn = new AlphaAnimation(.1f, .9f);
+        final AlphaAnimation fadeOut = new AlphaAnimation(.9f, .1f);
+        fadeIn.setDuration(200);
+        fadeOut.setDuration(200);
+
+        fadeIn.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                new MediaActionSound().play(MediaActionSound.SHUTTER_CLICK);
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                pnlFlash.startAnimation(fadeOut);
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
+
+        fadeOut.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationEnd(Animation anim) {
                 pnlFlash.setVisibility(View.GONE);
             }
-
             @Override
-            public void onAnimationRepeat(Animation animation) {
-
-            }
-
+            public void onAnimationRepeat(Animation animation) {}
             @Override
-            public void onAnimationStart(Animation animation) {
-
-            }
+            public void onAnimationStart(Animation animation) {}
         });
-        pnlFlash.startAnimation(fade);
+
+        pnlFlash.startAnimation(fadeIn);
     }
 
     public void setLocation(LatLng latLng){

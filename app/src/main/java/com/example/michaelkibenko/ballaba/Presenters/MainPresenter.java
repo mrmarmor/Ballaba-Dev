@@ -40,6 +40,7 @@ import com.example.michaelkibenko.ballaba.Activities.SelectCitySubActivity;
 import com.example.michaelkibenko.ballaba.Adapters.FilterPagerAdapter;
 import com.example.michaelkibenko.ballaba.Adapters.PropertiesPagerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
@@ -412,7 +413,9 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
 
             @Override
             public void reject(BallabaBaseEntity entity) {
-                ((BaseActivity)context).getDefaultSnackBar(binder.getRoot(), context.getResources().getString(R.string.error_network_default), false).show();
+                ((BaseActivity) context).getDefaultSnackBar(binder.getRoot()
+                        , ((BallabaErrorResponse) entity).message, false).show();
+                propertiesFragment.onRefreshAnimation(false);
             }
         });
     }
