@@ -5,13 +5,18 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.example.michaelkibenko.ballaba.Adapters.MyPropertiesTenantAdapter;
+import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.MyPropertiesLandlord;
+import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
+import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
 
 import org.json.JSONArray;
@@ -45,8 +50,8 @@ public class MyPropertiesTenantFragment extends Fragment {
     }
 
     private void getTenantProperties() {
-        /*progressBar.setVisibility(View.VISIBLE);
-        ConnectionsManager.getInstance(getActivity()).getLandlordProperties(new BallabaResponseListener() {
+        progressBar.setVisibility(View.VISIBLE);
+        ConnectionsManager.getInstance(getActivity()).getTenantProperties(new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 progressBar.setVisibility(View.GONE);
@@ -60,36 +65,36 @@ public class MyPropertiesTenantFragment extends Fragment {
                 progressBar.setVisibility(View.GONE);
                 Log.d("WOW", "reject: " + entity);
             }
-        });*/
-        progressBar.setVisibility(View.VISIBLE);
+        });
+        /*progressBar.setVisibility(View.VISIBLE);
         for (int i = 0; i < 10; i++) {
             myPropertiesTenantList.add(new MyPropertiesLandlord("Tel Aviv , Hertzel " + i , i , i * 2 , 60 * i / 2 , new String[]{"https://37b3a77d7df28c23c767-53afc51582ca456b5a70c93dcc61a759.ssl.cf3.rackcdn.com/1024x768/54850_3971_001.jpg"}));
-        }
-        progressBar.setVisibility(View.GONE);
+        }*/
     }
 
     private void parseResponse(String response) {
-        int id = 0, rooms = 0, size = 0;
-        String address = null;
-        MyPropertiesLandlord landlord = null;
+        int id, rooms, size;
+        String address , price;
+        MyPropertiesLandlord landlord;
 
         try {
-            JSONArray array = new JSONArray(response);
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject obj = array.getJSONObject(i);
-                String[] photos = new String[1];
-                id = obj.getInt("id");
-                address = obj.getString("formatted_address");
-                rooms = obj.getInt("rooms");
-                size = obj.getInt("size");
-                JSONArray photosArr = obj.getJSONArray("photos");
-                if (!photosArr.isNull(0))
-                    photos[0] = photosArr.getJSONObject(0).getString("photo_url");
-                landlord = new MyPropertiesLandlord(address, id, rooms, size, photos);
-                myPropertiesTenantList.add(landlord);
-                //Log.d("WOW", "parseResponse: " + photos[0]);
-            }
-            //adapter.notifyDataSetChanged();
+            JSONObject object = new JSONObject(response);
+            JSONObject obj = object.getJSONObject("current_properties");
+
+            String[] photos = new String[1];
+            id = obj.getInt("id");
+            address = obj.getString("formatted_address");
+            rooms = obj.getInt("rooms");
+            size = obj.getInt("size");
+            price = obj.getString("price");
+            JSONArray photosArr = obj.getJSONArray("photos");
+            if (!photosArr.isNull(0))
+                photos[0] = photosArr.getJSONObject(0).getString("photo_url");
+            landlord = new MyPropertiesLandlord(address, id, rooms, size, photos , price);
+            myPropertiesTenantList.add(landlord);
+            //Log.d("WOW", "parseResponse: " + photos[0]);
+            //}
+            adapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();
         }

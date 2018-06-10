@@ -37,7 +37,7 @@ public class MyPropertiesLandlordAdapter extends RecyclerView.Adapter<MyProperti
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView propertyIV;
-        private TextView address , rooms , size , firstBullet , secondBullet;
+        private TextView address , rooms , size , price, firstBullet , secondBullet;
         private LinearLayout textsContainer;
         private Button implementBtn , cancelBtn;
 
@@ -47,6 +47,7 @@ public class MyPropertiesLandlordAdapter extends RecyclerView.Adapter<MyProperti
             address = itemView.findViewById(R.id.my_properties_landlord_item_address_text);
             rooms = itemView.findViewById(R.id.my_properties_landlord_item_rooms_text);
             size = itemView.findViewById(R.id.my_properties_landlord_item_size_text);
+            price = itemView.findViewById(R.id.my_properties_landlord_item_size_text);
             firstBullet = itemView.findViewById(R.id.my_properties_landlord_item_first_bullet);
             secondBullet = itemView.findViewById(R.id.my_properties_landlord_item_second_bullet);
             textsContainer = itemView.findViewById(R.id.my_properties_landlord_item_text_container);

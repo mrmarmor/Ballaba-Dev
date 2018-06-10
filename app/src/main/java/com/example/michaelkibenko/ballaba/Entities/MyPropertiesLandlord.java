@@ -1,18 +1,18 @@
 package com.example.michaelkibenko.ballaba.Entities;
 
-public class MyPropertiesLandlord {
+public class MyPropertiesLandlord{
 
-    private String address;
+    private String address , price;
     private int id , rooms , size;
     private String[] photos;
 
-
-    public MyPropertiesLandlord(String address, int id, int rooms, int size, String[] photos) {
+    public MyPropertiesLandlord(String address, int id, int rooms, int size, String[] photos , String price) {
         this.address = address;
         this.id = id;
         this.rooms = rooms;
         this.size = size;
         this.photos = photos;
+        this.price = price;
     }
 
     public String getAddress() {
@@ -35,4 +35,7 @@ public class MyPropertiesLandlord {
         return photos;
     }
 
+    public String getPrice() {
+        return price;
+    }
 }
