@@ -47,16 +47,16 @@
                     android:text="פרטים כרטיס אשראי"
                     android:gravity="bottom"
                     android:drawableStart="@drawable/credit_card_blue_24"
-                    android:drawablePadding="5dp"
+                    android:drawablePadding="@dimen/activity_horizontal_margin"
                     android:layout_marginStart="@dimen/small_margin"
                     android:layout_marginTop="@dimen/activity_vertical_margin"/>
 
-                <TextView
-                    style="@style/allWrapContent"
-                    android:textSize="@dimen/textSize_small"
-                    android:text="מספר כרטיס"
-                    android:layout_marginStart="@dimen/small_margin"
-                    android:layout_marginTop="@dimen/small_margin" />
+                <!-- <TextView
+                     style="@style/allWrapContent"
+                     android:textSize="@dimen/textSize_small"
+                     android:text="מספר כרטיס"
+                     android:layout_marginStart="@dimen/small_margin"
+                     android:layout_marginTop="@dimen/small_margin" />-->
 
                 <!-- <RelativeLayout
                      android:layout_width="match_parent"
@@ -65,22 +65,29 @@
                      android:layout_marginEnd="@dimen/small_margin"
                      android:layout_marginTop="6dp"
                      android:background="@android:color/white" >-->
-                <EditText
-                    android:id="@+id/creditCard_cardNumber"
-                    android:tag="card_number"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/creditCard_cardNumber_root"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/creditCard_editText_height"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/textSize_small"
+                    android:hint="מספר כרטיס אשראי"
                     android:layout_marginStart="@dimen/small_margin"
-                    android:layout_marginEnd="@dimen/small_margin"
-                    android:layout_marginTop="6dp"
-                    android:paddingEnd="@dimen/activity_horizontal_margin"
-                    android:paddingStart="@dimen/small_margin"
-                    android:gravity="center_vertical"
-                    android:background="@drawable/gray_border"
-                    android:inputType="number"
-                    android:drawablePadding="@dimen/activity_horizontal_margin"
-                    android:hint="432-323-343-434"
-                    android:layout_alignParentStart="true" />
+                    android:layout_marginTop="@dimen/small_margin"
+                    app:errorEnabled="true"
+                    android:theme="@style/TextAppearance.App.TextInputLayout">
+                    <EditText
+                        android:id="@+id/creditCard_cardNumber"
+                        android:tag="card_number"
+                        style="@style/allMatchParent"
+                        android:layout_marginEnd="@dimen/small_margin"
+                        android:layout_marginTop="6dp"
+                        android:paddingEnd="@dimen/activity_horizontal_margin"
+                        android:paddingStart="@dimen/small_margin"
+                        android:gravity="center_vertical"
+                        android:inputType="number"
+                        android:maxLength="16"
+                        android:layout_alignParentStart="true" />
+                </android.support.design.widget.TextInputLayout>
                 <!--<ImageView
                     android:id="@+id/creditCard_cardIcon"
                     android:layout_width="@dimen/icon_regular"
@@ -91,71 +98,101 @@
                                 </RelativeLayout>
                 -->
 
-                <TextView
-                    style="@style/allWrapContent"
-                    android:layout_marginTop="20dp"
-                    android:layout_marginStart="@dimen/small_margin"
-                    android:textSize="@dimen/textSize_small"
-                    android:text="תוקף כרטיס" />
+                <!-- <TextView
+                     style="@style/allWrapContent"
+                     android:layout_marginTop="-16dp"
+                     android:layout_marginEnd="88dp"
+                     android:textSize="@dimen/textSize_small"
+                     android:layout_gravity="end"
+                     android:text="cvv" />
 
-                <TextView
-                    style="@style/allWrapContent"
-                    android:layout_marginTop="-16dp"
-                    android:layout_marginEnd="88dp"
-                    android:textSize="@dimen/textSize_small"
-                    android:layout_gravity="end"
-                    android:text="cvv" />
+                 <ImageButton
+                     android:id="@+id/creditCard_cardCVV_instructions"
+                     style="@style/allWrapContent"
+                     android:layout_marginEnd="14dp"
+                     android:layout_marginTop="-22dp"
+                     android:layout_marginBottom="6dp"
+                     android:layout_gravity="end"
+                     android:background="@android:color/transparent"
+                     android:src="@drawable/info_coral_grey"
+                     android:onClick="onClickInfo" />-->
 
-                <ImageButton
-                    android:id="@+id/creditCard_cardCVV_instructions"
-                    style="@style/allWrapContent"
-                    android:layout_marginEnd="14dp"
-                    android:layout_marginTop="-22dp"
-                    android:layout_marginBottom="6dp"
-                    android:layout_gravity="end"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/info_coral_grey"
-                    android:onClick="onClickInfo" />
-
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/small_margin"
-                    android:orientation="horizontal"
-                    android:weightSum="3" >
-                    <Spinner
-                        android:id="@+id/creditCard_cardYear"
-                        android:tag="expiration_year"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/creditCard_editText_height"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:textAlignment="center"
-                        android:background="@drawable/spinner_with_gray_border"
-                        android:entries="@array/years"
-                        android:layout_weight="1" />
-                    <Spinner
-                        android:id="@+id/creditCard_cardMonth"
-                        android:tag="expiration_month"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/creditCard_editText_height"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:textAlignment="center"
-                        android:background="@drawable/spinner_with_gray_border"
-                        android:entries="@array/months_digits"
-                        android:layout_weight="1" />
-                    <EditText
-                        android:id="@+id/creditCard_cardCVV"
-                        android:tag="cvv"
-                        android:layout_width="0dp"
-                        android:layout_height="@dimen/creditCard_editText_height"
-                        android:layout_marginEnd="@dimen/small_margin"
-                        android:gravity="center"
-                        android:layout_gravity="center"
-                        android:inputType="number"
-                        android:background="@drawable/gray_border"
-                        android:hint="546"
-                        android:layout_weight="1" />
-                </LinearLayout>
+                    android:layout_height="44dp"
+                    android:layout_marginTop="@dimen/activity_vertical_margin">
+
+                    <TextView
+                        style="@style/allWrapContent"
+                        android:layout_marginStart="@dimen/activity_horizontal_margin"
+                        android:textSize="@dimen/textSize_tiny"
+                        android:textColor="@color/colorPrimary"
+                        android:text="תוקף כרטיס" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/small_margin"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentBottom="true"
+                        android:orientation="horizontal"
+                        android:weightSum="3" >
+
+                        <Spinner
+                            android:id="@+id/creditCard_cardYear"
+                            android:tag="expiration_year"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/creditCard_editText_height"
+                            style="@style/Widget.AppCompat.Spinner.Underlined"
+                            android:theme="@style/spinnerWithUnderline"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_gravity="bottom"
+                            android:entries="@array/years"
+                            android:layout_weight="1" />
+
+                        <Spinner
+                            android:id="@+id/creditCard_cardMonth"
+                            android:tag="expiration_month"
+                            android:layout_width="0dp"
+                            android:layout_height="@dimen/creditCard_editText_height"
+                            style="@style/Widget.AppCompat.Spinner.Underlined"
+                            android:theme="@style/spinnerWithUnderline"
+                            android:layout_marginEnd="@dimen/small_margin" android:maxLength="2"
+                            android:layout_gravity="bottom|center_horizontal"
+                            android:entries="@array/months_digits"
+                            android:layout_weight="1" />
+
+                        <android.support.design.widget.TextInputLayout
+                            android:id="@+id/creditCard_cardCVV_root"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginEnd="@dimen/small_margin"
+                            android:layout_weight="1"
+                            android:textSize="@dimen/textSize_small"
+                            android:padding="0dp"
+                            android:hint="cvv"
+                            app:errorEnabled="true"
+                            android:theme="@style/TextAppearance.App.TextInputLayout">
+                            <EditText
+                                android:id="@+id/creditCard_cardCVV"
+                                android:tag="cvv"
+                                style="@style/allMatchParent"
+                                android:padding="0dp"
+                                android:gravity="center"
+                                android:maxLength="4"
+                                android:inputType="number" />
+                            <ImageButton
+                                android:id="@+id/creditCard_cardCVV_instructions"
+                                style="@style/allWrapContent"
+                                android:layout_marginTop="-32dp"
+                                android:layout_gravity="end"
+                                android:background="@android:color/transparent"
+                                android:src="@drawable/info_coral_grey"
+                                android:onClick="onClickInfo" />
+                        </android.support.design.widget.TextInputLayout>
+
+                    </LinearLayout>
+                </RelativeLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -163,52 +200,68 @@
                     android:textColor="@color/colorPrimary"
                     android:text="פרטים אישיים"
                     android:drawableStart="@drawable/user_blue_24"
-                    android:drawablePadding="5dp"
+                    android:drawablePadding="@dimen/activity_horizontal_margin"
                     android:layout_marginStart="@dimen/small_margin"
                     android:layout_marginTop="34dp"/>
 
-                <TextView
-                    style="@style/allWrapContent"
-                    android:textSize="@dimen/textSize_small"
-                    android:textColor="@color/black"
-                    android:text="שם מלא"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/creditCard_personName_root"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/small_margin"
                     android:layout_marginStart="@dimen/small_margin"
-                    android:layout_marginTop="6dp"/>
+                    android:layout_marginTop="6dp"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/textSize_tiny"
+                    android:padding="0dp"
+                    android:hint="שם מלא"
+                    app:errorEnabled="true"
+                    android:theme="@style/TextAppearance.App.TextInputLayout">
 
                 <EditText
                     android:id="@+id/creditCard_personName"
                     android:tag="full_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/creditCard_editText_height"
+                    style="@style/allMatchParent"
                     android:inputType="textPersonName"
-                    android:background="@drawable/gray_border"
-                    android:hint="ישראל ישראלי"
                     android:paddingStart="@dimen/small_margin"
                     android:gravity="center_vertical"
                     android:layout_marginStart="@dimen/small_margin"
                     android:layout_marginEnd="@dimen/small_margin"
                     android:layout_marginTop="6dp"/>
+                </android.support.design.widget.TextInputLayout>
 
-                <TextView
+           <!--     <TextView
                     style="@style/allWrapContent"
                     android:textSize="@dimen/textSize_small"
                     android:text="מספר זהות"
                     android:layout_marginStart="@dimen/small_margin"
-                    android:layout_marginTop="20dp" />
+                    android:layout_marginTop="20dp" />-->
 
-                <EditText
-                    android:id="@+id/creditCard_personID"
-                    android:tag="id_number"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/creditCard_personID_root"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/creditCard_editText_height"
-                    android:inputType="number"
-                    android:background="@drawable/gray_border"
-                    android:hint="300454300"
-                    android:paddingStart="@dimen/small_margin"
-                    android:gravity="center_vertical"
-                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/small_margin"
-                    android:layout_marginTop="3dp" />
+                    android:layout_marginStart="@dimen/small_margin"
+                    android:layout_marginTop="20dp"
+                    android:textSize="@dimen/textSize_tiny"
+                    android:padding="0dp"
+                    android:hint="מספר זהות"
+                    app:errorEnabled="true"
+                    android:theme="@style/TextAppearance.App.TextInputLayout">
+
+                    <EditText
+                        android:id="@+id/creditCard_personID"
+                        style="@style/allMatchParent"
+                        android:tag="id_number"
+                        android:inputType="number"
+                        android:paddingStart="@dimen/small_margin"
+                        android:maxLength="9"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/small_margin"
+                        android:layout_marginEnd="@dimen/small_margin"
+                        android:layout_marginTop="3dp" />
+                </android.support.design.widget.TextInputLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -217,21 +270,32 @@
                     android:layout_marginStart="@dimen/small_margin"
                     android:textColor="@color/colorPrimary"
                     android:text="קבלת חשבונית למייל"
-                    android:drawablePadding="5dp"
+                    android:drawablePadding="@dimen/activity_horizontal_margin"
                     android:drawableStart="@drawable/message_blue_24" />
 
-                <EditText
-                    android:id="@+id/creditCard_userMail"
-                    android:tag="email"
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/creditCard_userMail_root"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/creditCard_editText_height"
+                    android:layout_height="wrap_content"
                     android:layout_margin="@dimen/small_margin"
                     android:layout_marginBottom="25dp"
-                    android:paddingStart="@dimen/small_margin"
-                    android:paddingEnd="@dimen/small_margin"
-                    android:inputType="textEmailAddress"
-                    android:background="@drawable/gray_border"
-                    android:hint="Israelisraeli@gmail.com" />
+                    android:layout_marginTop="20dp"
+                    android:textSize="@dimen/textSize_tiny"
+                    android:hint="כתובת מייל"
+                    app:errorEnabled="true"
+                    android:theme="@style/TextAppearance.App.TextInputLayout">
+
+                    <EditText
+                        android:id="@+id/creditCard_userMail"
+                        style="@style/allMatchParent"
+                        android:tag="email"
+                        android:inputType="textEmailAddress"
+                        android:paddingStart="@dimen/small_margin"
+                        android:gravity="center_vertical"
+                        android:layout_marginStart="@dimen/small_margin"
+                        android:layout_marginEnd="@dimen/small_margin"
+                        android:layout_marginTop="3dp" />
+                </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
 
