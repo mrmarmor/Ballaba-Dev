@@ -45,6 +45,8 @@ public class ScoringCameraActivity extends AppCompatActivity {
             if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
                 Toast.makeText(this, "you cant use camera without permission", Toast.LENGTH_SHORT).show();
                 finish();
+            }else if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                openCameraFragment();
             }
         }
     }

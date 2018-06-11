@@ -170,7 +170,7 @@
     <string name="addProperty_landlord_profileImage_title">העלו תמונה שלכם</string>
     <string name="addProperty_landlord_profileImage_description">רושם ראשוני זה הכל. צרו אמון על ידי העלאת תמונה שלכם.</string>
     <string name="addProperty_landlord_firstName">שם פרטי</string>
-    <string name="addProperty_landlord_firstName_hint">ישראל</string>
+    <string name="addProperty_landlord_firstName_hint">שם פרטי</string>
     <string name="addProperty_landlord_lastName">שם משפחה</string>
     <string name="addProperty_landlord_lastName_hint">ישראלי</string>
     <string name="addProperty_landlord_id_number">מספר ת.ז</string>

@@ -218,6 +218,16 @@
         <item name="android:background">@drawable/gray_border</item>
         <item name="android:gravity">right|center_vertical</item>
     </style>
+
+    <style name="user_data_input_field">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColorHint">@color/colorPrimary</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+    </style>
+
     <style name="add_property_editTexts_with_number" parent="addProperty_editTexts">
         <item name="android:gravity">center</item>
         <item name="android:inputType">number</item>

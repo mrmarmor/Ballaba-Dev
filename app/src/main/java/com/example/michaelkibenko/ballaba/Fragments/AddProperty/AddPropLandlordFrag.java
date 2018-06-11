@@ -416,6 +416,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 map.get("address").equals(user.getAddress()) &&
                 map.get("apt_no").equals(user.getApt_no()) &&
                 map.get("street_number").equals(user.getStreet_number()) &&
+                map.get("birth_date").equals(user.getBirth_date()) &&
                 map.get("about").equals(user.getAbout()) &&
                 !isProfileImageChanged);
     }
