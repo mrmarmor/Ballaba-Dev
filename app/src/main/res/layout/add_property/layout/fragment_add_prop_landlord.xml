@@ -80,7 +80,7 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/addProp_firstName_editText_layout"
-                    style="user_data_input_field"
+                    style="@style/user_data_input_field"
                     >
 
                     <android.support.design.widget.TextInputEditText
@@ -89,7 +89,8 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/addProperty_landlord_firstName_hint"
                         android:inputType="textPersonName"
-                        android:tag="first_name"/>
+                        android:tag="first_name"
+                        android:textAlignment="viewStart"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <!--<EditText-->
@@ -105,7 +106,7 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/addProp_lastName_editText_layout"
-                    style="user_data_input_field">
+                    style="@style/user_data_input_field">
 
                     <android.support.design.widget.TextInputEditText
                         android:id="@+id/addProp_lastName_editText"
@@ -113,7 +114,8 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/addProperty_landlord_lastName_hint"
                         android:inputType="textPersonName"
-                        android:tag="last_name"/>
+                        android:tag="last_name"
+                        android:textAlignment="viewStart"/>
                 </android.support.design.widget.TextInputLayout>
 
                 <!--<EditText-->
@@ -123,58 +125,119 @@
                     <!--android:inputType="textPersonName"-->
                     <!--android:tag="last_name" />-->
 
-                <TextView
-                    style="@style/addProperty_textViews"
-                    android:text="@string/addProperty_landlord_id_number" />
+                <!--<TextView-->
+                    <!--style="@style/addProperty_textViews"-->
+                    <!--android:text="@string/addProperty_landlord_id_number" />-->
 
-                <EditText
-                    android:id="@+id/addProp_idNumber_editText"
-                    style="@style/addProperty_editTexts"
-                    android:hint="@string/addProperty_landlord_id_number_hint"
-                    android:inputType="numberDecimal"
-                    android:tag="id_number" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/addProp_idNumber_editText_layout"
+                    style="@style/user_data_input_field">
 
-                <TextView
-                    style="@style/addProperty_textViews"
-                    android:text="@string/addProperty_landlord_birthDate" />
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/addProp_idNumber_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/addProperty_landlord_id_number"
+                        android:inputType="numberDecimal"
+                        android:tag="id_number"
+                        android:textAlignment="viewStart"/>
+                </android.support.design.widget.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/addProp_birthDate_editText"
-                    style="@style/addProperty_editTexts"
-                    android:drawableLeft="@drawable/calender_blue_24_copy"
-                    android:focusable="false"
-                    android:hint="@string/addProperty_landlord_birthDate_hint"
-                    android:inputType="numberDecimal"
-                    android:layoutDirection="ltr"
-                    android:paddingRight="8dp"
-                    android:tag="birth_date" />
+                <!--<EditText-->
+                    <!--android:id="@+id/addProp_idNumber_editText"-->
+                    <!--style="@style/addProperty_editTexts"-->
+                    <!--android:hint="@string/addProperty_landlord_id_number_hint"-->
+                    <!--android:inputType="numberDecimal"-->
+                    <!--android:tag="id_number" />-->
+
+                <!--<TextView-->
+                    <!--style="@style/addProperty_textViews"-->
+                    <!--android:text="@string/addProperty_landlord_birthDate" />-->
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/addProp_birthDate_editText_layout"
+                    style="@style/user_data_input_field">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/addProp_birthDate_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/addProperty_landlord_birthDate"
+                        android:inputType="numberDecimal"
+                        android:tag="birth_date"
+                        android:drawableLeft="@drawable/calender_blue_24_copy"
+                        android:focusable="false"
+                        android:textAlignment="viewStart"
+                        />
+                </android.support.design.widget.TextInputLayout>
+
+                <!--<EditText-->
+                    <!--android:id="@+id/addProp_birthDate_editText"-->
+                    <!--style="@style/addProperty_editTexts"-->
+                    <!--android:drawableLeft="@drawable/calender_blue_24_copy"-->
+                    <!--android:focusable="false"-->
+                    <!--android:hint="@string/addProperty_landlord_birthDate_hint"-->
+                    <!--android:inputType="numberDecimal"-->
+                    <!--android:layoutDirection="ltr"-->
+                    <!--android:paddingRight="8dp"-->
+                    <!--android:tag="birth_date" />-->
 
 
-                <TextView
-                    style="@style/addProperty_textViews"
-                    android:text="@string/addProperty_landlord_email" />
+                <!--<TextView-->
+                    <!--style="@style/addProperty_textViews"-->
+                    <!--android:text="@string/addProperty_landlord_email" />-->
 
-                <EditText
-                    android:id="@+id/addProp_email_editText"
-                    style="@style/addProperty_editTexts"
-                    android:hint="@string/addProperty_landlord_email_hint"
-                    android:inputType="textEmailAddress"
-                    android:tag="email" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/addProp_email_editText_layout"
+                    style="@style/user_data_input_field">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/addProp_email_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/addProperty_landlord_email"
+                        android:inputType="textEmailAddress"
+                        android:tag="email"
+                        android:textAlignment="viewStart"
+                        />
+                </android.support.design.widget.TextInputLayout>
+
+                <!--<EditText-->
+                    <!--android:id="@+id/addProp_email_editText"-->
+                    <!--style="@style/addProperty_editTexts"-->
+                    <!--android:hint="@string/addProperty_landlord_email_hint"-->
+                    <!--android:inputType="textEmailAddress"-->
+                    <!--android:tag="email" />-->
                 <!--android:text="@{presenter.user.email}"-->
 
-                <TextView
-                    style="@style/addProperty_textViews"
-                    android:text="@string/addProperty_landlord_phone" />
+                <!--<TextView-->
+                    <!--style="@style/addProperty_textViews"-->
+                    <!--android:text="@string/addProperty_landlord_phone" />-->
 
-                <EditText
-                    android:id="@+id/addProp_phone_editText"
-                    style="@style/addProperty_editTexts"
-                    android:clickable="false"
-                    android:cursorVisible="false"
-                    android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:hint="@string/addProperty_landlord_phone_hint"
-                    android:tag="phone" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/addProp_phone_editText_layout"
+                    style="@style/user_data_input_field">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/addProp_phone_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/addProperty_landlord_phone"
+                        android:inputType="numberDecimal"
+                        android:tag="phone"
+                        android:textAlignment="viewStart"
+                        />
+                </android.support.design.widget.TextInputLayout>
+
+                <!--<EditText-->
+                    <!--android:id="@+id/addProp_phone_editText"-->
+                    <!--style="@style/addProperty_editTexts"-->
+                    <!--android:clickable="false"-->
+                    <!--android:cursorVisible="false"-->
+                    <!--android:focusable="false"-->
+                    <!--android:focusableInTouchMode="false"-->
+                    <!--android:hint="@string/addProperty_landlord_phone_hint"-->
+                    <!--android:tag="phone" />-->
                 <!--   android:text="@{presenter.user.phone}"-->
 
                 <!-- TODO add city from BallabaUser -->

@@ -226,6 +226,8 @@
         <item name="android:layout_marginTop">16dp</item>
         <item name="android:layout_marginStart">16dp</item>
         <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:gravity">start</item>
+        <item name="android:textAlignment">viewStart</item>
     </style>
 
     <style name="add_property_editTexts_with_number" parent="addProperty_editTexts">
