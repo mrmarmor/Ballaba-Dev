@@ -343,7 +343,9 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                     ((AddPropertyActivityNew) getActivity()).changeFragment(new AddPropAssetFrag(), true);
                     onFinish(ConnectionsManager.newInstance(context));
                 }
-
+                else if(getActivity() instanceof ScoringPersonalDetailsActivity && isTenant){
+                    startActivity(new Intent(getActivity(), ScoringCameraActivity.class));
+                }
         }
     }
 
