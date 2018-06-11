@@ -129,7 +129,25 @@
         <item name="android:layout_height">@dimen/myProp_tabs_height</item>
         <item name="android:background">@color/colorPrimary</item>
         <item name="android:textColor">@color/myProperty_tabs_textColor</item>
+    </style>
 
+    <style name="TextAppearance.App.TextInputLayout" parent="Widget.Design.TextInputLayout">
+        <item name="android:textColorHint">@color/place_autocomplete_search_hint</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+
+        <!-- Color when pressed -->
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <!-- Default color for the dropdown arrow and line -->
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+    
+    <style name="spinnerWithUnderline">
+        <!-- Color when pressed -->
+        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <!-- Default color for the dropdown arrow and line -->
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="android:padding">0dp</item><!-- to display 4 digits year format with no ellipsize when spinner is too narrow -->
     </style>
 
     <style name="property_description_textViews">
