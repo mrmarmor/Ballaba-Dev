@@ -7,6 +7,8 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.TabLayout;
 import android.support.transition.Visibility;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.res.ResourcesCompat;
@@ -15,8 +17,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.Toast;
 
+import com.duolingo.open.rtlviewpager.RtlViewPager;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringWelcomeActivity;
@@ -87,10 +92,11 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         final BallabaPropertyResult property = properties.get(position);
         PropertiesPhotosPagerAdapter propertiesPhotosViewPagerAdapter = new PropertiesPhotosPagerAdapter(
                 fragmentManager, generateImageFragments(property.photos, property.id, position));
-        holder.binder.propertyItemImageView.setId(position+propertiesPhotosViewPagerAdapter.hashCode());
-        holder.binder.propertyItemImageView.setCurrentItem(property.photos.size()/2);
-        holder.binder.propertyItemImageView.setOffscreenPageLimit(2);
-        holder.binder.propertyItemImageView.setAdapter(propertiesPhotosViewPagerAdapter);
+        holder.binder.propertyItemViewPager.setId(position+propertiesPhotosViewPagerAdapter.hashCode());
+        holder.binder.propertyItemViewPager.setCurrentItem(property.photos.size()/2);
+        holder.binder.propertyItemViewPager.setOffscreenPageLimit(2);
+        holder.binder.propertyItemViewPager.setAdapter(propertiesPhotosViewPagerAdapter);
+        setIndicators(holder.binder.tabIndicators, holder.binder.propertyItemViewPager, property.photos.size());
         Drawable d = property.isSaved? res.getDrawable(R.drawable.heart_blue_24, mContext.getTheme())
                 :res.getDrawable(R.drawable.heart_white_24, mContext.getTheme());
         holder.binder.propertyItemIsSavedPropertyImageView.setImageDrawable(d);
@@ -248,6 +254,13 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
                 Log.e(TAG, "error fetching offset properties");
             }
         });
+    }
+
+    private void setIndicators(final TabLayout tabLayout, final RtlViewPager vPager, final int numOfPhotos) {
+        tabLayout.setupWithViewPager(vPager, true);
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)tabLayout.getLayoutParams();
+        params.width = numOfPhotos * 12/*space*/;
+        tabLayout.setLayoutParams(params);
     }
 
     private void setFontForDevicesUnderApi26(PropertyItemBinding binder){
