@@ -10,6 +10,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
@@ -145,9 +146,10 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
 
     private boolean isValidCardType() {
         if (getCardType(binder.creditCardCardNumber.getText().toString()) == NULL) {
-            onError(binder.creditCardCardNumber, "מספר כרטיס אשראי לא תקין");
+            onError(binder.creditCardCardNumberRoot, binder.creditCardCardNumber, "מספר כרטיס אשראי לא תקין");
             return false;
         } else {
+            binder.creditCardCardNumberRoot.setErrorEnabled(false);
             return true;
         }
     }
@@ -155,18 +157,20 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
     private boolean isValidCVV() {
         final int cvvLength = binder.creditCardCardCVV.getText().toString().length();
         if (cvvLength < 3 || cvvLength > 4) {
-            onError(binder.creditCardCardCVV, "מספר קוד אבטחה אינו תקין");
+            onError(binder.creditCardCardCVVRoot, binder.creditCardCardCVV, "מספר קוד אבטחה אינו תקין");
             return false;
         } else {
+            binder.creditCardCardCVVRoot.setErrorEnabled(false);
             return true;
         }
     }
 
     private boolean isValidUserName() {
         if (binder.creditCardPersonName.getText().toString().equals("")) {
-            onError(binder.creditCardPersonName, "שם משתמש חסר");
+            onError(binder.creditCardPersonNameRoot, binder.creditCardPersonName, "שם משתמש חסר");
             return false;
         } else {
+            binder.creditCardPersonNameRoot.setErrorEnabled(false);
             return true;
         }
     }
@@ -174,9 +178,10 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
     private boolean isValidIdNumber() {
         int idNumberLength = binder.creditCardPersonID.getText().toString().length();
         if (idNumberLength > 9 || idNumberLength < 8) {
-            onError(binder.creditCardPersonID, "מספר זהות לא תקין");
+            onError(binder.creditCardPersonIDRoot, binder.creditCardPersonID, "מספר זהות לא תקין");
             return false;
         } else {
+            binder.creditCardPersonIDRoot.setErrorEnabled(false);
             return true;
         }
     }
@@ -185,15 +190,20 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
         String email = binder.creditCardUserMail.getText().toString();
         boolean isValid = !TextUtils.isEmpty(email) && (Patterns.EMAIL_ADDRESS.matcher(email).matches());
 
-        if (!isValid)
-            onError(binder.creditCardUserMail, "כתובת אימייל לא נכונה");
+        if (!isValid) {
+            onError(binder.creditCardUserMailRoot, binder.creditCardUserMail, "כתובת אימייל לא נכונה");
+        } else {
+            binder.creditCardUserMailRoot.setErrorEnabled(false);
+        }
 
         return isValid;
     }
 
-    private void onError(EditText editText, String errorMessage) {
-        editText.setTextColor(getResources().getColor(R.color.red_error_phone, getTheme()));
-        editText.setText(errorMessage);
+    private void onError(TextInputLayout textInputLayout, EditText editText, String errorMessage) {
+        textInputLayout.setError(errorMessage);
+        //editText.setError(errorMessage);
+        //editText.setTextColor(getResources().getColor(R.color.red_error_phone, getTheme()));
+        //editText.setText(errorMessage);
         ((ScrollView)binder.getRoot()).smoothScrollTo(0, editText.getTop() - 30);
         editText.requestFocus();
     }
