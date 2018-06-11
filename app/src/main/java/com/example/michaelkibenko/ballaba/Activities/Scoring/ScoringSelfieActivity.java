@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
-import com.example.michaelkibenko.ballaba.Activities.SelfCamActivity;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 

@@ -9,7 +9,7 @@ import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterPhoneNumberActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyManagementActivity;
-import com.example.michaelkibenko.ballaba.Activities.SelfCamActivity;
+import com.example.michaelkibenko.ballaba.Activities.Scoring.SelfCamActivity;
 import com.example.michaelkibenko.ballaba.Activities.SplashActivity;
 import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringWelcomeActivity;
 

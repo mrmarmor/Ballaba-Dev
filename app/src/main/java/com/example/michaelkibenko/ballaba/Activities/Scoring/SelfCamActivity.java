@@ -1,4 +1,4 @@
-package com.example.michaelkibenko.ballaba.Activities;
+package com.example.michaelkibenko.ballaba.Activities.Scoring;
 
 import android.Manifest;
 import android.app.FragmentManager;
@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 
+import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Fragments.CameraFragment;
 import com.example.michaelkibenko.ballaba.R;
 

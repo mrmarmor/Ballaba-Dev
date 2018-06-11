@@ -24,15 +24,19 @@ public class ScoringCameraActivity extends AppCompatActivity {
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        cameraFragment = new CameraFragment();
-        cameraFragment.setRetainInstance(true);
-        getFragmentManager().beginTransaction().replace(R.id.scoring_camera_frame_layout, cameraFragment).commit();
+        openCameraFragment();
         /*findViewById(R.id.activity_scoring_camera).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 takePicture();
             }
         });*/
+    }
+
+    private void openCameraFragment(){
+        cameraFragment = new CameraFragment();
+        cameraFragment.setRetainInstance(true);
+        getFragmentManager().beginTransaction().replace(R.id.scoring_camera_frame_layout, cameraFragment).commit();
     }
 
     @Override
