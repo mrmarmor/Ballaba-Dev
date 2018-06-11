@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivityNew;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
@@ -73,6 +74,8 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        ((AddPropertyActivityNew)getActivity()).changePageIndicatorText(4);
+
         binderPay = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_add_prop_payments, container, false);
         View view = binderPay.getRoot();

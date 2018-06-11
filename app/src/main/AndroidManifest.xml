@@ -114,6 +114,7 @@
         <activity android:name=".Activities.TenantMyPorpertyDetailsActivity"/>
         <activity android:name=".Activities.Scoring.ScoringPersonalDetailsActivity"/>
         <activity android:name=".Activities.CreditCardActivity" android:label="אמצעי תשלום"/>
+        <activity android:name=".Activities.AddPropertyActivityNew"/>
 
     </application>
 

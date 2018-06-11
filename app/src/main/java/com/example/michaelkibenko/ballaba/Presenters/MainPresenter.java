@@ -28,7 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivity;
+import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivityNew;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.ContinueAddPropertyActivity;
 import com.example.michaelkibenko.ballaba.Activities.CreditCardActivity;
@@ -464,7 +464,8 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         /*TODO TESTING*///propertyId = "1";/*TODO END OF TESTING*/
         if (propertyId == null //=> user had finished upload his property or had never uploaded any
                 || (now.after(expireDate))){ //=> or user had not finished upload, but 14 days had passed
-            return new Intent(context, AddPropertyActivity.class);
+            //return new Intent(context, AddPropertyActivity.class);
+            return new Intent(context, AddPropertyActivityNew.class);
         } else {// => user had started upload + had not finished yet + 14 days had not passed yet from starting uploading
             Intent intent = new Intent(context, ContinueAddPropertyActivity.class);
             intent.putExtra(PropertyDescriptionActivity.PROPERTY, propertyId);

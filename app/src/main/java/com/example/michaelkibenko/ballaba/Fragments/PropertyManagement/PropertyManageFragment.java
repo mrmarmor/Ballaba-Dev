@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -94,7 +93,7 @@ public class PropertyManageFragment extends Fragment {
                             .parsePropertiesFull(((BallabaOkResponse)entity).body);
                     BallabaSearchPropertiesManager.getInstance(activity).setPropertyFull(propertyFull);
 
-                    Log.d(TAG, "properties: " + propertyFull.formattedAddress+":"+propertyFull.street);
+                    //Log.d(TAG, "properties: " + propertyFull.formattedAddress+":"+propertyFull.street);
 
                     displayDataOnScreen(propertyFull);
 
