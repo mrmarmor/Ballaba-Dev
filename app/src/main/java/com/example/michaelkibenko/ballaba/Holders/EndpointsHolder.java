@@ -18,7 +18,8 @@ public @interface EndpointsHolder {
     String PROPERTY_BY_ID = "https://api.ballaba-it.com/v1/properties/";
     String CREDIT_CARD= "https://api.ballaba-it.com/v1/user/me/credit";
     String MY_PROPERTIES = "https://api.ballaba-it.com/v1/user/me/properties";
-    String PROPERTY_ATTACHMENTS_ADDONS = "https://api.ballaba-it.com/v1/config/property";
+    //String PROPERTY_ATTACHMENTS_ADDONS = "https://api.ballaba-it.com/v1/config/property";
+    String PROPERTY_ATTACHMENTS_ADDONS = "https://api.ballaba-it.com/v1/properties/config";
     String GOOGLE_MAP_API = "http://maps.google.com/maps/api/staticmap?center=";
     String GOOGLE_MAP_API_SETTINGS = "&zoom=15&size=360x180&sensor=false&markers=color:0x00bfffff";
 

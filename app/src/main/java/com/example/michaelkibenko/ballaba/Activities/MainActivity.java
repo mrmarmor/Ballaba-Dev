@@ -7,14 +7,13 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
+
 import android.view.Gravity;
 
 import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
 import com.example.michaelkibenko.ballaba.Presenters.SelectCityPresenter;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.Views.CustomViewPager;
 import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
 
 import java.util.ArrayList;
@@ -24,8 +23,8 @@ import java.util.ArrayList;
  */
 
 public class MainActivity extends BaseActivity {
-        //PropertiesRecyclerFragment.OnFragmentInteractionListener,
-        //BallabaFragmentListener {
+    //PropertiesRecyclerFragment.OnFragmentInteractionListener,
+    //BallabaFragmentListener {
 
     private final String TAG = MainActivity.class.getSimpleName();
     public static final int SEARCH_BY_LOCATION_REQUEST_CODE = 4444;
@@ -34,9 +33,11 @@ public class MainActivity extends BaseActivity {
     public MainPresenter presenter;
     //private HashMap<String, String> filterResults = new HashMap<>();
     //private List<BallabaPropertyFull> properties = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
         binder = DataBindingUtil.setContentView(this, R.layout.activity_main_layout);
 
         //properties = PropertiesManager.getInstance(this).getProperties();
@@ -93,7 +94,6 @@ public class MainActivity extends BaseActivity {
     }*/
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //TODO add result to board
@@ -117,19 +117,20 @@ public class MainActivity extends BaseActivity {
             } else if (requestCode == MainPresenter.REQ_CODE_SAVED_AREA) {
                 presenter.onClickToGoogleMap();
             }
-        }else if(resultCode == SEARCH_BY_LOCATION_REQUEST_CODE){
+        } else if (resultCode == SEARCH_BY_LOCATION_REQUEST_CODE) {
             presenter.searchByLocation();
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if(requestCode == SEARCH_BY_LOCATION_REQUEST_CODE){
+        if (requestCode == SEARCH_BY_LOCATION_REQUEST_CODE) {
             if (grantResults.length > 0
-                    && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 presenter.searchByLocation();
-            }else{
+            } else {
                 //TODO set error step
             }
-        }    }
+        }
+    }
 }

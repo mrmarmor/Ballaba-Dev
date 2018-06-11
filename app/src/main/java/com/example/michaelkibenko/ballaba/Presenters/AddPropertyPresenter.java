@@ -1,19 +1,9 @@
 package com.example.michaelkibenko.ballaba.Presenters;
 
-import android.support.annotation.Nullable;
-import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.ViewGroup;
 
 import com.example.michaelkibenko.ballaba.Adapters.AddPropertyPagerAdapter;
-import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropEditPhotoFrag;
-import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by User on 22/04/2018.

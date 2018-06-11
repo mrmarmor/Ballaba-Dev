@@ -7,8 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringPersonalActivity;
-import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringWelcomeActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
@@ -41,7 +39,7 @@ public class ContinueAddPropertyActivity extends BaseActivity {
 
     public void onClickOk(View view){
         if (isFetchingDataEndedSuccessfully)
-            startActivity(new Intent(this, AddPropertyActivity.class));
+            startActivity(new Intent(this, AddPropertyActivityNew.class));
         else
             Toast.makeText(this, getString(R.string.error_property_download), Toast.LENGTH_LONG).show();
     }
