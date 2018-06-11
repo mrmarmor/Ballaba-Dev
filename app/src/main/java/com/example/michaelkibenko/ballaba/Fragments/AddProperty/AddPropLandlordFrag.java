@@ -10,7 +10,6 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
@@ -30,17 +29,15 @@ import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivityNew;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringCameraActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
-import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
-import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
-import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
@@ -51,7 +48,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -317,7 +313,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.addProperty_landlord_button_next:
-                onFinish(ConnectionsManager.newInstance(context));
+                 onFinish(ConnectionsManager.newInstance(context));
 
         }
     }
@@ -347,7 +343,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                             //startActivity(new Intent(getActivity(), ScoringPersonalActivity.class));
                             startActivity(new Intent(getActivity(), ScoringCameraActivity.class));
                         } else {
-                            AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(1);
+                           //AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(1);
                         }
                     }
 
@@ -364,11 +360,12 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             } else if (isTenant) {
                 startActivity(new Intent(getActivity(), ScoringCameraActivity.class));
             } else {
-                AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(1);
+                //AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(1);
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        ((AddPropertyActivityNew)getActivity()).changeFragment(new AddPropAssetFrag() , true);
     }
 
     private JSONObject jsonParse(HashMap<String, String> userData) throws JSONException {

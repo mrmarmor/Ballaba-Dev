@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- TODO DO NOT CHANGE TAGS HERE. IT IS SENT TO THE SERVER AS KEYS, AND SERVER WILL NOT RECOGNIZE IF YOU CHANGE IT!! -->
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
         <variable
@@ -205,6 +203,17 @@
                     android:layout_marginStart="@dimen/addProp_asset_rentalPeriod_datePicker"
                     android:layout_marginEnd="@dimen/addProp_asset_rentalPeriod_datePicker"
                     android:layout_marginBottom="@dimen/small_margin" />
+
+                <TextView
+                    android:id="@+id/wowowow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="לא גמיש"/>
+
+                <Switch
+                    android:layout_width="51dp"
+                    android:layout_height="20dp"
+                    />
 
                 <TextView
                     android:id="@+id/addProperty_rentalPeriod_rentalLong_textView"

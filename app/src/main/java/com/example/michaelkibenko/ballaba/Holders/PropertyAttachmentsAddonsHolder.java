@@ -20,6 +20,7 @@ public class PropertyAttachmentsAddonsHolder {
     private ArrayList<PropertyAttachmentAddonEntity> furniture, electronics, attachments
             , paymentTypes, paymentMethods, photoTags;
 
+    private StringUtils stringUtils;
     public static PropertyAttachmentsAddonsHolder getInstance() {
         if(instance == null){
             instance = new PropertyAttachmentsAddonsHolder();
@@ -34,6 +35,7 @@ public class PropertyAttachmentsAddonsHolder {
         paymentTypes = new ArrayList<>();
         paymentMethods = new ArrayList<>();
         photoTags = new ArrayList<>();
+        stringUtils = StringUtils.getInstance(true);
     }
 
     public ArrayList<PropertyAttachmentAddonEntity> getFurniture() {
@@ -126,7 +128,7 @@ public class PropertyAttachmentsAddonsHolder {
         for (int i = 0; i < attachment.length(); i++) {
             JSONObject currentObject = attachment.getJSONObject(i);
             String id = currentObject.getString("id");
-            String title = StringUtils.getInstance(true)
+            String title = stringUtils
                     .formattedHebrew(currentObject.getString("tag"));//TODO receiving tag in hebrew from server. consider replace it with english version
             String formattedTitle = title;//getFormattedTitle(ATTACHMENT_TYPE, title);
             entities.add(new PropertyAttachmentAddonEntity(id, title, formattedTitle));
@@ -138,15 +140,16 @@ public class PropertyAttachmentsAddonsHolder {
         for (int i = 0; i < attachment.length(); i++) {
             JSONObject currentObject = attachment.getJSONObject(i);
             String id = currentObject.getString("id");
-            String title = currentObject.getString("title");
+            String title = currentObject.getString("name");
+            String formatted = stringUtils.formattedHebrew(currentObject.getString("name_he"));
 
-            String formattedTitle = getFormattedTitle(ATTACHMENT_TYPE, title);
-            entities.add(new PropertyAttachmentAddonEntity(id, title, formattedTitle));
+            //String formattedTitle = getFormattedTitle(ATTACHMENT_TYPE, title);
+            entities.add(new PropertyAttachmentAddonEntity(id, title, formatted));
         }
     }
 
     private String getFormattedTitle(final String ATTACHMENT_TYPE, final String TITLE){
-        switch (ATTACHMENT_TYPE) {
+        /*switch (ATTACHMENT_TYPE) {
             case FURNITURE: default:
                 return getFormattedFurnitureTitle(TITLE);
             case ELECTRONICS:
@@ -157,7 +160,8 @@ public class PropertyAttachmentsAddonsHolder {
                 return getFormattedPaymentTypesTitle(TITLE);
             case PAYMENT_METHODS:
                 return getFormattedPaymentMethodsTitle(TITLE);
-        }
+        }*/
+        return TITLE;
     }
 
     public PropertyAttachmentAddonEntity getAttachmentById(String id){

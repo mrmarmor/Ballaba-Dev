@@ -3,8 +3,8 @@ package com.example.michaelkibenko.ballaba.Activities;
 import android.app.ProgressDialog;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,7 +31,7 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
 
     private final static String TAG = AddPropertyActivity.class.getSimpleName();
 
-    //private AddPropertyPresenter presenter;
+    private AddPropertyPresenter presenter;
     private ActivityAddPropertyBinding binder;
     private ProgressDialog pd;
     public BallabaUser user;
@@ -49,7 +49,8 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binder = DataBindingUtil.setContentView(this, R.layout.activity_add_property);
-        binder.setPresenter(new AddPropertyPresenter(this, binder));
+        setContentView(R.layout.activity_add_property);
+        //binder.setPresenter(new AddPropertyPresenter(this, binder));
         user = BallabaUserManager.getInstance().getUser();
 
         //UiUtils.instance(true, this).hideSoftKeyboard(binder.getRoot());

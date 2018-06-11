@@ -2,30 +2,26 @@ package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivityNew;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
-import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
-import com.example.michaelkibenko.ballaba.Holders.GlobalValues;
 import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
-import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
@@ -39,8 +35,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import static com.google.android.gms.internal.zzbgp.NULL;
 
 public class AddPropAddonsFrag extends Fragment implements Button.OnClickListener{
     private final String TAG = AddPropAddonsFrag.class.getSimpleName(), NOT_FURNISHED_TAG = "not_furnished_tag";
@@ -74,6 +68,7 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
                 .replace(R.id.addProperty_addons_root, fragment)
                 .commit();*/
 
+        ((AddPropertyActivityNew)getActivity()).changePageIndicatorText(3);
         binderAddons = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_add_prop_addons, container, false);
 
@@ -245,7 +240,9 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
                 public void resolve(BallabaBaseEntity entity) {
                     //TODO update property updating date on SharedPrefs??
                     SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "3");
-                    AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).setViewPagerItem(3);
+                    //AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).setViewPagerItem(3);
+                    ((AddPropertyActivityNew)getActivity()).changeFragment(new AddPropPaymentsFrag() , true);
+
                 }
 
                 @Override
@@ -258,8 +255,9 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
                 }
             });
         } else {
-            AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(3);
+            //AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(3);
         }
+        ((AddPropertyActivityNew)getActivity()).changeFragment(new AddPropPaymentsFrag() , true);
     }
 
     private Data getDataFromChips(Data data){

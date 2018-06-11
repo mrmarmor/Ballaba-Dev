@@ -1,15 +1,10 @@
 package com.example.michaelkibenko.ballaba.Adapters;
 
-import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropAddonsFrag;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropAssetFrag;
@@ -18,18 +13,13 @@ import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropLandlordF
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropMeetingsFrag;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropPaymentsFrag;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropTakePhotoFrag;
-import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
-
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by User on 22/04/2018.
  */
 
 public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
-    private final String TAG = AddPropertyPagerAdapter.class.getSimpleName();
 
     private Fragment[] fragments;
     private AddPropEditPhotoFrag addPropEditPhotoFrag = new AddPropEditPhotoFrag();
@@ -38,7 +28,7 @@ public class AddPropertyPagerAdapter extends FragmentStatePagerAdapter {
         super(fm);
 
         fragments = new Fragment[]{
-                  AddPropLandlordFrag.newInstance().setMainBinder(binder), AddPropAssetFrag.newInstance().setMainBinder(binder)
+                  AddPropLandlordFrag.newInstance().setMainBinder(binder), new AddPropAssetFrag()
                 , AddPropAddonsFrag.newInstance(binder).setMainBinder(binder), AddPropPaymentsFrag.newInstance().setMainBinder(binder)
                 , AddPropTakePhotoFrag.newInstance().setMainBinder(binder), addPropEditPhotoFrag.setMainBinder(binder)
                 , AddPropMeetingsFrag.newInstance() /*AddPropPreviewFrag may be added here. we can take it from PropertyDescription*/};

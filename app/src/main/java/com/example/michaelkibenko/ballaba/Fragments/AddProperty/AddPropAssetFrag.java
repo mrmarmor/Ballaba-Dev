@@ -1,14 +1,8 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
 import android.content.Context;
-import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.databinding.DataBindingUtil;
-import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -16,66 +10,72 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
-import android.widget.DatePicker;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
+import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivityNew;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
-import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
-import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
-import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.Utils.UiUtils;
-import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
-import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropAssetBinding;
+import com.example.michaelkibenko.ballaba.Views.MultiLanguagesDatePicker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 
-public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChangeListener, TextWatcher{
+public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChangeListener, TextWatcher {
     private static final String TAG = AddPropAssetFrag.class.getSimpleName();
 
     private Context context;
-    private ActivityAddPropertyBinding binderMain;
-    private FragmentAddPropAssetBinding binderAsset;
+    //private ActivityAddPropertyBinding binderMain;
+    //private FragmentAddPropAssetBinding binderAsset;
     private boolean areAllDataFieldsFilledUp = true;
+    private View v;
+    private EditText cityET, addressET, aptET, floorET, maxFloorET, roomET, toiletET, bathroomET, sizeET, rentalPeriodET;
+    private CheckBox rentalTV;
+    private MultiLanguagesDatePicker datePicker;
+    private LinearLayout root;
 
-    public AddPropAssetFrag() {}
-    public static AddPropAssetFrag newInstance() {
+
+    public AddPropAssetFrag() {
+    }
+
+   /* public static AddPropAssetFrag newInstance() {
         AddPropAssetFrag fragment = new AddPropAssetFrag();
 
         return fragment;
     }
 
-    public AddPropAssetFrag setMainBinder(ActivityAddPropertyBinding binder){
+    public AddPropAssetFrag setMainBinder(ActivityAddPropertyBinding binder) {
         this.binderMain = binder;
         return this;
-    }
+    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binderAsset = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_add_prop_asset, container, false);
+        v = inflater.inflate(R.layout.fragment_add_prop_asset_new, container, false);
+        ((AddPropertyActivityNew)getActivity()).changePageIndicatorText(2);
+            /*binderAsset = DataBindingUtil.inflate(
+                    inflater, R.layout.fragment_add_prop_asset, container, false);
 
         binderAsset.addPropertyAssetButtonNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFinish(ConnectionsManager.getInstance(context));
+            }
+        });*/
+
+        v.findViewById(R.id.addProperty_asset_button_next).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onFinish(ConnectionsManager.getInstance(context));
@@ -83,6 +83,7 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
         });
 
         //String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, null);
+        rentalTV = v.findViewById(R.id.addProperty_rentalPeriod_option_textView);
         initEditTexts(BallabaSearchPropertiesManager.getInstance(context).getPropertyFull());
 
         /*conn.getPropertyById(propertyId, new BallabaResponseListener() {
@@ -98,16 +99,26 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
             }
         });*/
 
-        binderAsset.addPropAssetRentalPeriodDatePicker
-                .setTitle(getString(R.string.addProperty_asset_dateOfEntrance))
-                .setTextSize(14);
+        datePicker = v.findViewById(R.id.addProp_asset_rentalPeriod_datePicker);
+        datePicker.setTitle(getString(R.string.addProperty_asset_dateOfEntrance)).setTextSize(14);
 
-        return binderAsset.getRoot();
+        return v;
     }
 
-    private void initEditTexts(BallabaPropertyFull property){
+    private void initEditTexts(BallabaPropertyFull property) {
+        cityET = v.findViewById(R.id.addProp_city_actv);
+        addressET = v.findViewById(R.id.addProp_address_actv);
+        aptET = v.findViewById(R.id.addProp_aptNo_editText);
+        floorET = v.findViewById(R.id.addProp_floor_editText);
+        maxFloorET = v.findViewById(R.id.addProp_maxFloor_editText);
+        roomET = v.findViewById(R.id.addProp_rooms_editText);
+        toiletET = v.findViewById(R.id.addProp_toilets_editText);
+        bathroomET = v.findViewById(R.id.addProp_bathrooms_editText);
+        sizeET = v.findViewById(R.id.addProp_size_editText);
+        rentalPeriodET = v.findViewById(R.id.addProperty_rentalPeriod_months_editText);
+
         if (property != null) {
-            binderAsset.addPropCityActv.setText(property.city);
+            /*binderAsset.addPropCityActv.setText(property.city);
             binderAsset.addPropAddressActv.setText(property.formattedAddress);
             binderAsset.addPropAptNoEditText.setText(property.street_number);
             binderAsset.addPropFloorEditText.setText(property.floor);
@@ -116,21 +127,35 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
             binderAsset.addPropToiletsEditText.setText(property.toilets);
             binderAsset.addPropBathroomsEditText.setText(property.bathrooms);
             binderAsset.addPropSizeEditText.setText(property.size);
-            binderAsset.addPropertyRentalPeriodMonthsEditText.setText(property.rentPeriod);
-        }
-        binderAsset.addPropCityActv.requestFocus();
+            binderAsset.addPropertyRentalPeriodMonthsEditText.setText(property.rentPeriod);*/
 
-        UiUtils.instance(true, context).initAutoCompleteCity(binderAsset.addPropCityActv);
-        UiUtils.instance(true, context).initAutoCompleteAddressInCity(binderAsset.addPropAddressActv, binderAsset.addPropCityActv);
+            cityET.setText(property.city);
+            addressET.setText(property.city);
+            aptET.setText(property.city);
+            floorET.setText(property.city);
+            maxFloorET.setText(property.city);
+            roomET.setText(property.city);
+            toiletET.setText(property.city);
+            bathroomET.setText(property.city);
+            sizeET.setText(property.city);
+            rentalPeriodET.setText(property.city);
+
+        }
+        //binderAsset.addPropCityActv.requestFocus();
+
+        //UiUtils.instance(true, context).initAutoCompleteCity(binderAsset.addPropCityActv);
+        //UiUtils.instance(true, context).initAutoCompleteAddressInCity(binderAsset.addPropAddressActv, binderAsset.addPropCityActv);
 
         //binderAsset.addPropAddressEditText.addTextChangedListener(this);
 
         validateFloors();
     }
 
-    private void validateFloors(){
-        binderAsset.addPropFloorEditText.setOnFocusChangeListener(this);
-        binderAsset.addPropMaxFloorEditText.setOnFocusChangeListener(this);
+    private void validateFloors() {
+        //binderAsset.addPropFloorEditText.setOnFocusChangeListener(this);
+        //binderAsset.addPropMaxFloorEditText.setOnFocusChangeListener(this);
+        floorET.setOnFocusChangeListener(this);
+        maxFloorET.setOnFocusChangeListener(this);
     }
 
     /*private void showSnackBar(){
@@ -142,9 +167,9 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
         //snackBarView.findViewById(android.support.design.R.id.snackbar_text).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
     }*/
 
-    private void onFinish(ConnectionsManager conn){
+    private void onFinish(ConnectionsManager conn) {
         final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
-
+        ((AddPropertyActivityNew)getActivity()).changeFragment(new AddPropAddonsFrag() , true);
         if (!areAllDataFieldsFilledUp) return;
 
         if (!isDataEqual(data)) {
@@ -152,13 +177,14 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
                     SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "2");
-                    new AddPropertyPresenter((AppCompatActivity) context, binderMain).setViewPagerItem(2);
+                    //new AddPropertyPresenter((AppCompatActivity) context, binderMain).setViewPagerItem(2);
+                    ((AddPropertyActivityNew)getActivity()).changeFragment(new AddPropAddonsFrag() , true);
                 }
 
                 @Override
                 public void reject(BallabaBaseEntity entity) {
-                    ((BaseActivity) context).getDefaultSnackBar(binderAsset.addPropertyLocationRoot
-                            , "השמירה נכשלה נסה שנית מאוחר יותר", false);
+                    /*((BaseActivity) context).getDefaultSnackBar(binderAsset.addPropertyLocationRoot
+                            , "השמירה נכשלה נסה שנית מאוחר יותר", false);*/
                     Log.e(TAG, "error: " + ((BallabaErrorResponse) entity).message);
 
                     //TODO NEXT LINE IS ONLY FOR TESTING:
@@ -167,17 +193,18 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
             });
         } else {
             //TODO continue to next page without sending data to server
-            AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(2);
+            //AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(2);
         }
+        ((AddPropertyActivityNew)getActivity()).changeFragment(new AddPropAddonsFrag() , true);
     }
 
-    private HashMap<String, String> getDataFromEditTexts(HashMap<String, String> map){
+    private HashMap<String, String> getDataFromEditTexts(HashMap<String, String> map) {
         areAllDataFieldsFilledUp = true;
-        LinearLayout root = binderAsset.addPropertyLocationRoot;
-        for (int i = root.getChildCount() - 1; i >= 0 ; i--) {
+        root = v.findViewById(R.id.addProperty_location_root);
+        for (int i = root.getChildCount() - 1; i >= 0; i--) {
             try {
-                for (int j = ((ViewGroup)root.getChildAt(i)).getChildCount() - 1; j >= 0; j--) {
-                    View v = ((ViewGroup)root.getChildAt(i)).getChildAt(j);
+                for (int j = ((ViewGroup) root.getChildAt(i)).getChildCount() - 1; j >= 0; j--) {
+                    View v = ((ViewGroup) root.getChildAt(i)).getChildAt(j);
                     if (v instanceof EditText | v instanceof AutoCompleteTextView) {
                         String input = ((EditText) v).getText().toString();
                         if (input.equals("")) {
@@ -188,14 +215,14 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
                         }
                     }
                 }
-            } catch (ClassCastException e){
-                Log.e(TAG, e.getMessage()+"\n class is:" + root.getChildAt(i).getClass());
+            } catch (ClassCastException e) {
+                Log.e(TAG, e.getMessage() + "\n class is:" + root.getChildAt(i).getClass());
             }
         }
 
-        DatePicker picker = binderAsset.addPropAssetRentalPeriodDatePicker;
-        map.put("entry_date", String.format("%d-%02d-%02d", picker.getYear(), picker.getMonth()+1, picker.getDayOfMonth()));
-        map.put("is_extendable", binderAsset.addPropertyRentalPeriodOptionTextView.isChecked()+"");
+
+        map.put("entry_date", String.format("%d-%02d-%02d", datePicker.getYear(), datePicker.getMonth() + 1, datePicker.getDayOfMonth()));
+        map.put("is_extendable", rentalTV.isChecked() + "");
 
         //TODO maybe marik needs a dummy zip code
         map.put("zip_code", "8060000");
@@ -209,7 +236,7 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
         this.context = context;
     }
 
-    private boolean isDataEqual(HashMap<String, String> map){
+    private boolean isDataEqual(HashMap<String, String> map) {
         BallabaPropertyFull property = BallabaSearchPropertiesManager.getInstance(context).getPropertyFull();
         return (property != null &&
                 map.get("city").equals(property.city) &&
@@ -226,7 +253,7 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
         //TODO missing value in property: map.get("is_extendable").equals(property.));
     }
 
-    private JSONObject jsonParse(HashMap<String, String> propertyData, String step){
+    private JSONObject jsonParse(HashMap<String, String> propertyData, String step) {
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("step", step);
@@ -254,17 +281,17 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         try {
-            String maxFloorsStr = binderAsset.addPropMaxFloorEditText.getText()+"";
-            String floorStr = binderAsset.addPropFloorEditText.getText()+"";
+            String maxFloorsStr = maxFloorET.getText() + "";
+            String floorStr = floorET.getText() + "";
             if (!maxFloorsStr.equals("") && !floorStr.equals("")) {
                 int maxFloors = Integer.parseInt(maxFloorsStr);
                 int floors = Integer.parseInt(floorStr);
 
-                if (floors > maxFloors){
-                    ((BaseActivity)context).getDefaultSnackBar(binderAsset.getRoot(), "Floor is greater than the max floor",false);
+                if (floors > maxFloors) {
+                    ((BaseActivity) context).getDefaultSnackBar(root, "Floor is greater than the max floor", false);
                     v.requestFocus();
-                    binderAsset.addPropFloorEditText.setTextColor(context.getResources().getColor(R.color.red_error_phone));
-                    binderAsset.addPropFloorEditText.setText("Floor is greater than the max floor");
+                    floorET.setTextColor(context.getResources().getColor(R.color.red_error_phone));
+                    floorET.setText("Floor is greater than the max floor");
                 }
             }
 
