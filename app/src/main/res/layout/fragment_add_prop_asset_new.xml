@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?><!-- TODO DO NOT CHANGE TAGS HERE. IT IS SENT TO THE SERVER AS KEYS, AND SERVER WILL NOT RECOGNIZE IF YOU CHANGE IT!! -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/allWrapContent"
     android:background="@android:color/transparent"
     android:layoutDirection="rtl"
-    android:scrollIndicators="none">
+    android:scrollbars="none">
 
     <LinearLayout
         android:id="@+id/addProperty_location_root"
@@ -23,17 +24,19 @@
             android:orientation="vertical">
 
             <TextView
-                style="@style/addProperty_titles"
-                android:text="@string/addProperty_asset_propertyPosition_title" />
-
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/addProperty_asset_propertyPosition_title"
+                android:textColor="@color/colorAccent"
+                android:textSize="22sp" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/addProp_city_input_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp">
+                android:layout_marginRight="16dp">
 
                 <com.example.michaelkibenko.ballaba.Views.TextInputAutoCompleteTextView
                     android:id="@+id/addProp_city_actv"
@@ -55,7 +58,6 @@
                 android:layout_marginTop="16dp">
 
                 <com.example.michaelkibenko.ballaba.Views.TextInputAutoCompleteTextView
-
                     android:id="@+id/addProp_address_actv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -64,28 +66,12 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
-                android:id="@+id/addProp_aptNo_input_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="16dp">
-
-                <EditText
-                    android:id="@+id/addProp_aptNo_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="מספר בית"
-                    android:tag="appartment" />
-
-            </android.support.design.widget.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
                 android:orientation="horizontal">
 
@@ -100,25 +86,24 @@
                         android:id="@+id/addProp_house_number_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/activity_vertical_margin"
                         android:hint="מספר בית"
                         android:tag="floor" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/addProp_apt_number_input_layout"
+                    android:id="@+id/addProp_aptNo_input_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
                     android:layout_weight="1">
 
                     <EditText
-                        android:id="@+id/addProp_apt_number_editText"
+                        android:id="@+id/addProp_aptNo_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="מספר דירה"
-                        android:tag="max_floor" />
+                        android:hint="מספר בית"
+                        android:tag="appartment" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -129,6 +114,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
@@ -138,17 +124,14 @@
                     android:id="@+id/addProp_floor_input_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginLeft="8dp"
                     android:layout_weight="1">
 
                     <EditText
                         android:id="@+id/addProp_floor_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="@dimen/activity_vertical_margin"
-                        android:hint="מספר בית"
+                        android:hint="קומה"
                         android:tag="floor" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -157,17 +140,16 @@
                     android:id="@+id/addProp_maxFloor_input_layout"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="16dp"
-                    android:layout_marginRight="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="8dp"
                     android:layout_weight="1">
 
                     <EditText
                         android:id="@+id/addProp_maxFloor_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="מספר דירה"
-                        android:tag="max_floor" />
+                        android:hint="מתוך"
+                        android:tag="max_floor"
+                        android:textColor="@color/colorPrimary" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -186,83 +168,86 @@
 
             <TextView
                 android:id="@+id/addProperty_formation_title_textView"
-                style="@style/addProperty_titles"
-                android:text="@string/addProperty_asset_formation_title" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:text="@string/addProperty_asset_formation_title"
+                android:textColor="@color/colorAccent"
+                android:textSize="22sp" />
 
-            <TextView
-                android:id="@+id/addProperty_formation_rooms_textView"
-                style="@style/addProperty_textViews"
-                android:layout_width="@dimen/addProperty_editText_short_width"
-                android:layout_alignParentStart="true"
-                android:layout_below="@id/addProperty_formation_title_textView"
-                android:paddingStart="@dimen/small_margin"
-                android:text="@string/addProperty_asset_formation_numberOfRooms" />
+            <LinearLayout
+                android:id="@+id/addProperty_formation_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/addProperty_formation_title_textView"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
 
-            <EditText
-                android:id="@+id/addProp_rooms_editText"
-                style="@style/add_property_editTexts_with_number"
-                android:layout_width="@dimen/addProperty_editText_short_width"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/addProperty_formation_rooms_textView"
-                android:hint="@string/addProperty_asset_hint"
-                android:tag="rooms" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/addProp_rooms_input_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1">
 
-            <TextView
-                android:id="@+id/addProperty_formation_toilets_textView"
-                style="@style/addProperty_textViews"
-                android:layout_width="@dimen/addProperty_editText_short_width"
-                android:layout_below="@id/addProperty_formation_title_textView"
-                android:layout_toEndOf="@id/addProp_rooms_editText"
-                android:text="@string/addProperty_asset_formation_toilets" />
+                    <EditText
+                        android:id="@+id/addProp_rooms_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="חדרים"
+                        android:tag="rooms" />
 
-            <EditText
-                android:id="@+id/addProp_toilets_editText"
-                style="@style/add_property_editTexts_with_number"
-                android:layout_width="@dimen/addProperty_editText_short_width"
-                android:layout_alignTop="@id/addProp_rooms_editText"
-                android:layout_marginEnd="0dp"
-                android:layout_marginStart="0dp"
-                android:layout_toEndOf="@id/addProp_rooms_editText"
-                android:hint="@string/addProperty_asset_hint"
-                android:tag="toilets" />
+                </android.support.design.widget.TextInputLayout>
 
-            <TextView
-                android:id="@+id/addProperty_formation_bathrooms_textView"
-                style="@style/addProperty_textViews"
-                android:layout_width="@dimen/addProperty_editText_short_width"
-                android:layout_below="@id/addProperty_formation_title_textView"
-                android:layout_toEndOf="@id/addProp_toilets_editText"
-                android:paddingStart="@dimen/small_margin"
-                android:text="@string/addProperty_asset_formation_bathrooms" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/addProp_toilets_input_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1">
 
-            <EditText
-                android:id="@+id/addProp_bathrooms_editText"
-                style="@style/add_property_editTexts_with_number"
-                android:layout_width="@dimen/addProperty_editText_short_width"
-                android:layout_alignParentEnd="true"
-                android:layout_alignTop="@id/addProp_rooms_editText"
-                android:layout_toEndOf="@id/addProp_toilets_editText"
-                android:hint="@string/addProperty_asset_hint"
-                android:tag="bathrooms" />
+                    <EditText
+                        android:id="@+id/addProp_toilets_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="שירותים"
+                        android:tag="toilets" />
+                </android.support.design.widget.TextInputLayout>
 
-            <TextView
-                android:id="@+id/addProperty_formation_size_textView"
-                style="@style/addProperty_textViews"
-                android:layout_alignParentStart="true"
-                android:layout_below="@id/addProp_rooms_editText"
-                android:paddingStart="@dimen/small_margin"
-                android:text="@string/addProperty_asset_formation_size" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/addProp_bathrooms_input_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1">
 
-            <EditText
-                android:id="@+id/addProp_size_editText"
-                style="@style/add_property_editTexts_with_number"
-                android:layout_width="@dimen/addProperty_editText_short_width"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@id/addProperty_formation_size_textView"
-                android:hint="@string/addProperty_asset_formation_size_hint"
-                android:tag="size" />
+                    <EditText
+                        android:id="@+id/addProp_bathrooms_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="מקלחת"
+                        android:tag="bathrooms" />
+                </android.support.design.widget.TextInputLayout>
+
+            </LinearLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/addProp_size_input_layout"
+                android:layout_width="104dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/addProperty_formation_container"
+                android:layout_margin="16dp">
+
+                <EditText
+                    android:id="@+id/addProp_size_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="גודל(מ''ר)"
+                    android:tag="size" />
+
+            </android.support.design.widget.TextInputLayout>
 
         </RelativeLayout>
 
@@ -279,9 +264,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/small_margin"
-                android:layout_marginStart="@dimen/small_margin"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:text="@string/addProperty_asset_rentalPeriod_title"
+                android:text="תאריך כניסה"
                 android:textColor="@color/colorAccent"
                 android:textSize="@dimen/textSize_big" />
 
@@ -290,32 +275,100 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/small_margin"
-                android:layout_marginEnd="@dimen/addProp_asset_rentalPeriod_datePicker"
-                android:layout_marginStart="@dimen/addProp_asset_rentalPeriod_datePicker"
+                android:layout_marginEnd="16dp"
+                android:layout_marginStart="16dp"
+                android:background="@drawable/gray_border"
                 android:tag="entry_date"
                 android:theme="@style/MyDatePickerDialogTheme" />
 
-            <!-- <TextView
-                 android:id="@+id/wowowow"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"
-                 android:text="לא גמיש" />-->
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal">
 
-            <!--<android.widget.Switch
-                android:layout_width="51dp"
-                android:layout_height="20dp" />-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:text="לא גמיש" />
 
-            <TextView
-                android:id="@+id/addProperty_rentalPeriod_rentalLong_textView"
-                style="@style/addProperty_textViews"
-                android:text="@string/addProperty_asset_rentalLong" />
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layoutDirection="ltr" />
 
-            <EditText
-                android:id="@+id/addProperty_rentalPeriod_months_editText"
-                style="@style/add_property_editTexts_with_number"
-                android:layout_width="@dimen/addProperty_editText_short_width"
-                android:hint="@string/addProperty_asset_months_hint"
-                android:tag="rent_period" />
+            </RelativeLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="16dp"
+                android:background="#ececec" />
+
+
+            <!--<RelativeLayout
+                android:layout_below="@+id/addProperty_formation_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">-->
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/addProperty_rentalPeriod_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp">
+
+                <EditText
+                    android:id="@+id/addProperty_rentalPeriod_months_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="מספר חודשים"
+                    android:tag="rent_period" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <!--<TextView
+                android:layout_marginRight="8dp"
+                android:layout_toLeftOf="@+id/addProperty_rentalPeriod_input_layout"
+                android:layout_alignBottom="@+id/addProperty_rentalPeriod_input_layout"
+                android:id="@+id/addProperty_rentalPeriod_months_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/addProperty_asset_months" />-->
+
+            <!--</RelativeLayout>-->
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_margin="16dp"
+                android:background="#ececec" />
+
+            <RelativeLayout
+                android:id="@+id/addProperty_rentalPeriod_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="לא גמיש" />
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layoutDirection="ltr" />
+
+            </RelativeLayout>
 
             <android.support.v7.widget.AppCompatCheckBox
                 android:id="@+id/addProperty_rentalPeriod_option_textView"
@@ -323,16 +376,9 @@
                 android:tag="is_extendable"
                 android:text="@string/addProperty_asset_option" />
 
-            <TextView
-                android:id="@+id/addProperty_rentalPeriod_months_textView"
-                style="@style/addProperty_textViews"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_marginStart="@dimen/addProperty_asset_maxFloor_marginStart"
-                android:layout_marginTop="@dimen/addProperty_asset_maxFloor_marginVertical"
-                android:text="@string/addProperty_asset_months" />
 
         </LinearLayout>
-        <!-- style="@style/AppButtonAnother"-->
+
         <Button
             android:id="@+id/addProperty_asset_button_next"
             style="@style/AppButtonAnother"

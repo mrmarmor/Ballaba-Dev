@@ -229,12 +229,12 @@ public class ConnectionsManager {
                 , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                    BallabaUser user = BallabaUserManager.getInstance().generateUserFromResponse(response);
-                    if (user == null) {
-                        callback.reject(new BallabaErrorResponse(500, null));
-                    } else {
-                        callback.resolve(user);
-                    }
+                BallabaUser user = BallabaUserManager.getInstance().generateUserFromResponse(response);
+                if (user == null) {
+                    callback.reject(new BallabaErrorResponse(500, null));
+                } else {
+                    callback.resolve(user);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -570,7 +570,7 @@ public class ConnectionsManager {
         String queryUrl = BallabaSearchPropertiesManager.getInstance(context).getCurrentSearchEndpoint();
 
         if (queryUrl != null) {
-            if(!isRefresh) {
+            if (!isRefresh) {
                 if (isQueryAdded(queryUrl)) {
                     queryUrl += "&offset=" + size;
                 } else {
@@ -611,13 +611,14 @@ public class ConnectionsManager {
         }
     }
 
-    public void getViewports(final BallabaResponseListener callback){
+    public void getViewports(final BallabaResponseListener callback) {
         StringRequest stringRequest = new StringRequest(Request.Method.GET, VIEWPORT, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 BallabaOkResponse okResponse = new BallabaOkResponse();
                 okResponse.setBody(response);
-                callback.resolve(okResponse);            }
+                callback.resolve(okResponse);
+            }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
@@ -785,7 +786,7 @@ public class ConnectionsManager {
 
     public void uploadUser(final ActivityAddPropertyBinding binderMain, JSONObject userData, final BallabaResponseListener callback) throws JSONException {
 
-        final ProgressDialog pd = ((BaseActivity)context).getDefaultProgressDialog(context, "Uploading...");
+        final ProgressDialog pd = ((BaseActivity) context).getDefaultProgressDialog(context, "Uploading...");
         pd.show();
 
         String url = EndpointsHolder.USER;//userId;
@@ -830,8 +831,68 @@ public class ConnectionsManager {
 
     }
 
+    public void newUploadProperty(int step , String propID, JSONObject data, final BallabaResponseListener callback) {
+        final ProgressDialog pd = ((BaseActivity) context).getDefaultProgressDialog(context, "Uploading...");
+        pd.show();
+
+        String url = urlByStep(step , propID);
+        if (url == null) return;
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(POST, url, data, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                pd.dismiss();
+                BallabaOkResponse callbackResponce = new BallabaOkResponse();
+                callbackResponce.setBody(response.toString());
+                callback.resolve(callbackResponce);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                pd.dismiss();
+                final String errorSTR = parseResponse(new String(error.networkResponse.data));
+                Log.d(TAG, "onErrorResponse: " + errorSTR);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                return getHeadersWithSessionToken();
+            }
+        };
+
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(jsonObjectRequest);
+
+    }
+
+    public String urlByStep(int step , String propID) {
+        String url = null;
+        switch (step) {
+            case 1:
+                url = "https://api.ballaba-it.com/v1/properties";
+                break;
+            case 2:
+                url = "https://api.ballaba-it.com/v1/properties/"+ propID +"/contents";
+                break;
+            case 3:
+                url = "https://api.ballaba-it.com/v1/properties"+ propID +"/payments";
+                break;
+            case 4:
+                url = "https://api.ballaba-it.com/v1/properties" + propID +"/photos";
+                break;
+            case 5:
+                url = "https://api.ballaba-it.com/v1/properties" + propID +"/photos";
+                break;
+        }
+        return url;
+    }
+
     public void uploadProperty(final JSONObject propertyData, final BallabaResponseListener callback) {
-        final ProgressDialog pd = ((BaseActivity)context).getDefaultProgressDialog(context, "Uploading...");
+        final ProgressDialog pd = ((BaseActivity) context).getDefaultProgressDialog(context, "Uploading...");
         pd.show();
 
         //TODO IMPORTANT!!
@@ -845,11 +906,11 @@ public class ConnectionsManager {
                 try {
                     if (response.has("id")) {
                         //next line is due to a server bug: when user uploads photo it returns id that represent the photo, not the property
-                        String id = response.has("property_id")? response.get("property_id")+"":response.get("id")+"";
+                        String id = response.has("property_id") ? response.get("property_id") + "" : response.get("id") + "";
                         SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_ID, id);
                     }
 
-                    String now = Calendar.getInstance().getTimeInMillis()+"";
+                    String now = Calendar.getInstance().getTimeInMillis() + "";
                     String nowStr = StringUtils.getInstance(true).formattedDateString(now);
                     SharedPreferencesManager.getInstance(context).putString(
                             SharedPreferencesKeysHolder.PROPERTY_UPLOAD_DATE, nowStr);
@@ -868,7 +929,7 @@ public class ConnectionsManager {
             @Override
             public void onErrorResponse(VolleyError error) {
                 pd.dismiss();
-                final @StringRes String message = context.getString(R.string.error_property_upload);
+                final String message = context.getString(R.string.error_property_upload);
                 final String errorSTR = parseResponse(new String(error.networkResponse.data));
                 if (error.networkResponse != null) {
                     callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, errorSTR));
@@ -891,7 +952,7 @@ public class ConnectionsManager {
         queue.add(jsonObjectRequest);
     }
 
-    public void getLandlordProperties(final BallabaResponseListener callback){
+    public void getLandlordProperties(final BallabaResponseListener callback) {
         StringRequest stringRequest = new StringRequest(GET, EndpointsHolder.GET_LANDLORD_PROPERTY, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -909,16 +970,16 @@ public class ConnectionsManager {
                     callback.reject(new BallabaErrorResponse(500, null));
                 }
             }
-        }){
+        }) {
             @Override
-            public Map<String, String> getHeaders()  {
+            public Map<String, String> getHeaders() {
                 return getHeadersWithSessionToken();
             }
         };
         queue.add(stringRequest);
     }
 
-    public void getTenantProperties(final BallabaResponseListener callback){
+    public void getTenantProperties(final BallabaResponseListener callback) {
         StringRequest stringRequest = new StringRequest(GET, EndpointsHolder.GET_TENANT_PROPERTY, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -936,16 +997,16 @@ public class ConnectionsManager {
                     callback.reject(new BallabaErrorResponse(500, null));
                 }
             }
-        }){
+        }) {
             @Override
-            public Map<String, String> getHeaders()  {
+            public Map<String, String> getHeaders() {
                 return getHeadersWithSessionToken();
             }
         };
         queue.add(stringRequest);
     }
 
-    public void deletePropertyPhoto(final String propertyId, final int photoId, final BallabaResponseListener callback){
+    public void deletePropertyPhoto(final String propertyId, final int photoId, final BallabaResponseListener callback) {
         final String url = String.format("%s%s/photos/%s", EndpointsHolder.PROPERTY, propertyId, photoId);
         Log.d(TAG, "delete url: " + url);
 
@@ -1046,7 +1107,7 @@ public class ConnectionsManager {
         queue.add(jsonObjectRequest);
     }*/
 
-    public void uploadScoringID(JSONObject object , boolean firstImg  , final BallabaResponseListener callback){
+    public void uploadScoringID(JSONObject object, boolean firstImg, final BallabaResponseListener callback) {
         JsonObjectRequest request = new JsonObjectRequest(POST,
                 firstImg ? EndpointsHolder.SCORING_FIRST_IMAGE_ID : EndpointsHolder.SCORING_SECOND_IMAGE_ID,
                 object,
@@ -1086,15 +1147,15 @@ public class ConnectionsManager {
         JSONObject jsonObject = new JSONObject();
         try {
             //jsonObject.put("birth_date" , userData.getBirthDate().trim().toString());
-            jsonObject.put("car_owner" , userData.isHasCar());
-            jsonObject.put("marital_status" , userData.getFamilyStatus().trim().toString());
-            jsonObject.put("no_of_kids" , userData.getNumOfChilds());
-            jsonObject.put("occupational_status" , userData.getWorkStatus().trim().toString());
-            jsonObject.put("seniority" , userData.getWorkSeniority());
-            jsonObject.put("income" , userData.getUserIncome());
-            jsonObject.put("work_website" , userData.getWorkEmail().trim().toString());
-            jsonObject.put("work_contact" , userData.getUserEmail().trim().toString());
-            jsonObject.put("birth_date" , userData.getBirthDate().trim().toString());
+            jsonObject.put("car_owner", userData.isHasCar());
+            jsonObject.put("marital_status", userData.getFamilyStatus().trim().toString());
+            jsonObject.put("no_of_kids", userData.getNumOfChilds());
+            jsonObject.put("occupational_status", userData.getWorkStatus().trim().toString());
+            jsonObject.put("seniority", userData.getWorkSeniority());
+            jsonObject.put("income", userData.getUserIncome());
+            jsonObject.put("work_website", userData.getWorkEmail().trim().toString());
+            jsonObject.put("work_contact", userData.getUserEmail().trim().toString());
+            jsonObject.put("birth_date", userData.getBirthDate().trim().toString());
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -1133,11 +1194,11 @@ public class ConnectionsManager {
 
     }
 
-    public void uploadPropertyMeetingsDates(ArrayList<BallabaMeetingsPickerDateEntity> data, final BallabaResponseListener callback){
-        try{
+    public void uploadPropertyMeetingsDates(ArrayList<BallabaMeetingsPickerDateEntity> data, final BallabaResponseListener callback) {
+        try {
             JSONArray jsonArray = parseOpenDoorDatesToJsonArray(data);
             //TODO chnage the property id
-            JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(POST, EndpointsHolder.UPLOAD_METTINGS_DATES+"1/"+"opendoor", jsonArray, new Response.Listener<JSONArray>() {
+            JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(POST, EndpointsHolder.UPLOAD_METTINGS_DATES + "1/" + "opendoor", jsonArray, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     BallabaOkResponse ok = new BallabaOkResponse();
@@ -1165,12 +1226,12 @@ public class ConnectionsManager {
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
             queue.add(jsonObjectRequest);
-        }catch (JSONException ex){
+        } catch (JSONException ex) {
             ex.printStackTrace();
         }
     }
 
-    public void getInterestedUsers(int id , final BallabaResponseListener callback){
+    public void getInterestedUsers(int id, final BallabaResponseListener callback) {
         StringRequest request = new StringRequest(GET,
                 EndpointsHolder.MY_PROPERTY_INTERESTED_USERS + id + "/interested",
                 new Response.Listener<String>() {
@@ -1204,7 +1265,7 @@ public class ConnectionsManager {
         queue.add(request);
     }
 
-    public void getMeetingUsers(int id , final BallabaResponseListener callback){
+    public void getMeetingUsers(int id, final BallabaResponseListener callback) {
         StringRequest request = new StringRequest(GET,
                 EndpointsHolder.MY_PROPERTY_MEETING_USERS + id + "/meetings",
                 new Response.Listener<String>() {
@@ -1238,7 +1299,7 @@ public class ConnectionsManager {
         queue.add(request);
     }
 
-    public void deleteInterestedUser(int propertyID , int interestedUserID ,final BallabaResponseListener callback){
+    public void deleteInterestedUser(int propertyID, int interestedUserID, final BallabaResponseListener callback) {
         String url = EndpointsHolder.DELETE_INTEREST_USER + propertyID + "/interested/" + interestedUserID;
         StringRequest stringRequest = new StringRequest(DELETE, url, new Response.Listener<String>() {
             @Override
@@ -1271,7 +1332,8 @@ public class ConnectionsManager {
 
         queue.add(stringRequest);
     }
-    public void deleteMeetingUser(int propertyID , int meetingsUser ,final BallabaResponseListener callback){
+
+    public void deleteMeetingUser(int propertyID, int meetingsUser, final BallabaResponseListener callback) {
         String url = EndpointsHolder.DELETE_MEETING_USER + propertyID + "/meetings/" + meetingsUser;
         StringRequest stringRequest = new StringRequest(DELETE, url, new Response.Listener<String>() {
             @Override
@@ -1340,7 +1402,7 @@ public class ConnectionsManager {
     }
 
     public void uploadCreditCard(final JSONObject cardData, final BallabaResponseListener callback) {
-        final ProgressDialog pd = ((BaseActivity)context).getDefaultProgressDialog(context, "Uploading...");
+        final ProgressDialog pd = ((BaseActivity) context).getDefaultProgressDialog(context, "Uploading...");
         pd.show();
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(POST, EndpointsHolder.CREDIT_CARD, cardData, new Response.Listener<JSONObject>() {
@@ -1378,11 +1440,11 @@ public class ConnectionsManager {
         queue.add(jsonObjectRequest);
     }
 
-    public void tenantApproveMeeting(String propId,String meetingId, final BallabaResponseListener callback){
+    public void tenantApproveMeeting(String propId, String meetingId, final BallabaResponseListener callback) {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("open_door_id", meetingId);
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(POST, EndpointsHolder.TENANT_APPROVE_MEETING+propId+"/meetings", jsonObject, new Response.Listener<JSONObject>() {
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(POST, EndpointsHolder.TENANT_APPROVE_MEETING + propId + "/meetings", jsonObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
                     BallabaOkResponse okResponse = new BallabaOkResponse();
@@ -1411,13 +1473,13 @@ public class ConnectionsManager {
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
             queue.add(jsonObjectRequest);
-        }catch (JSONException ex){
+        } catch (JSONException ex) {
             ex.printStackTrace();
             //TODO set error
         }
     }
 
-    private JSONArray parseOpenDoorDatesToJsonArray(ArrayList<BallabaMeetingsPickerDateEntity> data) throws JSONException{
+    private JSONArray parseOpenDoorDatesToJsonArray(ArrayList<BallabaMeetingsPickerDateEntity> data) throws JSONException {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
         JSONArray returnable = new JSONArray();
 
@@ -1427,9 +1489,9 @@ public class ConnectionsManager {
                 object.put("start_time", dateFormat.format(meeting.from));
                 object.put("end_time", dateFormat.format(meeting.to));
                 object.put("is_personal", meeting.isPrivate);
-                if(meeting.isRepeat && meeting.numberOfRepeats.equals("ללא הגבלה")){
+                if (meeting.isRepeat && meeting.numberOfRepeats.equals("ללא הגבלה")) {
                     object.put("repeat", true);
-                }else{
+                } else {
                     object.put("repeat", false);
                     returnable.put(object);
                     int repeats = Integer.parseInt(meeting.numberOfRepeats);
@@ -1445,7 +1507,7 @@ public class ConnectionsManager {
                         repeatObject.put("end_time", dateFormat.format(cal.getTime()));
                         repeatObject.put("is_personal", meeting.isPrivate);
                         repeatObject.put("repeat", false);
-                        daysTimeValue +=7;
+                        daysTimeValue += 7;
                         returnable.put(repeatObject);
                     }
                 }
@@ -1496,7 +1558,7 @@ public class ConnectionsManager {
 
     //this method changes url for step "uploading photos" in add property, from "https://api.ballaba-it.com/dev/property/"
     // to "https://api.ballaba-it.com/v1/property/{property_id}/photos"
-    private String getUrl(JSONObject propertyData){
+    private String getUrl(JSONObject propertyData) {
         String url = EndpointsHolder.PROPERTY;
         try {
             if (propertyData.has("step") && propertyData.get("step").equals("photos"))
@@ -1518,7 +1580,7 @@ public class ConnectionsManager {
         }
     }
 
-    public void getPropertyPermission(String id , final BallabaResponseListener callback) {
+    public void getPropertyPermission(String id, final BallabaResponseListener callback) {
         String URL = EndpointsHolder.PROPERTY_BY_ID + id + "/permission";
         StringRequest stringRequest = new StringRequest(GET, URL, new Response.Listener<String>() {
             @Override
