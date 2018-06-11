@@ -35,12 +35,13 @@
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/photo_home_grey_24" />
 
-    <View
+    <!-- TODO black alpha strip -->
+    <!--<View
         android:layout_width="match_parent"
         android:layout_height="@dimen/propertyItem_topStrip_height"
         android:background="@color/black_strip_with_alpha"
         app:layout_constraintTop_toTopOf="parent"
-        />
+        />-->
 
     <ImageView
         android:id="@+id/propertyItem_guarantee_ImageView"
@@ -68,6 +69,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/propertyItem_bottomStrip_height"
         app:layout_constraintTop_toBottomOf="@+id/propertyItem_imageView"
+        android:paddingBottom="@dimen/activity_vertical_margin"
         android:background="@android:color/white"
         >
 
@@ -110,46 +112,46 @@
             app:layout_constraintStart_toStartOf="@+id/propertyItem_price_textView"
             app:layout_constraintTop_toBottomOf="@+id/propertyItem_price_textView"
             android:layout_marginTop="@dimen/tiny_margin"
-            android:textSize="@dimen/propertyItem_bottomStrip_address_and_rooms_textView_textSize"
+            android:textSize="@dimen/propertyItem_bottomStrip_address_and_rooms_textView_textSize" android:text="fgvnxdcfbsdfgsdfghsdfghbsdfbhsfdghsdfhsdfghsddfgsdfghsdfgsdfghsdfgfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+            android:ellipsize="end"
             android:fontFamily="@font/rubik_regular"
             />
-        <TextView
-            android:id="@+id/propertyItem_address_dot"
+        <ImageView
+            android:id="@+id/propertyItem_rooms_icon"
             style="@style/allWrapContent"
-            android:text="•"
-            android:textAlignment="center"
-            app:layout_constraintStart_toEndOf="@+id/propertyItem_address_textView"
-            app:layout_constraintTop_toTopOf="@+id/propertyItem_address_textView"
-            android:layout_marginStart="@dimen/small_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/propertyItem_address_textView"
+            android:layout_marginTop="5dp"
+            android:paddingStart="@dimen/activity_vertical_margin"
+            android:src="@drawable/door_blue_24"
             />
 
         <TextView
             android:id="@+id/propertyItem_rooms_textView"
             style="@style/allWrapContent"
-            app:layout_constraintStart_toEndOf="@+id/propertyItem_address_dot"
-            app:layout_constraintTop_toTopOf="@+id/propertyItem_address_dot"
+            app:layout_constraintStart_toEndOf="@+id/propertyItem_rooms_icon"
+            app:layout_constraintTop_toTopOf="@+id/propertyItem_rooms_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/propertyItem_rooms_icon"
             android:textSize="@dimen/propertyItem_bottomStrip_address_and_rooms_textView_textSize"
-            android:layout_marginStart="@dimen/small_margin"
-            android:fontFamily="@font/rubik_regular"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             />
-        <TextView
-            android:id="@+id/propertyItem_rooms_dot"
+        <ImageView
+            android:id="@+id/propertyItem_size_icon"
             style="@style/allWrapContent"
-            android:text="•"
-            android:textAlignment="center"
             app:layout_constraintStart_toEndOf="@+id/propertyItem_rooms_textView"
-            app:layout_constraintTop_toTopOf="@+id/propertyItem_address_textView"
+            app:layout_constraintTop_toTopOf="@+id/propertyItem_rooms_icon"
             android:layout_marginStart="@dimen/small_margin"
+            android:src="@drawable/square_meter_blue_24"
             />
 
         <TextView
             android:id="@+id/propertyItem_propertySize_textView"
             style="@style/allWrapContent"
-            app:layout_constraintStart_toEndOf="@+id/propertyItem_rooms_dot"
-            app:layout_constraintTop_toTopOf="@+id/propertyItem_rooms_dot"
-            android:layout_marginStart="@dimen/small_margin"
+            app:layout_constraintStart_toEndOf="@+id/propertyItem_size_icon"
+            app:layout_constraintTop_toTopOf="@+id/propertyItem_size_icon"
+            app:layout_constraintBottom_toBottomOf="@+id/propertyItem_size_icon"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:textSize="@dimen/propertyItem_bottomStrip_address_and_rooms_textView_textSize"
-            android:fontFamily="@font/rubik_regular"
             />
 
     </android.support.constraint.ConstraintLayout>

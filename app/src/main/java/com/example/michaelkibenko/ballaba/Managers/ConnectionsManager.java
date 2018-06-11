@@ -543,7 +543,8 @@ public class ConnectionsManager {
             @Override
             public void onErrorResponse(VolleyError error) {
                 if (error.networkResponse != null) {
-                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+                    final String errorSTR = parseResponse(new String(error.networkResponse.data));
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, errorSTR));
                 } else {
                     Log.e(TAG, error + "\n" + error.getMessage());
                     callback.reject(new BallabaErrorResponse(500, null));

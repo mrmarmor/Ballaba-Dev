@@ -18,9 +18,8 @@
 
     <ImageButton
         android:id="@+id/map_property_saved_button"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:background="@drawable/heart_white_24"
+        style="@style/icon_wide_click_area"
+        android:src="@drawable/heart_white_24"
         app:layout_constraintTop_toTopOf="@+id/map_property_image"
         app:layout_constraintEnd_toEndOf="@+id/map_property_image"
         android:layout_marginTop="8dp"
