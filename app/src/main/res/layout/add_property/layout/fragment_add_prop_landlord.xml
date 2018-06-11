@@ -90,7 +90,7 @@
                         android:hint="@string/addProperty_landlord_firstName_hint"
                         android:inputType="textPersonName"
                         android:tag="first_name"
-                        android:textAlignment="viewStart"/>
+                        android:textAlignment="viewStart" />
                 </android.support.design.widget.TextInputLayout>
 
                 <!--<EditText-->
@@ -226,6 +226,9 @@
                         android:inputType="numberDecimal"
                         android:tag="phone"
                         android:textAlignment="viewStart"
+                        android:enabled="false"
+                        android:focusable="false"
+                        android:clickable="false"
                         />
                 </android.support.design.widget.TextInputLayout>
 
@@ -241,72 +244,146 @@
                 <!--   android:text="@{presenter.user.phone}"-->
 
                 <!-- TODO add city from BallabaUser -->
-                <TextView
-                    style="@style/addProperty_textViews"
-                    android:text="@string/addProperty_landlord_city" />
+                <!--<TextView-->
+                    <!--style="@style/addProperty_textViews"-->
+                    <!--android:text="@string/addProperty_landlord_city" />-->
 
-                <AutoCompleteTextView
-                    android:id="@+id/addProp_city_actv"
-                    style="@style/addProperty_editTexts"
-                    android:hint="@string/addProperty_landlord_city_hint"
-                    android:tag="city" />
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/addProp_city_actv_layout"
+                    style="@style/user_data_input_field">
 
-                <TextView
-                    style="@style/addProperty_textViews"
-                    android:text="@string/addProperty_landlord_address" />
+                    <com.example.michaelkibenko.ballaba.Views.TextInputAutoCompleteTextView
+                        android:id="@+id/addProp_city_actv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/addProperty_landlord_city"
+                        android:tag="city"
+                        android:textAlignment="viewStart"
+                        android:inputType="text"
+                        />
+                </android.support.design.widget.TextInputLayout>
 
-                <AutoCompleteTextView
-                    android:id="@+id/addProp_address_actv"
-                    style="@style/addProperty_editTexts"
-                    android:hint="@string/addProperty_landlord_address_hint"
-                    android:tag="address" />
+                <!--<AutoCompleteTextView-->
+                    <!--android:id="@+id/addProp_city_actv"-->
+                    <!--style="@style/addProperty_editTexts"-->
+                    <!--android:hint="@string/addProperty_landlord_city_hint"-->
+                    <!--android:tag="city" />-->
+
+                <!--<TextView-->
+                    <!--style="@style/addProperty_textViews"-->
+                    <!--android:text="@string/addProperty_landlord_address" />-->
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/addProp_address_actv_layout"
+                    style="@style/user_data_input_field">
+
+                    <com.example.michaelkibenko.ballaba.Views.TextInputAutoCompleteTextView
+                        android:id="@+id/addProp_address_actv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/addProperty_landlord_address"
+                        android:tag="street"
+                        android:textAlignment="viewStart"
+                        android:inputType="text"
+                        />
+                </android.support.design.widget.TextInputLayout>
+
+                <!--<AutoCompleteTextView-->
+                    <!--android:id="@+id/addProp_address_actv"-->
+                    <!--style="@style/addProperty_editTexts"-->
+                    <!--android:hint="@string/addProperty_landlord_address_hint"-->
+                    <!--android:tag="address" />-->
 
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/addProp_exactAddress_root"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    >
 
-                    <TextView
-                        android:id="@+id/addProp_houseNo_title"
-                        style="@style/addProperty_textViews"
-                        android:layout_width="0dp"
-                        android:paddingBottom="@dimen/small_margin"
-                        android:paddingStart="@dimen/small_margin"
-                        android:text="@string/addProperty_landlord_street_number"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    <!--<TextView-->
+                        <!--android:id="@+id/addProp_houseNo_title"-->
+                        <!--style="@style/addProperty_textViews"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:paddingBottom="@dimen/small_margin"-->
+                        <!--android:paddingStart="@dimen/small_margin"-->
+                        <!--android:text="@string/addProperty_landlord_street_number"-->
+                        <!--app:layout_constraintStart_toStartOf="parent"-->
+                        <!--app:layout_constraintTop_toTopOf="parent" />-->
 
-                    <EditText
-                        android:id="@+id/addProp_houseNo_editText"
-                        style="@style/add_property_editTexts_with_number"
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/addProp_houseNo_editText_layout"
                         android:layout_width="0dp"
-                        android:hint="@string/addProperty_landlord_aptNo_hint"
-                        android:tag="street_number"
-                        app:layout_constraintEnd_toStartOf="@id/addProp_aptNo_editText"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/addProp_houseNo_title" />
+                        android:layout_height="wrap_content"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toRightOf="@+id/addProp_aptNo_editText_layout"
+                        android:textColorHint="@color/colorPrimary"
+                        >
 
-                    <TextView
-                        android:id="@+id/addProp_aptNo_title"
-                        style="@style/addProperty_textViews"
-                        android:layout_width="0dp"
-                        android:layout_marginStart="-8dp"
-                        android:paddingBottom="@dimen/small_margin"
-                        android:text="@string/addProperty_landlord_aptNo"
-                        android:textAlignment="viewStart"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/addProp_aptNo_editText"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/addProp_houseNo_editText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/addProperty_landlord_street_number"
+                            android:inputType="numberDecimal"
+                            android:tag="street_no"
+                            android:textAlignment="viewStart"
+                            />
+                    </android.support.design.widget.TextInputLayout>
 
-                    <EditText
-                        android:id="@+id/addProp_aptNo_editText"
-                        style="@style/add_property_editTexts_with_number"
+                    <!--<EditText-->
+                        <!--android:id="@+id/addProp_houseNo_editText"-->
+                        <!--style="@style/add_property_editTexts_with_number"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:hint="@string/addProperty_landlord_aptNo_hint"-->
+                        <!--android:tag="street_number"-->
+                        <!--app:layout_constraintEnd_toStartOf="@id/addProp_aptNo_editText"-->
+                        <!--app:layout_constraintStart_toStartOf="parent"-->
+                        <!--app:layout_constraintTop_toBottomOf="@id/addProp_houseNo_title" />-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/addProp_aptNo_title"-->
+                        <!--style="@style/addProperty_textViews"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:layout_marginStart="-8dp"-->
+                        <!--android:paddingBottom="@dimen/small_margin"-->
+                        <!--android:text="@string/addProperty_landlord_aptNo"-->
+                        <!--android:textAlignment="viewStart"-->
+                        <!--app:layout_constraintEnd_toEndOf="parent"-->
+                        <!--app:layout_constraintStart_toStartOf="@id/addProp_aptNo_editText"-->
+                        <!--app:layout_constraintTop_toTopOf="parent" />-->
+
+                    <android.support.design.widget.TextInputLayout
+                        android:id="@+id/addProp_aptNo_editText_layout"
                         android:layout_width="0dp"
-                        android:hint="@string/addProperty_landlord_aptNo_hint"
-                        android:tag="apt_no"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/addProp_houseNo_editText"
-                        app:layout_constraintTop_toTopOf="@id/addProp_houseNo_editText" />
+                        android:layout_height="wrap_content"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintRight_toLeftOf="@+id/addProp_houseNo_editText_layout"
+                        android:textColorHint="@color/colorPrimary"
+                        >
+
+                        <android.support.design.widget.TextInputEditText
+                            android:id="@+id/addProp_aptNo_editText"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="@string/addProperty_landlord_aptNo"
+                            android:inputType="numberDecimal"
+                            android:tag="apt_no"
+                            android:textAlignment="viewStart"
+                            />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <!--<EditText-->
+                        <!--android:id="@+id/addProp_aptNo_editText"-->
+                        <!--style="@style/add_property_editTexts_with_number"-->
+                        <!--android:layout_width="0dp"-->
+                        <!--android:hint="@string/addProperty_landlord_aptNo_hint"-->
+                        <!--android:tag="apt_no"-->
+                        <!--app:layout_constraintEnd_toEndOf="parent"-->
+                        <!--app:layout_constraintStart_toEndOf="@id/addProp_houseNo_editText"-->
+                        <!--app:layout_constraintTop_toTopOf="@id/addProp_houseNo_editText" />-->
 
                 </android.support.constraint.ConstraintLayout>
 
@@ -327,25 +404,43 @@
                 android:elevation="@dimen/elevation"
                 android:orientation="vertical"
                 android:background="@android:color/white" >
-                <TextView
-                    android:id="@+id/addProp_aboutYourself_title_textView"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/small_margin"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:layout_marginBottom="@dimen/small_margin"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/textSize_big"
-                    android:text="@string/addProperty_landlord_aboutYourself_title" />
-                <EditText
-                    android:id="@+id/addProp_about_editText"
-                    android:tag="about"
-                    style="@style/addProperty_editTexts"
-                    android:layout_height="@dimen/addProperty_aboutYourself_editText_height"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin"
-                    android:padding="@dimen/small_margin"
-                    android:gravity="start"
-                    android:hint="@string/addProperty_landlord_aboutYourself_hint" />
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/addProp_about_editText_layout"
+                    style="@style/user_data_input_field"
+                    >
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/addProp_about_editText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/addProperty_landlord_aboutYourself_title"
+                        android:inputType="textMultiLine"
+                        android:tag="about"
+                        android:textAlignment="viewStart"
+                        />
+                </android.support.design.widget.TextInputLayout>
+
+                <!--<TextView-->
+                    <!--android:id="@+id/addProp_aboutYourself_title_textView"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginStart="@dimen/small_margin"-->
+                    <!--android:layout_marginTop="@dimen/activity_vertical_margin"-->
+                    <!--android:layout_marginBottom="@dimen/small_margin"-->
+                    <!--android:textColor="@color/colorAccent"-->
+                    <!--android:textSize="@dimen/textSize_big"-->
+                    <!--android:text="@string/addProperty_landlord_aboutYourself_title" />-->
+                <!--<EditText-->
+                    <!--android:id="@+id/addProp_about_editText"-->
+                    <!--android:tag="about"-->
+                    <!--style="@style/addProperty_editTexts"-->
+                    <!--android:layout_height="@dimen/addProperty_aboutYourself_editText_height"-->
+                    <!--android:layout_marginBottom="@dimen/activity_vertical_margin"-->
+                    <!--android:padding="@dimen/small_margin"-->
+                    <!--android:gravity="start"-->
+                    <!--android:hint="@string/addProperty_landlord_aboutYourself_hint" />-->
 
             </LinearLayout>
 

@@ -46,12 +46,8 @@ public class BallabaUserManager {
             name = jsonObject.getString("first_name");//stringUtils.formattedHebrew(jsonObject.getString("first_name"));
             lastName = jsonObject.getString("last_name");//stringUtils.formattedHebrew(jsonObject.getString("last_name"));
             city = jsonObject.getString("city");//stringUtils.formattedHebrew(jsonObject.getString("city"));
-            address = jsonObject.getString("address");//stringUtils.formattedHebrew(jsonObject.getString("address"));
-
-            //TODO Marik should add data field named "street_number". Then, i will fetch this field from response:
-                //streetNumber = jsonObject.getString("street_number");
-            /*TODO for now it will be: */ streetNumber = "DUMMY UNTIL SERVER WILL SEND";
-
+            address = jsonObject.getString("street");//stringUtils.formattedHebrew(jsonObject.getString("address"));
+            streetNumber = jsonObject.getString("street_no");
             aptNo = jsonObject.getString("apt_no");
             idNumber = jsonObject.getString("id_number");
             birthDate = StringUtils.getInstance(true).formattedDateString(jsonObject.getString("birth_date"));

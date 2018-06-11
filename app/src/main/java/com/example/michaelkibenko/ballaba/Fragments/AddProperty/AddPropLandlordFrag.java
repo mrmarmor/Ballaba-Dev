@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -32,6 +34,7 @@ import com.bumptech.glide.request.target.Target;
 import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivityNew;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringCameraActivity;
+import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringPersonalDetailsActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
@@ -41,6 +44,7 @@ import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
+import com.example.michaelkibenko.ballaba.Views.TextInputAutoCompleteTextView;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropLandlordBinding;
 
@@ -188,14 +192,17 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             binderLandLord.addPropPhoneEditText.setText(user.getPhone());
             binderLandLord.addPropCityActv.setText(user.getCity());
             binderLandLord.addPropAddressActv.setText(user.getAddress());
-            binderLandLord.addPropHouseNoEditText.setText(user.getStreet_number());
+            if(!user.getStreet_number().equals("null") && user.getStreet_number() != null ){
+                binderLandLord.addPropHouseNoEditText.setText(user.getStreet_number());
+            }
             binderLandLord.addPropAptNoEditText.setText(user.getApt_no());
             binderLandLord.addPropAboutEditText.setText(user.getAbout());
+
             //binderLandLord.addPropBirthDateEditText.setText(user.getBirth_date());
             Glide.with(context).load(user.getProfile_image()).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                    binderLandLord.addPropProfileImageButton.setImageDrawable(context.getResources().getDrawable(R.drawable.add_user_b_lue_60));
+                    binderLandLord.addPropProfileImageButton.setImageDrawable(context.getResources().getDrawable(R.drawable.add_user_b_lue_60, context.getTheme()));
                     return true;
                 }
 
@@ -250,16 +257,28 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         areAllDataFieldsFilledUp = true;
         for (int i = binderLandLord.addPropertyEditTextsRoot.getChildCount() - 1; i >= 0; i--) {//root.getChildCount(); i++) {
             View v = binderLandLord.addPropertyEditTextsRoot.getChildAt(i);
-            if (v instanceof EditText | v instanceof AutoCompleteTextView) {
-                String input = ((EditText) v).getText() + "";
-                if (input.equals("") && !v.getTag().equals("phone")) {
-                    areAllDataFieldsFilledUp = false;
-                    v.requestFocus();//move focus to empty field
-                } else {
-                    map.put(v.getTag() + "", input);
+            if(v instanceof TextInputLayout && ((TextInputLayout) v).getChildCount() >0) {
+                View textInput = ((TextInputLayout) v).getEditText();
+                if (textInput instanceof TextInputEditText) {
+                    String input = ((TextInputEditText) textInput).getText() + "";
+                    if (input.equals("") && !textInput.getTag().equals("phone")) {
+                        areAllDataFieldsFilledUp = false;
+                        textInput.requestFocus();//move focus to empty field
+                    } else {
+                        map.put(textInput.getTag() + "", input);
+                    }
+                }else if(textInput instanceof TextInputAutoCompleteTextView){
+                    String input = ((TextInputAutoCompleteTextView) textInput).getText().toString();
+                    if (input.equals("") && !textInput.getTag().equals("phone")) {
+                        areAllDataFieldsFilledUp = false;
+                        textInput.requestFocus();//move focus to empty field
+                    } else {
+                        map.put(textInput.getTag() + "", input);
+                    }
                 }
             }
         }
+
 
         map.put(binderLandLord.addPropHouseNoEditText.getTag() + ""
                 , binderLandLord.addPropHouseNoEditText.getText() + "");
@@ -267,9 +286,16 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 , binderLandLord.addPropAptNoEditText.getText() + "");
         map.put(binderLandLord.addPropAboutEditText.getTag() + ""
                 , binderLandLord.addPropAboutEditText.getText() + "");
+        map.put(binderLandLord.addPropHouseNoEditText.getTag()+"",
+                binderLandLord.addPropHouseNoEditText.getText().toString());
         String newDateFormat = day + "-" + month + "-" + year;
-        map.put(binderLandLord.addPropBirthDateEditText.getTag() + ""
-                , newDateFormat);
+        if(day == null || month == null || year == null){
+            newDateFormat = user.getBirth_date();
+        }
+        if(newDateFormat != null){
+            map.put(binderLandLord.addPropBirthDateEditText.getTag() + ""
+                    , newDateFormat);
+        }
 
         //Log.d(TAG, map.get("aboutYourself")+":"+map.get("firstName"));
 
@@ -365,7 +391,9 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        ((AddPropertyActivityNew)getActivity()).changeFragment(new AddPropAssetFrag() , true);
+        if(getActivity() instanceof AddPropertyActivityNew) {
+            ((AddPropertyActivityNew) getActivity()).changeFragment(new AddPropAssetFrag(), true);
+        }
     }
 
     private JSONObject jsonParse(HashMap<String, String> userData) throws JSONException {
@@ -410,9 +438,9 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 map.get("email").equals(user.getEmail()) &&
                 map.get("phone").equals(user.getPhone()) &&
                 map.get("city").equals(user.getCity()) &&
-                map.get("address").equals(user.getAddress()) &&
+                map.get("street").equals(user.getAddress()) &&
                 map.get("apt_no").equals(user.getApt_no()) &&
-                map.get("street_number").equals(user.getStreet_number()) &&
+                map.get("street_no").equals(user.getStreet_number()) &&
                 map.get("birth_date").equals(user.getBirth_date()) &&
                 map.get("about").equals(user.getAbout()) &&
                 !isProfileImageChanged);

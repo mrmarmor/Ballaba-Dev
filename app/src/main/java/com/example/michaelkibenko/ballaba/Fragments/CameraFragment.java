@@ -15,6 +15,7 @@ import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CameraMetadata;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.TotalCaptureResult;
+import android.hardware.camera2.params.MeteringRectangle;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.Image;
 import android.media.ImageReader;
@@ -63,7 +64,7 @@ public class CameraFragment extends android.app.Fragment {
         int BACK = 1;
         int FRONT = 2;
     }
-    private String TAG = "WOW";
+    private String TAG = CameraFragment.class.getSimpleName();
     private TextureView textureView;
     private Context context;
     private static final SparseIntArray ORIENTATION = new SparseIntArray();
@@ -83,7 +84,7 @@ public class CameraFragment extends android.app.Fragment {
     private Size imageDimension;
     private ImageReader reader;
 
-    private File file;
+//    private File file;
     public static final int REQUEST_CAMERA_PERMISSION = 200;
     private Handler mBackgroundHandler;
     private HandlerThread mBackgroundThread;
@@ -227,13 +228,14 @@ public class CameraFragment extends android.app.Fragment {
 
                 final CaptureRequest.Builder captureBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
                 captureBuilder.addTarget(reader.getSurface());
-                captureBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
+                captureBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_AF_MODE_AUTO);
+                captureBuilder.set(CaptureRequest.JPEG_QUALITY, (byte)100);
 
                 // orientation
                 int rotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
                 captureBuilder.set(CaptureRequest.COLOR_CORRECTION_ABERRATION_MODE, ORIENTATION.get(rotation));
 
-                file = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
+//                file = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
 
                 ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                     @Override
@@ -252,10 +254,9 @@ public class CameraFragment extends android.app.Fragment {
                             byte[] bytes = new byte[buffer.capacity()];
                             byteArray = bytes;
                             buffer.get(bytes);
-                            save(bytes);
+//                            save(bytes);
 
                             String encoded = Base64.encodeToString(bytes, Base64.DEFAULT);
-
                             JSONObject object = new JSONObject();
                             try {
                                 object.put("image", encoded);
@@ -275,28 +276,24 @@ public class CameraFragment extends android.app.Fragment {
                                 //intent.putExtra("IMAGE" , encoded);
                                 startActivity(intent);
                             }
-                        } catch (FileNotFoundException ex) {
-                            ex.printStackTrace();
-                        } catch (IOException io) {
-                            io.printStackTrace();
-                        } finally {
+                        }  finally {
                             if (image != null) {
                                 image.close();
                             }
                         }
                     }
 
-                    private void save(byte[] bytes) throws IOException {
-                        OutputStream outputStream = null;
-                        try {
-                            outputStream = new FileOutputStream(file);
-                            outputStream.write(bytes);
-                        } finally {
-                            if (outputStream != null) {
-                                outputStream.close();
-                            }
-                        }
-                    }
+//                    private void save(byte[] bytes) throws IOException {
+//                        OutputStream outputStream = null;
+//                        try {
+//                            outputStream = new FileOutputStream(file);
+//                            outputStream.write(bytes);
+//                        } finally {
+//                            if (outputStream != null) {
+//                                outputStream.close();
+//                            }
+//                        }
+//                    }
                 };
 
                 reader.setOnImageAvailableListener(readerListener, mBackgroundHandler);
@@ -304,7 +301,6 @@ public class CameraFragment extends android.app.Fragment {
                     @Override
                     public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
                         super.onCaptureCompleted(session, request, result);
-                        Log.d(TAG, "onCaptureCompleted: Saved" + file.getAbsolutePath());
                     }
                 };
                 cameraDevice.createCaptureSession(outputSurface, new CameraCaptureSession.StateCallback() {
@@ -390,7 +386,9 @@ public class CameraFragment extends android.app.Fragment {
         if (cameraDevice == null) {
             Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
         }
-        captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_MODE_AUTO);
+        captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_AF_MODE_AUTO);
+        captureRequestBuilder.set(CaptureRequest.JPEG_QUALITY, (byte) 100);
+
         try {
             cameraCaptureSessions.setRepeatingRequest(captureRequestBuilder.build(), null, mBackgroundHandler);
         } catch (CameraAccessException e) {
