@@ -50,7 +50,9 @@ public class BallabaUserManager {
             streetNumber = jsonObject.getString("street_no");
             aptNo = jsonObject.getString("apt_no");
             idNumber = jsonObject.getString("id_number");
-            birthDate = StringUtils.getInstance(true).formattedDateString(jsonObject.getString("birth_date"));
+            if(jsonObject.isNull("birth_date") && !jsonObject.getString("birth_date").equals("null")) {
+                birthDate = StringUtils.getInstance(true).formattedDateString(jsonObject.getString("birth_date"));
+            }
             about = jsonObject.getString("about");
             profileImage = jsonObject.getString("profile_image");
 
