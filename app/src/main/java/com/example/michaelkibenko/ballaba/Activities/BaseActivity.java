@@ -25,7 +25,6 @@ public class BaseActivity extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        overridePendingTransition(R.anim.enter_from_right, R.anim.exit_to_left);
         setTheme(R.style.Theme_AppCompat_Light_NoActionBar);
         UiUtils.instance(true, this).hideSoftKeyboard(getWindow().getDecorView());
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
