@@ -339,7 +339,8 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.addProperty_landlord_button_next:
-                 onFinish(ConnectionsManager.newInstance(context));
+                ((AddPropertyActivityNew)getActivity()).changeFragment(new AddPropAssetFrag() , true);
+                onFinish(ConnectionsManager.newInstance(context));
 
         }
     }

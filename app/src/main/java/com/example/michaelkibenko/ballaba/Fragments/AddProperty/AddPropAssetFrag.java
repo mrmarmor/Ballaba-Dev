@@ -19,11 +19,9 @@ import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
-import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
-import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Views.MultiLanguagesDatePicker;
 
@@ -169,11 +167,11 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
 
     private void onFinish(ConnectionsManager conn) {
         final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
-        ((AddPropertyActivityNew)getActivity()).changeFragment(new AddPropAddonsFrag() , true);
+        //((AddPropertyActivityNew)getActivity()).changeFragment(new AddPropAddonsFrag() , true);
         if (!areAllDataFieldsFilledUp) return;
 
         if (!isDataEqual(data)) {
-            conn.uploadProperty(jsonParse(data, "create"), new BallabaResponseListener() {
+            /*conn.uploadProperty(jsonParse(data, "create"), new BallabaResponseListener() {
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
                     SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "2");
@@ -183,19 +181,31 @@ public class AddPropAssetFrag extends Fragment implements EditText.OnFocusChange
 
                 @Override
                 public void reject(BallabaBaseEntity entity) {
-                    /*((BaseActivity) context).getDefaultSnackBar(binderAsset.addPropertyLocationRoot
-                            , "השמירה נכשלה נסה שנית מאוחר יותר", false);*/
+                    *//*((BaseActivity) context).getDefaultSnackBar(binderAsset.addPropertyLocationRoot
+                            , "השמירה נכשלה נסה שנית מאוחר יותר", false);*//*
                     Log.e(TAG, "error: " + ((BallabaErrorResponse) entity).message);
 
                     //TODO NEXT LINE IS ONLY FOR TESTING:
                     //new AddPropertyPresenter((AppCompatActivity)context, binderMain).onNextViewPagerItem(1);
+                }
+            });*/
+            conn.newUploadProperty(1, null, jsonParse(data , null), new BallabaResponseListener() {
+                @Override
+                public void resolve(BallabaBaseEntity entity) {
+                    ((AddPropertyActivityNew)getActivity()).changeFragment(new AddPropAddonsFrag() , true);
+                }
+
+                @Override
+                public void reject(BallabaBaseEntity entity) {
+                    String err = ((BallabaErrorResponse)entity).message;
+                    Log.d(TAG, "reject: " + err);
                 }
             });
         } else {
             //TODO continue to next page without sending data to server
             //AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(2);
         }
-        ((AddPropertyActivityNew)getActivity()).changeFragment(new AddPropAddonsFrag() , true);
+        //((AddPropertyActivityNew)getActivity()).changeFragment(new AddPropAddonsFrag() , true);
     }
 
     private HashMap<String, String> getDataFromEditTexts(HashMap<String, String> map) {
