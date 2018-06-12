@@ -29,7 +29,7 @@
         app:layout_constraintTop_toBottomOf="@+id/meeting_confirmation_header_TV"
         app:layout_constraintStart_toStartOf="@+id/meeting_confirmation_header_TV"
         android:layout_marginTop="12dp"
-        android:textColor="@color/text_grey"
+        android:textColor="@color/gray_text_color"
         />
 
     <TextView
@@ -41,7 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/meeting_confirmation_second_header_TV"
         app:layout_constraintStart_toStartOf="@+id/meeting_confirmation_second_header_TV"
         android:layout_marginTop="12dp"
-        android:textColor="@color/text_grey"/>
+        android:textColor="@color/gray_text_color"/>
 
     <TextView
         android:id="@+id/meeting_confirmation_times_data_TV"
@@ -51,7 +51,7 @@
         android:textSize="16sp"
         app:layout_constraintTop_toTopOf="@+id/meeting_confirmation_times_header_TV"
         app:layout_constraintStart_toEndOf="@+id/meeting_confirmation_times_header_TV"
-        android:textColor="@color/text_grey"
+        android:textColor="@color/gray_text_color"
         android:layout_marginStart="10dp"/>
 
     <TextView
@@ -61,7 +61,7 @@
         android:text="כתובת:"
         app:layout_constraintTop_toBottomOf="@+id/meeting_confirmation_times_header_TV"
         app:layout_constraintStart_toStartOf="@+id/meeting_confirmation_times_header_TV"
-        android:textColor="@color/text_grey"
+        android:textColor="@color/gray_text_color"
         android:layout_marginTop="12dp"
         />
 
@@ -72,7 +72,7 @@
         android:text="זאב ברנדה 57 פ״ת"
         app:layout_constraintTop_toTopOf="@+id/meeting_confirmation_address_header_TV"
         app:layout_constraintStart_toEndOf="@+id/meeting_confirmation_address_header_TV"
-        android:textColor="@color/text_grey"
+        android:textColor="@color/gray_text_color"
         android:layout_marginStart="10dp"
         />
     

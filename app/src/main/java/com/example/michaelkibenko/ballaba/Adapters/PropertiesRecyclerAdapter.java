@@ -282,9 +282,9 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
 
     private void setIndicators(final TabLayout tabLayout, final RtlViewPager vPager, final int numOfPhotos) {
         tabLayout.setupWithViewPager(vPager, true);
-        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)tabLayout.getLayoutParams();
-        params.width = numOfPhotos * spaceBetweenIndicator/*space*/;
-        tabLayout.setLayoutParams(params);
+        //ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)tabLayout.getLayoutParams();
+        //params.width = numOfPhotos * spaceBetweenIndicator/*space*/;
+        //tabLayout.setLayoutParams(params);
     }
 
     private void setFontForDevicesUnderApi26(PropertyItemBinding binder){
