@@ -35,6 +35,22 @@
         android:layout_height="@dimen/propertyItem_imageView_height"
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/photo_home_grey_24" />
+    <!--<com.example.michaelkibenko.ballaba.Views.InstaDotViewRTL
+        android:id="@+id/propertyItem_viewPager_indicators"
+        android:layout_alignParentBottom="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@id/propertyItem_viewPager"
+        app:layout_constraintEnd_toEndOf="@id/propertyItem_viewPager"
+        app:layout_constraintBottom_toBottomOf="@id/propertyItem_viewPager"
+        android:layoutDirection="rtl"
+        app:dot_activeColor="@color/colorAccent"
+        app:dot_activeSize="8dp"
+        app:dot_inactiveColor="@android:color/white"
+        app:dot_inactiveSize="6dp"
+        app:dot_margin="10dp"
+        app:dot_mediumSize="4dp"
+        app:dot_smallSize="2dp" />-->
     <android.support.design.widget.TabLayout
         android:id="@+id/tabIndicators"
         android:layout_alignParentBottom="true"
@@ -126,7 +142,7 @@
             android:layout_marginTop="@dimen/tiny_margin"
             android:textSize="@dimen/propertyItem_bottomStrip_address_and_rooms_textView_textSize"
             android:ellipsize="marquee"
-            android:maxLines="1"
+            android:singleLine="true"
             android:fontFamily="@font/rubik_regular"
             />
         <ImageView
