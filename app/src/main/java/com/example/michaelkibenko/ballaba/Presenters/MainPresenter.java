@@ -32,6 +32,7 @@ import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivityNew;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.ContinueAddPropertyActivity;
 import com.example.michaelkibenko.ballaba.Activities.CreditCardActivity;
+import com.example.michaelkibenko.ballaba.Activities.Guarantor.GuarantorDeclinedActivity;
 import com.example.michaelkibenko.ballaba.Activities.MyPropertiesBaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Activities.SavedAreaActivity;
@@ -375,7 +376,8 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                 break;
 
             case R.id.nav_changeName:
-
+                Intent goInviteGuarantor = new Intent(context, GuarantorDeclinedActivity.class);
+                context.startActivity(goInviteGuarantor);
                 break;
 
             case R.id.nav_conflicts:

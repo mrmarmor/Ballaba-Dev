@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.CAMERA"/>
 
@@ -25,23 +25,24 @@
         android:name="android.hardware.location.gps"
         android:required="false" />
 
-   <!-- <uses-feature
+    <!--
+    <uses-feature
         android:name="android.hardware.camera.any"
         android:required="true" />
     <uses-feature
         android:name="android.hardware.camera.autofocus"
-        android:required="false" />-->
+        android:required="false" />
+    -->
     <uses-feature android:name="android.hardware.camera2.full" />
 
     <application
+        android:name=".BallabaApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:name=".BallabaApplication"
-        >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -78,8 +79,7 @@
         <activity android:name=".Activities.PropertyDescriptionActivity" />
         <activity android:name=".Activities.PropertyGalleryActivity" />
         <activity android:name=".Activities.VirtualTourActivity" />
-
-        <activity android:name=".Activities.MyPropertiesBaseActivity"/>
+        <activity android:name=".Activities.MyPropertiesBaseActivity" />
 
         <!-- RECEIVERS -->
         <receiver
@@ -91,33 +91,40 @@
         <activity android:name=".Activities.Scoring.ScoringPersonalActivity" />
         <activity android:name=".Activities.Scoring.ScoringWorkActivity" />
         <activity android:name=".Activities.ContinueAddPropertyActivity" />
-        <activity android:name=".Activities.AddPropertyActivity"
+        <activity
+            android:name=".Activities.AddPropertyActivity"
             android:label="@string/addProperty_landlord_title" />
-        <activity android:name=".Activities.SavedPropertiesActivity"/>
+        <activity android:name=".Activities.SavedPropertiesActivity" />
         <activity android:name=".Activities.Scoring.ScoringConfirmIDActivity" />
         <activity android:name=".Activities.Scoring.ScoringPicTakenActivity" />
         <activity android:name=".Activities.Scoring.ScoringSelfieActivity" />
         <activity android:name=".Activities.Scoring.ScoringImageComparionActivity" />
-        <activity android:name=".Activities.Scoring.ScoringCameraActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".Activities.CalendarTestActivity"/>
-        <activity android:name=".Activities.SavedAreaActivity"
+        <activity
+            android:name=".Activities.Scoring.ScoringCameraActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Activities.CalendarTestActivity" />
+        <activity
+            android:name=".Activities.SavedAreaActivity"
             android:label="@string/savedAreas_label" />
         <activity android:name=".Activities.EditViewportSubActivity" />
-        <activity android:name=".Activities.PropertyManagementActivity"
+        <activity
+            android:name=".Activities.PropertyManagementActivity"
             android:label="הנכסים שלי" />
 
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="7594bc2ab19b861f621aef3d9db083a17fe0dfe0" />
-        <activity android:name=".Activities.PromiseAgreementActivities.PromiseImplementationActivity"/>
-        <activity android:name=".Activities.PromiseAgreementActivities.PromiseCanceletionActivity"/>
-        <activity android:name=".Activities.Scoring.SelfCamActivity"/>
-        <activity android:name=".Activities.TenantMyPorpertyDetailsActivity"/>
-        <activity android:name=".Activities.Scoring.ScoringPersonalDetailsActivity"/>
-        <activity android:name=".Activities.CreditCardActivity" android:label="אמצעי תשלום"/>
-        <activity android:name=".Activities.AddPropertyActivityNew"/>
 
+        <activity android:name=".Activities.PromiseAgreementActivities.PromiseImplementationActivity" />
+        <activity android:name=".Activities.PromiseAgreementActivities.PromiseCanceletionActivity" />
+        <activity android:name=".Activities.Scoring.SelfCamActivity" />
+        <activity android:name=".Activities.TenantMyPorpertyDetailsActivity" />
+        <activity android:name=".Activities.Scoring.ScoringPersonalDetailsActivity" />
+        <activity
+            android:name=".Activities.CreditCardActivity"
+            android:label="אמצעי תשלום" />
+        <activity android:name=".Activities.AddPropertyActivityNew" />
+        <activity android:name=".Activities.Guarantor.GuarantorDeclinedActivity" android:label="ערבויות" />
     </application>
 
 </manifest>
