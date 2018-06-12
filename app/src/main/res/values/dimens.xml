@@ -259,4 +259,6 @@
 
     <dimen name="meetings_recycler_view_item_top_margin">2dp</dimen>
 
+    <dimen name="property_description_space_between_indicators">12dp</dimen>
+
 </resources>
