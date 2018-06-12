@@ -36,6 +36,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringImageComparionActivity;
@@ -69,6 +70,7 @@ public class CameraFragment extends android.app.Fragment {
     private Context context;
     private static final SparseIntArray ORIENTATION = new SparseIntArray();
     private @CAMERA_TYPES int currentType = CAMERA_TYPES.BACK;
+    private RelativeLayout cameraLayout;
 
     static {
         ORIENTATION.append(Surface.ROTATION_0, 90);
@@ -155,9 +157,11 @@ public class CameraFragment extends android.app.Fragment {
         progressBar = v.findViewById(R.id.fragment_camera_progress_bar);
         startBackgroundThread();
         textureView.setSurfaceTextureListener(textureListener);
-        v.findViewById(R.id.scoring_camera_fragment_layout).setOnClickListener(new View.OnClickListener() {
+        cameraLayout = (RelativeLayout) v.findViewById(R.id.scoring_camera_fragment_layout);
+        cameraLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                cameraLayout.setClickable(false);
                 takePicture();
             }
         });
@@ -216,10 +220,10 @@ public class CameraFragment extends android.app.Fragment {
                 jpegSizes = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP).getOutputSizes(ImageFormat.JPEG);
                 int width = 640;
                 int height = 480;
-                if (jpegSizes != null && jpegSizes.length > 0) {
-                    width = jpegSizes[0].getWidth();
-                    height = jpegSizes[0].getHeight();
-                }
+//                if (jpegSizes != null && jpegSizes.length > 0) {
+//                    width = jpegSizes[0].getWidth();
+//                    height = jpegSizes[0].getHeight();
+//                }
 
                 reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
                 List<Surface> outputSurface = new ArrayList<>();
@@ -229,7 +233,7 @@ public class CameraFragment extends android.app.Fragment {
                 final CaptureRequest.Builder captureBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
                 captureBuilder.addTarget(reader.getSurface());
                 captureBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_AF_MODE_AUTO);
-                captureBuilder.set(CaptureRequest.JPEG_QUALITY, (byte)100);
+//                captureBuilder.set(CaptureRequest.JPEG_QUALITY, (byte)100);
 
                 // orientation
                 int rotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
@@ -330,6 +334,7 @@ public class CameraFragment extends android.app.Fragment {
         ConnectionsManager.getInstance(getActivity()).uploadScoringID(object, currentType == CAMERA_TYPES.BACK, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
+                cameraLayout.setClickable(true);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -343,6 +348,7 @@ public class CameraFragment extends android.app.Fragment {
 
             @Override
             public void reject(BallabaBaseEntity entity) {
+                cameraLayout.setClickable(true);
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -387,7 +393,7 @@ public class CameraFragment extends android.app.Fragment {
             Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
         }
         captureRequestBuilder.set(CaptureRequest.CONTROL_MODE, CaptureRequest.CONTROL_AF_MODE_AUTO);
-        captureRequestBuilder.set(CaptureRequest.JPEG_QUALITY, (byte) 100);
+//        captureRequestBuilder.set(CaptureRequest.JPEG_QUALITY, (byte) 100);
 
         try {
             cameraCaptureSessions.setRepeatingRequest(captureRequestBuilder.build(), null, mBackgroundHandler);
