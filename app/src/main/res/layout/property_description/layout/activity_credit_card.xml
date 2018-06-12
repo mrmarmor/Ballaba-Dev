@@ -184,7 +184,7 @@
                             <ImageButton
                                 android:id="@+id/creditCard_cardCVV_instructions"
                                 style="@style/icon_wide_click_area"
-                                android:layout_marginTop="-32dp"
+                                android:layout_marginTop="-42dp"
                                 android:layout_gravity="end|top"
                                 android:background="@android:color/transparent"
                                 android:src="@drawable/info_coral_grey"
