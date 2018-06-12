@@ -5,6 +5,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Layout;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
@@ -27,5 +28,13 @@ public class BaseActivityWithActionBar extends BaseActivity {
 
         getSupportActionBar().setBackgroundDrawable(
                 new ColorDrawable(getResources().getColor(R.color.colorPrimary, getTheme())));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home)
+            finish();
+
+        return super.onOptionsItemSelected(item);
     }
 }

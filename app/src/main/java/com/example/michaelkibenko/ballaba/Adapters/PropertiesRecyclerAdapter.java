@@ -12,6 +12,7 @@ import android.support.design.widget.TabLayout;
 import android.support.transition.Visibility;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,6 +41,7 @@ import com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresente
 import com.example.michaelkibenko.ballaba.Presenters.PropertyItemPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
+import com.example.michaelkibenko.ballaba.Views.CustomViewPager;
 import com.example.michaelkibenko.ballaba.databinding.PropertyItemBinding;
 
 import java.util.ArrayList;
@@ -62,6 +64,7 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     private FragmentManager fragmentManager;
     private int firstArraySize;
     private final boolean isSavedScreen;
+    private int spaceBetweenIndicator;
 
     public PropertiesRecyclerAdapter(Context mContext, FragmentManager fm, List<BallabaPropertyResult> properties, boolean isSavedScreen) {
         this.mContext = mContext;
@@ -69,6 +72,7 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         this.fragmentManager = fm;
         this.firstArraySize = properties.size();
         this.isSavedScreen = isSavedScreen;
+        spaceBetweenIndicator = (int)mContext.getResources().getDimension(R.dimen.property_description_space_between_indicators);
     }
 
     @Override
@@ -90,13 +94,33 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     public void onBindViewHolder(final PropertiesRecyclerAdapter.ViewHolder holder, final int position) {
         Log.d(TAG, properties.size()+":"+position);
         final BallabaPropertyResult property = properties.get(position);
+        final int NUM_OF_PHOTOS = 6;
         PropertiesPhotosPagerAdapter propertiesPhotosViewPagerAdapter = new PropertiesPhotosPagerAdapter(
                 fragmentManager, generateImageFragments(property.photos, property.id, position));
         holder.binder.propertyItemViewPager.setId(position+propertiesPhotosViewPagerAdapter.hashCode());
-        holder.binder.propertyItemViewPager.setCurrentItem(property.photos.size()/2);
-        holder.binder.propertyItemViewPager.setOffscreenPageLimit(2);
+        //holder.binder.propertyItemViewPager.setCurrentItem(NUM_OF_PHOTOS/2);
+        //holder.binder.propertyItemViewPager.setOffscreenPageLimit(0);
         holder.binder.propertyItemViewPager.setAdapter(propertiesPhotosViewPagerAdapter);
-        setIndicators(holder.binder.tabIndicators, holder.binder.propertyItemViewPager, property.photos.size());
+        /*holder.binder.propertyItemViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                holder.binder.propertyItemViewPagerIndicators.onPageChange(NUM_OF_PHOTOS - position - 1);
+            }
+            @Override
+            public void onPageSelected(int position) {}
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+        });*/
+
+        setIndicators(holder.binder.tabIndicators, holder.binder.propertyItemViewPager, NUM_OF_PHOTOS);
+
+       /* holder.binder.propertyItemViewPagerIndicators.setNoOfPages(NUM_OF_PHOTOS);
+        holder.binder.propertyItemViewPagerIndicators.setVisibleDotCounts(5);
+        holder.binder.propertyItemViewPagerIndicators.onPageChange(NUM_OF_PHOTOS - 1);*/
+        //holder.binder.propertyItemViewPagerIndicators.setStartPosX(0);
+        //holder.binder.propertyItemViewPagerIndicators.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+
+
         Drawable d = property.isSaved? res.getDrawable(R.drawable.heart_blue_24, mContext.getTheme())
                 :res.getDrawable(R.drawable.heart_white_24, mContext.getTheme());
         holder.binder.propertyItemIsSavedPropertyImageView.setImageDrawable(d);
@@ -128,11 +152,11 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         holder.binder.propertyItemRoomsTextView.setText(String.format("%s %s", property.roomsNumber, mContext.getString(R.string.propertyItem_numberOfRooms)));
         holder.binder.propertyItemPropertySizeTextView.setText(String.format("%s %s", property.size, mContext.getString(R.string.propertyItem_propertySize)));
 
-            //TODO without binder and glide:
-            //holder.propertyImageView.setImageBitmap(property.bitmap());
-            ////holder.textViewAddress.setText(property.address());
-            ////holder.textViewPrice.setText(property.price());
-            //parent_layout = (LinearLayout) findViewById(R.id.single_message_parent);
+        //TODO without binder and glide:
+        //holder.propertyImageView.setImageBitmap(property.bitmap());
+        ////holder.textViewAddress.setText(property.address());
+        ////holder.textViewPrice.setText(property.price());
+        //parent_layout = (LinearLayout) findViewById(R.id.single_message_parent);
 
         //TODO get offset properties from server:
         //ConnectionsManager.getInstance(this).getConfigRequest
@@ -259,7 +283,7 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     private void setIndicators(final TabLayout tabLayout, final RtlViewPager vPager, final int numOfPhotos) {
         tabLayout.setupWithViewPager(vPager, true);
         ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)tabLayout.getLayoutParams();
-        params.width = numOfPhotos * 12/*space*/;
+        params.width = numOfPhotos * spaceBetweenIndicator/*space*/;
         tabLayout.setLayoutParams(params);
     }
 
