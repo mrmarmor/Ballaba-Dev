@@ -17,6 +17,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.MeteringRectangle;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.ExifInterface;
 import android.media.Image;
 import android.media.ImageReader;
 import android.os.Bundle;
@@ -41,10 +42,13 @@ import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringImageComparionActivity;
 import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringSelfieActivity;
+import com.example.michaelkibenko.ballaba.Activities.Scoring.SelfCamActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
+import com.example.michaelkibenko.ballaba.Managers.OCRHelper;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.GeneralUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,6 +62,8 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.example.michaelkibenko.ballaba.Activities.Scoring.SelfCamActivity.SELFI;
 
 public class CameraFragment extends android.app.Fragment {
 
@@ -181,17 +187,12 @@ public class CameraFragment extends android.app.Fragment {
         CameraManager manager = (CameraManager) context.getSystemService(Context.CAMERA_SERVICE);
         Log.e(TAG, "is camera open");
         try {
-            try {
                 String[] cameras = manager.getCameraIdList();
                 if (currentType == CAMERA_TYPES.BACK) {
                     cameraID = cameras[0];
                 } else if (currentType == CAMERA_TYPES.FRONT) {
                     cameraID = cameras[1];
                 }
-            }catch (NullPointerException ex){
-                ex.printStackTrace();
-                //TODO set empty state
-            }
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraID);
             StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
             assert map != null;
@@ -204,6 +205,9 @@ public class CameraFragment extends android.app.Fragment {
             manager.openCamera(cameraID, stateCallback, null);
         } catch (CameraAccessException e) {
             e.printStackTrace();
+        } catch (NullPointerException ex){
+            ex.printStackTrace();
+            //TODO set empty state
         }
         Log.e(TAG, "openCamera X");
     }
@@ -238,7 +242,6 @@ public class CameraFragment extends android.app.Fragment {
                 // orientation
                 int rotation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
                 captureBuilder.set(CaptureRequest.COLOR_CORRECTION_ABERRATION_MODE, ORIENTATION.get(rotation));
-
 //                file = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
 
                 ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
@@ -261,6 +264,7 @@ public class CameraFragment extends android.app.Fragment {
 //                            save(bytes);
 
                             String encoded = Base64.encodeToString(bytes, Base64.DEFAULT);
+
                             JSONObject object = new JSONObject();
                             try {
                                 object.put("image", encoded);
@@ -278,7 +282,9 @@ public class CameraFragment extends android.app.Fragment {
                                 });
                                 Intent intent = new Intent(context , ScoringImageComparionActivity.class);
                                 //intent.putExtra("IMAGE" , encoded);
-                                startActivity(intent);
+                                OCRHelper.getInstance().setSelfiePhoto(object);
+                                getActivity().startActivityForResult(intent, SELFI);
+//                                sendScoringID(object);
                             }
                         }  finally {
                             if (image != null) {
@@ -344,6 +350,7 @@ public class CameraFragment extends android.app.Fragment {
                 Intent intent = new Intent(getActivity(), ScoringSelfieActivity.class);
                 //intent.putExtra("USER_IMAGE", byteArray);
                 startActivity(intent);
+                cameraDevice.close();
             }
 
             @Override
@@ -388,7 +395,7 @@ public class CameraFragment extends android.app.Fragment {
         }
     }
 
-    private void updatePreview() {
+    public void updatePreview() {
         if (cameraDevice == null) {
             Toast.makeText(getActivity(), "Error", Toast.LENGTH_SHORT).show();
         }
@@ -408,7 +415,6 @@ public class CameraFragment extends android.app.Fragment {
             mBackgroundThread.join();
             mBackgroundThread = null;
             mBackgroundHandler = null;
-
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -436,5 +442,27 @@ public class CameraFragment extends android.app.Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onStop() {
+        if(cameraDevice != null){
+            cameraDevice.close();
+        }
+//        stopBackgourndThread();
+        super.onStop();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == SELFI) {
+            if (cameraDevice != null) {
+                openCamera();
+            } else {
+                setCurrentType(CAMERA_TYPES.FRONT);
+                openCamera();
+            }
+        }
     }
 }

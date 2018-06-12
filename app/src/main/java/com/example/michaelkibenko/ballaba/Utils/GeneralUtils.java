@@ -3,6 +3,9 @@ package com.example.michaelkibenko.ballaba.Utils;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -13,6 +16,7 @@ import com.google.i18n.phonenumbers.Phonenumber;
 
 import org.json.JSONArray;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,5 +79,18 @@ public class GeneralUtils {
         } else {
             return false;
         }
+    }
+
+    public static byte[] rotateImage(byte[] data, float angle) {
+        Bitmap source = BitmapFactory.decodeByteArray(data, 0, data.length);
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        Bitmap returable = Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        returable.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] byteArray = stream.toByteArray();
+        returable.recycle();
+        return byteArray;
     }
 }

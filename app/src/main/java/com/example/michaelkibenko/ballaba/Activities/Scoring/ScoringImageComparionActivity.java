@@ -17,6 +17,7 @@ import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
+import com.example.michaelkibenko.ballaba.Managers.OCRHelper;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 
@@ -36,7 +37,7 @@ public class ScoringImageComparionActivity extends BaseActivity {
     private RelativeLayout relativeLayout;
     private ImageView imageView;
     private Button tryAgainBtn;
-    private byte[] bytes;
+//    private byte[] bytes;
 
 
     @Override
@@ -52,37 +53,39 @@ public class ScoringImageComparionActivity extends BaseActivity {
         tryAgainBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                setResult(SelfCamActivity.SELFI);
                 finish();
             }
         });
         UiUtils.instance(true, this).buttonChanger(tryAgainBtn, true);
 
-        File file = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
-        int size = (int) file.length();
-        bytes = new byte[size];
-        try {
-            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
-            buf.read(bytes, 0, bytes.length);
-            buf.close();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+//        File file = new File(Environment.getExternalStorageDirectory() + "/pic.jpg");
+//        int size = (int) file.length();
+//        bytes = new byte[size];
+//        try {
+//            BufferedInputStream buf = new BufferedInputStream(new FileInputStream(file));
+//            buf.read(bytes, 0, bytes.length);
+//            buf.close();
+//        } catch (FileNotFoundException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
         uploadSelfieForComaprison();
 
     }
 
     private void uploadSelfieForComaprison() {
-        JSONObject object = new JSONObject();
-        String encoded = Base64.encodeToString(bytes, Base64.DEFAULT);
-        try {
-            object.put("image", encoded);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        JSONObject object = new JSONObject();
+//        String encoded = Base64.encodeToString(bytes, Base64.DEFAULT);
+//        try {
+//            object.put("image", encoded);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+        JSONObject object = OCRHelper.getInstance().getSelfiePhoto();
         ConnectionsManager.getInstance(this).uploadScoringID(object, false, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {

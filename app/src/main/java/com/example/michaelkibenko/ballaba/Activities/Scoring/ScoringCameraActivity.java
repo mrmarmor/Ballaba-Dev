@@ -1,5 +1,7 @@
 package com.example.michaelkibenko.ballaba.Activities.Scoring;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -35,8 +37,10 @@ public class ScoringCameraActivity extends AppCompatActivity {
 
     private void openCameraFragment(){
         cameraFragment = new CameraFragment();
-        cameraFragment.setRetainInstance(true);
-        getFragmentManager().beginTransaction().replace(R.id.scoring_camera_frame_layout, cameraFragment).commit();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.scoring_camera_frame_layout, cameraFragment);
+        fragmentTransaction.commit();
     }
 
     @Override
