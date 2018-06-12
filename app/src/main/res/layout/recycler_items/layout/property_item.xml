@@ -54,13 +54,15 @@
     <android.support.design.widget.TabLayout
         android:id="@+id/tabIndicators"
         android:layout_alignParentBottom="true"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="@id/propertyItem_viewPager"
         app:layout_constraintEnd_toEndOf="@id/propertyItem_viewPager"
         app:layout_constraintBottom_toBottomOf="@id/propertyItem_viewPager"
         app:tabBackground="@drawable/indicators_selector"
-        app:tabGravity="center"
+        app:tabGravity="fill" android:clipChildren="true" android:maxLength="5"
+        app:tabPaddingEnd="20dp" android:clipToPadding="true"
+        app:tabMode="fixed"
         app:tabIndicatorHeight="0dp"/>
 
     <!-- TODO black alpha strip -->
