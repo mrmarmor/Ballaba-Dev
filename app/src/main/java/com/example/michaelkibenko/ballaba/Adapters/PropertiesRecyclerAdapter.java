@@ -15,10 +15,12 @@ import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TabHost;
 import android.widget.TableLayout;
 import android.widget.Toast;
 
@@ -101,18 +103,46 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         //holder.binder.propertyItemViewPager.setCurrentItem(NUM_OF_PHOTOS/2);
         //holder.binder.propertyItemViewPager.setOffscreenPageLimit(0);
         holder.binder.propertyItemViewPager.setAdapter(propertiesPhotosViewPagerAdapter);
-        /*holder.binder.propertyItemViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                holder.binder.propertyItemViewPagerIndicators.onPageChange(NUM_OF_PHOTOS - position - 1);
-            }
-            @Override
-            public void onPageSelected(int position) {}
-            @Override
-            public void onPageScrollStateChanged(int state) {}
-        });*/
 
-        setIndicators(holder.binder.tabIndicators, holder.binder.propertyItemViewPager, NUM_OF_PHOTOS);
+    /*    holder.binder.tabIndicators.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                holder.binder.tabIndicators.invalidate();
+                for (int i = 5; i <= holder.binder.tabIndicators.getTabCount(); i++)
+                    if (tab.getPosition() != i && holder.binder.tabIndicators.getTabCount() != i)
+                        holder.binder.tabIndicators.removeTabAt(i);
+            }
+            @Override public void onTabUnselected(TabLayout.Tab tab) {}
+            @Override public void onTabReselected(TabLayout.Tab tab) {}
+        });
+        holder.binder.tabIndicators.setupWithViewPager(holder.binder.propertyItemViewPager, true);
+        holder.binder.tabIndicators.setScrollIndicators(View.SCROLL_INDICATOR_RIGHT);
+        for (int i = 5; i <= holder.binder.tabIndicators.getTabCount(); i++)
+            if (holder.binder.tabIndicators.getTabCount() != i)
+                holder.binder.tabIndicators.removeTabAt(i);*/
+
+
+        final int numOfPhotos = holder.binder.propertyItemViewPager.getAdapter().getCount();
+        holder.binder.propertyItemViewPagerIndicators.setNoOfPages(numOfPhotos);
+
+        //holder.binder.propertyItemViewPagerIndicators.setVisibleDotCounts(6);
+        holder.binder.propertyItemViewPagerIndicators.onPageChange(numOfPhotos);
+        //holder.binder.propertyItemViewPagerIndicators.setTextDirection(View.TEXT_DIRECTION_RTL);
+        //holder.binder.propertyItemViewPagerIndicators.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
+        //holder.binder.propertyItemViewPagerIndicators.setForegroundGravity(Gravity.RIGHT);
+        holder.binder.propertyItemViewPagerIndicators.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        //holder.binder.propertyItemViewPagerIndicators.setStartPosX(0);
+        holder.binder.propertyItemViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                //holder.binder.propertyItemViewPagerIndicators.onPageChange(numOfPhotos - position - 1);
+                holder.binder.propertyItemViewPagerIndicators.onPageChange(position);
+            }
+            @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            @Override public void onPageScrollStateChanged(int state) {}
+        });
+
+        //setIndicators(holder.binder.tabIndicators, holder.binder.propertyItemViewPager, NUM_OF_PHOTOS);
 
        /* holder.binder.propertyItemViewPagerIndicators.setNoOfPages(NUM_OF_PHOTOS);
         holder.binder.propertyItemViewPagerIndicators.setVisibleDotCounts(5);
@@ -281,7 +311,10 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     }
 
     private void setIndicators(final TabLayout tabLayout, final RtlViewPager vPager, final int numOfPhotos) {
-        tabLayout.setupWithViewPager(vPager, true);
+        //vPager.getAdapter().getCount();
+        tabLayout.setupWithViewPager(vPager, false);
+        for (int i = 5; i < tabLayout.getTabCount(); i++)
+            tabLayout.removeTabAt(i);
         //ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams)tabLayout.getLayoutParams();
         //params.width = numOfPhotos * spaceBetweenIndicator/*space*/;
         //tabLayout.setLayoutParams(params);

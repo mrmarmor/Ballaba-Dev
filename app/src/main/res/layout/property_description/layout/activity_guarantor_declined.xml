@@ -26,8 +26,7 @@
                 android:layout_marginStart="@dimen/small_margin"
                 android:layout_marginBottom="37dp"
                 android:textColor="@color/gray_text_color"
-                android:text="הערב שביקשת איננו מאושר.\n
-יש באפשרותך לבחור ערב חדש" />
+                android:text="הערב שביקשת איננו מאושר.\nיש באפשרותך לבחור ערב חדש" />
 
             <TextView
                 style="@style/allWrapContent"

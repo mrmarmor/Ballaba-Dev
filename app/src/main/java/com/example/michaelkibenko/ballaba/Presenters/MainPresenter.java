@@ -376,8 +376,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                 break;
 
             case R.id.nav_changeName:
-                Intent goInviteGuarantor = new Intent(context, GuarantorDeclinedActivity.class);
-                context.startActivity(goInviteGuarantor);
+
                 break;
 
             case R.id.nav_conflicts:

@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.example.michaelkibenko.ballaba.Fragments.PropertyImageFragment;
-import com.hrskrs.instadotlib.InstaDotView;
 
 import java.util.ArrayList;
 

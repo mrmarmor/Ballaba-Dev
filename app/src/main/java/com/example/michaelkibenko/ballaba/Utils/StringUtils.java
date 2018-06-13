@@ -40,10 +40,10 @@ public class StringUtils {
         if (number == null)
             return "";//TODO maybe return "missing price" instead
 
-        if (number.length() > 3) {
-            for (int i = number.length() % 3; i < number.length() - 2; i += 3) {
-                number = new StringBuilder(number).insert(i, ",").toString();
-            }
+        if (number.length() > 6) {
+            number = new StringBuilder(number).insert(number.length() - 6, ",").insert(number.length() - 2, ",").toString();
+        } else if (number.length() > 3) {
+            number = new StringBuilder(number).insert(number.length() - 3, ",").toString();
         }
 
         return number;

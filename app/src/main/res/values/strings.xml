@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Ballaba</string>
     <string name="button_next">המשך</string>
+    <string name="button_confirm">אישור</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
