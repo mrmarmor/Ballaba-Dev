@@ -1,19 +1,20 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
 import android.content.Context;
-import android.databinding.DataBindingUtil;
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.TextView;
 
 import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivityNew;
-import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
-import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
@@ -25,7 +26,6 @@ import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
-import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropAddonsBinding;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nex3z.flowlayout.FlowLayout;
@@ -35,65 +35,56 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
-public class AddPropAddonsFrag extends Fragment implements Button.OnClickListener{
+public class AddPropAddonsFrag extends Fragment implements Button.OnClickListener, CompoundButton.OnCheckedChangeListener {
     private final String TAG = AddPropAddonsFrag.class.getSimpleName(), NOT_FURNISHED_TAG = "not_furnished_tag";
     private Context context;
-    private ActivityAddPropertyBinding binderMain;
-    private FragmentAddPropAddonsBinding binderAddons;
+    /*private ActivityAddPropertyBinding binderMain;
+    private FragmentAddPropAddonsBinding binderAddons;*/
     //public ChipsButtonsRecyclerViewAdapter adapter;
     //private ArrayList<PropertyAttachmentAddonEntity> items;
     private FlowLayout furnitureRoot, electronicsRoot, extrasRoot;
-    private ArrayList<PropertyAttachmentAddonEntity> furniture, electronics, extras;
+    private ArrayList<PropertyAttachmentAddonEntity> furniture, electronics, attachments;
     private boolean wasDataChanged = false;
+    private FlowLayout furnitureFlowLayout;
+    private Button petBTN;
+    private boolean petBtnClicked;
+    private Switch furnitureSwitch, electronicsSwitch, petSwitch;
+    private TextView furnitureTV, electronicsTV, petTV;
 
-    public AddPropAddonsFrag() {}
+
     public static AddPropAddonsFrag newInstance(ActivityAddPropertyBinding binding) {
         AddPropAddonsFrag fragment = new AddPropAddonsFrag();
         return fragment;
     }
 
-    public AddPropAddonsFrag setMainBinder(ActivityAddPropertyBinding binder){
-        this.binderMain = binder;
+    public AddPropAddonsFrag setMainBinder(ActivityAddPropertyBinding binder) {
+        //this.binderMain = binder;
         return this;
     }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //View v = getLayoutInflater().inflate(R.layout.fragment_attachments)
-        //Fragment v = getChildFragmentManager().findFragmentById(R.id.addProperty_addons_attachments_fragment);
-        /*AttachmentsFragment fragment = new AttachmentsFragment();
-        getChildFragmentManager().beginTransaction()
-                .replace(R.id.addProperty_addons_root, fragment)
-                .commit();*/
+        View view = getLayoutInflater().inflate(R.layout.fragment_add_prop_addons, container, false);
 
-        ((AddPropertyActivityNew)getActivity()).changePageIndicatorText(3);
-        binderAddons = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_add_prop_addons, container, false);
+        context = getActivity();
+        ((AddPropertyActivityNew) context).changePageIndicatorText(3);
 
-        final View view = binderAddons.getRoot();
+        furnitureFlowLayout = view.findViewById(R.id.addProperty_addons_furniture_flowLayout);
+        petBTN = view.findViewById(R.id.addProperty_addons_pet_button);
+        petBTN.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                petBtnClicked = !petBtnClicked;
+                Resources resources = context.getResources();
+                petBTN.setBackground(petBtnClicked ? resources.getDrawable(R.drawable.chips_button_pressed) : resources.getDrawable(R.drawable.chips_button));
+                petBTN.setTextColor(petBtnClicked ? Color.WHITE : resources.getColor(R.color.colorPrimary));
+            }
+        });
 
-        //String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, null);
-        //if (propertyId != null) {
-        //    final ProgressDialog progressDialog = new ProgressDialog(context);
-        //    progressDialog.setTitle("Fetching data from server...");
-        //    progressDialog.show();
-
-        //    ConnectionsManager.getInstance(context).getPropertyById(propertyId, new BallabaResponseListener() {
-        //        @Override
-        //        public void resolve(BallabaBaseEntity entity) {
-                    initView(view);
-        //            progressDialog.dismiss();
-        //        }
-
-        //        @Override
-        //        public void reject(BallabaBaseEntity entity) {
-        //            progressDialog.dismiss();
-        //            showSnackBar();
-        //        }
-        //    });
-        //}
+        initView(view);
 
         //final TagFlowLayout tagFlowLayout = getChildFragmentManager().findFragmentByTag("electronics").getView().findViewById(R.id.attachments_flowLayout);
         //AttachmentsFragment.newInstance().initChipButtons(, electronics);
@@ -114,28 +105,42 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         return view;
     }
 
-    private void initView(View view){
-        extras = PropertyAttachmentsAddonsHolder.getInstance().getAttachments();
+    private void initView(View view) {
+        attachments = PropertyAttachmentsAddonsHolder.getInstance().getAttachments();
         electronics = PropertyAttachmentsAddonsHolder.getInstance().getElectronics();
         furniture = PropertyAttachmentsAddonsHolder.getInstance().getFurniture();
 
-        //removes furnished+not+electronics+not attachments. these attachments are used in filter search module.
+        furnitureTV = view.findViewById(R.id.addProperty_addons_furniture_text_view);
+        furnitureSwitch = view.findViewById(R.id.addProperty_addons_furniture_switch);
+        furnitureSwitch.setOnCheckedChangeListener(this);
+
+        electronicsTV = view.findViewById(R.id.addProperty_addons_electronics_text_view);
+        electronicsSwitch = view.findViewById(R.id.addProperty_addons_electronics_switch);
+        electronicsSwitch.setOnCheckedChangeListener(this);
+
+        petTV = view.findViewById(R.id.addProperty_addons_pet_text_view);
+        petSwitch = view.findViewById(R.id.addProperty_addons_pet_switch);
+        petSwitch.setOnCheckedChangeListener(this);
+
+        view.findViewById(R.id.addProperty_addons_button_next).setOnClickListener(this);
+
+                //removes furnished+not+electronics+not attachments. these attachments are used in filter search module.
         for (int i = 0; i < 4; i++)
-            if (!extras.isEmpty())
-                extras.remove(0);
+            if (!attachments.isEmpty())
+                attachments.remove(0);
 
         furnitureRoot = view.findViewById(R.id.addProperty_addons_furniture_flowLayout);
         electronicsRoot = view.findViewById(R.id.addProperty_addons_electronics_flowLayout);
         extrasRoot = view.findViewById(R.id.addProperty_addons_extras_flowLayout);
 
-        initButtonNotFurnished((Button)getLayoutInflater().inflate(R.layout.chip_regular, null));
+        initButtonNotFurnished((Button) getLayoutInflater().inflate(R.layout.chip_regular, null));
         initButtons(furnitureRoot, furniture);
         initButtons(electronicsRoot, electronics);
-        initButtons(extrasRoot, extras);
-        binderAddons.addPropertyAddonsButtonNext.setOnClickListener(this);
+        initButtons(extrasRoot, attachments);
+        furnitureFlowLayout.setOnClickListener(this);
     }
 
-    private void initButtonNotFurnished(Button chipsItem){
+    private void initButtonNotFurnished(Button chipsItem) {
         //PropertyAttachmentAddonEntity entity = new PropertyAttachmentAddonEntity("not_furnished_id"
         //        , "not_furnished", getString(R.string.attach_not_furnished));
         chipsItem.setText(getString(R.string.attach_not_furnished));//entity.formattedTitle);
@@ -146,12 +151,12 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         //furniture.add(0, entity);
     }
 
-    private void initButtons(FlowLayout flowLayout, ArrayList<PropertyAttachmentAddonEntity> items){
+    private void initButtons(FlowLayout flowLayout, ArrayList<PropertyAttachmentAddonEntity> items) {
         BallabaPropertyFull propertyFull = BallabaSearchPropertiesManager.getInstance(context).getPropertyFull();
 
         //TODO if user selected a property in propertyDescription, maybe propertyFull is not null although it should be!!
         for (PropertyAttachmentAddonEntity attachment : items) {
-            Button chipsItem = (Button)getLayoutInflater().inflate(R.layout.chip_regular, null);
+            Button chipsItem = (Button) getLayoutInflater().inflate(R.layout.chip_regular, null);
             initAttachment(chipsItem, attachment);
             highlightChipsUserSelectedLastTime(propertyFull, chipsItem, attachment);
 
@@ -160,12 +165,12 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
 
     }
 
-    private Button initAttachment(Button chipsItem, PropertyAttachmentAddonEntity attachment){
-        if(chipsItem.getTag() != null) {
+    private Button initAttachment(Button chipsItem, PropertyAttachmentAddonEntity attachment) {
+        if (chipsItem.getTag() != null) {
             if (!chipsItem.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
                 chipsItem.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
             }
-        }else{
+        } else {
             chipsItem.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
         }
 
@@ -175,7 +180,7 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         return chipsItem;
     }
 
-    private void highlightChipsUserSelectedLastTime(BallabaPropertyFull property, Button chipsItem, PropertyAttachmentAddonEntity attachment){
+    private void highlightChipsUserSelectedLastTime(BallabaPropertyFull property, Button chipsItem, PropertyAttachmentAddonEntity attachment) {
         //these loops highlight chips that user had selected last time
         if (property != null) {
             for (HashMap<String, String> map : property.addons)
@@ -190,11 +195,6 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context;
-    }
 
     @Override
     public void onClick(View v) {
@@ -203,9 +203,9 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         if (v.getId() == R.id.addProperty_addons_button_next) {
             onFinish();
         } else if (v.getTag().equals(NOT_FURNISHED_TAG)) {
-            unselectAllFurnitureButtons(binderAddons.addPropertyAddonsFurnitureFlowLayout);
+            unselectAllFurnitureButtons(furnitureFlowLayout);
             highlightNotFurnishedButton(buttonNotFurnished);
-         } else {
+        } else {
             wasDataChanged = true;
             //PropertyAttachmentsAddonsHolder attachments = PropertyAttachmentsAddonsHolder.getInstance();
             String state = (String) v.getTag();
@@ -214,7 +214,7 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
                 items = attachments.getFurniture();
             } else if (itemParentTag.equals("electronics")) {
                 items = attachments.getElectronics();
-            } else if (itemParentTag.equals("extras")) {
+            } else if (itemParentTag.equals("attachments")) {
                 items = attachments.getAttachments();
             }*/
 
@@ -229,26 +229,58 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         }
     }
 
-    private void onFinish(){
+    private void onFinish() {
         String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, "-1");
         final Data data = getDataFromChips(new Data());
         data.property_id = Integer.parseInt(propertyId);
 
+        JSONObject object = new JSONObject();
+
+        try {
+            JSONObject furniture = new JSONObject();
+            int[] furnitureIDsArr = convertIntegers(data.furniture);
+            furniture.put("data" , furnitureIDsArr);
+            furniture.put("is_flexible" , furnitureSwitch.isChecked());
+
+            JSONObject electronics = new JSONObject();
+            int[] electronicsIDsArr = convertIntegers(data.electronics);
+            electronics.put("data" , electronicsIDsArr);
+            electronics.put("is_flexible" , electronicsSwitch.isChecked());
+
+            JSONObject attachments = new JSONObject();
+            int[] attachmentsIDsArr = convertIntegers(data.attachments);
+            attachments.put("data" , attachmentsIDsArr);
+
+            JSONObject is_pets_allowed = new JSONObject();
+            is_pets_allowed.put("data" , petBtnClicked);
+            is_pets_allowed.put("is_flexible" , petSwitch.isChecked());
+
+            object.put("furniture" , furniture);
+            object.put("electronics" , electronics);
+            object.put("attachments" , attachments);
+            object.put("is_pets_allowed" , is_pets_allowed);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        String propID = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID , null);
+
         if (wasDataChanged) {
-            ConnectionsManager.getInstance(context).uploadProperty(jsonParse(data, "addons"), new BallabaResponseListener() {
+            ConnectionsManager.getInstance(context).newUploadProperty(2 , propID , object, new BallabaResponseListener() {
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
                     //TODO update property updating date on SharedPrefs??
                     SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "3");
                     //AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).setViewPagerItem(3);
-                    ((AddPropertyActivityNew)getActivity()).changeFragment(new AddPropPaymentsFrag() , true);
+                    ((AddPropertyActivityNew) getActivity()).changeFragment(new AddPropPaymentsFrag(), true);
 
                 }
 
                 @Override
                 public void reject(BallabaBaseEntity entity) {
-                    ((BaseActivity)context).getDefaultSnackBar(binderAddons.addPropertyAddonsRoot
-                            , ((BallabaErrorResponse) entity).message, false);
+                    /*((BaseActivity)context).getDefaultSnackBar(binderAddons.addPropertyAddonsRoot
+                            , ((BallabaErrorResponse) entity).message, false);*/
 
                     //TODO NEXT LINE IS ONLY FOR TESTING:
                     //AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(2);
@@ -257,24 +289,39 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         } else {
             //AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(3);
         }
-        ((AddPropertyActivityNew)getActivity()).changeFragment(new AddPropPaymentsFrag() , true);
+        ((AddPropertyActivityNew) getActivity()).changeFragment(new AddPropPaymentsFrag(), true);
     }
 
-    private Data getDataFromChips(Data data){
-        ArrayList<Integer> chipsIds = getDataFromChipsSection(new ArrayList<Integer>(), furnitureRoot, furniture);
-        chipsIds.addAll(getDataFromChipsSection(new ArrayList<Integer>(), electronicsRoot, electronics));
-        data.addons.addAll(chipsIds);
+    public int[] convertIntegers(List<Integer> integers)
+    {
+        int[] ret = new int[integers.size()];
+        for (int i=0; i < ret.length; i++)
+        {
+            ret[i] = integers.get(i).intValue();
+        }
+        return ret;
+    }
 
-        data.attachments.addAll(getDataFromChipsSection(new ArrayList<Integer>(), extrasRoot, extras));
+
+    private Data getDataFromChips(Data data) {
+        //ArrayList<Integer> chipsIds = getDataFromChipsSection(new ArrayList<Integer>(), furnitureRoot, furniture);
+        //chipsIds.addAll(getDataFromChipsSection(new ArrayList<Integer>(), electronicsRoot, electronics));
+        //data.attachments.addAll(getDataFromChipsSection(new ArrayList<Integer>(), extrasRoot, attachments));
+
+        data.setFurniture(getDataFromChipsSection(new ArrayList<Integer>() , furnitureRoot , furniture));
+        data.setElectronics(getDataFromChipsSection(new ArrayList<Integer>(), electronicsRoot, electronics));
+        data.setAttachments(getDataFromChipsSection(new ArrayList<Integer>(), extrasRoot, attachments));
 
         return data;
     }
 
-    private ArrayList<Integer> getDataFromChipsSection(ArrayList<Integer> chipsIds, FlowLayout layout
-            , ArrayList<PropertyAttachmentAddonEntity> chips){
 
-        for (int i = 1; i < layout.getChildCount(); i++){
-            if (layout.getChildAt(i).getTag().equals(UiUtils.ChipsButtonStates.PRESSED)){
+
+    private ArrayList<Integer> getDataFromChipsSection(ArrayList<Integer> chipsIds, FlowLayout layout
+            , ArrayList<PropertyAttachmentAddonEntity> chips) {
+
+        for (int i = 1; i < layout.getChildCount(); i++) {
+            if (layout.getChildAt(i).getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
                 chipsIds.add(Integer.parseInt(chips.get(i - 1).id));//TODO may invoke array out of bounds!
             }
         }
@@ -282,13 +329,13 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         return chipsIds;
     }
 
-    private JSONObject jsonParse(Data propertyData, String step){
+    private JSONObject jsonParse(Data propertyData, String step) {
         try {
             JsonObject jsonObject = new JsonObject();
             JsonObject innerObject = new JsonObject();
 
             innerObject.addProperty("property_id", propertyData.property_id);
-            innerObject.add("addons", new Gson().toJsonTree(propertyData.addons));
+            innerObject.add("addons", new Gson().toJsonTree(propertyData.furniture));
             innerObject.add("attachments", new Gson().toJsonTree(propertyData.attachments));
 
             jsonObject.addProperty("step", step);
@@ -302,8 +349,8 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
     }
 
     //click on "not furnished" button will unselect all furniture buttons
-    private void unselectAllFurnitureButtons(FlowLayout furnitureRoot){
-        for (int i = 1; i < furnitureRoot.getChildCount(); i++){
+    private void unselectAllFurnitureButtons(FlowLayout furnitureRoot) {
+        for (int i = 1; i < furnitureRoot.getChildCount(); i++) {
             if (furnitureRoot.getChildAt(i) instanceof Button) {
                 Button button = (Button) furnitureRoot.getChildAt(i);
                 UiUtils.instance(false, context).onChipsButtonClick(button, UiUtils.ChipsButtonStates.PRESSED);
@@ -311,14 +358,14 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         }
     }
 
-    private void highlightNotFurnishedButton(Button buttonNotFurnished){
+    private void highlightNotFurnishedButton(Button buttonNotFurnished) {
         buttonNotFurnished.setBackgroundResource(R.drawable.chips_button_pressed);
         buttonNotFurnished.setTextColor(getResources().getColor(android.R.color.white, context.getTheme()));
     }
 
-    private boolean areAllFurnitureButtonsUnselected(){
+    private boolean areAllFurnitureButtonsUnselected() {
         boolean allButtonsUnselected = true;
-        for (int i = 1; i < furnitureRoot.getChildCount(); i++){
+        for (int i = 1; i < furnitureRoot.getChildCount(); i++) {
             if (furnitureRoot.getChildAt(i).getTag().equals(UiUtils.ChipsButtonStates.PRESSED))
                 allButtonsUnselected = false;
         }
@@ -326,14 +373,29 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         return allButtonsUnselected;
     }
 
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()){
+            case R.id.addProperty_addons_furniture_switch:
+                furnitureTV.setText(isChecked ? "גמיש" : "לא גמיש");
+                break;
+            case R.id.addProperty_addons_electronics_switch:
+                electronicsTV.setText(isChecked ? "גמיש" : "לא גמיש");
+                break;
+            case R.id.addProperty_addons_pet_switch:
+                petTV.setText(isChecked ? "גמיש" : "לא גמיש");
+                break;
+        }
+    }
+
     //TODO replace this method with a similar method in BaseActivity
-    private void showSnackBar(final String message){
+    /*private void showSnackBar(final String message){
         final View snackBarView = binderAddons.addPropertyAddonsRoot;
         Snackbar snackBar = Snackbar.make(snackBarView, message, Snackbar.LENGTH_LONG);
         snackBar.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary, context.getTheme()));
         snackBar.show();
         //snackBarView.findViewById(android.support.design.R.id.snackbar_text).setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
-    }
+    }*/
 
     /*private boolean isDataEqual(HashMap<String, ArrayList<String>> map){
         boolean isEqual = true;
@@ -341,7 +403,7 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         //BallabaPropertyFull property = BallabaSearchPropertiesManager.getInstance(context).getPropertyFull();
         ArrayList<String> furnituresNew = map.get("furniture");//[3,5,8] from chips
         ArrayList<String> electronicsNew = map.get("electronics");
-        ArrayList<String> extrasNew = map.get("extras");
+        ArrayList<String> extrasNew = map.get("attachments");
 
         if (furnituresNew.contains(furnitures))
         *//*for (String value : furnituresNew){
@@ -364,29 +426,28 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
 
     public class Data {
         public Integer property_id;
-        public ArrayList<Integer> attachments;
-        public ArrayList<Integer> addons;
 
-        private Data(){
+        private ArrayList<Integer> furniture;
+        private ArrayList<Integer> electronics;
+        private ArrayList<Integer> attachments;
+
+        private Data() {
+            furniture = new ArrayList<>();
+            electronics = new ArrayList<>();
             attachments = new ArrayList<>();
-            addons = new ArrayList<>();
         }
 
-        /*public void setProperty_id(HashMap<String, Integer> property_id) {
-            this.property_id = property_id;
+        public void setFurniture(ArrayList<Integer> furniture) {
+            this.furniture = furniture;
         }
-        public void setAttachments(HashMap<String, ArrayList<Integer>> attachments) {
-            this.attachments = attachments;
-        }
-        public void setAddons(HashMap<String, ArrayList<Integer>> addons) {
-            this.addons = addons;
-        }*/
 
-        /*public Data(HashMap<String, Integer> property_id, HashMap<String, ArrayList<Integer>> attachments, HashMap<String, ArrayList<Integer>> addons) {
-            this.property_id = property_id;
+        public void setElectronics(ArrayList<Integer> electronics) {
+            this.electronics = electronics;
+        }
+
+        public void setAttachments(ArrayList<Integer> attachments) {
             this.attachments = attachments;
-            this.addons = addons;
-        }*/
+        }
     }
 
 }

@@ -79,44 +79,12 @@ public class PropertyAttachmentsAddonsHolder {
             JSONArray paymentMethods = jsonObject.getJSONArray(PAYMENT_METHODS);
             JSONArray photoTags = jsonObject.getJSONArray(PROPERTY_PHOTO_TAGS);
 
-            //TODO this adds 2 chips to attachments: furnished+electronics
-            //WARNING! there is already an attachment: {"id":11,"title":"service_balcony"}
-            JSONObject not_furnished = new JSONObject();
-            not_furnished.put("id" , "11");
-            not_furnished.put("title", "not_furnished");
-            addInPosition(1, not_furnished, attachments);
-            //attachments.put(1, not_furnished);//this overrides element in position 1!
-
-            JSONObject no_electronics = new JSONObject();
-            no_electronics.put("id" , "22");
-            no_electronics.put("title", "no_electronics");
-            addInPosition(3, no_electronics, attachments);
-            //this.attachments = attachments;
-            //attachments.put(2, no_electronics);
-            //Log.e("d", electronics+"");
-
             addAttachments(this.furniture, furniture, FURNITURE);
             addAttachments(this.electronics, electronics, ELECTRONICS);
             addAttachments(this.attachments, attachments, ATTACHMENTS);
             addAttachments(this.paymentTypes, paymentTypes, PAYMENT_TYPES);
             addAttachments(this.paymentMethods, paymentMethods, PAYMENT_METHODS);
             addTags(this.photoTags, photoTags, PROPERTY_PHOTO_TAGS);
-
-            /*for (int i = 0; i < electronics.length(); i++) {
-                JSONObject currentObject = electronics.getJSONObject(i);
-                String id = currentObject.getString("id");
-                String title = currentObject.getString("title");
-                PropertyAttachmentAddonEntity entity = new PropertyAttachmentAddonEntity(id, title, getFormattedElectronicsTitle(title));
-                this.electronics.add(entity);
-            }
-
-            for (int i = 0; i < attachments.length(); i++) {
-                JSONObject currentObject = attachments.getJSONObject(i);
-                String id = currentObject.getString("id");
-                String title = currentObject.getString("title");
-                PropertyAttachmentAddonEntity entity = new PropertyAttachmentAddonEntity(id, title, getFormattedAttachmentsTitle(title));
-                this.attachments.add(entity);
-            }*/
 
         }catch (JSONException ex){
             ex.printStackTrace();
@@ -140,28 +108,19 @@ public class PropertyAttachmentsAddonsHolder {
         for (int i = 0; i < attachment.length(); i++) {
             JSONObject currentObject = attachment.getJSONObject(i);
             String id = currentObject.getString("id");
-            String title = currentObject.getString("name");
-            String formatted = stringUtils.formattedHebrew(currentObject.getString("name_he"));
+            String title;
+            String formatted;
+            if (ATTACHMENT_TYPE.equals("attachments")){
+                title = currentObject.getString( "type");
+                formatted = getFormattedAttachmentsTitle(currentObject.getString("type"));
+            }else {
+                title = currentObject.getString( "name");
+                formatted = stringUtils.formattedHebrew(currentObject.getString("name_he"));
+            }
 
             //String formattedTitle = getFormattedTitle(ATTACHMENT_TYPE, title);
             entities.add(new PropertyAttachmentAddonEntity(id, title, formatted));
         }
-    }
-
-    private String getFormattedTitle(final String ATTACHMENT_TYPE, final String TITLE){
-        /*switch (ATTACHMENT_TYPE) {
-            case FURNITURE: default:
-                return getFormattedFurnitureTitle(TITLE);
-            case ELECTRONICS:
-                return getFormattedElectronicsTitle(TITLE);
-            case ATTACHMENTS:
-                return getFormattedAttachmentsTitle(TITLE);
-            case PAYMENT_TYPES:
-                return getFormattedPaymentTypesTitle(TITLE);
-            case PAYMENT_METHODS:
-                return getFormattedPaymentMethodsTitle(TITLE);
-        }*/
-        return TITLE;
     }
 
     public PropertyAttachmentAddonEntity getAttachmentById(String id){
@@ -180,6 +139,71 @@ public class PropertyAttachmentsAddonsHolder {
             }
         }
         return null;
+    }
+
+    private String getFormattedAttachmentsTitle(String title){
+        switch (title){
+            case "furnished" :
+                return "מרוהטת";
+            case "not_furnished":
+                return "לא מרוהטת";
+            case "electronics" :
+                return "מוצרי חשמל";
+            case "no_electronics":
+                return "ללא מוצרי חשמל";
+            case "parking":
+                return "חנייה בבניין";
+            case "renovated":
+                return "משופצת";
+            case "sunboiler":
+                return "דוד שמש";
+            case "elevator":
+                return "מעלית";
+            case "guard":
+                return "שומר בניין";
+            case "bars":
+                return "סורגים";
+            case "warehouse":
+                return "מחסן";
+            case "sunterrace":
+                return "מרפסת שמש";
+            case "service_balcony":
+                return "מרפסת שירות";
+            case "garden":
+                return "גינה";
+            case "pool":
+                return "בריכה";
+            case "animals":
+                return "אפשר חיות מחמד";
+            case "floor_heat":
+                return "חימום רצפתי";
+            case "all_included":
+                return "כולל הכל";
+            case "gym":
+                return "חדר כושר";
+            case "disabled_access":
+                return "גישה לנכים";
+            case "aps":
+                return "ממ״ד";
+
+            default:return title;
+        }
+    }
+
+    private String getFormattedTitle(final String ATTACHMENT_TYPE, final String TITLE){
+        /*switch (ATTACHMENT_TYPE) {
+            case FURNITURE: default:
+                return getFormattedFurnitureTitle(TITLE);
+            case ELECTRONICS:
+                return getFormattedElectronicsTitle(TITLE);
+            case ATTACHMENTS:
+                return getFormattedAttachmentsTitle(TITLE);
+            case PAYMENT_TYPES:
+                return getFormattedPaymentTypesTitle(TITLE);
+            case PAYMENT_METHODS:
+                return getFormattedPaymentMethodsTitle(TITLE);
+        }*/
+        return TITLE;
     }
 
     private String getFormattedFurnitureTitle(String title) {
@@ -231,55 +255,6 @@ public class PropertyAttachmentsAddonsHolder {
 
             default:
                 return title;
-        }
-    }
-
-    private String getFormattedAttachmentsTitle(String title){
-        switch (title){
-            case "furnished" :
-                return "מרוהטת";
-            case "not_furnished":
-                return "לא מרוהטת";
-            case "electronics" :
-                return "מוצרי חשמל";
-            case "no_electronics":
-                return "ללא מוצרי חשמל";
-            case "parking":
-                return "חנייה בבניין";
-            case "renovated":
-                return "משופצת";
-            case "sunboiler":
-                return "דוד שמש";
-            case "elevator":
-                return "מעלית";
-            case "guard":
-                return "שומר בניין";
-            case "bars":
-                return "סורגים";
-            case "warehouse":
-                return "מחסן";
-            case "sunterrace":
-                return "מרפסת שמש";
-            case "service_balcony":
-                return "מרפסת שירות";
-            case "garden":
-                return "גינה";
-            case "pool":
-                return "בריכה";
-            case "animals":
-                return "אפשר חיות מחמד";
-            case "floor_heat":
-                return "חימום רצפתי";
-            case "all_included":
-                return "כולל הכל";
-            case "gym":
-                return "חדר כושר";
-            case "disabled_access":
-                return "גישה לנכים";
-            case "aps":
-                return "ממ״ד";
-
-                default:return title;
         }
     }
 

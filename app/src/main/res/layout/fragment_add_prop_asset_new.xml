@@ -4,6 +4,7 @@
     style="@style/allWrapContent"
     android:background="@android:color/transparent"
     android:layoutDirection="rtl"
+
     android:scrollbars="none">
 
     <LinearLayout
@@ -33,6 +34,7 @@
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/addProp_city_input_layout"
+                style="@style/new_edit_text_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -43,6 +45,8 @@
                     android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:singleLine="true"
+                    android:inputType="text"
                     android:hint="עיר"
                     android:tag="city" />
 
@@ -50,7 +54,8 @@
 
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/addProp_address_input_layout_name"
+                android:id="@+id/addProp_street_input_layout_name"
+                style="@style/new_edit_text_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -58,10 +63,12 @@
                 android:layout_marginTop="16dp">
 
                 <com.example.michaelkibenko.ballaba.Views.TextInputAutoCompleteTextView
-                    android:id="@+id/addProp_address_actv"
+                    android:id="@+id/addProp_street_actv"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="כתובת"
+                    android:inputType="text"
+                    android:singleLine="true"
                     android:tag="street" />
 
             </android.support.design.widget.TextInputLayout>
@@ -78,6 +85,7 @@
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/addProp_house_number_input_layout"
                     android:layout_width="0dp"
+                    style="@style/new_edit_text_style"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:layout_weight="1">
@@ -87,23 +95,27 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="מספר בית"
-                        android:tag="floor" />
+                        android:inputType="numberDecimal"
+                        android:tag="street_no" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/addProp_aptNo_input_layout"
+                    style="@style/new_edit_text_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
                     android:layout_weight="1">
 
                     <EditText
+                        android:singleLine="true"
+                        android:inputType="numberDecimal"
                         android:id="@+id/addProp_aptNo_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="מספר בית"
-                        android:tag="appartment" />
+                        android:hint="מספר דירה"
+                        android:tag="apartment_number" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -122,6 +134,7 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/addProp_floor_input_layout"
+                    style="@style/new_edit_text_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -132,12 +145,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="קומה"
+                        android:inputType="numberDecimal"
+                        android:singleLine="true"
                         android:tag="floor" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/addProp_maxFloor_input_layout"
+                    style="@style/new_edit_text_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
@@ -148,8 +164,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="מתוך"
-                        android:tag="max_floor"
-                        android:textColor="@color/colorPrimary" />
+                        android:singleLine="true"
+                        android:inputType="numberDecimal"
+                        android:tag="max_floor" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -187,6 +204,7 @@
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/addProp_rooms_input_layout"
+                    style="@style/new_edit_text_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -195,14 +213,17 @@
                     <EditText
                         android:id="@+id/addProp_rooms_editText"
                         android:layout_width="match_parent"
+                        android:inputType="numberDecimal"
                         android:layout_height="wrap_content"
                         android:hint="חדרים"
+                        android:singleLine="true"
                         android:tag="rooms" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/addProp_toilets_input_layout"
+                    style="@style/new_edit_text_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
@@ -213,20 +234,24 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="שירותים"
+                        android:inputType="numberDecimal"
+                        android:singleLine="true"
                         android:tag="toilets" />
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/addProp_bathrooms_input_layout"
+                    style="@style/new_edit_text_style"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
                     android:layout_weight="1">
 
                     <EditText
                         android:id="@+id/addProp_bathrooms_editText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:inputType="numberDecimal"
                         android:hint="מקלחת"
                         android:tag="bathrooms" />
                 </android.support.design.widget.TextInputLayout>
@@ -235,6 +260,7 @@
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/addProp_size_input_layout"
+                style="@style/new_edit_text_style"
                 android:layout_width="104dp"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/addProperty_formation_container"
@@ -245,6 +271,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="גודל(מ''ר)"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
                     android:tag="size" />
 
             </android.support.design.widget.TextInputLayout>
@@ -287,15 +315,18 @@
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/addProp_asset_entry_date_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentStart="true"
                     android:text="לא גמיש" />
 
                 <Switch
+                    android:id="@+id/addProp_asset_entry_date_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -303,31 +334,32 @@
 
             </RelativeLayout>
 
-
+            <!--<RelativeLayout
+                android:layout_below="@+id/addProperty_formation_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">-->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_margin="16dp"
                 android:background="#ececec" />
 
-
-            <!--<RelativeLayout
-                android:layout_below="@+id/addProperty_formation_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">-->
-
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/addProperty_rentalPeriod_input_layout"
+                style="@style/new_edit_text_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
+                android:layout_marginBottom="24dp"
                 android:layout_marginRight="16dp">
 
                 <EditText
                     android:id="@+id/addProperty_rentalPeriod_months_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="מספר חודשים"
+                    android:hint="למשך(חודשים)"
+                    android:inputType="numberDecimal"
+                    android:singleLine="true"
                     android:tag="rent_period" />
 
             </android.support.design.widget.TextInputLayout>
@@ -343,11 +375,6 @@
 
             <!--</RelativeLayout>-->
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_margin="16dp"
-                android:background="#ececec" />
 
             <RelativeLayout
                 android:id="@+id/addProperty_rentalPeriod_container"
@@ -358,24 +385,26 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/addProp_asset_rentalPeriod_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="לא גמיש" />
 
                 <Switch
+                    android:id="@+id/addProp_asset_rentalPeriod_switch"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
+                    android:tag="is_flexible"
                     android:layoutDirection="ltr" />
 
             </RelativeLayout>
 
             <android.support.v7.widget.AppCompatCheckBox
-                android:id="@+id/addProperty_rentalPeriod_option_textView"
+                android:id="@+id/addProperty_rentalPeriod_option_check_box"
                 style="@style/addProperty_textViews"
                 android:tag="is_extendable"
                 android:text="@string/addProperty_asset_option" />
-
 
         </LinearLayout>
 

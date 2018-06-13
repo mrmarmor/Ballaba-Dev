@@ -3,10 +3,15 @@ package com.example.michaelkibenko.ballaba.Presenters;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.ConstraintSet;
 import android.support.v7.app.AppCompatActivity;
+import android.transition.TransitionManager;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -34,9 +39,10 @@ import org.json.JSONObject;
 public class ScoringWorkPresenter implements RadioButton.OnClickListener
         , EditText.OnFocusChangeListener {
 
+    private static final long SUCCESS_DELAY_TIME = 3000;
     public static String TAG = ScoringWorkPresenter.class.getSimpleName();
 
-    private @interface SCREEN_MODES {
+    private @interface SCREEN_STATES {
         int EMPTY = 1;
         int GUARANTOR = 2;
         int MORE_DATA = 3;
@@ -55,7 +61,9 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
 
     private JSONObject object;
     private String personalDate, personalFamilyStatus, personalCar, persoanlChilds, personalWorkStatus;
-    
+    private @SCREEN_STATES int currentState = SCREEN_STATES.EMPTY;
+    private ConstraintLayout emptyTransition, guarantorTransition, moreDataTransition, successTransition;
+    private LayoutInflater inflater;
 
     public ScoringWorkPresenter(final AppCompatActivity activity, ActivityScoringWorkBinding binding) {
         this.activity = activity;
@@ -67,6 +75,37 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
         binder.scoringSiteEditText.setOnFocusChangeListener(this);
         binder.scoringEmailEditText.setOnFocusChangeListener(this);
         binder.scoringWorkIncomeEditText.setOnFocusChangeListener(this);
+        inflater = LayoutInflater.from(activity);
+        emptyTransition = (ConstraintLayout) inflater.inflate(R.layout.activity_scoring_work, null, false);
+        guarantorTransition = (ConstraintLayout) inflater.inflate(R.layout.activity_scoring_work_guarantor_transition_layout, null, false);
+        moreDataTransition = (ConstraintLayout) inflater.inflate(R.layout.activity_scoring_work_more_transition_layout, null, false);
+        successTransition = (ConstraintLayout) inflater.inflate(R.layout.activity_scoring_work_success_transition_layout, null, false);
+    }
+
+    private void changeScreenState(@SCREEN_STATES int newState){
+        if(newState != this.currentState){
+            this.currentState = newState;
+            onScreenStateChanged();
+        }
+    }
+
+    private void onScreenStateChanged(){
+        ConstraintSet set = new ConstraintSet();
+        if(this.currentState == SCREEN_STATES.EMPTY){
+            set.clone(emptyTransition);
+        }else if(this.currentState == SCREEN_STATES.GUARANTOR){
+            set.clone(guarantorTransition);
+        }else if(this.currentState == SCREEN_STATES.GUARANTOR_SUCCESS){
+            //TODO change copy and BL
+            set.clone(successTransition);
+        }else if(this.currentState == SCREEN_STATES.MORE_DATA){
+            set.clone(moreDataTransition);
+        }else if(this.currentState == SCREEN_STATES.SUCCESS){
+            set.clone(successTransition);
+        }
+        TransitionManager.beginDelayedTransition((ViewGroup) binder.getRoot());
+        set.applyTo((ConstraintLayout) binder.getRoot());
+
     }
 
     private void initButtons() {
@@ -240,10 +279,15 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 //hide progressbar
-                Log.d(TAG, "resolve: " + "WOW");
-                Intent intent = new Intent(activity, PropertyDescriptionActivity.class);
-                intent.putExtra("Prop" , BallabaUserManager.getInstance().getUser().userCurrentPropertyObservedID);
-                activity.startActivity(intent);
+                changeScreenState(SCREEN_STATES.SUCCESS);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(activity, PropertyDescriptionActivity.class);
+                        intent.putExtra("Prop" , BallabaUserManager.getInstance().getUser().userCurrentPropertyObservedID);
+                        activity.startActivity(intent);
+                    }
+                }, SUCCESS_DELAY_TIME);
             }
 
             @Override
@@ -254,9 +298,9 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
                 Toast.makeText(activity, "REJECT", Toast.LENGTH_SHORT).show();
 
                 // TODO: 06/06/2018 DELETE ->> TESTING
-                Intent intent = new Intent(activity, PropertyDescriptionActivity.class);
-                intent.putExtra("Prop" , BallabaUserManager.getInstance().getUser().userCurrentPropertyObservedID);
-                activity.startActivity(intent);
+//                Intent intent = new Intent(activity, PropertyDescriptionActivity.class);
+//                intent.putExtra("Prop" , BallabaUserManager.getInstance().getUser().userCurrentPropertyObservedID);
+//                activity.startActivity(intent);
             }
         });
     }
