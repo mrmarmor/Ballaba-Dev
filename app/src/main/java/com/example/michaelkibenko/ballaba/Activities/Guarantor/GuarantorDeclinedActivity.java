@@ -108,12 +108,15 @@ public class GuarantorDeclinedActivity extends BaseActivityWithActionBar impleme
 
             circleProgressBarChanger(true);
             uiUtils.buttonChanger(binder.guarantorDeclinedNextButton, false);
+
+            SmsManager smsManager = SmsManager.getDefault();
             String fullNumber = binder.guarantorDeclinedPhone.getText().toString().trim();
             String deepLink = "http://yb.net/dvfhe45";
             String message = String.format("%s %s מבקש שתערוב לו\n\nהכנס לקישור ועזור ל%s לקבל את דירת חלומותיו\n%s"
                     , user.getFirst_name(), user.getLast_name(), user.getFirst_name(), deepLink);
 
-            SmsManager.getDefault().sendTextMessage(fullNumber, null, message, null, null);
+            ArrayList<String> dividedMessage = smsManager.divideMessage(message);
+            smsManager.sendMultipartTextMessage(fullNumber, null, dividedMessage, null, null);
 
             //TODO send push notification to via server and add listener
 

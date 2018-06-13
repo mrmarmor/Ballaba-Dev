@@ -125,6 +125,7 @@
             android:label="אמצעי תשלום" />
         <activity android:name=".Activities.AddPropertyActivityNew" />
         <activity android:name=".Activities.Guarantor.GuarantorDeclinedActivity" android:label="ערבויות" />
+        <activity android:name=".Activities.Guarantor.GuaranteeRequestActivity" android:label="ערבויות" />
     </application>
 
 </manifest>

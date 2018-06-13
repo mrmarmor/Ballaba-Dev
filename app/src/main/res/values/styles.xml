@@ -74,6 +74,11 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@color/colorPrimary</item>
     </style>
+    <style name="AppButtonAnotherNarrow" parent="AppButtonAnother">
+        <item name="android:layout_width">@dimen/button_width</item>
+        <item name="android:layout_height">@dimen/button_height</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+    </style>
     <style name="AppButtonInactive" parent="Base.Widget.AppCompat.Button.Borderless">
         <item name="android:background">@color/gray_button_color</item>
         <item name="android:alpha">0.50</item>

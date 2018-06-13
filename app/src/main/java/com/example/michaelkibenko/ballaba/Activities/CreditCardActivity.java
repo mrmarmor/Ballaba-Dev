@@ -202,9 +202,6 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
     private void onError(TextInputLayout textInputLayout, EditText editText, String errorMessage) {
         textInputLayout.setErrorEnabled(true);
         textInputLayout.setError(errorMessage);
-        //editText.setError(errorMessage);
-        //editText.setTextColor(getResources().getColor(R.color.red_error_phone, getTheme()));
-        //editText.setText(errorMessage);
         ((ScrollView)binder.getRoot()).smoothScrollTo(0, editText.getTop() - 30);
         editText.requestFocus();
     }
@@ -218,11 +215,13 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
                 }
             }
 
-            Log.d(TAG, binder.creditCardCardYear.getSelectedItem()+"");
-            Log.d(TAG, binder.creditCardCardMonth.getSelectedItem()+"");
-            jsonObject.put("cvv", binder.creditCardCardCVV.getText());
+            jsonObject.put("card_number", binder.creditCardCardNumber.getText().toString());
             jsonObject.put("expiration_year", binder.creditCardCardYear.getSelectedItem().toString().substring(2, 4));
             jsonObject.put("expiration_month", binder.creditCardCardMonth.getSelectedItem().toString());
+            jsonObject.put("cvv", binder.creditCardCardCVV.getText());
+            jsonObject.put("full_name", binder.creditCardPersonName.getText().toString());
+            jsonObject.put("id_number", binder.creditCardPersonID.getText().toString());
+            jsonObject.put("email", binder.creditCardUserMail.getText().toString());
 
         } catch (JSONException e) {
             Log.e(TAG, e.getMessage());

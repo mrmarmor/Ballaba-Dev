@@ -5,8 +5,11 @@ import android.content.Intent;
 
 import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivity;
 import com.example.michaelkibenko.ballaba.Activities.CalendarTestActivity;
+import com.example.michaelkibenko.ballaba.Activities.CreditCardActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterPhoneNumberActivity;
+import com.example.michaelkibenko.ballaba.Activities.Guarantor.GuaranteeRequestActivity;
+import com.example.michaelkibenko.ballaba.Activities.Guarantor.GuarantorDeclinedActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyManagementActivity;
 import com.example.michaelkibenko.ballaba.Activities.Scoring.SelfCamActivity;
@@ -63,5 +66,17 @@ public class TestingPresenter extends BasePresenter {
 
     public void goToselfiCam(){
         context.startActivity(new Intent(context, SelfCamActivity.class));
+    }
+
+    public void goToGuaranteeDeclined(){
+        context.startActivity(new Intent(context, GuarantorDeclinedActivity.class));
+    }
+
+    public void goToGuarantor(){
+        context.startActivity(new Intent(context, GuaranteeRequestActivity.class));
+    }
+
+    public void goToCreditCard(){
+        context.startActivity(new Intent(context, CreditCardActivity.class));
     }
 }

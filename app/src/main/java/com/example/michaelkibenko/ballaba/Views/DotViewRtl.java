@@ -11,23 +11,18 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.TextView;
 
 import com.hrskrs.instadotlib.AnimationListener;
 import com.hrskrs.instadotlib.AnimatorListener;
-import com.hrskrs.instadotlib.Dot;
-import com.hrskrs.instadotlib.InstaDotView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by User on 12/06/2018.
+ * Created by User on 13/06/2018.
  */
 
-public class InstaDotViewRTL extends View {
-    final private String TAG = InstaDotViewRTL.class.getSimpleName();
-
+public class DotViewRtl extends View {
     private static final int MIN_VISIBLE_DOT_COUNT = 6;
     private static final int DEFAULT_VISIBLE_DOTS_COUNT = 6;
     private int activeDotSize;
@@ -46,22 +41,22 @@ public class InstaDotViewRTL extends View {
     private int noOfPages = 0;
     private int visibleDotCounts = 6;
 
-    public InstaDotViewRTL(Context context) {
+    public DotViewRtl(Context context) {
         super(context);
         this.setup(context, (AttributeSet)null);
     }
 
-    public InstaDotViewRTL(Context context, @Nullable AttributeSet attrs) {
+    public DotViewRtl(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         this.setup(context, attrs);
     }
 
-    public InstaDotViewRTL(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public DotViewRtl(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.setup(context, attrs);
     }
 
-    public InstaDotViewRTL(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public DotViewRtl(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         this.setup(context, attrs);
     }
@@ -90,10 +85,10 @@ public class InstaDotViewRTL extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int desiredWidth = (this.activeDotSize + this.dotMargin) * (this.dotsList.size() + 1);
         int desiredHeight = this.activeDotSize;
-        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
-        int widthSize = MeasureSpec.getSize(widthMeasureSpec);
-        int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-        int heightSize = MeasureSpec.getSize(heightMeasureSpec);
+        int widthMode = View.MeasureSpec.getMode(widthMeasureSpec);
+        int widthSize = View.MeasureSpec.getSize(widthMeasureSpec);
+        int heightMode = View.MeasureSpec.getMode(heightMeasureSpec);
+        int heightSize = View.MeasureSpec.getSize(heightMeasureSpec);
         int width;
         if(widthMode == 1073741824) {
             width = widthSize;
@@ -128,17 +123,17 @@ public class InstaDotViewRTL extends View {
 
             for(int i = 0; i < viewCount; ++i) {
                 Dot dot = new Dot();
-                State state;
+                Dot.State state;
                 if(this.noOfPages > this.visibleDotCounts) {
                     if(i == this.getVisibleDotCounts() - 1) {
-                        state = State.SMALL;
+                        state = Dot.State.SMALL;
                     } else if(i == this.getVisibleDotCounts() - 2) {
-                        state = State.MEDIUM;
+                        state = Dot.State.MEDIUM;
                     } else {
-                        state = i == 0? State.ACTIVE: State.INACTIVE;
+                        state = i == 0? Dot.State.ACTIVE: Dot.State.INACTIVE;
                     }
                 } else {
-                    state = i == 0? State.ACTIVE: State.INACTIVE;
+                    state = i == 0? Dot.State.ACTIVE: Dot.State.INACTIVE;
                 }
 
                 dot.setState(state);
@@ -156,8 +151,8 @@ public class InstaDotViewRTL extends View {
             Dot d = (Dot)this.dotsList.get(i);
             Paint paint = this.inactivePaint;
             int radius;
-            switch(d.getState().ordinal()){//null.$SwitchMap$com$hrskrs$instadotlib$Dot$State[d.getState().ordinal()]) {
-                case 3:
+            switch(d.getState().ordinal()) {
+                case 1:
                     paint = this.activePaint;
                     radius = this.getActiveDotRadius();
                     posX += this.getActiveDotStartX();
@@ -166,7 +161,7 @@ public class InstaDotViewRTL extends View {
                     radius = this.getInactiveDotRadius();
                     posX += this.getInactiveDotStartX();
                     break;
-                case 1:
+                case 3:
                     radius = this.getMediumDotRadius();
                     posX += this.getMediumDotStartX();
                     break;
@@ -214,7 +209,7 @@ public class InstaDotViewRTL extends View {
     }
 
     public void setNoOfPages(int noOfPages) {
-        this.setVisibility(noOfPages <= 1? GONE:VISIBLE);
+        this.setVisibility(noOfPages <= 1?GONE:VISIBLE);
         this.noOfPages = noOfPages;
         this.recreate();
     }
@@ -224,8 +219,8 @@ public class InstaDotViewRTL extends View {
     }
 
     public void setVisibleDotCounts(int visibleDotCounts) {
-        if(visibleDotCounts < 5) {
-            throw new RuntimeException("Visible Dot count cannot be smaller than 5");
+        if(visibleDotCounts < 6) {
+            throw new RuntimeException("Visible Dot count cannot be smaller than 6");
         } else {
             this.visibleDotCounts = visibleDotCounts;
             this.recreate();
@@ -297,8 +292,8 @@ public class InstaDotViewRTL extends View {
         } else {
             for(int i = 0; i < this.dotsList.size(); ++i) {
                 Dot currentDot = (Dot)this.dotsList.get(i);
-                if(currentDot.getState().equals(State.ACTIVE)) {
-                    currentDot.setState(State.INACTIVE);
+                if(currentDot.getState().equals(Dot.State.ACTIVE)) {
+                    currentDot.setState(Dot.State.INACTIVE);
                     if(this.currentPage > this.previousPage) {
                         this.setupFlexibleCirclesRight(i);
                     } else {
@@ -313,25 +308,25 @@ public class InstaDotViewRTL extends View {
     }
 
     private void setupNormalDots() {
-        ((Dot)this.dotsList.get(this.currentPage)).setState(State.ACTIVE);
-        ((Dot)this.dotsList.get(this.previousPage)).setState(State.INACTIVE);
+        ((Dot)this.dotsList.get(this.currentPage)).setState(Dot.State.ACTIVE);
+        ((Dot)this.dotsList.get(this.previousPage)).setState(Dot.State.INACTIVE);
         this.invalidate();
     }
 
     private void setupFlexibleCirclesRight(int position) {
         if(position >= this.getVisibleDotCounts() - 3) {
             if(this.currentPage == this.getNoOfPages() - 1) {
-                ((Dot)this.dotsList.get(this.dotsList.size() - 1)).setState(State.ACTIVE);
+                ((Dot)this.dotsList.get(this.dotsList.size() - 1)).setState(Dot.State.ACTIVE);
                 this.invalidate();
             } else if(this.currentPage == this.getNoOfPages() - 2) {
-                ((Dot)this.dotsList.get(this.dotsList.size() - 1)).setState(State.MEDIUM);
-                ((Dot)this.dotsList.get(this.dotsList.size() - 2)).setState(State.ACTIVE);
+                ((Dot)this.dotsList.get(this.dotsList.size() - 1)).setState(Dot.State.MEDIUM);
+                ((Dot)this.dotsList.get(this.dotsList.size() - 2)).setState(Dot.State.ACTIVE);
                 this.invalidate();
             } else {
                 this.removeAddRight(position);
             }
         } else {
-            ((Dot)this.dotsList.get(position + 1)).setState(State.ACTIVE);
+            ((Dot)this.dotsList.get(position + 1)).setState(Dot.State.ACTIVE);
             this.invalidate();
         }
 
@@ -342,10 +337,10 @@ public class InstaDotViewRTL extends View {
         this.setStartPosX(this.getStartPosX() + this.getSmallDotStartX());
         this.getTranslationAnimation(this.getStartPosX(), this.getSmallDotStartX(), new AnimationListener() {
             public void onAnimationEnd() {
-                ((Dot)dotsList.get(0)).setState(State.SMALL);
-                ((Dot)dotsList.get(1)).setState(State.MEDIUM);
+                ((Dot)dotsList.get(0)).setState(Dot.State.SMALL);
+                ((Dot)dotsList.get(1)).setState(Dot.State.MEDIUM);
                 Dot newDot = new Dot();
-                newDot.setState(State.ACTIVE);
+                newDot.setState(Dot.State.ACTIVE);
                 dotsList.add(position, newDot);
                 invalidate();
             }
@@ -355,17 +350,17 @@ public class InstaDotViewRTL extends View {
     private void setupFlexibleCirclesLeft(int position) {
         if(position <= 2) {
             if(this.currentPage == 0) {
-                ((Dot)this.dotsList.get(0)).setState(State.ACTIVE);
+                ((Dot)this.dotsList.get(0)).setState(Dot.State.ACTIVE);
                 this.invalidate();
             } else if(this.currentPage == 1) {
-                ((Dot)this.dotsList.get(0)).setState(State.MEDIUM);
-                ((Dot)this.dotsList.get(1)).setState(State.ACTIVE);
+                ((Dot)this.dotsList.get(0)).setState(Dot.State.MEDIUM);
+                ((Dot)this.dotsList.get(1)).setState(Dot.State.ACTIVE);
                 this.invalidate();
             } else {
                 this.removeAddLeft(position);
             }
         } else {
-            ((Dot)this.dotsList.get(position - 1)).setState(State.ACTIVE);
+            ((Dot)this.dotsList.get(position - 1)).setState(Dot.State.ACTIVE);
             this.invalidate();
         }
 
@@ -376,40 +371,13 @@ public class InstaDotViewRTL extends View {
         this.setStartPosX(0);
         this.getTranslationAnimation(this.getStartPosX(), this.getSmallDotStartX(), new AnimationListener() {
             public void onAnimationEnd() {
-                ((Dot)dotsList.get(dotsList.size() - 1)).setState(State.SMALL);
-                ((Dot)dotsList.get(dotsList.size() - 2)).setState(State.MEDIUM);
+                ((Dot)dotsList.get(dotsList.size() - 1)).setState(Dot.State.SMALL);
+                ((Dot)dotsList.get(dotsList.size() - 2)).setState(Dot.State.MEDIUM);
                 Dot newDot = new Dot();
-                newDot.setState(State.ACTIVE);
+                newDot.setState(Dot.State.ACTIVE);
                 dotsList.add(position, newDot);
                 invalidate();
             }
         }).start();
-    }
-
-    public class Dot {
-        private State state;
-
-        public Dot() {
-        }
-
-        public State getState() {
-            return this.state;
-        }
-
-        public void setState(State state) {
-            this.state = state;
-        }
-
-
-    }
-
-    enum State {
-        SMALL,
-        MEDIUM,
-        INACTIVE,
-        ACTIVE;
-
-        private State() {
-        }
     }
 }

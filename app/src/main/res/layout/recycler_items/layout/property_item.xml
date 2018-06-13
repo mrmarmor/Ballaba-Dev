@@ -19,39 +19,28 @@
     android:elevation="@dimen/elevation"
     android:background="@color/propertyRecyclerView_background_white">
 
-    <!--<ImageView-->
-    <!--android:id="@+id/propertyItem_imageView"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="@dimen/propertyItem_imageView_height"-->
-    <!--app:layout_constraintTop_toTopOf="parent"-->
-    <!--android:scaleType="fitXY"-->
-    <!--android:src="@drawable/dummy_property"-->
-    <!--android:contentDescription="property image"-->
-    <!--/>-->
-
     <com.duolingo.open.rtlviewpager.RtlViewPager
         android:id="@+id/propertyItem_viewPager"
         android:layout_width="match_parent"
         android:layout_height="@dimen/propertyItem_imageView_height"
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/photo_home_grey_24" />
-    <!--<com.example.michaelkibenko.ballaba.Views.InstaDotViewRTL
+    <com.example.michaelkibenko.ballaba.Views.DotViewRtl
         android:id="@+id/propertyItem_viewPager_indicators"
-        android:layout_alignParentBottom="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/allWrapContent"
         app:layout_constraintStart_toStartOf="@id/propertyItem_viewPager"
         app:layout_constraintEnd_toEndOf="@id/propertyItem_viewPager"
         app:layout_constraintBottom_toBottomOf="@id/propertyItem_viewPager"
-        android:layoutDirection="rtl"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
         app:dot_activeColor="@color/colorAccent"
         app:dot_activeSize="8dp"
         app:dot_inactiveColor="@android:color/white"
-        app:dot_inactiveSize="6dp"
-        app:dot_margin="10dp"
+        app:dot_inactiveSize="5dp"
+        app:dot_margin="4dp"
         app:dot_mediumSize="4dp"
-        app:dot_smallSize="2dp" />-->
-    <android.support.design.widget.TabLayout
+        app:dot_smallSize="3dp" />
+
+  <!--  <android.support.design.widget.TabLayout
         android:id="@+id/tabIndicators"
         android:layout_alignParentBottom="true"
         android:layout_width="100dp"
@@ -60,10 +49,10 @@
         app:layout_constraintEnd_toEndOf="@id/propertyItem_viewPager"
         app:layout_constraintBottom_toBottomOf="@id/propertyItem_viewPager"
         app:tabBackground="@drawable/indicators_selector"
-        app:tabGravity="fill" android:clipChildren="true" android:maxLength="5"
-        app:tabPaddingEnd="20dp" android:clipToPadding="true"
+        app:tabGravity="center" android:clipChildren="true" android:maxLength="5"
+        app:tabPaddingEnd="21dp" android:clipToPadding="false"
         app:tabMode="fixed"
-        app:tabIndicatorHeight="0dp"/>
+        app:tabIndicatorHeight="0dp"/>-->
 
     <!-- TODO black alpha strip -->
     <!--<View
@@ -105,10 +94,10 @@
         <TextView
             android:id="@+id/propertyItem_price_textView"
             style="@style/allWrapContent"
-            app:layout_constraintStart_toStartOf="@+id/propertyItem_details_constraintLayout"
+            app:layout_constraintRight_toRightOf="@+id/propertyItem_details_constraintLayout"
             app:layout_constraintTop_toTopOf="@+id/propertyItem_details_constraintLayout"
             android:layout_marginTop="@dimen/propertyItem_bottomStrip_price_top_offset"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:textSize="@dimen/textSize_regular"
             android:textColor="@color/colorAccent"
             android:fontFamily="@font/rubik_bold"
@@ -116,7 +105,7 @@
         <TextView
             android:id="@+id/propertyItem_price_currency_textView"
             style="@style/allWrapContent"
-            app:layout_constraintStart_toEndOf="@+id/propertyItem_price_textView"
+            app:layout_constraintRight_toLeftOf="@+id/propertyItem_price_textView"
             app:layout_constraintTop_toTopOf="@+id/propertyItem_price_textView"
             android:textSize="@dimen/textSize_regular"
             android:textColor="@color/colorAccent"
@@ -126,9 +115,9 @@
         <TextView
             android:id="@+id/propertyItem_price_monthly_textView"
             style="@style/allWrapContent"
-            app:layout_constraintStart_toEndOf="@+id/propertyItem_price_currency_textView"
+            app:layout_constraintRight_toLeftOf="@+id/propertyItem_price_currency_textView"
             app:layout_constraintTop_toTopOf="@+id/propertyItem_price_textView"
-            android:layout_marginStart="@dimen/propertyItem_bottomStrip_price_monthly_textView_startOffset"
+            android:layout_marginRight="@dimen/propertyItem_bottomStrip_price_monthly_textView_startOffset"
             android:textSize="@dimen/textSize_small"
             android:textColor="@color/gray_text_color"
             android:text="לחודש"
@@ -138,7 +127,7 @@
         <TextView
             android:id="@+id/propertyItem_address_textView"
             style="@style/allWrapContent"
-            app:layout_constraintStart_toStartOf="@+id/propertyItem_price_textView"
+            app:layout_constraintRight_toRightOf="@+id/propertyItem_price_textView"
             app:layout_constraintTop_toBottomOf="@+id/propertyItem_price_textView"
             android:layout_marginTop="@dimen/tiny_margin"
             android:textSize="@dimen/propertyItem_bottomStrip_address_and_rooms_textView_textSize"
@@ -149,38 +138,38 @@
         <ImageView
             android:id="@+id/propertyItem_rooms_icon"
             style="@style/allWrapContent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/propertyItem_address_textView"
             android:layout_marginTop="5dp"
-            android:paddingStart="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_vertical_margin"
             android:src="@drawable/door_blue_24"
             />
 
         <TextView
             android:id="@+id/propertyItem_rooms_textView"
             style="@style/allWrapContent"
-            app:layout_constraintStart_toEndOf="@+id/propertyItem_rooms_icon"
+            app:layout_constraintRight_toLeftOf="@+id/propertyItem_rooms_icon"
             app:layout_constraintTop_toTopOf="@+id/propertyItem_rooms_icon"
             app:layout_constraintBottom_toBottomOf="@+id/propertyItem_rooms_icon"
             android:textSize="@dimen/propertyItem_bottomStrip_address_and_rooms_textView_textSize"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             />
         <ImageView
             android:id="@+id/propertyItem_size_icon"
             style="@style/allWrapContent"
-            app:layout_constraintStart_toEndOf="@+id/propertyItem_rooms_textView"
+            app:layout_constraintRight_toLeftOf="@+id/propertyItem_rooms_textView"
             app:layout_constraintTop_toTopOf="@+id/propertyItem_rooms_icon"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:src="@drawable/square_meter_blue_24"
             />
 
         <TextView
             android:id="@+id/propertyItem_propertySize_textView"
             style="@style/allWrapContent"
-            app:layout_constraintStart_toEndOf="@+id/propertyItem_size_icon"
+            app:layout_constraintRight_toLeftOf="@+id/propertyItem_size_icon"
             app:layout_constraintTop_toTopOf="@+id/propertyItem_size_icon"
             app:layout_constraintBottom_toBottomOf="@+id/propertyItem_size_icon"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:textSize="@dimen/propertyItem_bottomStrip_address_and_rooms_textView_textSize"
             />
 

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" >
+
+<ScrollView style="@style/allMatchParent" >
+
+<LinearLayout
+    style="@style/allMatchParent"
+    android:orientation="vertical"
+    android:layoutDirection="rtl"
+    tools:context="com.example.michaelkibenko.ballaba.Activities.Guarantor.GuaranteeRequestActivity">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/guaranteeRequest_tenant_profileImage"
+        android:layout_width="155dp"
+        android:layout_height="155dp"
+        android:layout_marginTop="40dp"
+        android:layout_gravity="center_horizontal"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@android:color/white" android:src="@drawable/add_user_b_lue_60"
+        android:elevation="@dimen/elevation" />
+
+    <TextView
+        android:id="@+id/guaranteeRequest_tenantName_textView"
+        style="@style/allWrapContent"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/rubik_bold"
+        android:text="צחי קורן" />
+
+    <TextView
+        style="@style/allWrapContent"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:textColor="@color/black"
+        android:layout_gravity="center_horizontal"
+        android:text="מבקש שתשמש לו כערב לשכירת דירה. " />
+
+    <TextView
+        android:id="@+id/guaranteeRequest_tenant_explanation"
+        style="@style/allWrapContent"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:textColor="@color/gray_text_color" />
+
+    <TextView
+        style="@style/allWrapContent"
+        android:layout_marginStart="56dp"
+        android:layout_marginBottom="2dp"
+        android:textSize="@dimen/textSize_tiny"
+        android:textColor="#99000000"
+        android:lineSpacingExtra="12sp"
+        android:text="סכום הערבות" />
+
+    <TextView
+        android:id="@+id/guaranteeRequest_guaranteePrice"
+        style="@style/allWrapContent"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="45dp"
+        android:textColor="#61000000"
+        android:lineSpacingExtra="8sp"
+        android:drawableStart="@drawable/money_grey_24"
+        android:drawablePadding="@dimen/activity_horizontal_margin" />
+
+    <Button
+        android:id="@+id/guaranteeRequest_button_confirm"
+        android:layout_width="wrap_content"
+        style="@style/AppButtonAnotherNarrow"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:text="@string/button_confirm"
+        android:onClick="onClickConfirm" />
+
+    <Button
+        android:id="@+id/guaranteeRequest_button_decline"
+        style="@style/allWrapContent"
+        android:layout_marginBottom="40dp"
+        android:layout_gravity="center_horizontal"
+        android:padding="10dp"
+        android:background="@android:color/transparent"
+        android:text="לא מעוניין"
+        android:onClick="onClickDecline" />
+
+</LinearLayout>
+</ScrollView>
+</layout>
