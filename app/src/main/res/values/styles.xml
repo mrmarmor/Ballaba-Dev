@@ -3,7 +3,7 @@
     <!-- THEMES -->
     <!-- Base application theme. -->
 
-    <style name="AppTheme" >
+    <style name="AppTheme">
         <!-- Customize your theme here. -->
         <!--parent="Theme.AppCompat.Light.NoActionBar"-->
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -11,9 +11,9 @@
         <item name="colorAccent">@color/colorAccent</item>
 
         <!--<item name="android:button">@style/AppButton</item>-->
-<!--
-        <item name="android:textViewStyle">@style/textViewsStyle</item>
--->
+        <!--
+                <item name="android:textViewStyle">@style/textViewsStyle</item>
+        -->
         <item name="android:fontFamily">@font/rubik_regular</item>
         <item name="android:screenOrientation">portrait</item>
         <item name="android:textColor">@color/black</item>
@@ -34,12 +34,12 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="TextLabel" parent="TextAppearance.AppCompat">
+    <style name="TextLabel" parent="Widget.Design.TextInputLayout">
         <!-- Hint color and label color in FALSE state -->
         <item name="android:textColorHint">@color/text_grey</item>
         <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="colorControlNormal">@color/text_grey</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
 
@@ -66,6 +66,7 @@
         <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:background">@android:color/white</item>
     </style>
+
     <style name="AppButtonAnother" parent="Base.Widget.AppCompat.Button.Borderless">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/view_height_large</item>
@@ -74,6 +75,7 @@
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@color/colorPrimary</item>
     </style>
+
     <style name="AppButtonInactive" parent="Base.Widget.AppCompat.Button.Borderless">
         <item name="android:background">@color/gray_button_color</item>
         <item name="android:alpha">0.50</item>
@@ -89,6 +91,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
     </style>
+
     <style name="allWrapContent">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -130,8 +133,11 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@color/gray_button_color</item>
-        <item name="android:layout_marginStart">@dimen/propertyDescription_divider_horizontalOffset</item>
-        <item name="android:layout_marginEnd">@dimen/propertyDescription_divider_horizontalOffset</item>
+        <item name="android:layout_marginStart">
+            @dimen/propertyDescription_divider_horizontalOffset
+        </item>
+        <item name="android:layout_marginEnd">@dimen/propertyDescription_divider_horizontalOffset
+        </item>
     </style>
 
     <style name="myProperty_tabs" parent="mainActivity_button_filter">
@@ -150,13 +156,14 @@
         <item name="colorControlNormal">@color/colorPrimary</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
     </style>
-    
+
     <style name="spinnerWithUnderline">
         <!-- Color when pressed -->
         <item name="colorAccent">@color/colorPrimaryDark</item>
         <!-- Default color for the dropdown arrow and line -->
         <item name="colorControlNormal">@color/colorPrimary</item>
-        <item name="android:padding">0dp</item><!-- to display 4 digits year format with no ellipsize when spinner is too narrow -->
+        <item name="android:padding">0dp
+        </item><!-- to display 4 digits year format with no ellipsize when spinner is too narrow -->
     </style>
 
     <style name="property_description_textViews">
@@ -172,7 +179,8 @@
 
     <style name="propertyDescriptionPayments_textView" parent="textViewsStyle">
         <item name="android:layout_width">@dimen/propertyDescription_payments_textView_width</item>
-        <item name="android:layout_height">@dimen/propertyDescription_payments_textView_height</item>
+        <item name="android:layout_height">@dimen/propertyDescription_payments_textView_height
+        </item>
         <item name="android:textSize">@dimen/textSize_regular</item>
         <item name="android:visibility">gone</item>
     </style>
@@ -236,6 +244,7 @@
         <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
         <item name="android:layout_marginBottom">@dimen/small_margin</item>
     </style>
+
     <style name="addProperty_editTexts">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/addProperty_editText_height</item>
@@ -258,11 +267,20 @@
         <item name="android:theme">@style/TextLabel</item>
     </style>
 
+    <style name="new_edit_text_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColorHint">@color/gray_text_color</item>
+        <item name="android:gravity">start</item>
+        <item name="android:theme">@style/TextLabel</item>
+    </style>
+
     <style name="add_property_editTexts_with_number" parent="addProperty_editTexts">
         <item name="android:gravity">center</item>
         <item name="android:inputType">number</item>
         <item name="android:digits">0123456789₪</item>
     </style>
+
     <style name="addProperty_titles" parent="addProperty_textViews">
         <item name="android:layout_marginBottom">-8dp</item>
         <item name="android:textSize">@dimen/textSize_big</item>
@@ -280,6 +298,7 @@
         <item name="android:datePickerStyle">@style/MyDatePickerStyle</item>
         <item name="android:colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="MyDatePickerStyle" parent="@android:style/Widget.Material.Light.DatePicker">
         <item name="android:headerBackground">@color/colorAccentDark</item>
         <item name="android:calendarTextColor">@android:color/white</item>
@@ -295,7 +314,8 @@
         <item name="android:textSize">@dimen/textSize_small</item>
         <item name="android:textColor">@color/gray_text_color</item>
         <item name="android:layout_gravity">bottom</item>
-        <item name="android:layout_marginBottom">@dimen/addProp_payments_subTextView_marginBottom</item>
+        <item name="android:layout_marginBottom">@dimen/addProp_payments_subTextView_marginBottom
+        </item>
         <item name="android:layout_marginStart">@dimen/small_margin</item>
     </style>
 

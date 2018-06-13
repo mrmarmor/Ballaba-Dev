@@ -52,7 +52,6 @@ import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -850,7 +849,7 @@ public class ConnectionsManager {
             @Override
             public void onErrorResponse(VolleyError error) {
                 pd.dismiss();
-                final String errorSTR = parseResponse(new String(error.networkResponse.data));
+                final String errorSTR = new String(error.networkResponse.data);
                 Log.d(TAG, "onErrorResponse: " + errorSTR);
             }
         }) {
