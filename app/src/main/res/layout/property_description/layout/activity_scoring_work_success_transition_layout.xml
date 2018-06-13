@@ -222,6 +222,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/scoring_work_bottom_divider"
             android:background="@android:color/transparent"
+            android:elevation="2dp"
             >
 
             <ImageView
@@ -307,7 +308,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/scoring_work_bottom_divider"
             android:background="@android:color/transparent"
-            android:visibility="visible">
+            android:visibility="visible"
+            android:elevation="2dp">
 
             <ImageView
                 android:id="@+id/scoring_work_more_imageView"
@@ -458,7 +460,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/scoring_work_bottom_divider"
-            android:background="@android:color/transparent">
+            android:background="@android:color/transparent"
+            android:elevation="2dp">
 
             <ImageView
                 android:id="@+id/scoring_work_success_imageView"
@@ -520,5 +523,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:clickable="false"/>
+
+        <View
+            android:id="@+id/scoring_work_bottom_alphaView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"
+            android:alpha="0.7"
+            android:visibility="visible"/>
     </android.support.constraint.ConstraintLayout>
 </layout>

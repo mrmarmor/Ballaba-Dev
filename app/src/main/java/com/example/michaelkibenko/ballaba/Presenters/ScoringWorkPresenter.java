@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.ScoringUserData;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
@@ -64,6 +65,7 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
     private @SCREEN_STATES int currentState = SCREEN_STATES.EMPTY;
     private ConstraintLayout emptyTransition, guarantorTransition, moreDataTransition, successTransition;
     private LayoutInflater inflater;
+    private boolean isSecondTime;
 
     public ScoringWorkPresenter(final AppCompatActivity activity, ActivityScoringWorkBinding binding) {
         this.activity = activity;
@@ -93,15 +95,20 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
         ConstraintSet set = new ConstraintSet();
         if(this.currentState == SCREEN_STATES.EMPTY){
             set.clone(emptyTransition);
+            binder.scoringWorkBottomAlphaView.setVisibility(View.GONE);
         }else if(this.currentState == SCREEN_STATES.GUARANTOR){
             set.clone(guarantorTransition);
+            binder.scoringWorkBottomAlphaView.setVisibility(View.VISIBLE);
         }else if(this.currentState == SCREEN_STATES.GUARANTOR_SUCCESS){
             //TODO change copy and BL
             set.clone(successTransition);
+            binder.scoringWorkBottomAlphaView.setVisibility(View.VISIBLE);
         }else if(this.currentState == SCREEN_STATES.MORE_DATA){
             set.clone(moreDataTransition);
+            binder.scoringWorkBottomAlphaView.setVisibility(View.VISIBLE);
         }else if(this.currentState == SCREEN_STATES.SUCCESS){
             set.clone(successTransition);
+            binder.scoringWorkBottomAlphaView.setVisibility(View.VISIBLE);
         }
         TransitionManager.beginDelayedTransition((ViewGroup) binder.getRoot());
         set.applyTo((ConstraintLayout) binder.getRoot());
@@ -150,7 +157,19 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
         binder.scoringWorkOkButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onClickOk();
+                onClickOk(true);
+            }
+        });
+
+        binder.moreNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isEmailAddressValid(false) || isWebsiteNameValid(false)){
+                    isSecondTime = true;
+                    onClickOk(false);
+                }else{
+                    //TODO set error
+                }
             }
         });
     }
@@ -195,7 +214,7 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
         }
     }
 
-    public void onClickOk() {
+    public void onClickOk(boolean isFirst) {
 
         // permission fields
         /*if (!isWebsiteNameValid()) {
@@ -230,8 +249,8 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
             userData.setWorkStatus(personalWorkStatus);
             userData.setWorkSeniority(senioritySelected.getText().equals("יותר משנה") ? true : false);
             userData.setUserIncome(Integer.parseInt(binder.scoringWorkIncomeEditText.getText().toString().trim()));
-            userData.setWorkEmail(binder.scoringSiteEditText.getText().toString().trim());
-            userData.setUserEmail(binder.scoringEmailEditText.getText().toString().trim());
+            userData.setWorkEmail(isFirst ? binder.scoringSiteEditText.getText().toString().trim() : binder.scoringWorkMoreWorkEditText.getText().toString().trim());
+            userData.setUserEmail(isFirst ? binder.scoringEmailEditText.getText().toString().trim() : binder.scoringWorkMoreEmailEditText.getText().toString().trim());
             userData.setBirthDate(BallabaUserManager.getInstance().getUser().getBirth_date());
 
             sendScoringData(userData);
@@ -279,15 +298,7 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 //hide progressbar
-                changeScreenState(SCREEN_STATES.SUCCESS);
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Intent intent = new Intent(activity, PropertyDescriptionActivity.class);
-                        intent.putExtra("Prop" , BallabaUserManager.getInstance().getUser().userCurrentPropertyObservedID);
-                        activity.startActivity(intent);
-                    }
-                }, SUCCESS_DELAY_TIME);
+                checkPropertyPermission();
             }
 
             @Override
@@ -305,13 +316,41 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
         });
     }
 
-    private boolean isWebsiteNameValid() {
-        CharSequence website = binder.scoringSiteEditText.getText();
+    private void checkPropertyPermission(){
+        ConnectionsManager.getInstance(activity).getPropertyPermission(BallabaUserManager.getInstance().getUser().userCurrentPropertyObservedID, new BallabaResponseListener() {
+            @Override
+            public void resolve(BallabaBaseEntity entity) {
+                changeScreenState(SCREEN_STATES.SUCCESS);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(activity, PropertyDescriptionActivity.class);
+                        intent.putExtra("Prop" , BallabaUserManager.getInstance().getUser().userCurrentPropertyObservedID);
+                        activity.startActivity(intent);
+                    }
+                }, SUCCESS_DELAY_TIME);
+            }
+
+            @Override
+            public void reject(BallabaBaseEntity entity) {
+                if(((BallabaErrorResponse)entity).statusCode == 403){
+                    if((isEmailAddressValid(true) && isWebsiteNameValid(true)) || isSecondTime){
+                        changeScreenState(SCREEN_STATES.GUARANTOR);
+                    }else{
+                        changeScreenState(SCREEN_STATES.MORE_DATA);
+                    }
+                }
+            }
+        });
+    }
+
+    private boolean isWebsiteNameValid(boolean isFirst) {
+        CharSequence website = isFirst ? binder.scoringSiteEditText.getText() : binder.scoringWorkMoreWorkEditText.getText();
         return Patterns.WEB_URL.matcher(website).matches();
     }
 
-    private boolean isEmailAddressValid() {
-        CharSequence email = binder.scoringEmailEditText.getText();
+    private boolean isEmailAddressValid(boolean isFirst) {
+        CharSequence email = isFirst ? binder.scoringEmailEditText.getText() : binder.scoringWorkMoreEmailEditText.getText();
         return Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
