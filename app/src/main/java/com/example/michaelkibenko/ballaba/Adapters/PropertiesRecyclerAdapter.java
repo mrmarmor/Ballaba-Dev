@@ -126,17 +126,17 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         holder.binder.propertyItemViewPagerIndicators.setNoOfPages(numOfPhotos);
 
         //holder.binder.propertyItemViewPagerIndicators.setVisibleDotCounts(6);
-        holder.binder.propertyItemViewPagerIndicators.onPageChange(numOfPhotos);
+        //holder.binder.propertyItemViewPagerIndicators.onPageChange(numOfPhotos);
         //holder.binder.propertyItemViewPagerIndicators.setTextDirection(View.TEXT_DIRECTION_RTL);
         //holder.binder.propertyItemViewPagerIndicators.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
         //holder.binder.propertyItemViewPagerIndicators.setForegroundGravity(Gravity.RIGHT);
-        holder.binder.propertyItemViewPagerIndicators.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        //holder.binder.propertyItemViewPagerIndicators.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         //holder.binder.propertyItemViewPagerIndicators.setStartPosX(0);
         holder.binder.propertyItemViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
-                //holder.binder.propertyItemViewPagerIndicators.onPageChange(numOfPhotos - position - 1);
-                holder.binder.propertyItemViewPagerIndicators.onPageChange(position);
+                holder.binder.propertyItemViewPagerIndicators.onPageChange(numOfPhotos - position - 1);
+                //holder.binder.propertyItemViewPagerIndicators.onPageChange(position);
             }
             @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
             @Override public void onPageScrollStateChanged(int state) {}

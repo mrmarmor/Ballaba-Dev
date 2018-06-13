@@ -25,7 +25,7 @@
         android:layout_height="@dimen/propertyItem_imageView_height"
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/photo_home_grey_24" />
-    <com.hrskrs.instadotlib.InstaDotView
+    <com.example.michaelkibenko.ballaba.Views.DotViewRtl
         android:id="@+id/propertyItem_viewPager_indicators"
         style="@style/allWrapContent"
         app:layout_constraintStart_toStartOf="@id/propertyItem_viewPager"
@@ -36,7 +36,7 @@
         app:dot_activeSize="8dp"
         app:dot_inactiveColor="@android:color/white"
         app:dot_inactiveSize="5dp"
-        app:dot_margin="4dp" android:textDirection="rtl"
+        app:dot_margin="4dp"
         app:dot_mediumSize="4dp"
         app:dot_smallSize="3dp" />
 

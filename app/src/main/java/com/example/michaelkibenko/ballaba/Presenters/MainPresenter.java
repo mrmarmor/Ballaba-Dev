@@ -356,18 +356,15 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                 break;
 
             case R.id.nav_payments:
-                Intent goCreditCard = new Intent(context, CreditCardActivity.class);
-                context.startActivity(goCreditCard);
+
                 break;
 
             case R.id.nav_myProperties:
-                Intent goMyProperties = new Intent(context, MyPropertiesBaseActivity.class);
-                context.startActivity(goMyProperties);
+                intent = new Intent(context, MyPropertiesBaseActivity.class);
                 break;
 
             case R.id.nav_favorites:
-                Intent goSaved = new Intent(context, SavedPropertiesActivity.class);
-                context.startActivity(goSaved);
+                intent = new Intent(context, SavedPropertiesActivity.class);
                 break;
 
             case R.id.nav_savedAreas:
@@ -414,8 +411,13 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
 
             @Override
             public void reject(BallabaBaseEntity entity) {
-                ((BaseActivity) context).getDefaultSnackBar(binder.getRoot()
-                        , ((BallabaErrorResponse) entity).message, false).show();
+                //TODO server send message "null". when it will be ready, please use line below:
+                //((BaseActivity) context).getDefaultSnackBar(binder.getRoot()
+                //        , ((BallabaErrorResponse) entity).message, false).show();
+
+                if (((BallabaErrorResponse) entity).statusCode == 404)
+                    ((BaseActivity) context).getDefaultSnackBar(binder.getRoot()
+                           , "לא נמצאו נכסים", false).show();
                 propertiesFragment.onRefreshAnimation(false);
             }
         });
