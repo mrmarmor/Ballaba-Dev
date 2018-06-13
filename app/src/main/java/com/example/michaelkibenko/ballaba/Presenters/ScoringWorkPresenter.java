@@ -36,6 +36,14 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
 
     public static String TAG = ScoringWorkPresenter.class.getSimpleName();
 
+    private @interface SCREEN_MODES {
+        int EMPTY = 1;
+        int GUARANTOR = 2;
+        int MORE_DATA = 3;
+        int SUCCESS = 4;
+        int GUARANTOR_SUCCESS = 5;
+    }
+
     private AppCompatActivity activity;
     private ActivityScoringWorkBinding binder;
     private ViewGroup root;
@@ -47,6 +55,7 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
 
     private JSONObject object;
     private String personalDate, personalFamilyStatus, personalCar, persoanlChilds, personalWorkStatus;
+    
 
     public ScoringWorkPresenter(final AppCompatActivity activity, ActivityScoringWorkBinding binding) {
         this.activity = activity;

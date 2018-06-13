@@ -305,7 +305,7 @@
             android:layout_height="475dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scoring_work_bottom_divider"
+            app:layout_constraintBottom_toBottomOf="@+id/scoring_work_bottom_divider"
             android:background="@android:color/transparent"
             android:visibility="visible">
 

@@ -16,288 +16,288 @@
         android:background="@android:color/transparent"
         android:layoutDirection="rtl">
 
-        <ScrollView
-            android:id="@+id/scoring_work_scroll_view"
+    <ScrollView
+        android:id="@+id/scoring_work_scroll_view"
+        style="@style/allMatchParent"
+        android:background="@android:color/transparent"
+        >
+
+        <LinearLayout
+            android:id="@+id/scoring_work_root"
             style="@style/allMatchParent"
-            android:background="@android:color/transparent"
-            >
+            android:clickable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            tools:context="com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringPersonalActivity">
+
+            <TextView
+                android:layout_width="@dimen/scoring_back_width"
+                android:layout_height="@dimen/scoring_back_height"
+                android:layout_marginStart="@dimen/large_margin"
+                android:layout_marginTop="@dimen/small_margin"
+                android:drawablePadding="@dimen/small_margin"
+                android:drawableStart="@drawable/right_back_black_24"
+                android:gravity="center"
+                android:onClick="@{() -> presenter.onClickBack()}"
+                android:text="@string/scoring_back" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/view_height_large"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/large_margin"
+                android:text="@string/scoring_work_title"
+                android:textColor="@color/colorAccent"
+                android:textSize="@dimen/scoring_title_textSize" />
+
+            <TextView
+                style="@style/scoring_title_textViews"
+                android:text="@string/scoring_employmentStatus_title" />
+
+            <RadioGroup
+                android:id="@+id/scoring_work_status_radio_group"
+                style="@style/scoring_buttons_container"
+                android:elevation="@dimen/elevation"
+                android:background="@android:color/white"
+                android:padding="1dp"
+                android:tag="employmentStatus">
+
+                <RadioButton
+                    style="@style/scoring_buttons"
+                    android:text="@string/scoring_employmentStatus_selfEmployed_button" />
+
+                <RadioButton
+                    style="@style/scoring_buttons"
+                    android:text="@string/scoring_employmentStatus_employee_button" />
+
+                <RadioButton
+                    style="@style/scoring_buttons"
+                    android:text="@string/scoring_employmentStatus_both_button" />
+
+                <RadioButton
+                    style="@style/scoring_buttons"
+                    android:text="@string/scoring_employmentStatus_unemployed_button" />
+            </RadioGroup>
 
             <LinearLayout
-                android:id="@+id/scoring_work_root"
-                style="@style/allMatchParent"
-                android:clickable="true"
-                android:focusableInTouchMode="true"
-                android:orientation="vertical"
-                tools:context="com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringPersonalActivity">
-
-                <TextView
-                    android:layout_width="@dimen/scoring_back_width"
-                    android:layout_height="@dimen/scoring_back_height"
-                    android:layout_marginStart="@dimen/large_margin"
-                    android:layout_marginTop="@dimen/small_margin"
-                    android:drawablePadding="@dimen/small_margin"
-                    android:drawableStart="@drawable/right_back_black_24"
-                    android:gravity="center"
-                    android:onClick="@{() -> presenter.onClickBack()}"
-                    android:text="@string/scoring_back" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/view_height_large"
-                    android:layout_marginStart="@dimen/activity_horizontal_margin"
-                    android:layout_marginTop="@dimen/large_margin"
-                    android:text="@string/scoring_work_title"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="@dimen/scoring_title_textSize" />
+                android:id="@+id/scoring_work_seniority_container"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:orientation="vertical">
 
                 <TextView
                     style="@style/scoring_title_textViews"
-                    android:text="@string/scoring_employmentStatus_title" />
+                    android:text="@string/scoring_seniority_title" />
 
                 <RadioGroup
-                    android:id="@+id/scoring_work_status_radio_group"
-                    style="@style/scoring_buttons_container"
-                    android:elevation="@dimen/elevation"
                     android:background="@android:color/white"
+                    android:elevation="@dimen/elevation"
                     android:padding="1dp"
-                    android:tag="employmentStatus">
+                    style="@style/scoring_buttons_container"
+                    android:id="@+id/scoring_work_seniority_radio_group"
+                    android:tag="seniority">
 
                     <RadioButton
                         style="@style/scoring_buttons"
-                        android:text="@string/scoring_employmentStatus_selfEmployed_button" />
+                        android:text="@string/scoring_seniority_lessThanYear_button" />
 
                     <RadioButton
                         style="@style/scoring_buttons"
-                        android:text="@string/scoring_employmentStatus_employee_button" />
-
-                    <RadioButton
-                        style="@style/scoring_buttons"
-                        android:text="@string/scoring_employmentStatus_both_button" />
-
-                    <RadioButton
-                        style="@style/scoring_buttons"
-                        android:text="@string/scoring_employmentStatus_unemployed_button" />
+                        android:text="@string/scoring_seniority_moreThanYear_button" />
                 </RadioGroup>
 
-                <LinearLayout
-                    android:id="@+id/scoring_work_seniority_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="180dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        style="@style/scoring_title_textViews"
-                        android:text="@string/scoring_seniority_title" />
-
-                    <RadioGroup
-                        android:background="@android:color/white"
-                        android:elevation="@dimen/elevation"
-                        android:padding="1dp"
-                        style="@style/scoring_buttons_container"
-                        android:id="@+id/scoring_work_seniority_radio_group"
-                        android:tag="seniority">
-
-                        <RadioButton
-                            style="@style/scoring_buttons"
-                            android:text="@string/scoring_seniority_lessThanYear_button" />
-
-                        <RadioButton
-                            style="@style/scoring_buttons"
-                            android:text="@string/scoring_seniority_moreThanYear_button" />
-                    </RadioGroup>
-
-                </LinearLayout>
-
-                <TextView
-                    style="@style/scoring_title_textViews"
-                    android:text="@string/scoring_income_title" />
-
-
-                <RelativeLayout
-                    style="@style/scoring_buttons_container"
-                    android:layout_height="100dp"
-                    android:layout_width="328dp"
-                    android:background="@android:color/white"
-                    android:elevation="@dimen/elevation"
-                    android:paddingBottom="@dimen/large_margin">
-
-                    <EditText
-                        android:id="@+id/scoring_work_income_edit_text"
-                        android:padding="1dp"
-                        android:layout_width="290dp"
-                        android:layout_height="48dp"
-                        android:layout_centerInParent="true"
-                        android:layout_marginLeft="19dp"
-                        android:layout_marginTop="26dp"
-                        android:background="@drawable/blue_border"
-                        android:cursorVisible="false"
-                        android:gravity="center"
-                        android:hint="@string/income"
-                        android:inputType="numberDecimal"
-                        android:textSize="16sp" />
-
-                </RelativeLayout>
-
-                <!--<RadioGroup
-                    style="@style/scoring_buttons_container"
-                    android:checkedButton="@id/scoringButtonIncome"
-                    android:tag="income">
-
-                    <RadioButton
-                        android:id="@+id/scoringButtonIncome"
-                        style="@style/scoring_buttons"
-                        android:text="@string/scoring_income_moreThan5k_button" />
-
-                    <RadioButton
-                        style="@style/scoring_buttons"
-                        android:text="@string/scoring_income_lessThan5k_button" />
-                </RadioGroup>-->
-
-                <TextView
-                    style="@style/scoring_title_textViews"
-                    android:text="@string/scoring_site_title" />
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                    android:layout_marginStart="@dimen/activity_horizontal_margin"
-                    android:background="@android:color/white"
-                    android:elevation="@dimen/elevation">
-
-                    <EditText
-                        android:id="@+id/scoring_site_editText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                        android:layout_marginStart="@dimen/activity_horizontal_margin"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:gravity="start|center_vertical"
-                        android:hint="@string/scoring_site_hint"
-                        android:inputType="textUri"
-                        android:tag="site"
-                        android:textSize="@dimen/textSize_regular" />
-                </FrameLayout>
-
-                <TextView
-                    style="@style/scoring_title_textViews"
-                    android:text="@string/scoring_email_title" />
-
-                <FrameLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                    android:layout_marginStart="@dimen/activity_horizontal_margin"
-                    android:background="@android:color/white"
-                    android:elevation="@dimen/elevation">
-
-                    <EditText
-                        android:id="@+id/scoring_email_editText"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                        android:layout_marginStart="@dimen/activity_horizontal_margin"
-                        android:backgroundTint="@color/colorPrimary"
-                        android:gravity="start|center_vertical"
-                        android:hint="@string/scoring_email_hint"
-                        android:inputType="textEmailAddress"
-                        android:tag="email"
-                        android:textSize="@dimen/textSize_regular" />
-                </FrameLayout>
-
-                <Button
-                    android:id="@+id/scoring_work_ok_button"
-                    style="@style/scoring_work_buttons_ok" />
-                <!--android:onClick="@{() -> presenter.onClickOk()}"-->
             </LinearLayout>
-        </ScrollView>
+
+            <TextView
+                style="@style/scoring_title_textViews"
+                android:text="@string/scoring_income_title" />
+
+
+            <RelativeLayout
+                style="@style/scoring_buttons_container"
+                android:layout_height="100dp"
+                android:layout_width="328dp"
+                android:background="@android:color/white"
+                android:elevation="@dimen/elevation"
+                android:paddingBottom="@dimen/large_margin">
+
+                <EditText
+                    android:id="@+id/scoring_work_income_edit_text"
+                    android:padding="1dp"
+                    android:layout_width="290dp"
+                    android:layout_height="48dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="19dp"
+                    android:layout_marginTop="26dp"
+                    android:background="@drawable/blue_border"
+                    android:cursorVisible="false"
+                    android:gravity="center"
+                    android:hint="@string/income"
+                    android:inputType="numberDecimal"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <!--<RadioGroup
+                style="@style/scoring_buttons_container"
+                android:checkedButton="@id/scoringButtonIncome"
+                android:tag="income">
+
+                <RadioButton
+                    android:id="@+id/scoringButtonIncome"
+                    style="@style/scoring_buttons"
+                    android:text="@string/scoring_income_moreThan5k_button" />
+
+                <RadioButton
+                    style="@style/scoring_buttons"
+                    android:text="@string/scoring_income_lessThan5k_button" />
+            </RadioGroup>-->
+
+            <TextView
+                style="@style/scoring_title_textViews"
+                android:text="@string/scoring_site_title" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:background="@android:color/white"
+                android:elevation="@dimen/elevation">
+
+                <EditText
+                    android:id="@+id/scoring_site_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:gravity="start|center_vertical"
+                    android:hint="@string/scoring_site_hint"
+                    android:inputType="textUri"
+                    android:tag="site"
+                    android:textSize="@dimen/textSize_regular" />
+            </FrameLayout>
+
+            <TextView
+                style="@style/scoring_title_textViews"
+                android:text="@string/scoring_email_title" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:background="@android:color/white"
+                android:elevation="@dimen/elevation">
+
+                <EditText
+                    android:id="@+id/scoring_email_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:gravity="start|center_vertical"
+                    android:hint="@string/scoring_email_hint"
+                    android:inputType="textEmailAddress"
+                    android:tag="email"
+                    android:textSize="@dimen/textSize_regular" />
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/scoring_work_ok_button"
+                style="@style/scoring_work_buttons_ok" />
+            <!--android:onClick="@{() -> presenter.onClickOk()}"-->
+        </LinearLayout>
+    </ScrollView>
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/scoring_work_guarantor_root"
-            android:layout_width="0dp"
-            android:layout_height="365dp"
+        android:id="@+id/scoring_work_guarantor_root"
+        android:layout_width="0dp"
+        android:layout_height="365dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/scoring_work_bottom_divider"
+        android:background="@android:color/transparent"
+        >
+
+        <ImageView
+            android:id="@+id/scoring_work_guarantor_telephon_imageView"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/scoring_work_bottom_divider"
-            android:background="@android:color/transparent"
-            >
+            android:src="@drawable/telephon"
+            android:elevation="2dp"
+            />
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/scoring_work_guarantor_inside_root"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="@+id/scoring_work_guarantor_telephon_imageView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/scoring_bar_background"
+            android:layout_marginTop="50dp">
+
+            <TextView
+                android:id="@+id/scoring_work_guarantor_inside_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="27sp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="ערב"
+                android:layout_marginTop="74dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:id="@+id/scoring_work_guarantor_onBoarding_inside_TV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="באפשרותך להביא ערב..."
+                android:textSize="16sp"
+                android:textColor="@color/gray_divider"
+                app:layout_constraintTop_toBottomOf="@+id/scoring_work_guarantor_inside_TV"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"/>
 
             <ImageView
-                android:id="@+id/scoring_work_guarantor_telephon_imageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/telephone_blue_24"
+                android:padding="25dp"
+                app:layout_constraintTop_toBottomOf="@+id/scoring_work_guarantor_onBoarding_inside_TV"
+                android:layout_marginTop="48dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/telephon"
-                android:elevation="2dp"
+                android:layout_marginStart="16dp"
                 />
 
-            <android.support.constraint.ConstraintLayout
-                android:id="@+id/scoring_work_guarantor_inside_root"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_constraintTop_toTopOf="@+id/scoring_work_guarantor_telephon_imageView"
+            <Button
+                android:id="@+id/guarantor_nextButton"
+                android:layout_width="140dp"
+                android:layout_height="40dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:background="@drawable/scoring_bar_background"
-                android:layout_marginTop="50dp">
-
-                <TextView
-                    android:id="@+id/scoring_work_guarantor_inside_TV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="27sp"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="ערב"
-                    android:layout_marginTop="74dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-                <TextView
-                    android:id="@+id/scoring_work_guarantor_onBoarding_inside_TV"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:text="באפשרותך להביא ערב..."
-                    android:textSize="16sp"
-                    android:textColor="@color/gray_divider"
-                    app:layout_constraintTop_toBottomOf="@+id/scoring_work_guarantor_inside_TV"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"/>
-
-                <ImageView
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:background="@drawable/telephone_blue_24"
-                    android:padding="25dp"
-                    app:layout_constraintTop_toBottomOf="@+id/scoring_work_guarantor_onBoarding_inside_TV"
-                    android:layout_marginTop="48dp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginStart="16dp"
-                    />
-
-                <Button
-                    android:id="@+id/guarantor_nextButton"
-                    android:layout_width="140dp"
-                    android:layout_height="40dp"
-                    android:background="@color/colorPrimary"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    android:layout_marginBottom="23dp"
-                    android:text="שלח בקשה"
-                    android:gravity="center"
-                    android:textColor="@android:color/white"
-                    android:textSize="16sp"/>
-            </android.support.constraint.ConstraintLayout>
-
+                android:layout_marginBottom="23dp"
+                android:text="שלח בקשה"
+                android:gravity="center"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"/>
         </android.support.constraint.ConstraintLayout>
+
+    </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/scoring_work_more_root"
@@ -356,7 +356,7 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"/>
-
+                
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/scoring_work_more_root_inside_TV"
                     android:layout_width="0dp"
@@ -372,14 +372,14 @@
                     >
 
                     <ImageView
-                        android:id="@+id/scoring_work_more_root_inside_ImageView"
-                        android:layout_width="25dp"
-                        android:layout_height="25dp"
-                        android:background="@drawable/ic_language_black_24_px"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        android:layout_marginTop="48dp"
-                        android:layout_marginStart="18dp"/>
+                    android:id="@+id/scoring_work_more_root_inside_ImageView"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/ic_language_black_24_px"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_marginTop="48dp"
+                    android:layout_marginStart="18dp"/>
 
                     <android.support.design.widget.TextInputLayout
                         app:layout_constraintStart_toEndOf="@+id/scoring_work_more_root_inside_ImageView"
@@ -432,7 +432,7 @@
                     </android.support.design.widget.TextInputLayout>
 
                 </android.support.constraint.ConstraintLayout>
-
+                
                 <Button
                     android:id="@+id/more_nextButton"
                     android:layout_width="140dp"
@@ -458,7 +458,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/scoring_work_bottom_divider"
-            android:background="@android:color/transparent">
+            android:background="@android:color/transparent"
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/scoring_work_success_imageView"
