@@ -75,7 +75,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ((AddPropertyActivityNew)getActivity()).changePageIndicatorText(4);
-
+        context = getActivity();
         binderPay = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_add_prop_payments, container, false);
         View view = binderPay.getRoot();
@@ -199,11 +199,6 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         });
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context = context;
-    }
 
     private String getOriginalTitleByFormatted(String formatted){
         if (items != null && items.size() > 0) {
