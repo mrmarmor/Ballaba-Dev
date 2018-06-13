@@ -136,10 +136,12 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         if (user == null) {//show default date
             myCalendar.set(1995, Calendar.MONTH, Calendar.DAY_OF_MONTH);
         } else {//show user date of birth
-            String birthDate = user.getBirth_date();
-            myCalendar.set(Integer.parseInt(birthDate.split(" / ")[2].substring(0, 4))//year
-                    , Integer.parseInt(birthDate.split(" / ")[1]) - 1//month
-                    , Integer.parseInt(birthDate.split(" / ")[0]));//day
+            if(user.getBirth_date() != null && !user.getBirth_date().equals("null")) {
+                String birthDate = user.getBirth_date();
+                myCalendar.set(Integer.parseInt(birthDate.split(" / ")[2].substring(0, 4))//year
+                        , Integer.parseInt(birthDate.split(" / ")[1]) - 1//month
+                        , Integer.parseInt(birthDate.split(" / ")[0]));//day
+            }
         }
 
         new DatePickerDialog(context, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH))
@@ -161,7 +163,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         Calendar minimumYearsCheckCalendar = Calendar.getInstance();
         minimumYearsCheckCalendar.setTime(new Date());
         minimumYearsCheckCalendar.add(Calendar.YEAR, -18);
-
+        binderLandLord.addPropBirthDateEditText.setText(year + " / " + month + " / " + day);
         if (myCalendar.before(minimumYearsCheckCalendar)) { // user above 18 years old
 
             Log.d(TAG, "updateDate: " + year + " " + month + " " + day);
@@ -173,7 +175,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 }
             }*/
             //Toast.makeText(context, "" + day + " " + month + " " + year, Toast.LENGTH_SHORT).show();
-            binderLandLord.addPropBirthDateEditText.setText(year + " / " + month + " / " + day);
+            //TODO here we have to set error flow
         } else { // user under 18 years old
 
         }
@@ -339,17 +341,12 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.addProperty_landlord_button_next:
-                if(getActivity() instanceof AddPropertyActivityNew) {
-                    ((AddPropertyActivityNew) getActivity()).changeFragment(new AddPropAssetFrag(), true);
-                    onFinish(ConnectionsManager.newInstance(context));
-                }
-                else if(getActivity() instanceof ScoringPersonalDetailsActivity && isTenant){
-                    startActivity(new Intent(getActivity(), ScoringCameraActivity.class));
-                }
+                onFinish(ConnectionsManager.newInstance(context));
         }
     }
 
     private void onFinish(ConnectionsManager conn) {
+        //TODO here we have to set progressDialog
         final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
         data.put("profile_image", getProfileImage());
         Log.d(TAG, "last name sent to server: " + data.get("last_name"));
@@ -374,7 +371,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                             //startActivity(new Intent(getActivity(), ScoringPersonalActivity.class));
                             startActivity(new Intent(getActivity(), ScoringCameraActivity.class));
                         } else {
-                           //AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(1);
+                            ((AddPropertyActivityNew) getActivity()).changeFragment(new AddPropAssetFrag(), true);
                         }
                     }
 
@@ -391,7 +388,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             } else if (isTenant) {
                 startActivity(new Intent(getActivity(), ScoringCameraActivity.class));
             } else {
-                //AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(1);
+                ((AddPropertyActivityNew) getActivity()).changeFragment(new AddPropAssetFrag(), true);
             }
         } catch (JSONException e) {
             e.printStackTrace();

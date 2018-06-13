@@ -58,7 +58,7 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
     @interface CREDIT_CARD_ICON {
         int ISRACARD = R.drawable.bathtub_blue_36;
         int MASTERCARD = R.drawable.bed_blue_36;
-        int VISA = R.drawable.calender_blue_24_copy;
+        int VISA = R.drawable.group_6;
         int DINERS = R.drawable.date_blue_36;
         int AMERICAN_EXPRESS = R.drawable.exclusive;
     }
@@ -200,6 +200,7 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
     }
 
     private void onError(TextInputLayout textInputLayout, EditText editText, String errorMessage) {
+        textInputLayout.setErrorEnabled(true);
         textInputLayout.setError(errorMessage);
         //editText.setError(errorMessage);
         //editText.setTextColor(getResources().getColor(R.color.red_error_phone, getTheme()));
@@ -230,11 +231,11 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
         return jsonObject;
     }
 
-    @Override
+    /*@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home)
             finish();
 
         return super.onOptionsItemSelected(item);
-    }
+    }*/
 }

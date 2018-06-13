@@ -3,6 +3,7 @@ package com.example.michaelkibenko.ballaba.Activities.Scoring;
 import android.Manifest;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -16,7 +17,8 @@ import com.example.michaelkibenko.ballaba.R;
 
 public class SelfCamActivity extends BaseActivity {
 
-    private static final int MY_PERMISSIONS_REQUEST_CAMERA = 34567;
+    private static final int MY_PERMISSIONS_REQUEST_CAMERA = 347;
+    public static final int SELFI = 10;
     private CameraFragment cameraFragment;
 
     @Override
@@ -37,14 +39,28 @@ public class SelfCamActivity extends BaseActivity {
         FragmentManager fragmentManager = getFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.camera_fragment_container, cameraFragment);
-        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     private void requestCameraPermission(){
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.CAMERA},
                 MY_PERMISSIONS_REQUEST_CAMERA);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == SELFI) {
+                cameraFragment = new CameraFragment();
+                cameraFragment.setCurrentType(CameraFragment.CAMERA_TYPES.FRONT);
+                openCameraFragment();
+        }
     }
 
     @Override

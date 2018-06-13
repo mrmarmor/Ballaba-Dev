@@ -73,6 +73,14 @@ public class BallabaSearchPropertiesManager {
         return locations;
 
     }
+    public BallabaPropertyResult getResultsById(String id) {
+        for (BallabaPropertyResult result : results)
+            if (result.id.equals(id))
+                return result;
+
+        return null;
+
+    }
 
     public BallabaPropertyFull getPropertyFull() {
         return currentPropertyFull;

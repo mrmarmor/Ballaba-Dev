@@ -36,7 +36,7 @@
 
     <style name="TextLabel" parent="Widget.Design.TextInputLayout">
         <!-- Hint color and label color in FALSE state -->
-        <item name="android:textColorHint">@color/text_grey</item>
+        <item name="android:textColorHint">@color/gray_text_color</item>
         <!-- Label color in TRUE state and bar color FALSE and TRUE State -->
         <item name="colorAccent">@color/colorAccent</item>
         <item name="colorControlNormal">@color/text_grey</item>
@@ -151,7 +151,7 @@
         <item name="android:textColor">@color/colorPrimary</item>
 
         <!-- Color when pressed -->
-        <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
         <!-- Default color for the dropdown arrow and line -->
         <item name="colorControlNormal">@color/colorPrimary</item>
         <item name="colorControlActivated">@color/colorPrimary</item>
