@@ -96,7 +96,6 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
     public void onBindViewHolder(final PropertiesRecyclerAdapter.ViewHolder holder, final int position) {
         Log.d(TAG, properties.size()+":"+position);
         final BallabaPropertyResult property = properties.get(position);
-        final int NUM_OF_PHOTOS = 6;
         PropertiesPhotosPagerAdapter propertiesPhotosViewPagerAdapter = new PropertiesPhotosPagerAdapter(
                 fragmentManager, generateImageFragments(property.photos, property.id, position));
         holder.binder.propertyItemViewPager.setId(position+propertiesPhotosViewPagerAdapter.hashCode());
@@ -104,57 +103,11 @@ public class PropertiesRecyclerAdapter extends RecyclerView.Adapter<PropertiesRe
         //holder.binder.propertyItemViewPager.setOffscreenPageLimit(0);
         holder.binder.propertyItemViewPager.setAdapter(propertiesPhotosViewPagerAdapter);
 
-    /*    holder.binder.tabIndicators.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                holder.binder.tabIndicators.invalidate();
-                for (int i = 5; i <= holder.binder.tabIndicators.getTabCount(); i++)
-                    if (tab.getPosition() != i && holder.binder.tabIndicators.getTabCount() != i)
-                        holder.binder.tabIndicators.removeTabAt(i);
-            }
-            @Override public void onTabUnselected(TabLayout.Tab tab) {}
-            @Override public void onTabReselected(TabLayout.Tab tab) {}
-        });
-        holder.binder.tabIndicators.setupWithViewPager(holder.binder.propertyItemViewPager, true);
-        holder.binder.tabIndicators.setScrollIndicators(View.SCROLL_INDICATOR_RIGHT);
-        for (int i = 5; i <= holder.binder.tabIndicators.getTabCount(); i++)
-            if (holder.binder.tabIndicators.getTabCount() != i)
-                holder.binder.tabIndicators.removeTabAt(i);*/
-
-
-        final int numOfPhotos = holder.binder.propertyItemViewPager.getAdapter().getCount();
-        holder.binder.propertyItemViewPagerIndicators.setNoOfPages(numOfPhotos);
-
-        //holder.binder.propertyItemViewPagerIndicators.setVisibleDotCounts(6);
-        //holder.binder.propertyItemViewPagerIndicators.onPageChange(numOfPhotos);
-        //holder.binder.propertyItemViewPagerIndicators.setTextDirection(View.TEXT_DIRECTION_RTL);
-        //holder.binder.propertyItemViewPagerIndicators.setTextAlignment(View.TEXT_ALIGNMENT_VIEW_START);
-        //holder.binder.propertyItemViewPagerIndicators.setForegroundGravity(Gravity.RIGHT);
-        //holder.binder.propertyItemViewPagerIndicators.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-        //holder.binder.propertyItemViewPagerIndicators.setStartPosX(0);
-        holder.binder.propertyItemViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                holder.binder.propertyItemViewPagerIndicators.onPageChange(numOfPhotos - position - 1);
-                //holder.binder.propertyItemViewPagerIndicators.onPageChange(position);
-            }
-            @Override public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
-            @Override public void onPageScrollStateChanged(int state) {}
-        });
-
-        //setIndicators(holder.binder.tabIndicators, holder.binder.propertyItemViewPager, NUM_OF_PHOTOS);
-
-       /* holder.binder.propertyItemViewPagerIndicators.setNoOfPages(NUM_OF_PHOTOS);
-        holder.binder.propertyItemViewPagerIndicators.setVisibleDotCounts(5);
-        holder.binder.propertyItemViewPagerIndicators.onPageChange(NUM_OF_PHOTOS - 1);*/
-        //holder.binder.propertyItemViewPagerIndicators.setStartPosX(0);
-        //holder.binder.propertyItemViewPagerIndicators.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-
+        holder.binder.propertyItemViewPagerIndicators.attachToViewPager(holder.binder.propertyItemViewPager);
 
         Drawable d = property.isSaved? res.getDrawable(R.drawable.heart_blue_24, mContext.getTheme())
                 :res.getDrawable(R.drawable.heart_white_24, mContext.getTheme());
         holder.binder.propertyItemIsSavedPropertyImageView.setImageDrawable(d);
-
         holder.binder.propertyItemIsSavedPropertyImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
