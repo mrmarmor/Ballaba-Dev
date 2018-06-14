@@ -4,7 +4,8 @@
     style="@style/allWrapContent"
     android:layout_width="match_parent"
     android:background="@android:color/transparent"
-    android:layoutDirection="rtl">
+    android:layoutDirection="rtl"
+    android:scrollbars="none">
 
     <LinearLayout
         android:id="@+id/addProperty_addons_root"
@@ -14,9 +15,10 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/addProperty_addons_furniture"
+            android:id="@+id/addProperty_furniture_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
             android:background="@android:color/white"
             android:elevation="2dp"
             android:orientation="vertical">
@@ -60,6 +62,19 @@
                     android:layoutDirection="ltr" />
 
             </RelativeLayout>
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/addProperty_addons_furniture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small_margin"
+            android:background="@android:color/white"
+            android:elevation="2dp"
+            android:orientation="vertical">
 
             <TextView
                 style="@style/addProperty_titles"
@@ -111,13 +126,13 @@
                 android:background="@android:color/white" />-->
         </LinearLayout>
 
-
         <LinearLayout
             android:id="@+id/addProperty_pet_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/small_margin"
             android:background="@android:color/white"
+            android:elevation="2dp"
             android:orientation="vertical">
 
             <Button
@@ -170,6 +185,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/small_margin"
             android:background="@android:color/white"
+            android:elevation="2dp"
             android:orientation="vertical">
 
             <TextView
@@ -194,4 +210,5 @@
             android:text="@string/button_next" />
 
     </LinearLayout>
+
 </ScrollView>
