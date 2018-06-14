@@ -25,34 +25,15 @@
         android:layout_height="@dimen/propertyItem_imageView_height"
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/photo_home_grey_24" />
-    <com.example.michaelkibenko.ballaba.Views.DotViewRtl
+    <com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
         android:id="@+id/propertyItem_viewPager_indicators"
         style="@style/allWrapContent"
         app:layout_constraintStart_toStartOf="@id/propertyItem_viewPager"
         app:layout_constraintEnd_toEndOf="@id/propertyItem_viewPager"
         app:layout_constraintBottom_toBottomOf="@id/propertyItem_viewPager"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        app:dot_activeColor="@color/colorAccent"
-        app:dot_activeSize="8dp"
-        app:dot_inactiveColor="@android:color/white"
-        app:dot_inactiveSize="5dp"
-        app:dot_margin="4dp"
-        app:dot_mediumSize="4dp"
-        app:dot_smallSize="3dp" />
-
-  <!--  <android.support.design.widget.TabLayout
-        android:id="@+id/tabIndicators"
-        android:layout_alignParentBottom="true"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="@id/propertyItem_viewPager"
-        app:layout_constraintEnd_toEndOf="@id/propertyItem_viewPager"
-        app:layout_constraintBottom_toBottomOf="@id/propertyItem_viewPager"
-        app:tabBackground="@drawable/indicators_selector"
-        app:tabGravity="center" android:clipChildren="true" android:maxLength="5"
-        app:tabPaddingEnd="21dp" android:clipToPadding="false"
-        app:tabMode="fixed"
-        app:tabIndicatorHeight="0dp"/>-->
+        app:supportRTL="true"
+        app:selectedDotColor="@color/colorAccent" />
 
     <!-- TODO black alpha strip -->
     <!--<View
