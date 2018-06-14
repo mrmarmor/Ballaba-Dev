@@ -19,10 +19,8 @@ import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
@@ -34,7 +32,6 @@ import com.bumptech.glide.request.target.Target;
 import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivityNew;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringCameraActivity;
-import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringPersonalDetailsActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
@@ -75,7 +72,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     private boolean isTenant;
 
     private Calendar myCalendar = Calendar.getInstance();
-    private String day , month , year;
+    private String day, month, year;
 
 
     public AddPropLandlordFrag() {
@@ -136,7 +133,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         if (user == null) {//show default date
             myCalendar.set(1995, Calendar.MONTH, Calendar.DAY_OF_MONTH);
         } else {//show user date of birth
-            if(user.getBirth_date() != null && !user.getBirth_date().equals("null")) {
+            if (user.getBirth_date() != null && !user.getBirth_date().equals("null")) {
                 String birthDate = user.getBirth_date();
                 myCalendar.set(Integer.parseInt(birthDate.split(" / ")[2].substring(0, 4))//year
                         , Integer.parseInt(birthDate.split(" / ")[1]) - 1//month
@@ -194,7 +191,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             binderLandLord.addPropPhoneEditText.setText(user.getPhone());
             binderLandLord.addPropCityActv.setText(user.getCity());
             binderLandLord.addPropAddressActv.setText(user.getAddress());
-            if(!user.getStreet_number().equals("null") && user.getStreet_number() != null ){
+            if (!user.getStreet_number().equals("null") && user.getStreet_number() != null) {
                 binderLandLord.addPropHouseNoEditText.setText(user.getStreet_number());
             }
             binderLandLord.addPropAptNoEditText.setText(user.getApt_no());
@@ -259,7 +256,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         areAllDataFieldsFilledUp = true;
         for (int i = binderLandLord.addPropertyEditTextsRoot.getChildCount() - 1; i >= 0; i--) {//root.getChildCount(); i++) {
             View v = binderLandLord.addPropertyEditTextsRoot.getChildAt(i);
-            if(v instanceof TextInputLayout && ((TextInputLayout) v).getChildCount() >0) {
+            if (v instanceof TextInputLayout && ((TextInputLayout) v).getChildCount() > 0) {
                 View textInput = ((TextInputLayout) v).getEditText();
                 if (textInput instanceof TextInputEditText) {
                     String input = ((TextInputEditText) textInput).getText() + "";
@@ -269,7 +266,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                     } else {
                         map.put(textInput.getTag() + "", input);
                     }
-                }else if(textInput instanceof TextInputAutoCompleteTextView){
+                } else if (textInput instanceof TextInputAutoCompleteTextView) {
                     String input = ((TextInputAutoCompleteTextView) textInput).getText().toString();
                     if (input.equals("") && !textInput.getTag().equals("phone")) {
                         areAllDataFieldsFilledUp = false;
@@ -288,13 +285,13 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 , binderLandLord.addPropAptNoEditText.getText() + "");
         map.put(binderLandLord.addPropAboutEditText.getTag() + ""
                 , binderLandLord.addPropAboutEditText.getText() + "");
-        map.put(binderLandLord.addPropHouseNoEditText.getTag()+"",
+        map.put(binderLandLord.addPropHouseNoEditText.getTag() + "",
                 binderLandLord.addPropHouseNoEditText.getText().toString());
         String newDateFormat = day + "-" + month + "-" + year;
-        if(day == null || month == null || year == null){
+        if (day == null || month == null || year == null) {
             newDateFormat = user.getBirth_date();
         }
-        if(newDateFormat != null){
+        if (newDateFormat != null) {
             map.put(binderLandLord.addPropBirthDateEditText.getTag() + ""
                     , newDateFormat);
         }
@@ -387,14 +384,14 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 });
             } else if (isTenant) {
                 startActivity(new Intent(getActivity(), ScoringCameraActivity.class));
-            } else {
+            } /*else {
                 ((AddPropertyActivityNew) getActivity()).changeFragment(new AddPropAssetFrag(), true);
-            }
+            }*/
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if(getActivity() instanceof AddPropertyActivityNew) {
-            ((AddPropertyActivityNew) getActivity()).changeFragment(new AddPropAssetFrag(), true);
+        if (getActivity() instanceof AddPropertyActivityNew) {
+            ((AddPropertyActivityNew) getActivity()).changeFragment(new AddPropAssetFrag() , true);
         }
     }
 
