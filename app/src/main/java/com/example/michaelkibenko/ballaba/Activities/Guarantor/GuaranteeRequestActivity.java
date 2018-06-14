@@ -1,19 +1,28 @@
 package com.example.michaelkibenko.ballaba.Activities.Guarantor;
 
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivityWithActionBar;
+import com.example.michaelkibenko.ballaba.Common.GuaranteeFcmService;
+import com.example.michaelkibenko.ballaba.Common.GuaranteeFirebaseInstanceIdService;
+import com.example.michaelkibenko.ballaba.Common.GuaranteeReceiver;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityGuaranteeRequestBinding;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 public class GuaranteeRequestActivity extends BaseActivityWithActionBar {
     private ActivityGuaranteeRequestBinding binder;
+
+    private GuaranteeReceiver guaranteeReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +47,27 @@ public class GuaranteeRequestActivity extends BaseActivityWithActionBar {
     }
 
     public void onClickConfirm(View view) {
-        Toast.makeText(this, "confirmed", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "confirmed", Toast.LENGTH_SHORT).show();
+        guaranteeReceiver = new GuaranteeReceiver();
+        registerReceiver(guaranteeReceiver, new IntentFilter("ACTION"));
+        startService(new Intent(this, GuaranteeFcmService.class));
+        startService(new Intent(this, GuaranteeFirebaseInstanceIdService.class));
+        Log.d("GuaranteeRequest", FirebaseInstanceId.getInstance().getToken());
+        new GuaranteeReceiver().sendNotification(FirebaseInstanceId.getInstance().getToken(), "user name", "my message");
+        //new GuaranteeFcmService().showNotification(this, "try2");
         finish();
     }
 
     public void onClickDecline(View view) {
         Toast.makeText(this, "declined", Toast.LENGTH_SHORT).show();
         finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        if (guaranteeReceiver != null)
+            unregisterReceiver(guaranteeReceiver);
     }
 }
