@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringCameraActivity;
@@ -38,5 +39,7 @@ public class TestingActivity extends BaseActivity {
                 startActivity(new Intent(TestingActivity.this , MyPropertiesBaseActivity.class));
             }
         });
+
+        Log.d("POP", "onCreate: ");
     }
 }

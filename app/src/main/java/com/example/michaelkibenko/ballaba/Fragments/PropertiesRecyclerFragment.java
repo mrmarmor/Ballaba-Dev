@@ -82,7 +82,7 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
     @Override
     public void onResume() {
         super.onResume();
-        refreshItems();
+        //refreshItems();
         //getProperties();
     }
 

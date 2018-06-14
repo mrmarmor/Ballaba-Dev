@@ -3,10 +3,8 @@ package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -29,12 +27,9 @@ import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
-import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
-import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropPaymentsBinding;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nex3z.flowlayout.FlowLayout;
@@ -45,12 +40,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListener, TextWatcher{
+public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListener, TextWatcher {
     private final String TAG = AddPropPaymentsFrag.class.getSimpleName(), ALL_INCLUDED = "all_included";
 
     private Context context;
     private ActivityAddPropertyBinding binderMain;
-    private FragmentAddPropPaymentsBinding binderPay;
+    //private FragmentAddPropPaymentsBinding binderPay;
     private ArrayList<PropertyAttachmentAddonEntity> items;
     private FlowLayout paymentsRoot, paymentMethodsRoot;
     private ArrayList<PropertyAttachmentAddonEntity> payments, paymentMethods;
@@ -59,14 +54,16 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     private boolean wasPaymentsChanged = false;
     private boolean isPaymentMethodSelected = true;
 
-    public AddPropPaymentsFrag() {}
+    public AddPropPaymentsFrag() {
+    }
+
     public static AddPropPaymentsFrag newInstance() {
         AddPropPaymentsFrag fragment = new AddPropPaymentsFrag();
 
         return fragment;
     }
 
-    public AddPropPaymentsFrag setMainBinder(ActivityAddPropertyBinding binder){
+    public AddPropPaymentsFrag setMainBinder(ActivityAddPropertyBinding binder) {
         this.binderMain = binder;
         return this;
     }
@@ -74,33 +71,38 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ((AddPropertyActivityNew)getActivity()).changePageIndicatorText(4);
+        ((AddPropertyActivityNew) getActivity()).changePageIndicatorText(4);
         context = getActivity();
-        binderPay = DataBindingUtil.inflate(
+        /*binderPay = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_add_prop_payments, container, false);
-        View view = binderPay.getRoot();
+        View view = binderPay.getRoot();*/
+        View view = inflater.inflate(R.layout.fragment_add_prop_payments, container, false);
         property = BallabaSearchPropertiesManager.getInstance(context).getPropertyFull();
 
         initView(view);
         return view;
     }
 
-    private void initView(View view){
+    private void initView(View view) {
+
         payments = PropertyAttachmentsAddonsHolder.getInstance().getPaymentTypes();
         paymentMethods = PropertyAttachmentsAddonsHolder.getInstance().getPaymentMethods();
 
         paymentsRoot = view.findViewById(R.id.addProperty_payments_included_flowLayout);
         paymentMethodsRoot = view.findViewById(R.id.addProperty_payments_methods_flowLayout);
 
-        initButtonAllIncluded((Button)getLayoutInflater().inflate(R.layout.chip_regular, null));
+
+        view.findViewById(R.id.addProperty_payments_button_next).setOnClickListener(this);
+
+        initButtonAllIncluded((Button) getLayoutInflater().inflate(R.layout.chip_regular, null));
         initButtons(paymentsRoot, payments);
         initButtons(paymentMethodsRoot, paymentMethods);
         initEditTexts();
-        initSpinner(binderPay.addPropertyPaymentsTimeSpinner);
-        binderPay.addPropertyPaymentsButtonNext.setOnClickListener(this);
+        //initSpinner(binderPay.addPropertyPaymentsTimeSpinner);
+        //binderPay.addPropertyPaymentsButtonNext.setOnClickListener(this);
     }
 
-    private void initButtonAllIncluded(Button chipsItem){
+    private void initButtonAllIncluded(Button chipsItem) {
         PropertyAttachmentAddonEntity entity = new PropertyAttachmentAddonEntity("all_included_id"
                 , ALL_INCLUDED, getString(R.string.attach_all_included));
         chipsItem.setText(entity.formattedTitle);
@@ -109,9 +111,9 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         paymentsRoot.addView(chipsItem, 0);
     }
 
-    private void initButtons(FlowLayout flowLayout, ArrayList<PropertyAttachmentAddonEntity> items){
+    private void initButtons(FlowLayout flowLayout, ArrayList<PropertyAttachmentAddonEntity> items) {
         for (PropertyAttachmentAddonEntity attachment : items) {
-            Button chipsItem = (Button)getLayoutInflater().inflate(R.layout.chip_regular, null);
+            Button chipsItem = (Button) getLayoutInflater().inflate(R.layout.chip_regular, null);
             initAttachment(chipsItem, attachment);
             highlightChipsUserSelectedLastTime(property, chipsItem, attachment);
 
@@ -121,12 +123,12 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         }
     }
 
-    private Button initAttachment(Button chipsItem, PropertyAttachmentAddonEntity attachment){
-        if(chipsItem.getTag() != null) {
+    private Button initAttachment(Button chipsItem, PropertyAttachmentAddonEntity attachment) {
+        if (chipsItem.getTag() != null) {
             if (!chipsItem.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
                 chipsItem.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
             }
-        }else{
+        } else {
             chipsItem.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
         }
 
@@ -151,41 +153,41 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     }
 
     //TODO on viewPager state of screen kept only for current screen and next screen. so if i scroll 2 screens state will not be kept. maybe i shall saveInstance
-    private void initEditTexts(){
+    private void initEditTexts() {
         if (property != null) {
 
             //id "4" = "arnona"; id "5" = "house committee"; "6" = "management fee"
-            for (HashMap<String, String> payment : property.payments){
-                if (payment.get("payment_type").equals(payments.get(0).id)){
-                    binderPay.addPropPaymentsMunicipalityEditText.setText(payment.get("price"));
-                } else if (payment.get("payment_type").equals(payments.get(1).id)){
-                    binderPay.addPropPaymentsHouseCommitteeEditText.setText(payment.get("price"));
-                } else if (payment.get("payment_type").equals(payments.get(2).id)){
-                    binderPay.addPropPaymentsManagementEditText.setText(payment.get("price"));
+            for (HashMap<String, String> payment : property.payments) {
+                if (payment.get("payment_type").equals(payments.get(0).id)) {
+                    //binderPay.addPropPaymentsMunicipalityEditText.setText(payment.get("price"));
+                } else if (payment.get("payment_type").equals(payments.get(1).id)) {
+                    //binderPay.addPropPaymentsHouseCommitteeEditText.setText(payment.get("price"));
+                } else if (payment.get("payment_type").equals(payments.get(2).id)) {
+                    //binderPay.addPropPaymentsManagementEditText.setText(payment.get("price"));
                 }
             }
 
-            binderPay.addPropertyPaymentsParkingNoEditText.setText(property.no_of_parking);
-            binderPay.addPropertyPaymentsParkingPriceEditText.setText(property.parking_price);
-            binderPay.addPropPaymentsRentalFeeEditText.setText(StringUtils.getInstance(true)//1. adds comma to 4+ digits number
-                    .formattedNumberWithComma(property.price)+(property.price != null? "₪":""));//2. adds ₪ if price have been set
-            binderPay.addPropPaymentsFreeTextEditText.setText(property.description);
+            //binderPay.addPropertyPaymentsParkingNoEditText.setText(property.no_of_parking);
+            //binderPay.addPropertyPaymentsParkingPriceEditText.setText(property.parking_price);
+            //binderPay.addPropPaymentsRentalFeeEditText.setText(StringUtils.getInstance(true)//1. adds comma to 4+ digits number
+            //.formattedNumberWithComma(property.price)+(property.price != null? "₪":""));//2. adds ₪ if price have been set
+            //binderPay.addPropPaymentsFreeTextEditText.setText(property.description);
         }
 
-        binderPay.addPropPaymentsMunicipalityEditText.addTextChangedListener(this);
+        /*binderPay.addPropPaymentsMunicipalityEditText.addTextChangedListener(this);
         binderPay.addPropPaymentsHouseCommitteeEditText.addTextChangedListener(this);
         binderPay.addPropPaymentsManagementEditText.addTextChangedListener(this);
         binderPay.addPropertyPaymentsParkingPriceEditText.addTextChangedListener(this);
-        binderPay.addPropPaymentsRentalFeeEditText.addTextChangedListener(this);
+        binderPay.addPropPaymentsRentalFeeEditText.addTextChangedListener(this);*/
     }
 
-    private void initSpinner(Spinner spinner){
+    private void initSpinner(Spinner spinner) {
         String[] values = context.getResources().getStringArray(R.array.addProperty_no_of_payments);
-        final String [][] spinnerItemsMap = {{"12", values[0]}, {"6", values[1]}, {"4", values[2]}
+        final String[][] spinnerItemsMap = {{"12", values[0]}, {"6", values[1]}, {"4", values[2]}
                 , {"3", values[3]}, {"2", values[4]}, {"1", values[5]}};
 
         for (int i = 0; i < spinnerItemsMap.length; i++)
-            if (property != null && property.numberOfPayments.equals(spinnerItemsMap[i][0])){
+            if (property != null && property.numberOfPayments.equals(spinnerItemsMap[i][0])) {
                 spinner.setSelection(i);
             }
 
@@ -194,13 +196,15 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 noOfPayments = spinnerItemsMap[position][0];
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
 
-    private String getOriginalTitleByFormatted(String formatted){
+    private String getOriginalTitleByFormatted(String formatted) {
         if (items != null && items.size() > 0) {
             for (PropertyAttachmentAddonEntity item : items) {
                 if (item.formattedTitle.equals(formatted)) {
@@ -211,7 +215,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         return "";
     }
 
-    private PropertyAttachmentAddonEntity getHolderByOriginalTitle(String title){
+    private PropertyAttachmentAddonEntity getHolderByOriginalTitle(String title) {
         if (items != null && items.size() > 0) {
             for (PropertyAttachmentAddonEntity item : items) {
                 if (item.title.equals(title)) {
@@ -222,7 +226,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         return null;
     }
 
-    private PropertyAttachmentAddonEntity getHolderByFormattedTitle(String formattedTitle){
+    private PropertyAttachmentAddonEntity getHolderByFormattedTitle(String formattedTitle) {
         if (items != null && items.size() > 0) {
             for (PropertyAttachmentAddonEntity item : items) {
                 if (item.formattedTitle.equals(formattedTitle)) {
@@ -234,7 +238,8 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         /*if (formattedTitle.equals(getString(R.string.attach_all_included)))//user clicked "all_included" button
             return binderPay.addPropertyPaymentsIncludedFlowLayout.getChildAt(0);
 
-    */  return null;
+    */
+        return null;
     }
 
     @Override
@@ -243,10 +248,10 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
             onFinish();
         else { //user pressed a chip/attachment
             wasPaymentsChanged = true;
-            Button btn = (Button)v;
-            PropertyAttachmentAddonEntity attachment = getHolderByFormattedTitle(btn.getText()+"");
+            Button btn = (Button) v;
+            PropertyAttachmentAddonEntity attachment = getHolderByFormattedTitle(btn.getText() + "");
             PropertyAttachmentsAddonsHolder attachments = PropertyAttachmentsAddonsHolder.getInstance();
-            String state = (String)btn.getTag();
+            String state = (String) btn.getTag();
 
             //initialize arrays for "getHolderByOriginalTitle" according to user click
             String itemParentTag = ((FlowLayout) btn.getParent()).getTag() + "";
@@ -259,27 +264,27 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
             UiUtils.instance(false, context).onChipsButtonClick(btn, state);
 
             //arnona + house committee + management fee:
-            paymentsEditTextsSetEnabled(getHolderByFormattedTitle(btn.getText()+""), btn.getTag()+"");
+            paymentsEditTextsSetEnabled(getHolderByFormattedTitle(btn.getText() + ""), btn.getTag() + "");
 
             if (btn.getText().equals(getString(R.string.attach_all_included)))
-                onAllIncludedButtonClick(binderPay.addPropertyPaymentsIncludedFlowLayout, btn, state);
+                //onAllIncludedButtonClick(binderPay.addPropertyPaymentsIncludedFlowLayout, btn, state);
 
-            if (attachment != null && Integer.parseInt(attachment.id) >= 4 && Integer.parseInt(attachment.id) <= 9)
-                onAllIncludedGroupMemberButtonClick(attachment.id);
+                if (attachment != null && Integer.parseInt(attachment.id) >= 4 && Integer.parseInt(attachment.id) <= 9)
+                    onAllIncludedGroupMemberButtonClick(attachment.id);
 
         }
     }
 
-    private void onFinish(){
+    private void onFinish() {
         String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, "-1");
         final Data data = getDataFromEditTexts(new Data());
 
-        getPayment(data, binderPay.addPropPaymentsMunicipalityEditText, 4);//Integer.parseInt(binderPay.addPropPaymentsMunicipalityEditText.getText()+""));
+        /*getPayment(data, binderPay.addPropPaymentsMunicipalityEditText, 4);//Integer.parseInt(binderPay.addPropPaymentsMunicipalityEditText.getText()+""));
         getPayment(data, binderPay.addPropPaymentsHouseCommitteeEditText, 5);
-        getPayment(data, binderPay.addPropPaymentsManagementEditText, 6);
+        getPayment(data, binderPay.addPropPaymentsManagementEditText, 6);*/
 
-        data.payment_methods.addAll(getDataFromChipsSection(new ArrayList<Integer>()
-                , binderPay.addPropertyPaymentsMethodsFlowLayout, paymentMethods));
+       /* data.payment_methods.addAll(getDataFromChipsSection(new ArrayList<Integer>()
+                , binderPay.addPropertyPaymentsMethodsFlowLayout, paymentMethods));*/
 
         if (!isPaymentMethodSelected)
             return;
@@ -287,7 +292,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         data.property_id = Integer.parseInt(propertyId);
 
         if (wasPaymentsChanged || !areEditTextsEqual(data)) {
-            final ProgressDialog pd = ((BaseActivity)context).getDefaultProgressDialog(context, "Uploading...");
+            final ProgressDialog pd = ((BaseActivity) context).getDefaultProgressDialog(context, "Uploading...");
             pd.show();
             ConnectionsManager.getInstance(context).uploadProperty(jsonParse(data, "payments"), new BallabaResponseListener() {
                 @Override
@@ -296,26 +301,26 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
                     //TODO update property updating date on SharedPrefs??
                     //SharedPreferencesManager.getInstance(context).removeString(SharedPreferencesKeysHolder.PROPERTY_ID);
                     SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "4");
-                    AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).setViewPagerItem(4);
+                    //AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).setViewPagerItem(4);
                 }
 
                 @Override
                 public void reject(BallabaBaseEntity entity) {
                     pd.dismiss();
-                    UiUtils.instance(true, context).showSnackBar(
-                            binderPay.addPropertyPaymentsRoot, "השמירה נכשלה נסה שנית מאוחר יותר");
+                    //UiUtils.instance(true, context).showSnackBar()
+                    //binderPay.addPropertyPaymentsRoot, "השמירה נכשלה נסה שנית מאוחר יותר");
 
                     //TODO NEXT LINE IS ONLY FOR TESTING:
-                    AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).setViewPagerItem(4);
+                    //AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).setViewPagerItem(4);
                     //new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(2);
                 }
             });
         } else {
-            AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(4);
+            //AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(4);
         }
     }
 
-    private Data getDataFromEditTexts(Data data){
+    private Data getDataFromEditTexts(Data data) {
         /*String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, NULL);
         StringBuilder sb = new StringBuilder();
         sb.append("\"step\" : \"" + "payments"+"\"")
@@ -335,13 +340,13 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         data.put("rent_price", binderPay.addPropPaymentsRentalFeeEditText.getText());
         data.put("description", binderPay.addPropPaymentsFreeTextEditText.getText());*/
         try {
-            data.details.put("no_of_payments", Integer.parseInt(noOfPayments));
+            /*data.details.put("no_of_payments", Integer.parseInt(noOfPayments));
             data.details.put("no_of_parking", Integer.parseInt(binderPay.addPropertyPaymentsParkingNoEditText.getText() + ""));
             data.details.put("parking_price", Integer.parseInt(binderPay.addPropertyPaymentsParkingPriceEditText
                     .getText().toString().replace("₪,.", "")));
             data.details.put("rent_price", Integer.parseInt(binderPay.addPropPaymentsRentalFeeEditText
                     .getText().toString().replace("₪,.", "")));
-            data.details.put("description", binderPay.addPropPaymentsFreeTextEditText.getText());
+            data.details.put("description", binderPay.addPropPaymentsFreeTextEditText.getText());*/
 
             return data;
         } catch (NumberFormatException e) {
@@ -350,7 +355,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         }
     }
 
-    private void getPayment(Data data, EditText paymentEditText, int typeNumber){
+    private void getPayment(Data data, EditText paymentEditText, int typeNumber) {
         String price = paymentEditText.getText().toString();
         if (paymentEditText.isEnabled() && !paymentEditText.getText().toString().equals("")) {
             Payment payment = new Payment();
@@ -370,10 +375,10 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     }*/
 
     private ArrayList<Integer> getDataFromChipsSection(ArrayList<Integer> chipsIds, FlowLayout layout
-            , ArrayList<PropertyAttachmentAddonEntity> chips){
+            , ArrayList<PropertyAttachmentAddonEntity> chips) {
 
-        for (int i = 0; i < layout.getChildCount(); i++){
-            if (layout.getChildAt(i).getTag().equals(UiUtils.ChipsButtonStates.PRESSED)){
+        for (int i = 0; i < layout.getChildCount(); i++) {
+            if (layout.getChildAt(i).getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
                 chipsIds.add(Integer.parseInt(chips.get(i).id));
             }
         }
@@ -383,7 +388,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         return chipsIds;
     }
 
-    private boolean areEditTextsEqual(final Data data){
+    private boolean areEditTextsEqual(final Data data) {
         //TODO this function needs a deep testing to check if all data fields are correct
         PropertyAttachmentsAddonsHolder entity = PropertyAttachmentsAddonsHolder.getInstance();
         return (property != null &&
@@ -397,7 +402,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
                 data.details.get("description").equals(property.description));
     }
 
-    private JSONObject jsonParse(Data propertyData, String step){
+    private JSONObject jsonParse(Data propertyData, String step) {
 
         try {
             JsonObject jsonObject = new JsonObject();
@@ -415,7 +420,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
             detailsObj.add("no_of_parking", new Gson().toJsonTree(propertyData.details.get("no_of_parking")));
             detailsObj.add("parking_price", new Gson().toJsonTree(propertyData.details.get("parking_price")));
             detailsObj.add("rent_price", new Gson().toJsonTree(propertyData.details.get("rent_price")));
-            detailsObj.addProperty("description", propertyData.details.get("description")+"");
+            detailsObj.addProperty("description", propertyData.details.get("description") + "");
 
             innerObject.addProperty("property_id", propertyData.property_id);
             innerObject.add("payment_methods", new Gson().toJsonTree(propertyData.payment_methods));
@@ -434,12 +439,12 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     }
 
     //set some payments editTexts enabled\disabled
-    private void paymentsEditTextsSetEnabled(PropertyAttachmentAddonEntity entity, String state){
+    private void paymentsEditTextsSetEnabled(PropertyAttachmentAddonEntity entity, String state) {
         if (entity == null)
             return;
 
         switch (entity.title) {
-            case "arnona":
+            /*case "arnona":
                 //binderPay.addPropPaymentsMunicipalityEditText.setEnabled(!state.equals(UiUtils.ChipsButtonStates.PRESSED));
                 taxesEditTextsStateChanger(binderPay.addPropPaymentsMunicipalityTitle, state);
                 taxesEditTextsStateChanger(binderPay.addPropPaymentsMunicipalityEditText, state);
@@ -457,29 +462,29 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
 
             case "parking":
                 taxesEditTextsStateChanger(binderPay.addPropertyPaymentsParkingPrice, state);
-                taxesEditTextsStateChanger(binderPay.addPropertyPaymentsParkingPriceEditText, state);
+                taxesEditTextsStateChanger(binderPay.addPropertyPaymentsParkingPriceEditText, state);*/
         }
     }
 
-    private void taxesEditTextsStateChanger(View view, String state){
-        view.setVisibility(state.equals(UiUtils.ChipsButtonStates.PRESSED)? View.GONE : View.VISIBLE);
+    private void taxesEditTextsStateChanger(View view, String state) {
+        view.setVisibility(state.equals(UiUtils.ChipsButtonStates.PRESSED) ? View.GONE : View.VISIBLE);
     }
 
-    private void onAllIncludedButtonClick(FlowLayout flowLayout, Button btn, String state){
+    private void onAllIncludedButtonClick(FlowLayout flowLayout, Button btn, String state) {
         UiUtils uiUtils = UiUtils.instance(false, context);
         if (state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED)) {
             for (int i = 1; i < 7 && i < flowLayout.getChildCount(); i++) {
-                uiUtils.onChipsButtonClick((Button)flowLayout.getChildAt(i), UiUtils.ChipsButtonStates.NOT_PRESSED);
+                uiUtils.onChipsButtonClick((Button) flowLayout.getChildAt(i), UiUtils.ChipsButtonStates.NOT_PRESSED);
             }
         } else if (state.equals(UiUtils.ChipsButtonStates.PRESSED)) {
             uiUtils.onChipsButtonClick(btn, UiUtils.ChipsButtonStates.NOT_PRESSED);
         }
     }
 
-    private void onAllIncludedGroupMemberButtonClick(String id){
+    private void onAllIncludedGroupMemberButtonClick(String id) {
         boolean allButtonsSelected = true;
         int buttonId = Integer.parseInt(id);
-        Button allIncludedBTN = (Button)binderPay.addPropertyPaymentsIncludedFlowLayout.getChildAt(0);
+        /*Button allIncludedBTN = (Button)binderPay.addPropertyPaymentsIncludedFlowLayout.getChildAt(0);
         if (buttonId >= 4 && buttonId <= 9) {// => "all included" group member button was clicked
             for (int i = 1; i < 7 && i < binderPay.addPropertyPaymentsIncludedFlowLayout.getChildCount(); i++) {
                 if (binderPay.addPropertyPaymentsIncludedFlowLayout.getChildAt(i).getTag()
@@ -488,11 +493,13 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
                     break;
                 }
             }
+        }*/
+        if (allButtonsSelected) {
         }
-        if (allButtonsSelected)
-            UiUtils.instance(false, context).onChipsButtonClick(allIncludedBTN, UiUtils.ChipsButtonStates.NOT_PRESSED);
-        else
-            UiUtils.instance(false, context).onChipsButtonClick(allIncludedBTN, UiUtils.ChipsButtonStates.PRESSED);
+        //UiUtils.instance(false, context).onChipsButtonClick(allIncludedBTN, UiUtils.ChipsButtonStates.NOT_PRESSED);
+        else {
+        }
+        //UiUtils.instance(false, context).onChipsButtonClick(allIncludedBTN, UiUtils.ChipsButtonStates.PRESSED);
     }
 
     /*private void showSnackBar(){
@@ -510,9 +517,13 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
 
     //adds NIS sign to fields that represents money
     @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
+
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {}
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
+
     @Override
     public void afterTextChanged(Editable s) {
         if (s.length() == 1 && s.toString().contains("₪"))
@@ -527,7 +538,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         private ArrayList<Integer> payment_methods;
         private HashMap<String, Object> details;
 
-        private Data(){
+        private Data() {
             payments = new ArrayList<>();
             payment_methods = new ArrayList<>();
             details = new HashMap<>();
@@ -536,7 +547,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
 
     public class Payment {
         public int type;// = new HashMap<>();
-        public /*HashMap<String, Integer>*/int price;// = new HashMap<>();
+        public /*HashMap<String, Integer>*/ int price;// = new HashMap<>();
     }
 
 }

@@ -30,10 +30,12 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.nex3z.flowlayout.FlowLayout;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -239,17 +241,17 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         try {
             JSONObject furniture = new JSONObject();
             int[] furnitureIDsArr = convertIntegers(data.furniture);
-            furniture.put("data" , furnitureIDsArr);
+            furniture.put("data" , new JSONArray((Arrays.toString(furnitureIDsArr))));
             furniture.put("is_flexible" , furnitureSwitch.isChecked());
 
             JSONObject electronics = new JSONObject();
             int[] electronicsIDsArr = convertIntegers(data.electronics);
-            electronics.put("data" , electronicsIDsArr);
+            electronics.put("data" , new JSONArray(Arrays.toString(electronicsIDsArr)));
             electronics.put("is_flexible" , electronicsSwitch.isChecked());
 
             JSONObject attachments = new JSONObject();
             int[] attachmentsIDsArr = convertIntegers(data.attachments);
-            attachments.put("data" , attachmentsIDsArr);
+            attachments.put("data" , new JSONArray(Arrays.toString(attachmentsIDsArr)));
 
             JSONObject is_pets_allowed = new JSONObject();
             is_pets_allowed.put("data" , petBtnClicked);
