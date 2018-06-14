@@ -19,16 +19,21 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
+import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPhoneNumber;
 import com.example.michaelkibenko.ballaba.Entities.ScoringUserData;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.GeneralUtils;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityScoringWorkBinding;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
 
 import org.json.JSONObject;
 
@@ -170,6 +175,13 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
                 }else{
                     //TODO set error
                 }
+            }
+        });
+
+        binder.guarantorNextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                inviteGuarantor();
             }
         });
     }
@@ -342,6 +354,36 @@ public class ScoringWorkPresenter implements RadioButton.OnClickListener
                 }
             }
         });
+    }
+
+    private void inviteGuarantor(){
+        PhoneNumberUtil phoneUtil = PhoneNumberUtil.getInstance();
+        BallabaPhoneNumber phoneNumber = new BallabaPhoneNumber();
+        phoneNumber.setCountryCode("+"+binder.scoringWorkGuarantorCountryCodePicker.getSelectedCountryCode());
+        phoneNumber.setPhoneNumber(binder.scoringWorkGuarantorPhoneNumberEditText.getText().toString());
+        if(GeneralUtils.instance(true, activity).validatePhoneNumber(phoneNumber, phoneUtil)){
+            ConnectionsManager.getInstance(activity).inviteGuarantor(phoneNumber.getFullPhoneNumber(), new BallabaResponseListener() {
+                @Override
+                public void resolve(BallabaBaseEntity entity) {
+                    changeScreenState(SCREEN_STATES.GUARANTOR_SUCCESS);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(activity, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            activity.startActivity(intent);
+                        }
+                    }, SUCCESS_DELAY_TIME);
+                }
+
+                @Override
+                public void reject(BallabaBaseEntity entity) {
+                    ((BaseActivity)activity).getDefaultSnackBar(binder.getRoot(), activity.getResources().getString(R.string.error_network_internal), false);
+                }
+            });
+        }else{
+            binder.scoringWorkGuarantorPhoneNumberEditTextLayout.setError(activity.getResources().getString(R.string.error_network_not_valid_phone_number));
+        }
     }
 
     private boolean isWebsiteNameValid(boolean isFirst) {

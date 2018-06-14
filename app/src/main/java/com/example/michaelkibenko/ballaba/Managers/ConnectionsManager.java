@@ -1613,6 +1613,10 @@ public class ConnectionsManager {
         queue.add(stringRequest);
     }
 
+    public void inviteGuarantor(String phoneNumber, BallabaResponseListener callback){
+        callback.resolve(new BallabaOkResponse());
+    }
+
     /*private BallabaPropertyPhoto parsePhotoResponse(JSONObject jsonObject) throws JSONException{
         final int id = Integer.parseInt(jsonObject.get("id") + "");
         final Uri photo = Uri.parse(jsonObject.get("photo_url")+"");
