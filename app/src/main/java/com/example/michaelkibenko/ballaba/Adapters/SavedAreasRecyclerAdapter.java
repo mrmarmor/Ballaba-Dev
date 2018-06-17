@@ -60,7 +60,6 @@ public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter implements V
     private LayoutInflater mInflater;
     private AlertDialog areUSureDialog;
     private ArrayList<Viewport> viewports;
-    //private int position;
 
     public SavedAreasRecyclerAdapter(Context context, ActivitySavedAreaBinding binding, ArrayList<Viewport> viewports) {
         this.context = context;
@@ -87,9 +86,8 @@ public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter implements V
         byte[] mapImage = viewports.get(position).mapImage;
         Bitmap bitmap = BitmapFactory.decodeByteArray(mapImage, 0, mapImage.length);
         binder.savedAreasItemImageView.setImageBitmap(bitmap);
-        binder.getRoot().setTag(position);
 
-        //this.position = position;
+        binder.getRoot().setTag(position);
     }
 
     @Override
@@ -156,7 +154,7 @@ public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter implements V
 
     @Override
     public void onClick(View v) {
-        final int position = (int)((ConstraintLayout)v.getParent()).getTag();
+        final int position = binderParent.savedAreasRecyclerView.getChildAdapterPosition((ConstraintLayout)v.getParent());
         switch (v.getId()) {
             case R.id.savedAreas_item_edit:case R.id.savedAreas_item_imageView:
                 editArea(position);
