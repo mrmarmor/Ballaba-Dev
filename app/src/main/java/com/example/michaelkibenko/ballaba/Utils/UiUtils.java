@@ -101,13 +101,13 @@ public class UiUtils {
 
     public void buttonChanger(Button btn, boolean is){
         if(is){
-            btn.setBackgroundColor(ctx.getResources().getColor(R.color.colorPrimary, ctx.getTheme()));
+            btn.setBackgroundColor(ctx.getResources().getColor(R.color.colorPrimary));
             btn.setAlpha(1f);
             btn.setClickable(true);
             btn.setEnabled(true);
             btn.setTextColor(Color.WHITE);
         }else {
-            btn.setBackgroundColor(ctx.getResources().getColor(R.color.gray_button_color, ctx.getTheme()));
+            btn.setBackgroundColor(ctx.getResources().getColor(R.color.gray_button_color));
             btn.setAlpha(0.50f);
             btn.setClickable(false);
             btn.setEnabled(false);
@@ -141,12 +141,12 @@ public class UiUtils {
         if(state.equals(ChipsButtonStates.NOT_PRESSED)){
             //change the state to pressed
             button.setBackgroundResource(R.drawable.chips_button_pressed);
-            button.setTextColor(ctx.getResources().getColor(android.R.color.white,ctx.getTheme()));
+            button.setTextColor(ctx.getResources().getColor(android.R.color.white));
             button.setTag(ChipsButtonStates.PRESSED);
         }else if(state.equals(ChipsButtonStates.PRESSED)){
             //change the state to not pressed
             button.setBackgroundResource(R.drawable.chips_button);
-            button.setTextColor(ctx.getResources().getColor(R.color.colorPrimary,ctx.getTheme()));
+            button.setTextColor(ctx.getResources().getColor(R.color.colorPrimary));
             button.setTag(ChipsButtonStates.NOT_PRESSED);
         }else{
             Log.e(TAG, "Chips does not have tag");
@@ -228,7 +228,7 @@ public class UiUtils {
         TextView tv = new TextView(ctx);
         tv.setText(text);
         tv.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, 0, 0, 0);
-        tv.setTextAppearance(R.style.property_description_textViews);
+        tv.setTextAppearance(null, R.style.property_description_textViews);
         tv.setCompoundDrawablePadding(15);
         tv.setPaddingRelative(0, 16, 8, 16);
 
@@ -238,7 +238,7 @@ public class UiUtils {
     //TODO this function has a very similar function in BaseActivity class...
     public Snackbar showSnackBar(View snackBarView, String message){
         Snackbar snackBar = Snackbar.make(snackBarView, message, Snackbar.LENGTH_LONG);
-        snackBar.getView().setBackgroundColor(ctx.getResources().getColor(R.color.colorPrimary, ctx.getTheme()));
+        snackBar.getView().setBackgroundColor(ctx.getResources().getColor(R.color.colorPrimary));
         snackBar.show();
         return snackBar;
     }

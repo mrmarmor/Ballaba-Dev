@@ -21,7 +21,10 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Map;
+
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 
 import static com.example.michaelkibenko.ballaba.Holders.EndpointsHolder.VIEWPORT;
 
@@ -36,10 +39,46 @@ public class GuaranteeReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Toast.makeText(context, intent.getStringExtra("param"), Toast.LENGTH_SHORT).show();
         String token = intent.getStringExtra("token");
-        sendNotification(token, "dummy user", "dummy message");
+//        sendNotification(token, "dummy user", "dummy message");
     }
 
     public void sendNotification(final String regToken, final String toUid, final String message) {
+        final String LEGACY_SERVER_KEY = "AIzaSyDVESFjCZI9gf3OzlkUXFuN7Y9YkkbAagc";
+        final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
+        new AsyncTask<Void,Void,Void>(){
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    OkHttpClient client = new OkHttpClient();
+                    JSONObject json = new JSONObject();
+                    JSONObject dataJson = new JSONObject();
+                    dataJson.put("body",message);
+                    dataJson.put("title","hello"+toUid);
+                    json.put("notification",dataJson);
+                    json.put("to",regToken);
+                    RequestBody body = RequestBody.create(JSON, json.toString());
+                    okhttp3.Request request = new okhttp3.Request.Builder()
+                            .header("Authorization","key="+ LEGACY_SERVER_KEY)
+                            .url("https://fcm.googleapis.com/fcm/send")
+                            .post(body)
+                            .build();
+                    okhttp3.Response response = client.newCall(request).execute();
+                    String finalResponse = response.body().string();
+                    Log.d("firebaseMessage ", regToken+":"+finalResponse);
+                    //addMessageToFirebase(mContext, toUid, message, response.isSuccessful());
+
+                }catch (Exception e){
+                    Log.d("firebaseMessageError ",e+"");
+                }
+                return null;
+            }
+        }.execute();
+
+    }
+
+
+    //with volley
+   /* public void sendNotification1(final String regToken, final String toUid, final String message) {
         FirebaseMessaging.getInstance().subscribeToTopic("message");
 
         final String URL = "https://fcm.googleapis.com/fcm/send";
@@ -68,12 +107,12 @@ public class GuaranteeReceiver extends BroadcastReceiver {
                         //callback.reject(new BallabaErrorResponse(500, null));
                     }
                 }
-            }) /*{
+            }) *//*{
                 @Override
                 public Map<String, String> getHeaders() throws AuthFailureError {
                     return getHeadersWithSessionToken();
                 }
-            }*/;
+            }*//*;
 
             jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
                     0,
@@ -90,5 +129,5 @@ public class GuaranteeReceiver extends BroadcastReceiver {
 
 
     }
-
+*/
 }

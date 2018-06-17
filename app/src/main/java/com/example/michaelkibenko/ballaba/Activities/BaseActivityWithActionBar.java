@@ -27,7 +27,7 @@ public class BaseActivityWithActionBar extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         getSupportActionBar().setBackgroundDrawable(
-                new ColorDrawable(getResources().getColor(R.color.colorPrimary, getTheme())));
+                new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
     }
 
     @Override

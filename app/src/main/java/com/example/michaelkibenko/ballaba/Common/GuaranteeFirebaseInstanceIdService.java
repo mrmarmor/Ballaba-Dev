@@ -19,7 +19,5 @@ public class GuaranteeFirebaseInstanceIdService extends FirebaseInstanceIdServic
 
         //TODO here we need to send the message to server with the token like that:
         //sendRegistrationToServer(refreshedToken);
-
-        new GuaranteeFcmService().showNotification(null, "try");
     }
 }

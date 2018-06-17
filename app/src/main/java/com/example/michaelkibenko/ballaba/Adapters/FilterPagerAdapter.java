@@ -106,11 +106,11 @@ public class FilterPagerAdapter extends FragmentStatePagerAdapter implements Vie
 
             if (button == currentButtonPosition){
                 currentButton.setTextColor(context.getResources().getColor(
-                        android.R.color.white, context.getTheme()));
+                        android.R.color.white));
                 currentDivider.setVisibility(View.VISIBLE);
             } else {
                 currentButton.setTextColor(context.getResources().getColor(
-                        R.color.filter_textColor_aquaBlue, context.getTheme()));
+                        R.color.filter_textColor_aquaBlue));
                 currentDivider.setVisibility(View.INVISIBLE);
             }
         }

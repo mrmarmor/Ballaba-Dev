@@ -143,7 +143,7 @@ public class GuarantorDeclinedActivity extends BaseActivityWithActionBar impleme
 
             binder.guarantorDeclinedNextButtonProgress.setVisibility(View.VISIBLE);
             binder.guarantorDeclinedNextButtonProgress.getIndeterminateDrawable().setColorFilter(
-                    getResources().getColor(R.color.colorPrimary, getTheme()), android.graphics.PorterDuff.Mode.SRC_IN);
+                    getResources().getColor(R.color.colorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);
 
         } else {
             params.width = (int)getResources().getDimension(R.dimen.enterPhoneNumber_progressButton_no_progress_width);
