@@ -1,17 +1,24 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v13.app.FragmentCompat;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
@@ -68,6 +75,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     private ActivityAddPropertyBinding binderMain;
     private FragmentAddPropLandlordBinding binderLandLord;
     private BottomSheetDialog bottomSheetDialog;
+    private View sheetView;
     private BallabaUserManager userManager = BallabaUserManager.getInstance();
     public BallabaUser user;
     private boolean isProfileImageChanged = false;
@@ -229,30 +237,13 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     }
 
     public void onClickProfileImage() {
-        View sheetView = getLayoutInflater().inflate(R.layout.take_pic_switch, null);
+        sheetView = getLayoutInflater().inflate(R.layout.take_pic_switch, null);
         sheetView.findViewById(R.id.takePic_button_camera).setOnClickListener(this);
         sheetView.findViewById(R.id.takePic_button_gallery).setOnClickListener(this);
 
         bottomSheetDialog = new BottomSheetDialog(context);
         bottomSheetDialog.setContentView(sheetView);
         bottomSheetDialog.show();
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent imageIntent) {
-        super.onActivityResult(requestCode, resultCode, imageIntent);
-
-        if (resultCode == RESULT_OK && imageIntent != null) {
-            Uri selectedImage = imageIntent.getData();
-
-            switch (requestCode) {
-                case REQUEST_CODE_CAMERA:
-                case REQUEST_CODE_GALLERY:
-                    binderLandLord.addPropProfileImageButton.setImageURI(selectedImage);
-                    isProfileImageChanged = true;
-                    break;
-            }
-        }
     }
 
     private HashMap<String, String> getDataFromEditTexts(HashMap<String, String> map) {
@@ -328,20 +319,55 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.takePic_button_camera:
-                Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(takePicture, REQUEST_CODE_CAMERA);
-                bottomSheetDialog.dismiss();
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
+                    requestPermissions(new String[] {Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA);
+                } else {
+                    Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(takePicture, REQUEST_CODE_CAMERA);
+                    bottomSheetDialog.dismiss();
+                }
                 break;
 
             case R.id.takePic_button_gallery:
-                Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(pickPhoto, REQUEST_CODE_GALLERY);
-                bottomSheetDialog.dismiss();
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+                    requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_GALLERY);
+                } else {
+                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(pickPhoto, REQUEST_CODE_GALLERY);
+                    bottomSheetDialog.dismiss();
+                }
                 break;
 
             case R.id.addProperty_landlord_button_next:
                 onFinish(ConnectionsManager.newInstance(context));
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent imageIntent) {
+        super.onActivityResult(requestCode, resultCode, imageIntent);
+
+        if (resultCode == RESULT_OK && imageIntent != null) {
+            Uri selectedImage = imageIntent.getData();
+
+            switch (requestCode) {
+                case REQUEST_CODE_CAMERA: case REQUEST_CODE_GALLERY:
+                    binderLandLord.addPropProfileImageButton.setImageURI(selectedImage);
+                    isProfileImageChanged = true;
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_CODE_CAMERA) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                sheetView.findViewById(R.id.takePic_button_camera).performClick();
+            }
+        } else if (requestCode == REQUEST_CODE_GALLERY) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                sheetView.findViewById(R.id.takePic_button_gallery).performClick();
+            }
         }
     }
 

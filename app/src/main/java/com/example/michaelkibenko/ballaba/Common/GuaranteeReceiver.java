@@ -43,7 +43,7 @@ public class GuaranteeReceiver extends BroadcastReceiver {
     }
 
     public void sendNotification(final String regToken, final String toUid, final String message) {
-        final String LEGACY_SERVER_KEY = "AIzaSyDVESFjCZI9gf3OzlkUXFuN7Y9YkkbAagc";
+        final String LEGACY_SERVER_KEY = "AIzaSyBHsS2FCT2ahznLVAFRU0DWHrxsuAGBQMc";
         final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
         new AsyncTask<Void,Void,Void>(){
             @Override

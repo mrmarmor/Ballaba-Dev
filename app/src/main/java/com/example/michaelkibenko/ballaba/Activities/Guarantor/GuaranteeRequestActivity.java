@@ -90,7 +90,7 @@ public class GuaranteeRequestActivity extends BaseActivityWithActionBar {
     public void sendNotification(final String regToken, final String toUser, final String message) {
         final String LEGACY_SERVER_KEY = "AIzaSyBHsS2FCT2ahznLVAFRU0DWHrxsuAGBQMc";
         final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
-        //FirebaseMessaging.getInstance().subscribeToTopic("PHONE_NUMBER);
+         //FirebaseMessaging.getInstance().subscribeToTopic("PHONE_NUMBER);
         new AsyncTask<Void,Void,Void>(){
             @Override
             protected Void doInBackground(Void... params) {
@@ -99,7 +99,7 @@ public class GuaranteeRequestActivity extends BaseActivityWithActionBar {
                     JSONObject json = new JSONObject();
                     JSONObject dataJson = new JSONObject();
                     dataJson.put("body",message);
-                    dataJson.put("title","hello"+toUser);
+                    dataJson.put("title","hello "+toUser);
                     json.put("notification",dataJson);
                     json.put("to",regToken);
                     RequestBody body = RequestBody.create(JSON, json.toString());
