@@ -34,8 +34,10 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
+import com.example.michaelkibenko.ballaba.Activities.EditViewportSubActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
+import com.example.michaelkibenko.ballaba.Activities.SavedAreaActivity;
 import com.example.michaelkibenko.ballaba.Activities.StreetAndMapBoardActivity;
 import com.example.michaelkibenko.ballaba.Adapters.MapPropertiesRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
@@ -47,7 +49,9 @@ import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Presenters.MainPresenter;
+import com.example.michaelkibenko.ballaba.Presenters.SavedAreaPresenter;
 import com.example.michaelkibenko.ballaba.R;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -143,7 +147,7 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
         notChangeableRootView = (ConstraintLayout) inflater.inflate(R.layout.fragment_map, container, false);
         if(context instanceof MainActivity) {
             searchBarTransition = (ConstraintLayout) inflater.inflate(R.layout.map_fragment_for_transitions, container, false);
-        }else if(context instanceof StreetAndMapBoardActivity){
+        }else if(context instanceof StreetAndMapBoardActivity || context instanceof EditViewportSubActivity){
             searchBarTransition = (ConstraintLayout) inflater.inflate(R.layout.map_fragment_for_transition_no_search, container, false);
         }
         propertiesRecyclerViewTransition = (ConstraintLayout) inflater.inflate(R.layout.map_fragment_items_recycler_view_transition, container, false);
@@ -274,7 +278,7 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
     @Override
     public void onMapClick(LatLng latLng) {
         if (isShowProperty) {
-            hideSelectedAdress();
+            hideSelectedAddress();
         }
         if(isFromPropertyDescription){
             //((PropertyDescriptionActivity)context).presenter.setMapFullScreen();
@@ -421,7 +425,7 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
         propetiesReciclerAdapter.notifyDataSetChanged();
     }
 
-    private void hideSelectedAdress(){
+    private void hideSelectedAddress(){
         if(isShowProperty){
             changePropertyRVState(HIDE);
             propetiesReciclerAdapter.updateItems(new ArrayList<BallabaPropertyResult>());
@@ -518,8 +522,14 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
         disableUpdating = true;
         this.location = latLng;
         if(googleMap != null){
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+            CameraUpdate center = CameraUpdateFactory.newLatLng(latLng);
+            CameraUpdate zoom = CameraUpdateFactory.zoomTo(5);
+            googleMap.moveCamera(center);
+            googleMap.animateCamera(zoom);
+
+
+            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            //googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
         } else {
             Log.e(TAG, "google map is null");
         }

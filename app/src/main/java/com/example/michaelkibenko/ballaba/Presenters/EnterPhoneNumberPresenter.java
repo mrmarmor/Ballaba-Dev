@@ -246,7 +246,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements  TextWat
 
             binder.enterPhoneNumberNextButtonProgress.setVisibility(View.VISIBLE);
             binder.enterPhoneNumberNextButtonProgress.getIndeterminateDrawable().setColorFilter(
-                    context.getResources().getColor(R.color.colorPrimary, context.getTheme()), android.graphics.PorterDuff.Mode.SRC_IN);
+                    context.getResources().getColor(R.color.colorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);
         } else {
             params.width = (int) normal_send_button_width;
             binder.enterPhoneNumberNextButton.setLayoutParams(params);

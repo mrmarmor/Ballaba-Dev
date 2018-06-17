@@ -51,7 +51,7 @@ import static com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter.F
 
 public class EnterCodePresenter extends BasePresenter implements TextWatcher, EditText.OnKeyListener, EditText.OnTouchListener {
     private static String TAG = EnterCodePresenter.class.getSimpleName();
-    private int sendAgainDelay = 6;//TODO change from 6 seconds to 60 seconds
+    private int sendAgainDelay = 60;
 
     @IntDef({OK, NOT_A_VALID_PHONE_NUMBER, CODE_EXPIRED, INTERNAL_ERROR, USER_IS_BLOCKED})
     public @interface Flows {

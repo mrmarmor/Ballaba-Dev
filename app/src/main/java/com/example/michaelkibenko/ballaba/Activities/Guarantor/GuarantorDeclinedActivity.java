@@ -1,5 +1,6 @@
 package com.example.michaelkibenko.ballaba.Activities.Guarantor;
 
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.UserManager;
@@ -109,6 +110,9 @@ public class GuarantorDeclinedActivity extends BaseActivityWithActionBar impleme
             circleProgressBarChanger(true);
             uiUtils.buttonChanger(binder.guarantorDeclinedNextButton, false);
 
+            ArrayList<PendingIntent> sentIntents = new ArrayList<PendingIntent>();
+            sentIntents.add(PendingIntent.getBroadcast(this, 0, new Intent(Intent.ACTION_SEND_MULTIPLE), 0));
+
             SmsManager smsManager = SmsManager.getDefault();
             String fullNumber = binder.guarantorDeclinedPhone.getText().toString().trim();
             String deepLink = "http://yb.net/dvfhe45";
@@ -116,7 +120,7 @@ public class GuarantorDeclinedActivity extends BaseActivityWithActionBar impleme
                     , user.getFirst_name(), user.getLast_name(), user.getFirst_name(), deepLink);
 
             ArrayList<String> dividedMessage = smsManager.divideMessage(message);
-            smsManager.sendMultipartTextMessage(fullNumber, null, dividedMessage, null, null);
+            smsManager.sendMultipartTextMessage(fullNumber, null, dividedMessage, sentIntents, null);
 
             //TODO send push notification to via server and add listener
 
@@ -139,7 +143,7 @@ public class GuarantorDeclinedActivity extends BaseActivityWithActionBar impleme
 
             binder.guarantorDeclinedNextButtonProgress.setVisibility(View.VISIBLE);
             binder.guarantorDeclinedNextButtonProgress.getIndeterminateDrawable().setColorFilter(
-                    getResources().getColor(R.color.colorPrimary, getTheme()), android.graphics.PorterDuff.Mode.SRC_IN);
+                    getResources().getColor(R.color.colorPrimary), android.graphics.PorterDuff.Mode.SRC_IN);
 
         } else {
             params.width = (int)getResources().getDimension(R.dimen.enterPhoneNumber_progressButton_no_progress_width);

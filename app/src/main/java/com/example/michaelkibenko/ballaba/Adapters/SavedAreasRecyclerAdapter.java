@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -59,7 +60,6 @@ public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter implements V
     private LayoutInflater mInflater;
     private AlertDialog areUSureDialog;
     private ArrayList<Viewport> viewports;
-    private int position;
 
     public SavedAreasRecyclerAdapter(Context context, ActivitySavedAreaBinding binding, ArrayList<Viewport> viewports) {
         this.context = context;
@@ -87,7 +87,7 @@ public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter implements V
         Bitmap bitmap = BitmapFactory.decodeByteArray(mapImage, 0, mapImage.length);
         binder.savedAreasItemImageView.setImageBitmap(bitmap);
 
-        this.position = position;
+        binder.getRoot().setTag(position);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter implements V
         return viewports.size();
     }
 
-    private void editArea() {
+    private void editArea(final int position) {
         if (viewports != null && viewports.size() > position) {
             Intent intent = new Intent(context, EditViewportSubActivity.class);
             ((Activity) context).startActivityForResult(intent, REQ_CODE_EDIT_VIEWPORT);
@@ -130,7 +130,7 @@ public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter implements V
     }
 
     private void deleteItem(final int position){
-        if (viewports.size() > 0) {
+        if (viewports.size() > 0 && position < viewports.size()) {
             ConnectionsManager.getInstance(context).removeViewport(viewports.get(position).id, new BallabaResponseListener() {
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
@@ -154,9 +154,10 @@ public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter implements V
 
     @Override
     public void onClick(View v) {
+        final int position = binderParent.savedAreasRecyclerView.getChildAdapterPosition((ConstraintLayout)v.getParent());
         switch (v.getId()) {
             case R.id.savedAreas_item_edit:case R.id.savedAreas_item_imageView:
-                editArea();
+                editArea(position);
                 break;
 
             case R.id.savedAreas_item_delete:
