@@ -236,6 +236,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
                 //intentToMainActivity.putExtra(SOMETHING TO MOVE);
                 intentToMainActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intentToMainActivity);
+                ((EnterCodeActivity)context).finish();
                 break;
 
             case Flows.INTERNAL_ERROR:

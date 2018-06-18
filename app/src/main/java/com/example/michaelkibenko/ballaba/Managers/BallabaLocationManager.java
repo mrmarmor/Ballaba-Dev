@@ -45,8 +45,8 @@ public class BallabaLocationManager {
 
     public void getLocation(LocationListener locationListener) {
         try {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES,
-                    MIN_DISTANCE_CHANGE_FOR_UPDATES, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
+                    0, locationListener);
 //           locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener, null);
             //locationListener.onLocationChanged(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
         }catch (NullPointerException | SecurityException ex){

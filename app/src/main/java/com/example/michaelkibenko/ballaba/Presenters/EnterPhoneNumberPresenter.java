@@ -14,6 +14,7 @@ import android.widget.EditText;
 
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
+import com.example.michaelkibenko.ballaba.Activities.EnterPhoneNumberActivity;
 import com.example.michaelkibenko.ballaba.Activities.TermsOfUseActivity;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityListener;
@@ -216,6 +217,7 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements  TextWat
                 enterCode.putExtra(COUNTRY_CODE_EXTRA_KEY, /*phoneNumber.getCountryCode()*/ countryCode);
                 enterCode.putExtra(PHONE_NUMBER_EXTRA_KEY, /*phoneNumber.getPhoneNumber()*/ fullNumber);
                 context.startActivity(enterCode);
+                ((EnterPhoneNumberActivity)context).finish();
                 break;
 
             case Flows.INTERNAL_ERROR:

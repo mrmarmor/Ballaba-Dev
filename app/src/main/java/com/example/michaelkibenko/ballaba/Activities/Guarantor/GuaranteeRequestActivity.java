@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.databinding.DataBindingUtil;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v4.content.LocalBroadcastManager;
@@ -49,6 +50,8 @@ public class GuaranteeRequestActivity extends BaseActivityWithActionBar {
         binder = DataBindingUtil.setContentView(this, R.layout.activity_guarantee_request);
 
         initViews();
+
+
     }
 
     private void initViews() {
