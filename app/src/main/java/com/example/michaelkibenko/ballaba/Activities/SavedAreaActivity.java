@@ -90,8 +90,7 @@ public class SavedAreaActivity extends BaseActivityWithActionBar {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == SavedAreaPresenter.REQ_CODE_EDIT_VIEWPORT){
-            SavedAreasRecyclerAdapter adapter = (SavedAreasRecyclerAdapter)binder.savedAreasRecyclerView.getAdapter();
-            adapter.notifyDataSetChanged();
+            //TODO here we need to update list according to what user has been edited(title, viewport)
         }
     }
 

@@ -70,6 +70,7 @@
                 />
 
             <ImageButton
+                android:id="@+id/mainActivity_search_imageButton"
                 android:layout_width="@dimen/mainActivity_searchIcon_dimens"
                 android:layout_height="@dimen/mainActivity_searchIcon_dimens"
                 app:layout_constraintStart_toEndOf="@id/mainActivity_drawer_button"

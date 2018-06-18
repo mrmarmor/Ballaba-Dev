@@ -70,6 +70,7 @@
                 app:layout_constraintTop_toTopOf="@id/mainActivity_search_button" />
 
             <ImageButton
+                android:id="@+id/mainActivity_search_imageButton"
                 android:layout_width="@dimen/mainActivity_searchIcon_dimens"
                 android:layout_height="@dimen/mainActivity_searchIcon_dimens"
                 android:layout_marginStart="@dimen/mainActivity_searchIcon_margin_start"

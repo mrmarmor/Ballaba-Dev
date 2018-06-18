@@ -86,8 +86,6 @@ public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter implements V
         byte[] mapImage = viewports.get(position).mapImage;
         Bitmap bitmap = BitmapFactory.decodeByteArray(mapImage, 0, mapImage.length);
         binder.savedAreasItemImageView.setImageBitmap(bitmap);
-
-        binder.getRoot().setTag(position);
     }
 
     @Override
@@ -98,10 +96,9 @@ public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter implements V
     private void editArea(final int position) {
         if (viewports != null && viewports.size() > position) {
             Intent intent = new Intent(context, EditViewportSubActivity.class);
+            intent.putExtra("lat", viewports.get(position).bounds.getCenter().latitude);
+            intent.putExtra("lng", viewports.get(position).bounds.getCenter().longitude);
             ((Activity) context).startActivityForResult(intent, REQ_CODE_EDIT_VIEWPORT);
-
-            BallabaMapFragment mapFragment = BallabaMapFragment.newInstance();
-            mapFragment.setLocation(viewports.get(position).bounds.getCenter());
         }
     }
 
