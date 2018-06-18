@@ -77,7 +77,7 @@
             android:name=".Activities.EnterCodeActivity$BallabaSMSReceiver"
             android:exported="true" />
 
-        <activity android:name=".Activities.StreetAndMapBoard" />
+        <activity android:name=".Activities.StreetAndMapBoardActivity" />
         <activity android:name=".Activities.Scoring.ScoringWelcomeActivity" />
         <activity android:name=".Activities.Scoring.ScoringPersonalActivity" />
         <activity android:name=".Activities.Scoring.ScoringWorkActivity" />

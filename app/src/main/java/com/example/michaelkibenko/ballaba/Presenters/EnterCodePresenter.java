@@ -51,7 +51,7 @@ import static com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter.F
 
 public class EnterCodePresenter extends BasePresenter implements TextWatcher, EditText.OnKeyListener, EditText.OnTouchListener {
     private static String TAG = EnterCodePresenter.class.getSimpleName();
-    private int sendAgainDelay = 60;
+    private final int SEND_AGAIN_DELAY = 60;
 
     @IntDef({OK, NOT_A_VALID_PHONE_NUMBER, CODE_EXPIRED, INTERNAL_ERROR, USER_IS_BLOCKED})
     public @interface Flows {
@@ -313,9 +313,9 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
     }
 
     private void show1MinuteClock(){
-        new CountDownTimer(sendAgainDelay * 1000 , 1000) { //60000 milli seconds is total time, 1000 milli seconds is time interval
+        new CountDownTimer(SEND_AGAIN_DELAY * 1000 , 1000) { //60000 milli seconds is total time, 1000 milli seconds is time interval
             public void onTick(long millisUntilFinished) {
-                binder.enterCodeSendAgainButton.setText(String.format("0%d:00", millisUntilFinished/1000));
+                binder.enterCodeSendAgainButton.setText(String.format("%2d:00", millisUntilFinished/1000));
 
             }
             public void onFinish() {

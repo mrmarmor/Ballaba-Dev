@@ -228,7 +228,7 @@ public class UiUtils {
         TextView tv = new TextView(ctx);
         tv.setText(text);
         tv.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, 0, 0, 0);
-        tv.setTextAppearance(null, R.style.property_description_textViews);
+        tv.setTextAppearance(ctx, R.style.property_description_textViews);
         tv.setCompoundDrawablePadding(15);
         tv.setPaddingRelative(0, 16, 8, 16);
 

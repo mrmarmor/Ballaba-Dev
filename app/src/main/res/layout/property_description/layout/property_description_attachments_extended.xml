@@ -19,7 +19,7 @@
             style="@style/allWrapContent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_horizontal_margin"
             android:text="@string/propertyDescription_root_attachmentsExtended_title"
             android:textSize="@dimen/textSize_big"
             android:textColor="@color/black" />
@@ -42,22 +42,5 @@
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:orientation="vertical" />
 
-        <!--<GridLayout
-            android:id="@+id/propertyDescriptionAttachmentsExtended_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/propertyDescriptionAttachmentsExtended_title_textView"
-            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionAttachmentsExtended_title_textView"
-            android:layout_gravity="fill"
-            android:columnCount="2"
-            android:layout_columnWeight="1" />-->
-
-        <!--<android.support.v7.widget.RecyclerView
-            android:id="@+id/propertyDescriptionAttachmentsExtended_recyclerView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="@id/propertyDescriptionAttachmentsExtended_title_textView"
-            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionAttachmentsExtended_title_textView" />
--->
     </android.support.constraint.ConstraintLayout>
 </layout>

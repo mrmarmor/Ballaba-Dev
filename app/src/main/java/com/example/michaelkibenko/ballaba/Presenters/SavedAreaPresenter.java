@@ -32,8 +32,7 @@ public class SavedAreaPresenter {
         if (viewports == null || viewports.size() == 0){
             showPlaceHolder();
         } else {
-
-        initRecyclerView(viewports);
+            initRecyclerView(viewports);
         }
 
         binder.savedAreasButtonSearch.setOnClickListener(new View.OnClickListener() {
