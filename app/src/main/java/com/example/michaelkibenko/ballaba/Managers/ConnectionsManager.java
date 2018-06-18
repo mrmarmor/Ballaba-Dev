@@ -878,13 +878,13 @@ public class ConnectionsManager {
                 url = "https://api.ballaba-it.com/v1/properties/"+ propID +"/contents";
                 break;
             case 3:
-                url = "https://api.ballaba-it.com/v1/properties"+ propID +"/payments";
+                url = "https://api.ballaba-it.com/v1/properties/"+ propID +"/payments";
                 break;
             case 4:
-                url = "https://api.ballaba-it.com/v1/properties" + propID +"/photos";
+                url = "https://api.ballaba-it.com/v1/properties/" + propID +"/photos";
                 break;
             case 5:
-                url = "https://api.ballaba-it.com/v1/properties" + propID +"/photos";
+                url = "https://api.ballaba-it.com/v1/properties/" + propID +"/photos";
                 break;
         }
         return url;

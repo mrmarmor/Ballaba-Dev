@@ -2,28 +2,20 @@ package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.databinding.DataBindingUtil;
-import android.graphics.Bitmap;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.transition.Visibility;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.example.michaelkibenko.ballaba.Adapters.AddPropertyPhotoRecyclerAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
-import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyPhoto;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
@@ -31,11 +23,9 @@ import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
-import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
-import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropAssetBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropEditPhotoBinding;
 
 import org.json.JSONObject;
@@ -45,7 +35,6 @@ import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 import static com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropTakePhotoFrag.REQUEST_CODE_CAMERA;
-import static java.sql.Types.NULL;
 
 public class AddPropEditPhotoFrag extends Fragment {
     private final String TAG = AddPropEditPhotoFrag.class.getSimpleName();
@@ -108,7 +97,9 @@ public class AddPropEditPhotoFrag extends Fragment {
         super.onActivityResult(requestCode, resultCode, imageIntent);
 
         if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK && imageIntent != null){
-            photos.add(new BallabaPropertyPhoto(imageIntent.getData()));
+            Log.d(TAG, "onActivityResult: " + imageIntent.getExtras() + " " + imageIntent.getExtras().get("data"));
+
+            photos.add(new BallabaPropertyPhoto(Uri.parse(imageIntent.getExtras().get("data").toString())));
             this.orientations = new String[]{MediaStore.Images.Media.ORIENTATION};
             photosPlaceHolderChanger(false);
 
@@ -124,7 +115,7 @@ public class AddPropEditPhotoFrag extends Fragment {
 
         List<PropertyAttachmentAddonEntity> attachments = PropertyAttachmentsAddonsHolder.getInstance().getPhotoTags();
 
-        adapter =  new AddPropertyPhotoRecyclerAdapter(context, photos, attachments, new AddPropertyPhotoRecyclerAdapter.AddPropPhotoRecyclerListener() {
+        adapter =  new AddPropertyPhotoRecyclerAdapter(this , context, photos, attachments, new AddPropertyPhotoRecyclerAdapter.AddPropPhotoRecyclerListener() {
             @Override
             public void onClickChip(String id, int position) {
                 Button btn = binderEditPhoto.addPropPhotosButtonUpload;
@@ -202,7 +193,6 @@ public class AddPropEditPhotoFrag extends Fragment {
         binderEditPhoto.addPropNoPhotosDescription.setVisibility(show? View.VISIBLE : View.GONE);
         UiUtils.instance(true, context)
                 .buttonChanger(binderEditPhoto.addPropPhotosButtonUpload, show);
-
     }
 
     @Override

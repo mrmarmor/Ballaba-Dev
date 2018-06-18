@@ -1,32 +1,22 @@
 package com.example.michaelkibenko.ballaba.Utils;
 
-import android.app.Activity;
 import android.content.Context;
-import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.FloatRange;
-import android.support.annotation.IntDef;
 import android.support.annotation.StringDef;
-import android.support.annotation.StringRes;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.constraint.Guideline;
 import android.support.design.widget.Snackbar;
 import android.support.transition.TransitionManager;
-import android.support.v7.widget.AppCompatTextView;
 import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.TextView;
@@ -34,21 +24,15 @@ import android.widget.TextView;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Adapters.GooglePlacesAdapter;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.databinding.ActivityMainLayoutBinding;
-import com.google.android.gms.location.places.AutocompleteFilter;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.zip.Inflater;
 
 import static android.content.ContentValues.TAG;
 import static com.example.michaelkibenko.ballaba.Utils.UiUtils.ChipsButtonStates.NOT_PRESSED;
 import static com.example.michaelkibenko.ballaba.Utils.UiUtils.ChipsButtonStates.PRESSED;
-import static com.example.michaelkibenko.ballaba.Utils.UiUtils.ScreenStates.FULL;
-import static com.example.michaelkibenko.ballaba.Utils.UiUtils.ScreenStates.HALF;
-import static com.example.michaelkibenko.ballaba.Utils.UiUtils.ScreenStates.HIDE;
 
 /**
  * Created by User on 11/03/2018.
@@ -166,25 +150,23 @@ public class UiUtils {
     }
 
     public byte[] uriToBytes(Uri uri) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        if (uri == null) return null;
+        ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
 
         try {
             InputStream inputStream = ctx.getContentResolver().openInputStream(uri);
-
-            baos = new ByteArrayOutputStream();
             int bufferSize = 1024;
             byte[] buffer = new byte[bufferSize];
-
-            int len = 0;
+            int len;
             while ((len = inputStream.read(buffer)) != -1) {
-                baos.write(buffer, 0, len);
+                byteBuffer.write(buffer, 0, len);
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        return baos.toByteArray();
+        return byteBuffer.toByteArray();
     }
 
     private GooglePlacesAdapter dataAdapter;
