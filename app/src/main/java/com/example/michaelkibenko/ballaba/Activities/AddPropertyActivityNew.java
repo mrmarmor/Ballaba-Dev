@@ -1,6 +1,7 @@
 package com.example.michaelkibenko.ballaba.Activities;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,11 +26,12 @@ import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 public class AddPropertyActivityNew extends BaseActivity
         implements AddPropertyPhotoRecyclerAdapter.AddPropPhotoFinishListener, View.OnClickListener {
 
     private final static String TAG = AddPropertyActivityNew.class.getSimpleName();
-
 
     private ProgressDialog pd;
     public BallabaUser user;
@@ -39,6 +41,8 @@ public class AddPropertyActivityNew extends BaseActivity
     private RelativeLayout container;
     private TextView pageNumTV;
     private FragmentManager fm;
+    private AddPropEditPhotoFrag addPropEditPhotoFrag;
+    private ArrayList<String> tags = new ArrayList<>();
 
 
     @Override
@@ -60,9 +64,8 @@ public class AddPropertyActivityNew extends BaseActivity
     }
 
     //when user clicks finish button on actionbar, last photo that hasn't sent yet, is sent now to server
-    private void uploadPhoto(final AddPropertyActivityNew activity, final ConnectionsManager conn) {
-        Fragment editPhotoFragment = getSupportFragmentManager().getFragments().get(0);
-        Bundle b = editPhotoFragment.getArguments();
+    public void uploadPhoto(final AddPropertyActivityNew activity, final ConnectionsManager conn) {
+        Bundle b = addPropEditPhotoFrag.getArguments();
         if (b != null && b.containsKey(AddPropEditPhotoFrag.FIRST_PHOTO)) {
             Log.d(TAG, "only first photo");
             photo = new BallabaPropertyPhoto(Uri.parse(b.getString(AddPropEditPhotoFrag.FIRST_PHOTO)));
@@ -119,7 +122,13 @@ public class AddPropertyActivityNew extends BaseActivity
     }
 
     public void changePageIndicatorText(int number) {
-        pageNumTV.setText(number + "/4");
+        if (number <= 4 && number > 0) {
+            pageNumTV.setText(number + "/4");
+        } else if (number == 0) {
+            pageNumTV.setText("");
+        } else {
+            pageNumTV.setText("סיום");
+        }
     }
 
     @Override
@@ -144,7 +153,33 @@ public class AddPropertyActivityNew extends BaseActivity
         onBackPressed();
     }
 
-  /*  public interface AddPropFinishListener {
-        void onFinish();
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.d(TAG, "onActivityResult: ");
+    }
+
+    public void setFinishEnable(AddPropEditPhotoFrag addPropEditPhotoFrag, boolean b) { //
+        // pageNumTV.setVisibility(b ? View.VISIBLE : View.GONE);
+        this.addPropEditPhotoFrag = addPropEditPhotoFrag;
+        pageNumTV.setOnClickListener(b ? new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                uploadPhoto(AddPropertyActivityNew.this, ConnectionsManager.getInstance(AddPropertyActivityNew.this));
+            }
+        } : null);
+    }
+
+    /*public void sendClickedChipsTag(String title, byte[] photo) {
+        tags.add(title);
+        JSONObject object = new JSONObject();
+        try {
+            object.put("image", Base64.encodeToString(photo, Base64.DEFAULT));
+            object.put("tags", new JSONArray(tags));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        photosJson = object;
     }*/
 }

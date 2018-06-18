@@ -11,24 +11,22 @@ import java.util.ArrayList;
 
 public class PropertyAttachmentsAddonsHolder {
     public static final String TAG = PropertyAttachmentsAddonsHolder.class.getSimpleName();
-    private final String FURNITURE = "furniture", ELECTRONICS = "electronics", ATTACHMENTS = "attachments"
-            , PAYMENT_TYPES = "payment_types", PAYMENT_METHODS = "payment_methods"
-            , PROPERTY_PHOTO_TAGS = "property_photo_tags";
+    private final String FURNITURE = "furniture", ELECTRONICS = "electronics", ATTACHMENTS = "attachments", PAYMENT_TYPES = "payment_types", PAYMENT_METHODS = "payment_methods", PROPERTY_PHOTO_TAGS = "property_photo_tags";
 
     private static PropertyAttachmentsAddonsHolder instance;
 
-    private ArrayList<PropertyAttachmentAddonEntity> furniture, electronics, attachments
-            , paymentTypes, paymentMethods, photoTags;
+    private ArrayList<PropertyAttachmentAddonEntity> furniture, electronics, attachments, paymentTypes, paymentMethods, photoTags;
 
     private StringUtils stringUtils;
+
     public static PropertyAttachmentsAddonsHolder getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new PropertyAttachmentsAddonsHolder();
         }
         return instance;
     }
 
-    private PropertyAttachmentsAddonsHolder(){
+    private PropertyAttachmentsAddonsHolder() {
         furniture = new ArrayList<>();
         electronics = new ArrayList<>();
         attachments = new ArrayList<>();
@@ -62,7 +60,7 @@ public class PropertyAttachmentsAddonsHolder {
         return photoTags;
     }
 
-    public void parseAttachmentsAddonsResponse(String response){
+    public void parseAttachmentsAddonsResponse(String response) {
         try {
             this.furniture.clear();
             this.attachments.clear();
@@ -86,7 +84,7 @@ public class PropertyAttachmentsAddonsHolder {
             addAttachments(this.paymentMethods, paymentMethods, PAYMENT_METHODS);
             addTags(this.photoTags, photoTags, PROPERTY_PHOTO_TAGS);
 
-        }catch (JSONException ex){
+        } catch (JSONException ex) {
             ex.printStackTrace();
         }
     }
@@ -110,11 +108,14 @@ public class PropertyAttachmentsAddonsHolder {
             String id = currentObject.getString("id");
             String title;
             String formatted;
-            if (ATTACHMENT_TYPE.equals("attachments")){
-                title = currentObject.getString( "type");
+            if (ATTACHMENT_TYPE.equals("attachments")) {
+                title = currentObject.getString("type");
                 formatted = getFormattedAttachmentsTitle(currentObject.getString("type"));
-            }else {
-                title = currentObject.getString( "name");
+            } else if (ATTACHMENT_TYPE.equals("payment_methods") || ATTACHMENT_TYPE.equals("payment_types")) {
+                title = currentObject.getString("title");
+                formatted = ATTACHMENT_TYPE.equals("payment_types") ? getFormattedPaymentTypesTitle(title) : getFormattedPaymentMethodsTitle(title);
+            } else {
+                title = currentObject.getString("name");
                 formatted = stringUtils.formattedHebrew(currentObject.getString("name_he"));
             }
 
@@ -123,31 +124,31 @@ public class PropertyAttachmentsAddonsHolder {
         }
     }
 
-    public PropertyAttachmentAddonEntity getAttachmentById(String id){
+    public PropertyAttachmentAddonEntity getAttachmentById(String id) {
         for (PropertyAttachmentAddonEntity entity : getAttachments()) {
-            if(entity.id.equals(id)){
+            if (entity.id.equals(id)) {
                 return entity;
             }
         }
         return null;
     }
 
-    public String getFormattedTitleById(ArrayList<PropertyAttachmentAddonEntity> entities, String id){
+    public String getFormattedTitleById(ArrayList<PropertyAttachmentAddonEntity> entities, String id) {
         for (PropertyAttachmentAddonEntity entity : entities) {
-            if(entity.id.equals(id)){
+            if (entity.id.equals(id)) {
                 return entity.formattedTitle;
             }
         }
         return null;
     }
 
-    private String getFormattedAttachmentsTitle(String title){
-        switch (title){
-            case "furnished" :
+    private String getFormattedAttachmentsTitle(String title) {
+        switch (title) {
+            case "furnished":
                 return "מרוהטת";
             case "not_furnished":
                 return "לא מרוהטת";
-            case "electronics" :
+            case "electronics":
                 return "מוצרי חשמל";
             case "no_electronics":
                 return "ללא מוצרי חשמל";
@@ -186,11 +187,12 @@ public class PropertyAttachmentsAddonsHolder {
             case "aps":
                 return "ממ״ד";
 
-            default:return title;
+            default:
+                return title;
         }
     }
 
-    private String getFormattedTitle(final String ATTACHMENT_TYPE, final String TITLE){
+    private String getFormattedTitle(final String ATTACHMENT_TYPE, final String TITLE) {
         /*switch (ATTACHMENT_TYPE) {
             case FURNITURE: default:
                 return getFormattedFurnitureTitle(TITLE);
@@ -297,9 +299,9 @@ public class PropertyAttachmentsAddonsHolder {
         }
     }
 
-    private void addInPosition(int position, JSONObject jsonObj, JSONArray jsonArr) throws JSONException{
-        for (int i = jsonArr.length(); i > position; i--){
-            jsonArr.put(i, jsonArr.get(i-1));
+    private void addInPosition(int position, JSONObject jsonObj, JSONArray jsonArr) throws JSONException {
+        for (int i = jsonArr.length(); i > position; i--) {
+            jsonArr.put(i, jsonArr.get(i - 1));
         }
         jsonArr.put(position, jsonObj);
     }

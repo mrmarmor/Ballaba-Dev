@@ -122,6 +122,7 @@
                 android:tag="no_of_payments" />-->
 
             <RadioGroup
+                android:id="@+id/addProperty_payments_time_radio_group"
                 android:layout_width="match_parent"
                 android:layout_height="24dp"
                 android:layout_marginRight="16dp"
@@ -132,18 +133,21 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:tag="12"
                     android:text="חודשי" />
 
                 <RadioButton
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:tag="3"
                     android:text="רבעוני" />
 
                 <RadioButton
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:tag="1"
                     android:text="שנתי" />
 
             </RadioGroup>
@@ -186,7 +190,7 @@
                 android:layout_marginBottom="@dimen/small_margin"
                 android:text="תאריך החיוב" />
 
-            <android.support.design.widget.TextInputLayout
+            <!--<android.support.design.widget.TextInputLayout
                 android:id="@+id/addProp_payments_payment_date_layout"
                 style="@style/new_edit_text_style"
                 android:layout_width="match_parent"
@@ -202,7 +206,26 @@
                     android:drawableLeft="@android:drawable/arrow_down_float"
                     android:hint="01" />
 
-            </android.support.design.widget.TextInputLayout>
+            </android.support.design.widget.TextInputLayout>-->
+
+
+            <Spinner
+                android:id="@+id/addProp_payments_payment_date_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="16dp">
+
+            </Spinner>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="24dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="#ececec" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -241,7 +264,7 @@
                 android:text="@string/addProperty_payments_municipality_title" />
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/addProperty_rentalPeriod_input_layout"
+                android:id="@+id/addProperty_payments_municipality_input_layout"
                 style="@style/new_edit_text_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -254,6 +277,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="הכנס סכום"
+                    android:inputType="numberDecimal"
                     android:tag="arnona" />
 
             </android.support.design.widget.TextInputLayout>
@@ -289,11 +313,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="הכנס סכום"
+                    android:inputType="numberDecimal"
                     android:tag="house_committee" />
 
 
             </android.support.design.widget.TextInputLayout>
-
 
             <!--<LinearLayout
                 android:id="@+id/addProp_payments_management_root"
@@ -363,7 +387,7 @@
                 android:orientation="horizontal">
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/addProperty_parking_input_layout"
+                    android:id="@+id/addProperty_payments_parking_no_input_layout"
                     style="@style/new_edit_text_style"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -376,12 +400,13 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/activity_vertical_margin"
                         android:hint="כמות"
+                        android:inputType="numberDecimal"
                         android:tag="no_of_parking" />
 
                 </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
-                    android:id="@+id/addProperty_parking_price_input_layout"
+                    android:id="@+id/addProperty_payments_parking_price_input_layout"
                     style="@style/new_edit_text_style"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -395,6 +420,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/activity_vertical_margin"
                         android:hint="מחיר"
+                        android:inputType="numberDecimal"
                         android:tag="parking_price" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -455,7 +481,7 @@
                 android:text="@string/addProperty_payments_rentalFee_title" />
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/addProperty_rentalFee_input_layout"
+                android:id="@+id/addProperty_payments_rentalFee_input_layout"
                 style="@style/new_edit_text_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -463,11 +489,12 @@
                 android:layout_marginRight="16dp">
 
                 <EditText
-                    android:id="@+id/addProp_payments_rentalFee_editText"
+                    android:id="@+id/addProp_payments_rentalFee_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:hint="סכום"
+                    android:inputType="numberDecimal"
                     android:tag="rent_price" />
 
             </android.support.design.widget.TextInputLayout>
@@ -521,7 +548,7 @@
 
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/addProperty_freeTex_input_layout"
+                android:id="@+id/addProperty_freeText_input_layout"
                 style="@style/new_edit_text_style"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -531,10 +558,11 @@
 
                 <EditText
                     android:id="@+id/addProp_payments_freeText_editText"
-                    android:layout_height="wrap_content"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:hint="@string/addProperty_payments_freeText_hint"
+                    android:inputType="text"
                     android:tag="description" />
 
             </android.support.design.widget.TextInputLayout>

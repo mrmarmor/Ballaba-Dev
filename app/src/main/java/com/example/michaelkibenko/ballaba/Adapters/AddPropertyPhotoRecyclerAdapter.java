@@ -7,11 +7,9 @@ import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
 import android.net.Uri;
-import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.util.Log;
@@ -21,28 +19,19 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivity;
+import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivityNew;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
-import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
-import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyPhoto;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropEditPhotoFrag;
-import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
-import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
-import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
-import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.AddPropertyPhotoItemBinding;
 import com.nex3z.flowlayout.FlowLayout;
 
@@ -51,8 +40,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -62,29 +49,22 @@ import java.util.List;
 
 public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPropertyPhotoRecyclerAdapter.ViewHolder> {
     private final String TAG = AddPropertyPhotoRecyclerAdapter.class.getSimpleName();
+    private final AddPropEditPhotoFrag addPropEditPhotoFrag;
 
     private Context context;
     private LayoutInflater mInflater;
     private ViewHolder holder;
-    private List<BallabaPropertyPhoto> photos = new ArrayList<>();
-    private List<PropertyAttachmentAddonEntity> attachments = new ArrayList<>();
+    private List<BallabaPropertyPhoto> photos;
+    private List<PropertyAttachmentAddonEntity> attachments;
     private String[] orientations;
     private AddPropPhotoRecyclerListener onClickListener;
     private AddPropPhotoFinishListener onFinishListener;
 
-    public AddPropertyPhotoRecyclerAdapter(){}
-    /*public AddPropertyPhotoRecyclerAdapter(Context context, AddPropPhotoFinishListener listener){
-        this.context = context;
-        this.onFinishListener = listener;
-    }*/
-
-    public AddPropertyPhotoRecyclerAdapter(Context mContext, List<BallabaPropertyPhoto> photos, List<PropertyAttachmentAddonEntity> attachments
+    public AddPropertyPhotoRecyclerAdapter(AddPropEditPhotoFrag addPropEditPhotoFrag, Context mContext, List<BallabaPropertyPhoto> photos, List<PropertyAttachmentAddonEntity> attachments
             , AddPropPhotoRecyclerListener listener) {
+        this.addPropEditPhotoFrag = addPropEditPhotoFrag;
         this.context = mContext;
         this.photos = photos;
-        //TESTING
-        //this.photos.get(0).addTag(new PropertyAttachmentAddonEntity("1", "hall", "סלון"));
-        //END OF TESTING
         this.attachments = attachments;
         this.onClickListener = listener;
     }
@@ -191,10 +171,11 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
             if (allChipsUnselected(flowLayout, btn)) {//set button "upload photo" active only if at least 1 tag of current photo selected
                 onClickListener.onClickChip(attachment.id, position);
                 if (photos.size() > 0) { // "finish" button is active only if there is at least 1 photo + room tag(=chip) selected
-                    ((AddPropertyActivity)context).invalidateOptionsMenu();
+                    //((AddPropertyActivity)context).invalidateOptionsMenu();
+                    ((AddPropertyActivityNew)context).setFinishEnable(addPropEditPhotoFrag , true);
+
                     //JSONObject jsonObject = getData(new JSONObject());
                     //AddPropEditPhotoFrag.newInstance(null).setPhotoJson(jsonObject);
-
                 }
             }
         }
@@ -350,12 +331,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
     public JSONObject getData(Context context, JSONObject jsonObject){
         byte[] photo = UiUtils.instance(true, context).uriToBytes(photos.get(photos.size() - 1).getPhoto());
         try {
-            JSONObject innerObject = new JSONObject();
             JSONArray innerArrayTags = new JSONArray();
-            String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, "-1");
-
-            jsonObject.put("step", "photos");
-            jsonObject.put("property_id", Integer.parseInt(propertyId));
 
             FlowLayout tagsParent = holder.binder.addPropEditPhotoRoomsFlowLayout;
             for (int i = 0; i < tagsParent.getChildCount(); i++){
@@ -363,9 +339,9 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
                     innerArrayTags.put(((Button)tagsParent.getChildAt(i)).getText().toString());
             }
 
-            innerObject.put("tags", innerArrayTags);
-            innerObject.put("image", Base64.encodeToString(photo, Base64.DEFAULT));
-            jsonObject.put("data", innerObject);
+            jsonObject.put("tags", innerArrayTags);
+            jsonObject.put("image", Base64.encodeToString(photo, Base64.DEFAULT));
+
             //}
             return jsonObject;
 

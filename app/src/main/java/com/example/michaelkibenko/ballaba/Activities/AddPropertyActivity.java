@@ -31,7 +31,6 @@ public class AddPropertyActivity extends BaseActivityWithActionBar
 
     private final static String TAG = AddPropertyActivity.class.getSimpleName();
 
-    private AddPropertyPresenter presenter;
     private ActivityAddPropertyBinding binder;
     private ProgressDialog pd;
     public BallabaUser user;

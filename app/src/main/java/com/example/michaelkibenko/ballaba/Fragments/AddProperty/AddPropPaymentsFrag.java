@@ -1,20 +1,25 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivityNew;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
@@ -30,17 +35,16 @@ import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.nex3z.flowlayout.FlowLayout;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListener, TextWatcher {
+public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListener, CompoundButton.OnCheckedChangeListener, RadioGroup.OnCheckedChangeListener {
     private final String TAG = AddPropPaymentsFrag.class.getSimpleName(), ALL_INCLUDED = "all_included";
 
     private Context context;
@@ -54,12 +58,21 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     private boolean wasPaymentsChanged = false;
     private boolean isPaymentMethodSelected = true;
 
-    public AddPropPaymentsFrag() {
-    }
+    private TextView paymentMethodTV, paymentTimeTV, paymentDateTV, parkingTV, totalPaymentTV;
+    private Switch paymentMethodSwitch, paymentTimeSwitch, paymentDateSwitch, parkingSwitch, totalPaymentSwitch;
+    private EditText taxET, houseCommitteeET, parkingAmountET, parkingPriceET, totalPaymentET, freeTextET;
+    private TextInputLayout taxIL, houseCommitteeIL, parkingNumberIL, parkingPriceIL, totalPaymentIL, freeTextIL;
+    private RadioGroup radioGroup;
+    private String numberOfPayments;
+    private Spinner spinner;
+
+    private String[] arraySpinner = new String[]{
+            "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18",
+            "19", "20", "21", "22", "23", "24", "25", "26", "27", "28"
+    };
 
     public static AddPropPaymentsFrag newInstance() {
         AddPropPaymentsFrag fragment = new AddPropPaymentsFrag();
-
         return fragment;
     }
 
@@ -69,14 +82,12 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        ((AddPropertyActivityNew) getActivity()).changePageIndicatorText(4);
-        context = getActivity();
-        /*binderPay = DataBindingUtil.inflate(
-                inflater, R.layout.fragment_add_prop_payments, container, false);
-        View view = binderPay.getRoot();*/
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_add_prop_payments, container, false);
+        context = getActivity();
+        ((AddPropertyActivityNew) context).changePageIndicatorText(4);
+
         property = BallabaSearchPropertiesManager.getInstance(context).getPropertyFull();
 
         initView(view);
@@ -91,15 +102,68 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         paymentsRoot = view.findViewById(R.id.addProperty_payments_included_flowLayout);
         paymentMethodsRoot = view.findViewById(R.id.addProperty_payments_methods_flowLayout);
 
-
         view.findViewById(R.id.addProperty_payments_button_next).setOnClickListener(this);
+
+        paymentMethodTV = view.findViewById(R.id.addProperty_payments_methods_text_view);
+        paymentMethodSwitch = view.findViewById(R.id.addProperty_payments_methods_switch);
+        paymentMethodSwitch.setOnCheckedChangeListener(this);
+
+        paymentTimeTV = view.findViewById(R.id.addProperty_payments_time_text_view);
+        paymentTimeSwitch = view.findViewById(R.id.addProperty_payments_time_switch);
+        paymentTimeSwitch.setOnCheckedChangeListener(this);
+
+
+        paymentDateTV = view.findViewById(R.id.addProperty_payments_date_text_view);
+        paymentDateSwitch = view.findViewById(R.id.addProperty_payments_date_switch);
+        paymentDateSwitch.setOnCheckedChangeListener(this);
+
+
+        parkingTV = view.findViewById(R.id.addProperty_payments_parking_price_text_view);
+        parkingSwitch = view.findViewById(R.id.addProperty_payments_parking_price_switch);
+        parkingSwitch.setOnCheckedChangeListener(this);
+
+
+        totalPaymentTV = view.findViewById(R.id.addProperty_payments_rentalFee_text_view);
+        totalPaymentSwitch = view.findViewById(R.id.addProperty_payments_rentalFee_switch);
+        totalPaymentSwitch.setOnCheckedChangeListener(this);
+
+
+        taxET = view.findViewById(R.id.addProp_payments_municipality_editText);
+        taxIL = view.findViewById(R.id.addProperty_payments_municipality_input_layout);
+        taxET.addTextChangedListener(new MyTextWatcher(taxET));
+
+        houseCommitteeET = view.findViewById(R.id.addProp_payments_houseCommittee_editText);
+        houseCommitteeIL = view.findViewById(R.id.addProperty_houseCommittee_input_layout);
+        houseCommitteeET.addTextChangedListener(new MyTextWatcher(houseCommitteeET));
+
+        parkingAmountET = view.findViewById(R.id.addProperty_payments_parking_no_editText);
+        parkingNumberIL = view.findViewById(R.id.addProperty_payments_parking_no_input_layout);
+        parkingAmountET.addTextChangedListener(new MyTextWatcher(parkingAmountET));
+
+        parkingPriceET = view.findViewById(R.id.addProperty_payments_parking_price_editText);
+        parkingPriceIL = view.findViewById(R.id.addProperty_payments_parking_price_input_layout);
+        parkingPriceET.addTextChangedListener(new MyTextWatcher(parkingPriceET));
+
+        totalPaymentET = view.findViewById(R.id.addProp_payments_rentalFee_edit_text);
+        totalPaymentIL = view.findViewById(R.id.addProperty_payments_rentalFee_input_layout);
+        totalPaymentET.addTextChangedListener(new MyTextWatcher(totalPaymentET));
+
+        freeTextET = view.findViewById(R.id.addProp_payments_freeText_editText);
+        freeTextIL = view.findViewById(R.id.addProperty_freeText_input_layout);
+        freeTextET.addTextChangedListener(new MyTextWatcher(freeTextET));
+
+        radioGroup = view.findViewById(R.id.addProperty_payments_time_radio_group);
+        radioGroup.setOnCheckedChangeListener(this);
+
+        spinner = view.findViewById(R.id.addProp_payments_payment_date_spinner);
+        ArrayAdapter adapter = new ArrayAdapter(context, android.R.layout.simple_spinner_item, arraySpinner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
         initButtonAllIncluded((Button) getLayoutInflater().inflate(R.layout.chip_regular, null));
         initButtons(paymentsRoot, payments);
         initButtons(paymentMethodsRoot, paymentMethods);
         initEditTexts();
-        //initSpinner(binderPay.addPropertyPaymentsTimeSpinner);
-        //binderPay.addPropertyPaymentsButtonNext.setOnClickListener(this);
     }
 
     private void initButtonAllIncluded(Button chipsItem) {
@@ -118,7 +182,6 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
             highlightChipsUserSelectedLastTime(property, chipsItem, attachment);
 
             //TODO set 1 payment_method chip to be selected at initialization
-
             flowLayout.addView(chipsItem);
         }
     }
@@ -173,36 +236,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
             //.formattedNumberWithComma(property.price)+(property.price != null? "₪":""));//2. adds ₪ if price have been set
             //binderPay.addPropPaymentsFreeTextEditText.setText(property.description);
         }
-
-        /*binderPay.addPropPaymentsMunicipalityEditText.addTextChangedListener(this);
-        binderPay.addPropPaymentsHouseCommitteeEditText.addTextChangedListener(this);
-        binderPay.addPropPaymentsManagementEditText.addTextChangedListener(this);
-        binderPay.addPropertyPaymentsParkingPriceEditText.addTextChangedListener(this);
-        binderPay.addPropPaymentsRentalFeeEditText.addTextChangedListener(this);*/
     }
-
-    private void initSpinner(Spinner spinner) {
-        String[] values = context.getResources().getStringArray(R.array.addProperty_no_of_payments);
-        final String[][] spinnerItemsMap = {{"12", values[0]}, {"6", values[1]}, {"4", values[2]}
-                , {"3", values[3]}, {"2", values[4]}, {"1", values[5]}};
-
-        for (int i = 0; i < spinnerItemsMap.length; i++)
-            if (property != null && property.numberOfPayments.equals(spinnerItemsMap[i][0])) {
-                spinner.setSelection(i);
-            }
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                noOfPayments = spinnerItemsMap[position][0];
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
-
 
     private String getOriginalTitleByFormatted(String formatted) {
         if (items != null && items.size() > 0) {
@@ -267,17 +301,17 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
             paymentsEditTextsSetEnabled(getHolderByFormattedTitle(btn.getText() + ""), btn.getTag() + "");
 
             if (btn.getText().equals(getString(R.string.attach_all_included)))
-                //onAllIncludedButtonClick(binderPay.addPropertyPaymentsIncludedFlowLayout, btn, state);
+                onAllIncludedButtonClick(paymentsRoot, btn, state);
 
-                if (attachment != null && Integer.parseInt(attachment.id) >= 4 && Integer.parseInt(attachment.id) <= 9)
-                    onAllIncludedGroupMemberButtonClick(attachment.id);
+            if (attachment != null && Integer.parseInt(attachment.id) >= 4 && Integer.parseInt(attachment.id) <= 9)
+                onAllIncludedGroupMemberButtonClick(attachment.id);
 
         }
     }
 
     private void onFinish() {
         String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, "-1");
-        final Data data = getDataFromEditTexts(new Data());
+        //final Data data = getDataFromEditTexts(new Data());
 
         /*getPayment(data, binderPay.addPropPaymentsMunicipalityEditText, 4);//Integer.parseInt(binderPay.addPropPaymentsMunicipalityEditText.getText()+""));
         getPayment(data, binderPay.addPropPaymentsHouseCommitteeEditText, 5);
@@ -286,15 +320,23 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
        /* data.payment_methods.addAll(getDataFromChipsSection(new ArrayList<Integer>()
                 , binderPay.addPropertyPaymentsMethodsFlowLayout, paymentMethods));*/
 
-        if (!isPaymentMethodSelected)
-            return;
+        //if (!isPaymentMethodSelected)return;
 
-        data.property_id = Integer.parseInt(propertyId);
+        //data.property_id = Integer.parseInt(propertyId);
+        ((AddPropertyActivityNew)context).changeFragment(new AddPropTakePhotoFrag() , true);
 
-        if (wasPaymentsChanged || !areEditTextsEqual(data)) {
+        JSONObject obj = null;
+        try {
+            obj = createDataFromUserInput();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        if (wasPaymentsChanged /*|| !areEditTextsEqual(data)*/) {
             final ProgressDialog pd = ((BaseActivity) context).getDefaultProgressDialog(context, "Uploading...");
             pd.show();
-            ConnectionsManager.getInstance(context).uploadProperty(jsonParse(data, "payments"), new BallabaResponseListener() {
+            ConnectionsManager.getInstance(context).newUploadProperty(3, propertyId, obj, new BallabaResponseListener() {
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
                     pd.dismiss();
@@ -302,6 +344,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
                     //SharedPreferencesManager.getInstance(context).removeString(SharedPreferencesKeysHolder.PROPERTY_ID);
                     SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "4");
                     //AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).setViewPagerItem(4);
+                    ((AddPropertyActivityNew)context).changeFragment(new AddPropTakePhotoFrag() , true);
                 }
 
                 @Override
@@ -313,6 +356,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
                     //TODO NEXT LINE IS ONLY FOR TESTING:
                     //AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).setViewPagerItem(4);
                     //new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(2);
+                    Toast.makeText(context, "error occured", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
@@ -320,40 +364,76 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         }
     }
 
-    private Data getDataFromEditTexts(Data data) {
-        /*String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, NULL);
-        StringBuilder sb = new StringBuilder();
-        sb.append("\"step\" : \"" + "payments"+"\"")
-          .append(",\"data\" : {\"property_id\" : "+propertyId)
-          .append(",\"payments\" : [");*/
+    private JSONObject createDataFromUserInput() throws JSONException {
 
-       /* if (binderPay.addPropPaymentsMunicipalityEditText.isEnabled())
-            data.details.put("arnona", Integer.parseInt(binderPay.addPropPaymentsMunicipalityEditText.getText()+""));
-        if (binderPay.addPropPaymentsHouseCommitteeEditText.isEnabled())
-            data.details.put("house_committee", Integer.parseInt(binderPay.addPropPaymentsHouseCommitteeEditText.getText()+""));
-        if (binderPay.addPropPaymentsManagementEditText.isEnabled())
-            data.details.put("managment", Integer.parseInt(binderPay.addPropPaymentsManagementEditText.getText()+""));
-*/
-        /*data.put("no_of_payments", noOfPayments);
-        data.put("no_of_parking", binderPay.addPropertyPaymentsParkingNoEditText.getText());
-        data.put("parking_price", binderPay.addPropertyPaymentsParkingPriceEditText.getText());
-        data.put("rent_price", binderPay.addPropPaymentsRentalFeeEditText.getText());
-        data.put("description", binderPay.addPropPaymentsFreeTextEditText.getText());*/
-        try {
-            /*data.details.put("no_of_payments", Integer.parseInt(noOfPayments));
-            data.details.put("no_of_parking", Integer.parseInt(binderPay.addPropertyPaymentsParkingNoEditText.getText() + ""));
-            data.details.put("parking_price", Integer.parseInt(binderPay.addPropertyPaymentsParkingPriceEditText
-                    .getText().toString().replace("₪,.", "")));
-            data.details.put("rent_price", Integer.parseInt(binderPay.addPropPaymentsRentalFeeEditText
-                    .getText().toString().replace("₪,.", "")));
-            data.details.put("description", binderPay.addPropPaymentsFreeTextEditText.getText());*/
+        // get all chips objects -> (to get id's)
+        ArrayList<PropertyAttachmentAddonEntity> paymentTypesChips = PropertyAttachmentsAddonsHolder.getInstance().getPaymentTypes();
 
-            return data;
-        } catch (NumberFormatException e) {
-            Log.e(TAG, e.getMessage());
-            return data;
+        JSONObject obj = new JSONObject();
+
+        JSONArray payments = new JSONArray();
+        for (int i = 1; i < paymentsRoot.getChildCount(); i++) {
+            Button chipsBtn = (Button) paymentsRoot.getChildAt(i);
+            PropertyAttachmentAddonEntity currentChips = paymentTypesChips.get(i - 1);
+            JSONObject paymentInnerObj = new JSONObject();
+
+            if (chipsBtn.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
+                paymentInnerObj.put("type", Integer.parseInt(currentChips.id));
+            } else if (chipsBtn.getTag().equals(UiUtils.ChipsButtonStates.NOT_PRESSED) && currentChips.id.equals("4")) {
+                paymentInnerObj.put("type", Integer.parseInt(currentChips.id));
+                paymentInnerObj.put("price", taxET.getText().toString().trim());
+            } else if (chipsBtn.getTag().equals(UiUtils.ChipsButtonStates.NOT_PRESSED) && currentChips.id.equals("5")) {
+                paymentInnerObj.put("type", Integer.parseInt(currentChips.id));
+                paymentInnerObj.put("price", houseCommitteeET.getText().toString().trim());
+            }
+            if (paymentInnerObj.length() != 0) payments.put(paymentInnerObj);
         }
+
+        ArrayList<PropertyAttachmentAddonEntity> paymentMethodsChips = PropertyAttachmentsAddonsHolder.getInstance().getPaymentMethods();
+
+        JSONObject paymentMethods = new JSONObject();
+
+        ArrayList<Integer> chipsSelectedIds = new ArrayList<>();
+        for (int i = 0; i < paymentMethodsRoot.getChildCount(); i++) {
+            Button paymentTypeChips = (Button) paymentMethodsRoot.getChildAt(i);
+            if (paymentTypeChips.getTag().equals(UiUtils.ChipsButtonStates.PRESSED)) {
+                chipsSelectedIds.add(Integer.parseInt(paymentMethodsChips.get(i).id));
+            }
+        }
+        paymentMethods.put("data", new JSONArray(chipsSelectedIds));
+        paymentMethods.put("is_flexible", paymentMethodSwitch.isChecked());
+
+        JSONObject noOfPayments = new JSONObject();
+        noOfPayments.put("data", numberOfPayments);
+        noOfPayments.put("is_flexible", paymentMethodSwitch.isChecked());
+
+        JSONObject paymentDate = new JSONObject();
+        paymentDate.put("data", arraySpinner[spinner.getSelectedItemPosition()]);
+        paymentDate.put("is_flexible", paymentDateSwitch.isChecked());
+
+        JSONObject parking = new JSONObject();
+        String str = parkingAmountET.getText().toString().trim();
+        if (str != null) {
+            parking.put("no_of_parking", Integer.parseInt(str));
+            parking.put("price", Integer.parseInt(parkingPriceET.getText().toString().trim()));
+        }
+        parking.put("is_flexible", parkingSwitch.isChecked());
+
+        JSONObject price = new JSONObject();
+        price.put("data", Integer.parseInt(totalPaymentET.getText().toString().trim()));
+        price.put("is_flexible", totalPaymentSwitch.isChecked());
+
+        obj.put("payments", payments);
+        obj.put("payment_methods", paymentMethods);
+        obj.put("no_of_payments", noOfPayments);
+        obj.put("payment_date", paymentDate);
+        obj.put("parking", parking);
+        obj.put("price", price);
+        obj.put("description", freeTextET.getText().toString().trim());
+
+        return obj;
     }
+
 
     private void getPayment(Data data, EditText paymentEditText, int typeNumber) {
         String price = paymentEditText.getText().toString();
@@ -366,13 +446,6 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         //return payment;
     }
 
-    /*private HashMap<String, Object> getDataFromChips(HashMap<String, Object> data){
-        data.put("payments", getDataFromChipsSection(new ArrayList<Integer>()
-                , binderPay.addPropertyPaymentsIncludedFlowLayout, payments));
-        data.put("payment_methods", getDataFromChipsSection(new ArrayList<Integer>()
-                , binderPay.addPropertyPaymentsMethodsFlowLayout, paymentMethods));
-        return data;
-    }*/
 
     private ArrayList<Integer> getDataFromChipsSection(ArrayList<Integer> chipsIds, FlowLayout layout
             , ArrayList<PropertyAttachmentAddonEntity> chips) {
@@ -400,42 +473,6 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
                 data.details.get("parking_price").equals(property.parking_price) &&
                 data.details.get("rent_price").equals(property.price) &&
                 data.details.get("description").equals(property.description));
-    }
-
-    private JSONObject jsonParse(Data propertyData, String step) {
-
-        try {
-            JsonObject jsonObject = new JsonObject();
-            JsonObject innerObject = new JsonObject();
-            JsonObject detailsObj = new JsonObject();
-
-            //innerObject.add("details", new Gson().toJsonTree(propertyData.details));
-            if (propertyData.details.containsKey("arnona"))
-                detailsObj.add("arnona", new Gson().toJsonTree(propertyData.details.get("arnona")));
-            if (propertyData.details.containsKey("house_committee"))
-                detailsObj.add("house_committee", new Gson().toJsonTree(propertyData.details.get("house_committee")));
-            if (propertyData.details.containsKey("managment"))
-                detailsObj.add("managment", new Gson().toJsonTree(propertyData.details.get("managment")));
-            detailsObj.add("no_of_payments", new Gson().toJsonTree(propertyData.details.get("no_of_payments")));
-            detailsObj.add("no_of_parking", new Gson().toJsonTree(propertyData.details.get("no_of_parking")));
-            detailsObj.add("parking_price", new Gson().toJsonTree(propertyData.details.get("parking_price")));
-            detailsObj.add("rent_price", new Gson().toJsonTree(propertyData.details.get("rent_price")));
-            detailsObj.addProperty("description", propertyData.details.get("description") + "");
-
-            innerObject.addProperty("property_id", propertyData.property_id);
-            innerObject.add("payment_methods", new Gson().toJsonTree(propertyData.payment_methods));
-            innerObject.add("payments", new Gson().toJsonTree(propertyData.payments));
-            innerObject.add("details", detailsObj);
-
-            jsonObject.addProperty("step", step);
-            jsonObject.add("data", innerObject);
-
-            return new JSONObject(jsonObject.toString());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     //set some payments editTexts enabled\disabled
@@ -477,59 +514,58 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
                 uiUtils.onChipsButtonClick((Button) flowLayout.getChildAt(i), UiUtils.ChipsButtonStates.NOT_PRESSED);
             }
         } else if (state.equals(UiUtils.ChipsButtonStates.PRESSED)) {
-            uiUtils.onChipsButtonClick(btn, UiUtils.ChipsButtonStates.NOT_PRESSED);
+            for (int i = 0; i < 7 && i < flowLayout.getChildCount(); i++) {
+                uiUtils.onChipsButtonClick((Button) flowLayout.getChildAt(i), UiUtils.ChipsButtonStates.PRESSED);
+            }
         }
     }
 
     private void onAllIncludedGroupMemberButtonClick(String id) {
         boolean allButtonsSelected = true;
         int buttonId = Integer.parseInt(id);
-        /*Button allIncludedBTN = (Button)binderPay.addPropertyPaymentsIncludedFlowLayout.getChildAt(0);
+        Button allIncludedBTN = (Button) paymentsRoot.getChildAt(0);
         if (buttonId >= 4 && buttonId <= 9) {// => "all included" group member button was clicked
-            for (int i = 1; i < 7 && i < binderPay.addPropertyPaymentsIncludedFlowLayout.getChildCount(); i++) {
-                if (binderPay.addPropertyPaymentsIncludedFlowLayout.getChildAt(i).getTag()
+            for (int i = 1; i < 7 && i < paymentsRoot.getChildCount(); i++) {
+                if (paymentsRoot.getChildAt(i).getTag()
                         .equals(UiUtils.ChipsButtonStates.NOT_PRESSED)) {
                     allButtonsSelected = false;
                     break;
                 }
             }
-        }*/
+        }
         if (allButtonsSelected) {
+            UiUtils.instance(false, context).onChipsButtonClick(allIncludedBTN, UiUtils.ChipsButtonStates.NOT_PRESSED);
+        } else {
+            UiUtils.instance(false, context).onChipsButtonClick(allIncludedBTN, UiUtils.ChipsButtonStates.PRESSED);
         }
-        //UiUtils.instance(false, context).onChipsButtonClick(allIncludedBTN, UiUtils.ChipsButtonStates.NOT_PRESSED);
-        else {
+    }
+
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        switch (buttonView.getId()) {
+            case R.id.addProperty_payments_methods_switch:
+                paymentMethodTV.setText(isChecked ? "גמיש" : "לא גמיש");
+                break;
+            case R.id.addProperty_payments_time_switch:
+                paymentTimeTV.setText(isChecked ? "גמיש" : "לא גמיש");
+                break;
+            case R.id.addProperty_payments_date_switch:
+                paymentDateTV.setText(isChecked ? "גמיש" : "לא גמיש");
+                break;
+            case R.id.addProperty_payments_parking_price_switch:
+                parkingTV.setText(isChecked ? "גמיש" : "לא גמיש");
+                break;
+            case R.id.addProperty_payments_rentalFee_switch:
+                totalPaymentTV.setText(isChecked ? "גמיש" : "לא גמיש");
+                break;
         }
-        //UiUtils.instance(false, context).onChipsButtonClick(allIncludedBTN, UiUtils.ChipsButtonStates.PRESSED);
-    }
-
-    /*private void showSnackBar(){
-        final View snackBarView = binderPay.addPropertyPaymentsRoot;
-        Snackbar snackBar = Snackbar.make(snackBarView, "השמירה נכשלה נסה שנית מאוחר יותר", Snackbar.LENGTH_LONG);
-        snackBar.getView().setBackgroundColor(getResources().getColor(R.color.colorPrimary, context.getTheme()));
-        snackBar.show();
-    }*/
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        context = activity;
-    }
-
-    //adds NIS sign to fields that represents money
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
     }
 
     @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-        if (s.length() == 1 && s.toString().contains("₪"))
-            s.clear();
-        else if (s.length() == 1)
-            s.insert(0, "₪");
+    public void onCheckedChanged(RadioGroup group, int checkedId) {
+        RadioButton button = group.findViewById(group.getCheckedRadioButtonId());
+        numberOfPayments = button.getTag().toString();
     }
 
     private class Data {
@@ -550,4 +586,56 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         public /*HashMap<String, Integer>*/ int price;// = new HashMap<>();
     }
 
+    private void validateET(TextInputLayout v) {
+        EditText child = v.getEditText();
+        if (child.getText().toString().trim().isEmpty()) {
+            v.setError("שגיאה");
+            v.requestFocus();
+        } else {
+            v.setErrorEnabled(false);
+        }
+    }
+
+    private class MyTextWatcher implements TextWatcher {
+
+        private View view;
+
+        public MyTextWatcher(View view) {
+            this.view = view;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            switch (view.getId()) {
+                case R.id.addProp_payments_municipality_editText:
+                    validateET(taxIL);
+                    break;
+                case R.id.addProp_payments_houseCommittee_editText:
+                    validateET(houseCommitteeIL);
+                    break;
+                case R.id.addProperty_payments_parking_no_editText:
+                    validateET(parkingNumberIL);
+                    break;
+                case R.id.addProperty_payments_parking_price_editText:
+                    validateET(parkingPriceIL);
+                    break;
+                case R.id.addProp_payments_rentalFee_edit_text:
+                    validateET(totalPaymentIL);
+                    break;
+                case R.id.addProp_payments_freeText_editText:
+                    validateET(freeTextIL);
+                    break;
+            }
+        }
+    }
 }
