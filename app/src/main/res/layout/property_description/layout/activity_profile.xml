@@ -1,17 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" >
-
-<ScrollView
-    style="@style/allMatchParent"
-    android:layoutDirection="rtl">
-
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/allMatchParent"
-    tools:context="com.example.michaelkibenko.ballaba.Activities.ProfileActivity">
+    tools:context="com.example.michaelkibenko.ballaba.Activities.ProfileActivity" >
+
+<ScrollView style="@style/allMatchParent" android:layoutDirection="rtl">
+<android.support.constraint.ConstraintLayout android:id="@+id/profileActivity_root" style="@style/allMatchParent">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileActivity_imageAvatar"
@@ -25,7 +19,8 @@
         app:civ_border_color="#80434343"
         app:civ_circle_background_color="#e0e0e0"
         app:civ_border_overlay="false"
-        android:elevation="6dp" />
+        android:elevation="6dp"
+        android:onClick="onClickProfileImage" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -118,6 +113,7 @@
             android:layout_marginTop="@dimen/tiny_margin"
             android:textAlignment="textStart"
             android:textDirection="rtl"
+            android:focusable="false"
             android:entries="@array/status" />
 
         <TextView
@@ -138,6 +134,7 @@
             android:layout_marginTop="@dimen/tiny_margin"
             android:textAlignment="textStart"
             android:textDirection="rtl"
+            android:focusable="false"
             android:entries="@array/children" />
 
         <android.support.design.widget.TextInputLayout
@@ -145,7 +142,7 @@
             style="@style/profile_title"
             app:layout_constraintTop_toBottomOf="@id/profileActivity_status_spinner"
             android:hint="כתובת" >
-            <EditText
+            <com.example.michaelkibenko.ballaba.Views.TextInputAutoCompleteTextView
                 android:id="@+id/profileActivity_details_address"
                 style="@style/profile_editText"
                 android:inputType="textPostalAddress"
