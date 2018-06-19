@@ -7,18 +7,17 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" /><!--maybe needless-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- maybe needless -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera2.full" />
     <uses-feature android:name="android.hardware.camera2.autofocus" />
-
     <uses-feature
         android:name="android.hardware.location"
         android:required="true" />
@@ -115,10 +114,15 @@
             android:name=".Activities.CreditCardActivity"
             android:label="אמצעי תשלום" />
         <activity android:name=".Activities.AddPropertyActivityNew" />
-        <activity android:name=".Activities.Guarantor.GuarantorDeclinedActivity" android:label="ערבויות" />
-        <activity android:name=".Activities.Guarantor.GuaranteeRequestActivity" android:label="ערבויות" />
+        <activity
+            android:name=".Activities.Guarantor.GuarantorDeclinedActivity"
+            android:label="ערבויות" />
+        <activity
+            android:name=".Activities.Guarantor.GuaranteeRequestActivity"
+            android:label="ערבויות" />
 
-       <!-- <service
+        <!--
+        <service
             android:name=".Common.GuaranteeFcmService"
             android:permission="com.google.android.c2dm.permission.RECEIVE"
             android:enabled="true"
@@ -127,9 +131,9 @@
                 <action android:name="com.google.Firebase.MESSAGING_EVENT" />
                 <action android:name="com.google.android.c2dm.permission.RECEIVE" />
             </intent-filter>
-        </service>-->
-        <service
-            android:name=".Common.GuaranteeFcmService">
+        </service>
+        -->
+        <service android:name=".Common.GuaranteeFcmService">
             <intent-filter>
                 <action android:name="com.google.Firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -140,21 +144,24 @@
             </intent-filter>
         </service>
 
-        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
-     See README(https://goo.gl/l4GJaQ) for more. -->
+        <!--
+     Set custom default icon. This is used when no icon is set for incoming notification messages.
+     See README(https://goo.gl/l4GJaQ) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/money_grey_24" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <!--
+             Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorPrimary" />
 
-<!--
-        <receiver android:name=".Common.GuaranteeReceiver" />
--->
+        <!--         <receiver android:name=".Common.GuaranteeReceiver" /> -->
 
+        <activity android:name=".Activities.ProfileActivity" android:label="החשבון שלי" />
     </application>
 
 </manifest>
