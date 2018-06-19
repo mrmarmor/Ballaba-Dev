@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <android.support.constraint.ConstraintLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -12,18 +11,14 @@
     <FrameLayout
         android:id="@+id/streetAndMapBoard"
         style="@style/allMatchParent" />
-    <!--<fragment
-        android:id="@+id/streetAndMapBoardFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="com.example.michaelkibenko.ballaba.Fragments.BallabaStreetViewFragment"
-        android:name="com.google.android.gms.maps.SupportStreetViewPanoramaFragment" />-->
-    <Button
+
+    <ImageButton
         android:id="@+id/streetAndMapBoard_close_button"
         android:layout_width="@dimen/icon_big"
         android:layout_height="@dimen/icon_big"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="centerInside"
         android:background="@drawable/close_white_24" />
 
 </android.support.constraint.ConstraintLayout>

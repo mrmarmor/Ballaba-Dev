@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyGalleryActivity;
 import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringWelcomeActivity;
@@ -112,21 +113,16 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         ConnectionsManager.getInstance(activity).getPropertyById(PROPERTY_ID, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
-                if(entity instanceof BallabaOkResponse){
+                if(entity instanceof BallabaOkResponse) {
                     propertyFull = BallabaSearchPropertiesManager
-                            .getInstance(activity).parsePropertiesFull(((BallabaOkResponse)entity).body);
+                            .getInstance(activity).parsePropertiesFull(((BallabaOkResponse) entity).body);
                     BallabaSearchPropertiesManager.getInstance(activity).setPropertyFull(propertyFull);
 
-                    String formattedAddress = propertyFull != null ? propertyFull.formattedAddress : "";
-                    Log.d(TAG, "properties: " + formattedAddress + " : " + propertyFull.street != null ? propertyFull.street : null);
-
-                    displayDataOnScreen(propertyFull);
-
-                    initPropertyMap();
-
-                    //initStreetView();
-
-                    initMeetings();
+                    if (propertyFull != null) {
+                        displayDataOnScreen(propertyFull);
+                        initPropertyMap();
+                        initMeetings();
+                    }
 
                 }else {
                     Log.d(TAG, "error: Response is not an instance of BallabaOkResponse");
@@ -241,13 +237,13 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         if (propertyPayments != null && propertyPayments.size() > 0) {
             for (int i = 0; i < propertyPayments.size(); i++) {
                 TextView tv = getTextView(getFormattedTitleFromId(propertyPayments.get(i).get("payment_type")),
-                        res.getColor(R.color.black, activity.getTheme()));
-                binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i * 2);
+                        res.getColor(R.color.black));
+                binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i);
 
                 String formattedPrice = propertyPayments.get(i).get("price");
                 tv = getTextView(String.format("%s%s", "₪", formattedPrice),
-                        res.getColor(R.color.colorAccent, activity.getTheme()));
-                binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i * 2);
+                        res.getColor(R.color.colorAccent));
+                binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i);
 
                 //TODO TESTING
                 /*tv = getTextView(propertyPayments.get(i).get("payment_type"),
@@ -255,7 +251,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                 binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i * 2 + 1);
 
                 formattedPrice = propertyPayments.get(i).get("price");
-                tv = getTextView(String.format("%s%s", "ג‚×", formattedPrice),
+                tv = getTextView(String.format("%s%s", "₪", formattedPrice),
                         activity.getResources().getColor(R.color.colorAccent, activity.getTheme()));
                 binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i * 2 + 1);*/
                 //TODO END OF TESTING
@@ -272,7 +268,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
 
         if (text != null) {
             tv.setText(text);
-            tv.setTextAppearance(R.style.propertyDescriptionPayments_textView);
+            tv.setTextAppearance(activity, R.style.propertyDescriptionPayments_textView);
             tv.setTextColor(color);
             tv.setLayoutParams(new ViewGroup.LayoutParams(77, 35));
         }
@@ -394,10 +390,14 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                 break;
 
             case R.id.propertyDescription_root_toStreetView_button:
-                intent = new Intent(activity, StreetAndMapBoardActivity.class);
-                intent.putExtra(PROPERTY_LATLNG_EXTRA, propertyLatLng.latitude+","+propertyLatLng.longitude);
-                intent.putExtra(FRAGMENT_NAME, BallabaStreetViewFragment.TAG);
-                activity.startActivity(intent);
+                if (propertyLatLng != null) {
+                    intent = new Intent(activity, StreetAndMapBoardActivity.class);
+                    intent.putExtra(PROPERTY_LATLNG_EXTRA, propertyLatLng.latitude + "," + propertyLatLng.longitude);
+                    intent.putExtra(FRAGMENT_NAME, BallabaStreetViewFragment.TAG);
+                    activity.startActivity(intent);
+                } else {
+                    ((BaseActivity)activity).getDefaultSnackBar(binder.propertyDescriptionRootToStreetViewButton, "מיקום הנכס אינו ידוע", false).show();
+                }
 
                 //TODO states
                 //@Visibility.Mode int isStreetViewVisible = binderPrice.propertyDescriptionPriceStreetViewContainer.getVisibility();

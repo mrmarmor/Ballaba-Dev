@@ -334,7 +334,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
             else if (this.screenState == AFTER_SEARCH){
                 binder.mainActivitySortButtonsLinearLayout.setVisibility(View.VISIBLE);
                 binder.openFilterButton.setVisibility(View.VISIBLE);
-                binder.mainActivitySearchBar.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary, context.getTheme()));
+                binder.mainActivitySearchBar.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
                 set.clone(searchStateTransition);
             }
             else if(this.screenState == MAP){
