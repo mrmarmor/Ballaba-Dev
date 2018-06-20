@@ -1204,7 +1204,7 @@ public class ConnectionsManager {
         try {
             JSONArray jsonArray = parseOpenDoorDatesToJsonArray(data);
             //TODO chnage the property id
-            String url = EndpointsHolder.UPLOAD_METTINGS_DATES + /*propertyID + */ "1/opendoor";
+            String url = EndpointsHolder.UPLOAD_METTINGS_DATES + propertyID + "/opendoor";
             JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(POST, url, jsonArray, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
