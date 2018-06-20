@@ -1,11 +1,15 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +29,7 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
     public static final int REQUEST_CODE_CAMERA = 1;
 
     private ActivityAddPropertyBinding binderMain;
+    private int REQUEST_CODE = 123;
 
     public AddPropTakePhotoFrag() {
     }
@@ -56,6 +61,12 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
             Toast.makeText(getActivity(), "taking Professional Photographer", Toast.LENGTH_SHORT).show();
         } else {
             //AddPropertyPresenter.getInstance((AppCompatActivity) getActivity(), binderMain).onNextViewPagerItem(4);
+            if (getActivity().checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+                Log.v(TAG,"Permission is granted");
+                //File write logic here
+            }else {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
+            }
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(intent, REQUEST_CODE_CAMERA);
         }
@@ -72,13 +83,14 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
 
                 AddPropEditPhotoFrag editPhotoFrag = new AddPropEditPhotoFrag();
 
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 Bitmap bitmap = (Bitmap) imageIntent.getExtras().get("data");
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-                String path = MediaStore.Images.Media.insertImage(getActivity().getContentResolver(), bitmap, "Title", null);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+
+                byte[] bytes = byteArrayOutputStream.toByteArray();
 
                 Bundle bundle = new Bundle();
-                bundle.putString(AddPropEditPhotoFrag.FIRST_PHOTO, Uri.parse(path).toString());
+                bundle.putByteArray(AddPropEditPhotoFrag.FIRST_PHOTO, bytes);
                 bundle.putStringArray(AddPropEditPhotoFrag.ORIENTATIONS, orientationColumn);
                 editPhotoFrag.setArguments(bundle);
 
@@ -92,4 +104,8 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
 }

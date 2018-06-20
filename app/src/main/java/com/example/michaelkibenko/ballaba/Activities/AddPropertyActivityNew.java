@@ -2,7 +2,6 @@ package com.example.michaelkibenko.ballaba.Activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,9 +17,12 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyPhoto;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropEditPhotoFrag;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropLandlordFrag;
+import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropMeetingsFrag;
+import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
+import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 
@@ -64,39 +66,58 @@ public class AddPropertyActivityNew extends BaseActivity
     }
 
     //when user clicks finish button on actionbar, last photo that hasn't sent yet, is sent now to server
-    public void uploadPhoto(final AddPropertyActivityNew activity, final ConnectionsManager conn) {
+    public void uploadPhoto(final AddPropertyActivityNew activity, final ConnectionsManager conn, BallabaPropertyPhoto photo) {
+        this.photo = photo;
         Bundle b = addPropEditPhotoFrag.getArguments();
         if (b != null && b.containsKey(AddPropEditPhotoFrag.FIRST_PHOTO)) {
             Log.d(TAG, "only first photo");
-            photo = new BallabaPropertyPhoto(Uri.parse(b.getString(AddPropEditPhotoFrag.FIRST_PHOTO)));
+            //this.photo = new BallabaPropertyPhoto(b.getByteArray(AddPropEditPhotoFrag.FIRST_PHOTO));
             b.remove(AddPropEditPhotoFrag.FIRST_PHOTO);
         } else if (b != null && b.containsKey(AddPropEditPhotoFrag.LAST_PHOTO)) {
             Log.d(TAG, "last photo");
-            photo = (BallabaPropertyPhoto) b.getSerializable(AddPropEditPhotoFrag.LAST_PHOTO);
+            //this.photo = (BallabaPropertyPhoto) b.getSerializable(AddPropEditPhotoFrag.LAST_PHOTO);
             b.remove(AddPropEditPhotoFrag.LAST_PHOTO);
         }
 
-        if (photo == null) {
+        if (this.photo == null) {
             //TODO receive photo from fragment when he clicked "end" with only first photo
             Log.d(TAG, "photo is null");
             return;
         }
 
         //if (photosJson == USER_HAS_NOT_SWITCHED_TAG_FOR_HIS_PHOTO || photo == null) {
-        if (photo.getTags().isEmpty()) {
+        if (this.photo.getTags().isEmpty()) {
             UiUtils.instance(true, activity).showSnackBar(container, "לא נבחר חדר");
         } else {
             //if (photo.getId() == PHOTO_HAS_NOT_BEEN_SENT) {
             pd = activity.getDefaultProgressDialog(activity, "Uploading...");
             pd.show();
 
-            conn.uploadProperty(photosJson, new BallabaResponseListener() {
+            /*conn.uploadProperty(photosJson, new BallabaResponseListener() {
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
                     pd.dismiss();
                     Log.d(TAG, "upload property photo: success");
                     photo.setId(((BallabaPropertyPhoto) entity).getId());
                     photo.setHasSent(true);
+                    //AddPropertyPresenter.getInstance(activity, binder).setViewPagerItem(6);
+                }
+
+                @Override
+                public void reject(BallabaBaseEntity entity) {
+                    pd.dismiss();
+                    Log.e(TAG, "upload property photo: failure");
+                }
+            });*/
+            String propertyID = SharedPreferencesManager.getInstance(this).getString(SharedPreferencesKeysHolder.PROPERTY_ID, null);
+            conn.newUploadProperty(5, propertyID, photosJson, new BallabaResponseListener() {
+                @Override
+                public void resolve(BallabaBaseEntity entity) {
+                    pd.dismiss();
+                    Log.d(TAG, "upload property photo: success");
+                    AddPropertyActivityNew.this.photo.setId(((BallabaPropertyPhoto) entity).getId());
+                    AddPropertyActivityNew.this.photo.setHasSent(true);
+                    changeFragment(new AddPropMeetingsFrag(), true);
                     //AddPropertyPresenter.getInstance(activity, binder).setViewPagerItem(6);
                 }
 
@@ -160,26 +181,14 @@ public class AddPropertyActivityNew extends BaseActivity
         Log.d(TAG, "onActivityResult: ");
     }
 
-    public void setFinishEnable(AddPropEditPhotoFrag addPropEditPhotoFrag, boolean b) { //
+    public void setFinishEnable(AddPropEditPhotoFrag addPropEditPhotoFrag, boolean b , final BallabaPropertyPhoto photo) { //
         // pageNumTV.setVisibility(b ? View.VISIBLE : View.GONE);
         this.addPropEditPhotoFrag = addPropEditPhotoFrag;
         pageNumTV.setOnClickListener(b ? new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadPhoto(AddPropertyActivityNew.this, ConnectionsManager.getInstance(AddPropertyActivityNew.this));
+                uploadPhoto(AddPropertyActivityNew.this, ConnectionsManager.getInstance(AddPropertyActivityNew.this) , photo);
             }
         } : null);
     }
-
-    /*public void sendClickedChipsTag(String title, byte[] photo) {
-        tags.add(title);
-        JSONObject object = new JSONObject();
-        try {
-            object.put("image", Base64.encodeToString(photo, Base64.DEFAULT));
-            object.put("tags", new JSONArray(tags));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        photosJson = object;
-    }*/
 }

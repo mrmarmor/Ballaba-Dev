@@ -5,10 +5,13 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
@@ -20,10 +23,16 @@ import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivityNew;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyPhoto;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropEditPhotoFrag;
@@ -72,8 +81,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
     @Override
     public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-
-        this.onFinishListener = (AddPropPhotoFinishListener)recyclerView.getContext();
+        this.onFinishListener = (AddPropPhotoFinishListener) recyclerView.getContext();
     }
 
     @Override
@@ -88,19 +96,36 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        Log.d(TAG, photos.size() + ":" + position+":"+orientations[0]);
+        Log.d(TAG, photos.size() + ":" + position + ":" + orientations[0]);
         this.holder = holder;
-
         if (photos.size() > 0) {
             //TODO what if user photos are too large image (>40960px*4096px)??
-            Uri photoUri = photos.get(position).getPhoto();
-            Matrix matrix = adjustPhotoOrientation(photoUri);
-            Bitmap bitmap = createBitmapFromUri(photoUri, matrix);
+            //Uri photoUri = photos.get(position).getPhoto();
+            byte[] arr = photos.get(position).getBytes();
+            Bitmap photoUri = BitmapFactory.decodeByteArray(arr , 0 , arr.length);
+            //Matrix matrix = adjustPhotoOrientation(photoUri);
+            Glide.with(context).load(photoUri).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    Log.d(TAG, "onLoadFailed: ");
+                    holder.binder.addPropEditPhotoImageView.setImageDrawable(context.getResources().getDrawable(R.drawable.dummy_property));
+                    return true;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    Log.d(TAG, "onResourceReady: ");
+                    holder.binder.addPropEditPhotoImageView.setImageDrawable(resource);
+                    return true;
+                }
+            }).into(holder.binder.addPropEditPhotoImageView);
+            //holder.binder.addPropEditPhotoImageView.setTag(position);
+            /*Bitmap bitmap = createBitmapFromUri(photoUri, matrix);
 
             if (bitmap != null) {
                 holder.binder.addPropEditPhotoImageView.setImageBitmap(bitmap);
                 holder.binder.addPropEditPhotoImageView.setTag(position);
-            }
+            }*/
         }
 
         setFadeAnimation(holder.binder.addPropEditPhotoImageView);
@@ -117,23 +142,23 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
     @Override
     public int getItemCount() {
-        Log.d(TAG, "property photos: " + photos.size()+" attachs: "+attachments.size());
+        Log.d(TAG, "property photos: " + photos.size() + " attachs: " + attachments.size());
         return (photos == null || photos.size() == 0) ? 0 : photos.size();
     }
 
-    private void initTags(final FlowLayout flowLayout, List<PropertyAttachmentAddonEntity> items, final int position){
+    private void initTags(final FlowLayout flowLayout, List<PropertyAttachmentAddonEntity> items, final int position) {
         flowLayout.removeAllViewsInLayout();
         flowLayout.invalidate();
         Log.d(TAG, "tags number: " + flowLayout.getChildCount());
 
         for (final PropertyAttachmentAddonEntity attachment : items) {
-            Button chipsItem = (Button)mInflater.inflate(R.layout.chip_regular, null);
+            Button chipsItem = (Button) mInflater.inflate(R.layout.chip_regular, null);
             chipsItem.setText(attachment.formattedTitle);
 
             chipsItem.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onTagClick(flowLayout, (Button)v, attachment, position);
+                    onTagClick(flowLayout, (Button) v, attachment, position);
 
                     //ArrayList<String> tags =  photos.get(position).getTags();
                     //tags.add(attachment.title);
@@ -164,15 +189,19 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
         }
     }
 
-    private void onTagClick(FlowLayout flowLayout, Button btn, PropertyAttachmentAddonEntity attachment, int position){
+    private void onTagClick(FlowLayout flowLayout, Button btn, PropertyAttachmentAddonEntity attachment, int position) {
         String state = (String) btn.getTag();
-        if (state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED) || !allChipsUnselected(flowLayout, btn)){//user selected a tag
+        if (state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED) || !allChipsUnselected(flowLayout, btn)) {
+            if (state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED))
+                photos.get(position).addTag(attachment);
+            else
+                photos.get(position).removeTag(attachment);//user selected a tag
             UiUtils.instance(true, context).onChipsButtonClick(btn, state);
             if (allChipsUnselected(flowLayout, btn)) {//set button "upload photo" active only if at least 1 tag of current photo selected
                 onClickListener.onClickChip(attachment.id, position);
                 if (photos.size() > 0) { // "finish" button is active only if there is at least 1 photo + room tag(=chip) selected
                     //((AddPropertyActivity)context).invalidateOptionsMenu();
-                    ((AddPropertyActivityNew)context).setFinishEnable(addPropEditPhotoFrag , true);
+                    ((AddPropertyActivityNew) context).setFinishEnable(addPropEditPhotoFrag, true , photos.get(position));
 
                     //JSONObject jsonObject = getData(new JSONObject());
                     //AddPropEditPhotoFrag.newInstance(null).setPhotoJson(jsonObject);
@@ -180,24 +209,24 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
             }
         }
 
-        if (state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED))
+        /*if (state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED))
             photos.get(position).addTag(attachment);
         else
-            photos.get(position).removeTag(attachment);
+            photos.get(position).removeTag(attachment);*/
 
     }
 
-    private boolean allChipsUnselected(FlowLayout flowLayout, Button currentButton){
-        for (int i = 0; i < flowLayout.getChildCount(); i++){
+    private boolean allChipsUnselected(FlowLayout flowLayout, Button currentButton) {
+        for (int i = 0; i < flowLayout.getChildCount(); i++) {
             if (!flowLayout.getChildAt(i).equals(currentButton)
-              && flowLayout.getChildAt(i).getTag().equals(UiUtils.ChipsButtonStates.PRESSED))
-                    return false;
+                    && flowLayout.getChildAt(i).getTag().equals(UiUtils.ChipsButtonStates.PRESSED))
+                return false;
         }
 
         return true;
     }
 
-    private void initButtonRemovePhoto(final ViewHolder holder, final int position){
+    private void initButtonRemovePhoto(final ViewHolder holder, final int position) {
         holder.binder.addPropEditPhotoButtonClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -221,8 +250,8 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
     }
 
-    private void removePhoto(final int position){
-        showSnackbar(photos. get(position), position);
+    private void removePhoto(final int position) {
+        showSnackbar(photos.get(position), position);
 
         photos.remove(position);
         notifyDataSetChanged();
@@ -230,11 +259,12 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
     }
 
     private boolean wasPhotoDeleted = true;
-    private void showSnackbar(final BallabaPropertyPhoto photoToDelete, final int position){
+
+    private void showSnackbar(final BallabaPropertyPhoto photoToDelete, final int position) {
         final int SNACK_BAR_DURATION = 5000;//ms
         //final BallabaPropertyPhoto photo = photos.get(position);
 
-        Snackbar snackbar = ((BaseActivity)context).getDefaultSnackBar
+        Snackbar snackbar = ((BaseActivity) context).getDefaultSnackBar
                 (holder.binder.getRoot(), context.getString(R.string.addProperty_editPhoto_removePhoto_message), false)
 
                 .setDuration(SNACK_BAR_DURATION)
@@ -245,30 +275,33 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
                         wasPhotoDeleted = false;
                     }
                 })
-                .addCallback(new Snackbar.Callback(){
+                .addCallback(new Snackbar.Callback() {
                     @Override
                     public void onDismissed(Snackbar snackbar, int event) {
                         Log.d(TAG, "wasPhotoDeleted: " + wasPhotoDeleted);
                         if (wasPhotoDeleted && photoToDelete.getId() >= 0) {
-                            final String propertyId = BallabaSearchPropertiesManager
-                                    .getInstance(context).getPropertyFull().getInstance(context).id;
+                            BallabaPropertyFull propertyFull = BallabaSearchPropertiesManager
+                                    .getInstance(context).getPropertyFull();
+                            final String propertyId = propertyFull != null ? propertyFull.getInstance(context).id : null;
+                            if (propertyId == null) return;
                             deletePhotoFromServer(propertyId, photoToDelete, position);
                         }
                     }
 
                     @Override
-                    public void onShown(Snackbar snackbar) {}
+                    public void onShown(Snackbar snackbar) {
+                    }
                 });
 
         snackbar.show();
     }
 
-    private void returnPhoto(BallabaPropertyPhoto photoToReturn, int position){
+    private void returnPhoto(BallabaPropertyPhoto photoToReturn, int position) {
         photos.add(position, photoToReturn);
         HashSet<PropertyAttachmentAddonEntity> tags = photoToReturn.getTags();
         for (PropertyAttachmentAddonEntity tag : tags) {
             int positionOfTag = Integer.parseInt(tag.id) - 1;//position is actually the same as its id - 1
-            Button btn = (Button)holder.binder.addPropEditPhotoRoomsFlowLayout.getChildAt(positionOfTag);
+            Button btn = (Button) holder.binder.addPropEditPhotoRoomsFlowLayout.getChildAt(positionOfTag);
             btn.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
             onTagClick(holder.binder.addPropEditPhotoRoomsFlowLayout, btn, tag, position);
             //holder.binder.addPropEditPhotoRoomsFlowLayout.getChildAt(position).setTag(UiUtils.ChipsButtonStates.PRESSED);
@@ -284,7 +317,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
         onClickListener.onClickRemovePhoto(false);
     }
 
-    private void deletePhotoFromServer(final String propertyId, final BallabaPropertyPhoto photo, final int position){
+    private void deletePhotoFromServer(final String propertyId, final BallabaPropertyPhoto photo, final int position) {
         ConnectionsManager.getInstance(context).deletePropertyPhoto(propertyId, photo.getId(), new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
@@ -293,7 +326,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
             @Override
             public void reject(BallabaBaseEntity entity) {
-                ((BaseActivity)context).getDefaultSnackBar(holder.binder.getRoot(), "יש לנו שגיאה בשרת. התמונה לא נמחקה.", false);
+                ((BaseActivity) context).getDefaultSnackBar(holder.binder.getRoot(), "יש לנו שגיאה בשרת. התמונה לא נמחקה.", false);
                 returnPhoto(photo, position);
                 wasPhotoDeleted = false;
             }
@@ -302,7 +335,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
     }
 
     //portrait/landscape
-    private Matrix adjustPhotoOrientation(Uri photo){
+    private Matrix adjustPhotoOrientation(Uri photo) {
         Cursor cur = context.getContentResolver().query(photo, orientations, null, null, null);
         int orientation = -1;
         if (cur != null && cur.moveToFirst()) {
@@ -316,7 +349,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
         return matrix;
     }
 
-    private Bitmap createBitmapFromUri(Uri photo, Matrix matrix){
+    private Bitmap createBitmapFromUri(Uri photo, Matrix matrix) {
         try {
             Bitmap bmp = MediaStore.Images.Media.getBitmap(context.getContentResolver(), photo);
             Bitmap bitmap = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
@@ -328,15 +361,16 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
         }
     }
 
-    public JSONObject getData(Context context, JSONObject jsonObject){
-        byte[] photo = UiUtils.instance(true, context).uriToBytes(photos.get(photos.size() - 1).getPhoto());
+    public JSONObject getData(Context context, JSONObject jsonObject) {
+        //byte[] photo = UiUtils.instance(true, context).uriToBytes(photos.get(photos.size() - 1).getPhoto());
+        byte[] photo = photos.get(photos.size() - 1).getBytes();
         try {
             JSONArray innerArrayTags = new JSONArray();
 
             FlowLayout tagsParent = holder.binder.addPropEditPhotoRoomsFlowLayout;
-            for (int i = 0; i < tagsParent.getChildCount(); i++){
+            for (int i = 0; i < tagsParent.getChildCount(); i++) {
                 if (tagsParent.getChildAt(i).getTag().equals(UiUtils.ChipsButtonStates.PRESSED))
-                    innerArrayTags.put(((Button)tagsParent.getChildAt(i)).getText().toString());
+                    innerArrayTags.put(((Button) tagsParent.getChildAt(i)).getText().toString());
             }
 
             jsonObject.put("tags", innerArrayTags);
@@ -351,7 +385,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
         }
     }
 
-    public void setImageOrientation(String[] orientations){
+    public void setImageOrientation(String[] orientations) {
         this.orientations = orientations;
     }
 
@@ -370,6 +404,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
     public interface AddPropPhotoRecyclerListener {
         void onClickChip(String id, int position);
+
         void onClickRemovePhoto(boolean isPlaceHolderDisplayed);
     }
 

@@ -3,7 +3,6 @@ package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -14,13 +13,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
 
+import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivityNew;
 import com.example.michaelkibenko.ballaba.Adapters.MeetingsPickerRecyclerViewAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaMeetingsPickerDateEntity;
+import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
+import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropMeetingsBinding;
 
 import java.util.ArrayList;
@@ -47,19 +48,12 @@ public class AddPropMeetingsFrag extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-
-        }
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binder = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_add_prop_meetings, container, false);
 
+        ((AddPropertyActivityNew) getActivity()).changePageIndicatorText(0);
         initCalendar("he");
         fullDates = new ArrayList<>();
 
@@ -81,14 +75,15 @@ public class AddPropMeetingsFrag extends Fragment {
                 adapter.updateItems();
             }
         });
-
+        final String propertyID = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID , null);
         binder.addPropMeetingsNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ConnectionsManager.getInstance(context).uploadPropertyMeetingsDates(fullDates, new BallabaResponseListener() {
+                ConnectionsManager.getInstance(context).uploadPropertyMeetingsDates(Integer.parseInt(propertyID) , fullDates, new BallabaResponseListener() {
                     @Override
                     public void resolve(BallabaBaseEntity entity) {
                         Log.e(TAG, entity.toString());
+
                     }
 
                     @Override
@@ -102,10 +97,10 @@ public class AddPropMeetingsFrag extends Fragment {
         return binder.getRoot();
     }
 
-    private void deleteNotEditedItems(){
+    private void deleteNotEditedItems() {
         ArrayList<BallabaMeetingsPickerDateEntity> objectsToDelete = new ArrayList<>();
         for (BallabaMeetingsPickerDateEntity entity : fullDates) {
-            if(!entity.edited){
+            if (!entity.edited) {
                 objectsToDelete.add(entity);
             }
         }
@@ -115,7 +110,7 @@ public class AddPropMeetingsFrag extends Fragment {
         }
     }
 
-    private void initCalendar(String locale){
+    private void initCalendar(String locale) {
         long now = Calendar.getInstance().getTimeInMillis();
         binder.addPropMeetingsCalendarView.setMinDate(now);
 
@@ -130,11 +125,6 @@ public class AddPropMeetingsFrag extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
     }
 
 }

@@ -15,6 +15,7 @@ public class BallabaPropertyPhoto extends BallabaBaseEntity implements Serializa
     private boolean hasSent;
     private Uri photo;
     private HashSet<PropertyAttachmentAddonEntity> tags = new HashSet<>();
+    private byte[] bytes;
 
     /*public BallabaPropertyPhoto(int id, boolean hasSent, Uri photo, HashSet<PropertyAttachmentAddonEntity> tags){
         this.id = id;
@@ -27,6 +28,10 @@ public class BallabaPropertyPhoto extends BallabaBaseEntity implements Serializa
     }
     public BallabaPropertyPhoto(Uri photo){
         this.photo = photo;
+    }
+
+    public BallabaPropertyPhoto(byte[] bytes){
+        this.bytes = bytes;
     }
 
     /*public BallabaPropertyPhoto(int id, Uri photo, ArrayList<String> tags) {
@@ -74,4 +79,7 @@ public class BallabaPropertyPhoto extends BallabaBaseEntity implements Serializa
         this.tags.remove(tag);
     }
 
+    public byte[] getBytes() {
+        return bytes;
+    }
 }

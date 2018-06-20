@@ -123,6 +123,7 @@ public class SplashActivity extends BaseActivity {
                                 Log.e(TAG, entity.toString());
                             }
                         });
+                        // TODO: 20/06/2018 gets here every time ?!? (reject & resolve)
                         getProperties(logInStatus);
                     }
                 }

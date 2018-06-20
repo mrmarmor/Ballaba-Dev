@@ -173,7 +173,7 @@ public class AddPropAssetFrag extends Fragment implements CompoundButton.OnCheck
 
     private void onFinish(ConnectionsManager conn) {
         final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
-        ((AddPropertyActivityNew) getActivity()).changeFragment(new AddPropAddonsFrag(), true);
+        //((AddPropertyActivityNew) getActivity()).changeFragment(new AddPropAddonsFrag(), true);
 
         if (!isDataEqual(data)) {
             boolean validate = validateInputs();
