@@ -323,7 +323,7 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         //if (!isPaymentMethodSelected)return;
 
         //data.property_id = Integer.parseInt(propertyId);
-        ((AddPropertyActivityNew)context).changeFragment(new AddPropTakePhotoFrag() , true);
+        //((AddPropertyActivityNew)context).changeFragment(new AddPropTakePhotoFrag() , true);
 
         JSONObject obj = null;
         try {

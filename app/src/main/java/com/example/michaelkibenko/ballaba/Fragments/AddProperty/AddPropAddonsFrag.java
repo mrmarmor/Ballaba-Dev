@@ -291,7 +291,6 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
         } else {
             //AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(3);
         }
-        ((AddPropertyActivityNew) getActivity()).changeFragment(new AddPropPaymentsFrag(), true);
     }
 
     public int[] convertIntegers(List<Integer> integers)

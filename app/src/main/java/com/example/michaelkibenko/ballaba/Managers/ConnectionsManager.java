@@ -830,11 +830,11 @@ public class ConnectionsManager {
 
     }
 
-    public void newUploadProperty(int step , String propID, JSONObject data, final BallabaResponseListener callback) {
+    public void newUploadProperty(int step, String propID, JSONObject data, final BallabaResponseListener callback) {
         final ProgressDialog pd = ((BaseActivity) context).getDefaultProgressDialog(context, "Uploading...");
         pd.show();
 
-        String url = urlByStep(step , propID);
+        String url = urlByStep(step, propID);
         if (url == null) return;
 
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(POST, url, data, new Response.Listener<JSONObject>() {
@@ -843,13 +843,22 @@ public class ConnectionsManager {
                 pd.dismiss();
                 BallabaOkResponse callbackResponce = new BallabaOkResponse();
                 callbackResponce.setBody(response.toString());
-                callback.resolve(callbackResponce);
+                if (response.has("photo_url")) {
+                    try {
+                        callback.resolve(new BallabaPropertyPhoto(Integer.parseInt(response.getString("id"))));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    callback.resolve(callbackResponce);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 pd.dismiss();
                 final String errorSTR = new String(error.networkResponse.data);
+                callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, errorSTR));
                 Log.d(TAG, "onErrorResponse: " + errorSTR);
             }
         }) {
@@ -868,23 +877,21 @@ public class ConnectionsManager {
 
     }
 
-    public String urlByStep(int step , String propID) {
+    public String urlByStep(int step, String propID) {
         String url = null;
         switch (step) {
             case 1:
                 url = "https://api.ballaba-it.com/v1/properties";
                 break;
             case 2:
-                url = "https://api.ballaba-it.com/v1/properties/"+ propID +"/contents";
+                url = "https://api.ballaba-it.com/v1/properties/" + propID + "/contents";
                 break;
             case 3:
-                url = "https://api.ballaba-it.com/v1/properties/"+ propID +"/payments";
+                url = "https://api.ballaba-it.com/v1/properties/" + propID + "/payments";
                 break;
             case 4:
-                url = "https://api.ballaba-it.com/v1/properties/" + propID +"/photos";
-                break;
             case 5:
-                url = "https://api.ballaba-it.com/v1/properties/" + propID +"/photos";
+                url = "https://api.ballaba-it.com/v1/properties/" + propID + "/photos";
                 break;
         }
         return url;
@@ -929,7 +936,7 @@ public class ConnectionsManager {
             public void onErrorResponse(VolleyError error) {
                 pd.dismiss();
                 final String message = context.getString(R.string.error_property_upload);
-                final String errorSTR = parseResponse(new String(error.networkResponse.data));
+                final String errorSTR = new String(error.networkResponse.data);
                 if (error.networkResponse != null) {
                     callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, errorSTR));
                 } else {
@@ -1193,11 +1200,12 @@ public class ConnectionsManager {
 
     }
 
-    public void uploadPropertyMeetingsDates(ArrayList<BallabaMeetingsPickerDateEntity> data, final BallabaResponseListener callback) {
+    public void uploadPropertyMeetingsDates(int propertyID, ArrayList<BallabaMeetingsPickerDateEntity> data, final BallabaResponseListener callback) {
         try {
             JSONArray jsonArray = parseOpenDoorDatesToJsonArray(data);
             //TODO chnage the property id
-            JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(POST, EndpointsHolder.UPLOAD_METTINGS_DATES + "1/" + "opendoor", jsonArray, new Response.Listener<JSONArray>() {
+            String url = EndpointsHolder.UPLOAD_METTINGS_DATES + /*propertyID + */ "1/opendoor";
+            JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(POST, url, jsonArray, new Response.Listener<JSONArray>() {
                 @Override
                 public void onResponse(JSONArray response) {
                     BallabaOkResponse ok = new BallabaOkResponse();
@@ -1206,6 +1214,7 @@ public class ConnectionsManager {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    final String errorSTR = new String(error.networkResponse.data);
                     if (error.networkResponse != null) {
                         callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
                     } else {
@@ -1480,7 +1489,7 @@ public class ConnectionsManager {
     }
 
     private JSONArray parseOpenDoorDatesToJsonArray(ArrayList<BallabaMeetingsPickerDateEntity> data) throws JSONException {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         JSONArray returnable = new JSONArray();
 
         for (BallabaMeetingsPickerDateEntity item : data) {
@@ -1490,13 +1499,10 @@ public class ConnectionsManager {
                 object.put("end_time", dateFormat.format(meeting.to));
                 object.put("is_personal", meeting.isPrivate);
                 if (meeting.isRepeat && meeting.numberOfRepeats.equals("ללא הגבלה")) {
-                    object.put("repeat", true);
-                } else {
-                    object.put("repeat", false);
-                    returnable.put(object);
-                    int repeats = Integer.parseInt(meeting.numberOfRepeats);
+                    //object.put("repeat", true);
                     int daysTimeValue = 7;
-                    for (int i = 0; i <= repeats; i++) {
+
+                    for (int i = 0; i <= 11; i++) {
                         JSONObject repeatObject = new JSONObject();
                         Calendar cal = Calendar.getInstance();
                         cal.setTime(meeting.from);
@@ -1506,7 +1512,30 @@ public class ConnectionsManager {
                         cal.add(Calendar.DAY_OF_MONTH, daysTimeValue);
                         repeatObject.put("end_time", dateFormat.format(cal.getTime()));
                         repeatObject.put("is_personal", meeting.isPrivate);
-                        repeatObject.put("repeat", false);
+                        //repeatObject.put("repeat", false);
+                        //daysTimeValue += 7;
+                        returnable.put(repeatObject);
+                    }
+                } else {
+                    //object.put("repeat", false);
+                    returnable.put(object);
+                    String numberOfRepeats = meeting.numberOfRepeats;
+                    int repeats = 1;
+                    if (numberOfRepeats != null){
+                        repeats = Integer.parseInt(numberOfRepeats);
+                    }
+                    int daysTimeValue = 7;
+                    for (int i = 0; i < repeats; i++) {
+                        JSONObject repeatObject = new JSONObject();
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(meeting.from);
+                        cal.add(Calendar.DAY_OF_MONTH, daysTimeValue);
+                        repeatObject.put("start_time", dateFormat.format(cal.getTime()));
+                        cal.setTime(meeting.to);
+                        cal.add(Calendar.DAY_OF_MONTH, daysTimeValue);
+                        repeatObject.put("end_time", dateFormat.format(cal.getTime()));
+                        repeatObject.put("is_personal", meeting.isPrivate);
+                        //repeatObject.put("repeat", false);
                         daysTimeValue += 7;
                         returnable.put(repeatObject);
                     }

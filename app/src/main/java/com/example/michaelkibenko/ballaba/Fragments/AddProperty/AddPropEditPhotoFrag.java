@@ -3,7 +3,7 @@ package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -30,6 +30,7 @@ import com.example.michaelkibenko.ballaba.databinding.FragmentAddPropEditPhotoBi
 
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +47,8 @@ public class AddPropEditPhotoFrag extends Fragment {
     private AddPropertyPhotoRecyclerAdapter adapter;
     private ArrayList<BallabaPropertyPhoto> photos = new ArrayList<>();
     private String[] orientations;
+    private byte[] bytes;
+    private String propertyID;
     //private JSONObject photosJson;
     //private ButtonUploadPhotoListener onClickListener;
 
@@ -67,6 +70,7 @@ public class AddPropEditPhotoFrag extends Fragment {
         binderEditPhoto = DataBindingUtil.inflate(
                 inflater, R.layout.fragment_add_prop_edit_photo, container, false);
 
+        propertyID = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID , null);
         getPhotoFromTakePhotoFragment();
         initRecyclerView(getActivity());
         initButtons();
@@ -81,7 +85,14 @@ public class AddPropEditPhotoFrag extends Fragment {
     private void getPhotoFromTakePhotoFragment(){
         if (photos.isEmpty()) {//detect that i came here from TakePhotoFragment(=photos is empty), not from another fragment => what causes duplicating photos
             if (getArguments() != null && getArguments().containsKey(FIRST_PHOTO)) {
-                photos.add(new BallabaPropertyPhoto(Uri.parse(getArguments().get(FIRST_PHOTO) + "")));
+                //photos.add(new BallabaPropertyPhoto(Uri.parse(getArguments().get(FIRST_PHOTO) + "")));
+                /*String s = null;
+                try {
+                    s = new String(getArguments().getByteArray(FIRST_PHOTO) , "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }*/
+                photos.add(new BallabaPropertyPhoto(getArguments().getByteArray(FIRST_PHOTO)));
                 this.orientations = getArguments().getStringArray(ORIENTATIONS);
             }
         }
@@ -99,19 +110,23 @@ public class AddPropEditPhotoFrag extends Fragment {
         if (requestCode == REQUEST_CODE_CAMERA && resultCode == RESULT_OK && imageIntent != null){
             Log.d(TAG, "onActivityResult: " + imageIntent.getExtras() + " " + imageIntent.getExtras().get("data"));
 
-            photos.add(new BallabaPropertyPhoto(Uri.parse(imageIntent.getExtras().get("data").toString())));
-            this.orientations = new String[]{MediaStore.Images.Media.ORIENTATION};
-            photosPlaceHolderChanger(false);
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            Bitmap bitmap = (Bitmap) imageIntent.getExtras().get("data");
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
 
-            adapter.notifyItemInserted(photos.size() - 1);
+            bytes = byteArrayOutputStream.toByteArray();
+
+            this.orientations = new String[]{MediaStore.Images.Media.ORIENTATION};
 
             sendPhotoToServer(adapter.getData(context, new JSONObject()));
+            photosPlaceHolderChanger(false);
         }
     }
 
     public void initRecyclerView(final Context context) {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         //linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManager.setStackFromEnd(true);
 
         List<PropertyAttachmentAddonEntity> attachments = PropertyAttachmentsAddonsHolder.getInstance().getPhotoTags();
 
@@ -153,10 +168,9 @@ public class AddPropEditPhotoFrag extends Fragment {
     }*/
 
     private void sendPhotoToServer(final JSONObject photoJson){
-        if (photoJson == null)
-            return;
+        if (photoJson == null) return;
 
-        ConnectionsManager.getInstance(context).uploadProperty(photoJson, new BallabaResponseListener() {
+        /*ConnectionsManager.getInstance(context).uploadProperty(photoJson, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 //TODO update property updating date on SharedPrefs??
@@ -167,6 +181,41 @@ public class AddPropEditPhotoFrag extends Fragment {
                 sentPhoto.setId(((BallabaPropertyPhoto)entity).getId());
                 sentPhoto.setHasSent(true);
                 getArguments().putSerializable(LAST_PHOTO, sentPhoto);
+                sentPhoto.setBytes(bytes);
+                photos.add(sentPhoto);
+                adapter.notifyItemInserted(photos.size() - 1);
+            }
+
+            @Override
+            public void reject(BallabaBaseEntity entity) {
+                UiUtils.instance(true, context).showSnackBar(
+                        binderEditPhoto.getRoot(), "השמירה נכשלה נסה שנית מאוחר יותר");
+
+                //TODO draw x on photo
+                drawXonPhoto();
+
+                //TODO NEXT LINE IS ONLY FOR TESTING:
+                //AddPropertyPresenter.getInstance((AppCompatActivity)context, binderMain).onNextViewPagerItem(5);
+                //new AddPropertyPresenter((AppCompatActivity)context, binderMain).getDataFromFragment(2);
+            }
+        });*/
+        ConnectionsManager.getInstance(context).newUploadProperty(5  , propertyID , photoJson, new BallabaResponseListener() {
+            @Override
+            public void resolve(BallabaBaseEntity entity) {
+                //TODO update property updating date on SharedPrefs??
+                SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "5");
+
+                //set id to photo. id is received from server.
+
+                BallabaPropertyPhoto sentPhoto = photos.get(photos.size() - 1);
+                sentPhoto.setId(((BallabaPropertyPhoto)entity).getId());
+                sentPhoto.setHasSent(true);
+                getArguments().putSerializable(LAST_PHOTO, sentPhoto);
+
+                BallabaPropertyPhoto newPhoto = new BallabaPropertyPhoto(bytes);
+                photos.add(newPhoto);
+
+                adapter.notifyItemInserted(photos.size() - 1);
             }
 
             @Override

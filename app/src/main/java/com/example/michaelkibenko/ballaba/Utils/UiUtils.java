@@ -225,4 +225,8 @@ public class UiUtils {
         return snackBar;
     }
 
+    public void showProfileDialog(boolean show){
+
+    }
+
 }

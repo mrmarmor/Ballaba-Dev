@@ -19,6 +19,7 @@ import com.example.michaelkibenko.ballaba.databinding.TestingLayoutBinding;
 public class TestingActivity extends BaseActivity {
 
     private TestingLayoutBinding binder;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

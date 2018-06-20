@@ -277,7 +277,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="הכנס סכום"
-                    android:inputType="numberDecimal"
+                    android:inputType="number"
                     android:tag="arnona" />
 
             </android.support.design.widget.TextInputLayout>
@@ -313,7 +313,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="הכנס סכום"
-                    android:inputType="numberDecimal"
+                    android:inputType="number"
                     android:tag="house_committee" />
 
 
@@ -400,7 +400,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/activity_vertical_margin"
                         android:hint="כמות"
-                        android:inputType="numberDecimal"
+                        android:inputType="number"
                         android:tag="no_of_parking" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -420,7 +420,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/activity_vertical_margin"
                         android:hint="מחיר"
-                        android:inputType="numberDecimal"
+                        android:inputType="number"
                         android:tag="parking_price" />
 
                 </android.support.design.widget.TextInputLayout>
@@ -494,7 +494,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:hint="סכום"
-                    android:inputType="numberDecimal"
+                    android:inputType="number"
                     android:tag="rent_price" />
 
             </android.support.design.widget.TextInputLayout>
