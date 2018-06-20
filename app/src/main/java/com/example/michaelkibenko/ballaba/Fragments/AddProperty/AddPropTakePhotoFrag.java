@@ -29,7 +29,7 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
     public static final int REQUEST_CODE_CAMERA = 1;
 
     private ActivityAddPropertyBinding binderMain;
-    private int REQUEST_CODE = 123;
+    private int WRITE_EXTERNAL_STORAGE_PERMISSION = 123;
 
     public AddPropTakePhotoFrag() {
     }
@@ -63,12 +63,12 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
             //AddPropertyPresenter.getInstance((AppCompatActivity) getActivity(), binderMain).onNextViewPagerItem(4);
             if (getActivity().checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 Log.v(TAG,"Permission is granted");
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, REQUEST_CODE_CAMERA);
                 //File write logic here
             }else {
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_CODE);
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_PERMISSION);
             }
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(intent, REQUEST_CODE_CAMERA);
         }
     }
 
@@ -107,5 +107,17 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == WRITE_EXTERNAL_STORAGE_PERMISSION){
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, REQUEST_CODE_CAMERA);
+            } else {
+                // permission denied, boo! Disable the
+                // functionality that depends on this permission.
+                //TODO do not permitted state
+            }
+            return;
+        }
     }
 }
