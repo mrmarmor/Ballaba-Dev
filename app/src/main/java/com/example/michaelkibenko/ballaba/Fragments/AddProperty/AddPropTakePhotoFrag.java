@@ -24,6 +24,7 @@ import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding
 import java.io.ByteArrayOutputStream;
 
 import static android.app.Activity.RESULT_OK;
+import static android.support.v4.content.ContextCompat.checkSelfPermission;
 
 public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListener {
     private final String TAG = AddPropTakePhotoFrag.class.getSimpleName();
@@ -63,14 +64,14 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
             Toast.makeText(getActivity(), "taking Professional Photographer", Toast.LENGTH_SHORT).show();
         } else {
             //AddPropertyPresenter.getInstance((AppCompatActivity) getActivity(), binderMain).onNextViewPagerItem(4);
-            if (ActivityCompat.checkSelfPermission(context,android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
-                    && ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+            if (checkSelfPermission(context,android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                    && checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 Log.v(TAG,"Permission is granted");
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, REQUEST_CODE_CAMERA);
                 //File write logic here
             }else {
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, WRITE_EXTERNAL_STORAGE_PERMISSION);
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, WRITE_EXTERNAL_STORAGE_PERMISSION);
             }
         }
     }
