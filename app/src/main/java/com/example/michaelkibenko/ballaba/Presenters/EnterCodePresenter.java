@@ -116,7 +116,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
 
         editTexts[0].requestFocus();
 
-        UiUtils.instance(true, context).showSoftKeyboard();
+        //UiUtils.instance(true, context).showSoftKeyboard();
     }
 
     public void cancelButtonClicked() {

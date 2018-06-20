@@ -93,7 +93,8 @@ public class EnterPhoneNumberPresenter extends BasePresenter implements  TextWat
         binder.enterPhoneNumberCheckbox.setOnCheckedChangeListener(this);
         normal_send_button_width = context.getResources().getDimension(R.dimen.enterPhoneNumber_progressButton_no_progress_width);
         progressBar_send_button_width = context.getResources().getDimension(R.dimen.enterPhoneNumber_progressButton_progress_width);
-        //binder.enterPhoneNumberCheckbox.setVisibility(View.VISIBLE);
+
+        UiUtils.instance(true, context).showSoftKeyboard();
     }
 
     public BallabaPhoneNumber getPhoneNumber() {
