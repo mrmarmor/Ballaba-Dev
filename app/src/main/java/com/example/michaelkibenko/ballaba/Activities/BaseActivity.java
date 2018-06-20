@@ -65,4 +65,10 @@ public class BaseActivity extends AppCompatActivity{
         }
         return defaultSnackBar;
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        UiUtils.instance(true, this).hideSoftKeyboard(getWindow().getDecorView());
+    }
 }

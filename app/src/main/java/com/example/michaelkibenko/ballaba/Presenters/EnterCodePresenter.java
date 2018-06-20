@@ -49,7 +49,7 @@ import static com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter.F
  * Created by michaelkibenko on 22/02/2018.
  */
 
-public class EnterCodePresenter extends BasePresenter implements TextWatcher, EditText.OnKeyListener, EditText.OnTouchListener {
+public class EnterCodePresenter extends BasePresenter implements TextWatcher, EditText.OnKeyListener/*, EditText.OnTouchListener*/ {
     private static String TAG = EnterCodePresenter.class.getSimpleName();
     private final int SEND_AGAIN_DELAY = 60;
 
@@ -111,7 +111,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
         for (EditText et : editTexts) {
             et.addTextChangedListener(this);//for numeric key press
             et.setOnKeyListener(this);//for backspace
-            et.setOnTouchListener(this);//to prevent touchable mode
+            //et.setOnTouchListener(this);//to prevent touchable mode
         }
 
         editTexts[0].requestFocus();
@@ -156,11 +156,11 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
         return false;
     }
 
-    @Override
+    /*@Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
         UiUtils.instance(true, context).showSoftKeyboard();
         return true;
-    }
+    }*/
 
     private void onCodeCompleted() {
         if(BallabaConnectivityAnnouncer.getInstance(context).isConnected()) {
