@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.michaelkibenko.ballaba.Activities.ProfileActivity" >
+
+<ScrollView style="@style/allMatchParent" android:layoutDirection="rtl">
+<android.support.constraint.ConstraintLayout android:id="@+id/profileActivity_root" style="@style/allMatchParent">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileActivity_imageAvatar"
+        android:layout_width="123dp"
+        android:layout_height="123dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:paddingTop="32dp"
+        android:src="@drawable/user_grey_36"
+        app:civ_border_width="@dimen/circleImageView_border_width"
+        app:civ_border_color="#80434343"
+        app:civ_circle_background_color="#e0e0e0"
+        app:civ_border_overlay="false"
+        android:elevation="6dp"
+        android:onClick="onClickProfileImage" />
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/profileActivity_imageAvatar"
+        android:layout_marginTop="26dp"
+        android:paddingStart="@dimen/activity_horizontal_margin"
+        android:paddingEnd="@dimen/activity_horizontal_margin"
+        android:background="@android:color/white">
+
+        <TextView
+            android:id="@+id/profileActivity_details_title"
+            style="@style/allWrapContent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="26dp"
+            android:drawableStart="@drawable/user_blue_24"
+            android:drawableTint="@color/colorAccent"
+            android:drawablePadding="@dimen/activity_horizontal_margin"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorAccent"
+            android:text="פרטים אישיים"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/profileActivity_details_fullName_title"
+            style="@style/profile_title"
+            app:layout_constraintTop_toBottomOf="@id/profileActivity_details_title"
+            android:hint="שם" >
+            <EditText
+                android:id="@+id/profileActivity_details_fullName"
+                style="@style/profile_editText"
+                android:inputType="textPersonName"
+                android:text=" "
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/profileActivity_details_phone_title"
+            style="@style/profile_title"
+            app:layout_constraintTop_toBottomOf="@id/profileActivity_details_fullName_title"
+            android:hint="מספר טלפון" >
+            <EditText
+                android:id="@+id/profileActivity_details_phone"
+                style="@style/profile_editText"
+                android:text=" "
+                android:enabled="false" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/profileActivity_details_dateOfBirth_title"
+            style="@style/profile_title"
+            app:layout_constraintTop_toBottomOf="@id/profileActivity_details_phone_title"
+            android:hint="תאריך לידה" >
+            <EditText
+                android:id="@+id/profileActivity_details_dateOfBirth"
+                style="@style/profile_editText"
+                android:inputType="date"
+                android:text=" "
+                android:enabled="false" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/profileActivity_details_profession_title"
+            style="@style/profile_title"
+            app:layout_constraintTop_toBottomOf="@id/profileActivity_details_dateOfBirth_title"
+            android:hint="מקצוע" >
+            <EditText
+                android:id="@+id/profileActivity_details_profession"
+                style="@style/profile_editText"
+                android:text=" "
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/profileActivity_status_title"
+            style="@style/allWrapContent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profileActivity_details_profession_title"
+            android:layout_marginTop="29dp"
+            android:textSize="@dimen/textSize_tiny"
+            android:textColor="@color/gray_text_color"
+            android:text="מצב משפחתי" />
+        <Spinner
+            android:id="@+id/profileActivity_status_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/profileActivity_status_title"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/profileActivity_children_spinner"
+            android:layout_marginLeft="@dimen/small_margin"
+            android:layout_marginTop="@dimen/tiny_margin"
+            android:textAlignment="textStart"
+            android:textDirection="rtl"
+            android:focusable="false"
+            android:entries="@array/status" />
+
+        <TextView
+            android:id="@+id/profileActivity_children_title"
+            style="@style/allWrapContent"
+            app:layout_constraintRight_toRightOf="@id/profileActivity_children_spinner"
+            app:layout_constraintTop_toTopOf="@id/profileActivity_status_title"
+            android:textSize="@dimen/textSize_tiny"
+            android:textColor="@color/gray_text_color"
+            android:text="מספר ילדים" />
+        <Spinner
+            android:id="@+id/profileActivity_children_spinner"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/profileActivity_children_title"
+            app:layout_constraintRight_toLeftOf="@id/profileActivity_status_spinner"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginTop="@dimen/tiny_margin"
+            android:textAlignment="textStart"
+            android:textDirection="rtl"
+            android:focusable="false"
+            android:entries="@array/children" />
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/profileActivity_details_address_title"
+            style="@style/profile_title"
+            app:layout_constraintTop_toBottomOf="@id/profileActivity_status_spinner"
+            android:hint="כתובת" >
+            <com.example.michaelkibenko.ballaba.Views.TextInputAutoCompleteTextView
+                android:id="@+id/profileActivity_details_address"
+                style="@style/profile_editText"
+                android:inputType="textPostalAddress"
+                android:text=" "
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/profileActivity_details_email_title"
+            style="@style/profile_title"
+            app:layout_constraintTop_toBottomOf="@id/profileActivity_details_address_title"
+            android:hint="דואר אלקטרוני" >
+            <EditText
+                android:id="@+id/profileActivity_details_email"
+                style="@style/profile_editText"
+                android:inputType="textEmailAddress"
+                android:text=" "
+                />
+        </android.support.design.widget.TextInputLayout>
+
+        <TextView
+            android:id="@+id/profileActivity_about_title"
+            style="@style/allWrapContent" android:singleLine="false"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profileActivity_details_email_title"
+            android:layout_marginTop="26dp"
+            android:drawableStart="@drawable/user_blue_24"
+            android:drawableTint="@color/colorAccent"
+            android:drawablePadding="@dimen/activity_horizontal_margin"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorAccent"
+            android:text="פרטים על עצמי"/>
+
+            <EditText
+                android:id="@+id/profileActivity_details_about"
+                style="@style/profile_editText" android:singleLine="false"
+                app:layout_constraintTop_toBottomOf="@id/profileActivity_about_title"
+                android:layout_marginTop="29dp"
+                android:text=" "
+                />
+
+        <TextView
+            android:id="@+id/profileActivity_creditCard_title"
+            style="@style/allWrapContent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profileActivity_details_about"
+            android:layout_marginTop="26dp"
+            android:drawableStart="@drawable/credit_card_blue_24"
+            android:drawableTint="@color/colorAccent"
+            android:drawablePadding="@dimen/activity_horizontal_margin"
+            android:gravity="center_vertical"
+            android:textColor="@color/colorAccent"
+            android:text="כרטיס אשראי"/>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/profileActivity_details_creditCard_title"
+            style="@style/profile_title"
+            app:layout_constraintTop_toBottomOf="@id/profileActivity_creditCard_title"
+            android:hint="פרטי כרטיס אשראי" >
+            <EditText
+                android:id="@+id/profileActivity_details_creditCard"
+                style="@style/profile_editText"
+                android:drawableEnd="@drawable/left_back_white_24"
+                android:text=" "
+                android:focusable="false"
+                android:onClick="onClickToCreditCard"/>
+        </android.support.design.widget.TextInputLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <ImageButton
+        android:id="@+id/profileActivity_FAB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@android:color/transparent"
+        android:src="@drawable/normal_blue" />
+
+</android.support.constraint.ConstraintLayout>
+</ScrollView>
+</layout>

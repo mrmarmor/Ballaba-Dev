@@ -457,6 +457,26 @@
         <item>2027</item>
     </string-array>
 
+    <string-array name="status">
+        <item>נשוי/אה</item>
+        <item>רווק/ה</item>
+        <item>גרוש/ה</item>
+        <item>אלמן/ה</item>
+    </string-array>
+
+    <string-array name="children">
+        <item>אין</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+    </string-array>
+
     <!-- MENU SECTION -->
     <!--string name="menuItem_landlord">אני משכיר\/ה</string-->
     <string name="menuItem_addProperty">העלאת נכס</string>

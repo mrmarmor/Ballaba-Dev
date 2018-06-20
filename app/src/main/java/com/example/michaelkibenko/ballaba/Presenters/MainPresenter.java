@@ -34,6 +34,7 @@ import com.example.michaelkibenko.ballaba.Activities.ContinueAddPropertyActivity
 import com.example.michaelkibenko.ballaba.Activities.CreditCardActivity;
 import com.example.michaelkibenko.ballaba.Activities.Guarantor.GuarantorDeclinedActivity;
 import com.example.michaelkibenko.ballaba.Activities.MyPropertiesBaseActivity;
+import com.example.michaelkibenko.ballaba.Activities.ProfileActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Activities.SavedAreaActivity;
 import com.example.michaelkibenko.ballaba.Activities.SavedPropertiesActivity;
@@ -381,11 +382,14 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                 break;
 
             case R.id.nav_editProfile:
+                intent = new Intent(context, ProfileActivity.class);
+                break;
+
+            case R.id.nav_settings:
 
                 break;
 
-            case R.id.nav_settings: default:
-
+            default:
         }
 
         if (intent != null)
