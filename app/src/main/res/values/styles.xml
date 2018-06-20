@@ -293,7 +293,6 @@
         <item name="android:textColor">@color/gray_text_color</item>
         <item name="android:textDirection">rtl</item>
         <item name="android:textAlignment">textStart</item>
-        <item name="android:enabled">false</item>
     </style>
 
     <style name="add_property_editTexts_with_number" parent="addProperty_editTexts">

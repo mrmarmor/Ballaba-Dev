@@ -27,7 +27,9 @@ import android.widget.Toast;
 import com.example.michaelkibenko.ballaba.Common.BallabaDialogBuilder;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
+import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
+import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
@@ -53,6 +55,8 @@ import static java.sql.Types.NULL;
 
 public class CreditCardActivity extends BaseActivityWithActionBar implements View.OnFocusChangeListener{
     private static final String TAG = CreditCardActivity.class.getSimpleName();
+    public static final String CREDIT_CARD_NUMBER_LENGTH = "credit card number length";
+    public static final String CREDIT_CARD_NUMBER_LAST_4_DIGITS = "credit card number last 4 digits";
 
     @IntDef({ISRACARD, MASTERCARD, VISA, DINERS, AMERICAN_EXPRESS, NULL})
     @interface CREDIT_CARD_ICON {
@@ -71,7 +75,17 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
         super.onCreate(savedInstanceState);
         binder = DataBindingUtil.setContentView(this, R.layout.activity_credit_card);
 
+        initViews();
         binder.creditCardCardNumber.setOnFocusChangeListener(this);
+    }
+
+    private void initViews() {
+        BallabaUser user = BallabaUserManager.getInstance().getUser();
+        if (user != null) {
+            binder.creditCardPersonName.setText(user.getFirst_name() + " " + user.getLast_name());
+            binder.creditCardPersonID.setText(user.getId_number());
+            binder.creditCardUserMail.setText(user.getEmail());
+        }
     }
 
     public void onClickInfo(View view){
@@ -127,6 +141,7 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
         return cardType;
     }
 
+
     private void onFinish() {
         if (isValidCardType() && isValidCVV() && isValidUserName() && isValidIdNumber() && isValidEmail()){
             JSONObject data = getCreditCardData(new JSONObject());
@@ -134,11 +149,19 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
                     Toast.makeText(CreditCardActivity.this, "go to next page", Toast.LENGTH_SHORT).show();
+
+                    String cardNumber = binder.creditCardCardNumber.getText().toString();
+                    getIntent().putExtra(CREDIT_CARD_NUMBER_LENGTH, cardNumber.length());
+                    getIntent().putExtra(CREDIT_CARD_NUMBER_LAST_4_DIGITS, cardNumber.substring(cardNumber.length() - 4));
+                    setResult(RESULT_OK, getIntent());
+                    cardNumber = null;
+                    finish();
                 }
 
                 @Override
                 public void reject(BallabaBaseEntity entity) {
                     getDefaultSnackBar(binder.getRoot(), ((BallabaErrorResponse)entity).message, false).show();
+                    setResult(RESULT_CANCELED);
                 }
             });
         }
