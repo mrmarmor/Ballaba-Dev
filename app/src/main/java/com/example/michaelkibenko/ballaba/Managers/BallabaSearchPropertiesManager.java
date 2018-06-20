@@ -237,7 +237,7 @@ public class BallabaSearchPropertiesManager {
                 String rooms = res.getString("rooms");
                 String price = res.getString("price");
                 String size = res.getString("size");
-                String formattedAddress = res.getString("formatted_address");
+                String formattedAddress = heb.formattedHebrew(res.getString("formatted_address"));
                 String rentPeriod = res.getString("rent_period");
                 String numberOfPayments = res.getString("no_of_payments");
                 JSONArray photosJsonArray = res.getJSONArray("photos");
