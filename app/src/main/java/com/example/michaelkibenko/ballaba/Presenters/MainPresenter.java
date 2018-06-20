@@ -34,6 +34,7 @@ import com.example.michaelkibenko.ballaba.Activities.ContinueAddPropertyActivity
 import com.example.michaelkibenko.ballaba.Activities.CreditCardActivity;
 import com.example.michaelkibenko.ballaba.Activities.Guarantor.GuarantorDeclinedActivity;
 import com.example.michaelkibenko.ballaba.Activities.MyPropertiesBaseActivity;
+import com.example.michaelkibenko.ballaba.Activities.ProfileActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Activities.SavedAreaActivity;
 import com.example.michaelkibenko.ballaba.Activities.SavedPropertiesActivity;
@@ -334,7 +335,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
             else if (this.screenState == AFTER_SEARCH){
                 binder.mainActivitySortButtonsLinearLayout.setVisibility(View.VISIBLE);
                 binder.openFilterButton.setVisibility(View.VISIBLE);
-                binder.mainActivitySearchBar.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary, context.getTheme()));
+                binder.mainActivitySearchBar.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
                 set.clone(searchStateTransition);
             }
             else if(this.screenState == MAP){
@@ -381,11 +382,14 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                 break;
 
             case R.id.nav_editProfile:
+                intent = new Intent(context, ProfileActivity.class);
+                break;
+
+            case R.id.nav_settings:
 
                 break;
 
-            case R.id.nav_settings: default:
-
+            default:
         }
 
         if (intent != null)

@@ -8,9 +8,15 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.google.android.gms.maps.OnStreetViewPanoramaReadyCallback;
 import com.google.android.gms.maps.StreetViewPanorama;
+import com.google.android.gms.maps.StreetViewPanoramaFragment;
+import com.google.android.gms.maps.StreetViewPanoramaOptions;
+import com.google.android.gms.maps.StreetViewPanoramaView;
 import com.google.android.gms.maps.SupportStreetViewPanoramaFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.StreetViewPanoramaCamera;
+import com.google.android.gms.maps.model.StreetViewPanoramaLink;
 import com.google.android.gms.maps.model.StreetViewPanoramaLocation;
+import com.google.android.gms.maps.model.StreetViewPanoramaOrientation;
 
 public class BallabaStreetViewFragment extends SupportStreetViewPanoramaFragment implements OnStreetViewPanoramaReadyCallback{
     public static final String LATITUDE_KEY = "latitude", LONGITUDE_KEY = "longitude"

@@ -11,6 +11,7 @@ import com.example.michaelkibenko.ballaba.Activities.EnterPhoneNumberActivity;
 import com.example.michaelkibenko.ballaba.Activities.Guarantor.GuaranteeRequestActivity;
 import com.example.michaelkibenko.ballaba.Activities.Guarantor.GuarantorDeclinedActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
+import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyManagementActivity;
 import com.example.michaelkibenko.ballaba.Activities.Scoring.SelfCamActivity;
 import com.example.michaelkibenko.ballaba.Activities.SplashActivity;
@@ -78,5 +79,9 @@ public class TestingPresenter extends BasePresenter {
 
     public void goToCreditCard(){
         context.startActivity(new Intent(context, CreditCardActivity.class));
+    }
+
+    public void goToPropertyDescription(){
+        context.startActivity(new Intent(context, PropertyDescriptionActivity.class));
     }
 }

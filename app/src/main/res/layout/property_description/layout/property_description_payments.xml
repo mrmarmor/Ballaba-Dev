@@ -40,69 +40,6 @@
             app:layout_constraintTop_toTopOf="@id/propertyDescriptionPayments_container_right"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:orientation="vertical" />
-        <!--   <GridLayout
-               android:id="@+id/propertyDescriptionPayments_container"
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               app:layout_constraintStart_toStartOf="@id/propertyDescriptionPayments_title_textView"
-               app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPayments_title_textView"
-               android:layout_margin="@dimen/activity_horizontal_margin"
-               android:layout_gravity="start"
-               android:columnCount="2" />-->
-
-        <!--<TextView
-            android:id="@+id/propertyDescriptionPayments_taxTitle_textView"
-            style="@style/propertyDescriptionPayments_textView"
-            app:layout_constraintStart_toStartOf="@id/propertyDescriptionPayments_title_textView"
-            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPayments_title_textView"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:text="ארנונה"
-            android:textColor="@color/black" />
-        <TextView
-            android:id="@+id/propertyDescriptionPayments_taxPrice_textView"
-            style="@style/propertyDescriptionPayments_textView"
-            app:layout_constraintStart_toEndOf="@id/propertyDescriptionPayments_taxTitle_textView"
-            app:layout_constraintTop_toTopOf="@id/propertyDescriptionPayments_taxTitle_textView"
-            android:text="381"
-            android:textColor="@color/colorAccent" />
-
-        <TextView
-            style="@style/propertyDescriptionPayments_textView"
-            app:layout_constraintStart_toStartOf="@id/propertyDescriptionPayments_title_textView"
-            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPayments_taxTitle_textView"
-            android:text="ועד בית" />
-        <TextView
-            android:id="@+id/propertyDescriptionPayments_houseCommitteePrice_textView"
-            style="@style/propertyDescriptionPayments_textView"
-            app:layout_constraintStart_toStartOf="@id/propertyDescriptionPayments_taxPrice_textView"
-            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPayments_taxPrice_textView"
-            android:text="150"
-            android:textColor="@color/colorAccent" />
-
-        <TextView
-            style="@style/propertyDescriptionPayments_textView"
-            app:layout_constraintStart_toStartOf="@id/propertyDescriptionPayments_title_textView"
-            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPayments_houseCommitteePrice_textView"
-            android:text="חניה" />
-        <TextView
-            android:id="@+id/propertyDescriptionPayments_parkingPrice_textView"
-            style="@style/propertyDescriptionPayments_textView"
-            app:layout_constraintStart_toStartOf="@id/propertyDescriptionPayments_taxPrice_textView"
-            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPayments_houseCommitteePrice_textView"
-            android:text="60"
-            android:textColor="@color/colorAccent" />
-
-        <TextView
-            style="@style/propertyDescriptionPayments_textView"
-            app:layout_constraintStart_toStartOf="@id/propertyDescriptionPayments_title_textView"
-            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPayments_parkingPrice_textView"
-            android:text="דמי ניהול" />
-        <TextView
-            style="@style/propertyDescriptionPayments_textView"
-            app:layout_constraintStart_toStartOf="@id/propertyDescriptionPayments_taxPrice_textView"
-            app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPayments_parkingPrice_textView"
-            android:text="300"
-            android:textColor="@color/colorAccent" />-->
 
     </android.support.constraint.ConstraintLayout>
 </layout>

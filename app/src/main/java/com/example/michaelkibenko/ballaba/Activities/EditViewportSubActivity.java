@@ -31,7 +31,6 @@ public class EditViewportSubActivity extends BaseActivity {
         double longitude = getIntent().getDoubleExtra("lng", NULL);
 
         BallabaMapFragment mapFragment = (BallabaMapFragment)getSupportFragmentManager().findFragmentById(R.id.editViewport_mapFragment);
-        //BallabaMapFragment.newInstance();
         mapFragment.setLocation(new LatLng(latitude, longitude));
     }
 
