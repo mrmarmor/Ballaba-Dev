@@ -47,7 +47,8 @@ import static com.example.michaelkibenko.ballaba.Adapters.GooglePlacesAdapter.Go
 public class GooglePlacesAdapter extends ArrayAdapter<String> implements Filterable {
     @StringDef({CITIES, GEOCODE, REGION})
     public @interface GooglePlacesFilter {
-        String CITIES = "&types=(cities)";
+//        String CITIES = "&types=(cities)";
+        String CITIES = "&&types=geocode";
         String GEOCODE = "&&types=geocode";
         String REGION = "&components=locality:";
     }
