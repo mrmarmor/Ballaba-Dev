@@ -83,7 +83,6 @@ public class AddPropMeetingsFrag extends Fragment {
                     @Override
                     public void resolve(BallabaBaseEntity entity) {
                         Log.e(TAG, entity.toString());
-
                     }
 
                     @Override

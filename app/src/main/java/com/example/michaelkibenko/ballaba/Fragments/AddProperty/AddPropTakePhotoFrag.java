@@ -1,6 +1,7 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -30,6 +31,7 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
 
     private ActivityAddPropertyBinding binderMain;
     private int WRITE_EXTERNAL_STORAGE_PERMISSION = 123;
+    private Context context;
 
     public AddPropTakePhotoFrag() {
     }
@@ -61,13 +63,14 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
             Toast.makeText(getActivity(), "taking Professional Photographer", Toast.LENGTH_SHORT).show();
         } else {
             //AddPropertyPresenter.getInstance((AppCompatActivity) getActivity(), binderMain).onNextViewPagerItem(4);
-            if (getActivity().checkSelfPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(context,android.Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+                    && ActivityCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
                 Log.v(TAG,"Permission is granted");
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intent, REQUEST_CODE_CAMERA);
                 //File write logic here
             }else {
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE_PERMISSION);
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, WRITE_EXTERNAL_STORAGE_PERMISSION);
             }
         }
     }
@@ -102,6 +105,12 @@ public class AddPropTakePhotoFrag extends Fragment implements View.OnClickListen
                 //        getActivity(), imageIntent.getData(), orientationColumn);
             }
         }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context = context;
     }
 
     @Override
