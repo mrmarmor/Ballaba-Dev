@@ -118,6 +118,7 @@ public class AddPropEditPhotoFrag extends Fragment {
 
             this.orientations = new String[]{MediaStore.Images.Media.ORIENTATION};
 
+            binderEditPhoto.addPropPhotosRV.smoothScrollToPosition(photos.size() + 50);
             sendPhotoToServer(adapter.getData(context, new JSONObject()));
             photosPlaceHolderChanger(false);
         }
@@ -216,6 +217,7 @@ public class AddPropEditPhotoFrag extends Fragment {
                 photos.add(newPhoto);
 
                 adapter.notifyItemInserted(photos.size() - 1);
+
             }
 
             @Override

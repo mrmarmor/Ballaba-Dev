@@ -2,8 +2,6 @@ package com.example.michaelkibenko.ballaba.Managers;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.support.annotation.StringRes;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.android.volley.AuthFailureError;
@@ -32,7 +30,6 @@ import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
 import com.example.michaelkibenko.ballaba.Holders.GlobalValues;
 import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
-import com.example.michaelkibenko.ballaba.Presenters.AddPropertyPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
@@ -518,7 +515,7 @@ public class ConnectionsManager {
         }
         if (filterResult.getAttachments_ids().size() > 0) {
             if (!isIncludeFilter) {
-                filterStringBuilder.append("&filter = true");
+                filterStringBuilder.append("&filter=true");
                 isIncludeFilter = true;
             }
             filterStringBuilder.append("&attachment=");
@@ -814,7 +811,7 @@ public class ConnectionsManager {
                     SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_UPLOAD_STEP, "1");
                     //userManager.setUser((BallabaUser)entity);
                     //Log.d(TAG, "last name received from server: "+userManager.getUser().getLast_name());
-                    AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(1);
+                    //AddPropertyPresenter.getInstance((AppCompatActivity) context, binderMain).setViewPagerItem(1);
                 }
             }
         }, new Response.ErrorListener() {

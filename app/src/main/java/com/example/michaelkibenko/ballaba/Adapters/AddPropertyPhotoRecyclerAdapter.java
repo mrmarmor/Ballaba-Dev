@@ -363,6 +363,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
     public JSONObject getData(Context context, JSONObject jsonObject) {
         //byte[] photo = UiUtils.instance(true, context).uriToBytes(photos.get(photos.size() - 1).getPhoto());
+
         byte[] photo = photos.get(photos.size() - 1).getBytes();
         try {
             JSONArray innerArrayTags = new JSONArray();
@@ -404,7 +405,6 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
 
     public interface AddPropPhotoRecyclerListener {
         void onClickChip(String id, int position);
-
         void onClickRemovePhoto(boolean isPlaceHolderDisplayed);
     }
 

@@ -219,7 +219,7 @@ public class AddPropAddonsFrag extends Fragment implements Button.OnClickListene
             } else if (itemParentTag.equals("attachments")) {
                 items = attachments.getAttachments();
             }*/
-
+            if (v instanceof Button)
             UiUtils.instance(false, context).onChipsButtonClick((Button) v, state);
 
             if (areAllFurnitureButtonsUnselected()) {

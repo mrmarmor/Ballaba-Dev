@@ -412,9 +412,10 @@ public class AddPropPaymentsFrag extends Fragment implements Button.OnClickListe
         paymentDate.put("is_flexible", paymentDateSwitch.isChecked());
 
         JSONObject parking = new JSONObject();
-        String str = parkingAmountET.getText().toString().trim();
-        if (str != null) {
-            parking.put("no_of_parking", Integer.parseInt(str));
+        String parkingAmount = parkingAmountET.getText().toString().trim();
+        String parkingPrice = parkingPriceET.getText().toString().trim();
+        if (parkingAmount != null && !parkingAmount.equals("") && parkingPrice != null && !parkingPrice.equals("")) {
+            parking.put("no_of_parking", Integer.parseInt(parkingAmount));
             parking.put("price", Integer.parseInt(parkingPriceET.getText().toString().trim()));
         }
         parking.put("is_flexible", parkingSwitch.isChecked());
