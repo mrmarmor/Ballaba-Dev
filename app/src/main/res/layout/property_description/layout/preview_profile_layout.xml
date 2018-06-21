@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/preview_dialog_container_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,8 +11,7 @@
         android:layout_width="328dp"
         android:layout_height="371dp"
         android:layout_centerInParent="true"
-        android:background="@android:color/white">
-
+        android:background="@drawable/preview_profile_dialog_background">
 
         <TextView
             android:id="@+id/preview_dialog_user_name_text_view"
@@ -34,114 +35,143 @@
 
             <ImageView
                 android:id="@+id/preview_dialog_instagram_image_view"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:src="@mipmap/ic_launcher" />
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:padding="8dp"
+                android:src="@drawable/instagram_32"
+                android:tag="instagram"/>
 
             <ImageView
                 android:id="@+id/preview_dialog_twitter_image_view"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:padding="8dp"
                 android:layout_marginRight="32dp"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/twitter_32"
+                android:tag="twitter"
+                />
 
             <ImageView
                 android:id="@+id/preview_dialog_linkedin_image_view"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:padding="8dp"
                 android:layout_marginRight="32dp"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/linkdin_32"
+                android:tag="linkedin"/>
 
             <ImageView
                 android:id="@+id/preview_dialog_facebook_image_view"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="42dp"
+                android:layout_height="42dp"
+                android:padding="8dp"
                 android:layout_marginRight="32dp"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/facebook_32"
+                android:tag="facebook"/>
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/preview_dialog_user_description_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/preview_dialog_links_container"
-            android:layout_centerHorizontal="true"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginTop="25dp"
-            android:gravity="center"
-            android:text=" מתגוררת בתל אביב
-בעלת תואר שני בעריכת דין
-אני הבעלים הגאה של דליה נכיון צ׳קים בע״מ
-יש לי 2 כלבים - ג׳וני ולוקה" />
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/preview_dialog_user_description_text_view"
-            android:layout_marginLeft="54dp"
-            android:layout_marginRight="54dp"
-            android:layout_marginTop="24dp"
-            android:layoutDirection="rtl">
+            android:layout_height="202dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="#f9f9f9"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/preview_dialog_user_description_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="25dp"
+                android:gravity="center"
+                android:text=" מתגוררת בתל אביב
+בעלת תואר שני בעריכת דין
+אני הבעלים הגאה של דליה נכיון צ׳קים בע״מ
+יש לי 2 כלבים - ג׳וני ולוקה" />
 
-                <ImageView
-                    android:id="@+id/preview_dialog_job_title_image_view"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/ic_launcher" />
-
-                <TextView
-                    android:id="@+id/preview_dialog_job_title_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/preview_dialog_job_title_image_view"
-                    android:gravity="center"
-                    android:text="עורכת דינים" />
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_marginBottom="24dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:orientation="vertical">
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="54dp"
+                android:layout_marginRight="54dp"
+                android:layoutDirection="rtl">
 
-                <ImageView
-                    android:id="@+id/preview_dialog_family_status_image_view"
-                    android:layout_width="32dp"
-                    android:layout_height="32dp"
-                    android:layout_gravity="center"
-                    android:src="@mipmap/ic_launcher" />
-
-                <TextView
-                    android:id="@+id/preview_dialog_family_status_text_view"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/preview_dialog_job_title_image_view"
-                    android:gravity="center"
-                    android:text="עורכת דינים" />
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/preview_dialog_job_title_image_view"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginBottom="16dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/job_24_copy" />
+
+                    <TextView
+                        android:id="@+id/preview_dialog_job_title_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/preview_dialog_job_title_image_view"
+                        android:gravity="center"
+                        android:text="עורכת דין" />
+
+                </LinearLayout>
+
+
+                <View
+                    android:id="@+id/preview_dialog_status_separator"
+                    android:layout_width="1dp"
+                    android:layout_height="60dp"
+                    android:layout_centerInParent="true"
+                    android:background="#979797" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:id="@+id/preview_dialog_family_status_image_view"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_marginBottom="16dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/social_outline_blue_24" />
+
+                    <TextView
+                        android:id="@+id/preview_dialog_family_status_text_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/preview_dialog_job_title_image_view"
+                        android:gravity="center"
+                        android:text="נשואה +2" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
     </RelativeLayout>
 
-
-    <com.zuowei.circleimageview.CircleImageView
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/preview_dialog_profile_circle_image_view"
         android:layout_width="123dp"
         android:layout_height="123dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="70dp"
-        android:src="@drawable/white_border" />
+        android:elevation="5dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/profile_grey_100" />
 
 </RelativeLayout>

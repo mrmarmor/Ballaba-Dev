@@ -1,6 +1,7 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.CalendarView;
 
 import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivityNew;
+import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Adapters.MeetingsPickerRecyclerViewAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaMeetingsPickerDateEntity;
@@ -83,7 +85,7 @@ public class AddPropMeetingsFrag extends Fragment {
                     @Override
                     public void resolve(BallabaBaseEntity entity) {
                         Log.e(TAG, entity.toString());
-
+                        startActivity(new Intent(getActivity() , PropertyDescriptionActivity.class));
                     }
 
                     @Override

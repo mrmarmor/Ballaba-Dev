@@ -1,11 +1,11 @@
 package com.example.michaelkibenko.ballaba.Fragments.AddProperty;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -314,8 +314,8 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.takePic_button_camera:
-                if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
-                    requestPermissions(new String[] {Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA);
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+                    requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA);
                 } else {
                     Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(takePicture, REQUEST_CODE_CAMERA);
@@ -324,8 +324,8 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 break;
 
             case R.id.takePic_button_gallery:
-                if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
-                    requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_GALLERY);
+                if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED) {
+                    requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_GALLERY);
                 } else {
                     Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(pickPhoto, REQUEST_CODE_GALLERY);
@@ -343,12 +343,37 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         super.onActivityResult(requestCode, resultCode, imageIntent);
 
         if (resultCode == RESULT_OK && imageIntent != null) {
-            Uri selectedImage = imageIntent.getData();
+            Bundle extras = null;
+            Uri extrasUri = null;
+            if (requestCode == REQUEST_CODE_CAMERA){
+                extras = imageIntent.getExtras();
+            }else {
+                extrasUri = imageIntent.getData();
+            }
+            Bitmap selectedImage = null;
+            if (extras != null){
+                selectedImage = (Bitmap) extras.get("data");
+            }
 
             switch (requestCode) {
-                case REQUEST_CODE_CAMERA: case REQUEST_CODE_GALLERY:
-                    binderLandLord.addPropProfileImageButton.setImageURI(selectedImage);
+                case REQUEST_CODE_CAMERA:
+                case REQUEST_CODE_GALLERY:
+                    //binderLandLord.addPropProfileImageButton.setImageURI(selectedImage);
+                    Glide.with(context).load(selectedImage == null ? extrasUri : selectedImage).listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            binderLandLord.addPropProfileImageButton.setImageDrawable(context.getResources().getDrawable(R.drawable.add_user_b_lue_60));
+                            return true;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            binderLandLord.addPropProfileImageButton.setImageDrawable(resource);
+                            return true;
+                        }
+                    }).into(binderLandLord.addPropProfileImageButton);
                     isProfileImageChanged = true;
+                    break;
             }
         }
     }
@@ -408,15 +433,15 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 });
             } else if (isTenant) {
                 startActivity(new Intent(getActivity(), ScoringCameraActivity.class));
-            } /*else {
+            } else {
                 ((AddPropertyActivityNew) getActivity()).changeFragment(new AddPropAssetFrag(), true);
-            }*/
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        if (getActivity() instanceof AddPropertyActivityNew) {
-            ((AddPropertyActivityNew) getActivity()).changeFragment(new AddPropAssetFrag() , true);
-        }
+        /*if (getActivity() instanceof AddPropertyActivityNew) {
+            ((AddPropertyActivityNew) getActivity()).changeFragment(new AddPropAssetFrag(), true);
+        }*/
     }
 
     private JSONObject jsonParse(HashMap<String, String> userData) throws JSONException {

@@ -18,7 +18,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivityNew;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
@@ -186,7 +185,7 @@ public class AddPropAssetFrag extends Fragment implements CompoundButton.OnCheck
                         JSONObject propertyDescription = new JSONObject(((BallabaOkResponse) entity).body);
                         String propertyID = propertyDescription.getString("id");
                         SharedPreferencesManager.getInstance(context).putString(SharedPreferencesKeysHolder.PROPERTY_ID, propertyID);
-                        Toast.makeText(context, propertyID, Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(context, propertyID, Toast.LENGTH_SHORT).show();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
