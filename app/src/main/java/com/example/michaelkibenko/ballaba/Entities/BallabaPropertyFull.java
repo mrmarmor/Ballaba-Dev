@@ -47,7 +47,15 @@ public class BallabaPropertyFull extends BallabaBaseEntity implements Serializab
         this.context = context;
     }
 
-    public BallabaPropertyFull(String id, String roomsNumber, String price, String size, String formattedAddress, String rentPeriod, String numberOfPayments, String lat, String lng, String city, String street, String street_number, String entry, String floor, String max_floor, String no_of_parking, String parking_price, String description, String payment_date, String bathrooms, String toilets, String entry_date, String status, String country, String zip_code, String level_1_area, String level_2_area, String google_place_id, String created_at, String updated_at, boolean furniture, boolean electronics, boolean show, boolean priority, boolean is_saved, boolean isGuarantee, ArrayList<HashMap<String, String>> landlords, ArrayList<String> attachments, ArrayList<HashMap<String, String>> payments, ArrayList<HashMap<String, String>> paymentMethods, ArrayList<HashMap<String, String>> addons, ArrayList<HashMap<String, String>> photos, ArrayList<HashMap<String, String>> openDoorDates, ArrayList<PropertyDescriptionComment> comments) {
+    public BallabaPropertyFull(String id, String roomsNumber, String price, String size, String formattedAddress, String rentPeriod,
+                               String numberOfPayments, String lat, String lng, String city, String street, String street_number, String entry,
+                               String floor, String max_floor, String no_of_parking, String parking_price, String description, String payment_date,
+                               String bathrooms, String toilets, String entry_date, String status, String country, String zip_code, String level_1_area,
+                               String level_2_area, String google_place_id, String created_at, String updated_at, boolean furniture, boolean electronics,
+                               boolean show, boolean priority, boolean is_saved, boolean isGuarantee, ArrayList<HashMap<String, String>> landlords,
+                               ArrayList<String> attachments, ArrayList<HashMap<String, String>> payments, ArrayList<HashMap<String, String>> paymentMethods,
+                               ArrayList<HashMap<String, String>> addons, ArrayList<HashMap<String, String>> photos, ArrayList<HashMap<String, String>> openDoorDates,
+                               ArrayList<PropertyDescriptionComment> comments) {
         this.id = id;
         this.roomsNumber = roomsNumber;
         this.price = price;

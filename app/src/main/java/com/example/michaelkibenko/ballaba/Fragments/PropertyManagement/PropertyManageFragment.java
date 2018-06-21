@@ -183,12 +183,12 @@ public class PropertyManageFragment extends Fragment {
             for (int i = 0; i < propertyPayments.size(); i++) {
                 TextView tv = getTextView(getFormattedTitleFromId(propertyPayments.get(i).get("payment_type")),
                         activity.getResources().getColor(R.color.black, activity.getTheme()));
-                binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i * 2);
+                binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i);
 
                 String formattedPrice = propertyPayments.get(i).get("price");
                 tv = getTextView(String.format("%s%s", "₪", formattedPrice),
                         activity.getResources().getColor(R.color.colorAccent, activity.getTheme()));
-                binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i * 2);
+                binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i);
             }
         } else {
             binderPay.getRoot().setVisibility(View.GONE);

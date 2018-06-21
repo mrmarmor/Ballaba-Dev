@@ -279,11 +279,10 @@ public class BallabaSearchPropertiesManager {
             String entry = heb.trimNull(res.getString("entry"));
             String floor = heb.trimNull(res.getString("floor"));
             String max_floor = heb.trimNull(res.getString("max_floor"));
+            String appartmentNumber = heb.trimNull(res.getString("apartment_number"));
             String size = heb.trimNull(res.getString("size"));
             String no_of_parking = heb.trimNull(res.getString("no_of_parking"));
             String parking_price = heb.trimNull(res.getString("parking_price"));
-            boolean furniture = res.getBoolean("furniture");
-            boolean electronics = res.getBoolean("electronics");
             String description = heb.trimNull(heb.formattedHebrew(res.getString("description")));
             String payment_date = heb.trimNull(res.getString("payment_date"));
             String rooms = heb.trimNull(res.getString("rooms"));
@@ -294,9 +293,19 @@ public class BallabaSearchPropertiesManager {
             String rent_period = heb.trimNull(res.getString("rent_period"));
             String no_of_payments = heb.trimNull(res.getString("no_of_payments"));
             String status = heb.trimNull(res.getString("status"));
-            boolean is_saved = res.getBoolean("is_saved");
-            boolean is_guaranteed = res.getBoolean("is_guaranteed");
-            boolean priority = res.getBoolean("priority");
+            boolean is_saved = false, is_guaranteed = false, show = false, furniture = false, electronics = false, priority = false;
+            try {
+                is_saved = res.getBoolean("is_saved");
+                is_guaranteed = res.getBoolean("is_guaranteed");
+                show = res.getBoolean("is_published");
+                furniture = res.getBoolean("is_furniture");
+                electronics = res.getBoolean("is_electronics");
+                if (!res.isNull("priority")) {
+                    priority = res.getBoolean("priority");
+                }
+            }catch (JSONException ex){
+                ex.printStackTrace();
+            }
             String country = heb.trimNull(heb.formattedHebrew(res.getString("country")));
             String zip_code = heb.trimNull(res.getString("zip_code"));//TODO
             String level_1_area = heb.trimNull(res.getString("level_1_area"));
@@ -305,7 +314,6 @@ public class BallabaSearchPropertiesManager {
             String lat = heb.trimNull(res.getString("lat"));
             String lng = heb.trimNull(res.getString("lng"));
             String formattedAddress = heb.trimNull(heb.formattedHebrew(res.getString("formatted_address")));
-            boolean show = res.getBoolean("show");
             String created_at = heb.trimNull(res.getString("created_at"));
             String updated_at = heb.trimNull(res.getString("updated_at"));
 
@@ -314,7 +322,8 @@ public class BallabaSearchPropertiesManager {
             ArrayList<String> attachments = parseAttachments(res.getJSONArray("attachments"));
             ArrayList<HashMap<String, String>> payments = parsePayments(res.getJSONArray("payments"));
             ArrayList<HashMap<String, String>> paymentMethods = parsePaymentMethods(res.getJSONArray("payment_methods"));
-            ArrayList<HashMap<String, String>> addons = parseAddons(res.getJSONArray("addons"));
+//            ArrayList<HashMap<String, String>> addons = parseAddons(res.getJSONArray("addons"));
+            ArrayList<HashMap<String, String>> addons = null;
             ArrayList<HashMap<String, String>> photos = parsePhotos(res.getJSONArray("photos"));
             ArrayList<HashMap<String, String>> openDoorDates = parseOpenDoorDates(res.getJSONArray("open_door_dates"));
             ArrayList<PropertyDescriptionComment> comments = parseComments(res.getJSONArray("comments"));
