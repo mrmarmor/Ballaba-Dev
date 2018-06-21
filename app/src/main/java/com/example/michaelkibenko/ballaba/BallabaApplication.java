@@ -18,7 +18,6 @@ public class BallabaApplication extends Application {
     public void onCreate() {
         super.onCreate();
         BallabaConnectivityAnnouncer.getInstance(getApplicationContext());
-        if(!BuildConfig.DEBUG)
-            Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
+        Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
     }
 }
