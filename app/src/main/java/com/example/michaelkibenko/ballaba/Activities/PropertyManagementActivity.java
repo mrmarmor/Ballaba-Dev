@@ -14,8 +14,8 @@ import android.widget.Toast;
 
 import com.duolingo.open.rtlviewpager.RtlViewPager;
 import com.example.michaelkibenko.ballaba.Adapters.PropertyManagementAdapter;
-import com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.property_managment_adapters.PropertyManageInterestedAdapter;
-import com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.property_managment_adapters.PropertyManageMeetingAdapter;
+import com.example.michaelkibenko.ballaba.Adapters.property_managment_adapters.PropertyManageInterestedAdapter;
+import com.example.michaelkibenko.ballaba.Adapters.property_managment_adapters.PropertyManageMeetingAdapter;
 import com.example.michaelkibenko.ballaba.R;
 
 import java.util.ArrayList;

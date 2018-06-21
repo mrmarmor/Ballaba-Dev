@@ -2,7 +2,8 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layoutDirection="rtl">
 
     <ImageView
         android:id="@+id/property_photo_IV"
@@ -14,6 +15,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/photo_home_grey_24"
         android:scaleType="center"/>
+
+    <ProgressBar
+        android:id="@+id/property_photo_loading_progressBar"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintBottom_toBottomOf="@+id/property_photo_IV"
+        app:layout_constraintStart_toStartOf="@+id/property_photo_IV"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="20dp"
+        android:visibility="visible"/>
 
 
 </android.support.constraint.ConstraintLayout>

@@ -1,4 +1,4 @@
-package com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.property_managment_adapters;
+package com.example.michaelkibenko.ballaba.Adapters.property_managment_adapters;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -22,7 +22,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
-import com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.PropertyManageInterestedFragment;
+import com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.PropertyManageMeetingsFragment;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
@@ -32,23 +32,22 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PropertyManageInterestedAdapter extends RecyclerView.Adapter<PropertyManageInterestedAdapter.ViewHolder> {
+public class PropertyManageMeetingAdapter extends RecyclerView.Adapter<PropertyManageMeetingAdapter.ViewHolder> {
 
     private List<BallabaUser> userList;
     private Context context;
-    private PropertyManageInterestedFragment propertyManageInterestedFragment;
+    private PropertyManageMeetingsFragment propertyManageMeetingsFragment;
 
-
-    public PropertyManageInterestedAdapter(Context context, PropertyManageInterestedFragment propertyManageInterestedFragment, List<BallabaUser> userList) {
+    public PropertyManageMeetingAdapter(Context context, PropertyManageMeetingsFragment propertyManageMeetingsFragment, List<BallabaUser> userList) {
         this.context = context;
         this.userList = userList;
-        this.propertyManageInterestedFragment = propertyManageInterestedFragment;
+        this.propertyManageMeetingsFragment = propertyManageMeetingsFragment;
     }
 
     public int getSelectedUserID() {
         int userID = 0;
         for (int i = 0; i < userList.size(); i++) {
-            if (userList.get(i).isInterested()) {
+            if (userList.get(i).isMeeting()) {
                 return Integer.parseInt(userList.get(i).getId());
             }
         }
@@ -59,7 +58,7 @@ public class PropertyManageInterestedAdapter extends RecyclerView.Adapter<Proper
         ArrayList<Integer> userDeletedIds = new ArrayList<>();
 
         for (int i = 0; i < userList.size(); i++) {
-            if (userList.get(i).isInterested()) {
+            if (userList.get(i).isMeeting()) {
                 userDeletedIds.add(i);
             }
         }
@@ -76,13 +75,13 @@ public class PropertyManageInterestedAdapter extends RecyclerView.Adapter<Proper
         }
         boolean isEmpty = userList.isEmpty();
         if (isEmpty){
-            propertyManageInterestedFragment.toggleEmptyStateVisibility(isEmpty);
+            propertyManageMeetingsFragment.toggleState(isEmpty);
         }
         notifyDataSetChanged();
     }
 
     private void deleteUserFromDataBase(int propertyID, int userDeleteID) {
-        ConnectionsManager.getInstance(context).deleteInterestedUser(propertyID, userDeleteID, new BallabaResponseListener() {
+        ConnectionsManager.getInstance(context).deleteMeetingUser(propertyID, userDeleteID, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 Log.d("RES", "resolve: " + ((BallabaOkResponse)entity).body);
@@ -93,11 +92,21 @@ public class PropertyManageInterestedAdapter extends RecyclerView.Adapter<Proper
                 Log.d("RES", "reject: " + ((BallabaErrorResponse)entity).message);
             }
         });
+
+    }
+
+    public int checkHowMuchSelected() {
+        int meetingsUsers = 0;
+        for (int i = 0; i < userList.size(); i++) {
+            boolean meeting = userList.get(i).isMeeting();
+            if (meeting) meetingsUsers++;
+        }
+        return meetingsUsers;
     }
 
     public boolean isAllChecked() {
         for (int i = 0; i < userList.size(); i++) {
-            if (!userList.get(i).isInterested()){
+            if (!userList.get(i).isMeeting()){
                 return false;
             }
         }
@@ -107,22 +116,23 @@ public class PropertyManageInterestedAdapter extends RecyclerView.Adapter<Proper
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private CircleImageView userImage;
-        private TextView userName;
+        private TextView userNameTV, dateTV;
         private CheckBox checkBox;
 
         public ViewHolder(View view) {
             super(view);
 
-            userImage = view.findViewById(R.id.property_manage_interested_item_image_btn);
-            userName = view.findViewById(R.id.property_manage_interested_item_text_view);
-            checkBox = view.findViewById(R.id.property_manage_interested_item_check_box);
+            userImage = view.findViewById(R.id.property_manage_meetings_item_image_btn);
+            userNameTV = view.findViewById(R.id.property_manage_meetings_item_name_text_view);
+            dateTV = view.findViewById(R.id.property_manage_meetings_item_date_text_view);
+            checkBox = view.findViewById(R.id.property_manage_meetings_item_check_box);
         }
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.property_manage_interested_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.property_manage_meetings_item, parent, false);
 
         return new ViewHolder(view);
     }
@@ -149,18 +159,21 @@ public class PropertyManageInterestedAdapter extends RecyclerView.Adapter<Proper
         }else {
             holder.userImage.setImageDrawable(context.getDrawable(R.drawable.user_grey_36));
         }
-        holder.userName.setText(user.getFirst_name() + " " + user.getLast_name());
-        holder.checkBox.setChecked(user.isInterested());
+
+        holder.userNameTV.setText(user.getFirst_name() + " " + user.getLast_name());
+        holder.checkBox.setChecked(user.isMeeting());
         holder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                user.setIsInterested(!user.isInterested());
+                user.setIsMeeting(!user.isMeeting());
                 ((PropertyManagementActivity) context).toolbarImagesVisibility(false ,
                         true ,
                         !isAllUnChecked() && !isMoreThanOneChecked() ,
                         !isAllUnChecked());
             }
         });
+
+        holder.dateTV.setText(user.getMeeting_time());
     }
 
     @Override
@@ -170,33 +183,24 @@ public class PropertyManageInterestedAdapter extends RecyclerView.Adapter<Proper
 
     public void checkAll(boolean isCheck) {
         for (int i = 0; i < userList.size(); i++) {
-            userList.get(i).setIsInterested(isCheck);
+            userList.get(i).setIsMeeting(isCheck);
         }
         notifyDataSetChanged();
     }
 
     public boolean isAllUnChecked() {
         for (int i = 0; i < userList.size(); i++) {
-            boolean interested = userList.get(i).isInterested();
-            if (interested) return false;
+            boolean meeting = userList.get(i).isMeeting();
+            if (meeting) return false;
         }
         return true;
-    }
-
-    public int checkHowMuchSelected() {
-        int interestedUsers = 0;
-        for (int i = 0; i < userList.size(); i++) {
-            boolean interested = userList.get(i).isInterested();
-            if (interested) interestedUsers++;
-        }
-        return interestedUsers;
     }
 
     public boolean isMoreThanOneChecked() {
         int counter = 0;
         for (int i = 0; i < userList.size(); i++) {
-            boolean interested = userList.get(i).isInterested();
-            if (interested) counter++;
+            boolean meeting = userList.get(i).isMeeting();
+            if (meeting) counter++;
             if (counter > 1) {
                 return true;
             }

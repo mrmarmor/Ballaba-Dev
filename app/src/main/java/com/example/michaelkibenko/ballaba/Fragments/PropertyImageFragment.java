@@ -2,6 +2,7 @@ package com.example.michaelkibenko.ballaba.Fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,8 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringWelcomeActivity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
@@ -54,8 +60,25 @@ public class PropertyImageFragment extends Fragment {
         photoUrl = args.getString(PHOTO_URL_KEY);
         propertyId = args.getString(PROPERTY_ID_KEY);
         final int position = args.getInt(PropertyDescriptionPresenter.PROPERTY_POSITION);
-        ImageView photo = v.findViewById(R.id.property_photo_IV);
-        Glide.with(context).load(photoUrl).into(photo);
+        final ImageView photo = v.findViewById(R.id.property_photo_IV);
+        final ProgressBar progressBar = v.findViewById(R.id.property_photo_loading_progressBar);
+        progressBar.setVisibility(View.VISIBLE);
+
+        Glide.with(context).load(photoUrl).listener(new RequestListener<Drawable>() {
+            @Override
+            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                photo.setImageDrawable(context.getDrawable(R.drawable.photo_home_grey_24));
+                progressBar.setVisibility(View.GONE);
+                return true;
+            }
+
+            @Override
+            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                photo.setImageDrawable(resource);
+                progressBar.setVisibility(View.GONE);
+                return true;
+            }
+        }).into(photo);
 
         photo.setOnClickListener(new View.OnClickListener() {
             @Override
