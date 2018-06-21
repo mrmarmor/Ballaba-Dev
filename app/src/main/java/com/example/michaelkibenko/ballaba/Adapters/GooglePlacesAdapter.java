@@ -61,7 +61,7 @@ public class GooglePlacesAdapter extends ArrayAdapter<String> implements Filtera
 
     private String apiKey ="";
     private ArrayList<String> resultList;
-    private Context context = null;
+    private Context context;
     private @GooglePlacesFilter String gpFilter;
     private String customCity;
 
