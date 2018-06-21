@@ -67,6 +67,7 @@ public class DateOfEntranceFragment extends Fragment {
             }
         });
 
+        isFlexibleCheckBox.setChecked(filterResult.isFlexible());
         isFlexibleCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {

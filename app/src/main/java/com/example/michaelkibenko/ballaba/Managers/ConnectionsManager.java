@@ -528,6 +528,17 @@ public class ConnectionsManager {
             }
         }
 
+        if(filterResult.getEnterDate() != null){
+            if (!isIncludeFilter) {
+                filterStringBuilder.append("&filter = true");
+                isIncludeFilter = true;
+            }
+            filterStringBuilder.append("&entryDate="+filterResult.getEnterDate());
+            if(filterResult.isFlexible()){
+                filterStringBuilder.append("&flexible=true");
+            }
+        }
+
         String queryFilter = filterStringBuilder.toString();
         String queryAdresses = stringBuilder.toString();
         String queryUrl = EndpointsHolder.PROPERTY + queryAdresses + queryFilter;
