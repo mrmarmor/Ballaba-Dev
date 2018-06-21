@@ -138,6 +138,7 @@
         android:alpha="0.50"
         android:onClick="@{() -> presenter.onSendAgainButtonClick()}"
         android:clickable="false"
+        android:enabled="false"
         />
 
     <ProgressBar
