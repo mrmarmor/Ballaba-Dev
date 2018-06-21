@@ -104,7 +104,7 @@
         android:textColor="@color/colorPrimary"
         android:background="@drawable/blue_border" />
 
-    <com.zuowei.circleimageview.CircleImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/propertyDescriptionPrice_landlordProfileImage"
         android:layout_width="@dimen/propertyDescription_price_landlordProfileImage_dimens"
         android:layout_height="@dimen/propertyDescription_price_landlordProfileImage_dimens"

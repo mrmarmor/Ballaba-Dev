@@ -31,6 +31,7 @@ public class SavedPropertiesActivity extends BaseActivity {
     @SAVE_PROPERTIES_STATES int currentState;
     private ArrayList<BallabaPropertyResult> items;
     private PropertiesRecyclerAdapter adapter;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,7 +80,7 @@ public class SavedPropertiesActivity extends BaseActivity {
             public void resolve(BallabaBaseEntity entity) {
                 if(entity instanceof BallabaOkResponse){
                     items = BallabaSearchPropertiesManager.getInstance(SavedPropertiesActivity.this).parsePropertyResults(((BallabaOkResponse)entity).body);
-                    if(items!= null) {
+                    if(items!= null && items.size() != 0) {
                         adapter = new PropertiesRecyclerAdapter(SavedPropertiesActivity.this, getSupportFragmentManager(), items, true);
                         binding.savedPropertiesRV.setAdapter(adapter);
                         onScreenStateChanger(ITEMS);

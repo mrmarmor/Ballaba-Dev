@@ -31,8 +31,6 @@ import com.bumptech.glide.Glide;
 import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivityNew;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.ContinueAddPropertyActivity;
-import com.example.michaelkibenko.ballaba.Activities.CreditCardActivity;
-import com.example.michaelkibenko.ballaba.Activities.Guarantor.GuarantorDeclinedActivity;
 import com.example.michaelkibenko.ballaba.Activities.MyPropertiesBaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.ProfileActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;

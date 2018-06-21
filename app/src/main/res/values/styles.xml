@@ -53,6 +53,9 @@
         <item name="android:textSize">@dimen/enter_code_code_edit_text_size</item>
         <item name="android:backgroundTint">@color/colorPrimary</item>
         <item name="android:gravity">center</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusableInTouchMode">true</item>
+        <item name="android:focusable">true</item>
         <item name="android:layout_marginStart">@dimen/enter_code_code_edit_text_side_offset</item>
         <item name="android:layout_marginEnd">@dimen/enter_code_code_edit_text_side_offset</item>
         <item name="android:inputType">numberDecimal</item>
@@ -74,6 +77,7 @@
         <item name="android:textSize">@dimen/textSize_regular</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@color/colorPrimary</item>
+        <item name="android:elevation">@dimen/elevation</item>
     </style>
 
     <style name="AppButtonAnotherNarrow" parent="AppButtonAnother">
@@ -293,6 +297,7 @@
         <item name="android:textColor">@color/gray_text_color</item>
         <item name="android:textDirection">rtl</item>
         <item name="android:textAlignment">textStart</item>
+        <item name="android:text"> </item>
     </style>
 
     <style name="add_property_editTexts_with_number" parent="addProperty_editTexts">

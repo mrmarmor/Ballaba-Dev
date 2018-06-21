@@ -58,10 +58,12 @@
             android:label="Terms of use" />
         <activity
             android:name=".Activities.EnterPhoneNumberActivity"
+            android:windowSoftInputMode="stateAlwaysVisible"
             android:label="Pre auth" />
         <activity
             android:name=".Activities.EnterCodeActivity"
             android:label="Enter code"
+            android:windowSoftInputMode="stateAlwaysVisible"
             android:theme="@style/AppTheme" />
         <activity
             android:name=".Activities.MainActivity"
