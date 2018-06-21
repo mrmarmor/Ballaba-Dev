@@ -92,6 +92,8 @@ dependencies {
     }
 
     implementation 'com.google.firebase:firebase-invites:9.8.0'
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+
 
 }
 
