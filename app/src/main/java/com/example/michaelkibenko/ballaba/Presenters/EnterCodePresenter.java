@@ -153,8 +153,8 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
                 editTexts[codeLength-1].setCursorVisible(false);
                 sbCode.setLength(codeLength-1);//delete last char
 
-                InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.showSoftInput(editTexts[codeLength-1], InputMethodManager.SHOW_FORCED);
+                //InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+                //imm.showSoftInput(editTexts[codeLength-1], InputMethodManager.SHOW_FORCED);
             }
         }
 
@@ -163,9 +163,8 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        //editTexts[sbCode.length()].requestFocus();
-        //editTexts[sbCode.length()].setCursorVisible(true);
-        return false;
+        UiUtils.instance(true, context).showSoftKeyboard();
+        return true;
     }
 
     private void onCodeCompleted() {
@@ -292,31 +291,28 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
 
     //TODO this method exists in EnterPhoneNumberPresenter exactly(exclude onFlowChanged()). So, consider make it generic once
     public void onSendAgainButtonClick(){
-        UiUtils.instance(true, context).buttonChanger(binder.enterCodeSendAgainButton, false);
-        show1MinuteClock();
+        if (binder.enterCodeSendAgainButton.isEnabled()) {
+            UiUtils.instance(true, context).buttonChanger(binder.enterCodeSendAgainButton, false);
+            show1MinuteClock();
 
-        //TODO move next line method to basePresenter
-        UiUtils.instance(true, context).hideSoftKeyboard(((Activity)context).getWindow().getDecorView());
+            ((BaseActivity) context).getDefaultSnackBar(binder.getRoot(), context.getString(R.string.enter_code_send_again_snack_bar_text), true).show();
 
-        ((BaseActivity)context).getDefaultSnackBar(binder.getRoot(), context.getString(R.string.enter_code_send_again_snack_bar_text), true).show();
-
-        ConnectionsManager.getInstance(context).loginWithPhoneNumber(phoneNumber.getFullPhoneNumber(), new BallabaResponseListener() {
-            @Override
-            public void resolve(BallabaBaseEntity entity) {
-                if(entity instanceof BallabaOkResponse){
-                    Log.d(TAG, "loginWithPhoneNumber");
+            ConnectionsManager.getInstance(context).loginWithPhoneNumber(phoneNumber.getFullPhoneNumber(), new BallabaResponseListener() {
+                @Override
+                public void resolve(BallabaBaseEntity entity) {
+                    if (entity instanceof BallabaOkResponse) {
+                        Log.d(TAG, "loginWithPhoneNumber");
+                    }
                 }
-            }
 
-            @Override
-            public void reject(BallabaBaseEntity entity) {
-                if(entity instanceof BallabaErrorResponse){
-                    //TODO replace next line with snackbar
-                    //binder.enterPhoneNumberTextErrorAnswer.setVisibility(View.VISIBLE);
-                    Log.d(TAG, "loginWithPhoneNumber rejected "+((BallabaErrorResponse)entity).statusCode);
+                @Override
+                public void reject(BallabaBaseEntity entity) {
+                    if (entity instanceof BallabaErrorResponse) {
+                        Log.d(TAG, "loginWithPhoneNumber rejected " + ((BallabaErrorResponse) entity).statusCode);
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private void show1MinuteClock(){
