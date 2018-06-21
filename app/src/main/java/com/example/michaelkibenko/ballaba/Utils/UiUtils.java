@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringDef;
@@ -147,6 +149,13 @@ public class UiUtils {
             ex.printStackTrace();
             return null;
         }
+    }
+
+    public byte[] drawableToUri(Drawable d) {
+        Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        return stream.toByteArray();
     }
 
     public byte[] uriToBytes(Uri uri) {

@@ -262,4 +262,6 @@
 
     <dimen name="property_description_space_between_indicators">12dp</dimen>
 
+    <dimen name="profileActivity_top_offset">26dp</dimen>
+
 </resources>
