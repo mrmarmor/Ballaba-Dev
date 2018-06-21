@@ -74,6 +74,7 @@
         <item name="android:textSize">@dimen/textSize_regular</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:background">@color/colorPrimary</item>
+        <item name="android:elevation">@dimen/elevation</item>
     </style>
 
     <style name="AppButtonAnotherNarrow" parent="AppButtonAnother">
@@ -293,6 +294,7 @@
         <item name="android:textColor">@color/gray_text_color</item>
         <item name="android:textDirection">rtl</item>
         <item name="android:textAlignment">textStart</item>
+        <item name="android:text"> </item>
     </style>
 
     <style name="add_property_editTexts_with_number" parent="addProperty_editTexts">
