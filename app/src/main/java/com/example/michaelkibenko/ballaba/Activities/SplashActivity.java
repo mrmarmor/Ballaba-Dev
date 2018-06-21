@@ -130,13 +130,8 @@ public class SplashActivity extends BaseActivity {
 
                 @Override
                 public void reject(BallabaBaseEntity entity) {
-                    Log.d(TAG, "logInWithToken rejected");
-                    if (entity instanceof BallabaErrorResponse) {
-                        if (((BallabaErrorResponse) entity).statusCode != 500) {
-                            logInStatus = FLOW_TYPES.NEED_AUTHENTICATION;
-                            checkSplashDelay(logInStatus);
-                        }
-                    }
+                    logInStatus = FLOW_TYPES.NEED_AUTHENTICATION;
+                    checkSplashDelay(logInStatus);
                 }
             }, token);
         } else {
