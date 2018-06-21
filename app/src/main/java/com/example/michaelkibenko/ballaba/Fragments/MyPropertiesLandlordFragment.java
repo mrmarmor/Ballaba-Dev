@@ -18,6 +18,7 @@ import com.example.michaelkibenko.ballaba.Entities.MyPropertiesLandlord;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +34,7 @@ public class MyPropertiesLandlordFragment extends Fragment {
     private List<MyPropertiesLandlord> myPropertiesLandlordsList;
     private View v;
     private ProgressBar progressBar;
+    private StringUtils stringUtils = StringUtils.getInstance(true);
 
     @Nullable
     @Override
@@ -79,7 +81,7 @@ public class MyPropertiesLandlordFragment extends Fragment {
                 JSONObject obj = array.getJSONObject(i);
                 String[] photos = new String[1];
                 id = obj.getInt("id");
-                address = obj.getString("formatted_address");
+                address = stringUtils.formattedHebrew(obj.getString("formatted_address"));
                 rooms = obj.getInt("rooms");
                 size = obj.getInt("size");
                 JSONArray photosArr = obj.getJSONArray("photos");

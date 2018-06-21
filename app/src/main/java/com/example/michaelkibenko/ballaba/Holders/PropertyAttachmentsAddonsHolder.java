@@ -77,6 +77,23 @@ public class PropertyAttachmentsAddonsHolder {
             JSONArray paymentMethods = jsonObject.getJSONArray(PAYMENT_METHODS);
             JSONArray photoTags = jsonObject.getJSONArray(PROPERTY_PHOTO_TAGS);
 
+            //TODO this adds 2 chips to attachments: furnished+electronics
+            //WARNING! there is already an attachment: {"id":11,"title":"service_balcony"}
+            JSONObject not_furnished = new JSONObject();
+            not_furnished.put("id" , "111");
+            not_furnished.put("type", "not_furnished");
+            addInPosition(1, not_furnished, attachments);
+            //attachments.put(1, not_furnished);//this overrides element in position 1!
+
+            JSONObject no_electronics = new JSONObject();
+            no_electronics.put("id" , "222");
+            no_electronics.put("type", "no_electronics");
+            addInPosition(3, no_electronics, attachments);
+            //this.attachments = attachments;
+            //attachments.put(2, no_electronics);
+            //Log.e("d", electronics+"");
+
+
             addAttachments(this.furniture, furniture, FURNITURE);
             addAttachments(this.electronics, electronics, ELECTRONICS);
             addAttachments(this.attachments, attachments, ATTACHMENTS);
@@ -103,6 +120,7 @@ public class PropertyAttachmentsAddonsHolder {
 
     private void addAttachments(ArrayList<PropertyAttachmentAddonEntity> entities, JSONArray attachment
             , final String ATTACHMENT_TYPE) throws JSONException {
+
         for (int i = 0; i < attachment.length(); i++) {
             JSONObject currentObject = attachment.getJSONObject(i);
             String id = currentObject.getString("id");

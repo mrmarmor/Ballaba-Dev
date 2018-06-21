@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.michaelkibenko.ballaba.Activities.MainActivity;
 import com.example.michaelkibenko.ballaba.Adapters.ChipsButtonsRecyclerViewAdapter;
 import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
 import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
@@ -121,7 +122,7 @@ public class AttachmentsFragment extends Fragment implements Button.OnClickListe
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
-        filterResult = new FilterResultEntity();
+        filterResult = ((MainActivity)context).presenter.filterResult;
     }
 
     @Override
@@ -159,7 +160,7 @@ public class AttachmentsFragment extends Fragment implements Button.OnClickListe
             filterResult.deleteAttachmentId(getHolderByFormattedTitle(text).id);
         } else if(state.equals(UiUtils.ChipsButtonStates.NOT_PRESSED)){
             String id =  getHolderByFormattedTitle(text).id;
-            if(!id.equals("1") && !id.equals("2") && !id.equals("11") && !id.equals("22")){
+            if(!id.equals("1") && !id.equals("2") && !id.equals("111") && !id.equals("222")){
                 filterResult.appendAttachmentId(id);
             }
         }
