@@ -37,16 +37,19 @@ public class StringUtils {
     }
 
     public String formattedNumberWithComma(String number){
-        if (number == null)
-            return "";//TODO maybe return "missing price" instead
+        try {
+            int numberToCatchNumberFormatException = Integer.parseInt(number);
+            if (number.length() > 6) {
+                number = new StringBuilder(number).insert(number.length() - 6, ",").insert(number.length() - 2, ",").toString();
+            } else if (number.length() > 3) {
+                number = new StringBuilder(number).insert(number.length() - 3, ",").toString();
+            }
 
-        if (number.length() > 6) {
-            number = new StringBuilder(number).insert(number.length() - 6, ",").insert(number.length() - 2, ",").toString();
-        } else if (number.length() > 3) {
-            number = new StringBuilder(number).insert(number.length() - 3, ",").toString();
+            return number;
+
+        }catch (NullPointerException | NumberFormatException e) {
+            return "";
         }
-
-        return number;
     }
 
     public String getFormattedDateString(Calendar calendar, boolean isTimeInculded){
