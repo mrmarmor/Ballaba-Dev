@@ -161,7 +161,16 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
             case R.id.profileActivity_button_next:
                 if (isEmailValid(binder.profileActivityDetailsEmail.getText().toString()))
                     onFinish(ConnectionsManager.newInstance(this), getDataFromEditTexts(new JSONObject()));
+                break;
+
+            case R.id.profileActivity_social_facebook_image_view:
+                connectToFaceBook();
+                break;
         }
+    }
+
+    private void connectToFaceBook(){
+
     }
 
     private void onFinish(ConnectionsManager connectionsManager,  JSONObject jsonObject) {
