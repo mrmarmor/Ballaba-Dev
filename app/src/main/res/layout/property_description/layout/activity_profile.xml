@@ -334,7 +334,7 @@
             <EditText
                 android:id="@+id/profileActivity_details_creditCard"
                 style="@style/profile_editText"
-                android:text=" "
+                android:text="**** - **** - **** - ****"
                 android:focusable="false"
                 android:onClick="onClickToCreditCard"/>
         </android.support.design.widget.TextInputLayout>

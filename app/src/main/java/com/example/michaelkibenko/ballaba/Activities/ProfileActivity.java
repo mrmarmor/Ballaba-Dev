@@ -46,6 +46,8 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
     private final String TAG = ProfileActivity.class.getSimpleName();
 
     private ActivityProfileBinding binder;
+    private View sheetView;
+    private BottomSheetDialog bottomSheetDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,16 +93,19 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
             binder.profileActivityDetailsEmail.setText(user.getEmail());
             binder.profileActivityDetailsAbout.setText(user.getAbout());
             binder.profileActivityDetailsCreditCard.setText(/*TODO get from server last 4 digits*/"**** - **** - **** - ****");
+            binder.profileActivityDetailsAboutCounter.setText(user.getAbout().length() + " / 120");
         }
 
         binder.profileActivityDetailsAbout.addTextChangedListener(this);
         binder.profileActivityButtonNext.setOnClickListener(this);
+        binder.profileActivitySocialInstagramImageView.setOnClickListener(this);
+        binder.profileActivitySocialTwitterImageView.setOnClickListener(this);
+        binder.profileActivitySocialLinkedinImageView.setOnClickListener(this);
+        binder.profileActivitySocialFacebookImageView.setOnClickListener(this);
         UiUtils.instance(true, this).initAutoCompleteCity(binder.profileActivityDetailsCity);
         UiUtils.instance(true, this).initAutoCompleteAddressInCity(binder.profileActivityDetailsAddress, binder.profileActivityDetailsCity);
     }
 
-    private View sheetView;
-    private BottomSheetDialog bottomSheetDialog;
     public void onClickProfileImage(View view) {
         //if (binder.profileActivityDetailsFullName.isEnabled()) {//=edit mode
             sheetView = getLayoutInflater().inflate(R.layout.take_pic_switch, null);
@@ -132,35 +137,44 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            /*case R.id.addProp_profile_imageButton:
-                onClickProfileImage();
-                break;*/
-
             case R.id.takePic_button_camera:
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED){
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                        requestPermissions(new String[] {Manifest.permission.CAMERA}, REQUEST_CODE_CAMERA);
-                } else {
-                    Intent takePicture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(takePicture, REQUEST_CODE_CAMERA);
-                    bottomSheetDialog.dismiss();
-                }
+                takePicture(Manifest.permission.CAMERA, REQUEST_CODE_CAMERA, new Intent(MediaStore.ACTION_IMAGE_CAPTURE));
                 break;
 
             case R.id.takePic_button_gallery:
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                        requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_CODE_GALLERY);
-                } else {
-                    Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(pickPhoto, REQUEST_CODE_GALLERY);
-                    bottomSheetDialog.dismiss();
-                }
+                takePicture(Manifest.permission.READ_EXTERNAL_STORAGE, REQUEST_CODE_GALLERY
+                    , new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI));
+                break;
+
+            case R.id.profileActivity_social_instagram_image_view:
+                Toast.makeText(this, "to instagram personal page", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.profileActivity_social_twitter_image_view:
+                Toast.makeText(this, "to twitter personal page", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.profileActivity_social_linkedin_image_view:
+                Toast.makeText(this, "to linkenin personal page", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.profileActivity_social_facebook_image_view:
+                Toast.makeText(this, "to facebook personal page", Toast.LENGTH_SHORT).show();
                 break;
 
             case R.id.profileActivity_button_next:
                 if (isEmailValid(binder.profileActivityDetailsEmail.getText().toString()))
                     onFinish(ConnectionsManager.newInstance(this), getDataFromEditTexts(new JSONObject()));
+        }
+    }
+
+    private void takePicture(String permissionCode, int requestCode, Intent intent){
+        if (ContextCompat.checkSelfPermission(this, permissionCode) == PackageManager.PERMISSION_DENIED){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                requestPermissions(new String[] {permissionCode}, requestCode);
+        } else {
+            startActivityForResult(intent, requestCode);
+            bottomSheetDialog.dismiss();
         }
     }
 
