@@ -4,26 +4,20 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
-import android.view.KeyEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ScrollView;
-import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
@@ -32,11 +26,13 @@ import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.UiUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityProfileBinding;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropLandlordFrag.REQUEST_CODE_CAMERA;
 import static com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropLandlordFrag.REQUEST_CODE_GALLERY;
@@ -46,6 +42,7 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
     private final String TAG = ProfileActivity.class.getSimpleName();
 
     private ActivityProfileBinding binder;
+    private CallbackManager faceBookCallbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +94,30 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
         binder.profileActivityButtonNext.setOnClickListener(this);
         UiUtils.instance(true, this).initAutoCompleteCity(binder.profileActivityDetailsCity);
         UiUtils.instance(true, this).initAutoCompleteAddressInCity(binder.profileActivityDetailsAddress, binder.profileActivityDetailsCity);
+        initFaceBook();
+    }
+
+    private void initFaceBook(){
+        faceBookCallbackManager = CallbackManager.Factory.create();
+        binder.profileActivitySocialFacebookIV.setReadPermissions("email");
+        binder.profileActivitySocialFacebookIV.registerCallback(faceBookCallbackManager, new FacebookCallback<LoginResult>(){
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.e(TAG, loginResult.toString());
+            }
+
+            @Override
+            public void onCancel() {
+                Log.e(TAG, "error");
+
+            }
+
+            @Override
+            public void onError(FacebookException error) {
+                Log.e(TAG, error.toString());
+            }
+        });
+
     }
 
     private View sheetView;
@@ -162,15 +183,7 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
                 if (isEmailValid(binder.profileActivityDetailsEmail.getText().toString()))
                     onFinish(ConnectionsManager.newInstance(this), getDataFromEditTexts(new JSONObject()));
                 break;
-
-            case R.id.profileActivity_social_facebook_image_view:
-                connectToFaceBook();
-                break;
         }
-    }
-
-    private void connectToFaceBook(){
-
     }
 
     private void onFinish(ConnectionsManager connectionsManager,  JSONObject jsonObject) {
@@ -206,6 +219,7 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        faceBookCallbackManager.onActivityResult(requestCode, resultCode, intent);
         super.onActivityResult(requestCode, resultCode, intent);
 
         if (resultCode == RESULT_OK && intent != null) {
@@ -263,4 +277,6 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
         binder.profileActivityDetailsAboutCounter.setText(s.length() + " / 120");
 
     }
+
+
 }

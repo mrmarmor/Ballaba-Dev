@@ -5,6 +5,8 @@ import android.app.Application;
 import com.crashlytics.android.Crashlytics;
 import com.crashlytics.android.ndk.CrashlyticsNdk;
 import com.example.michaelkibenko.ballaba.Common.BallabaConnectivityAnnouncer;
+import com.facebook.FacebookSdk;
+import com.facebook.appevents.AppEventsLogger;
 
 import io.fabric.sdk.android.Fabric;
 
@@ -19,5 +21,7 @@ public class BallabaApplication extends Application {
         super.onCreate();
         BallabaConnectivityAnnouncer.getInstance(getApplicationContext());
         Fabric.with(this, new Crashlytics(), new CrashlyticsNdk());
+        FacebookSdk.sdkInitialize(getApplicationContext());
+        AppEventsLogger.activateApp(this);
     }
 }

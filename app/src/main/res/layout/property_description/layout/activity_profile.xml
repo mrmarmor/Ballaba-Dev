@@ -303,12 +303,19 @@
                 android:layout_marginRight="32dp"
                 android:src="@drawable/linkdin_32" />
 
-            <ImageView
-                android:id="@+id/profileActivity_social_facebook_image_view"
+            <!--<ImageView-->
+                <!--android:id="@+id/profileActivity_social_facebook_image_view"-->
+                <!--android:layout_width="32dp"-->
+                <!--android:layout_height="32dp"-->
+                <!--android:layout_marginRight="32dp"-->
+                <!--android:src="@drawable/facebook_32" />-->
+
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/profileActivity_social_facebook_IV"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_marginRight="32dp"
-                android:src="@drawable/facebook_32" />
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="32dp"/>
 
         </LinearLayout>
 
