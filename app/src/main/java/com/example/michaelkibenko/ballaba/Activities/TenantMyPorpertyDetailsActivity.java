@@ -28,9 +28,6 @@ public class TenantMyPorpertyDetailsActivity extends BaseActivity implements Vie
 
         myContractLayout = findViewById(R.id.my_properties_tenant_contract_container);
 
-
-
-
     }
 
     @Override

@@ -68,7 +68,7 @@ public class PropertyManageFragment extends Fragment {
         //TODO make server request and get data + progress dialog
         binder = DataBindingUtil.inflate(inflater, R.layout.fragment_property_manage, container, false);
         activity = getActivity();
-        binder.propertyManagementPrice.propertyDescriptionPriceToVirtualTourButton.setVisibility(View.GONE);
+        //binder.propertyManagementPrice.propertyDescriptionPriceToVirtualTourButton.setVisibility(View.GONE);
 
         initContainers();
         fetchDataFromServer(((PropertyManagementActivity)getActivity()).getPropertyID()+""/*getArguments().getInt(PROPERTY_ID)+""*/);

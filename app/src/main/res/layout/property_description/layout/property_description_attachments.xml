@@ -23,6 +23,7 @@
             android:layout_margin="@dimen/activity_horizontal_margin"
             android:text="@string/propertyDescription_root_attachments_title"
             android:textSize="@dimen/textSize_big"
+            android:textStyle="bold"
             android:textColor="@color/black" />
 
         <!--    <ImageView
@@ -49,7 +50,7 @@
             app:layout_constraintTop_toBottomOf="@id/propertyDescriptionAttachments_title_textView"
             android:layout_marginStart="@dimen/propertyDescription_attachments_leftAttachmentsOffset_start"
             android:drawablePadding="@dimen/attachment_drawable_padding_end"
-            android:drawableStart="@drawable/square_meter_blue_24" />
+            android:drawableStart="@drawable/square_meter_blue_36" />
 
         <TextView
             android:id="@+id/propertyDescriptionAttachments_bathrooms_textView"

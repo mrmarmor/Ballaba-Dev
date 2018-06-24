@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
@@ -208,11 +209,16 @@ public class UiUtils {
 
     public TextView generateCustomTextView(final String text, final @DrawableRes int icon) {
         TextView tv = new TextView(ctx);
+
+        LinearLayout.LayoutParams llp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        llp.setMargins(0, 16, 0, 0);
+
         tv.setText(text);
         tv.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, 0, 0, 0);
         tv.setTextAppearance(ctx, R.style.property_description_textViews);
         tv.setCompoundDrawablePadding(15);
         tv.setPaddingRelative(0, 16, 8, 16);
+        tv.setLayoutParams(llp);
 
         return tv;
     }

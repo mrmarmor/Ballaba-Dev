@@ -18,6 +18,7 @@
         <ImageButton
             android:id="@+id/galleryChangeViewType"
             android:layout_width="24dp"
+            android:visibility="gone"
             android:layout_height="24dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -57,7 +58,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginStart="16dp">
 
-        <ImageButton
+        <!--<ImageButton
             android:id="@+id/turtualTourImageButton"
             android:layout_width="40dp"
             android:layout_height="28dp"
@@ -76,6 +77,20 @@
             app:layout_constraintBottom_toBottomOf="@+id/turtualTourImageButton"
             android:layout_marginStart="3dp"
             android:clickable="false"
+            />-->
+
+        <!--android:background="@drawable/rounded_corner_with_opacity"-->
+        <Button
+            android:id="@+id/property_description_gallery_to_virtual_tour_btn"
+            android:layout_width="@dimen/propertyDescription_mainImage_buttonToGallery_width"
+            android:layout_height="@dimen/propertyDescription_mainImage_buttonToGallery_height"
+            android:contentDescription="סיור וירטואלי בנכס"
+            android:text="@string/propertyDescriptionPrice_virtualTour_button"
+            app:layout_constraintBottom_toBottomOf="@+id/goToGallery"
+            app:layout_constraintTop_toTopOf="@+id/goToGallery"
+            app:layout_constraintStart_toStartOf="parent"
+            android:drawableRight="@drawable/photo_360_line_black_24"
+            android:padding="8dp"
             />
     </android.support.constraint.ConstraintLayout>
 

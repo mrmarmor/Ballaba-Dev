@@ -37,7 +37,7 @@ public class StringUtils {
     }
 
     public String formattedNumberWithComma(String number){
-        if (number == null)
+        if (number == null )
             return "";//TODO maybe return "missing price" instead
 
         if (number.length() > 6) {

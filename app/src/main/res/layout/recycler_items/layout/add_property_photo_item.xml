@@ -45,6 +45,8 @@
             android:background="@android:color/transparent" />
 
         <TextView
+            android:id="@+id/addProp_editPhoto_no_room_selected_text_view"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/addProp_editPhoto_rooms_flow_layout"

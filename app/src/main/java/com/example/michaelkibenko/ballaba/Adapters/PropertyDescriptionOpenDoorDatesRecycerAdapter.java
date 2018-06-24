@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
@@ -20,7 +19,6 @@ import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 
 import java.text.ParseException;
-import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -131,8 +129,8 @@ public class PropertyDescriptionOpenDoorDatesRecycerAdapter extends RecyclerView
         public OpenDoorDatesViewHolder(View itemView) {
             super(itemView);
             this.parent = itemView;
-            dateTV = (TextView)itemView.findViewById(R.id.property_description_open_door_date_item_TV);
-            timesTV = (TextView) itemView.findViewById(R.id.property_description_open_door_date_item_times_TV);
+            dateTV = itemView.findViewById(R.id.property_description_open_door_date_item_TV);
+            timesTV = itemView.findViewById(R.id.property_description_open_door_date_item_times_TV);
         }
     }
 }
