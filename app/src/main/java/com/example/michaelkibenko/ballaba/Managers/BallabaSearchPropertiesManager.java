@@ -340,7 +340,6 @@ public class BallabaSearchPropertiesManager {
             JSONArray photosJsonArray = res.getJSONArray("photos");
             HashMap<String, String> photos = new HashMap<>();
 
-
             String[] open_door_dates = res.getString("open_door_dates");
             String[] comments = res.getString("comments");*/
 
@@ -451,7 +450,7 @@ public class BallabaSearchPropertiesManager {
         for (int i = 0; i < jsonArray.length(); i++){
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             HashMap<String, String> map = new HashMap<>();
-            map.put("is_repeat", heb.trimNull(jsonObject.getString("repeat")));
+            //map.put("is_repeat", heb.trimNull(jsonObject.getString("repeat")));
             map.put("id", heb.trimNull(jsonObject.getString("id")));
             map.put("start_time", heb.trimNull(jsonObject.getString("start_time")));
             map.put("end_time", heb.trimNull(jsonObject.getString("end_time")));

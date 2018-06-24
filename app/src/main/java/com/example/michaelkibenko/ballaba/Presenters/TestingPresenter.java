@@ -82,6 +82,8 @@ public class TestingPresenter extends BasePresenter {
     }
 
     public void goToPropertyDescription(){
-        context.startActivity(new Intent(context, PropertyDescriptionActivity.class));
+        Intent intent = new Intent(context, PropertyDescriptionActivity.class);
+        //intent.putExtra(PropertyDescriptionActivity.PROPERTY , "87");
+        context.startActivity(intent);
     }
 }

@@ -2,7 +2,6 @@ package com.example.michaelkibenko.ballaba.Activities;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.databinding.generated.callback.OnClickListener;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +9,6 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -24,14 +20,11 @@ import com.bumptech.glide.request.target.Target;
 import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringWelcomeActivity;
 import com.example.michaelkibenko.ballaba.Adapters.PropertyGalleryRecyclerViewAdapter;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
-import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
 import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.PropertyGalleryActivityLayoutBinding;
-
-import java.util.ArrayList;
 
 import static com.example.michaelkibenko.ballaba.Activities.PropertyGalleryActivity.VIEW_TYPES.GRID;
 import static com.example.michaelkibenko.ballaba.Activities.PropertyGalleryActivity.VIEW_TYPES.LINEAR;
@@ -50,24 +43,36 @@ public class PropertyGalleryActivity extends BaseActivity implements View.OnClic
     private LinearLayoutManager linearLayoutManager;
     private GridLayoutManager gridLayoutManager;
     private @VIEW_TYPES String currentViewType;
+    private ConstraintLayout bottomLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.property_gallery_activity_layout);
+
+        bottomLayout = findViewById(R.id.galleryTopToolbar);
+        Bundle extras = getIntent().getExtras();
+        if (extras != null){
+            boolean isFromSearch = extras.getBoolean("SHOW_CONTINUE_OPTION" , true);
+            bottomLayout.setVisibility(isFromSearch ? View.VISIBLE : View.GONE);
+        }
+
         propertyFull = BallabaSearchPropertiesManager.getInstance(this).getPropertyFull();
         currentViewType = SharedPreferencesManager.getInstance(this).getGalleryViewType(null);
         if(currentViewType == null){
             SharedPreferencesManager.getInstance(this).putGalleryViewType(VIEW_TYPES.LINEAR);
             currentViewType = LINEAR;
         }
+
+
         adapter = new PropertyGalleryRecyclerViewAdapter(this, propertyFull.photos, currentViewType);
         linearLayoutManager = new LinearLayoutManager(this);
         gridLayoutManager = new GridLayoutManager(this, 3);
         changeViewType(currentViewType);
         binding.propertyDescriptionGalleryRecyclerView.setAdapter(adapter);
         binding.propertyDescriptionGalleryRecyclerView.setHasFixedSize(true);
-        virtualTour = (ConstraintLayout) findViewById(R.id.virtualTourLayout);
+        binding.propertyDescriptionGalleryToVirtualTourBtn.setOnClickListener(this);
+        virtualTour = findViewById(R.id.virtualTourLayout);
 
         initButtonsOnClickListeners();
 
@@ -128,7 +133,7 @@ public class PropertyGalleryActivity extends BaseActivity implements View.OnClic
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.virtualTourLayout:
+            case R.id.property_description_gallery_to_virtual_tour_btn:
                 Intent intent = new Intent(PropertyGalleryActivity.this, VirtualTourActivity.class);
                 startActivity(intent);
                 break;

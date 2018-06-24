@@ -44,6 +44,8 @@ public class StringUtils {
             } else if (number.length() > 3) {
                 number = new StringBuilder(number).insert(number.length() - 3, ",").toString();
             }
+        if (number == null )
+            return "";//TODO maybe return "missing price" instead
 
             return number;
 

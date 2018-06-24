@@ -19,9 +19,10 @@
             style="@style/allWrapContent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginBottom="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="32dp"
             android:text="@string/propertyDescription_root_attachmentsExtended_title"
             android:textSize="@dimen/textSize_big"
+            android:textStyle="bold"
             android:textColor="@color/black" />
 
         <LinearLayout
