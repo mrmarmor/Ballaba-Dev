@@ -11,11 +11,17 @@ import java.util.ArrayList;
 
 public class PropertyAttachmentsAddonsHolder {
     public static final String TAG = PropertyAttachmentsAddonsHolder.class.getSimpleName();
-    private final String FURNITURE = "furniture", ELECTRONICS = "electronics", ATTACHMENTS = "attachments", PAYMENT_TYPES = "payment_types", PAYMENT_METHODS = "payment_methods", PROPERTY_PHOTO_TAGS = "property_photo_tags";
+    private final String FURNITURE = "furniture",
+            ELECTRONICS = "electronics",
+            ATTACHMENTS = "attachments",
+            PAYMENT_TYPES = "payment_types",
+            PAYMENT_METHODS = "payment_methods",
+            PROPERTY_PHOTO_TAGS = "property_photo_tags",
+            PROPERTY_TYPES = "property_types";
 
     private static PropertyAttachmentsAddonsHolder instance;
 
-    private ArrayList<PropertyAttachmentAddonEntity> furniture, electronics, attachments, paymentTypes, paymentMethods, photoTags;
+    private ArrayList<PropertyAttachmentAddonEntity> furniture, electronics, attachments, paymentTypes, paymentMethods , propertyTypes, photoTags;
 
     private StringUtils stringUtils;
 
@@ -32,6 +38,7 @@ public class PropertyAttachmentsAddonsHolder {
         attachments = new ArrayList<>();
         paymentTypes = new ArrayList<>();
         paymentMethods = new ArrayList<>();
+        propertyTypes = new ArrayList<>();
         photoTags = new ArrayList<>();
         stringUtils = StringUtils.getInstance(true);
     }
@@ -56,6 +63,11 @@ public class PropertyAttachmentsAddonsHolder {
         return paymentMethods;
     }
 
+    public ArrayList<PropertyAttachmentAddonEntity> getPropertyTypes() {
+        return propertyTypes;
+    }
+
+
     public ArrayList<PropertyAttachmentAddonEntity> getPhotoTags() {
         return photoTags;
     }
@@ -67,6 +79,7 @@ public class PropertyAttachmentsAddonsHolder {
             this.electronics.clear();
             this.paymentTypes.clear();
             this.paymentMethods.clear();
+            this.propertyTypes.clear();
             this.photoTags.clear();
 
             JSONObject jsonObject = new JSONObject(response);
@@ -75,6 +88,7 @@ public class PropertyAttachmentsAddonsHolder {
             JSONArray attachments = jsonObject.getJSONArray(ATTACHMENTS);
             JSONArray paymentTypes = jsonObject.getJSONArray(PAYMENT_TYPES);
             JSONArray paymentMethods = jsonObject.getJSONArray(PAYMENT_METHODS);
+            JSONArray propertyTypes = jsonObject.getJSONArray(PROPERTY_TYPES);
             JSONArray photoTags = jsonObject.getJSONArray(PROPERTY_PHOTO_TAGS);
 
             //TODO this adds 2 chips to attachments: furnished+electronics
@@ -99,6 +113,7 @@ public class PropertyAttachmentsAddonsHolder {
             addAttachments(this.attachments, attachments, ATTACHMENTS);
             addAttachments(this.paymentTypes, paymentTypes, PAYMENT_TYPES);
             addAttachments(this.paymentMethods, paymentMethods, PAYMENT_METHODS);
+            addAttachments(this.propertyTypes, propertyTypes, PROPERTY_TYPES);
             addTags(this.photoTags, photoTags, PROPERTY_PHOTO_TAGS);
 
         } catch (JSONException ex) {
@@ -106,8 +121,7 @@ public class PropertyAttachmentsAddonsHolder {
         }
     }
 
-    private void addTags(ArrayList<PropertyAttachmentAddonEntity> entities, JSONArray attachment
-            , final String ATTACHMENT_TYPE) throws JSONException {
+    private void addTags(ArrayList<PropertyAttachmentAddonEntity> entities, JSONArray attachment, final String ATTACHMENT_TYPE) throws JSONException {
         for (int i = 0; i < attachment.length(); i++) {
             JSONObject currentObject = attachment.getJSONObject(i);
             String id = currentObject.getString("id");

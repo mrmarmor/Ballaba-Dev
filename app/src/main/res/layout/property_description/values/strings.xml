@@ -13,6 +13,7 @@
     <string name="confirm_id_explantion">טקסט שיסביר למה אנחנו רוצים צילום של הת.ז. / רשיון נהיגה.</string>
     <string name="confirm_id_continue_btn">המשך</string>
     <string name="scoring_personal_details_toolbar_text">פרטים אישיים</string>
+    <string name="addProperty_property_type_title">סוג הנכס</string>
 
     <string-array name="timesSpinnerArray">
         <item>8:00</item>
