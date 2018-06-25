@@ -33,7 +33,7 @@ public class TestingActivity extends BaseActivity {
                 /*PreviewProfileFragment fragment = new PreviewProfileFragment();
                 fragment.show(getFragmentManager() , "tag");*/
                 Intent intent = new Intent(TestingActivity.this, PropertyDescriptionActivity.class);
-                intent.putExtra(PropertyDescriptionActivity.PROPERTY , "120");
+                intent.putExtra(PropertyDescriptionActivity.PROPERTY, "120");
                 intent.putExtra("SHOW_CONTINUE_OPTION", false);
                 startActivity(intent);
             }
@@ -42,7 +42,7 @@ public class TestingActivity extends BaseActivity {
         findViewById(R.id.myProperty_BTN).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(TestingActivity.this , MyPropertiesBaseActivity.class));
+                startActivity(new Intent(TestingActivity.this, MyPropertiesBaseActivity.class));
             }
         });
 

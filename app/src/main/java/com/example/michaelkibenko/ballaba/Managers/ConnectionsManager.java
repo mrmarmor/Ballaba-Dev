@@ -95,7 +95,7 @@ public class ConnectionsManager {
     }
 
     private Map<String, String> getHeadersWithSessionToken() {
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put(GlobalValues.deviceId, DeviceUtils.getInstance(true, context).getDeviceId());
         params.put(GlobalValues.sessionToken, BallabaUserManager.getInstance().getUserSesionToken());
         Log.d(TAG, "device id: " + params.get(GlobalValues.deviceId) + "\nsession token: " + params.get(GlobalValues.sessionToken));
@@ -1405,7 +1405,7 @@ public class ConnectionsManager {
             }
         }) {
             @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
+            public Map<String, String> getHeaders() {
                 return getHeadersWithSessionToken();
             }
         };

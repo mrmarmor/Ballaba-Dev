@@ -1,12 +1,16 @@
 package com.example.michaelkibenko.ballaba.Utils;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ExifInterface;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringDef;
 import android.support.constraint.ConstraintLayout;
@@ -244,4 +248,66 @@ public class UiUtils {
 
     }
 
+    public Matrix adjustPhotoOrientation(Uri photo , String[] orientations) {
+        Cursor cur = ctx.getContentResolver().query(photo, orientations, null, null, null);
+        int orientation = -1;
+        if (cur != null && cur.moveToFirst()) {
+            orientation = cur.getInt(cur.getColumnIndex(orientations[0]));
+            cur.close();
+        }
+
+        Matrix matrix = new Matrix();
+        matrix.postRotate(orientation);
+
+        return matrix;
+    }
+
+    private Bitmap createBitmapFromUri(Uri photo, Matrix matrix) {
+        try {
+            Bitmap bmp = MediaStore.Images.Media.getBitmap(ctx.getContentResolver(), photo);
+            Bitmap bitmap = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+            return bitmap;
+        } catch (IOException | OutOfMemoryError e) {
+            e.printStackTrace();
+            Log.e(TAG, "error: " + e.getMessage());
+            return null;
+        }
+    }
+
+    private Bitmap imageOrientationValidator(Bitmap bitmap, String path) {
+        ExifInterface ei;
+        try {
+            ei = new ExifInterface(path);
+            int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_NORMAL);
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    bitmap = rotateImage(bitmap, 90);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    bitmap = rotateImage(bitmap, 180);
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    bitmap = rotateImage(bitmap, 270);
+                    break;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return bitmap;
+    }
+
+    private Bitmap rotateImage(Bitmap source, float angle) {
+        Bitmap bitmap = null;
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        try {
+            bitmap = Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                    matrix, true);
+        } catch (OutOfMemoryError err) {
+            err.printStackTrace();
+        }
+        return bitmap;
+    }
 }
