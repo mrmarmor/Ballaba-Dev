@@ -146,7 +146,6 @@
                 <data android:host="www.ballaba-it.com" android:scheme="https" android:path="/guarantor"/>
             </intent-filter>
         </activity>
-
         <!--
         <service
             android:name=".Common.GuaranteeFcmService"
@@ -188,6 +187,15 @@
         <!--         <receiver android:name=".Common.GuaranteeReceiver" /> -->
 
         <activity android:name=".Activities.ProfileActivity" android:label="החשבון שלי" />
+
+        <meta-data
+            android:name="com.instagram.instagramapi.InstagramAppClientId"
+            android:value="27507f994b5744fe9aa804f230aa66e2" />
+
+        <meta-data
+            android:name="com.instagram.instagramapi.InstagramAppRedirectURL"
+            android:value="http://ballaba-it.com" />
+
     </application>
 
 </manifest>

@@ -35,6 +35,13 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
+import com.instagram.instagramapi.activities.InstagramAuthActivity;
+import com.instagram.instagramapi.engine.InstagramEngine;
+import com.instagram.instagramapi.engine.InstagramKitConstants;
+import com.instagram.instagramapi.exceptions.InstagramException;
+import com.instagram.instagramapi.interfaces.InstagramLoginCallbackListener;
+import com.instagram.instagramapi.objects.IGSession;
+import com.instagram.instagramapi.utils.InstagramKitLoginScope;
 import com.linkedin.platform.APIHelper;
 import com.linkedin.platform.LISessionManager;
 import com.linkedin.platform.errors.LIApiError;
@@ -57,7 +64,7 @@ import java.security.NoSuchAlgorithmException;
 import static com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropLandlordFrag.REQUEST_CODE_CAMERA;
 import static com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropLandlordFrag.REQUEST_CODE_GALLERY;
 
-public class ProfileActivity extends BaseActivityWithActionBar implements View.OnClickListener, TextWatcher{
+public class ProfileActivity extends BaseActivityWithActionBar implements View.OnClickListener, TextWatcher {
     private final int REQUEST_CODE_CREDIT_CARD = 3;
     private final String TAG = ProfileActivity.class.getSimpleName();
 
@@ -93,7 +100,7 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
         });*/
     }
 
-    private void initViews(){
+    private void initViews() {
         BallabaUser user = BallabaUserManager.getInstance().getUser();
         if (user != null) {
             Glide.with(this).load(user.getProfile_image()).into(binder.profileActivityImageAvatar);
@@ -117,9 +124,6 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
 
         binder.profileActivityDetailsAbout.addTextChangedListener(this);
         binder.profileActivityButtonNext.setOnClickListener(this);
-        binder.profileActivitySocialInstagramImageView.setOnClickListener(this);
-        binder.profileActivitySocialTwitterIV.setOnClickListener(this);
-        binder.profileActivitySocialLinkedinImageView.setOnClickListener(this);
         //binder.profileActivitySocialFacebookIV.setOnClickListener(this);
         UiUtils.instance(true, this).initAutoCompleteCity(binder.profileActivityDetailsCity);
         UiUtils.instance(true, this).initAutoCompleteAddressInCity(binder.profileActivityDetailsAddress, binder.profileActivityDetailsCity);
@@ -129,10 +133,10 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
         initInstagram();
     }
 
-    private void initFaceBook(){
+    private void initFaceBook() {
         faceBookCallbackManager = CallbackManager.Factory.create();
         binder.profileActivitySocialFacebookIV.setReadPermissions("email");
-        binder.profileActivitySocialFacebookIV.registerCallback(faceBookCallbackManager, new FacebookCallback<LoginResult>(){
+        binder.profileActivitySocialFacebookIV.registerCallback(faceBookCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.e(TAG, loginResult.toString());
@@ -151,7 +155,7 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
         });
     }
 
-    private void initLinkedIn(){
+    private void initLinkedIn() {
         binder.profileActivitySocialLinkedinImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -235,7 +239,7 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
         return Scope.build(Scope.R_BASICPROFILE, Scope.W_SHARE, Scope.R_EMAILADDRESS);
     }
 
-    private void initTwitter(){
+    private void initTwitter() {
         binder.profileActivitySocialTwitterIV.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
@@ -248,19 +252,37 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
             }
         });
     }
-    private void initInstagram(){
 
+    private void initInstagram() {
+        String[] scopes = {InstagramKitLoginScope.BASIC};
+        binder.profileActivitySocialInstagramIV.setScopes(scopes);
+        binder.profileActivitySocialInstagramIV.setInstagramLoginCallback(new InstagramLoginCallbackListener() {
+            @Override
+            public void onSuccess(IGSession result) {
+                Log.e(TAG, result.toString());
+            }
+
+            @Override
+            public void onCancel() {
+                Log.e(TAG, "On Cancel");
+            }
+
+            @Override
+            public void onError(InstagramException error) {
+                Log.e(TAG, "error");
+            }
+        });
     }
 
     public void onClickProfileImage(View view) {
         //if (binder.profileActivityDetailsFullName.isEnabled()) {//=edit mode
-            sheetView = getLayoutInflater().inflate(R.layout.take_pic_switch, null);
-            sheetView.findViewById(R.id.takePic_button_camera).setOnClickListener(this);
-            sheetView.findViewById(R.id.takePic_button_gallery).setOnClickListener(this);
+        sheetView = getLayoutInflater().inflate(R.layout.take_pic_switch, null);
+        sheetView.findViewById(R.id.takePic_button_camera).setOnClickListener(this);
+        sheetView.findViewById(R.id.takePic_button_gallery).setOnClickListener(this);
 
-            bottomSheetDialog = new BottomSheetDialog(this);
-            bottomSheetDialog.setContentView(sheetView);
-            bottomSheetDialog.show();
+        bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(sheetView);
+        bottomSheetDialog.show();
         //}
     }
 
@@ -289,20 +311,8 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
 
             case R.id.takePic_button_gallery:
                 takePicture(Manifest.permission.READ_EXTERNAL_STORAGE, REQUEST_CODE_GALLERY
-                    , new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI));
+                        , new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI));
                 break;
-
-            case R.id.profileActivity_social_instagram_image_view:
-                Toast.makeText(this, "to instagram personal page", Toast.LENGTH_SHORT).show();
-                break;
-
-            case R.id.profileActivity_social_linkedin_image_view:
-                Toast.makeText(this, "to linkenin personal page", Toast.LENGTH_SHORT).show();
-                break;
-
-            /*case R.id.profileActivity_social_facebook_image_view:
-                Toast.makeText(this, "to facebook personal page", Toast.LENGTH_SHORT).show();
-                break;*/
 
             case R.id.profileActivity_button_next:
                 if (isEmailValid(binder.profileActivityDetailsEmail.getText().toString()))
@@ -311,38 +321,39 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
         }
     }
 
-    private void takePicture(String permissionCode, int requestCode, Intent intent){
-        if (ContextCompat.checkSelfPermission(this, permissionCode) == PackageManager.PERMISSION_DENIED){
+    private void takePicture(String permissionCode, int requestCode, Intent intent) {
+        if (ContextCompat.checkSelfPermission(this, permissionCode) == PackageManager.PERMISSION_DENIED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                requestPermissions(new String[] {permissionCode}, requestCode);
+                requestPermissions(new String[]{permissionCode}, requestCode);
         } else {
             startActivityForResult(intent, requestCode);
             bottomSheetDialog.dismiss();
         }
     }
 
-    private void onFinish(ConnectionsManager connectionsManager,  JSONObject jsonObject) {
+    private void onFinish(ConnectionsManager connectionsManager, JSONObject jsonObject) {
 
         finish();
     }
+
     private JSONObject getDataFromEditTexts(JSONObject jsonObject) {
         try {
             //TODO set tags
             byte[] bytes = UiUtils.instance(true, this).drawableToUri(binder.profileActivityImageAvatar.getDrawable());
-            jsonObject.put(binder.profileActivityImageAvatar.getTag()+"", bytes);
-            jsonObject.put(binder.profileActivityDetailsFirstName.getTag()+"", binder.profileActivityDetailsFirstName.getText());
-            jsonObject.put(binder.profileActivityDetailsLastName.getTag()+"", binder.profileActivityDetailsLastName.getText());
-            jsonObject.put(binder.profileActivityDetailsProfession.getTag()+"", binder.profileActivityDetailsProfession.getText());
-            jsonObject.put(binder.profileActivityStatusSpinner.getTag()+"", binder.profileActivityStatusSpinner.getPrompt());
-            jsonObject.put(binder.profileActivityChildrenSpinner.getTag()+"", binder.profileActivityChildrenSpinner.getPrompt());
-            jsonObject.put(binder.profileActivityDetailsCity.getTag()+"", binder.profileActivityDetailsCity.getText());
-            jsonObject.put(binder.profileActivityDetailsAddress.getTag()+"", binder.profileActivityDetailsAddress.getText());
-            jsonObject.put(binder.profileActivityDetailsStreetNo.getTag()+"", binder.profileActivityDetailsStreetNo.getText());
-            jsonObject.put(binder.profileActivityDetailsAptNo.getTag()+"", binder.profileActivityDetailsAptNo.getText());
-            jsonObject.put(binder.profileActivityDetailsEmail.getTag()+"", binder.profileActivityDetailsEmail.getText());
-            jsonObject.put(binder.profileActivityDetailsAbout.getTag()+"", binder.profileActivityDetailsAbout.getText());
-            jsonObject.put(binder.profileActivityDetailsFirstName.getTag()+"", binder.profileActivityDetailsFirstName.getText());
-            jsonObject.put(binder.profileActivityDetailsFirstName.getTag()+"", binder.profileActivityDetailsFirstName.getText());
+            jsonObject.put(binder.profileActivityImageAvatar.getTag() + "", bytes);
+            jsonObject.put(binder.profileActivityDetailsFirstName.getTag() + "", binder.profileActivityDetailsFirstName.getText());
+            jsonObject.put(binder.profileActivityDetailsLastName.getTag() + "", binder.profileActivityDetailsLastName.getText());
+            jsonObject.put(binder.profileActivityDetailsProfession.getTag() + "", binder.profileActivityDetailsProfession.getText());
+            jsonObject.put(binder.profileActivityStatusSpinner.getTag() + "", binder.profileActivityStatusSpinner.getPrompt());
+            jsonObject.put(binder.profileActivityChildrenSpinner.getTag() + "", binder.profileActivityChildrenSpinner.getPrompt());
+            jsonObject.put(binder.profileActivityDetailsCity.getTag() + "", binder.profileActivityDetailsCity.getText());
+            jsonObject.put(binder.profileActivityDetailsAddress.getTag() + "", binder.profileActivityDetailsAddress.getText());
+            jsonObject.put(binder.profileActivityDetailsStreetNo.getTag() + "", binder.profileActivityDetailsStreetNo.getText());
+            jsonObject.put(binder.profileActivityDetailsAptNo.getTag() + "", binder.profileActivityDetailsAptNo.getText());
+            jsonObject.put(binder.profileActivityDetailsEmail.getTag() + "", binder.profileActivityDetailsEmail.getText());
+            jsonObject.put(binder.profileActivityDetailsAbout.getTag() + "", binder.profileActivityDetailsAbout.getText());
+            jsonObject.put(binder.profileActivityDetailsFirstName.getTag() + "", binder.profileActivityDetailsFirstName.getText());
+            jsonObject.put(binder.profileActivityDetailsFirstName.getTag() + "", binder.profileActivityDetailsFirstName.getText());
             return jsonObject;
 
         } catch (JSONException e) {
@@ -355,10 +366,10 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         binder.profileActivitySocialTwitterIV.onActivityResult(requestCode, resultCode, intent);
-        if(faceBookCallbackManager != null) {
+        if (faceBookCallbackManager != null) {
             faceBookCallbackManager.onActivityResult(requestCode, resultCode, intent);
         }
-        if(LISessionManager.getInstance(getApplicationContext()) != null){
+        if (LISessionManager.getInstance(getApplicationContext()) != null) {
             LISessionManager.getInstance(getApplicationContext()).onActivityResult(this, requestCode, resultCode, intent);
         }
         super.onActivityResult(requestCode, resultCode, intent);
@@ -367,12 +378,14 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
             Uri selectedImage = intent.getData();
 
             switch (requestCode) {
-                case REQUEST_CODE_CAMERA: case REQUEST_CODE_GALLERY:
+                case REQUEST_CODE_CAMERA:
+                case REQUEST_CODE_GALLERY:
                     binder.profileActivityImageAvatar.setImageURI(selectedImage);
                     break;
 
                 case REQUEST_CODE_CREDIT_CARD:
                     binder.profileActivityDetailsCreditCard.setText(generateHiddenCreditCardNumber(intent));
+                    break;
             }
         }
     }
@@ -384,9 +397,9 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
             String creditCardLast4Digits = b.getString(CreditCardActivity.CREDIT_CARD_NUMBER_LAST_4_DIGITS);
             //String hiddenNumber = "";
             StringBuilder hiddenNumber = new StringBuilder(20);
-            for (int i = 0 ; i < creditCardNumberLength - 4; i++) {
+            for (int i = 0; i < creditCardNumberLength - 4; i++) {
                 hiddenNumber.append("*");
-                if ((i+1) % 4 == 0)
+                if ((i + 1) % 4 == 0)
                     hiddenNumber.append("-");
             }
             hiddenNumber.insert(hiddenNumber.length(), creditCardLast4Digits);
@@ -410,8 +423,13 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
         }
     }
 
-    @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-    @Override public void onTextChanged(CharSequence s, int start, int before, int count) {}
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+    }
 
     @Override
     public void afterTextChanged(Editable s) {
