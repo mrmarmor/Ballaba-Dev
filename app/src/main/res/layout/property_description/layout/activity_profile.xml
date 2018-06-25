@@ -289,31 +289,30 @@
                 android:layout_height="32dp"
                 android:src="@drawable/instagram_32" />
 
-            <ImageView
-                android:id="@+id/profileActivity_social_twitter_image_view"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginRight="32dp"
-                android:src="@drawable/twitter_32" />
+            <!--<ImageView-->
+                <!--android:id="@+id/profileActivity_social_twitter_image_view"-->
+                <!--android:layout_width="32dp"-->
+                <!--android:layout_height="32dp"-->
+                <!--android:layout_marginRight="32dp"-->
+             <!--android:src="@drawable/twitter_32" />-->
+
+            <com.twitter.sdk.android.core.identity.TwitterLoginButton
+                android:id="@+id/profileActivity_social_twitter_IV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"/>
 
             <ImageView
                 android:id="@+id/profileActivity_social_linkedin_image_view"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_marginRight="32dp"
+                android:layout_marginStart="32dp"
                 android:src="@drawable/linkdin_32" />
-
-            <!--<ImageView-->
-                <!--android:id="@+id/profileActivity_social_facebook_image_view"-->
-                <!--android:layout_width="32dp"-->
-                <!--android:layout_height="32dp"-->
-                <!--android:layout_marginRight="32dp"-->
-                <!--android:src="@drawable/facebook_32" />-->
 
             <com.facebook.login.widget.LoginButton
                 android:id="@+id/profileActivity_social_facebook_IV"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginStart="32dp"/>
 

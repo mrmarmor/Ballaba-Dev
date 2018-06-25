@@ -3,6 +3,7 @@ package com.example.michaelkibenko.ballaba.Activities;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Build;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.widget.ScrollView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.Resource;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
@@ -30,6 +32,16 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
+import com.twitter.sdk.android.core.Callback;
+import com.twitter.sdk.android.core.DefaultLogger;
+import com.twitter.sdk.android.core.Result;
+import com.twitter.sdk.android.core.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+import com.twitter.sdk.android.core.TwitterAuthToken;
+import com.twitter.sdk.android.core.TwitterConfig;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterException;
+import com.twitter.sdk.android.core.TwitterSession;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -95,6 +107,9 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
         UiUtils.instance(true, this).initAutoCompleteCity(binder.profileActivityDetailsCity);
         UiUtils.instance(true, this).initAutoCompleteAddressInCity(binder.profileActivityDetailsAddress, binder.profileActivityDetailsCity);
         initFaceBook();
+        initTwitter();
+        initLinkedIn();
+        initInstagram();
     }
 
     private void initFaceBook(){
@@ -117,8 +132,30 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
                 Log.e(TAG, error.toString());
             }
         });
+    }
+
+    private void initLinkedIn(){
 
     }
+
+    private void initTwitter(){
+        binder.profileActivitySocialTwitterIV.setCallback(new Callback<TwitterSession>() {
+            @Override
+            public void success(Result<TwitterSession> result) {
+                Log.e(TAG, result.toString());
+            }
+
+            @Override
+            public void failure(TwitterException exception) {
+                Log.e(TAG, exception.toString());
+            }
+        });
+    }
+
+    private void initInstagram(){
+
+    }
+
 
     private View sheetView;
     private BottomSheetDialog bottomSheetDialog;
@@ -219,6 +256,7 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        binder.profileActivitySocialTwitterIV.onActivityResult(requestCode, resultCode, intent);
         faceBookCallbackManager.onActivityResult(requestCode, resultCode, intent);
         super.onActivityResult(requestCode, resultCode, intent);
 

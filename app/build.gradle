@@ -25,6 +25,7 @@ android {
         versionName "1.0"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -93,6 +94,9 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-invites:9.8.0'
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+    implementation('com.twitter.sdk.android:twitter:3.0.0@aar') {
+        transitive = true
+    }
 
 
 }
