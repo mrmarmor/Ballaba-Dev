@@ -85,7 +85,10 @@ public class AddPropMeetingsFrag extends Fragment {
                     @Override
                     public void resolve(BallabaBaseEntity entity) {
                         Log.e(TAG, entity.toString());
-                        startActivity(new Intent(getActivity() , PropertyDescriptionActivity.class));
+                        Intent intent = new Intent(getActivity(), PropertyDescriptionActivity.class);
+                        intent.putExtra(PropertyDescriptionActivity.PROPERTY , propertyID);
+                        intent.putExtra("SHOW_CONTINUE_OPTION", false);
+                        startActivity(intent);
                     }
 
                     @Override

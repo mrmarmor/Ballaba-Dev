@@ -304,14 +304,8 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
             Button btn = (Button) holder.binder.addPropEditPhotoRoomsFlowLayout.getChildAt(positionOfTag);
             btn.setTag(UiUtils.ChipsButtonStates.NOT_PRESSED);
             onTagClick(holder.binder.addPropEditPhotoRoomsFlowLayout, btn, tag, position);
-            //holder.binder.addPropEditPhotoRoomsFlowLayout.getChildAt(position).setTag(UiUtils.ChipsButtonStates.PRESSED);
         }
 
-        /*for (int i = 0; i < holder.binder.addPropEditPhotoRoomsFlowLayout.getChildCount(); i++){
-            if ()
-        }*/
-        //initTags(holder.binder.addPropEditPhotoRoomsFlowLayout, tags, position);
-        //holder.binder.addPropEditPhotoRoomsFlowLayout.invalidate();
         notifyDataSetChanged();
 
         onClickListener.onClickRemovePhoto(false);

@@ -1,45 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
+
         <variable
             name="presenter"
-            type="com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter"/>
+            type="com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         style="@style/allMatchParent"
-        android:background="@color/propertyRecyclerView_background_white"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:background="@color/propertyRecyclerView_background_white"
         android:layoutDirection="rtl">
 
         <TextView
             android:id="@+id/propertyDescriptionPayments_title_textView"
             style="@style/allWrapContent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_margin="@dimen/activity_horizontal_margin"
             android:text="@string/propertyDescription_root_payments_title"
+            android:textColor="@color/black"
             android:textSize="@dimen/textSize_big"
-            android:textColor="@color/black" />
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/propertyDescriptionPayments_container_right"
             style="@style/allWrapContent"
-            android:minWidth="@dimen/propertyDescription_payments_textView_width"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
             app:layout_constraintStart_toStartOf="@id/propertyDescriptionPayments_title_textView"
             app:layout_constraintTop_toBottomOf="@id/propertyDescriptionPayments_title_textView"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:orientation="vertical" />
+            />
+
         <LinearLayout
             android:id="@+id/propertyDescriptionPayments_container_left"
             style="@style/allWrapContent"
-            android:minWidth="@dimen/propertyDescription_payments_textView_width"
+            android:orientation="vertical"
+            android:layout_marginRight="32dp"
             app:layout_constraintStart_toEndOf="@id/propertyDescriptionPayments_container_right"
-            app:layout_constraintTop_toTopOf="@id/propertyDescriptionPayments_container_right"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:orientation="vertical" />
+            app:layout_constraintTop_toTopOf="@id/propertyDescriptionPayments_container_right" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

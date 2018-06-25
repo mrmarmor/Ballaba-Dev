@@ -296,7 +296,7 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:textColor">@color/gray_text_color</item>
         <item name="android:textDirection">rtl</item>
-        <item name="android:textAlignment">textStart</item>
+        <item name="android:outlineProvider">none</item>
         <item name="android:text"> </item>
     </style>
 

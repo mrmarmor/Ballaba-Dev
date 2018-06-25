@@ -1,77 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="presenter"
-            type="com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter"/>
+            type="com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter" />
     </data>
 
-<android.support.constraint.ConstraintLayout
-    style="@style/allMatchParent"
-    android:layoutDirection="rtl">
-
-    <ImageView
-        android:id="@+id/propertyDescription_mainImage"
-        android:contentDescription="תמונת הנכס"
-        style="@style/allMatchParent"
-        android:scaleType="fitXY"/>
-
     <android.support.constraint.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/propertyDescription_mainImage_topStrip_height"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        style="@style/allMatchParent"
+        android:layoutDirection="rtl">
 
         <ImageView
-            android:id="@+id/propertyDescription_mainImage_isSaved"
-            style="@style/icon_wide_click_area"
-            android:contentDescription="הוספה או הסרה של הנכס במועדפים"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/propertyDescription_mainImage_topStrip_icon_verticalOffset"
-            android:layout_marginEnd="@dimen/propertyDescription_mainImage_topStrip_icon_horizontalOffset"
-            android:src="@drawable/heart_white_24"/>
+            android:id="@+id/propertyDescription_mainImage"
+            style="@style/allMatchParent"
+            android:contentDescription="תמונת הנכס"
+            android:scaleType="fitXY" />
 
-        <ImageView
-            android:id="@+id/propertyDescription_mainImage_share"
-            style="@style/icon_wide_click_area"
-            android:contentDescription="שתף את הנכס"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/propertyDescription_mainImage_isSaved"
-            android:layout_marginTop="@dimen/propertyDescription_mainImage_topStrip_icon_verticalOffset"
-            android:layout_marginEnd="@dimen/propertyDescription_mainImage_topStrip_icon_horizontalOffset_heart_share"
-            android:src="@drawable/share_white_24"/>
-
-        <ImageView
-            android:id="@+id/propertyDescription_mainImage_back"
-            style="@style/icon_wide_click_area"
-            android:contentDescription="חזור אחורה"
-            app:layout_constraintTop_toTopOf="parent"
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/propertyDescription_mainImage_topStrip_height"
             app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginTop="@dimen/propertyDescription_mainImage_topStrip_icon_verticalOffset"
-            android:layout_marginStart="@dimen/propertyDescription_mainImage_topStrip_icon_horizontalOffset"
-            android:src="@drawable/back_arrow"/>
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/propertyDescription_mainImage_isSaved"
+                style="@style/icon_wide_click_area"
+                android:layout_marginEnd="@dimen/propertyDescription_mainImage_topStrip_icon_horizontalOffset"
+                android:layout_marginTop="@dimen/propertyDescription_mainImage_topStrip_icon_verticalOffset"
+                android:contentDescription="הוספה או הסרה של הנכס במועדפים"
+                android:src="@drawable/heart_white_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/propertyDescription_mainImage_share"
+                style="@style/icon_wide_click_area"
+                android:layout_marginEnd="@dimen/propertyDescription_mainImage_topStrip_icon_horizontalOffset_heart_share"
+                android:layout_marginTop="@dimen/propertyDescription_mainImage_topStrip_icon_verticalOffset"
+                android:contentDescription="שתף את הנכס"
+                android:src="@drawable/share_white_24"
+                app:layout_constraintEnd_toStartOf="@id/propertyDescription_mainImage_isSaved"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/propertyDescription_mainImage_back"
+                style="@style/icon_wide_click_area"
+                android:layout_marginStart="@dimen/propertyDescription_mainImage_topStrip_icon_horizontalOffset"
+                android:layout_marginTop="@dimen/propertyDescription_mainImage_topStrip_icon_verticalOffset"
+                android:contentDescription="חזור אחורה"
+                android:src="@drawable/back_arrow"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </android.support.constraint.ConstraintLayout>
+
+        <Button
+            android:id="@+id/goToGallery"
+            android:layout_width="@dimen/propertyDescription_mainImage_buttonToGallery_width"
+            android:layout_height="@dimen/propertyDescription_mainImage_buttonToGallery_height"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:contentDescription="אל גלריית התמונות של הנכס"
+            android:drawableStart="@drawable/gallery_black_24"
+
+            android:text="@string/propertyDescription_mainImage_buttonToGallery_text"
+            android:textSize="@dimen/textSize_regular"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:padding="8dp"
+            android:background="@drawable/rounded_corner_with_opacity"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <Button
+            android:id="@+id/propertyDescriptionPrice_toVirtualTour_button"
+            android:layout_width="@dimen/propertyDescription_mainImage_buttonToGallery_width"
+            android:layout_height="@dimen/propertyDescription_mainImage_buttonToGallery_height"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:contentDescription="סיור וירטואלי בנכס"
+            android:text="@string/propertyDescriptionPrice_virtualTour_button"
+            android:background="@drawable/rounded_corner_with_opacity"
+            app:layout_constraintBottom_toBottomOf="@+id/goToGallery"
+            app:layout_constraintTop_toTopOf="@+id/goToGallery"
+            app:layout_constraintStart_toStartOf="parent"
+            android:drawableRight="@drawable/photo_360_line_black_24"
+            android:padding="8dp"
+            />
+
 
     </android.support.constraint.ConstraintLayout>
-
-    <Button
-        android:id="@+id/goToGallery"
-        android:layout_width="@dimen/propertyDescription_mainImage_buttonToGallery_width"
-        android:layout_height="@dimen/propertyDescription_mainImage_buttonToGallery_height"
-        android:contentDescription="אל גלריית התמונות של הנכס"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:text="@string/propertyDescription_mainImage_buttonToGallery_text"
-        android:textSize="@dimen/textSize_regular"
-        android:gravity="bottom|center"
-        android:drawableStart="@drawable/gallery_black_24"
-        />
-
-
-
-
-</android.support.constraint.ConstraintLayout>
 </layout>

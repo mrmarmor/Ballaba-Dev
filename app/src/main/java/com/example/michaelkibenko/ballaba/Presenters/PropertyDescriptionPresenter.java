@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,11 +13,16 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
@@ -52,16 +58,20 @@ import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPayment
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPriceBinding;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
+
 /**
  * Created by User on 08/04/2018.
  */
 
 public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnStreetViewPanoramaReadyCallback*/ {
     private final String TAG = PropertyDescriptionPresenter.class.getSimpleName();
-    public static final String PROPERTY_IMAGE = "Prop_image", FRAGMENT_NAME = "fragment name"
-            , PROPERTY_LATLNG_EXTRA = "property latLng extra", PROPERTY_POSITION = "property position", PROPERTY_IS_SAVED = "property is saved";
+    public static final String PROPERTY_IMAGE = "Prop_image", FRAGMENT_NAME = "fragment name", PROPERTY_LATLNG_EXTRA = "property latLng extra", PROPERTY_POSITION = "property position", PROPERTY_IS_SAVED = "property is saved";
 
     private FragmentActivity activity;
     private Resources res;
@@ -77,18 +87,23 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
     private BallabaPropertyFull propertyFull;
     //private BallabaMapFragment mapFragment;
     private LatLng propertyLatLng;
+    private ImageView imageFrame;
+    private boolean isFromSearch;
 
-    public PropertyDescriptionPresenter(final Context context, ActivityPropertyDescriptionBinding binding){
-        this.activity = (FragmentActivity)context;
+
+    public PropertyDescriptionPresenter(final Context context, ActivityPropertyDescriptionBinding binding) {
+        this.activity = (FragmentActivity) context;
         this.binder = binding;
 
         propertyIntent = activity.getIntent();
         res = activity.getResources();
 
+        isFromSearch = propertyIntent.getBooleanExtra("SHOW_CONTINUE_OPTION", true);
+        binder.propertyDescriptionRootBottomContainer.setVisibility(isFromSearch ? View.VISIBLE : View.GONE);
         initProperty();
     }
 
-    private void initProperty(){
+    private void initProperty() {
         //TODO initBinders()
         binderImage = binder.propertyDescriptionImage;
         binderPrice = binder.propertyDescriptionPrice;
@@ -99,48 +114,61 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         binderComment = binder.propertyDescriptionComments;
 
         fetchDataFromServer(propertyIntent.getStringExtra(PropertyDescriptionActivity.PROPERTY));
-//        ImageView imageFrame = binder.propertyDescriptionImage.propertyDescriptionMainImage;//findViewById(R.id.propertyDescription_mainImage);
-        ImageView imageFrame = binderImage.propertyDescriptionMainImage;
-
-        Glide.with(activity)
-                .load(propertyIntent.getStringExtra(PROPERTY_IMAGE))
-                .into(imageFrame);
+        imageFrame = binder.propertyDescriptionImage.propertyDescriptionMainImage;
+        //ImageView imageFrame = binderImage.propertyDescriptionMainImage;
 
         buttons_setOnClickListeners();
     }
 
-    private void fetchDataFromServer(final String PROPERTY_ID){
+    private void fetchDataFromServer(final String PROPERTY_ID) {
         ConnectionsManager.getInstance(activity).getPropertyById(PROPERTY_ID, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
-                if(entity instanceof BallabaOkResponse) {
+                if (entity instanceof BallabaOkResponse) {
                     propertyFull = BallabaSearchPropertiesManager
                             .getInstance(activity).parsePropertiesFull(((BallabaOkResponse) entity).body);
                     BallabaSearchPropertiesManager.getInstance(activity).setPropertyFull(propertyFull);
-
                     if (propertyFull != null) {
                         displayDataOnScreen(propertyFull);
                         initPropertyMap();
                         initMeetings();
+                        initPhoto();
                     }
-
-                }else {
+                } else {
                     Log.d(TAG, "error: Response is not an instance of BallabaOkResponse");
                 }
             }
 
             @Override
             public void reject(BallabaBaseEntity entity) {
-                Log.d(TAG, "properties: error" );
+                Log.d(TAG, "properties: error");
             }
         });
     }
 
-    private void initMeetings(){
+    private void initPhoto() {
+        if (propertyFull.photos.size() > 0) {
+            Glide.with(activity).load(propertyFull.photos.get(0).get("photo_url")).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    imageFrame.setImageDrawable(res.getDrawable(R.mipmap.ic_launcher));
+                    return true;
+                }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    imageFrame.setImageDrawable(resource);
+                    return true;
+                }
+            }).into(imageFrame);
+        }
+    }
+
+    private void initMeetings() {
         ArrayList<HashMap<String, String>> dates = propertyFull.openDoorDates;
-        if(dates.isEmpty()){
+        if (dates.isEmpty()) {
             binder.propertyDescriptionOpenDoorDates.getRoot().setVisibility(View.GONE);
-        }else{
+        } else {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(activity);
             binder.propertyDescriptionOpenDoorDates.datesRecyclerView.setLayoutManager(linearLayoutManager);
             PropertyDescriptionOpenDoorDatesRecycerAdapter adapter = new PropertyDescriptionOpenDoorDatesRecycerAdapter(activity, dates, propertyFull);
@@ -148,7 +176,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         }
     }
 
-    private void displayDataOnScreen(BallabaPropertyFull propertyFull){
+    private void displayDataOnScreen(BallabaPropertyFull propertyFull) {
         String price = StringUtils.getInstance(true).formattedNumberWithComma(propertyFull.price);
         String rooms = String.format("%s %s", propertyFull.roomsNumber, activity.getString(R.string.propertyItem_numberOfRooms));
         String size = String.format("%s %s", propertyFull.size, activity.getString(R.string.propertyItem_propertySize));
@@ -158,7 +186,15 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         binder.propertyDescriptionRootTextViewRentFee.setText(price);
         binderPrice.propertyDescriptionPricePriceTextView.setText(String.format("%s%s", "₪", price));
         binderPrice.propertyDescriptionPriceAddressTextView.setText(propertyFull.formattedAddress);
-        binderPrice.propertyDescriptionPriceDateOfEntranceTextView.setText(propertyFull.entry_date);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.US);
+        SimpleDateFormat newSdf = new SimpleDateFormat("dd.MM.yy", Locale.US);
+        Date date = null;
+        try {
+            date = sdf.parse(propertyFull.entry_date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        binderPrice.propertyDescriptionPriceDateOfEntranceTextView.setText(newSdf.format(date));
         binderPrice.propertyDescriptionPriceRentalPeriodTextView.setText(propertyFull.rentPeriod);
         binderPrice.propertyDescriptionPriceFullDescriptionTextView.setText(propertyFull.description);
 
@@ -180,12 +216,12 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
 
     }
 
-    private void displayLandlord(HashMap<String, String> landlord){
-        binderPrice.propertyDescriptionPriceLandlordNameTextView.setText(landlord.get("first_name")+" "+landlord.get("last_name"));
+    private void displayLandlord(HashMap<String, String> landlord) {
+        binderPrice.propertyDescriptionPriceLandlordNameTextView.setText(landlord.get("first_name") + " " + landlord.get("last_name"));
         binderPrice.propertyDescriptionPriceLandlordCityTextView.setText(landlord.get("city"));
         Glide.with(activity)
-             .load(landlord.get("profile_image"))
-             .into(binderPrice.propertyDescriptionPriceLandlordProfileImage);
+                .load(landlord.get("profile_image"))
+                .into(binderPrice.propertyDescriptionPriceLandlordProfileImage);
     }
 
    /* private void initAttachmentExtendedRecyclerView(BallabaPropertyFull propertyFull){
@@ -196,12 +232,12 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         attachmentsRV.setAdapter(attachAdapter);
     }*/
 
-    private void displayAttachmentsOnScreen(ArrayList<String> propertyAttachments){
+    private void displayAttachmentsOnScreen(ArrayList<String> propertyAttachments) {
         final UiUtils uiUtils = UiUtils.instance(true, activity);
         TextView chipFloor = uiUtils.generateCustomTextView(propertyFull.floor + " מתוך " + propertyFull.max_floor, R.drawable.building_blue_24);
         binderAttachExt.propertyDescriptionAttachmentsExtendedContainerRight.addView(chipFloor);
 
-        if (propertyAttachments != null){//TODO if we want to hide this section when it contains no attachment: && propertyAttachments.size() > 0) {
+        if (propertyAttachments != null) {//TODO if we want to hide this section when it contains no attachment: && propertyAttachments.size() > 0) {
             for (int i = 0; i < propertyAttachments.size(); i++) {
                 PropertyAttachment.Type propertyAttachment = PropertyAttachment.Type.getTypeById(
                         propertyAttachments.get(i));
@@ -224,7 +260,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                     binderAttachExt.propertyDescriptionAttachmentsExtendedContainerLeft.addView(tv);
                     //binderAttachExt.propertyDescriptionAttachmentsExtendedContainer.addView(tv);
                 else
-                binderAttachExt.propertyDescriptionAttachmentsExtendedContainerRight.addView(tv);
+                    binderAttachExt.propertyDescriptionAttachmentsExtendedContainerRight.addView(tv);
                 //addView(binderAttachExt.propertyDescriptionAttachmentsExtendedContainer, tv, i);
             }
         } /*else {
@@ -233,9 +269,11 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         }*/
     }
 
-    private void displayPaymentsOnScreen(ArrayList<HashMap<String, String>> propertyPayments){
+    private void displayPaymentsOnScreen(ArrayList<HashMap<String, String>> propertyPayments) {
         if (propertyPayments != null && propertyPayments.size() > 0) {
             for (int i = 0; i < propertyPayments.size(); i++) {
+                if (propertyPayments.get(i).get("price") == null || propertyPayments.get(i).get("price").equals("n,ull"))
+                    continue;
                 TextView tv = getTextView(getFormattedTitleFromId(propertyPayments.get(i).get("payment_type")),
                         res.getColor(R.color.black));
                 binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i);
@@ -270,13 +308,15 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
             tv.setText(text);
             tv.setTextAppearance(activity, R.style.propertyDescriptionPayments_textView);
             tv.setTextColor(color);
-            tv.setLayoutParams(new ViewGroup.LayoutParams(77, 35));
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            params.setMargins(0 , 16 , 0 , 0);
+            tv.setLayoutParams(params);
         }
 
         return tv;
     }
 
-    private String getFormattedTitleFromId(String paymentId){
+    private String getFormattedTitleFromId(String paymentId) {
         ArrayList<PropertyAttachmentAddonEntity> payments = PropertyAttachmentsAddonsHolder.getInstance().getPaymentTypes();
         for (PropertyAttachmentAddonEntity payment : payments)
             if (paymentId.equals(payment.id))
@@ -286,7 +326,8 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
     }
 
     private final String ONLY_CHEQUE = "1", ONLY_TRANSFER = "2", BOTH = "3";
-    private void paymentMethodsStatesChanger(ArrayList<HashMap<String, String>> payMethods){
+
+    private void paymentMethodsStatesChanger(ArrayList<HashMap<String, String>> payMethods) {
         if (payMethods != null && payMethods.size() > 0) {
             switch (payMethods.get(0).get("payment_method")) {
                 case ONLY_CHEQUE:
@@ -305,7 +346,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         }
     }
 
-    private void initCommentsRecycler(RecyclerView recyclerView){
+    private void initCommentsRecycler(RecyclerView recyclerView) {
         if (propertyFull.comments != null && propertyFull.comments.size() > 0) {
             DescCommentAdapter adapter = new DescCommentAdapter(activity, propertyFull.comments);
             LinearLayoutManager lManager = new LinearLayoutManager(activity);
@@ -316,7 +357,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         }
     }
 
-    private void initPropertyMap(){
+    private void initPropertyMap() {
         //mapFragment = BallabaMapFragment.newInstance();
 
         Log.d(TAG, "activity is: " + activity);
@@ -332,19 +373,19 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         binder.propertyDescriptionMapFragmentContainer.setOnClickListener(this);
     }
 
-    private void setIsSavedButton(){
-        Drawable d = propertyFull.is_saved? res.getDrawable(R.drawable.heart_blue_24, activity.getTheme())
-                :res.getDrawable(R.drawable.heart_white_24, activity.getTheme());
+    private void setIsSavedButton() {
+        Drawable d = propertyFull.is_saved ? res.getDrawable(R.drawable.heart_blue_24, activity.getTheme())
+                : res.getDrawable(R.drawable.heart_white_24, activity.getTheme());
         binderImage.propertyDescriptionMainImageIsSaved.setImageDrawable(d);
 
         binderImage.propertyDescriptionMainImageIsSaved.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Drawable d;
-                if (propertyFull.is_saved){
+                if (propertyFull.is_saved) {
                     d = res.getDrawable(R.drawable.heart_white_24, activity.getTheme());
                     ConnectionsManager.getInstance(activity).removeFromFavoritesProperty(propertyFull.id);
-                }else{
+                } else {
                     d = res.getDrawable(R.drawable.heart_blue_24, activity.getTheme());
                     ConnectionsManager.getInstance(activity).addToFavoritesProperty(propertyFull.id);
                 }
@@ -355,29 +396,30 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         });
     }
 
-    private void buttons_setOnClickListeners(){
+    private void buttons_setOnClickListeners() {
         binderImage.propertyDescriptionMainImageIsSaved.setOnClickListener(this);
         binderImage.propertyDescriptionMainImageShare.setOnClickListener(this);
         binderImage.propertyDescriptionMainImageBack.setOnClickListener(this);
-        binderPrice.propertyDescriptionPriceToVirtualTourButton.setOnClickListener(this);
+        binderImage.propertyDescriptionPriceToVirtualTourButton.setOnClickListener(this);
         binder.propertyDescriptionRootToStreetViewButton.setOnClickListener(this);
         binder.propertyDescriptionImage.goToGallery.setOnClickListener(this);
     }
 
-    public void onClickContinue(){
+    public void onClickContinue() {
         //scoring_status
         boolean isUserScored = BallabaUserManager.getInstance().getUser().getIs_scored();
         if (isUserScored)
             Toast.makeText(activity, "here we are applying a meeting to landlord", Toast.LENGTH_SHORT).show();
         else
-            activity.startActivity(new Intent(activity , ScoringWelcomeActivity.class));
+            activity.startActivity(new Intent(activity, ScoringWelcomeActivity.class));
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.goToGallery:
                 Intent intent = new Intent(activity, PropertyGalleryActivity.class);
+                intent.putExtra("SHOW_CONTINUE_OPTION" , isFromSearch);
                 activity.startActivity(intent);
                 break;
 
@@ -396,7 +438,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
                     intent.putExtra(FRAGMENT_NAME, BallabaStreetViewFragment.TAG);
                     activity.startActivity(intent);
                 } else {
-                    ((BaseActivity)activity).getDefaultSnackBar(binder.propertyDescriptionRootToStreetViewButton, "מיקום הנכס אינו ידוע", false).show();
+                    ((BaseActivity) activity).getDefaultSnackBar(binder.propertyDescriptionRootToStreetViewButton, "מיקום הנכס אינו ידוע", false).show();
                 }
 
                 //TODO states
@@ -408,7 +450,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
 
             case R.id.propertyDescription_mapFragment_container:
                 intent = new Intent(activity, StreetAndMapBoardActivity.class);
-                intent.putExtra(PROPERTY_LATLNG_EXTRA, propertyLatLng.latitude+","+propertyLatLng.longitude);
+                intent.putExtra(PROPERTY_LATLNG_EXTRA, propertyLatLng.latitude + "," + propertyLatLng.longitude);
                 intent.putExtra(FRAGMENT_NAME, BallabaMapFragment.TAG);
                 activity.startActivity(intent);
                 break;

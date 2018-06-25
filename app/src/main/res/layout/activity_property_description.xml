@@ -1,30 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="presenter"
-            type="com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter"/>
+            type="com.example.michaelkibenko.ballaba.Presenters.PropertyDescriptionPresenter" />
     </data>
 
     <android.support.constraint.ConstraintLayout
-        style="@style/allMatchParent" android:layoutDirection="rtl">
+        style="@style/allMatchParent"
+        android:layoutDirection="rtl">
 
         <ScrollView
-            android:contentDescription="תצוגת נכס"
+            android:scrollIndicators="none"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:contentDescription="תצוגת נכס"
             android:orientation="vertical"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/propertyDescription_root_bottom_container"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/propertyDescription_root_bottom_container">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 style="@style/allMatchParent"
-                android:orientation="vertical"
-                android:background="@color/propertyRecyclerView_background_white">
+                android:background="@color/propertyRecyclerView_background_white"
+                android:orientation="vertical">
 
                 <include
                     android:id="@+id/property_description_image"
@@ -38,6 +42,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/activity_vertical_margin" />
+
                 <View style="@style/divider_gray" />
 
                 <include
@@ -45,6 +50,7 @@
                     layout="@layout/property_description_attachments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+
                 <View style="@style/divider_gray" />
 
                 <include
@@ -53,7 +59,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/activity_vertical_margin" />
-                <View android:id="@+id/property_description_attachments_extended_divider" style="@style/divider_gray" />
+
+                <View
+                    android:id="@+id/property_description_attachments_extended_divider"
+                    style="@style/divider_gray" />
 
                 <include
                     android:id="@+id/property_description_payments"
@@ -61,38 +70,40 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/activity_vertical_margin" />
-                <View android:id="@+id/property_description_payments_divider" style="@style/divider_gray" />
+
+                <View
+                    android:id="@+id/property_description_payments_divider"
+                    style="@style/divider_gray" />
 
                 <include
                     android:id="@+id/property_description_payment_methods"
                     layout="@layout/property_description_payment_methods"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="@dimen/large_margin"/>
-               <!-- <View style="@style/divider_gray"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/property_description_payment_methods" />
--->
+                    android:paddingBottom="@dimen/large_margin" />
+                <!-- <View style="@style/divider_gray"
+                     app:layout_constraintStart_toStartOf="parent"
+                     app:layout_constraintTop_toBottomOf="@id/property_description_payment_methods" />
+ -->
                 <FrameLayout
                     android:id="@+id/propertyDescription_mapFragment_container"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/propertyDescription_googleMap_height"
-                    android:contentDescription="מפת אזור הנכס"
                     android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:background="@color/propertyRecyclerView_background_white" />
+                    android:background="@color/propertyRecyclerView_background_white"
+                    android:contentDescription="מפת אזור הנכס" />
 
                 <Button
                     android:id="@+id/propertyDescription_root_toStreetView_button"
                     android:layout_width="@dimen/propertyDescription_price_buttonToStreetView_width"
                     android:layout_height="@dimen/propertyDescription_price_buttonToStreetView_height"
-                    android:contentDescription="google street view"
-                    android:layout_marginTop="@dimen/large_margin"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin"
                     android:layout_gravity="center"
-                    android:text="@string/propertyDescription_root_streetView_button"
-                    android:textColor="@color/colorPrimary"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:layout_marginTop="@dimen/large_margin"
                     android:background="@drawable/blue_border"
-                    />
+                    android:contentDescription="google street view"
+                    android:text="@string/propertyDescription_root_streetView_button"
+                    android:textColor="@color/colorPrimary" />
 
                 <View style="@style/divider_gray" />
 
@@ -107,7 +118,7 @@
                     android:id="@+id/property_description_open_door_dates"
                     layout="@layout/property_description_open_door_dates"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"  />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
 
         </ScrollView>
@@ -120,60 +131,72 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toBottomOf="parent" />-->
 
-        <View
+        <android.support.constraint.ConstraintLayout
             android:id="@+id/propertyDescription_root_bottom_container"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            app:layout_constraintStart_toStartOf="parent"
+            android:background="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:background="@color/colorPrimary" />
+            app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
-            android:id="@+id/propertyDescription_root_textView_rentTitle"
-            style="@style/allWrapContent"
-            android:contentDescription="@string/propertyDescription_root_textView_rentTitle"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/propertyDescription_root_bottom_container"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:fontFamily="@font/rubik_regular"
-            android:textSize="@dimen/textSize_tiny"
-            android:textColor="@android:color/white"
-            android:text="@string/propertyDescription_root_textView_rentTitle" />
-        <TextView
-            android:id="@+id/propertyDescription_root_textView_rentFee"
-            style="@style/allWrapContent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/propertyDescription_root_textView_rentTitle"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:fontFamily="@font/rubik_bold"
-            android:textSize="@dimen/textSize_regular"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
-        <TextView
-            android:id="@+id/propertyDescription_root_textView_rentFeeMonthly"
-            style="@style/allWrapContent"
-            app:layout_constraintStart_toEndOf="@id/propertyDescription_root_textView_rentFee"
-            app:layout_constraintTop_toBottomOf="@id/propertyDescription_root_textView_rentTitle"
-            android:fontFamily="@font/rubik_bold"
-            android:textSize="@dimen/textSize_regular"
-            android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:text="@string/propertyDescription_root_textView_rentFee" />
+            <!--<View
+                android:id="@+id/propertyDescription_root_bottom_container"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />-->
 
-        <Button
-            android:id="@+id/propertyDescription_root_button_next"
-            style="@style/AppButton"
-            android:contentDescription="המשך לקביעת פגישה"
-            app:layout_constraintTop_toTopOf="@id/propertyDescription_root_bottom_container"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="@dimen/saveMapSearch_start_offset"
-            android:layout_marginTop="@dimen/saveMapSearch_top_offset"
-            android:layout_marginBottom="@dimen/saveMapSearch_top_offset"
-            android:fontFamily="@font/rubik_medium"
-            android:text="@string/propertyDescription_root_button_text"
-            android:background="@android:color/white"
-            android:onClick="@{() -> presenter.onClickContinue()}" />
+            <TextView
+                android:id="@+id/propertyDescription_root_textView_rentTitle"
+                style="@style/allWrapContent"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:contentDescription="@string/propertyDescription_root_textView_rentTitle"
+                android:fontFamily="@font/rubik_regular"
+                android:text="@string/propertyDescription_root_textView_rentTitle"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textSize_tiny"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/propertyDescription_root_bottom_container" />
+
+            <TextView
+                android:id="@+id/propertyDescription_root_textView_rentFee"
+                style="@style/allWrapContent"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:fontFamily="@font/rubik_bold"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textSize_regular"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/propertyDescription_root_textView_rentTitle" />
+
+            <TextView
+                android:id="@+id/propertyDescription_root_textView_rentFeeMonthly"
+                style="@style/allWrapContent"
+                android:fontFamily="@font/rubik_bold"
+                android:text="@string/propertyDescription_root_textView_rentFee"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/textSize_regular"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/propertyDescription_root_textView_rentFee"
+                app:layout_constraintTop_toBottomOf="@id/propertyDescription_root_textView_rentTitle" />
+
+            <Button
+                android:id="@+id/propertyDescription_root_button_next"
+                style="@style/AppButton"
+                android:layout_marginBottom="@dimen/saveMapSearch_top_offset"
+                android:layout_marginEnd="@dimen/saveMapSearch_start_offset"
+                android:layout_marginTop="@dimen/saveMapSearch_top_offset"
+                android:background="@android:color/white"
+                android:contentDescription="המשך לקביעת פגישה"
+                android:fontFamily="@font/rubik_medium"
+                android:onClick="@{() -> presenter.onClickContinue()}"
+                android:text="@string/propertyDescription_root_button_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/propertyDescription_root_bottom_container" />
+
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

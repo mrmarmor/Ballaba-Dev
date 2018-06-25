@@ -20,11 +20,11 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.example.michaelkibenko.ballaba.Activities.PropertyGalleryActivity;
 import com.example.michaelkibenko.ballaba.R;
+import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static com.example.michaelkibenko.ballaba.Adapters.PropertyGalleryRecyclerViewAdapter.ITEM_TYPES.HEADER;
 import static com.example.michaelkibenko.ballaba.Adapters.PropertyGalleryRecyclerViewAdapter.ITEM_TYPES.ITEM;
 
 public class PropertyGalleryRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -84,7 +84,7 @@ public class PropertyGalleryRecyclerViewAdapter extends RecyclerView.Adapter<Rec
             });
         }else{
             PropertyGalleryHeaderViewHolder tagHeader = (PropertyGalleryHeaderViewHolder)holder;
-            tagHeader.tagTV.setText(realItems.get(position).body);
+            tagHeader.tagTV.setText(StringUtils.getInstance(true).formattedHebrew(realItems.get(position).body));
         }
     }
 

@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
-import com.example.michaelkibenko.ballaba.Fragments.PreviewProfileFragment;
 import com.example.michaelkibenko.ballaba.Presenters.TestingPresenter;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.TestingLayoutBinding;
@@ -31,8 +30,12 @@ public class TestingActivity extends BaseActivity {
             public void onClick(View v) {
                 /*startActivity(new Intent(TestingActivity.
                         this , ScoringCameraActivity.class));*/
-                PreviewProfileFragment fragment = new PreviewProfileFragment();
-                fragment.show(getFragmentManager() , "tag");
+                /*PreviewProfileFragment fragment = new PreviewProfileFragment();
+                fragment.show(getFragmentManager() , "tag");*/
+                Intent intent = new Intent(TestingActivity.this, PropertyDescriptionActivity.class);
+                intent.putExtra(PropertyDescriptionActivity.PROPERTY , "120");
+                intent.putExtra("SHOW_CONTINUE_OPTION", false);
+                startActivity(intent);
             }
         });
 

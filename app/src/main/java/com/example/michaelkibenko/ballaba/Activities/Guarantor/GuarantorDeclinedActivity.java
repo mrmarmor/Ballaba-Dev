@@ -66,14 +66,17 @@ public class GuarantorDeclinedActivity extends BaseActivityWithActionBar impleme
 
     private void initViews() {
         user = BallabaUserManager.getInstance().getUser();
-        binder.guarantorDeclinedUserName.setText(String.format("%s %s,", user.getFirst_name(), user.getLast_name()));
 
-        binder.guarantorDeclinedPhone.addTextChangedListener(this);
-        binder.guarantorDeclinedPhone.requestFocus();
+        if (user != null) {
+            binder.guarantorDeclinedUserName.setText(String.format("%s %s,", user.getFirst_name(), user.getLast_name()));
+
+            binder.guarantorDeclinedPhone.addTextChangedListener(this);
+            binder.guarantorDeclinedPhone.requestFocus();
+        }
     }
 
     private void initRecycler() {
-        properties.add(BallabaSearchPropertiesManager.getInstance(this).getResultsById("1"));
+        properties.add(BallabaSearchPropertiesManager.getInstance(this).getResultsById("1"));//TODO replace with a real property
 
         LinearLayoutManager manager = new LinearLayoutManager(this);
         rvAdapter = new PropertiesRecyclerAdapter(this, getSupportFragmentManager(), properties, false);
@@ -101,7 +104,6 @@ public class GuarantorDeclinedActivity extends BaseActivityWithActionBar impleme
     @Override public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
     @Override public void afterTextChanged(Editable editable) {}
 
-
     public void sendPhoneNumber(View view) {
         if (BallabaConnectivityAnnouncer.getInstance(this).isConnected()) {
 
@@ -115,7 +117,7 @@ public class GuarantorDeclinedActivity extends BaseActivityWithActionBar impleme
 
             SmsManager smsManager = SmsManager.getDefault();
             String fullNumber = binder.guarantorDeclinedPhone.getText().toString().trim();
-            String deepLink = "http://yb.net/dvfhe45";
+            String deepLink = "http://yb.net/dvfhe45";//TODO replace with a real one
             String message = String.format("%s %s מבקש שתערוב לו\n\nהכנס לקישור ועזור ל%s לקבל את דירת חלומותיו\n%s"
                     , user.getFirst_name(), user.getLast_name(), user.getFirst_name(), deepLink);
 
