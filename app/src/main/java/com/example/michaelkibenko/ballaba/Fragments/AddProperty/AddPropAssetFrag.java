@@ -11,11 +11,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -24,6 +26,8 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyFull;
+import com.example.michaelkibenko.ballaba.Entities.PropertyAttachmentAddonEntity;
+import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaSearchPropertiesManager;
@@ -36,6 +40,7 @@ import com.example.michaelkibenko.ballaba.Views.MultiLanguagesDatePicker;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AddPropAssetFrag extends Fragment implements CompoundButton.OnCheckedChangeListener {
@@ -53,7 +58,9 @@ public class AddPropAssetFrag extends Fragment implements CompoundButton.OnCheck
     private TextView entryDateTV, rentalPeriodTV;
     private MultiLanguagesDatePicker datePicker;
     private LinearLayout root;
-
+    private Spinner propertyTypeSpinner;
+    private ArrayList<PropertyAttachmentAddonEntity> propertyAttachmentAddonEntityPropertyTypes;
+    private ArrayList<String> propertyTypeList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,6 +78,17 @@ public class AddPropAssetFrag extends Fragment implements CompoundButton.OnCheck
 
         String propertyId = SharedPreferencesManager.getInstance(context).getString(SharedPreferencesKeysHolder.PROPERTY_ID, null);
         //if (propertyId != null) getPreviewsPropertyData(propertyId);
+        propertyAttachmentAddonEntityPropertyTypes = PropertyAttachmentsAddonsHolder.getInstance().getPropertyTypes();
+        propertyTypeList = new ArrayList<>();
+
+        for (int i = 0; i < propertyAttachmentAddonEntityPropertyTypes.size(); i++) {
+            propertyTypeList.add(propertyAttachmentAddonEntityPropertyTypes.get(i).formattedTitle);
+        }
+
+        propertyTypeSpinner = v.findViewById(R.id.addProp_property_type_spinner);
+        ArrayAdapter adapter = new ArrayAdapter(context, android.R.layout.simple_spinner_item, propertyTypeList);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        propertyTypeSpinner.setAdapter(adapter);
 
         rentalCB = v.findViewById(R.id.addProperty_rentalPeriod_option_check_box);
 
@@ -235,6 +253,7 @@ public class AddPropAssetFrag extends Fragment implements CompoundButton.OnCheck
             obj.put(bathroomET.getTag() + "", Integer.parseInt(bathroomET.getText().toString().trim()));
             obj.put(toiletET.getTag() + "", Integer.parseInt(toiletET.getText().toString().trim()));
             obj.put(sizeET.getTag() + "", Integer.parseInt(sizeET.getText().toString().trim()));
+            obj.put("property_type", Integer.parseInt(propertyAttachmentAddonEntityPropertyTypes.get(propertyTypeSpinner.getSelectedItemPosition()).id));
 
             entry_date.put("data", String.format("%d-%02d-%02d", datePicker.getYear(), datePicker.getMonth() + 1, datePicker.getDayOfMonth()));
             entry_date.put("is_flexible", entryDateSwitch.isChecked());

@@ -95,6 +95,7 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
         this.activity = (FragmentActivity) context;
         this.binder = binding;
 
+
         propertyIntent = activity.getIntent();
         res = activity.getResources();
 
@@ -272,13 +273,14 @@ public class PropertyDescriptionPresenter implements View.OnClickListener/*, OnS
     private void displayPaymentsOnScreen(ArrayList<HashMap<String, String>> propertyPayments) {
         if (propertyPayments != null && propertyPayments.size() > 0) {
             for (int i = 0; i < propertyPayments.size(); i++) {
-                if (propertyPayments.get(i).get("price") == null || propertyPayments.get(i).get("price").equals("n,ull"))
+                HashMap<String, String> item = propertyPayments.get(i);
+                if (item.get("price") == null || item.get("price").equals("n,ull") || item.get("price").equals(""))
                     continue;
-                TextView tv = getTextView(getFormattedTitleFromId(propertyPayments.get(i).get("payment_type")),
+                TextView tv = getTextView(getFormattedTitleFromId(item.get("payment_type")),
                         res.getColor(R.color.black));
                 binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i);
 
-                String formattedPrice = propertyPayments.get(i).get("price");
+                String formattedPrice = item.get("price");
                 tv = getTextView(String.format("%s%s", "₪", formattedPrice),
                         res.getColor(R.color.colorAccent));
                 binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i);

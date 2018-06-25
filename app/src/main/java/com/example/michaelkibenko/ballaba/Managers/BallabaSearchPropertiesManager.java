@@ -279,6 +279,7 @@ public class BallabaSearchPropertiesManager {
             String entry = heb.trimNull(res.getString("entry"));
             String floor = heb.trimNull(res.getString("floor"));
             String max_floor = heb.trimNull(res.getString("max_floor"));
+            String propertyTypes = heb.trimNull(res.getString("type"));
             String appartmentNumber = heb.trimNull(res.getString("apartment_number"));
             String size = heb.trimNull(res.getString("size"));
             String no_of_parking = heb.trimNull(res.getString("no_of_parking"));
@@ -345,7 +346,7 @@ public class BallabaSearchPropertiesManager {
 
             BallabaPropertyFull property = new BallabaPropertyFull(id, rooms, price, size,
                     formattedAddress, rent_period, no_of_payments, lat, lng, city, street,
-                    street_number, entry, floor, max_floor, no_of_parking, parking_price,
+                    street_number, entry, floor, max_floor , no_of_parking, parking_price,
                     description, payment_date, bathrooms, toilets, entry_date, status, country,
                     zip_code, level_1_area, level_2_area, google_place_id, created_at, updated_at,
                     furniture, electronics, show, priority, is_saved, is_guaranteed, landlords,

@@ -2,14 +2,10 @@ package com.example.michaelkibenko.ballaba.Adapters;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.database.Cursor;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -48,7 +44,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 
@@ -329,7 +324,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
     }
 
     //portrait/landscape
-    private Matrix adjustPhotoOrientation(Uri photo) {
+    /*private Matrix adjustPhotoOrientation(Uri photo) {
         Cursor cur = context.getContentResolver().query(photo, orientations, null, null, null);
         int orientation = -1;
         if (cur != null && cur.moveToFirst()) {
@@ -341,9 +336,9 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
         matrix.postRotate(orientation);
 
         return matrix;
-    }
+    }*/
 
-    private Bitmap createBitmapFromUri(Uri photo, Matrix matrix) {
+    /*private Bitmap createBitmapFromUri(Uri photo, Matrix matrix) {
         try {
             Bitmap bmp = MediaStore.Images.Media.getBitmap(context.getContentResolver(), photo);
             Bitmap bitmap = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
@@ -353,7 +348,7 @@ public class AddPropertyPhotoRecyclerAdapter extends RecyclerView.Adapter<AddPro
             Log.e(TAG, "error: " + e.getMessage());
             return null;
         }
-    }
+    }*/
 
     public JSONObject getData(Context context, JSONObject jsonObject) {
         //byte[] photo = UiUtils.instance(true, context).uriToBytes(photos.get(photos.size() - 1).getPhoto());

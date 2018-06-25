@@ -341,18 +341,18 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent imageIntent) {
         super.onActivityResult(requestCode, resultCode, imageIntent);
-
         if (resultCode == RESULT_OK && imageIntent != null) {
             Bundle extras = null;
             Uri extrasUri = null;
-            if (requestCode == REQUEST_CODE_CAMERA){
+            if (requestCode == REQUEST_CODE_CAMERA) {
                 extras = imageIntent.getExtras();
-            }else {
+            } else {
                 extrasUri = imageIntent.getData();
             }
             Bitmap selectedImage = null;
-            if (extras != null){
+            if (extras != null) {
                 selectedImage = (Bitmap) extras.get("data");
+
             }
 
             switch (requestCode) {
