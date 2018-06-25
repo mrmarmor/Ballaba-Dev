@@ -97,8 +97,7 @@ dependencies {
     implementation('com.twitter.sdk.android:twitter:3.0.0@aar') {
         transitive = true
     }
-
-
+    compile project(path: ':linkedin-sdk')
 }
 
 apply plugin: 'com.google.gms.google-services'

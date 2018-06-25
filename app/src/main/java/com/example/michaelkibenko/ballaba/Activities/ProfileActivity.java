@@ -1,9 +1,11 @@
 package com.example.michaelkibenko.ballaba.Activities;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
+import android.content.pm.Signature;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Build;
@@ -15,6 +17,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -22,7 +25,6 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.Resource;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
@@ -33,19 +35,24 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
+import com.linkedin.platform.APIHelper;
+import com.linkedin.platform.LISessionManager;
+import com.linkedin.platform.errors.LIApiError;
+import com.linkedin.platform.errors.LIAuthError;
+import com.linkedin.platform.listeners.ApiListener;
+import com.linkedin.platform.listeners.ApiResponse;
+import com.linkedin.platform.listeners.AuthListener;
+import com.linkedin.platform.utils.Scope;
 import com.twitter.sdk.android.core.Callback;
-import com.twitter.sdk.android.core.DefaultLogger;
 import com.twitter.sdk.android.core.Result;
-import com.twitter.sdk.android.core.Twitter;
-import com.twitter.sdk.android.core.TwitterAuthConfig;
-import com.twitter.sdk.android.core.TwitterAuthToken;
-import com.twitter.sdk.android.core.TwitterConfig;
-import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterException;
 import com.twitter.sdk.android.core.TwitterSession;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import static com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropLandlordFrag.REQUEST_CODE_CAMERA;
 import static com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropLandlordFrag.REQUEST_CODE_GALLERY;
@@ -65,6 +72,8 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
         binder = DataBindingUtil.setContentView(this, R.layout.activity_profile);
 
         initViews();
+
+//        getPackageHash();
 
         //if we want edit mode not as default:
         /*binder.profileActivityFAB.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +152,87 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
     }
 
     private void initLinkedIn(){
+        binder.profileActivitySocialLinkedinImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LISessionManager.getInstance(getApplicationContext()).init(ProfileActivity.this, buildLinkedInScope()//pass the build scope here
+                        , new AuthListener() {
+                            @Override
+                            public void onAuthSuccess() {
+                                // Authentication was successful. You can now do
+                                // other calls with the SDK.
+//                                Toast.makeText(ProfileActivity.this, "Successfully authenticated with LinkedIn.", Toast.LENGTH_SHORT).show();
+//                                LISessionManager.getInstance(getApplicationContext()).getSession().getAccessToken();
+                                fetchBasicLinkedInProfileData();
+                            }
 
+                            @Override
+                            public void onAuthError(LIAuthError error) {
+                                Log.e(TAG, error.toString());
+                                // Handle authentication errors
+//                                Log.e(TAG, "Auth Error :" + error.toString());
+//                                Toast.makeText(ProfileActivity.this, "Failed to authenticate with LinkedIn. Please try again.", Toast.LENGTH_SHORT).show();
+                            }
+                        }, true);
+                //if TRUE then it will show dialog if
+                // any device has no LinkedIn app installed to download app else won't show anythin
+            }
+        });
+    }
+
+    private void fetchBasicLinkedInProfileData() {
+
+        //In URL pass whatever data from user you want for more values check below link
+        //LINK : https://developer.linkedin.com/docs/fields/basic-profile
+        String url = "https://api.linkedin.com/v1/people/~:(id,first-name,last-name,headline,public-profile-url,picture-url,email-address,picture-urls::(original))";
+
+        APIHelper apiHelper = APIHelper.getInstance(getApplicationContext());
+        apiHelper.getRequest(this, url, new ApiListener() {
+            @Override
+            public void onApiSuccess(ApiResponse apiResponse) {
+                // Success!
+                Log.d(TAG, "API Res : " + apiResponse.getResponseDataAsString() + "\n" + apiResponse.getResponseDataAsJson().toString());
+                Toast.makeText(ProfileActivity.this, "Successfully fetched LinkedIn profile data.", Toast.LENGTH_SHORT).show();
+
+                //update UI on successful data fetched
+//                updateUI(apiResponse);
+            }
+
+            @Override
+            public void onApiError(LIApiError liApiError) {
+                // Error making GET request!
+                Log.e(TAG, "Fetch profile Error   :" + liApiError.getLocalizedMessage());
+                Toast.makeText(ProfileActivity.this, "Failed to fetch basic profile data. Please try again.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void doLinkedInLogout(View view) {
+        LISessionManager.getInstance(this).clearSession();
+    }
+
+    private void getPackageHash() {
+        try {
+
+            @SuppressLint("PackageManagerGetSignatures") PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.example.michaelkibenko.ballaba",//give your package name here
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+
+                Log.e(TAG, "Hash  : " + Base64.encodeToString(md.digest(), Base64.NO_WRAP));//Key hash is printing in Log
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.d(TAG, e.getMessage(), e);
+        } catch (NoSuchAlgorithmException e) {
+            Log.d(TAG, e.getMessage(), e);
+        }
+
+    }
+
+    private Scope buildLinkedInScope() {
+        return Scope.build(Scope.R_BASICPROFILE, Scope.W_SHARE, Scope.R_EMAILADDRESS);
     }
 
     private void initTwitter(){
@@ -266,7 +355,12 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         binder.profileActivitySocialTwitterIV.onActivityResult(requestCode, resultCode, intent);
-        faceBookCallbackManager.onActivityResult(requestCode, resultCode, intent);
+        if(faceBookCallbackManager != null) {
+            faceBookCallbackManager.onActivityResult(requestCode, resultCode, intent);
+        }
+        if(LISessionManager.getInstance(getApplicationContext()) != null){
+            LISessionManager.getInstance(getApplicationContext()).onActivityResult(this, requestCode, resultCode, intent);
+        }
         super.onActivityResult(requestCode, resultCode, intent);
 
         if (resultCode == RESULT_OK && intent != null) {
