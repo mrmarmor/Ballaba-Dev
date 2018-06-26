@@ -300,6 +300,16 @@
         <item name="android:text"> </item>
     </style>
 
+    <style name="guaranteeAgreement_details" parent="allWrapContent">
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginStart">@dimen/activity_horizontal_margin</item>
+        <item name="android:layout_marginEnd">@dimen/large_margin</item>
+        <item name="android:drawableStart">@drawable/check_line_coral_24</item>
+        <item name="android:drawablePadding">@dimen/activity_horizontal_margin</item>
+        <item name="android:textColor">#757575</item>
+        <item name="android:textSize">@dimen/textSize_small</item>
+    </style>
+
     <style name="add_property_editTexts_with_number" parent="addProperty_editTexts">
         <item name="android:gravity">center</item>
         <item name="android:inputType">number</item>

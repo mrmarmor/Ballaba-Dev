@@ -53,6 +53,7 @@ import static com.example.michaelkibenko.ballaba.Presenters.EnterCodePresenter.F
 public class EnterCodePresenter extends BasePresenter implements TextWatcher, EditText.OnKeyListener, EditText.OnTouchListener {
     private static String TAG = EnterCodePresenter.class.getSimpleName();
     private final int SEND_AGAIN_DELAY = 60;
+    private boolean wasSent = false;
 
     @IntDef({OK, NOT_A_VALID_PHONE_NUMBER, CODE_EXPIRED, INTERNAL_ERROR, USER_IS_BLOCKED})
     public @interface Flows {
@@ -92,6 +93,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
                     wasConnectivityProblem = true;
                 }else if(wasConnectivityProblem){
                     ((BaseActivity)context).hideNetworkError();
+                    Log.d(TAG, "enterCode sending from network");
                     onCodeCompleted();
                 }
 
@@ -168,11 +170,16 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
     }
 
     private void onCodeCompleted() {
+        if (wasSent) return;
+        wasSent = true;
+        Log.d(TAG, "enterCode sending");
+
         if(BallabaConnectivityAnnouncer.getInstance(context).isConnected()) {
             ConnectionsManager.getInstance(context).enterCode(phoneNumber.getFullPhoneNumber(),sbCode.toString() , new BallabaResponseListener() {
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
                     Log.d(TAG, "enterCode success: "+entity);
+
                     if (entity instanceof BallabaUser) {
                         wasConnectivityProblem = false;
 
@@ -269,7 +276,6 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
     //This method fill in code editTexts automatically by reading code from received sms.
     //We need to delay fill in by 3 seconds, to let our app get code from server, so it could be compared to each other.
     public void autoFillCode(final String code){
-        Log.d(TAG, "code: "+code);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -324,6 +330,7 @@ public class EnterCodePresenter extends BasePresenter implements TextWatcher, Ed
             public void onFinish() {
                 UiUtils.instance(true, context).buttonChanger(binder.enterCodeSendAgainButton, true);
                 binder.enterCodeSendAgainButton.setText(context.getString(R.string.enter_code_send_again_button_text));
+                wasSent = false;
             }
         }.start();
     }

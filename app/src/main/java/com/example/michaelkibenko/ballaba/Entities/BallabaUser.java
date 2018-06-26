@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  * Created by User on 06/03/2018.
@@ -16,31 +17,20 @@ public class BallabaUser extends BallabaBaseEntity {
 
     public String userCurrentPropertyObservedID; // testing
 
-    private String id, phone, email, first_name, last_name, city, address, street_number, apt_no, id_number, birth_date, about, tenant_score, landlord_score, guarantor_score, date_created, date_updated, session_token, device_id, global_token, fcm_token, profile_image, meeting_time;
+    private String id, phone, email, first_name, last_name, city, address, street_number, apt_no, id_number, birth_date, about, profession, marital_status, no_of_kids, tenant_score, landlord_score, guarantor_score, date_created, date_updated, session_token, device_id, global_token, fcm_token, profile_image, meeting_time, last_4_digits;
 
     private boolean isInterested, isMeeting , isScored, isLandlord, isCreditAvailable;
 
-    public void setProfile_image(String profile_image) {
-        this.profile_image = profile_image;
-    }
+    private HashMap<String, String> social;
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
-    }
-
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
-    }
-
-    public BallabaUser() {
-    }
-
-    //TODO MAKE THIS CLASS BECOME A SINGLETON
+    public BallabaUser() {}
 
     public BallabaUser(String id, String phone, String email, String first_name, String last_name, String city, String address
-                     , String street_number, String apt_no, String id_number, String birth_date, String about, boolean isScored, String tenant_score
-                     , String landlord_score, String guarantor_score, String date_created, String date_updated, String session_token,
-                       String fcm_token, String global_token, String profile_image, boolean isLandlord, boolean isCreditAvailable) {
+                     , String street_number, String apt_no, String id_number, String birth_date, String about, String profession
+                     , String marital_status, String no_of_kids, boolean isScored, String tenant_score, String landlord_score
+                     , String guarantor_score, String date_created, String date_updated, String session_token, String fcm_token
+                     , String global_token, String profile_image, boolean isLandlord, boolean isCreditAvailable, String last4Digits
+                     , HashMap<String, String> social) {
         this.id = id;
         this.phone = phone;
         this.email = email;
@@ -51,6 +41,9 @@ public class BallabaUser extends BallabaBaseEntity {
         this.apt_no = apt_no;
         this.street_number = street_number;
         this.about = about;
+        this.profession = profession;
+        this.marital_status = marital_status;
+        this.no_of_kids = no_of_kids;
         this.isScored = isScored;
         this.id_number = id_number;
         this.birth_date = birth_date;
@@ -65,6 +58,8 @@ public class BallabaUser extends BallabaBaseEntity {
         this.profile_image = profile_image;
         this.isLandlord = isLandlord;
         this.isCreditAvailable = isCreditAvailable;
+        this.last_4_digits = last4Digits;
+        this.social = social;
     }
 
 //    public BallabaUser(String id, String phone, String email, String first_name, String last_name, String city, String address, String apt_no, String birth_date, String about,
@@ -100,6 +95,18 @@ public class BallabaUser extends BallabaBaseEntity {
         return new Gson().fromJson(userString, BallabaUser.class);
     }
 
+    public void setProfile_image(String profile_image) {
+        this.profile_image = profile_image;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
     public String getSessionToken() {
         return trimNull(this.session_token);
     }
@@ -109,7 +116,10 @@ public class BallabaUser extends BallabaBaseEntity {
     }
 
     public String getPhone() {
-        return trimNull(phone);
+        if (phone != null && phone.endsWith("+"))
+            return trimNull("+" + phone.replace("+", ""));
+        else
+            return trimNull(phone);
     }
 
     public String getEmail() {
@@ -241,5 +251,29 @@ public class BallabaUser extends BallabaBaseEntity {
 
     public void setId_number(String id_number) {
         this.id_number = id_number;
+    }
+
+    public String getLast_4_digits() {
+        return last_4_digits;
+    }
+
+    public void setLast_4_digits(String last_4_digits) {
+        this.last_4_digits = last_4_digits;
+    }
+
+    public String getProfession() {
+        return StringUtils.getInstance(true).formattedHebrew(trimNull(profession));
+    }
+
+    public String getMarital_status() {
+        return marital_status;
+    }
+
+    public String getNo_of_kids() {
+        return no_of_kids;
+    }
+
+    public HashMap<String, String> getSocial() {
+        return social;
     }
 }
