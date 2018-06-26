@@ -33,7 +33,6 @@ import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
-import com.example.michaelkibenko.ballaba.databinding.ActivityAddPropertyBinding;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
@@ -154,6 +153,7 @@ public class ConnectionsManager {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    final String errorSTR = parseResponse(new String(error.networkResponse.data));
                     if (error.networkResponse != null) {
                         callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
                     } else {
@@ -793,7 +793,6 @@ public class ConnectionsManager {
     }
 
     public void uploadUser(final JSONObject userData, final BallabaResponseListener callback) throws JSONException {
-
         final ProgressDialog pd = ((BaseActivity) context).getDefaultProgressDialog(context, "Uploading...");
         pd.show();
 

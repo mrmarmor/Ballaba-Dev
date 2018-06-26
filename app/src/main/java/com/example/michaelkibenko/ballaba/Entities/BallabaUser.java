@@ -31,8 +31,10 @@ public class BallabaUser extends BallabaBaseEntity {
                      , String guarantor_score, String date_created, String date_updated, String session_token, String fcm_token
                      , String global_token, String profile_image, boolean isLandlord, boolean isCreditAvailable, String last4Digits
                      , HashMap<String, String> social) {
+
         this.id = id;
         this.phone = phone;
+        this.profession = profession;
         this.email = email;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -275,5 +277,6 @@ public class BallabaUser extends BallabaBaseEntity {
 
     public HashMap<String, String> getSocial() {
         return social;
+
     }
 }

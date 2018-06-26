@@ -38,6 +38,7 @@ public class BallabaUserManager {
     private String id, phone, email, name, lastName, city, address, streetNumber, aptNo, idNumber, birthDate, about, tenantScore
             , landlordScore, guarantorScore, dateCreated, dateUpdated, sessionToken, fcmToken, globalToken, profileImage
             , profession, maritalStatus, noOfKids, last4Digits;
+
     private boolean isScored, islandlord, isCreditAvailbable;
     private HashMap<String, String> social = new HashMap<>();
 
@@ -46,6 +47,7 @@ public class BallabaUserManager {
             JSONObject jsonObject = new JSONObject(response);
             id = jsonObject.getString("id");
             phone = jsonObject.getString("phone");
+            profession = jsonObject.getString("profession");
             email = jsonObject.getString("email");
             name = jsonObject.getString("first_name");//stringUtils.formattedHebrew(jsonObject.getString("first_name"));
             lastName = jsonObject.getString("last_name");//stringUtils.formattedHebrew(jsonObject.getString("last_name"));
@@ -90,7 +92,7 @@ public class BallabaUserManager {
             if (jsonObject.has("is_credit_available"))
                 isCreditAvailbable = jsonObject.getBoolean("is_credit_available");
 
-            if (jsonObject.has("social")){
+            if (jsonObject.has("social") && !jsonObject.getString("social").equals("null")){
                 JSONObject socialJson = jsonObject.getJSONObject("social");
                 Iterator iterator = socialJson.keys();
                 while (iterator.hasNext()) {

@@ -168,8 +168,8 @@
 
                 </android.support.design.widget.TextInputLayout>
 
-
             </LinearLayout>
+
         </LinearLayout>
 
         <RelativeLayout
@@ -196,7 +196,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/addProperty_property_type_title_textView"
                 android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"/>
+                android:layout_marginRight="16dp" />
 
         </RelativeLayout>
 

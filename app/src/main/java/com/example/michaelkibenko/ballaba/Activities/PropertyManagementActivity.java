@@ -213,7 +213,7 @@ public class PropertyManagementActivity extends BaseActivity implements View.OnC
         adapter.checkAllInterested(isCheck, isInterestedTab);
         toolbarImagesVisibility(false , true , isCheck , isCheck);
     }
-
+    
     public int getPropertyID() {
         Log.d(TAG, "property id: " + propertyID);
         return propertyID;

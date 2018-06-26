@@ -33,8 +33,12 @@ import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPayment
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPaymentsBinding;
 import com.example.michaelkibenko.ballaba.databinding.PropertyDescriptionPriceBinding;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 //TODO THIS CLASS IS ALMOST THE SAME AS PropertyDescriptionPresenter CLASS. SO PLEASE MAKE PropertyDescriptionPresenter A FRAGMENT AND RECYCLE IT!
 public class PropertyManageFragment extends Fragment {
@@ -51,16 +55,6 @@ public class PropertyManageFragment extends Fragment {
     private PropertyDescriptionPaymentMethodsBinding binderPayMethod;
     //private PropertyDescriptionCommentsBinding binderComment;
     private BallabaPropertyFull propertyFull;
-
-    public PropertyManageFragment() {}
-
-    /*public static PropertyManageFragment newInstance(int propertyId) {
-        PropertyManageFragment fragment = new PropertyManageFragment();
-        Bundle args = new Bundle();
-        args.putInt(PROPERTY_ID, propertyId);
-        fragment.setArguments(args);
-        return fragment;
-    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -122,7 +116,15 @@ public class PropertyManageFragment extends Fragment {
 
         binderPrice.propertyDescriptionPricePriceTextView.setText(String.format("%s%s", "₪", price));
         binderPrice.propertyDescriptionPriceAddressTextView.setText(propertyFull.formattedAddress);
-        binderPrice.propertyDescriptionPriceDateOfEntranceTextView.setText(StringUtils.getInstance(true).formattedDateString(propertyFull.entry_date));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss", Locale.US);
+        SimpleDateFormat newSdf = new SimpleDateFormat("dd.MM.yy", Locale.US);
+        Date date = null;
+        try {
+            date = sdf.parse(propertyFull.entry_date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        binderPrice.propertyDescriptionPriceDateOfEntranceTextView.setText(newSdf.format(date));
         binderPrice.propertyDescriptionPriceRentalPeriodTextView.setText(propertyFull.rentPeriod);
         binderPrice.propertyDescriptionPriceFullDescriptionTextView.setText(propertyFull.description);
 
@@ -162,8 +164,7 @@ public class PropertyManageFragment extends Fragment {
 
         if (propertyAttachments != null){//TODO if we want to hide this section when it contains no attachment: && propertyAttachments.size() > 0) {
             for (int i = 0; i < propertyAttachments.size(); i++) {
-                PropertyAttachment.Type propertyAttachment = PropertyAttachment.Type.getTypeById(
-                        propertyAttachments.get(i));
+                PropertyAttachment.Type propertyAttachment = PropertyAttachment.Type.getTypeById(propertyAttachments.get(i));
 
                 TextView tv = uiUtils.generateCustomTextView(activity.getString(propertyAttachment.getTitle()), R.drawable.building_blue_24);
 
@@ -181,14 +182,20 @@ public class PropertyManageFragment extends Fragment {
     private void displayPaymentsOnScreen(ArrayList<HashMap<String, String>> propertyPayments){
         if (propertyPayments != null && propertyPayments.size() > 0) {
             for (int i = 0; i < propertyPayments.size(); i++) {
-                TextView tv = getTextView(getFormattedTitleFromId(propertyPayments.get(i).get("payment_type")),
+                HashMap<String, String> paymentItem = propertyPayments.get(i);
+                TextView tv = getTextView(getFormattedTitleFromId(paymentItem.get("payment_type")),
                         activity.getResources().getColor(R.color.black));
-                binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i);
+                if (paymentItem.get("price") == null || paymentItem.get("price").equals("null") ||
+                        paymentItem.get("price").equals("") ||
+                        paymentItem.get("price").equals("n,ull")) continue;
+                binderPay.propertyDescriptionPaymentsContainerRight.addView(tv);
 
-                String formattedPrice = propertyPayments.get(i).get("price");
+                String formattedPrice = paymentItem.get("price");
                 tv = getTextView(String.format("%s%s", "₪", formattedPrice),
                         activity.getResources().getColor(R.color.colorAccent));
-                binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i);
+                binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv);
+                        /*activity.getResources().getColor(R.color.colorAccent);
+                binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv);*/
             }
         } else {
             binderPay.getRoot().setVisibility(View.GONE);
@@ -203,7 +210,6 @@ public class PropertyManageFragment extends Fragment {
             tv.setText(text);
             tv.setTextAppearance(activity, R.style.propertyDescriptionPayments_textView);
             tv.setTextColor(color);
-            tv.setLayoutParams(new ViewGroup.LayoutParams(77, 35));
         }
 
         return tv;

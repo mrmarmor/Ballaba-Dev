@@ -13,7 +13,6 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaOkResponse;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
-import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.databinding.FragmentPropertyManageInfoBinding;
 
 import org.json.JSONException;
@@ -27,21 +26,6 @@ public class PropertyManageInfoFragment extends Fragment {
     private final String TAG = PropertyManageInfoFragment.class.getSimpleName();
 
     private FragmentPropertyManageInfoBinding binder;
-
-    public PropertyManageInfoFragment() {}
-
-   /* public static PropertyManageInfoFragment newInstance(int propertyId) {
-        PropertyManageInfoFragment fragment = new PropertyManageInfoFragment();
-        Bundle args = new Bundle();
-        args.putInt(PROPERTY_ID, propertyId);
-        fragment.setArguments(args);
-        return fragment;
-    }*/
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

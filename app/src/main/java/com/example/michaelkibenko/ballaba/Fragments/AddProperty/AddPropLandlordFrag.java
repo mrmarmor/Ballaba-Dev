@@ -195,6 +195,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             binderLandLord.addPropBirthDateEditText.setText(user.getBirth_date());
             binderLandLord.addPropEmailEditText.setText(user.getEmail());
             binderLandLord.addPropPhoneEditText.setText(user.getPhone());
+            binderLandLord.addPropProfessionEditText.setText(user.getProfession());
             binderLandLord.addPropCityActv.setText(user.getCity());
             binderLandLord.addPropAddressActv.setText(user.getAddress());
             if (!user.getStreet_number().equals("null") && user.getStreet_number() != null) {
@@ -207,7 +208,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
             Glide.with(context).load(user.getProfile_image()).listener(new RequestListener<Drawable>() {
                 @Override
                 public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                    binderLandLord.addPropProfileImageButton.setImageDrawable(context.getResources().getDrawable(R.drawable.add_user_b_lue_60, context.getTheme()));
+                    binderLandLord.addPropProfileImageButton.setImageDrawable(context.getResources().getDrawable(R.drawable.profile_grey_100, context.getTheme()));
                     return true;
                 }
 
@@ -395,13 +396,13 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         //TODO here we have to set progressDialog
         final HashMap<String, String> data = getDataFromEditTexts(new HashMap<String, String>());
         data.put("profile_image", getProfileImage());
+        data.put("profession", binderLandLord.addPropProfessionEditText.getText().toString().trim());
         Log.d(TAG, "last name sent to server: " + data.get("last_name"));
 
         try {
             if (!areAllDataFieldsFilledUp ||/*!isPhoneValid(data.get("phone")) ||*/ !isEmailValid(data.get("email")))
                 return;
 
-            Log.d(TAG, "is data equal: " + isDataEqual(data, user));
             if (user != null && !isDataEqual(data, user)) {
                 conn.uploadUser(jsonParse(data), new BallabaResponseListener() {
                     @Override
@@ -490,6 +491,7 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
                 map.get("street_no").equals(user.getStreet_number()) &&
                 map.get("birth_date").equals(user.getBirth_date()) &&
                 map.get("about").equals(user.getAbout()) &&
+                map.get("profession").equals(user.getProfession()) &&
                 !isProfileImageChanged);
     }
 
