@@ -77,9 +77,10 @@ public class PropertyDescriptionOpenDoorDatesRecycerAdapter extends RecyclerView
                     showAlert(item.get("id"), timesText, propertyFull.formattedAddress);
                 }
             });
-        }catch (ParseException ex){
-            ex.printStackTrace();
+        }catch (NullPointerException | ParseException ex){
+            Log.e(TAG, ex.getMessage());
         }
+
     }
 
     private void showAlert(final String meetingId, final String timesText, final String address){
