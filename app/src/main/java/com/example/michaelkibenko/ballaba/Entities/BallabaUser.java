@@ -16,7 +16,10 @@ public class BallabaUser extends BallabaBaseEntity {
 
     public String userCurrentPropertyObservedID; // testing
 
-    private String id, phone, email, first_name, last_name, city, address, street_number, apt_no, id_number, birth_date, about, tenant_score, landlord_score, guarantor_score, date_created, date_updated, session_token, device_id, global_token, fcm_token, profile_image, meeting_time;
+    private String id, phone , profession, email, first_name, last_name, city, address,
+            street_number, apt_no, id_number, birth_date, about, tenant_score,
+            landlord_score, guarantor_score, date_created, date_updated, session_token,
+            device_id, global_token, fcm_token, profile_image, meeting_time;
 
     private boolean isInterested, isMeeting , isScored, isLandlord, isCreditAvailable;
 
@@ -37,12 +40,13 @@ public class BallabaUser extends BallabaBaseEntity {
 
     //TODO MAKE THIS CLASS BECOME A SINGLETON
 
-    public BallabaUser(String id, String phone, String email, String first_name, String last_name, String city, String address
+    public BallabaUser(String id, String phone, String profession, String email, String first_name, String last_name, String city, String address
                      , String street_number, String apt_no, String id_number, String birth_date, String about, boolean isScored, String tenant_score
                      , String landlord_score, String guarantor_score, String date_created, String date_updated, String session_token,
                        String fcm_token, String global_token, String profile_image, boolean isLandlord, boolean isCreditAvailable) {
         this.id = id;
         this.phone = phone;
+        this.profession = profession;
         this.email = email;
         this.first_name = first_name;
         this.last_name = last_name;
@@ -241,5 +245,9 @@ public class BallabaUser extends BallabaBaseEntity {
 
     public void setId_number(String id_number) {
         this.id_number = id_number;
+    }
+
+    public String getProfession() {
+        return trimNull(profession);
     }
 }

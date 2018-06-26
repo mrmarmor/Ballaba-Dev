@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,6 +121,7 @@ public class AttachmentsFragment extends Fragment implements Button.OnClickListe
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
+        if (((MainActivity)context).presenter != null)
         filterResult = ((MainActivity)context).presenter.filterResult;
     }
 

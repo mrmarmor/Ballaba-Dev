@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.constraint.ConstraintLayout
-        style="@style/allMatchParent" android:layoutDirection="rtl" >
+        style="@style/allMatchParent"
+        android:layoutDirection="rtl">
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbarThumbVertical="@android:color/transparent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:scrollbarThumbVertical="@android:color/transparent">
 
             <LinearLayout
                 style="@style/allWrapContent"
                 android:layout_marginBottom="@dimen/myProp_landlord_manage_margin_bottom"
                 android:background="@color/propertyRecyclerView_background_white"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/propertyManagement_mainImage"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/propertyDescription_mainImage_height"
-                    android:scaleType="centerCrop"
                     android:layout_margin="@dimen/small_margin"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/photo_home_grey_24" />
 
                 <include
@@ -32,6 +32,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/activity_vertical_margin" />
+
                 <View style="@style/divider_gray" />
 
                 <include
@@ -39,6 +40,7 @@
                     layout="@layout/property_description_attachments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
+
                 <View style="@style/divider_gray" />
 
                 <include
@@ -46,16 +48,28 @@
                     layout="@layout/property_description_attachments_extended"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin" />
-                <View android:id="@+id/propertyManagement_attachments_extended_divider" style="@style/divider_gray" />
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp" />
+
+                <View
+                    android:id="@+id/propertyManagement_attachments_extended_divider"
+                    style="@style/divider_gray" />
 
                 <include
                     android:id="@+id/propertyManagement_payments"
                     layout="@layout/property_description_payments"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/activity_vertical_margin" />
-                <View android:id="@+id/propertyManagement_payments_divider" style="@style/divider_gray" />
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp" />
+
+                <View
+                    android:id="@+id/propertyManagement_payments_divider"
+                    style="@style/divider_gray" />
 
                 <include
                     android:id="@+id/propertyManagement_payment_methods"
@@ -68,25 +82,26 @@
 
         <Button
             android:id="@+id/myProp_landlord_manage_button_saveChanges"
+            style="@style/AppButtonAnother"
             android:layout_width="0dp"
             android:layout_height="@dimen/myProp_landlord_manage_button_height"
-            style="@style/AppButtonAnother"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/myProp_landlord_manage_button_preview"
-            app:layout_constraintLeft_toLeftOf="parent"
             android:text="@string/myProperty_manage_button_save"
-            android:textSize="@dimen/myProp_landlord_manage_button_textSize" />
+            android:textSize="@dimen/myProp_landlord_manage_button_textSize"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/myProp_landlord_manage_button_preview" />
+
         <Button
             android:id="@+id/myProp_landlord_manage_button_preview"
+            style="@style/AppButton"
             android:layout_width="0dp"
             android:layout_height="@dimen/myProp_landlord_manage_button_height"
-            style="@style/AppButton"
+            android:text="@string/myProperty_manage_button_preview"
+            android:textColor="@color/black"
+            android:textSize="@dimen/myProp_landlord_manage_button_textSize"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/myProp_landlord_manage_button_saveChanges"
-            app:layout_constraintRight_toRightOf="parent"
-            android:text="@string/myProperty_manage_button_preview"
-            android:textSize="@dimen/myProp_landlord_manage_button_textSize"
-            android:textColor="@color/black" />
+            app:layout_constraintRight_toRightOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 </layout>

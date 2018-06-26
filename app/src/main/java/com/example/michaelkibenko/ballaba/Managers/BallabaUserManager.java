@@ -8,8 +8,6 @@ import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.Date;
-
 /**
  * Created by User on 07/03/2018.
  */
@@ -33,7 +31,7 @@ public class BallabaUserManager {
         this.user = user;
     }
 
-    private String id, phone, email, name, lastName, city, address, streetNumber, aptNo, idNumber, birthDate, about, tenantScore
+    private String id, phone,profession , email, name, lastName, city, address, streetNumber, aptNo, idNumber, birthDate, about, tenantScore
             , landlordScore, guarantorScore, dateCreated, dateUpdated, sessionToken, fcmToken, globalToken, profileImage;
     private boolean isScored, islandlord, isCreditAvailbable;
 
@@ -42,6 +40,7 @@ public class BallabaUserManager {
             JSONObject jsonObject = new JSONObject(response);
             id = jsonObject.getString("id");
             phone = jsonObject.getString("phone");
+            profession = jsonObject.getString("profession");
             email = jsonObject.getString("email");
             name = jsonObject.getString("first_name");//stringUtils.formattedHebrew(jsonObject.getString("first_name"));
             lastName = jsonObject.getString("last_name");//stringUtils.formattedHebrew(jsonObject.getString("last_name"));
@@ -82,7 +81,7 @@ public class BallabaUserManager {
             if (jsonObject.has("is_credit_available"))
                 isCreditAvailbable = jsonObject.getBoolean("is_credit_available");
 
-            return new BallabaUser(id, phone, email, name, lastName, city, address, streetNumber, aptNo, idNumber
+            return new BallabaUser(id, phone,profession, email, name, lastName, city, address, streetNumber, aptNo, idNumber
                     , birthDate, about, isScored, tenantScore, landlordScore, guarantorScore, dateCreated
                     , dateUpdated, sessionToken, fcmToken, globalToken, profileImage, islandlord, isCreditAvailbable);
 

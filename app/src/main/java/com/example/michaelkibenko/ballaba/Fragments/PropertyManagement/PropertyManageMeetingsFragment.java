@@ -199,6 +199,7 @@ public class PropertyManageMeetingsFragment extends Fragment {
     public void toggleState(boolean show) {
         emptyStateContainer.setVisibility(show ? View.VISIBLE : View.GONE);
         layoutContainer.setVisibility(show ? View.GONE : View.VISIBLE);
+        if (show) ((PropertyManagementActivity)getActivity()).toolbarImagesVisibility(false , false , false ,false);
     }
 
     public void setAllCheck(boolean isCheck) {
