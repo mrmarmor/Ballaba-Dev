@@ -262,7 +262,7 @@ public class BallabaUser extends BallabaBaseEntity {
     }
 
     public String getProfession() {
-        return profession;
+        return StringUtils.getInstance(true).formattedHebrew(trimNull(profession));
     }
 
     public String getMarital_status() {
