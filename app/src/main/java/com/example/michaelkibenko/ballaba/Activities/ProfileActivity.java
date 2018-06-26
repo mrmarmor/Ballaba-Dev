@@ -11,7 +11,9 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BaseTransientBottomBar;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
 import android.text.Editable;
@@ -114,6 +116,7 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
             binder.profileActivityDetailsLastName.setText(user.getLast_name());
             binder.profileActivityDetailsPhone.setText(user.getPhone());
             binder.profileActivityDetailsDateOfBirth.setText(user.getBirth_date());
+            binder.profileActivityDetailsId.setText(user.getId_number());
             binder.profileActivityDetailsProfession.setText(user.getProfession());
             binder.profileActivityStatusSpinner.setPrompt(user.getMarital_status());//TODO testing
             binder.profileActivityChildrenSpinner.setPrompt(user.getNo_of_kids());//TODO testing
@@ -375,7 +378,13 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
             conn.uploadUser(jsonObject, new BallabaResponseListener() {
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
-                    getDefaultSnackBar(binder.getRoot(), "פרטי משתמש נשמרו בהצלחה", false).show();
+                    getDefaultSnackBar(binder.getRoot(), "פרטי משתמש נשמרו בהצלחה", false).addCallback(new BaseTransientBottomBar.BaseCallback<Snackbar>() {
+                        @Override
+                        public void onDismissed(Snackbar transientBottomBar, int event) {
+                            super.onDismissed(transientBottomBar, event);
+                            finish();
+                        }
+                    }).show();
                 }
 
                 @Override
@@ -386,8 +395,6 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
         } catch (JSONException e) {
             e.getStackTrace();
         }
-
-        finish();
     }
 
     private JSONObject getDataFromEditTexts(JSONObject jsonObject) {
@@ -396,6 +403,9 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
             jsonObject.put("profile_image", bytes);
             jsonObject.put(binder.profileActivityDetailsFirstName.getTag() + "", binder.profileActivityDetailsFirstName.getText());
             jsonObject.put(binder.profileActivityDetailsLastName.getTag() + "", binder.profileActivityDetailsLastName.getText());
+            jsonObject.put(binder.profileActivityDetailsPhone.getTag() + "", binder.profileActivityDetailsPhone.getText());
+            jsonObject.put(binder.profileActivityDetailsDateOfBirth.getTag() + "", binder.profileActivityDetailsDateOfBirth.getText());
+            jsonObject.put(binder.profileActivityDetailsId.getTag() + "", binder.profileActivityDetailsId.getText());
             jsonObject.put(binder.profileActivityDetailsProfession.getTag() + "", binder.profileActivityDetailsProfession.getText());
             jsonObject.put(binder.profileActivityStatusSpinner.getTag() + "", binder.profileActivityStatusSpinner.getPrompt());
             jsonObject.put(binder.profileActivityChildrenSpinner.getTag() + "", binder.profileActivityChildrenSpinner.getPrompt());

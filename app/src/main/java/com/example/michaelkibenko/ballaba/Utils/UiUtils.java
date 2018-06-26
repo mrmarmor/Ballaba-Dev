@@ -157,10 +157,13 @@ public class UiUtils {
     }
 
     public byte[] drawableToUri(Drawable d) {
-        Bitmap bitmap = ((BitmapDrawable)d).getBitmap();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        return stream.toByteArray();
+        if (d != null) {
+            Bitmap bitmap = ((BitmapDrawable) d).getBitmap();
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            return stream.toByteArray();
+        }
+        return null;
     }
 
     public byte[] uriToBytes(Uri uri) {

@@ -61,10 +61,14 @@ public class BallabaUserManager {
             }
             about = jsonObject.getString("about");
             profession = jsonObject.getString("profession");
-            maritalStatus = jsonObject.getString("marital_status");
-            noOfKids = jsonObject.getString("no_of_kids");
-            last4Digits = jsonObject.getString("card_no");
             profileImage = jsonObject.getString("profile_image");
+
+            if (jsonObject.has("marital_status"))
+                maritalStatus = jsonObject.getString("marital_status");
+            if (jsonObject.has("no_of_kids"))
+                noOfKids = jsonObject.getString("no_of_kids");
+            if (jsonObject.has("card_no"))
+                last4Digits = jsonObject.getString("card_no");
 
             //TODO if i need score i can get it here, but yet it is not received from server and throwing JSONException
             //tenantScore = jsonObject.getString("tenant_score");
