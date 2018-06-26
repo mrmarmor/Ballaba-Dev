@@ -51,6 +51,7 @@ public class AttachmentsFragment extends Fragment implements Button.OnClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_attachments, container, false);
+        filterResult = ((MainActivity)context).presenter.filterResult;
 
         if (getArguments() != null && getArguments().getSerializable(ARG_PARAMS) instanceof ArrayList)
             items = (ArrayList<PropertyAttachmentAddonEntity>)getArguments().getSerializable(ARG_PARAMS);
@@ -122,7 +123,6 @@ public class AttachmentsFragment extends Fragment implements Button.OnClickListe
     public void onAttach(Context context) {
         super.onAttach(context);
         this.context = context;
-        filterResult = ((MainActivity)context).presenter.filterResult;
     }
 
     @Override

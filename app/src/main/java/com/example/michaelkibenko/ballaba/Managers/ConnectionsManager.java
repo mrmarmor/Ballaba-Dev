@@ -692,8 +692,8 @@ public class ConnectionsManager {
         }
     }
 
-    public void removeViewport(String propertyId, final BallabaResponseListener callback) {
-        String query = VIEWPORT + propertyId;
+    public void removeViewport(String viewPortId, final BallabaResponseListener callback) {
+        String query = VIEWPORT + viewPortId;
         StringRequest stringRequest = new StringRequest(DELETE, query, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
