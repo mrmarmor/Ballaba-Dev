@@ -8,6 +8,7 @@ import com.example.michaelkibenko.ballaba.Activities.CalendarTestActivity;
 import com.example.michaelkibenko.ballaba.Activities.CreditCardActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterPhoneNumberActivity;
+import com.example.michaelkibenko.ballaba.Activities.GuaranteeAgreementActivity;
 import com.example.michaelkibenko.ballaba.Activities.Guarantor.GuaranteeRequestActivity;
 import com.example.michaelkibenko.ballaba.Activities.Guarantor.GuarantorDeclinedActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
@@ -85,5 +86,9 @@ public class TestingPresenter extends BasePresenter {
         Intent intent = new Intent(context, PropertyDescriptionActivity.class);
         //intent.putExtra(PropertyDescriptionActivity.PROPERTY , "87");
         context.startActivity(intent);
+    }
+
+    public void goToGuaranteeAgreement(){
+        context.startActivity(new Intent(context, GuaranteeAgreementActivity.class));
     }
 }

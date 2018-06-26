@@ -63,6 +63,7 @@
             android:hint="שם פרטי" >
             <EditText
                 android:id="@+id/profileActivity_details_firstName"
+                android:tag="first_name"
                 style="@style/profile_editText"
                 android:inputType="textPersonName"
                 />
@@ -75,6 +76,7 @@
             android:hint="שם משפחה" >
             <EditText
                 android:id="@+id/profileActivity_details_lastName"
+                android:tag="last_name"
                 style="@style/profile_editText"
                 android:inputType="textPersonName"
                 />
@@ -113,6 +115,7 @@
             android:hint="מקצוע" >
             <EditText
                 android:id="@+id/profileActivity_details_profession"
+                android:tag="profession"
                 style="@style/profile_editText"
                 />
         </android.support.design.widget.TextInputLayout>
@@ -128,6 +131,7 @@
             android:text="מצב משפחתי" />
         <Spinner
             android:id="@+id/profileActivity_status_spinner"
+            android:tag="marital_status"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/profileActivity_status_title"
@@ -135,6 +139,8 @@
             app:layout_constraintLeft_toRightOf="@id/profileActivity_children_spinner"
             android:layout_marginLeft="@dimen/small_margin"
             android:layout_marginTop="@dimen/tiny_margin"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:theme="@style/spinnerWithUnderline"
             android:textAlignment="textStart"
             android:textDirection="rtl"
             android:focusable="false"
@@ -150,12 +156,15 @@
             android:text="מספר ילדים" />
         <Spinner
             android:id="@+id/profileActivity_children_spinner"
+            android:tag="no_of_kids"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/profileActivity_children_title"
             app:layout_constraintRight_toLeftOf="@id/profileActivity_status_spinner"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginTop="@dimen/tiny_margin"
+            style="@style/Widget.AppCompat.Spinner.Underlined"
+            android:theme="@style/spinnerWithUnderline"
             android:textAlignment="textStart"
             android:textDirection="rtl"
             android:focusable="false"
@@ -168,6 +177,7 @@
             android:hint="עיר" >
             <com.example.michaelkibenko.ballaba.Views.TextInputAutoCompleteTextView
                 android:id="@+id/profileActivity_details_city"
+                android:tag="city"
                 style="@style/profile_editText"
                 android:inputType="textPostalAddress"
                 />
@@ -180,6 +190,7 @@
             android:hint="כתובת" >
             <com.example.michaelkibenko.ballaba.Views.TextInputAutoCompleteTextView
                 android:id="@+id/profileActivity_details_address"
+                android:tag="street"
                 style="@style/profile_editText"
                 android:inputType="textPostalAddress"
                 />
@@ -195,6 +206,7 @@
             android:hint="מספר בית" >
             <com.example.michaelkibenko.ballaba.Views.TextInputAutoCompleteTextView
                 android:id="@+id/profileActivity_details_streetNo"
+                android:tag="street_no"
                 style="@style/profile_editText"
                 android:inputType="number"
                 />
@@ -211,6 +223,7 @@
             android:hint="מספר דירה" >
             <com.example.michaelkibenko.ballaba.Views.TextInputAutoCompleteTextView
                 android:id="@+id/profileActivity_details_aptNo"
+                android:tag="apt_no"
                 style="@style/profile_editText"
                 android:inputType="number"
                 />
@@ -223,6 +236,7 @@
             android:hint="דואר אלקטרוני" >
             <EditText
                 android:id="@+id/profileActivity_details_email"
+                android:tag="email"
                 style="@style/profile_editText"
                 android:inputType="textEmailAddress"
                 />
@@ -242,6 +256,7 @@
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/profileActivity_details_about"
+            android:tag="about"
             style="@style/profile_editText"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/profileActivity_about_title"
@@ -291,6 +306,7 @@
                 android:id="@+id/profileActivity_social_instagramIV"
                 android:layout_width="200dp"
                 android:layout_height="55dp"
+                android:visibility="gone"
                 android:text="Login Button" />
 
             <ImageView
@@ -298,6 +314,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="32dp"
+                android:visibility="gone"
                 android:src="@drawable/linkdin_32" />
 
             <com.facebook.login.widget.LoginButton
@@ -305,6 +322,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:visibility="gone"
                 android:layout_marginStart="32dp"/>
 
         </LinearLayout>
@@ -316,6 +334,7 @@
             app:layout_constraintTop_toBottomOf="@+id/profileActivity_social_container"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"
             android:layout_marginTop="@dimen/profileActivity_top_offset"/>
 
         <TextView

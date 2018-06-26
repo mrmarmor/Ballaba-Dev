@@ -14,4 +14,6 @@ public class BallabaErrorResponse extends BallabaBaseEntity {
         this.statusCode = statusCode;
         this.message = message;
     }
+
+    //TODO here we can build a parser for all messages given from server, so that we will display a hebrew message to user
 }

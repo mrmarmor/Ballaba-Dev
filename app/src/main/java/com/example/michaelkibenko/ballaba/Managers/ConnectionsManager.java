@@ -792,7 +792,7 @@ public class ConnectionsManager {
         queue.add(stringRequest);
     }
 
-    public void uploadUser(final ActivityAddPropertyBinding binderMain, JSONObject userData, final BallabaResponseListener callback) throws JSONException {
+    public void uploadUser(final JSONObject userData, final BallabaResponseListener callback) throws JSONException {
 
         final ProgressDialog pd = ((BaseActivity) context).getDefaultProgressDialog(context, "Uploading...");
         pd.show();

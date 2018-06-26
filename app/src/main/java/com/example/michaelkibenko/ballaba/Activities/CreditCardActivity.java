@@ -60,11 +60,11 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
 
     @IntDef({ISRACARD, MASTERCARD, VISA, DINERS, AMERICAN_EXPRESS, NULL})
     @interface CREDIT_CARD_ICON {
-        int ISRACARD = R.drawable.bathtub_blue_36;
-        int MASTERCARD = R.drawable.bed_blue_36;
+        int ISRACARD = R.drawable.bathtub_blue_36;//TODO
+        int MASTERCARD = R.drawable.bed_blue_36;//TODO
         int VISA = R.drawable.group_6;
-        int DINERS = R.drawable.date_blue_36;
-        int AMERICAN_EXPRESS = R.drawable.exclusive;
+        int DINERS = R.drawable.date_blue_36;//TODO
+        int AMERICAN_EXPRESS = R.drawable.exclusive;//TODO
     }
 
     private ActivityCreditCardBinding binder;
@@ -82,6 +82,7 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
     private void initViews() {
         BallabaUser user = BallabaUserManager.getInstance().getUser();
         if (user != null) {
+            /*TODO if we want last 4 digits: *///binder.creditCardCardNumber.setText(user.getLast_4_digits() + "************");
             binder.creditCardPersonName.setText(user.getFirst_name() + " " + user.getLast_name());
             binder.creditCardPersonID.setText(user.getId_number());
             binder.creditCardUserMail.setText(user.getEmail());
@@ -141,20 +142,21 @@ public class CreditCardActivity extends BaseActivityWithActionBar implements Vie
         return cardType;
     }
 
-
     private void onFinish() {
         if (isValidCardType() && isValidCVV() && isValidUserName() && isValidIdNumber() && isValidEmail()){
             JSONObject data = getCreditCardData(new JSONObject());
             ConnectionsManager.newInstance(this).uploadCreditCard(data, new BallabaResponseListener() {
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
-                    Toast.makeText(CreditCardActivity.this, "go to next page", Toast.LENGTH_SHORT).show();
+                    getDefaultSnackBar(binder.getRoot(), "פרטי כרטיס אשראי נשלחו בהצלחה", false).show();
 
                     String cardNumber = binder.creditCardCardNumber.getText().toString();
+                    String last4Digits = cardNumber.substring(cardNumber.length() - 4);
+                    new BallabaUser().setLast_4_digits(last4Digits);
                     getIntent().putExtra(CREDIT_CARD_NUMBER_LENGTH, cardNumber.length());
-                    getIntent().putExtra(CREDIT_CARD_NUMBER_LAST_4_DIGITS, cardNumber.substring(cardNumber.length() - 4));
+                    getIntent().putExtra(CREDIT_CARD_NUMBER_LAST_4_DIGITS, last4Digits);
                     setResult(RESULT_OK, getIntent());
-                    cardNumber = null;
+                    cardNumber = null;//for security
                     finish();
                 }
 

@@ -168,5 +168,15 @@
             android:text="Property Description"
             android:onClick="@{() -> presenter.goToPropertyDescription()}" />
 
+        <Button
+            android:id="@+id/guaranteeAgreement_BTN"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="100dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Guarantee Agreement"
+            android:onClick="@{() -> presenter.goToGuaranteeAgreement()}" />
+
     </android.support.constraint.ConstraintLayout>
 </layout>

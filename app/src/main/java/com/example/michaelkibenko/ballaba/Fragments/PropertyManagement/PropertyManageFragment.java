@@ -122,7 +122,7 @@ public class PropertyManageFragment extends Fragment {
 
         binderPrice.propertyDescriptionPricePriceTextView.setText(String.format("%s%s", "₪", price));
         binderPrice.propertyDescriptionPriceAddressTextView.setText(propertyFull.formattedAddress);
-        binderPrice.propertyDescriptionPriceDateOfEntranceTextView.setText(propertyFull.entry_date);
+        binderPrice.propertyDescriptionPriceDateOfEntranceTextView.setText(StringUtils.getInstance(true).formattedDateString(propertyFull.entry_date));
         binderPrice.propertyDescriptionPriceRentalPeriodTextView.setText(propertyFull.rentPeriod);
         binderPrice.propertyDescriptionPriceFullDescriptionTextView.setText(propertyFull.description);
 
@@ -182,12 +182,12 @@ public class PropertyManageFragment extends Fragment {
         if (propertyPayments != null && propertyPayments.size() > 0) {
             for (int i = 0; i < propertyPayments.size(); i++) {
                 TextView tv = getTextView(getFormattedTitleFromId(propertyPayments.get(i).get("payment_type")),
-                        activity.getResources().getColor(R.color.black, activity.getTheme()));
+                        activity.getResources().getColor(R.color.black));
                 binderPay.propertyDescriptionPaymentsContainerRight.addView(tv, i);
 
                 String formattedPrice = propertyPayments.get(i).get("price");
                 tv = getTextView(String.format("%s%s", "₪", formattedPrice),
-                        activity.getResources().getColor(R.color.colorAccent, activity.getTheme()));
+                        activity.getResources().getColor(R.color.colorAccent));
                 binderPay.propertyDescriptionPaymentsContainerLeft.addView(tv, i);
             }
         } else {
@@ -201,7 +201,7 @@ public class PropertyManageFragment extends Fragment {
 
         if (text != null) {
             tv.setText(text);
-            tv.setTextAppearance(R.style.propertyDescriptionPayments_textView);
+            tv.setTextAppearance(activity, R.style.propertyDescriptionPayments_textView);
             tv.setTextColor(color);
             tv.setLayoutParams(new ViewGroup.LayoutParams(77, 35));
         }

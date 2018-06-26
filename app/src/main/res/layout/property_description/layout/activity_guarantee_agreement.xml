@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+<ScrollView style="@style/allWrapContent" >
+
+<LinearLayout
+    style="@style/allMatchParent"
+    android:layout_margin="@dimen/small_margin"
+    android:orientation="vertical"
+    android:layoutDirection="rtl"
+    tools:context="com.example.michaelkibenko.ballaba.Activities.GuaranteeAgreementActivity">
+
+    <ImageView
+        style="@style/allWrapContent"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/social_outline_coral_24"/>
+
+    <TextView
+        style="@style/allWrapContent"
+        android:layout_gravity="center_horizontal"
+        android:fontFamily="@font/rubik_medium"
+        android:textSize="24sp"
+        android:textColor="@color/colorAccent"
+        android:text="הסכם הבטחה" />
+
+    <TextView
+        style="@style/allWrapContent"
+        android:layout_marginTop="@dimen/tiny_margin"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@color/gray_text_color"
+        android:text="הנכס שלך, הדאגה שלנו" />
+
+    <TextView
+        style="@style/guaranteeAgreement_details"
+        android:layout_marginTop="38dp"
+        android:text="פרסום ואיתור שוכר חדש" />
+    <TextView
+        style="@style/guaranteeAgreement_details"
+        android:text="פרסום ואיתור שוכר חדש בעת הפרה" />
+    <TextView
+        style="@style/guaranteeAgreement_details"
+        android:text="פינוי שוכר סרבן" />
+    <TextView
+        style="@style/guaranteeAgreement_details"
+        android:text="השתתפות בעלות תיקון נזקי השוכר לדירה" />
+    <TextView
+        style="@style/guaranteeAgreement_details"
+        android:text="השוכרים עוברים בדיקה שלנו ואנחנו ערבים להם." />
+
+    <TextView
+        style="@style/allWrapContent"
+        android:layout_marginTop="6dp"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:text="מחיר לנכס זה:" />
+
+    <TextView
+        style="@style/allWrapContent"
+        android:layout_marginTop="@dimen/small_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:text="4 אחוזים " />
+
+    <TextView
+        style="@style/allWrapContent"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:drawableStart="@drawable/social_outline_coral_24"
+        android:drawablePadding="@dimen/activity_horizontal_margin"
+        android:textColor="#757575"
+        android:textSize="@dimen/textSize_small"
+        android:text="הסכם הבטחה" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/white" >
+
+        <TextView
+            style="@style/allWrapContent"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:layout_marginBottom="@dimen/large_margin"
+            android:textSize="@dimen/textSize_big"
+            android:textColor="@color/colorAccent"
+            android:text="תשלום" />
+
+        <TextView
+            style="@style/allWrapContent"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:textSize="@dimen/textSize_tiny"
+            android:text="מספר כרטיס אשראי" />
+
+        <TextView
+            android:id="@+id/guaranteeAgreement_creditCardNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:drawableEnd="@drawable/chevron_left"
+            android:text="4526-1010-1010-1010"
+            android:onClick="goToCreditCardActivity" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="29dp"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+            <TextView
+                style="@style/allWrapContent"
+                android:textColor="@color/black"
+                android:text="מחיר: " />
+            <TextView
+                style="@style/allWrapContent"
+                android:fontFamily="@font/rubik_medium"
+                android:textColor="@color/black"
+                android:text="160 שח" />
+        </LinearLayout>
+
+        <Button
+            style="@style/AppButtonAnotherNarrow"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:text="שלם" />
+
+        <Button
+            style="@style/allWrapContent"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:padding="10dp"
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="@font/rubik_medium"
+            android:textColor="@color/black"
+            android:textSize="@dimen/textSize_small"
+            android:text="לא מעוניין"
+            android:background="@android:color/transparent" />
+
+    </LinearLayout>
+
+</LinearLayout>
+</ScrollView>
+</layout>

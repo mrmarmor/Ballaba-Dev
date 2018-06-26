@@ -9,6 +9,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 
 /**
  * Created by User on 07/03/2018.
@@ -34,8 +36,10 @@ public class BallabaUserManager {
     }
 
     private String id, phone, email, name, lastName, city, address, streetNumber, aptNo, idNumber, birthDate, about, tenantScore
-            , landlordScore, guarantorScore, dateCreated, dateUpdated, sessionToken, fcmToken, globalToken, profileImage;
+            , landlordScore, guarantorScore, dateCreated, dateUpdated, sessionToken, fcmToken, globalToken, profileImage
+            , profession, maritalStatus, noOfKids, last4Digits;
     private boolean isScored, islandlord, isCreditAvailbable;
+    private HashMap<String, String> social = new HashMap<>();
 
     public BallabaUser generateUserFromResponse(String response) {
         try {
@@ -54,6 +58,10 @@ public class BallabaUserManager {
                 birthDate = StringUtils.getInstance(true).formattedDateString(jsonObject.getString("birth_date"));
             }
             about = jsonObject.getString("about");
+            profession = jsonObject.getString("profession");
+            maritalStatus = jsonObject.getString("marital_status");
+            noOfKids = jsonObject.getString("no_of_kids");
+            last4Digits = jsonObject.getString("card_no");
             profileImage = jsonObject.getString("profile_image");
 
             //TODO if i need score i can get it here, but yet it is not received from server and throwing JSONException
@@ -82,9 +90,20 @@ public class BallabaUserManager {
             if (jsonObject.has("is_credit_available"))
                 isCreditAvailbable = jsonObject.getBoolean("is_credit_available");
 
+            if (jsonObject.has("social")){
+                JSONObject socialJson = jsonObject.getJSONObject("social");
+                Iterator iterator = socialJson.keys();
+                while (iterator.hasNext()) {
+                    final String KEY = (String)iterator.next();
+                    social.put(KEY, socialJson.getString(KEY));
+
+                }
+            }
+
             return new BallabaUser(id, phone, email, name, lastName, city, address, streetNumber, aptNo, idNumber
-                    , birthDate, about, isScored, tenantScore, landlordScore, guarantorScore, dateCreated
-                    , dateUpdated, sessionToken, fcmToken, globalToken, profileImage, islandlord, isCreditAvailbable);
+                    , birthDate, about, profession, maritalStatus, noOfKids, isScored, tenantScore, landlordScore, guarantorScore, dateCreated
+                    , dateUpdated, sessionToken, fcmToken, globalToken, profileImage, islandlord, isCreditAvailbable
+                    , last4Digits, social);
 
         } catch (JSONException ex) {
             Log.e(TAG, ex.getMessage());

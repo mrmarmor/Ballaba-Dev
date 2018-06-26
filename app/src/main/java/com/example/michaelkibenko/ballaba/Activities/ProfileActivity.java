@@ -25,7 +25,10 @@ import android.widget.ScrollView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
+import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.R;
@@ -60,6 +63,7 @@ import org.json.JSONObject;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
 
 import static com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropLandlordFrag.REQUEST_CODE_CAMERA;
 import static com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropLandlordFrag.REQUEST_CODE_GALLERY;
@@ -78,7 +82,11 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
         super.onCreate(savedInstanceState);
         binder = DataBindingUtil.setContentView(this, R.layout.activity_profile);
 
-        initViews();
+        BallabaUser user = BallabaUserManager.getInstance().getUser();
+        if (user != null) {
+            initViews(user);
+            initSocials(user.getSocial());
+        }
 
 //        getPackageHash();
 
@@ -100,17 +108,15 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
         });*/
     }
 
-    private void initViews() {
-        BallabaUser user = BallabaUserManager.getInstance().getUser();
-        if (user != null) {
+    private void initViews(final BallabaUser user) {
             Glide.with(this).load(user.getProfile_image()).into(binder.profileActivityImageAvatar);
             binder.profileActivityDetailsFirstName.setText(user.getFirst_name());
             binder.profileActivityDetailsLastName.setText(user.getLast_name());
             binder.profileActivityDetailsPhone.setText(user.getPhone());
             binder.profileActivityDetailsDateOfBirth.setText(user.getBirth_date());
-            binder.profileActivityDetailsProfession.setText(null/*TODO get from server*/);
-            binder.profileActivityStatusSpinner.setPrompt(null/*TODO get from server*/);
-            binder.profileActivityChildrenSpinner.setPrompt(null/*TODO get from server*/);
+            binder.profileActivityDetailsProfession.setText(user.getProfession());
+            binder.profileActivityStatusSpinner.setPrompt(user.getMarital_status());//TODO testing
+            binder.profileActivityChildrenSpinner.setPrompt(user.getNo_of_kids());//TODO testing
             binder.profileActivityDetailsCity.setText(user.getCity());
             binder.profileActivityDetailsAddress.setText(user.getAddress());
             binder.profileActivityDetailsStreetNo.setText(user.getStreet_number());
@@ -118,22 +124,38 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
             binder.profileActivityDetailsAddress.setText(user.getAddress());
             binder.profileActivityDetailsEmail.setText(user.getEmail());
             binder.profileActivityDetailsAbout.setText(user.getAbout());
-            binder.profileActivityDetailsCreditCard.setText(/*TODO get from server last 4 digits*/"**** - **** - **** - ****");
+            binder.profileActivityDetailsCreditCard.setText(user.getLast_4_digits() + " - **** - **** - ****");
             binder.profileActivityDetailsAboutCounter.setText(user.getAbout().length() + " / 120");
-        }
 
         binder.profileActivityDetailsAbout.addTextChangedListener(this);
         binder.profileActivityButtonNext.setOnClickListener(this);
         //binder.profileActivitySocialFacebookIV.setOnClickListener(this);
         UiUtils.instance(true, this).initAutoCompleteCity(binder.profileActivityDetailsCity);
         UiUtils.instance(true, this).initAutoCompleteAddressInCity(binder.profileActivityDetailsAddress, binder.profileActivityDetailsCity);
-        initFaceBook();
-        initTwitter();
-        initLinkedIn();
-        initInstagram();
+    }
+
+    private void initSocials(final HashMap<String, String> social) {
+        String facebookToken = social.get("facebook_token");
+        String twitterToken = social.get("twitter_token");
+        String linkenidToken = social.get("linkedin_token");
+        String instagramToken = social.get("instagram_token");
+
+        if (facebookToken != null)
+            initFaceBook();
+
+        if (twitterToken != null)
+            initTwitter();
+
+        if (linkenidToken != null)
+            initLinkedIn();
+
+        if (instagramToken != null)
+            initInstagram();
     }
 
     private void initFaceBook() {
+        binder.profileActivitySocialFacebookIV.setVisibility(View.VISIBLE);
+
         faceBookCallbackManager = CallbackManager.Factory.create();
         binder.profileActivitySocialFacebookIV.setReadPermissions("email");
         binder.profileActivitySocialFacebookIV.registerCallback(faceBookCallbackManager, new FacebookCallback<LoginResult>() {
@@ -156,6 +178,8 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
     }
 
     private void initLinkedIn() {
+        binder.profileActivitySocialLinkedinImageView.setVisibility(View.VISIBLE);
+
         binder.profileActivitySocialLinkedinImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -240,6 +264,8 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
     }
 
     private void initTwitter() {
+        binder.profileActivitySocialTwitterIV.setVisibility(View.VISIBLE);
+
         binder.profileActivitySocialTwitterIV.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
@@ -254,6 +280,8 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
     }
 
     private void initInstagram() {
+        binder.profileActivitySocialInstagramIV.setVisibility(View.VISIBLE);
+
         String[] scopes = {InstagramKitLoginScope.BASIC};
         binder.profileActivitySocialInstagramIV.setScopes(scopes);
         binder.profileActivitySocialInstagramIV.setInstagramLoginCallback(new InstagramLoginCallbackListener() {
@@ -291,8 +319,7 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
     }
 
     private boolean isEmailValid(String email) {
-        boolean isValid = !TextUtils.isEmpty(email)
-                && (Patterns.EMAIL_ADDRESS.matcher(email).matches());
+        boolean isValid = !TextUtils.isEmpty(email) && (Patterns.EMAIL_ADDRESS.matcher(email).matches());
         if (!isValid) {
             binder.profileActivityDetailsEmail.setError("כתובת דואר אלקטרוני שגויה");
             ((ScrollView) binder.getRoot()).smoothScrollTo(0, binder.profileActivityDetailsEmail.getTop() - 30);
@@ -314,6 +341,18 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
                         , new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI));
                 break;
 
+            case R.id.profileActivity_social_instagramIV:
+                Toast.makeText(this, "to instagram personal page", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.profileActivity_social_twitter_IV:
+                Toast.makeText(this, "to twitter personal page", Toast.LENGTH_SHORT).show();
+                break;
+
+            case R.id.profileActivity_social_linkedin_image_view:
+                Toast.makeText(this, "to linkenin personal page", Toast.LENGTH_SHORT).show();
+                break;
+
             case R.id.profileActivity_button_next:
                 if (isEmailValid(binder.profileActivityDetailsEmail.getText().toString()))
                     onFinish(ConnectionsManager.newInstance(this), getDataFromEditTexts(new JSONObject()));
@@ -331,16 +370,30 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
         }
     }
 
-    private void onFinish(ConnectionsManager connectionsManager, JSONObject jsonObject) {
+    private void onFinish(ConnectionsManager conn, JSONObject jsonObject) {
+        try {
+            conn.uploadUser(jsonObject, new BallabaResponseListener() {
+                @Override
+                public void resolve(BallabaBaseEntity entity) {
+                    getDefaultSnackBar(binder.getRoot(), "פרטי משתמש נשמרו בהצלחה", false).show();
+                }
+
+                @Override
+                public void reject(BallabaBaseEntity entity) {
+                    getDefaultSnackBar(binder.getRoot(), ((BallabaErrorResponse) entity).message, false).show();
+                }
+            });
+        } catch (JSONException e) {
+            e.getStackTrace();
+        }
 
         finish();
     }
 
     private JSONObject getDataFromEditTexts(JSONObject jsonObject) {
         try {
-            //TODO set tags
             byte[] bytes = UiUtils.instance(true, this).drawableToUri(binder.profileActivityImageAvatar.getDrawable());
-            jsonObject.put(binder.profileActivityImageAvatar.getTag() + "", bytes);
+            jsonObject.put("profile_image", bytes);
             jsonObject.put(binder.profileActivityDetailsFirstName.getTag() + "", binder.profileActivityDetailsFirstName.getText());
             jsonObject.put(binder.profileActivityDetailsLastName.getTag() + "", binder.profileActivityDetailsLastName.getText());
             jsonObject.put(binder.profileActivityDetailsProfession.getTag() + "", binder.profileActivityDetailsProfession.getText());
@@ -390,7 +443,7 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
         }
     }
 
-    private String generateHiddenCreditCardNumber(Intent intent) {
+    public String generateHiddenCreditCardNumber(Intent intent) {
         Bundle b = intent.getExtras();
         if (b != null && !b.isEmpty()) {
             int creditCardNumberLength = b.getInt(CreditCardActivity.CREDIT_CARD_NUMBER_LENGTH);
