@@ -3,9 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Dev-BallabaIt.iml" filepath="$PROJECT_DIR$/Dev-BallabaIt.iml" />
-      <module fileurl="file://C:\Users\User\StudioProjects\Dev-BallabaIt\android_dev.iml" filepath="C:\Users\User\StudioProjects\Dev-BallabaIt\android_dev.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android_dev.iml" filepath="$PROJECT_DIR$/android_dev.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/linkedin-sdk/linkedin-sdk.iml" filepath="$PROJECT_DIR$/linkedin-sdk/linkedin-sdk.iml" />
     </modules>
   </component>
 </project>

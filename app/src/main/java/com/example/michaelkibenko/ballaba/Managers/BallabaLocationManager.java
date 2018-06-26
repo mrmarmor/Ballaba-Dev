@@ -1,14 +1,17 @@
 package com.example.michaelkibenko.ballaba.Managers;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
+import com.example.michaelkibenko.ballaba.Manifest;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 
@@ -45,13 +48,21 @@ public class BallabaLocationManager {
 
     public void getLocation(LocationListener locationListener) {
         try {
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
-                    0, locationListener);
-//           locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener, null);
+//            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0,
+//                    0, locationListener);
+           locationManager.requestSingleUpdate(LocationManager.NETWORK_PROVIDER, locationListener, null);
             //locationListener.onLocationChanged(locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER));
         }catch (NullPointerException | SecurityException ex){
             ex.printStackTrace();
         }
+    }
+
+    public Location getLastKnownLocation(){
+        if(ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            return locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        }
+        return null;
     }
 
     public LatLng locationGeoCoder(String strAddress){

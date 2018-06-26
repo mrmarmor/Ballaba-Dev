@@ -317,6 +317,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         if (!cities.isEmpty()) {
             binder.mainActivitySearchButton.setText(cities.get(0));
             getPropertiesByAddressAndFilter(cities);
+            binder.mainActivityPropertiesViewPager.setCurrentItem(0);
         }
     }
 

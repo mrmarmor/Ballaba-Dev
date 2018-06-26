@@ -53,7 +53,7 @@ import static com.example.michaelkibenko.ballaba.Presenters.SavedAreaPresenter.R
  * Created by User on 15/05/2018.
  */
 
-public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter implements View.OnClickListener{
+public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter<SavedAreasRecyclerAdapter.ViewHolder> implements View.OnClickListener{
     private Context context;
     private SavedAreaItemBinding binder;
     private ActivitySavedAreaBinding binderParent;
@@ -69,7 +69,7 @@ public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter implements V
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SavedAreasRecyclerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         mInflater = LayoutInflater.from(context);
         binder = DataBindingUtil.inflate(mInflater, R.layout.saved_area_item, parent, false);
 
@@ -77,15 +77,29 @@ public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter implements V
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-        binder.savedAreasItemTitle.setText(viewports.get(position).title);
-        binder.savedAreasItemEdit.setOnClickListener(this);
-        binder.savedAreasItemImageView.setOnClickListener(this);
-        binder.savedAreasItemDelete.setOnClickListener(this);
+    public void onBindViewHolder(@NonNull SavedAreasRecyclerAdapter.ViewHolder holder, final int position) {
+        holder.binder.savedAreasItemTitle.setText(viewports.get(position).title);
+        holder.binder.savedAreasItemEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editArea(position);
+            }
+        });
+        holder.binder.savedAreasItemImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editArea(position);
+            }
+        });
+        holder.binder.savedAreasItemDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDeleteItemDialog(position);
+            }
+        });
 
         byte[] mapImage = viewports.get(position).mapImage;
-        Bitmap bitmap = BitmapFactory.decodeByteArray(mapImage, 0, mapImage.length);
-        binder.savedAreasItemImageView.setImageBitmap(bitmap);
+        Glide.with(context).load(mapImage).into(holder.binder.savedAreasItemImageView);
     }
 
     @Override
@@ -132,7 +146,8 @@ public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter implements V
                 @Override
                 public void resolve(BallabaBaseEntity entity) {
                     viewports.remove(position);
-                    notifyItemRemoved(position);
+                    notifyDataSetChanged();
+//                    notifyItemRemoved(position);
                     if (viewports.size() == 0)//if there are no viewports show a placeholder
                         binderParent.getPresenter().showPlaceHolder();
                     ((BaseActivity)context).getDefaultSnackBar(binderParent.getRoot()
@@ -163,9 +178,11 @@ public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter implements V
         }
     }
 
-    private class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder{
+        public SavedAreaItemBinding binder;
         private ViewHolder(SavedAreaItemBinding binding) {
             super(binding.getRoot());
+            this.binder = binding;
         }
     }
 

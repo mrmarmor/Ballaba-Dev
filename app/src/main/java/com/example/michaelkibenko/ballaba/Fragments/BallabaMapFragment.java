@@ -1,12 +1,14 @@
 package com.example.michaelkibenko.ballaba.Fragments;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.MediaActionSound;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +17,7 @@ import android.support.annotation.IntDef;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.animation.LinearOutSlowInInterpolator;
 import android.support.v7.app.AlertDialog;
@@ -219,6 +222,7 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
         googleMap = mMap;
         //we need context instance of to do not change the location on property description
         if(context instanceof MainActivity) {
+//            onLocationChanged(locationManager.getLastKnownLocation());
             locationManager.getLocation(this);
         }
 
@@ -232,6 +236,15 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
         googleMap.setOnCameraIdleListener(this);
         googleMap.setOnMarkerClickListener(this);
         googleMap.setOnMapClickListener(this);
+        if(ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            googleMap.setMyLocationEnabled(true);
+            googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+        }else{
+            googleMap.setMyLocationEnabled(false);
+            googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+        }
+
 
         if (mListener != null) {
             mListener.OnGoogleMap(googleMap);
@@ -266,7 +279,7 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
     //location
     @Override
     public void onLocationChanged(Location location) {
-        if(!changed && !disableUpdating) {
+        if(!changed && !disableUpdating && location != null) {
             changed = true;
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
