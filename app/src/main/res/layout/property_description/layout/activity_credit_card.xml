@@ -51,20 +51,6 @@
                     android:layout_marginStart="@dimen/small_margin"
                     android:layout_marginTop="@dimen/activity_vertical_margin"/>
 
-                <!-- <TextView
-                     style="@style/allWrapContent"
-                     android:textSize="@dimen/textSize_small"
-                     android:text="מספר כרטיס"
-                     android:layout_marginStart="@dimen/small_margin"
-                     android:layout_marginTop="@dimen/small_margin" />-->
-
-                <!-- <RelativeLayout
-                     android:layout_width="match_parent"
-                     android:layout_height="35dp"
-                     android:layout_marginStart="@dimen/small_margin"
-                     android:layout_marginEnd="@dimen/small_margin"
-                     android:layout_marginTop="6dp"
-                     android:background="@android:color/white" >-->
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/creditCard_cardNumber_root"
                     android:layout_width="match_parent"
@@ -89,34 +75,6 @@
                         android:layout_alignParentStart="true" />
                     <!--TODO optional: android:text="**** - **** - **** - ****"-->
                 </android.support.design.widget.TextInputLayout>
-                <!--<ImageView
-                    android:id="@+id/creditCard_cardIcon"
-                    android:layout_width="@dimen/icon_regular"
-                    android:layout_height="@dimen/icon_regular"
-                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                    android:layout_alignParentEnd="true" />-->
-                <!--
-                                </RelativeLayout>
-                -->
-
-                <!-- <TextView
-                     style="@style/allWrapContent"
-                     android:layout_marginTop="-16dp"
-                     android:layout_marginEnd="88dp"
-                     android:textSize="@dimen/textSize_small"
-                     android:layout_gravity="end"
-                     android:text="cvv" />
-
-                 <ImageButton
-                     android:id="@+id/creditCard_cardCVV_instructions"
-                     style="@style/allWrapContent"
-                     android:layout_marginEnd="14dp"
-                     android:layout_marginTop="-22dp"
-                     android:layout_marginBottom="6dp"
-                     android:layout_gravity="end"
-                     android:background="@android:color/transparent"
-                     android:src="@drawable/info_coral_grey"
-                     android:onClick="onClickInfo" />-->
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -230,13 +188,6 @@
                     android:layout_marginEnd="@dimen/small_margin"
                     android:layout_marginTop="6dp"/>
                 </android.support.design.widget.TextInputLayout>
-
-           <!--     <TextView
-                    style="@style/allWrapContent"
-                    android:textSize="@dimen/textSize_small"
-                    android:text="מספר זהות"
-                    android:layout_marginStart="@dimen/small_margin"
-                    android:layout_marginTop="20dp" />-->
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/creditCard_personID_root"

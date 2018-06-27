@@ -113,7 +113,7 @@
 
     <string name="scoring_status_title">מצב משפחתי</string>
     <string name="scoring_status_single_button">רווק/ה</string>
-    <string name="scoring_status_married_button">נשוי/ה</string>
+    <string name="scoring_status_married_button">נשוי/אה</string>
     <string name="scoring_status_divorced_button">גרוש/ה</string>
     <string name="scoring_status_widower_button">אלמן/ה</string>
 
