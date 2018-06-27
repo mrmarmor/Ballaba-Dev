@@ -218,6 +218,8 @@ public class PropertyAttachmentsAddonsHolder {
                 return "גישה לנכים";
             case "aps":
                 return "ממ״ד";
+            case "AC":
+                return  "מזגן";
 
             default:
                 return title;
