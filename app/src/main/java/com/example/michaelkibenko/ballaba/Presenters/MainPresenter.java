@@ -46,6 +46,7 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyResult;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Entities.FilterDimensions;
 import com.example.michaelkibenko.ballaba.Entities.FilterResultEntity;
+import com.example.michaelkibenko.ballaba.Fragments.AddProperty.OnBoardingFragment;
 import com.example.michaelkibenko.ballaba.Fragments.PropertiesRecyclerFragment;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaLocationManager;
@@ -81,7 +82,7 @@ import static com.example.michaelkibenko.ballaba.Presenters.MainPresenter.Screen
  */
 
 public class MainPresenter extends BasePresenter implements ConstraintLayout.OnFocusChangeListener
-       /* , PropertiesRecyclerFragment.OnFragmentInteractionListener*/ {
+        /* , PropertiesRecyclerFragment.OnFragmentInteractionListener*/ {
 
     @IntDef({RELEVANT, PRICE, SIZE, NUMBER_OF_ROOMS})
     public @interface SORT_TYPE {
@@ -97,10 +98,18 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     public static final int REQ_CODE_SAVED_AREA = 1, REQ_CODE_SELECT_CITY = 2;
 
     @IntDef({NO_FILTER, MIDDLE_FILTER, FULL_FILTER})
-    public @interface FilterState { int NO_FILTER = 1; int MIDDLE_FILTER = 2; int FULL_FILTER = 3; }
+    public @interface FilterState {
+        int NO_FILTER = 1;
+        int MIDDLE_FILTER = 2;
+        int FULL_FILTER = 3;
+    }
 
     @IntDef({BEFORE_SEARCH, AFTER_SEARCH, MAP})
-    public @interface ScreenState {int BEFORE_SEARCH = 555; int AFTER_SEARCH = 666; int MAP = 888;}
+    public @interface ScreenState {
+        int BEFORE_SEARCH = 555;
+        int AFTER_SEARCH = 666;
+        int MAP = 888;
+    }
 
     private Activity context;
     private FragmentManager fm;
@@ -113,19 +122,24 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     private LayoutInflater inflater;
     private ConstraintLayout filterTransition, noFilterTransition, searchStateTransition, maplayoutTransition;
     private float middleFilterHeight;
-    public @FilterState int filterState;
+    public @FilterState
+    int filterState;
     public FilterResultEntity filterResult;
     private FilterDimensions filterDimensions;
     private ArrayList<String> citiesResults;
-    private @ScreenState int screenState = ScreenState.BEFORE_SEARCH;
-    private @ScreenState int beforeScreenState;
+    private @ScreenState
+    int screenState = ScreenState.BEFORE_SEARCH;
+    private @ScreenState
+    int beforeScreenState;
 
-    public MainPresenter(){}
-    public MainPresenter(Activity context, ActivityMainLayoutBinding binder, FragmentManager fm){
+    public MainPresenter() {
+    }
+
+    public MainPresenter(Activity context, ActivityMainLayoutBinding binder, FragmentManager fm) {
         this.binder = binder;
         this.context = context;
         this.fm = fm;
-        this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ViewGroup parent = context.getWindow().getDecorView().findViewById(android.R.id.content);
         this.noFilterTransition = inflater.inflate(R.layout.activity_main_layout, parent, false).findViewById(R.id.mainActivity_rootLayout);
         this.filterTransition = inflater.inflate(R.layout.activity_main_layout_filter_transition, parent, false).findViewById(R.id.mainActivity_rootLayout);
@@ -145,7 +159,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         initNavBar();
     }
 
-    private void initDrawer(){
+    private void initDrawer() {
         binder.mainActivityNavigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -161,15 +175,15 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                 });
     }
 
-    private void initViewPagerProperties(){
+    private void initViewPagerProperties() {
         propertiesPagerAdapter = new PropertiesPagerAdapter(context, binder, fm, propertiesFragment);
         binder.mainActivityPropertiesViewPager.setAdapter(propertiesPagerAdapter);
         binder.mainActivityPropertiesViewPager.setOffscreenPageLimit(2);
     }
 
-    private void initNavBar(){
+    private void initNavBar() {
         BallabaUser ballabaUser = BallabaUserManager.getInstance().getUser();
-        LinearLayout navBarHeader = (LinearLayout)binder.mainActivityNavigationView.getHeaderView(0);
+        LinearLayout navBarHeader = (LinearLayout) binder.mainActivityNavigationView.getHeaderView(0);
         if (ballabaUser != null) {
             if (ballabaUser.getProfile_image() != null && !ballabaUser.getProfile_image().equals("null")) {
                 CircleImageView circleImageView = navBarHeader.findViewById(R.id.imageAvatar_navigationView);
@@ -183,7 +197,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         }
     }
 
-    private void initFilter(){
+    private void initFilter() {
         //TODO initFilter just after response
         filterPagerAdapter = new FilterPagerAdapter(context, binder, fm, new FilterDimensions("100000", "0", "500", "10", "50", "1"));
         filterViewPager = binder.mainActivityFilterIncluded.mainActivityFilterViewPager;
@@ -194,16 +208,17 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         binder.mainActivityFilterIncluded.mainActivityFilterRoot.setFocusableInTouchMode(true);
         filterViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
 
             @Override
             public void onPageSelected(int position) {
-                if(position == 1){
+                if (position == 1) {
                     filterStateUIChanger(FULL_FILTER);
-                }else if(position == 0){
+                } else if (position == 0) {
                     filterStateUIChanger(FULL_FILTER);
-                }else if(filterState != MIDDLE_FILTER){
-                    if(binder.mainActivityFilterIncluded.getRoot().getTag() != null) {
+                } else if (filterState != MIDDLE_FILTER) {
+                    if (binder.mainActivityFilterIncluded.getRoot().getTag() != null) {
                         filterStateUIChanger(MIDDLE_FILTER);
                     }
                 }
@@ -211,7 +226,8 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {}
+            public void onPageScrollStateChanged(int state) {
+            }
         });
 
         binder.mainActivityFilterIncluded.mainActivityFilterXButton.setOnClickListener(new View.OnClickListener() {
@@ -238,7 +254,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         if (v.getId() == R.id.mainActivity_filter_root) {
-            if (hasFocus){
+            if (hasFocus) {
                 binder.mainActivityFilterIncluded.mainActivityFilterRoot.setVisibility(View.VISIBLE);
             } else {
                 binder.mainActivityFilterIncluded.mainActivityFilterRoot.setVisibility(View.GONE);
@@ -246,9 +262,9 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         }
     }
 
-    public void onClickToGoogleMap(){
+    public void onClickToGoogleMap() {
         final int TO_GOOGLE_MAP = 0, BACK_TO_MAIN_SCREEN = 1;
-        switch (binder.mainActivityPropertiesViewPager.getCurrentItem()){
+        switch (binder.mainActivityPropertiesViewPager.getCurrentItem()) {
             case TO_GOOGLE_MAP:
                 changeScreenState(ScreenState.MAP);
                 binder.mainActivityPropertiesViewPager.setCurrentItem(1, false);
@@ -268,51 +284,54 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         }
     }
 
-    public void onClickToSelectCity(){
+    public void onClickToSelectCity() {
         Intent intentSelectCity = new Intent(context, SelectCitySubActivity.class);
         context.startActivityForResult(intentSelectCity, REQ_CODE_SELECT_CITY);
     }
 
-    public void onClickDrawer(){
+    public void onClickDrawer() {
         binder.mainActivityDrawerLayout.openDrawer(Gravity.START);
     }
 
-    public void onClickSortByRelevant(){
+    public void onClickSortByRelevant() {
         propertiesFragment.sortProperties(RELEVANT);
     }
-    public void onClickSortByPrice(){
+
+    public void onClickSortByPrice() {
         propertiesFragment.sortProperties(PRICE);
     }
-    public void onClickSortBySize(){
+
+    public void onClickSortBySize() {
         propertiesFragment.sortProperties(SIZE);
     }
-    public void onClickSortByRooms(){
+
+    public void onClickSortByRooms() {
         propertiesFragment.sortProperties(NUMBER_OF_ROOMS);
     }
 
-    public void onClickToFilter(){
-        if(binder.mainActivityFilterIncluded.getRoot().getTag() != null) {
-            if (Integer.parseInt((String)binder.mainActivityFilterIncluded.getRoot().getTag()) == FULL_FILTER) {
+    public void onClickToFilter() {
+        if (binder.mainActivityFilterIncluded.getRoot().getTag() != null) {
+            if (Integer.parseInt((String) binder.mainActivityFilterIncluded.getRoot().getTag()) == FULL_FILTER) {
                 filterStateUIChanger(FULL_FILTER);
             } else {
                 filterStateUIChanger(MIDDLE_FILTER);
             }
-        }else {
+        } else {
             filterStateUIChanger(MIDDLE_FILTER);
         }
 
     }
 
-    public void filterStateUIChanger(@FilterState int state){
-        if(state != filterState){
+    public void filterStateUIChanger(@FilterState int state) {
+        if (state != filterState) {
             //this is the previous state
-            binder.mainActivityFilterIncluded.getRoot().setTag(this.filterState+"");
+            binder.mainActivityFilterIncluded.getRoot().setTag(this.filterState + "");
             this.filterState = state;
             onFilterUIChanged(state);
         }
     }
 
-    public void onSearchFlowComplete(ArrayList<String> cities){
+    public void onSearchFlowComplete(ArrayList<String> cities) {
         citiesResults = cities;
         if (!cities.isEmpty()) {
             binder.mainActivitySearchButton.setText(cities.get(0));
@@ -321,89 +340,77 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         }
     }
 
-    private void changeScreenState(@ScreenState int screenState){
-        if(this.screenState != screenState) {
+    private void changeScreenState(@ScreenState int screenState) {
+        if (this.screenState != screenState) {
             ConstraintSet set = new ConstraintSet();
             this.beforeScreenState = this.screenState;
             this.screenState = screenState;
-            if (this.screenState == BEFORE_SEARCH){
+            if (this.screenState == BEFORE_SEARCH) {
                 binder.mainActivitySortButtonsLinearLayout.setVisibility(View.INVISIBLE);
                 binder.openFilterButton.setVisibility(View.GONE);
                 set.clone(noFilterTransition);
-            }
-            else if (this.screenState == AFTER_SEARCH){
+            } else if (this.screenState == AFTER_SEARCH) {
                 binder.mainActivitySortButtonsLinearLayout.setVisibility(View.VISIBLE);
                 binder.openFilterButton.setVisibility(View.VISIBLE);
                 binder.mainActivitySearchBar.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary));
                 set.clone(searchStateTransition);
-            }
-            else if(this.screenState == MAP){
+            } else if (this.screenState == MAP) {
                 this.binder.mainActivitySortButtonsLinearLayout.setVisibility(View.GONE);
                 set.clone(maplayoutTransition);
             }
             TransitionManager.beginDelayedTransition(binder.mainActivityRootLayout);
             set.applyTo(binder.mainActivityRootLayout);
-        }else{
+        } else {
             Log.e(TAG, "ScreenState is equals");
         }
     }
 
-    private void switchScreenByMenuItem(MenuItem menuItem){
+    private void switchScreenByMenuItem(MenuItem menuItem) {
         Intent intent = null;
-        switch (menuItem.getItemId()){
+        switch (menuItem.getItemId()) {
             case R.id.nav_addProperty:
                 intent = getIntent_addProperty();
                 break;
-
             case R.id.nav_payments:
 
                 break;
-
             case R.id.nav_myProperties:
                 intent = new Intent(context, MyPropertiesBaseActivity.class);
                 break;
-
             case R.id.nav_favorites:
                 intent = new Intent(context, SavedPropertiesActivity.class);
                 break;
-
             case R.id.nav_savedAreas:
                 Intent goSavedAreas = new Intent(context, SavedAreaActivity.class);
                 context.startActivityForResult(goSavedAreas, REQ_CODE_SAVED_AREA);
                 break;
-
             case R.id.nav_changeName:
 
                 break;
-
             case R.id.nav_conflicts:
 
                 break;
-
             case R.id.nav_editProfile:
                 intent = new Intent(context, ProfileActivity.class);
                 break;
-
             case R.id.nav_settings:
 
                 break;
-
             default:
         }
 
-        if (intent != null)
-            context.startActivity(intent);
+        if (intent != null) context.startActivity(intent);
     }
 
-    private void getPropertiesByAddressAndFilter(ArrayList<String> cities){
+    private void getPropertiesByAddressAndFilter(ArrayList<String> cities) {
         propertiesFragment.onRefreshAnimation(true);
         BallabaSearchPropertiesManager.getInstance(context).getPropertiesByAddressAndFilter(cities, filterResult, new BallabaResponseListener() {
             @Override
             public void resolve(BallabaBaseEntity entity) {
-                if(entity instanceof BallabaOkResponse) {
+                if (entity instanceof BallabaOkResponse) {
                     BallabaSearchPropertiesManager searchPropertiesManager = BallabaSearchPropertiesManager.getInstance(context);
-                    ArrayList<BallabaPropertyResult> result = searchPropertiesManager.parsePropertyResults(((BallabaOkResponse)entity).body);
-                    filterDimensions = searchPropertiesManager.parseFilterDimens(((BallabaOkResponse)entity).body);
+                    ArrayList<BallabaPropertyResult> result = searchPropertiesManager.parsePropertyResults(((BallabaOkResponse) entity).body);
+                    filterDimensions = searchPropertiesManager.parseFilterDimens(((BallabaOkResponse) entity).body);
                     searchPropertiesManager.appendProperties(result, false);
                     propertiesPagerAdapter.getPropertiesRecyclerFragment().refreshPropertiesRecycler();
                     updateFilterDimensions(filterDimensions);
@@ -420,30 +427,30 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
 
                 if (((BallabaErrorResponse) entity).statusCode == 404)
                     ((BaseActivity) context).getDefaultSnackBar(binder.getRoot()
-                           , "לא נמצאו נכסים", false).show();
+                            , "לא נמצאו נכסים", false).show();
                 propertiesFragment.onRefreshAnimation(false);
             }
         });
     }
 
-    private void updateFilterDimensions(FilterDimensions filterDimensions){
+    private void updateFilterDimensions(FilterDimensions filterDimensions) {
         filterPagerAdapter.updateFilterDimensions(filterDimensions);
     }
 
-    private void onFilterUIChanged(int state){
+    private void onFilterUIChanged(int state) {
         ConstraintSet set = new ConstraintSet();
-        if (state == NO_FILTER){
+        if (state == NO_FILTER) {
             set.clone(searchStateTransition);
             set.constrainHeight(R.id.mainActivity_filter_included, binder.mainActivityFilterIncluded.getRoot().getHeight());
             binder.openFilterButton.setVisibility(View.VISIBLE);
             binder.mainActivityBottomAnchor.setBackgroundColor(context.getResources().getColor(android.R.color.transparent, context.getTheme()));
-        } else if (state == MIDDLE_FILTER){
+        } else if (state == MIDDLE_FILTER) {
             set.clone(filterTransition);
-            set.constrainHeight(R.id.mainActivity_filter_included, (int)middleFilterHeight);
+            set.constrainHeight(R.id.mainActivity_filter_included, (int) middleFilterHeight);
             binder.openFilterButton.setVisibility(View.GONE);
             binder.mainActivitySearchBar.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary, context.getTheme()));
             binder.mainActivityBottomAnchor.setBackgroundColor(context.getResources().getColor(R.color.colorAccent, context.getTheme()));
-        }else if(state == FULL_FILTER){
+        } else if (state == FULL_FILTER) {
             set.clone(filterTransition);
             binder.mainActivitySearchBar.setBackgroundColor(context.getResources().getColor(R.color.colorPrimary, context.getTheme()));
             set.constrainHeight(R.id.mainActivity_filter_included, ConstraintLayout.LayoutParams.MATCH_PARENT);
@@ -453,7 +460,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         set.applyTo(binder.mainActivityRootLayout);
     }
 
-    private Intent getIntent_addProperty(){
+    private Intent getIntent_addProperty() {
         final int TWO_WEEKS = 14 * 24 * 60 * 60 * 1000;//TODO decide what will be expire date
 
         //TODO remove propertyId from sharedPrefs after user finished uploading property
@@ -468,7 +475,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
 
         /*TODO TESTING*///propertyId = "1";/*TODO END OF TESTING*/
         if (propertyId == null //=> user had finished upload his property or had never uploaded any
-                || (now.after(expireDate))){ //=> or user had not finished upload, but 14 days had passed
+                || (now.after(expireDate))) { //=> or user had not finished upload, but 14 days had passed
             //return new Intent(context, AddPropertyActivity.class);
             return new Intent(context, AddPropertyActivityNew.class);
         } else {// => user had started upload + had not finished yet + 14 days had not passed yet from starting uploading
@@ -478,8 +485,8 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
         }
     }
 
-    public void searchByLocation(){
-        if(ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+    public void searchByLocation() {
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             propertiesPagerAdapter.getPropertiesRecyclerFragment().onRefreshAnimation(true);
             BallabaLocationManager.getInstance(context).getLocation(new LocationListener() {
@@ -517,7 +524,7 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
 
                 }
             });
-        }else {
+        } else {
             ActivityCompat.requestPermissions(context,
                     new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION},
                     SEARCH_BY_LOCATION_REQUEST_CODE);

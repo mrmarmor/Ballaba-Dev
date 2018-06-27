@@ -6,8 +6,8 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.view.View;
 
-import com.example.michaelkibenko.ballaba.Fragments.MyPropertiesLandlordFragment;
-import com.example.michaelkibenko.ballaba.Fragments.MyPropertiesTenantFragment;
+import com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.MyPropertiesLandlordFragment;
+import com.example.michaelkibenko.ballaba.Fragments.PropertyManagement.MyPropertiesTenantFragment;
 import com.example.michaelkibenko.ballaba.R;
 
 public class MyPropertiesBaseActivity extends BaseActivity implements View.OnClickListener, TabLayout.OnTabSelectedListener {

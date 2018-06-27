@@ -3,6 +3,7 @@ package com.example.michaelkibenko.ballaba.Managers;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -521,17 +522,17 @@ public class ConnectionsManager {
             filterStringBuilder.append("&attachment=");
             for (String id : filterResult.getAttachments_ids()) {
                 PropertyAttachmentAddonEntity entity = PropertyAttachmentsAddonsHolder.getInstance().getAttachmentById(id);
-                filterStringBuilder.append(entity.id+"+");
+                filterStringBuilder.append(entity.id + "+");
             }
         }
 
-        if(filterResult.getEnterDate() != null){
+        if (filterResult.getEnterDate() != null) {
             if (!isIncludeFilter) {
                 filterStringBuilder.append("&filter = true");
                 isIncludeFilter = true;
             }
-            filterStringBuilder.append("&entryDate="+filterResult.getEnterDate());
-            if(filterResult.isFlexible()){
+            filterStringBuilder.append("&entryDate=" + filterResult.getEnterDate());
+            if (filterResult.isFlexible()) {
                 filterStringBuilder.append("&flexible=true");
             }
         }
@@ -1529,7 +1530,7 @@ public class ConnectionsManager {
                     returnable.put(object);
                     String numberOfRepeats = meeting.numberOfRepeats;
                     int repeats = 1;
-                    if (numberOfRepeats != null){
+                    if (numberOfRepeats != null) {
                         repeats = Integer.parseInt(numberOfRepeats);
                     }
                     int daysTimeValue = 7;
@@ -1629,6 +1630,8 @@ public class ConnectionsManager {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                String errorSTR = parseResponse(new String(error.networkResponse.data));
+                Toast.makeText(context, errorSTR, Toast.LENGTH_SHORT).show();
                 if (error.networkResponse != null) {
                     callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
                 } else {
@@ -1651,8 +1654,66 @@ public class ConnectionsManager {
         queue.add(stringRequest);
     }
 
-    public void inviteGuarantor(String phoneNumber, BallabaResponseListener callback){
+    public void inviteGuarantor(String phoneNumber, BallabaResponseListener callback) {
         callback.resolve(new BallabaOkResponse());
+    }
+
+    public void getUserProfile(String id, final BallabaResponseListener callback) {
+        String URL = EndpointsHolder.USER_PROFILE + id;
+        StringRequest stringRequest = new StringRequest(GET, URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                BallabaOkResponse ok = new BallabaOkResponse();
+                ok.body = response;
+                callback.resolve(ok);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String errorSTR = parseResponse(new String(error.networkResponse.data));
+                callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, null));
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return getHeadersWithSessionToken();
+            }
+        };
+
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                0,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        queue.add(stringRequest);
+    }
+
+    public void getPreviewAgreementContent(final BallabaResponseListener callback) {
+        StringRequest stringRequest = new StringRequest(GET, EndpointsHolder.GET_PREVIEW_AGREEMENT, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                BallabaOkResponse callbackResponce = new BallabaOkResponse();
+                callbackResponce.setBody(response.toString());
+                callback.resolve(callbackResponce);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                String errorSTR = parseResponse(new String(error.networkResponse.data));
+                if (error.networkResponse != null) {
+                    callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, error.getMessage()));
+                } else {
+                    Log.e(TAG, error + "\n" + error.getMessage());
+                    callback.reject(new BallabaErrorResponse(500, null));
+                }
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() {
+                return getHeadersWithSessionToken();
+            }
+        };
+        queue.add(stringRequest);
     }
 
     /*private BallabaPropertyPhoto parsePhotoResponse(JSONObject jsonObject) throws JSONException{

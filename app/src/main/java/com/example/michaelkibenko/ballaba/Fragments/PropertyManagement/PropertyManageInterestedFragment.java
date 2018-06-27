@@ -59,7 +59,7 @@ public class PropertyManageInterestedFragment extends Fragment {
     public void toggleEmptyStateVisibility(boolean show) {
         emptyStateContainer.setVisibility(show ? View.VISIBLE : View.GONE);
         recyclerView.setVisibility(show ? View.GONE : View.VISIBLE);
-        if (show) ((PropertyManagementActivity)getActivity()).toolbarImagesVisibility(false , false , false ,false);
+        //if (show) ((PropertyManagementActivity)getActivity()).toolbarImagesVisibility(false , false , false ,false);
     }
 
     private void getUsers() {

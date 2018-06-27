@@ -27,7 +27,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ScrollView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
@@ -80,7 +79,6 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
     private Calendar myCalendar = Calendar.getInstance();
     private String day, month, year;
 
-
     public AddPropLandlordFrag() {
     }
 
@@ -99,7 +97,8 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         }
         binderLandLord = FragmentAddPropLandlordBinding.inflate(getLayoutInflater());
         View view = binderLandLord.getRoot();
-
+        ((AddPropertyActivityNew)context).showToolbar(true);
+        ((AddPropertyActivityNew)context).changePageIndicatorText(1);
         user = userManager.getUser();
         initEditTexts();
         initButtons(view);
@@ -149,7 +148,6 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
 
         new DatePickerDialog(context, date, myCalendar.get(Calendar.YEAR), myCalendar.get(Calendar.MONTH), myCalendar.get(Calendar.DAY_OF_MONTH))
                 .show();
-
     }
 
     private void updateDate() {
@@ -182,7 +180,6 @@ public class AddPropLandlordFrag extends Fragment implements View.OnClickListene
         } else { // user under 18 years old
 
         }
-
         //binderLandLord.addPropBirthDateEditText.setText();
     }
 

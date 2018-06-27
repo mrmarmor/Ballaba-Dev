@@ -4,8 +4,7 @@
     android:id="@+id/preview_dialog_container_main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-
+    
     <RelativeLayout
         android:id="@+id/preview_dialog_container"
         android:layout_width="328dp"
@@ -19,11 +18,11 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="78dp"
-            android:text="דליה רומנו"
+            android:text="אנונימוס"
             android:textSize="22sp" />
 
-
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/preview_dialog_links_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -77,8 +76,24 @@
             android:layout_height="202dp"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:background="#f9f9f9"
+            android:background="@color/dirty_white"
             android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/preview_dialog_user_no_about_image_view"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_above="@+id/preview_dialog_user_marital_and_work_container"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_width="wrap_content"
+                android:src="@drawable/invalid_name"
+                android:layout_height="wrap_content" />
+
+            <!--" מתגוררת בתל אביב
+בעלת תואר שני בעריכת דין
+אני הבעלים הגאה של דליה נכיון צ׳קים בע״מ
+יש לי 2 כלבים - ג׳וני ולוקה"-->
 
             <TextView
                 android:id="@+id/preview_dialog_user_description_text_view"
@@ -89,12 +104,11 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginTop="25dp"
                 android:gravity="center"
-                android:text=" מתגוררת בתל אביב
-בעלת תואר שני בעריכת דין
-אני הבעלים הגאה של דליה נכיון צ׳קים בע״מ
-יש לי 2 כלבים - ג׳וני ולוקה" />
+                android:text="" />
 
             <RelativeLayout
+                android:visibility="gone"
+                android:id="@+id/preview_dialog_user_marital_and_work_container"
                 android:layout_marginBottom="24dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -104,6 +118,8 @@
                 android:layoutDirection="rtl">
 
                 <LinearLayout
+                    android:visibility="visible"
+                    android:id="@+id/preview_dialog_job_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -122,12 +138,12 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/preview_dialog_job_title_image_view"
                         android:gravity="center"
-                        android:text="עורכת דין" />
+                        android:text="" />
 
                 </LinearLayout>
 
-
                 <View
+                    android:visibility="gone"
                     android:id="@+id/preview_dialog_status_separator"
                     android:layout_width="1dp"
                     android:layout_height="60dp"
@@ -135,6 +151,8 @@
                     android:background="#979797" />
 
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/preview_dialog_family_status_container"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -154,7 +172,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/preview_dialog_job_title_image_view"
                         android:gravity="center"
-                        android:text="נשואה +2" />
+                        android:text="" />
 
                 </LinearLayout>
 

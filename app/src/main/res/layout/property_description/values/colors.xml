@@ -3,4 +3,5 @@
     <color name="scoring_date_of_birth_error">#e03f3f</color>
     <color name="comparion_activity_background">#eee</color>
     <color name="gray_divider">#afafaf</color>
+    <color name="dirty_white">#f9f9f9</color>
 </resources>

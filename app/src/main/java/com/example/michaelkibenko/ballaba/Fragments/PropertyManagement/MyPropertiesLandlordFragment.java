@@ -1,4 +1,4 @@
-package com.example.michaelkibenko.ballaba.Fragments;
+package com.example.michaelkibenko.ballaba.Fragments.PropertyManagement;
 
 import android.app.Fragment;
 import android.os.Bundle;
