@@ -84,12 +84,13 @@ public class ViewportsManager {
                 String sw_lng = res.getString("sw_lng");
                 String name = StringUtils.getInstance(true).formattedHebrew(res.getString("name"));
                 byte[] map_image = Base64.decode(res.getString("image"), Base64.DEFAULT);
+                int zoom = res.getInt("zoom_level");
 
                 LatLng ne = new LatLng(Double.parseDouble(ne_lat), Double.parseDouble(ne_lng));
                 LatLng sw = new LatLng(Double.parseDouble(sw_lat), Double.parseDouble(sw_lng));
                 LatLngBounds bounds = LatLngBounds.builder().include(ne).include(sw).build();
 
-                Viewport viewport = new Viewport(id.toString(), name, bounds, map_image, 14);
+                Viewport viewport = new Viewport(id.toString(), name, bounds, map_image, zoom);
 
                 results.add(viewport);
             }
