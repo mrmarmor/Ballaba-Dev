@@ -74,7 +74,7 @@
         android:id="@+id/my_properties_frame_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#f9f9f9"
+        android:background="@color/dirty_white"
         android:layout_below="@+id/my_properties_tab_layout">
 
     </FrameLayout>

@@ -1,0 +1,61 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/dirty_white">
+
+    <ImageView
+        android:id="@+id/fragment_agreement_on_boarding_back_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/arrow_right_outline_black_24"
+        android:layout_alignParentRight="true"/>
+
+    <ImageView
+        android:id="@+id/fragment_agreement_on_boarding_image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="52dp"
+        android:src="@drawable/shield_v_220" />
+
+    <TextView
+        android:id="@+id/fragment_agreement_on_boarding_first_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_agreement_on_boarding_image_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="הסכם הבטחה"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fragment_agreement_on_boarding_first_text_view"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:text="מזל טוב, מצאנו שוכר מתאים לצרכים שלך
+אנחנו מבטחים….."
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/fragment_agreement_on_boarding_next_button"
+        android:background="@drawable/rounded_button_blue_corner"
+        android:gravity="center"
+        android:text="אני רוצה"
+        android:textColor="@android:color/white"
+        android:layout_width="312dp"
+        android:layout_height="39dp"
+        android:elevation="2dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp">
+
+    </Button>
+
+
+</RelativeLayout>
