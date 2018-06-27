@@ -2,11 +2,17 @@ package com.example.michaelkibenko.ballaba.Activities;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.database.Cursor;
 import android.databinding.DataBindingUtil;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -63,6 +69,10 @@ import com.twitter.sdk.android.core.TwitterSession;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -443,7 +453,8 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
             switch (requestCode) {
                 case REQUEST_CODE_CAMERA:
                 case REQUEST_CODE_GALLERY:
-                    binder.profileActivityImageAvatar.setImageURI(selectedImage);
+                    //TODO if image is rotated, use "imageOrientationValidator" in UiUtils class
+                    Glide.with(this).load(selectedImage).into(binder.profileActivityImageAvatar);
                     break;
 
                 case REQUEST_CODE_CREDIT_CARD:
