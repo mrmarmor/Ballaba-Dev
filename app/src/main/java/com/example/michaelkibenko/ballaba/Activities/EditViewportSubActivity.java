@@ -1,5 +1,6 @@
 package com.example.michaelkibenko.ballaba.Activities;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -29,9 +30,10 @@ public class EditViewportSubActivity extends BaseActivity {
 
         double latitude = getIntent().getDoubleExtra("lat", NULL);
         double longitude = getIntent().getDoubleExtra("lng", NULL);
+        int zoom = getIntent().getIntExtra("zoom", 14);
 
         BallabaMapFragment mapFragment = (BallabaMapFragment)getSupportFragmentManager().findFragmentById(R.id.editViewport_mapFragment);
-        mapFragment.setLocation(new LatLng(latitude, longitude));
+        mapFragment.setLocation(new LatLng(latitude, longitude), zoom);
     }
 
     /*@Override

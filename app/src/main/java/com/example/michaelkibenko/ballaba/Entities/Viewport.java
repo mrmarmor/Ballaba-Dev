@@ -10,11 +10,13 @@ public class Viewport extends BallabaBaseEntity{
     public String id, title;
     public LatLngBounds bounds;
     public byte[] mapImage;
+    public int zoom;
 
-    public Viewport(String id, String title, LatLngBounds bounds, byte[] mapImage) {
+    public Viewport(String id, String title, LatLngBounds bounds, byte[] mapImage, int zoom) {
         this.id = id;
         this.title = title;
         this.bounds = bounds;
         this.mapImage = mapImage;
+        this.zoom = zoom;
     }
 }

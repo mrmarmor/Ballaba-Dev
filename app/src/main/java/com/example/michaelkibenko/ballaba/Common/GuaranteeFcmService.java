@@ -15,6 +15,8 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
+import static android.content.Context.NOTIFICATION_SERVICE;
+
 /**
  * Created by User on 14/06/2018.
  */
@@ -23,13 +25,19 @@ public class GuaranteeFcmService extends FirebaseMessagingService {
     private final String TAG = GuaranteeFcmService.class.getSimpleName();
 
     @Override
+    public void onCreate() {
+        String token = FirebaseInstanceId.getInstance().getToken();
+        super.onCreate();
+    }
+
+    @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
         Log.d(TAG, "Instance ID: " + FirebaseInstanceId.getInstance().getToken());
-        Log.d(TAG, "From: " + remoteMessage.getFrom());
-        Log.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
-        showNotification(getApplicationContext(), remoteMessage.getData().get("title"), remoteMessage.getData().get("message"));
+//        Log.d(TAG, "From: " + remoteMessage.getFrom());
+//        Log.d(TAG, "Notification Message Body: " + remoteMessage.getNotification().getBody());
+//        showNotification(getApplicationContext(), remoteMessage.getData().get("title"), remoteMessage.getData().get("message"));
     }
 
     public void showNotification(final Context context, final String title, final String message) {

@@ -87,6 +87,7 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
 
     private LayoutInflater inflater;
     private ViewGroup container;
+    private int mapZoom;
 
     @IntDef({ON, OFF})
     @interface MAP_SAVE_CONTAINER_STATES {
@@ -221,14 +222,16 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
     public void onMapReady(GoogleMap mMap) {
         googleMap = mMap;
         //we need context instance of to do not change the location on property description
-        if(context instanceof MainActivity) {
+        if(context instanceof MainActivity && !disableUpdating) {
 //            onLocationChanged(locationManager.getLastKnownLocation());
             locationManager.getLocation(this);
         }
 
-        LatLng latLng = new LatLng(31.425155, 35.1929755);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(7));
+        if(!disableUpdating) {
+            LatLng latLng = new LatLng(31.425155, 35.1929755);
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+            googleMap.animateCamera(CameraUpdateFactory.zoomTo(7));
+        }
 
         googleMap.setOnCameraMoveStartedListener(this);
         googleMap.setOnCameraMoveListener(this);
@@ -248,6 +251,10 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
 
         if (mListener != null) {
             mListener.OnGoogleMap(googleMap);
+        }
+
+        if(disableUpdating){
+            onLocationChanged(null);
         }
 
         initInsideResultsHash(BallabaSearchPropertiesManager.getInstance(context).getResults());
@@ -279,12 +286,15 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
     //location
     @Override
     public void onLocationChanged(Location location) {
-        if(!changed && !disableUpdating && location != null) {
+        if(!changed  && location != null) {
             changed = true;
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
             googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
             getPropertiesByViewPort();
+        }else if(!changed){
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(this.location));
+            googleMap.animateCamera(CameraUpdateFactory.zoomTo(mapZoom));
         }
     }
 
@@ -459,9 +469,39 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
             @Override
             public void reject(BallabaBaseEntity entity) {
                 if(((BallabaErrorResponse)entity).statusCode == 404){
-                    Toast.makeText(context, "No results", Toast.LENGTH_LONG).show();
+                    changeMapSaveState(OFF);
+                    ((BaseActivity)context).getDefaultSnackBar(rootView, context.getResources().getString(R.string.no_results), false)
+                            .addCallback(new Snackbar.Callback() {
+                                @Override
+                                public void onShown(Snackbar sb) {
+                                    super.onShown(sb);
+                                }
+
+                                @Override
+                                public void onDismissed(Snackbar transientBottomBar, int event) {
+                                    changeMapSaveState(ON);
+                                    super.onDismissed(transientBottomBar, event);
+                                }
+                            })
+                            .show();
+//                    Toast.makeText(context, "No results", Toast.LENGTH_LONG).show();
                 }else{
-                    Toast.makeText(context, "Some error occurred", Toast.LENGTH_LONG).show();
+                    changeMapSaveState(OFF);
+                    ((BaseActivity)context).getDefaultSnackBar(rootView, context.getResources().getString(R.string.error_network_internal), false)
+                            .addCallback(new Snackbar.Callback() {
+                                @Override
+                                public void onShown(Snackbar sb) {
+                                    super.onShown(sb);
+                                }
+
+                                @Override
+                                public void onDismissed(Snackbar transientBottomBar, int event) {
+                                    changeMapSaveState(ON);
+                                    super.onDismissed(transientBottomBar, event);
+                                }
+                            })
+                            .show();
+//                    Toast.makeText(context, "Some error occurred", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -529,23 +569,24 @@ public class BallabaMapFragment extends DialogFragment implements OnMapReadyCall
         pnlFlash.startAnimation(fadeIn);
     }
 
-    public void setLocation(LatLng latLng){
+    public void setLocation(LatLng latLng, final int mapZoom){
         //locationManager.getLocation(null);
         //this.mListener = null;
         disableUpdating = true;
         this.location = latLng;
-        if(googleMap != null){
-            CameraUpdate center = CameraUpdateFactory.newLatLng(latLng);
-            CameraUpdate zoom = CameraUpdateFactory.zoomTo(5);
-            googleMap.moveCamera(center);
-            googleMap.animateCamera(zoom);
-
-
-            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-            //googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
-        } else {
-            Log.e(TAG, "google map is null");
-        }
+        this.mapZoom = mapZoom;
+//        if(googleMap != null){
+//            CameraUpdate center = CameraUpdateFactory.newLatLng(latLng);
+//            CameraUpdate zoom = CameraUpdateFactory.zoomTo(mapZoom);
+//            googleMap.moveCamera(center);
+//            googleMap.animateCamera(zoom);
+//
+//
+//            //googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+//            //googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+//        } else {
+//            Log.e(TAG, "google map is null");
+//        }
     }
 
     private void openSaveViewPortDialog(){

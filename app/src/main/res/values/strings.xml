@@ -154,6 +154,8 @@
     <string name="addProperty_continue_button_continue">המשך תהליך</string>
     <string name="addProperty_continue_button_not_now">לא כרגע</string>
 
+    <string name="no_results">לא נמצאו תוצאות</string>
+
     <string-array name="addProperty_titles">
         <item>פרטים בעל הנכס</item>
         <item>פרטים על הנכס</item>

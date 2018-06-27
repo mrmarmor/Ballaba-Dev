@@ -38,8 +38,8 @@ public class SavedAreaPresenter {
         binder.savedAreasButtonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, EditViewportSubActivity.class);
-                activity.startActivityForResult(intent, REQ_CODE_EDIT_VIEWPORT);
+//                Intent intent = new Intent(activity, EditViewportSubActivity.class);
+//                activity.startActivityForResult(intent, REQ_CODE_EDIT_VIEWPORT);
 
                 //openSaveViewPortDialog();
 
@@ -56,6 +56,9 @@ public class SavedAreaPresenter {
 
                 //activity.setResult(RESULT_OK);
                 //activity.finish();
+
+                activity.setResult(MainPresenter.REQ_CODE_SAVED_AREA);
+                activity.finish();
             }
         });
     }

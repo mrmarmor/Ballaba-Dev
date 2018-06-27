@@ -89,7 +89,7 @@ public class ViewportsManager {
                 LatLng sw = new LatLng(Double.parseDouble(sw_lat), Double.parseDouble(sw_lng));
                 LatLngBounds bounds = LatLngBounds.builder().include(ne).include(sw).build();
 
-                Viewport viewport = new Viewport(id.toString(), name, bounds, map_image);
+                Viewport viewport = new Viewport(id.toString(), name, bounds, map_image, 14);
 
                 results.add(viewport);
             }

@@ -99,8 +99,10 @@ public class PropertiesRecyclerFragment extends Fragment implements SwipeRefresh
 
     private void checkForLocation() {
         if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.ACCESS_COARSE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            BallabaLocationManager.getInstance(context).getLocation(new LocationListener() {
+                == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+            BallabaLocationManager.getInstance(context).getLastKnownLocation(new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
                     Log.d(TAG, "Location: " + location);

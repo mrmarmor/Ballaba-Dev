@@ -26,6 +26,7 @@ import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
 import com.example.michaelkibenko.ballaba.Managers.SharedPreferencesManager;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.databinding.SplashLayoutBinding;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.ArrayList;
 
@@ -60,6 +61,9 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         binder = DataBindingUtil.setContentView(this, R.layout.splash_layout);
+
+        GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(this);
+
         connectivityListener = new BallabaConnectivityListener() {
             @Override
             public void onConnectivityChanged(boolean is) {

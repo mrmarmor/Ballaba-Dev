@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.example.michaelkibenko.ballaba.Activities.BaseActivityWithActionBar;
 import com.example.michaelkibenko.ballaba.Common.GuaranteeFcmService;
 import com.example.michaelkibenko.ballaba.Common.GuaranteeFirebaseInstanceIdService;
-import com.example.michaelkibenko.ballaba.Common.GuaranteeReceiver;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
 import com.example.michaelkibenko.ballaba.databinding.ActivityGuaranteeRequestBinding;
@@ -41,17 +40,11 @@ import okhttp3.RequestBody;
 
 public class GuaranteeRequestActivity extends BaseActivityWithActionBar {
     private ActivityGuaranteeRequestBinding binder;
-
-    private GuaranteeReceiver guaranteeReceiver;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binder = DataBindingUtil.setContentView(this, R.layout.activity_guarantee_request);
-
         initViews();
-
-
     }
 
     private void initViews() {
@@ -69,19 +62,19 @@ public class GuaranteeRequestActivity extends BaseActivityWithActionBar {
     }
 
     public void onClickConfirm(View view) {
-        guaranteeReceiver = new GuaranteeReceiver();
-        registerReceiver(guaranteeReceiver, new IntentFilter("com.example.michaelkibenko.ballaba.Common.GuaranteeReceiver"));
-
-        startService(new Intent(this, GuaranteeFcmService.class));
-        startService(new Intent(this, GuaranteeFirebaseInstanceIdService.class));
+//        guaranteeReceiver = new GuaranteeReceiver();
+//        registerReceiver(guaranteeReceiver, new IntentFilter("com.example.michaelkibenko.ballaba.Common.GuaranteeReceiver"));
+//
+//        startService(new Intent(this, GuaranteeFcmService.class));
+//        startService(new Intent(this, GuaranteeFirebaseInstanceIdService.class));
         Log.d("GuaranteeRequest", "token: "+FirebaseInstanceId.getInstance().getToken());
 
         /*TESTING*/String regToken = "fTnTNRA6um0:APA91bHNHHt6yD1ECAnX3Uy17U8UXBj5PpbjmeD1NB7XkUMwAg4KndEllfoysAFhQxp5lrmFwSIiOkjmGVn72X5Dr0iaBb9D5SsbmLWhIlymdEZtI7s_XL4Zb5EDXMcNYvmR-NEGun1I";
 
         regToken = FirebaseInstanceId.getInstance().getToken();
 
-        if (regToken != null)
-            sendNotification(regToken, "user name", "my message");
+//        if (regToken != null)
+//            sendNotification(regToken, "user name", "my message");
         finish();
     }
 
@@ -125,13 +118,9 @@ public class GuaranteeRequestActivity extends BaseActivityWithActionBar {
 
     }
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
-        if (guaranteeReceiver != null)
-            unregisterReceiver(guaranteeReceiver);
     }
 }
 

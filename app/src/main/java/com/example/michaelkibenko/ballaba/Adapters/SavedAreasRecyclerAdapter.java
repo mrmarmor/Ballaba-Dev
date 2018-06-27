@@ -110,8 +110,10 @@ public class SavedAreasRecyclerAdapter extends RecyclerView.Adapter<SavedAreasRe
     private void editArea(final int position) {
         if (viewports != null && viewports.size() > position) {
             Intent intent = new Intent(context, EditViewportSubActivity.class);
-            intent.putExtra("lat", viewports.get(position).bounds.getCenter().latitude);
-            intent.putExtra("lng", viewports.get(position).bounds.getCenter().longitude);
+            Viewport viewport = viewports.get(position);
+            intent.putExtra("lat", viewport.bounds.getCenter().latitude);
+            intent.putExtra("lng", viewport.bounds.getCenter().longitude);
+            intent.putExtra("zoom", viewport.zoom);
             ((Activity) context).startActivityForResult(intent, REQ_CODE_EDIT_VIEWPORT);
         }
     }

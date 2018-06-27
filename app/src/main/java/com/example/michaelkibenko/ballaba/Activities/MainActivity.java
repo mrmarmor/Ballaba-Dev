@@ -114,11 +114,12 @@ public class MainActivity extends BaseActivity {
 ////                }
                 presenter.onSearchFlowComplete(cities);
 
-            } else if (requestCode == MainPresenter.REQ_CODE_SAVED_AREA) {
-                presenter.onClickToGoogleMap();
             }
         } else if (resultCode == SEARCH_BY_LOCATION_REQUEST_CODE) {
             presenter.searchByLocation();
+        }
+        else if (requestCode == MainPresenter.REQ_CODE_SAVED_AREA) {
+            presenter.onClickToGoogleMap();
         }
     }
 

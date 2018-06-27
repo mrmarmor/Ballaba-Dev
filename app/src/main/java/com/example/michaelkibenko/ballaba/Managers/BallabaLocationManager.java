@@ -57,12 +57,13 @@ public class BallabaLocationManager {
         }
     }
 
-    public Location getLastKnownLocation(){
+    public void getLastKnownLocation(LocationListener locationListener){
         if(ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            return locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+            locationListener.onLocationChanged(locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER));
+        }else{
+            Log.e(TAG, "Not permitted task");
         }
-        return null;
     }
 
     public LatLng locationGeoCoder(String strAddress){

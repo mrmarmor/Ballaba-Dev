@@ -75,7 +75,7 @@ public class StreetAndMapBoardActivity extends BaseActivity {
             @Override
             public void resolve(BallabaBaseEntity entity) {
                 if (propertyLatLng != null)
-                    mapFragment.setLocation(propertyLatLng);
+                    mapFragment.setLocation(propertyLatLng, 14);
             }
             @Override
             public void reject(BallabaBaseEntity entity) {}

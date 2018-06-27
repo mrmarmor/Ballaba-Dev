@@ -523,5 +523,4 @@ public class MainPresenter extends BasePresenter implements ConstraintLayout.OnF
                     SEARCH_BY_LOCATION_REQUEST_CODE);
         }
     }
-
 }
