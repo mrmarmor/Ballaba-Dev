@@ -36,6 +36,7 @@ import com.bumptech.glide.Glide;
 import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaErrorResponse;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
+import com.example.michaelkibenko.ballaba.Holders.SocialNetworkTypesHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
 import com.example.michaelkibenko.ballaba.Managers.ConnectionsManager;
@@ -54,6 +55,7 @@ import com.instagram.instagramapi.interfaces.InstagramLoginCallbackListener;
 import com.instagram.instagramapi.objects.IGSession;
 import com.instagram.instagramapi.utils.InstagramKitLoginScope;
 import com.linkedin.platform.APIHelper;
+import com.linkedin.platform.AccessToken;
 import com.linkedin.platform.LISessionManager;
 import com.linkedin.platform.errors.LIApiError;
 import com.linkedin.platform.errors.LIAuthError;
@@ -174,7 +176,20 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
         binder.profileActivitySocialFacebookIV.registerCallback(faceBookCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                Log.e(TAG, loginResult.toString());
+//                Log.e(TAG, loginResult.toString());
+                com.facebook.AccessToken accessToken = loginResult.getAccessToken();
+                ConnectionsManager.getInstance(ProfileActivity.this).updateUserSocialNetworks(SocialNetworkTypesHolder.FACEBOOK, accessToken.getUserId(), accessToken.getToken(),
+                        new BallabaResponseListener() {
+                            @Override
+                            public void resolve(BallabaBaseEntity entity) {
+                                Log.e(TAG, "facebook upload");
+                            }
+
+                            @Override
+                            public void reject(BallabaBaseEntity entity) {
+                                Log.e(TAG, "facebook failed");
+                            }
+                        });
             }
 
             @Override
@@ -231,19 +246,32 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
         apiHelper.getRequest(this, url, new ApiListener() {
             @Override
             public void onApiSuccess(ApiResponse apiResponse) {
-                // Success!
-                Log.d(TAG, "API Res : " + apiResponse.getResponseDataAsString() + "\n" + apiResponse.getResponseDataAsJson().toString());
-                Toast.makeText(ProfileActivity.this, "Successfully fetched LinkedIn profile data.", Toast.LENGTH_SHORT).show();
+                try {
+                    JSONObject data = apiResponse.getResponseDataAsJson();
+                    String userId = data.getString("id");
+                    String publicProfileUrl = data.getString("publicProfileUrl");
+                    String token = LISessionManager.getInstance(ProfileActivity.this).getSession().getAccessToken().getValue();
+                    ConnectionsManager.getInstance(ProfileActivity.this).updateUserSocialNetworks(SocialNetworkTypesHolder.LINKED_IN, userId, token,
+                            new BallabaResponseListener() {
+                                @Override
+                                public void resolve(BallabaBaseEntity entity) {
+                                    Log.e(TAG, "linkedin upload");
+                                }
 
-                //update UI on successful data fetched
-//                updateUI(apiResponse);
+                                @Override
+                                public void reject(BallabaBaseEntity entity) {
+                                    Log.e(TAG, "linkedin failed");
+                                }
+                            });
+                }catch (JSONException ex){
+                    ex.printStackTrace();
+                }
+
             }
 
             @Override
             public void onApiError(LIApiError liApiError) {
-                // Error making GET request!
-                Log.e(TAG, "Fetch profile Error   :" + liApiError.getLocalizedMessage());
-                Toast.makeText(ProfileActivity.this, "Failed to fetch basic profile data. Please try again.", Toast.LENGTH_SHORT).show();
+
             }
         });
     }
@@ -282,7 +310,20 @@ public class ProfileActivity extends BaseActivityWithActionBar implements View.O
         binder.profileActivitySocialTwitterIV.setCallback(new Callback<TwitterSession>() {
             @Override
             public void success(Result<TwitterSession> result) {
-                Log.e(TAG, result.toString());
+                long userId = result.data.getUserId();
+                String token = result.data.getAuthToken().token;
+                ConnectionsManager.getInstance(ProfileActivity.this).updateUserSocialNetworks(SocialNetworkTypesHolder.TWITTER, userId+"", token,
+                        new BallabaResponseListener() {
+                            @Override
+                            public void resolve(BallabaBaseEntity entity) {
+                                Log.e(TAG, "twitter upload");
+                            }
+
+                            @Override
+                            public void reject(BallabaBaseEntity entity) {
+                                Log.e(TAG, "twitter failed");
+                            }
+                        });
             }
 
             @Override

@@ -30,6 +30,7 @@ import com.example.michaelkibenko.ballaba.Holders.EndpointsHolder;
 import com.example.michaelkibenko.ballaba.Holders.GlobalValues;
 import com.example.michaelkibenko.ballaba.Holders.PropertyAttachmentsAddonsHolder;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
+import com.example.michaelkibenko.ballaba.Holders.SocialNetworkTypesHolder;
 import com.example.michaelkibenko.ballaba.R;
 import com.example.michaelkibenko.ballaba.Utils.DeviceUtils;
 import com.example.michaelkibenko.ballaba.Utils.StringUtils;
@@ -1651,9 +1652,67 @@ public class ConnectionsManager {
         queue.add(stringRequest);
     }
 
+    private JSONObject getSocialNetworkJsonObject(@SocialNetworkTypesHolder int type, String userId, String token ) throws JSONException{
+        JSONObject returnable = new JSONObject();
+        if(type == SocialNetworkTypesHolder.FACEBOOK){
+            returnable.put("facebook_id", userId);
+            returnable.put("facebook_token", token);
+        }else if(type == SocialNetworkTypesHolder.LINKED_IN){
+            returnable.put("linkedin_id", userId);
+            returnable.put("linkedin_token", token);
+        }else if(type == SocialNetworkTypesHolder.TWITTER){
+            returnable.put("twitter_id", userId);
+            returnable.put("twitter_token", token);
+        }else if(type == SocialNetworkTypesHolder.INSTAGRAM){
+            returnable.put("instagram_id", userId);
+            returnable.put("instagram_token", token);
+        }
+        return returnable;
+    }
+
+    public void updateUserSocialNetworks(@SocialNetworkTypesHolder int type, String userId, String token, final BallabaResponseListener callback){
+
+        try {
+            JSONObject jsonObject = getSocialNetworkJsonObject(type, userId, token);
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(POST, EndpointsHolder.SOCIAL_NETWORK, jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    BallabaOkResponse okResponse = new BallabaOkResponse();
+                    okResponse.setBody(response.toString());
+                    callback.resolve(okResponse);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    if (error.networkResponse != null) {
+                        callback.reject(new BallabaErrorResponse(error.networkResponse.statusCode, error.getMessage()));
+                    } else {
+                        callback.reject(new BallabaErrorResponse(500, error.getMessage()));
+                    }
+                }
+            }) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    return getHeadersWithSessionToken();
+                }
+            };
+
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    0,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+            queue.add(jsonObjectRequest);
+        }catch (JSONException ex){
+            ex.printStackTrace();
+        }
+    }
+
     public void inviteGuarantor(String phoneNumber, BallabaResponseListener callback){
         callback.resolve(new BallabaOkResponse());
     }
+
+
 
     /*private BallabaPropertyPhoto parsePhotoResponse(JSONObject jsonObject) throws JSONException{
         final int id = Integer.parseInt(jsonObject.get("id") + "");
