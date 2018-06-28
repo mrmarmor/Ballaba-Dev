@@ -14,6 +14,7 @@ public @interface EndpointsHolder {
     String TESTING = "https://api.ballaba-it.com/v1/";
     String GOOGLE_PLACES_API = "https://maps.googleapis.com/maps/api/place";
     String USER = "https://api.ballaba-it.com/v1/user/me";
+    String USER_PROFILE = "https://api.ballaba-it.com/v1/user/";
     String PROPERTY = "https://api.ballaba-it.com/v1/properties/";
     String PROPERTY_BY_ID = "https://api.ballaba-it.com/v1/properties/";
     String CREDIT_CARD= "https://api.ballaba-it.com/v1/user/me/credit";
@@ -38,12 +39,14 @@ public @interface EndpointsHolder {
     String GET_LANDLORD_PROPERTY = "https://api.ballaba-it.com/v1/user/me/properties/landlord";
     String GET_TENANT_PROPERTY = "https://api.ballaba-it.com/v1/user/me/properties/tenant";
 
+    String GET_PREVIEW_AGREEMENT = "https://s3-eu-west-1.amazonaws.com/ballaba-it/g.json";
+
     String MY_PROPERTY_INTERESTED_USERS = "https://api.ballaba-it.com/v1/properties/";
     String MY_PROPERTY_MEETING_USERS = "https://api.ballaba-it.com/v1/properties/";
     String DELETE_INTEREST_USER = "https://api.ballaba-it.com/v1/properties/";
     String DELETE_MEETING_USER = "https://api.ballaba-it.com/v1/properties/";
     String TENANT_APPROVE_MEETING = "https://api.ballaba-it.com/v1/properties/";
-    String SOCIAL_NETWORK = "https://api.ballaba-it.com/Dev/user/me/social";
+    String SOCIAL_NETWORK = "https://api.ballaba-it.com/v1/user/me/social";
 
 
     

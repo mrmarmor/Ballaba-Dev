@@ -16,8 +16,8 @@ import com.example.michaelkibenko.ballaba.Entities.BallabaBaseEntity;
 import com.example.michaelkibenko.ballaba.Entities.BallabaPropertyPhoto;
 import com.example.michaelkibenko.ballaba.Entities.BallabaUser;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropEditPhotoFrag;
-import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropLandlordFrag;
 import com.example.michaelkibenko.ballaba.Fragments.AddProperty.AddPropMeetingsFrag;
+import com.example.michaelkibenko.ballaba.Fragments.AddProperty.OnBoardingFragment;
 import com.example.michaelkibenko.ballaba.Holders.SharedPreferencesKeysHolder;
 import com.example.michaelkibenko.ballaba.Managers.BallabaResponseListener;
 import com.example.michaelkibenko.ballaba.Managers.BallabaUserManager;
@@ -40,7 +40,7 @@ public class AddPropertyActivityNew extends BaseActivity
     private JSONObject photosJson;
     private BallabaPropertyPhoto photo;
     private boolean isSelectedTagForPhoto = false;
-    private RelativeLayout container;
+    private RelativeLayout container , toolbar;
     private TextView pageNumTV;
     private FragmentManager fm;
     private AddPropEditPhotoFrag addPropEditPhotoFrag;
@@ -58,11 +58,16 @@ public class AddPropertyActivityNew extends BaseActivity
         findViewById(R.id.activity_add_property_back_btn).setOnClickListener(this);
 
         container = findViewById(R.id.activity_add_property_container);
+        toolbar = findViewById(R.id.activity_add_property_toolbar);
         pageNumTV = findViewById(R.id.activity_add_property_page_number_text_view);
-        changePageIndicatorText(1);
+        //changePageIndicatorText(1);
         fm = getSupportFragmentManager();
 
-        fm.beginTransaction().replace(R.id.activity_add_property_frame_layout, new AddPropLandlordFrag()).commit();
+        OnBoardingFragment fragment = new OnBoardingFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(OnBoardingFragment.STATE, OnBoardingFragment.STATE_TYPES.AGREEMENT);
+        fragment.setArguments(bundle);
+        fm.beginTransaction().replace(R.id.activity_add_property_frame_layout, fragment).commit();
     }
 
     //when user clicks finish button on actionbar, last photo that hasn't sent yet, is sent now to server
@@ -190,5 +195,9 @@ public class AddPropertyActivityNew extends BaseActivity
                 uploadPhoto(AddPropertyActivityNew.this, ConnectionsManager.getInstance(AddPropertyActivityNew.this) , photo);
             }
         } : null);
+    }
+
+    public void showToolbar(boolean show){
+        toolbar.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 }

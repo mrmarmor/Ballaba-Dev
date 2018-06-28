@@ -134,6 +134,7 @@
         <activity android:name=".Activities.Scoring.ScoringPersonalDetailsActivity" />
         <activity android:name=".Activities.CreditCardActivity" android:label="אמצעי תשלום" />
         <activity android:name=".Activities.AddPropertyActivityNew" />
+        <activity android:name=".Activities.PreviewAgreementActivity" />
         <activity android:name=".Activities.Guarantor.GuarantorDeclinedActivity" android:label="ערבויות" />
         <activity android:name=".Activities.ProfileActivity" android:label="החשבון שלי" />
         <activity android:name=".Activities.GuaranteeAgreementActivity" android:label="העלאת נכס" />

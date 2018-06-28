@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.example.michaelkibenko.ballaba.Activities.AddPropertyActivity;
-import com.example.michaelkibenko.ballaba.Activities.CalendarTestActivity;
 import com.example.michaelkibenko.ballaba.Activities.CreditCardActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterCodeActivity;
 import com.example.michaelkibenko.ballaba.Activities.EnterPhoneNumberActivity;
@@ -12,11 +11,12 @@ import com.example.michaelkibenko.ballaba.Activities.GuaranteeAgreementActivity;
 import com.example.michaelkibenko.ballaba.Activities.Guarantor.GuaranteeRequestActivity;
 import com.example.michaelkibenko.ballaba.Activities.Guarantor.GuarantorDeclinedActivity;
 import com.example.michaelkibenko.ballaba.Activities.MainActivity;
+import com.example.michaelkibenko.ballaba.Activities.PreviewAgreementActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyDescriptionActivity;
 import com.example.michaelkibenko.ballaba.Activities.PropertyManagementActivity;
+import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringWelcomeActivity;
 import com.example.michaelkibenko.ballaba.Activities.Scoring.SelfCamActivity;
 import com.example.michaelkibenko.ballaba.Activities.SplashActivity;
-import com.example.michaelkibenko.ballaba.Activities.Scoring.ScoringWelcomeActivity;
 
 /**
  * Created by michaelkibenko on 21/02/2018.
@@ -63,7 +63,7 @@ public class TestingPresenter extends BasePresenter {
     }
 
     public void goToCalendar(){
-        context.startActivity(new Intent(context, CalendarTestActivity.class));
+        context.startActivity(new Intent(context, PreviewAgreementActivity.class));
     }
 
     public void goToselfiCam(){
